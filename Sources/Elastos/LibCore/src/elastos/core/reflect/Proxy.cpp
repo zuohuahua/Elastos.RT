@@ -29,6 +29,18 @@ namespace Elastos {
 namespace Core {
 namespace Reflect {
 
+#define SYS_PROXY_RET_OFFSET    9
+
+#ifndef PAGE_SIZE
+#define PAGE_SIZE (1u << 12)
+#endif
+#ifndef PAGE_MASK
+#define PAGE_MASK (~(PAGE_SIZE - 1))
+#endif
+#ifndef PAGE_ALIGN
+#define PAGE_ALIGN(va) (((va)+PAGE_SIZE-1)&PAGE_MASK)
+#endif
+
 #define ROUND8(n)       (((n)+7)&~7)   // round up to multiple of 8 bytes
 
 #ifndef PAGE_ALIGN

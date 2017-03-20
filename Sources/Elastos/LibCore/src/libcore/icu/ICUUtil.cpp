@@ -62,6 +62,7 @@
 using Elastos::Core::AutoLock;
 using Libcore::Utility::CBasicLruCache;
 using Elastos::Core::StringUtils;
+using Elastos::Core::UniquePtr;
 using Elastos::Core::IString;
 using Elastos::Core::ICharSequence;
 using Elastos::Core::CString;

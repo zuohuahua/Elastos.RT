@@ -36,5 +36,7 @@ INCLUDES += $(MAKEDIR)/../../../../inc/elastos/text;
 INCLUDES += $(MAKEDIR)/../../../../inc/elastos/utility;
 INCLUDES += $(MAKEDIR)/../../../../inc/elastos/utility/zip;
 INCLUDES += $(MAKEDIR)/../../../../inc/elastos/utility/jar;
+INCLUDES += $(MAKEDIR)/../../../../inc/org;
+INCLUDES += $(MAKEDIR)/../../../../inc/org/misc;
 
 SOURCES = CHttpDate.cpp

@@ -37,6 +37,8 @@ INCLUDES += $(MAKEDIR)/../../../inc/elastos/io/charset;
 INCLUDES += $(MAKEDIR)/../../../inc/elastos/utility;
 INCLUDES += $(MAKEDIR)/../../../inc/elastos/utility/logging;
 INCLUDES += $(MAKEDIR)/../../../inc/elastos/utility/etl;
+INCLUDES += $(MAKEDIR)/../../../inc/org;
+INCLUDES += $(MAKEDIR)/../../../inc/org/misc;
 
 SOURCES = icu.cpp
 SOURCES += AlphabeticIndex.cpp

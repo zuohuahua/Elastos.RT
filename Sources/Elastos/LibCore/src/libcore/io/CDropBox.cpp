@@ -15,7 +15,6 @@
 //=========================================================================
 
 #include "CDropBox.h"
-#include "cutils/log.h"
 #include "CBase64.h"
 
 namespace Libcore {
@@ -36,7 +35,7 @@ ECode CDropBox::DefaultReporter::AddData(
     CBase64::AcquireSingleton((IBase64**)&base64);
     String enStr;
     base64->Encode(data, &enStr);
-    ALOGD(tag + ":" + enStr);
+    //ALOGD(tag + ":" + enStr);
     return NOERROR;
 }
 
@@ -44,7 +43,7 @@ ECode CDropBox::DefaultReporter::AddText(
     /* [in] */ const String& tag,
     /* [in] */ const String& data)
 {
-    ALOGD(tag + ":" + data);
+    //ALOGD(tag + ":" + data);
     return NOERROR;
 }
 

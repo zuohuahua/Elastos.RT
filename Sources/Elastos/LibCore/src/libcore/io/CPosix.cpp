@@ -42,7 +42,6 @@
 #include <sys/wait.h>
 #include <termios.h>
 #include <unistd.h>
-#include <cutils/log.h>
 
 #include <stdio.h>
 #include <string.h>
@@ -94,14 +93,14 @@ using Elastos::Droid::System::CStructUtsname;
             _wasSignaled = _monitor.WasSignaled(); \
         } \
         if (_wasSignaled) { \
-            ALOGE("Libcore::IO::Posix: Socket closed"); \
+            /*ALOGE("Libcore::IO::Posix: Socket closed");*/ \
             return_value = E_SOCKET_EXCEPTION; \
             _rc = -1; \
             break; \
         } \
         if (_rc == -1 && _syscallErrno != EINTR) { \
             /* TODO: with a format string we could show the arguments too, like strace(1). */ \
-            ALOGE("Libcore::IO::Posix: " # syscall_name "error"); \
+            /*ALOGE("Libcore::IO::Posix: " # syscall_name "error");*/ \
             return_value = E_SOCKET_EXCEPTION; \
             break; \
         } \
@@ -115,7 +114,7 @@ using Elastos::Droid::System::CStructUtsname;
     fd->GetDescriptor(&_fd); \
     if (_fd == -1) { \
         return_value = E_IO_EXCEPTION; \
-        ALOGE("Libcore::IO::Posix: File descriptor closed"); \
+        /*ALOGE("Libcore::IO::Posix: File descriptor closed");*/ \
     } else { \
         do { \
             Boolean _wasSignaled; \
@@ -127,14 +126,14 @@ using Elastos::Droid::System::CStructUtsname;
                 _wasSignaled = _monitor.WasSignaled(); \
             } \
             if (_wasSignaled) { \
-                ALOGE("Libcore::IO::Posix: " # syscall_name "interrupted"); \
+                /*ALOGE("Libcore::IO::Posix: " # syscall_name "interrupted");*/ \
                 return_value = E_IO_EXCEPTION; \
                 _rc = -1; \
                 break; \
             } \
             if (_rc == -1 && _syscallErrno != EINTR) { \
                 /* TODO: with a format string we could show the arguments too, like strace(1). */ \
-                ALOGE("Libcore::IO::Posix: " # syscall_name "error"); \
+                /*ALOGE("Libcore::IO::Posix: " # syscall_name "error");*/ \
                 return_value = E_IO_EXCEPTION; \
                 break; \
             } \
@@ -154,10 +153,11 @@ template <typename rc_t>
 static rc_t ErrorIfMinusOne(const char* name, rc_t rc, ECode* ec, const char* param = NULL) {
     *ec = NOERROR;
     if (rc == rc_t(-1)) {
-        if (param != NULL)
-            ALOGE("CPosix: System-call error: %s %s, param: %s", name, strerror(errno), param);
+/*        if (param != NULL)
+            //ALOGE("CPosix: System-call error: %s %s, param: %s", name, strerror(errno), param);
         else
-            ALOGE("CPosix: System-call error: %s %s", name, strerror(errno));
+            //ALOGE("CPosix: System-call error: %s %s", name, strerror(errno));
+*/
         *ec = E_ERRNO_EXCEPTION;
     }
     return rc;
@@ -256,10 +256,10 @@ static AutoPtr<IStructTimeval> MakeStructTimeval(
 }
 
 static AutoPtr<IStructUcred> MakeStructUcred(
-    /* [in] */ const struct ucred& u __unused)
+    /* [in] */ const struct ucred& u)
 {
 #ifdef __APPLE__
-    ALOGE("unimplemented support for ucred on a Mac");
+    //ALOGE("unimplemented support for ucred on a Mac");
     return NULL;
 #else
     AutoPtr<IStructUcred> rst;
@@ -298,9 +298,9 @@ static AutoPtr<ISocketAddress> DoGetSockName(
   if (rc == -1) {
     // throwErrnoException(env, is_sockname ? "getsockname" : "getpeername");
     if (is_sockname) {
-        ALOGE("System-call getsockname error, errno = %d",errno);
+        //ALOGE("System-call getsockname error, errno = %d",errno);
     } else {
-        ALOGE("System-call getpeername error, errno = %d",errno);
+        //ALOGE("System-call getpeername error, errno = %d",errno);
     }
     return NULL;
   }
@@ -355,9 +355,9 @@ static ECode DoStat(
     if (rc == -1) {
         // throwErrnoException(env, isLstat ? "lstat" : "stat");
         // if (isLstat) {
-        //     ALOGE("System-call lstat error, errno = %d", errno);
+        //     //ALOGE("System-call lstat error, errno = %d", errno);
         // } else {
-        //     ALOGE("System-call stat error, errno = %d", errno);
+        //     //ALOGE("System-call stat error, errno = %d", errno);
         // }
         return E_ERRNO_EXCEPTION;
     }
@@ -393,7 +393,7 @@ private:
         if (mResult == NULL) {
             errno = error;
             // throwErrnoException(mEnv, syscall);
-            ALOGE("System-call %s error, errno = %d", syscall, errno);
+            //ALOGE("System-call %s error, errno = %d", syscall, errno);
             return NULL;
         }
         return MakeStructPasswd(*mResult);
@@ -470,7 +470,7 @@ ECode CPosix::Access(
     }
     Int32 rc = TEMP_FAILURE_RETRY(access(path, mode));
     if (rc == -1) {
-        // ALOGE("System-call : access Error, errno = %d", errno);
+        // //ALOGE("System-call : access Error, errno = %d", errno);
         return E_ERRNO_EXCEPTION;
     }
     *succeed = (rc == 0);
@@ -507,7 +507,7 @@ ECode CPosix::Elastos_getaddrinfo(
     UniquePtr<addrinfo, addrinfo_deleter> addressListDeleter(addressList);
     if (rc != 0) {
         // throwGaiException(env, "android_getaddrinfo", rc);
-        ALOGE("GaiException: Elastos_getaddrinfo");
+        //ALOGE("GaiException: Elastos_getaddrinfo");
         return E_GAI_EXCEPTION;
     }
 
@@ -517,7 +517,7 @@ ECode CPosix::Elastos_getaddrinfo(
         if (ai->ai_family == AF_INET || ai->ai_family == AF_INET6) {
             ++addressCount;
         } else {
-            ALOGE("android_getaddrinfo unexpected ai_family %i", ai->ai_family);
+            //ALOGE("android_getaddrinfo unexpected ai_family %i", ai->ai_family);
         }
     }
     if (addressCount == 0) {
@@ -532,7 +532,7 @@ ECode CPosix::Elastos_getaddrinfo(
     for (addrinfo* ai = addressList; ai != NULL; ai = ai->ai_next) {
         if (ai->ai_family != AF_INET && ai->ai_family != AF_INET6) {
             // Unknown address family. Skip this address.
-            ALOGE("android_getaddrinfo unexpected ai_family %i", ai->ai_family);
+            //ALOGE("android_getaddrinfo unexpected ai_family %i", ai->ai_family);
             continue;
         }
 
@@ -699,7 +699,7 @@ ECode CPosix::Execv(
     }
     execv(filename, (char* const*)array_);
 
-    ALOGE("execv returned errno = %d", errno);
+    //ALOGE("execv returned errno = %d", errno);
     return E_ERRNO_EXCEPTION;
     // throwErrnoException(env, "execv");
 }
@@ -732,7 +732,7 @@ ECode CPosix::Execve(
     delete[] argvArray;
     delete[] envpArray;
 
-    ALOGE("execve returned errno = %d", errno);
+    //ALOGE("execve returned errno = %d", errno);
     return E_ERRNO_EXCEPTION;
 }
 
@@ -843,7 +843,7 @@ ECode CPosix::Fstat(
     Int32 rc = TEMP_FAILURE_RETRY(fstat(_fd, &sb));
     if (rc == -1) {
         // throwErrnoException(env, "fstat");
-        ALOGE("System-call fstat error: errno = %d", errno);
+        //ALOGE("System-call fstat error: errno = %d", errno);
         *statout = NULL;
         return E_ERRNO_EXCEPTION;
     }
@@ -864,7 +864,7 @@ ECode CPosix::Fstatvfs(
     Int32 rc = TEMP_FAILURE_RETRY(fstatvfs(_fd, &sb));
     if (rc == -1) {
         // throwErrnoException(env, "fstatvfs");
-        ALOGE("System-call fstatvfs error: errno = %d", errno);
+        //ALOGE("System-call fstatvfs error: errno = %d", errno);
         *statFs = NULL;
         return E_ERRNO_EXCEPTION;
     }
@@ -959,7 +959,7 @@ ECode CPosix::Getnameinfo(
     Int32 rc = getnameinfo(reinterpret_cast<sockaddr*>(&ss), sa_len, buf, sizeof(buf), NULL, 0, flags);
     if (rc != 0) {
         // throwGaiException(env, "getnameinfo", rc);
-        ALOGE("System-call getnameinfo error , errno = %d", errno);
+        //ALOGE("System-call getnameinfo error , errno = %d", errno);
         *nameinfo = NULL;
         return E_GAI_EXCEPTION;
     }
@@ -1070,7 +1070,7 @@ ECode CPosix::GetsockoptInAddr(
     Int32 rc = TEMP_FAILURE_RETRY(getsockopt(_fd, level, option, &sa->sin_addr, &size));
     if (rc == -1) {
         // throwErrnoException(env, "getsockopt");
-        ALOGE("System-call getsockopt error, errno = %d", errno);
+        //ALOGE("System-call getsockopt error, errno = %d", errno);
         *addr = NULL;
         return E_ERRNO_EXCEPTION;
     }
@@ -1116,7 +1116,7 @@ ECode CPosix::GetsockoptLinger(
     Int32 rc = TEMP_FAILURE_RETRY(getsockopt(_fd, level, option, &l, &size));
     if (rc == -1) {
         // throwErrnoException(env, "getsockopt");
-        ALOGE("System-call getsockopt error, errno = %d", errno);
+        //ALOGE("System-call getsockopt error, errno = %d", errno);
         *linger = NULL;
         return E_ERRNO_EXCEPTION;
     }
@@ -1141,7 +1141,7 @@ ECode CPosix::GetsockoptTimeval(
     Int32 rc = TEMP_FAILURE_RETRY(getsockopt(_fd, level, option, &tv, &size));
     if (rc == -1) {
         // throwErrnoException(env, "getsockopt");
-        ALOGE("System-call getsockopt error, errno = %d", errno);
+        //ALOGE("System-call getsockopt error, errno = %d", errno);
         *timeval = NULL;
         return E_ERRNO_EXCEPTION;
     }
@@ -1166,7 +1166,7 @@ ECode CPosix::GetsockoptUcred(
     Int32 rc = TEMP_FAILURE_RETRY(getsockopt(_fd, level, option, &u, &size));
     if (rc == -1) {
         // throwErrnoException(env, "getsockopt");
-        ALOGE("System-call getsockopt error, errno = %d", errno);
+        //ALOGE("System-call getsockopt error, errno = %d", errno);
         *ucred = NULL;
         return E_ERRNO_EXCEPTION;
     }
@@ -1185,7 +1185,7 @@ ECode CPosix::Gettid(
     int rc = pthread_threadid_np(NULL, &owner);  // Requires Mac OS 10.6
     if (rc != 0) {
         // throwErrnoException(env, "gettid");
-        ALOGE("System-call gettid error, errno = %d", errno);
+        //ALOGE("System-call gettid error, errno = %d", errno);
         *tid = 0;
         return E_ERRNO_EXCEPTION;
     }
@@ -1440,7 +1440,7 @@ ECode CPosix::Mmap(
     void* ptr = mmap(suggestedPtr, byteCount, prot, flags, _fd, offset);
     if (ptr == MAP_FAILED) {
         // throwErrnoException(env, "mmap");
-        ALOGE("System-call mmap error, errno = %d", errno);
+        //ALOGE("System-call mmap error, errno = %d", errno);
         *result = 0;
         return E_ERRNO_EXCEPTION;
     }
@@ -1578,7 +1578,7 @@ ECode CPosix::Poll(
     }
     if (rc == -1) {
         // throwErrnoException(env, "poll");
-        ALOGE("syscall_name poll error, errno = %d", errno);
+        //ALOGE("syscall_name poll error, errno = %d", errno);
         *result = -1;
         return E_ERRNO_EXCEPTION;
     }
@@ -1604,7 +1604,7 @@ ECode CPosix::Posix_fallocate(
     /* [in] */ Int64 length)
 {
 #ifdef __APPLE__
-    ALOGE("fallocate doesn't exist on a Mac");
+    //ALOGE("fallocate doesn't exist on a Mac");
     return E_UNSUPPORTED_OPERATION_EXCEPTION;
 #else
     Int32 _fd;
@@ -1612,7 +1612,7 @@ ECode CPosix::Posix_fallocate(
     errno = TEMP_FAILURE_RETRY(posix_fallocate64(_fd, offset, length));
     if (errno != 0) {
         // throwErrnoException(env, "posix_fallocate");
-        ALOGE("System-call posix_fallocate error, errno = %d", errno);
+        //ALOGE("System-call posix_fallocate error, errno = %d", errno);
         return E_ERRNO_EXCEPTION;
     }
     return NOERROR;
@@ -1629,7 +1629,7 @@ ECode CPosix::Prctl(
 {
     VALIDATE_NOT_NULL(prctlOut)
 #ifdef __APPLE__
-    ALOGE("prctl doesn't exist on a Mac");
+    //ALOGE("prctl doesn't exist on a Mac");
     *prctlOut = 0;
     return E_UNSUPPORTED_OPERATION_EXCEPTION;
 #else
@@ -1743,7 +1743,7 @@ ECode CPosix::Readlink(
     String result;
     if (!readlink(path, result)) {
         // throwErrnoException(env, "readlink");
-        ALOGE("System-call readlink error, errno = %d", errno);
+        //ALOGE("System-call readlink error, errno = %d", errno);
         *link = NULL;
         return E_ERRNO_EXCEPTION;
     }
@@ -2255,7 +2255,7 @@ ECode CPosix::StatVfs(
     Int32 rc = TEMP_FAILURE_RETRY(statvfs(path, &sb));
     if (rc == -1) {
         // throwErrnoException(env, "statvfs");
-        ALOGE("System-call statvfs error, errno = %d", errno);
+        //ALOGE("System-call statvfs error, errno = %d", errno);
         *vfsResult = NULL;
         return E_ERRNO_EXCEPTION;
     }
@@ -2308,7 +2308,7 @@ ECode CPosix::Sysconf(
     *result = sysconf(name);
     if (*result == -1L && errno == EINVAL) {
         // throwErrnoException(env, "sysconf");
-        ALOGE("System-call sysconf error, errno = %d", errno);
+        //ALOGE("System-call sysconf error, errno = %d", errno);
         return E_ERRNO_EXCEPTION;
     }
     return NOERROR;
@@ -2342,7 +2342,7 @@ ECode CPosix::Umask(
 {
     VALIDATE_NOT_NULL(result)
     if ((mask & 0777) != mask) {
-        ALOGE("Invalid umask: %d", mask);
+        //ALOGE("Invalid umask: %d", mask);
         // throw new IllegalArgumentException("Invalid umask: " + mask);
         return E_ILLEGAL_ARGUMENT_EXCEPTION;
     }

@@ -91,6 +91,7 @@ static inline int mincore(void* addr, size_t length, unsigned char* vec) {
 
 #endif  // defined(__APPLE__)
 
+#if 0
 #if !defined(__BIONIC__)
 #include <netdb.h>
 #include "../../bionic/libc/dns/include/resolv_netid.h"
@@ -99,5 +100,6 @@ inline int android_getaddrinfofornet(const char *hostname, const char *servname,
   return getaddrinfo(hostname, servname, hints, res);
 }
 #endif  // !defined(__BIONIC__)
+#endif
 
 #endif  // PORTABILITY_H_included

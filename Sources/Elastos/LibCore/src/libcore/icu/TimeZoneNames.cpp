@@ -33,7 +33,6 @@
 #include "unicode/tznames.h"
 #include "unicode/locid.h"
 #include "CLocale.h"
-#include <cutils/log.h>
 
 using Elastos::Core::CSystem;
 using Elastos::Core::CArrayOf;
@@ -42,6 +41,7 @@ using Elastos::Core::StringUtils;
 using Elastos::Core::EIID_ICharSequence;
 using Elastos::Core::EIID_IArrayOf;
 using Elastos::Core::CString;
+using Elastos::Core::UniquePtr;
 using Elastos::Utility::TimeZone;
 using Elastos::Utility::ITimeZone;
 using Elastos::Utility::ILocaleHelper;
@@ -129,7 +129,7 @@ AutoPtr<IInterface> TimeZoneNames::ZoneStringsCache::Create(
     system->GetCurrentTimeMillis(&end);
     Int64 nativeDuration = nativeEnd - nativeStart;
     Int64 duration = end - start;
-    ALOGI("Loaded time zone names for \"%s\" in %lld ms (%lld ms in ICU)", locname.string(), duration, nativeDuration);
+    //ALOGI("Loaded time zone names for \"%s\" in %lld ms (%lld ms in ICU)", locname.string(), duration, nativeDuration);
     return ArrayOfToInterface(result);
 }
 

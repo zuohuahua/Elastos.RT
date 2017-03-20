@@ -15,7 +15,6 @@
 //=========================================================================
 
 #include "NetworkUtilities.h"
-#include "cutils/log.h"
 #include "net/CInetUnixAddress.h"
 #include "net/InetAddress.h"
 #include <arpa/inet.h>
@@ -73,7 +72,7 @@ AutoPtr<IInetAddress> SockaddrToInetAddress(
         // really does imply an internal error.
         // jniThrowExceptionFmt(env, "java/lang/IllegalArgumentException",
         //                      "sockaddrToInetAddress unsupported ss_family: %i", ss.ss_family);
-        ALOGE("sockaddrToInetAddress unsupported ss_family: %i", ss.ss_family);
+        //ALOGE("sockaddrToInetAddress unsupported ss_family: %i", ss.ss_family);
         return NULL;
     }
     if (port != NULL) {
@@ -108,7 +107,7 @@ static Boolean InetAddressToSockaddr(
 
     if (inetAddress == NULL) {
         // jniThrowNullPointerException(env, NULL);
-        ALOGE("inetAddress can not be NULL !!");
+        //ALOGE("inetAddress can not be NULL !!");
         return FALSE;
     }
 
@@ -125,7 +124,7 @@ static Boolean InetAddressToSockaddr(
     if (ss.ss_family != AF_INET && ss.ss_family != AF_INET6 && ss.ss_family != AF_UNIX) {
         // jniThrowExceptionFmt(env, "java/lang/IllegalArgumentException",
         //         "inetAddressToSockaddr bad family: %i", ss.ss_family);
-        ALOGE("inetAddressToSockaddr bad family: %i", ss.ss_family);
+        //ALOGE("inetAddressToSockaddr bad family: %i", ss.ss_family);
         return FALSE;
     }
 
@@ -134,7 +133,7 @@ static Boolean InetAddressToSockaddr(
     inetAddress->GetAddress((ArrayOf<Byte>**)&addressBytes);
     if (addressBytes == NULL) {
         // jniThrowNullPointerException(env, NULL);
-        ALOGE("addressBytes can not be NULL !!");
+        //ALOGE("addressBytes can not be NULL !!");
         return FALSE;
     }
 
@@ -146,7 +145,7 @@ static Boolean InetAddressToSockaddr(
         if (path_length >= sizeof(sun.sun_path)) {
             // jniThrowExceptionFmt(env, "java/lang/IllegalArgumentException",
             //                      "inetAddressToSockaddr path too long for AF_UNIX: %i", path_length);
-            ALOGE("inetAddressToSockaddr path too long for AF_UNIX: %i", path_length);
+            //ALOGE("inetAddressToSockaddr path too long for AF_UNIX: %i", path_length);
             return FALSE;
         }
 

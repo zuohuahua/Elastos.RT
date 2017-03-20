@@ -28,6 +28,8 @@ INCLUDES += $(MAKEDIR)/../../../inc/libcore/utility;
 INCLUDES += $(MAKEDIR)/../../../inc/elastos;
 INCLUDES += $(MAKEDIR)/../../../inc/elastos/core;
 INCLUDES += $(MAKEDIR)/../../../inc/elastos/utility;
+INCLUDES += $(MAKEDIR)/../../../inc/org;
+INCLUDES += $(MAKEDIR)/../../../inc/org/misc;
 
 SOURCES = BasicLruCache.cpp
 SOURCES += CBasicLruCache.cpp
