@@ -16,7 +16,6 @@
 
 #include "CModuleInfo.h"
 // #include "_pubcrt.h"
-#include <utils/Log.h>
 
 CModuleInfo::CModuleInfo(
     /* [in] */ CClsModule* clsModule,
@@ -135,7 +134,7 @@ ECode CModuleInfo::GetClassInfo(
     if (FAILED(ec)) return ec;
 
     if (fullName.IndexOf(';') >= 0 || fullName.IndexOf('/') >= 0) {
-        ALOGE("GetClassInfo fullName = %s is invalid", fullName.string());
+        //ALOGE("GetClassInfo fullName = %s is invalid", fullName.string());
         assert(0);
     }
     return mClassList->AcquireObjByName(fullName, (IInterface **)classInfo);
@@ -190,7 +189,7 @@ ECode CModuleInfo::GetInterfaceInfo(
     if (FAILED(ec)) return ec;
 
     if (fullName.IndexOf(';') >= 0 || fullName.IndexOf('/') >= 0) {
-        ALOGE("GetInterfaceInfo fullName = %s is invalid", fullName.string());
+        //ALOGE("GetInterfaceInfo fullName = %s is invalid", fullName.string());
         assert(0);
     }
     return mInterfaceList->AcquireObjByName(fullName, (IInterface **)interfaceInfo);
@@ -306,7 +305,7 @@ ECode CModuleInfo::GetEnumInfo(
     if (FAILED(ec)) return ec;
 
     if (fullName.IndexOf(';') >= 0 || fullName.IndexOf('/') >= 0) {
-        ALOGE("GetEnumInfo fullName = %s is invalid", fullName.string());
+        //ALOGE("GetEnumInfo fullName = %s is invalid", fullName.string());
         assert(0);
     }
     return mEnumList->AcquireObjByName(fullName, (IInterface **)enumInfo);

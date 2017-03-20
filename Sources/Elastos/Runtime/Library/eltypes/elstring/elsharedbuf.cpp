@@ -14,6 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
+#include <string.h>
 #include <elsharedbuf.h>
 
 _ELASTOS_NAMESPACE_BEGIN

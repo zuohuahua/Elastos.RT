@@ -15,7 +15,6 @@
 //=========================================================================
 
 #include <elrefbase.h>
-#include <cutils/log.h>
 
 _ELASTOS_NAMESPACE_BEGIN
 
@@ -79,7 +78,7 @@ public:
 //#if DEBUG_REFS_FATAL_SANITY_CHECKS
 //            LOG_ALWAYS_FATAL("Strong references remain!");
 //#else
-//            ALOGE("Strong references remain:");
+//            //ALOGE("Strong references remain:");
 //#endif
 //            ref_entry* refs = mStrongRefs;
 //            while (refs) {
@@ -97,7 +96,7 @@ public:
 //#if DEBUG_REFS_FATAL_SANITY_CHECKS
 //            LOG_ALWAYS_FATAL("Weak references remain:");
 //#else
-//            ALOGE("Weak references remain!");
+//            //ALOGE("Weak references remain!");
 //#endif
 //            ref_entry* refs = mWeakRefs;
 //            while (refs) {
@@ -110,7 +109,7 @@ public:
 //            }
 //        }
 //        if (dumpStack) {
-//            ALOGE("above errors at:");
+//            //ALOGE("above errors at:");
 //            CallStack stack;
 //            stack.update();
 //            stack.dump();
@@ -195,7 +194,7 @@ public:
                 close(rc);
                 ALOGD("STACK TRACE for %p saved in %s", this, name);
             }
-            else ALOGE("FAILED TO PRINT STACK TRACE for %p in %s: %s", this,
+            else //ALOGE("FAILED TO PRINT STACK TRACE for %p in %s: %s", this,
                       name, strerror(errno));
         }
     }
@@ -254,7 +253,7 @@ private:
 //                    id, mBase, this);
 //#endif
 //
-//            ALOGE("RefBase: removing id %p on RefBase %p"
+//            //ALOGE("RefBase: removing id %p on RefBase %p"
 //                    "(weakref_type %p) that doesn't exist!",
 //                    id, mBase, this);
 //
@@ -325,7 +324,7 @@ void ElRefBase::IncStrong(const void* id) const
     refs->AddStrongRef(id);
     const Int32 c = atomic_inc(&refs->mStrong) - 1;
     ELA_ASSERT_WITH_BLOCK(c > 0) {
-        ALOGE(" > ElRefBase: incStrong() called on %p after last strong ref", refs);
+        //ALOGE(" > ElRefBase: incStrong() called on %p after last strong ref", refs);
     }
 #if PRINT_REFS
     ALOGD("incStrong of %p from %p: cnt=%d\n", this, id, c);
@@ -344,10 +343,10 @@ void ElRefBase::DecStrong(const void* id) const
     refs->RemoveStrongRef(id);
     const Int32 c = atomic_dec(&refs->mStrong) + 1;
 #if PRINT_REFS
-    ALOGD("decStrong of %p from %p: cnt=%d\n", this, id, c);
+    //ALOGD("decStrong of %p from %p: cnt=%d\n", this, id, c);
 #endif
     ELA_ASSERT_WITH_BLOCK(c >= 1) {
-        ALOGE(" > ElRefBase: decStrong() called on %p too many times", refs);
+        //ALOGE(" > ElRefBase: decStrong() called on %p too many times", refs);
     }
     if (c == 1) {
         refs->mBase->OnLastStrongRef(id);
@@ -366,7 +365,7 @@ void ElRefBase::ForceIncStrong(const void* id) const
     refs->AddStrongRef(id);
     const Int32 c = atomic_inc(&refs->mStrong) - 1;
     ELA_ASSERT_WITH_BLOCK(c >= 0) {
-        ALOGE(" > ElRefBase: forceIncStrong called on %p after ref count underflow", refs);
+        //ALOGE(" > ElRefBase: forceIncStrong called on %p after ref count underflow", refs);
     }
 #if PRINT_REFS
     ALOGD("forceIncStrong of %p from %p: cnt=%d\n", this, id, c);
@@ -397,7 +396,7 @@ void ElRefBase::WeakRefType::IncWeak(const void* id)
     impl->AddWeakRef(id);
     const Int32 c __attribute__((__unused__)) = atomic_inc(&impl->mWeak) - 1;
     ELA_ASSERT_WITH_BLOCK(c >= 0) {
-        ALOGE(" > ElRefBase: incWeak called on %p after last weak ref", this);
+        //ALOGE(" > ElRefBase: incWeak called on %p after last weak ref", this);
     }
 }
 
@@ -407,7 +406,7 @@ void ElRefBase::WeakRefType::DecWeak(const void* id)
     impl->RemoveWeakRef(id);
     const Int32 c = atomic_dec(&impl->mWeak) + 1;
     ELA_ASSERT_WITH_BLOCK(c >= 1) {
-        ALOGE(" > ElRefBase: decWeak called on %p too many times", this);
+        //ALOGE(" > ElRefBase: decWeak called on %p too many times", this);
     }
     if (c != 1) return;
 
@@ -445,7 +444,7 @@ Boolean ElRefBase::WeakRefType::AttemptIncStrong(const void* id)
 
     Int32 curCount = impl->mStrong;
     ELA_ASSERT_WITH_BLOCK(curCount >= 0) {
-        ALOGE(" > ElRefBase: attemptIncStrong called on %p after underflow", this);
+        //ALOGE(" > ElRefBase: attemptIncStrong called on %p after underflow", this);
     }
     while (curCount > 0 && curCount != INITIAL_STRONG_VALUE) {
         if (atomic_cmpxchg(curCount, curCount + 1, &impl->mStrong) == 0) {
@@ -508,7 +507,7 @@ Boolean ElRefBase::WeakRefType::AttemptIncWeak(const void* id)
 
     Int32 curCount = impl->mWeak;
     ELA_ASSERT_WITH_BLOCK(curCount >= 0) {
-        ALOGE(" > ElRefBase: attemptIncWeak called on %p after underflow", this);
+        //ALOGE(" > ElRefBase: attemptIncWeak called on %p after underflow", this);
     }
     while (curCount > 0) {
         if (atomic_cmpxchg(curCount, curCount + 1, &impl->mWeak) == 0) {

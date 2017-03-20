@@ -30,53 +30,54 @@ EXPORTS
     ;;============================================================
     ;; Elastos Execution Engine APIs, using ordinal 1-199
     ;;
-    getTlSystemSlotBase
+;;    getTlSystemSlotBase
 
-    _Impl_EnterProtectedZone                        @86     NONAME
-    _Impl_LeaveProtectedZone                        @87     NONAME
-    _Impl_InsideProtectedZone                       @88     NONAME
-    _Impl_CheckHelperInfoFlag                       @89     NONAME
-    _Impl_SetHelperInfoFlag                         @90     NONAME
+;;    _Impl_EnterProtectedZone                        @86     NONAME
+;;    _Impl_LeaveProtectedZone                        @87     NONAME
+;;    _Impl_InsideProtectedZone                       @88     NONAME
+;;    _Impl_CheckHelperInfoFlag                       @89     NONAME
+;;    _Impl_SetHelperInfoFlag                         @90     NONAME
 
     _CObject_CreateInstance                         @106    NONAME
     _CObject_CreateInstanceEx                       @107    NONAME
     _CObject_AcquireClassFactory                    @108    NONAME
 
-    _CObject_EnterRegime                            @112    NONAME
-    _CObject_LeaveRegime                            @113    NONAME
-    _CObject_Compare                                @114    NONAME
-    _CObject_AttachAspect                           @115    NONAME
-    _CObject_DetachAspect                           @116    NONAME
+;;    _CObject_EnterRegime                            @112    NONAME
+;;    _CObject_LeaveRegime                            @113    NONAME
+;;    _CObject_Compare                                @114    NONAME
+;;    _CObject_AttachAspect                           @115    NONAME
+;;    _CObject_DetachAspect                           @116    NONAME
     _CObject_ReflectModuleInfo                      @117    NONAME
     _CObject_ReflectClassInfo                       @118    NONAME
     _CObject_ReflectInterfaceInfo                   @119    NONAME
-    _CObject_AcquireCallbackSink                    @120    NONAME
-    _CObject_AddCallback                            @121    NONAME
-    _CObject_RemoveCallback                         @122    NONAME
-    _CObject_RemoveAllCallbacks                     @123    NONAME
-    _CObject_AcquireCallbackRendezvous              @124    NONAME
+
+;;    _CObject_AcquireCallbackSink                    @120    NONAME
+;;    _CObject_AddCallback                            @121    NONAME
+;;    _CObject_RemoveCallback                         @122    NONAME
+;;    _CObject_RemoveAllCallbacks                     @123    NONAME
+;;    _CObject_AcquireCallbackRendezvous              @124    NONAME
 
     ;; APIs for callback
     ;;
-    _Impl_CallbackSink_TryToHandleEvents            @133    NONAME
-    _Impl_CallbackSink_InitCallbackContext          @134    NONAME
-    _Impl_CallbackSink_GetCallbackContext           @135    NONAME
-    _Impl_CallbackSink_AllocCallbackEvent           @136    NONAME
-    _Impl_CallbackSink_FreeCallbackEvent            @138    NONAME
-    _Impl_CallbackSink_PostCallbackEventAtTime      @141    NONAME
-    _Impl_CallbackSink_PostCallbackEvent            @142    NONAME
-    _Impl_CallbackSink_CancelCallbackEvents         @143    NONAME
-    _Impl_CallbackSink_WaitForCallbackEvent         @144    NONAME
-    _Impl_CallbackSink_AcquireCallbackContext       @145    NONAME
+;;    _Impl_CallbackSink_TryToHandleEvents            @133    NONAME
+;;    _Impl_CallbackSink_InitCallbackContext          @134    NONAME
+;;    _Impl_CallbackSink_GetCallbackContext           @135    NONAME
+;;    _Impl_CallbackSink_AllocCallbackEvent           @136    NONAME
+;;    _Impl_CallbackSink_FreeCallbackEvent            @138    NONAME
+;;    _Impl_CallbackSink_PostCallbackEventAtTime      @141    NONAME
+;;    _Impl_CallbackSink_PostCallbackEvent            @142    NONAME
+;;    _Impl_CallbackSink_CancelCallbackEvents         @143    NONAME
+;;    _Impl_CallbackSink_WaitForCallbackEvent         @144    NONAME
+;;    _Impl_CallbackSink_AcquireCallbackContext       @145    NONAME
 
-    _Impl_CallbackSink_RequestToFinish              @148    NONAME
-    _Impl_CallbackSink_CleanupAllCallbacks          @149    NONAME
-    _Impl_CallbackSink_CancelAllPendingCallbacks    @150    NONAME
-    _Impl_CallbackSink_CancelPendingCallback        @151    NONAME
-    _Impl_CallbackSink_GetThreadEvent               @152    NONAME
-    _Impl_CallbackSink_GetStatus                    @153    NONAME
-    _Impl_CallbackSink_SendCallbackEvent            @154    NONAME
-    _Impl_CCallbackRendezvous_New                   @155    NONAME
+;;    _Impl_CallbackSink_RequestToFinish              @148    NONAME
+;;    _Impl_CallbackSink_CleanupAllCallbacks          @149    NONAME
+;;    _Impl_CallbackSink_CancelAllPendingCallbacks    @150    NONAME
+;;    _Impl_CallbackSink_CancelPendingCallback        @151    NONAME
+;;    _Impl_CallbackSink_GetThreadEvent               @152    NONAME
+;;    _Impl_CallbackSink_GetStatus                    @153    NONAME
+;;    _Impl_CallbackSink_SendCallbackEvent            @154    NONAME
+;;    _Impl_CCallbackRendezvous_New                   @155    NONAME
 
     ;; Reflection APIs
     ;;
@@ -89,11 +90,11 @@ EXPORTS
 
     ;; Marshaling APIs
     ;;
-    _CObject_MarshalInterface                       @175    NONAME
-    _CObject_UnmarshalInterface                     @176    NONAME
+;;    _CObject_MarshalInterface                       @175    NONAME
+;;    _CObject_UnmarshalInterface                     @176    NONAME
 
-    LookupInterfaceInfo                             @180    NONAME
-    RegisterModuleInfo                              @181    NONAME
+;;    LookupInterfaceInfo                             @180    NONAME
+;;    RegisterModuleInfo                              @181    NONAME
 
     ;;============================================================
     ;; CAR data-type APIs, using ordinal 200-499
@@ -198,7 +199,7 @@ EXPORTS
     ;;============================================================
     ;; callback helper APIs for making parameters
     ;;
-    _Impl_CheckClsId                                @1116   NONAME
-    _Impl_AcquireCallbackHandler                    @1117   NONAME
-    _CCallbackParcel_New                            @1120   NONAME
-    _CParcel_New                                    @1121   NONAME
+;;    _Impl_CheckClsId                                @1116   NONAME
+;;    _Impl_AcquireCallbackHandler                    @1117   NONAME
+;;    _CCallbackParcel_New                            @1120   NONAME
+;;    _CParcel_New                                    @1121   NONAME

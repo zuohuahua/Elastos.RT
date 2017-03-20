@@ -78,11 +78,6 @@ public:
         /* [in] */ IArgumentList* argumentList,
         /* [out] */ PInterface* object);
 
-    CARAPI CreateObjectInRegime(
-        /* [in] */ PRegime rgm,
-        /* [in] */ IArgumentList* argumentList,
-        /* [out] */ PInterface* object);
-
     CARAPI AcquireParamList();
 
     CARAPI CreateObjInRgm(

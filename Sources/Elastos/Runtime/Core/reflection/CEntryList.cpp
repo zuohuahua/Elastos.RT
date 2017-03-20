@@ -126,8 +126,7 @@ ECode CEntryList::InitElemList()
         }
         return NOERROR;
     }
-    else if (mType == EntryType_Method || mType == EntryType_Constructor
-            || mType == EntryType_CBMethod) {
+    else if (mType == EntryType_Method || mType == EntryType_Constructor) {
 
         n = 0;
         for (i = 0; i < mListCount; i++) {
@@ -293,8 +292,7 @@ ECode CEntryList::AcquireObjByIndex(
     }
 
     UInt32 i = 0;
-    if ((mType == EntryType_Method || mType == EntryType_Constructor
-            || mType == EntryType_CBMethod) && (index & 0xFFFF0000)) {
+    if ((mType == EntryType_Method || mType == EntryType_Constructor) && (index & 0xFFFF0000)) {
         //Method's Index
         //Change to the array's index
         for (i = 0; i < mTotalCount; i++) {
@@ -379,14 +377,6 @@ ECode CEntryList::AcquireObjByIndex(
                     (MethodDescriptor *)mObjElement[index].mDesc,
                     mObjElement[index].mIndex,
                     &mClsInfo->mClsId,
-                    &mObjElement[index].mObject);
-            break;
-
-        case EntryType_CBMethod:
-            ec = g_objInfoList.AcquireCBMethodInfoInfo(mClsModule,
-                    mClsInfo->mCBMethodDesc[index].mEventNum,
-                    mClsInfo->mCBMethodDesc[index].mDesc,
-                    mClsInfo->mCBMethodDesc[index].mIndex,
                     &mObjElement[index].mObject);
             break;
 

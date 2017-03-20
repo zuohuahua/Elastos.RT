@@ -19,7 +19,6 @@
 #include <pthread.h>
 #include <dlfcn.h>
 #include <stdio.h>
-#include <utils/Log.h>
 
 #define ENABLE_DUMP_CLSID    0    // debug info switch
 #if ENABLE_DUMP_CLSID
@@ -88,8 +87,8 @@ ECode AcquireClassObjectFromLocalModule(
 #endif
     if (NULL == module) {
         ec = E_FILE_NOT_FOUND;
-        ALOGE("<%s, %d> dlopen '%s' failed.\n", __FILE__, __LINE__, uunm);
-        ALOGE("error: %s\n", dlerror());
+        //ALOGE("<%s, %d> dlopen '%s' failed.\n", __FILE__, __LINE__, uunm);
+        //ALOGE("error: %s\n", dlerror());
         goto ErrorExit;
     }
 

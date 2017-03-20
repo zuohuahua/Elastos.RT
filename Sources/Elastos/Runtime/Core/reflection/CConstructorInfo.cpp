@@ -197,15 +197,3 @@ ECode CConstructorInfo::CreateObject(
 
     return CreateObjInRgm(RGM_SAME_DOMAIN, argumentList, object);
 }
-
-ECode CConstructorInfo::CreateObjectInRegime(
-    /* [in] */ PRegime rgm,
-    /* [in] */ IArgumentList* argumentList,
-    /* [out] */ PInterface* object)
-{
-    if (IS_INVALID_REGIME(rgm) || !object) {
-        return E_INVALID_ARGUMENT;
-    }
-
-    return CreateObjInRgm(rgm, argumentList, object);
-}

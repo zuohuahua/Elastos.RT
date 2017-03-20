@@ -445,47 +445,6 @@ ECode CMethodInfo::CreateFunctionArgumentList(
     return NOERROR;
 }
 
-ECode CMethodInfo::CreateCBArgumentList(
-    /* [in] */ ICallbackMethodInfo* callbackMethodInfo,
-    /* [out] */ ICallbackArgumentList** cbArgumentList)
-{
-    AutoPtr<CCallbackArgumentList> cbArgumentListObj = new CCallbackArgumentList();
-    if (cbArgumentListObj == NULL) {
-        return E_OUT_OF_MEMORY;
-    }
-
-/*
-The GCC4 is 64-bit types (like long long) alignment and m_pHandlerThis(4-Byte)
- is picked out when creating ParamBuf, so we must recompute the position.
-*/
-#if defined(_arm) && defined(__GNUC__) && (__GNUC__ >= 4)
-    Int32 position = 4;
-    for (Int32 i = 0; i < mMethodDescriptor->mParamCount; i++) {
-        if (mParamElem[i].mType == CarDataType_Double ||
-                mParamElem[i].mType == CarDataType_Int64) {
-            mParamElem[i].mPos = ROUND8(position + 4) - 4;
-        }
-        else {
-            position = ROUND4(position);
-            mParamElem[i].mPos = position;
-        }
-
-        position += mParamElem[i].mSize;
-    }
-#endif
-
-    ECode ec = cbArgumentListObj->Init(callbackMethodInfo, mParamElem,
-            mMethodDescriptor->mParamCount, mParamBufSize);
-    if FAILED(ec) {
-        return ec;
-    }
-
-    *cbArgumentList = cbArgumentListObj;
-    (*cbArgumentList)->AddRef();
-
-    return NOERROR;
-}
-
 ECode CMethodInfo::CreateArgumentList(
     /* [out] */ IArgumentList** argumentList)
 {

@@ -15,10 +15,10 @@
 #=========================================================================
 
 DIRS = reflection
-DIRS += marshal
+#DIRS += marshal
 DIRS += libusr
 DIRS += carapi
-DIRS += elapi
+#DIRS += elapi
 DIRS += eladll
 
 PLATFORM_DIRS = marshal elapi

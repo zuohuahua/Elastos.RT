@@ -15,6 +15,7 @@
 //=========================================================================
 
 #include <elastos.h>
+#include <pthread.h>
 
 _ELASTOS_NAMESPACE_USING
 
@@ -58,6 +59,8 @@ extern pthread_mutex_t g_LocModListLock;
 
 Boolean AttachElastosDll()
 {
+    return TRUE;
+#if 0
 #ifdef _win32
     ECode ec = NOERROR;
 #endif
@@ -83,10 +86,12 @@ Boolean AttachElastosDll()
 
 E_FAIL_EXIT:
     return FALSE;
+#endif
 }
 
 void DetachElastosDll()
 {
+#if 0
     pthread_mutex_destroy(&g_LocModListLock);
 
     Elastos::RPC::UninitProxyEntry();
@@ -97,5 +102,6 @@ void DetachElastosDll()
 
     UninitMIL();
     UninitTLS();
+#endif
 }
 

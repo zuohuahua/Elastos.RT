@@ -113,8 +113,10 @@ endif
 
 endif
 else
+#  DLLTOOL_FLAGS := -D $(TARGET_NAME).$(DEPEND_OBJ_TYPE)  \
+#                   -l $(XDK_USER_LIB)/$(TARGET_NAME).lib \
+#                   $(DLLTOOL_FLAGS)
   DLLTOOL_FLAGS := -D $(TARGET_NAME).$(DEPEND_OBJ_TYPE)  \
-                   -l $(XDK_USER_LIB)/$(TARGET_NAME).lib \
                    $(DLLTOOL_FLAGS)
 endif
 

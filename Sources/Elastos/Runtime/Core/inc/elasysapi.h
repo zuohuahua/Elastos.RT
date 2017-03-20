@@ -161,6 +161,7 @@ public:
     }
 };
 
+#if 0
 class CCallbackParcel
 {
 public:
@@ -180,6 +181,7 @@ public:
         return _CParcel_New(parcel);
     }
 };
+#endif
 
 _ELASTOS_NAMESPACE_END
 

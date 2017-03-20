@@ -33,7 +33,6 @@
 #include "CCallbackMethodInfo.h"
 #include <pthread.h>
 #include <dlfcn.h>
-#include <utils/Log.h>
 
 typedef
 struct ModuleRsc {
@@ -203,7 +202,6 @@ ECode CObjInfoList::LockHashTable(
                 pthread_mutex_lock(&mLockTypeAlias);
             break;
         case EntryType_Constructor:
-        case EntryType_CBMethod:
         case EntryType_Method:
             if (mIsLockMethod)
                 pthread_mutex_lock(&mLockMethod);
@@ -264,8 +262,6 @@ ECode CObjInfoList::UnlockHashTable(
                 pthread_mutex_unlock(&mLockTypeAlias);
             break;
         case EntryType_Constructor:
-        case EntryType_CBMethod:
-        case EntryType_Method:
             if (mIsLockMethod)
                 pthread_mutex_unlock(&mLockMethod);
             break;
@@ -315,8 +311,8 @@ ECode CObjInfoList::AcquireModuleInfo(
     void* module = dlopen(name.string(), RTLD_LAZY);
 #endif
     if(NULL == module){
-        ALOGE("<%s, %d> dlopen '%s' failed.\n", __FILE__, __LINE__, name.string());
-        ALOGE("error: %s\n", dlerror());
+        //ALOGE("<%s, %d> dlopen '%s' failed.\n", __FILE__, __LINE__, name.string());
+        //ALOGE("error: %s\n", dlerror());
         return E_FILE_NOT_FOUND;
     }
 
@@ -1442,42 +1438,6 @@ ECode CObjInfoList::AcquireConstructorInfo(
     *object = constructInfoObj;
     (*object)->AddRef();
     UnlockHashTable(EntryType_Constructor);
-
-    return NOERROR;
-}
-
-ECode CObjInfoList::AcquireCBMethodInfoInfo(
-    /* [in] */ CClsModule* clsModule,
-    /* [in] */ UInt32 eventNum,
-    /* [in] */ MethodDescriptor* methodDescriptor,
-    /* [in] */ UInt32 index,
-    /* [in, out] */ IInterface** object)
-{
-    if (!clsModule || !methodDescriptor || !object) {
-        return E_INVALID_ARGUMENT;
-    }
-
-    if (*object) {
-        return NOERROR;
-    }
-
-    LockHashTable(EntryType_CBMethod);
-    AutoPtr<CCallbackMethodInfo> cbMethodInfoObj = new CCallbackMethodInfo();
-    if (cbMethodInfoObj == NULL) {
-        UnlockHashTable(EntryType_CBMethod);
-        return E_OUT_OF_MEMORY;
-    }
-
-    ECode ec = cbMethodInfoObj->Init(clsModule,
-            eventNum, methodDescriptor, index);
-    if (FAILED(ec)) {
-        UnlockHashTable(EntryType_CBMethod);
-        return ec;
-    }
-
-    *object = cbMethodInfoObj;
-    (*object)->AddRef();
-    UnlockHashTable(EntryType_CBMethod);
 
     return NOERROR;
 }

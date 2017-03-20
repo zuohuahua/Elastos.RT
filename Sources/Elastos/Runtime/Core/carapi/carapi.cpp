@@ -19,7 +19,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 // #include <_pubcrt.h>
-#include <utils/Log.h>
 
 #define STATUS_WIN32_ERROR(u) ((ECode)((u)|0x80070000))
 
@@ -134,6 +133,7 @@ ELAPI_(Boolean) _CObject_Compare(
     return (objectA == objectB);
 }
 
+#if 0
 ELAPI _CObject_AttachAspect(
     /* [in] */ PInterface aggregator,
     /* [in] */ RClassID aspectClsid)
@@ -235,3 +235,4 @@ ELAPI _CObject_AcquireCallbackSink(
 
     return connector->AcquireCallbackSink(sink);
 }
+#endif

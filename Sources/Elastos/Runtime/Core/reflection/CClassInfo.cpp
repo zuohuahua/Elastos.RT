@@ -790,67 +790,6 @@ ECode CClassInfo::HasInterfaceInfo(
     return NOERROR;
 }
 
-ECode CClassInfo::GetCallbackInterfaceCount(
-    /* [out] */ Int32* count)
-{
-    if (!count) {
-        return E_INVALID_ARGUMENT;
-    }
-
-    *count = mCBIFCount;
-
-    return NOERROR;
-}
-
-ECode CClassInfo::AcquireCBInterfaceList()
-{
-    if (!mCBIFList) {
-        return NOERROR;
-    }
-
-    ECode ec = NOERROR;
-    if (!mCBInterfaceList) {
-        g_objInfoList.LockHashTable(EntryType_ClassInterface);
-        if (!mCBInterfaceList) {
-            mCBInterfaceList = new CEntryList(EntryType_ClassInterface,
-                mDesc, mCBIFCount, mClsModule, mCBIFList, mCBIFCount);
-            if (!mCBInterfaceList) {
-                ec = E_OUT_OF_MEMORY;
-            }
-        }
-        g_objInfoList.UnlockHashTable(EntryType_ClassInterface);
-    }
-    return ec;
-}
-
-ECode CClassInfo::GetAllCallbackInterfaceInfos(
-    /* [out] */ ArrayOf<IInterfaceInfo *>* callbackInterfaceInfos)
-{
-    ECode ec = AcquireCBInterfaceList();
-    if (FAILED(ec)) return ec;
-
-    return mCBInterfaceList->GetAllObjInfos((PTypeInfos)callbackInterfaceInfos);
-}
-
-ECode CClassInfo::GetCallbackInterfaceInfo(
-    /* [in] */ const String& name,
-    /* [out] */ IInterfaceInfo** callbackInterfaceInfo)
-{
-    if (name.IsNull() || !callbackInterfaceInfo) {
-        return E_INVALID_ARGUMENT;
-    }
-
-    if (!mCBIFList) {
-        return E_DOES_NOT_EXIST;
-    }
-
-    ECode ec = AcquireCBInterfaceList();
-    if (FAILED(ec)) return ec;
-
-    return mCBInterfaceList->AcquireObjByName(name,
-            (IInterface **)callbackInterfaceInfo);
-}
-
 ECode CClassInfo::GetMethodCount(
     /* [out] */ Int32* count)
 {
@@ -944,69 +883,6 @@ ECode CClassInfo::GetMethodInfo(
     return mMethodList->AcquireObjByName(strName, (IInterface **)methodInfo);
 }
 
-ECode CClassInfo::GetCallbackMethodCount(
-    /* [out] */ Int32* count)
-{
-    if (!count) {
-        return E_INVALID_ARGUMENT;
-    }
-
-    *count = mCBMethodCount;
-
-    return NOERROR;
-}
-
-ECode CClassInfo::AcquireCBMethodList()
-{
-    ECode ec = NOERROR;
-    if (!mCBMethodList) {
-        g_objInfoList.LockHashTable(EntryType_CBMethod);
-        if (!mCBMethodList) {
-            mCBMethodList = new CEntryList(EntryType_CBMethod,
-                    mClassDirEntry->mDesc, mCBMethodCount, mClsModule,
-                    mCBIFList, mCBIFCount, this);
-            if (!mCBMethodList) {
-                ec = E_OUT_OF_MEMORY;
-            }
-        }
-        g_objInfoList.UnlockHashTable(EntryType_CBMethod);
-    }
-    return ec;
-}
-
-ECode CClassInfo::GetAllCallbackMethodInfos(
-    /* [out] */ ArrayOf<ICallbackMethodInfo*>* callbackMethodInfos)
-{
-    ECode ec = AcquireCBMethodList();
-    if (FAILED(ec)) return ec;
-
-    return mCBMethodList->GetAllObjInfos((PTypeInfos)callbackMethodInfos);
-}
-
-ECode CClassInfo::GetCallbackMethodInfo(
-    /* [in] */ const String& name,
-    /* [out] */ ICallbackMethodInfo** callbackMethodInfo)
-{
-    if (name.IsNull() || !callbackMethodInfo) {
-        return E_INVALID_ARGUMENT;
-    }
-
-    if (!mCBMethodCount) {
-        return E_DOES_NOT_EXIST;
-    }
-
-    ECode ec =AcquireCBMethodList();
-    if (FAILED(ec)) return ec;
-
-    return mCBMethodList->AcquireObjByName(name, (IInterface **)callbackMethodInfo);
-}
-
-ECode CClassInfo::RemoveAllCallbackHandlers(
-    /* [in] */ PInterface server)
-{
-    return _CObject_RemoveAllCallbacks(server);
-}
-
 ECode CClassInfo::CreateObjInRgm(
     /* [in] */ PRegime rgm,
     /* [out] */ PInterface* object)
@@ -1027,17 +903,6 @@ ECode CClassInfo::CreateObject(
     }
 
     return CreateObjInRgm(RGM_SAME_DOMAIN, object);
-}
-
-ECode CClassInfo::CreateObjectInRegime(
-    /* [in] */ PRegime rgm,
-    /* [out] */ PInterface* object)
-{
-    if (IS_INVALID_REGIME(rgm) || !object) {
-        return E_INVALID_ARGUMENT;
-    }
-
-    return CreateObjInRgm(rgm, object);
 }
 
 ECode CClassInfo::CreateIFList()

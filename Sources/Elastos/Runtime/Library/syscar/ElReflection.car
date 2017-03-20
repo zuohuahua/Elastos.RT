@@ -1289,16 +1289,6 @@ library
             [in] IInterfaceInfo* interfaceInfo,
             [out] Boolean* result);
 
-        GetCallbackInterfaceCount(
-            [out] Int32* count);
-
-        GetAllCallbackInterfaceInfos(
-            [out] ArrayOf<IInterfaceInfo*> callbackInterfaceInfos);
-
-        GetCallbackInterfaceInfo(
-            [in] String name,
-            [out] IInterfaceInfo** callbackInterfaceInfo);
-
         GetMethodCount(
             [out] Int32* count);
 
@@ -1310,24 +1300,7 @@ library
             [in] String signature,
             [out] IMethodInfo** methodInfo);
 
-        GetCallbackMethodCount(
-            [out] Int32* count);
-
-        GetAllCallbackMethodInfos(
-            [out] ArrayOf<ICallbackMethodInfo*> callbackMethodInfos);
-
-        GetCallbackMethodInfo(
-            [in] String name,
-            [out] ICallbackMethodInfo** callbackMethodInfo);
-
-        RemoveAllCallbackHandlers(
-            [in] PInterface server);
-
         CreateObject(
-            [out] PInterface* object);
-
-        CreateObjectInRegime(
-            [in] PRegime rgm,
             [out] PInterface* object);
     }
 
@@ -1347,11 +1320,6 @@ library
             [out] IArgumentList** argumentList);
 
         CreateObject(
-            [in] IArgumentList* argumentList,
-            [out] PInterface* object);
-
-        CreateObjectInRegime(
-            [in] PRegime rgm,
             [in] IArgumentList* argumentList,
             [out] PInterface* object);
     }

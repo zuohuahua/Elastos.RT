@@ -83,7 +83,6 @@ typedef enum EntryType {
     EntryType_Constant,
     EntryType_Constructor,
     EntryType_Method,
-    EntryType_CBMethod,
     EntryType_Field,
     EntryType_EnumItem,
     EntryType_Parameter,

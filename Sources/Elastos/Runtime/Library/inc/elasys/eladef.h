@@ -90,6 +90,7 @@
 #define DLL_THREAD_DETACH  3
 #define DLL_PROCESS_DETACH 0
 
+#if 0
 #ifndef _devtools
 
 EXTERN_C pthread_key_t *getTlSystemSlotBase();
@@ -100,6 +101,7 @@ EXTERN_C pthread_key_t *getTlSystemSlotBase();
 #define TL_ORG_CALLBACK_SLOT            (*(TL_SYSTEM_SLOT_BASE + 7))
 
 #endif // _devtools
+#endif
 
 //
 // Helper Info Flag

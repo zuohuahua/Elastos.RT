@@ -162,16 +162,6 @@ public:
         /* [in] */ IInterfaceInfo* interfaceInfo,
         /* [out] */ Boolean* result);
 
-    CARAPI GetCallbackInterfaceCount(
-        /* [out] */ Int32* count);
-
-    CARAPI GetAllCallbackInterfaceInfos(
-        /* [out] */ ArrayOf<IInterfaceInfo *>* callbackInterfaceInfos);
-
-    CARAPI GetCallbackInterfaceInfo(
-        /* [in] */ const String& name,
-        /* [out] */ IInterfaceInfo** callbackInterfaceInfo);
-
     CARAPI GetMethodCount(
         /* [out] */ Int32* count);
 
@@ -183,24 +173,7 @@ public:
         /* [in] */ const String& signature,
         /* [out] */ IMethodInfo** methodInfo);
 
-    CARAPI GetCallbackMethodCount(
-        /* [out] */ Int32* count);
-
-    CARAPI GetAllCallbackMethodInfos(
-        /* [out] */ ArrayOf<ICallbackMethodInfo *>* callbackMethodInfos);
-
-    CARAPI GetCallbackMethodInfo(
-        /* [in] */ const String& name,
-        /* [out] */ ICallbackMethodInfo** callbackMethodInfo);
-
-    CARAPI RemoveAllCallbackHandlers(
-        /* [in] */ PInterface server);
-
     CARAPI CreateObject(
-        /* [out] */ PInterface* object);
-
-    CARAPI CreateObjectInRegime(
-        /* [in] */ PRegime rgm,
         /* [out] */ PInterface* object);
 
     CARAPI CreateIFList();
