@@ -8,6 +8,7 @@ at: https://github.com/elastos/ElastosRT
 To clone the repository, assuming you setup the $SRC variable
 in your environment:
 ```shell
+$ cd ~
 $ git clone https://github.com/elastos/ElastosRT
 ```
 
@@ -17,29 +18,38 @@ $ git clone https://github.com/elastos/ElastosRT
 
 On Ubuntu this should obtain the necessary pre-reqs:
 ```
-sudo apt-get install texinfo libglib2.0-dev autoconf libtool libsdl-dev build-essential
+sudo apt-get install texinfo libglib2.0-dev autoconf libtool libsdl-dev build-essential tofrodos
 ```
 
 ## Build ElastosRT
 
 1. enter the build environment
-cd Elastos5/Setup
-Elastos5/Setup$ source SetEnv.sh gcc_devtools
+```
+cd ~/ElastosRT/Setup
+~/ElastosRT/Setup$ source Ubuntu_SetEnv_tools.sh
+```
 
 2. build CAR tools
-Elastos5/Sources$ emake
-Elastos5/Sources$ pd @
+```
+~/ElastosRT/Sources$ emake
+~/ElastosRT/Sources$ pd @
+```
 
 3. build result
-~/workspace4Elastos/Elastos5/Targets/rdk/x86.gnu.linux.devtools.dbg/bin$ ls
+```
+~/ElastosRT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin$ ls
 CInfoReader  Cls2C  carc  carcode  dbg_info  libz.so  lubc  lube  package
+```
 
-4. release version or debug version
-$ rls
-It is an alias of  --> chv rls
-$ dbg
-It is an alias of  --> chv dbg
+4. use your new CAR tools
+copy your build result to ~/ElastosRT/Build/Tools
+from ~/ElastosRT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin
+```
+cp CInfoReader Cls2C carc carcode lubc lube ~/ElastosRT/Build/Tools/
+```
 
-5. use your new CAR tools
-copy your build result to Elastos5/Build/Tools
-from Elastos5/Targets/rdk/x86.gnu.linux.devtools.rls/bin
+5. release version or debug version
+```
+ rls    #It is an alias of  --> chv rls
+ dbg    #It is an alias of  --> chv dbg
+```
