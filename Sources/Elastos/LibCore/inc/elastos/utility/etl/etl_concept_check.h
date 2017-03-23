@@ -86,7 +86,7 @@ template <typename T1, typename T2>
 struct SameTypeConcept
 {
     void Constraints() {
-        typedef typename _Aux_require_same<T1, T2>::Type Required;
+//        typedef typename _Aux_require_same<T1, T2>::Type Required;
     }
 };
 
@@ -446,11 +446,13 @@ struct InputIteratorConcept
     void Constraints() {
         __function_requires<TrivialIteratorConcept<T> >();
         // require iterator_traits typedef's
+#if 0
         typedef typename _ETL IteratorTraits<T>::DifferenceType D;
 //      __function_requires< _SignedIntegerConcept<_D> >();
         typedef typename _ETL IteratorTraits<T>::Reference R;
         typedef typename _ETL IteratorTraits<T>::Pointer Pt;
         typedef typename _ETL IteratorTraits<T>::IteratorCategory Cat;
+#endif
         __function_requires<ConvertibleConcept<
                 typename _ETL IteratorTraits<T>::IteratorCategory,
                 _ETL InputIteratorTag> >();
@@ -539,7 +541,7 @@ struct RandomAccessIteratorConcept
                 typename _ETL IteratorTraits<T>::IteratorCategory,
                 _ETL RandomAccessIteratorTag> >();
         // ??? We don't use _R, are we just checking for "referenceability"?
-        typedef typename _ETL IteratorTraits<T>::Reference R;
+//        typedef typename _ETL IteratorTraits<T>::Reference R;
 
         mI += mN;                       // require assignment addition operator
         mI = mI + mN; mI = mN + mI;     // require addition with difference type
@@ -872,9 +874,9 @@ struct SimpleAssociativeContainerConcept
 {
     void Constraints() {
         __function_requires<AssociativeContainerConcept<SimpleAssociativeContainer> >();
-        typedef typename SimpleAssociativeContainer::KeyType KeyType;
-        typedef typename SimpleAssociativeContainer::ValueType ValueType;
-        typedef typename _Aux_require_same<KeyType, ValueType>::Type Requqired;
+//        typedef typename SimpleAssociativeContainer::KeyType KeyType;
+//        typedef typename SimpleAssociativeContainer::ValueType ValueType;
+//        typedef typename _Aux_require_same<KeyType, ValueType>::Type Requqired;
     }
 };
 
@@ -883,11 +885,11 @@ struct PairAssociativeContainerConcept
 {
     void Constraints() {
         __function_requires<AssociativeContainerConcept<SimpleAssociativeContainer> >();
-        typedef typename SimpleAssociativeContainer::KeyType KeyType;
-        typedef typename SimpleAssociativeContainer::ValueType ValueType;
-        typedef typename SimpleAssociativeContainer::MappedType MappedType;
-        typedef _ETL Pair<const KeyType, MappedType> RequiredValueType;
-        typedef typename _Aux_require_same<ValueType, RequiredValueType>::Type Required;
+//        typedef typename SimpleAssociativeContainer::KeyType KeyType;
+//        typedef typename SimpleAssociativeContainer::ValueType ValueType;
+//        typedef typename SimpleAssociativeContainer::MappedType MappedType;
+//        typedef _ETL Pair<const KeyType, MappedType> RequiredValueType;
+//        typedef typename _Aux_require_same<ValueType, RequiredValueType>::Type Required;
     }
 };
 
