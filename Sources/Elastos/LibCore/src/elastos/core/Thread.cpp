@@ -19,9 +19,6 @@
 #include "Math.h"
 #include "AutoLock.h"
 #include "CSystem.h"
-#if defined(_DEBUG)
-#include "cutils/log.h"
-#endif
 
 #include "elastos/utility/CArrayList.h"
 using Elastos::Utility::CArrayList;
@@ -741,7 +738,7 @@ ECode Thread::Start()
 {
 #if defined(_DEBUG)
     if (!mIsConstructed) {
-        ALOGE("Error: %s, name:%s 's constructor is not called.", TO_CSTR(this), mName.string());
+        //ALOGE("Error: %s, name:%s 's constructor is not called.", TO_CSTR(this), mName.string());
         assert(0 && "Thread::constructor is not called");
     }
 #endif
@@ -1130,9 +1127,7 @@ ECode Thread::PopInterruptAction(
     AutoPtr<IInterface> removed;
     mInterruptActions->Remove(size - 1, (IInterface**)&removed);
     if (interruptAction != IRunnable::Probe(removed)) {
-#if defined(_DEBUG)
-        ALOGE("Expected %s but was %s", TO_CSTR(interruptAction), TO_CSTR(removed));
-#endif
+        //ALOGE("Expected %s but was %s", TO_CSTR(interruptAction), TO_CSTR(removed));
         return E_ILLEGAL_ARGUMENT_EXCEPTION;
     }
 

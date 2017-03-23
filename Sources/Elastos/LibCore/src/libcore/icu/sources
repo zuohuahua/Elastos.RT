@@ -38,7 +38,7 @@ INCLUDES += $(MAKEDIR)/../../../inc/elastos/utility;
 INCLUDES += $(MAKEDIR)/../../../inc/elastos/utility/logging;
 INCLUDES += $(MAKEDIR)/../../../inc/elastos/utility/etl;
 INCLUDES += $(MAKEDIR)/../../../inc/org;
-INCLUDES += $(MAKEDIR)/../../../inc/org/misc;
+INCLUDES += $(MAKEDIR)/../../../inc/org/android_prebuilt;
 
 SOURCES = icu.cpp
 SOURCES += AlphabeticIndex.cpp

@@ -35,6 +35,8 @@ INCLUDES += $(MAKEDIR)/../../../../inc/elastos/utility/zip;
 INCLUDES += $(MAKEDIR)/../../../../inc/elastos/utility/jar;
 INCLUDES += $(MAKEDIR)/../../../../inc/libcore;
 INCLUDES += $(MAKEDIR)/../../../../inc/libcore/io;
+INCLUDES += $(MAKEDIR)/../../../../inc/org;
+INCLUDES += $(MAKEDIR)/../../../../inc/org/android_prebuilt;
 
 SOURCES = CAttributes.cpp
 SOURCES += ManifestReader.cpp

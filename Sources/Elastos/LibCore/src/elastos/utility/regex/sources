@@ -28,6 +28,8 @@ INCLUDES += $(MAKEDIR)/../../../../inc/elastos/core;
 INCLUDES += $(MAKEDIR)/../../../../inc/elastos/utility;
 INCLUDES += $(MAKEDIR)/../../../../inc/elastos/utility/regex;
 INCLUDES += $(MAKEDIR)/../../../../inc/libcore/utility;
+INCLUDES += $(MAKEDIR)/../../../../inc/org;
+INCLUDES += $(MAKEDIR)/../../../../inc/org/android_prebuilt;
 
 SOURCES += CMatcher.cpp
 SOURCES += CMatcherHelper.cpp

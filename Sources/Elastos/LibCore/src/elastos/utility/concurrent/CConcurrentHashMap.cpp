@@ -26,8 +26,6 @@
 #include "elastos/core/CArrayOf.h"
 #include <elastos/core/AutoLock.h>
 #include <elastos/core/Thread.h>
-#include <cutils/atomic.h>
-#include <cutils/atomic-inline.h>
 
 using Elastos::Core::AutoLock;
 using Elastos::Core::IBoolean;
@@ -54,7 +52,7 @@ namespace Concurrent {
 static Boolean CompareAndSwapInt32(volatile int32_t* address, Int32 expect, Int32 update)
 {
     // Note: android_atomic_release_cas() returns 0 on success, not failure.
-    int ret = android_atomic_release_cas(expect, update, address);
+    int ret = __sync_bool_compare_and_swap(address, expect, update);
 
     return (ret == 0);
 }
@@ -70,8 +68,7 @@ static Boolean CompareAndSwapInt64(volatile int64_t* address, Int64 expect, Int6
 static Boolean CompareAndSwapObject(volatile int32_t* address, IInterface* expect, IInterface* update)
 {
     // Note: android_atomic_cmpxchg() returns 0 on success, not failure.
-    int ret = android_atomic_release_cas((int32_t)expect,
-            (int32_t)update, address);
+    int ret = __sync_bool_compare_and_swap(address, (int32_t)expect, (int32_t)update);
     if (ret == 0) {
         REFCOUNT_ADD(update)
         REFCOUNT_RELEASE(expect)
@@ -81,13 +78,13 @@ static Boolean CompareAndSwapObject(volatile int32_t* address, IInterface* expec
 
 static void PutOrderedInt32(volatile int32_t* address, Int32 newValue)
 {
-    ANDROID_MEMBAR_STORE();
+    //ANDROID_MEMBAR_STORE();
     *address = newValue;
 }
 
 static void PutOrderedObject(volatile int32_t* address, IInterface* newValue)
 {
-    ANDROID_MEMBAR_STORE();
+    //ANDROID_MEMBAR_STORE();
     IInterface* oldValue = reinterpret_cast<IInterface*>(*address);
     *address = reinterpret_cast<int32_t>(newValue);
     REFCOUNT_ADD(newValue);
@@ -240,7 +237,8 @@ AutoPtr<CConcurrentHashMap::Node> CConcurrentHashMap::TabAt(
 {
     volatile int32_t* address =
             (volatile int32_t*)(tab->GetPayload() + i);
-    int32_t value = android_atomic_acquire_load(address);
+//    int32_t value = android_atomic_acquire_load(address);
+            int32_t value = *address;
     return (Node*)reinterpret_cast<IMapEntry*>(value);
 }
 

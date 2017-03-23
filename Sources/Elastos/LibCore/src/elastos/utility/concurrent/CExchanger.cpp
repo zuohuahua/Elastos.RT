@@ -221,7 +221,7 @@ ECode CExchanger::Exchange(
 {
     VALIDATE_NOT_NULL(outface)
     *outface = NULL;
-
+#if 0
     AutoPtr<IInterface> v;
     AutoPtr<IInterface> item = (x == NULL) ? sNULL_ITEM.Get() : x; // translate null args
     if ((mArena != NULL ||
@@ -233,6 +233,7 @@ ECode CExchanger::Exchange(
         *outface = v;
         REFCOUNT_ADD(*outface)
     }
+#endif
     return NOERROR;
 }
 
@@ -244,7 +245,7 @@ ECode CExchanger::Exchange(
 {
     VALIDATE_NOT_NULL(outface);
     *outface = NULL;
-
+#if 0
     AutoPtr<IInterface> v;
     AutoPtr<IInterface> item = (x == NULL) ? sNULL_ITEM.Get() : x;
     Int64 ns;
@@ -261,6 +262,7 @@ ECode CExchanger::Exchange(
         *outface = v;
         REFCOUNT_ADD(*outface)
     }
+#endif
     return NOERROR;
 }
 

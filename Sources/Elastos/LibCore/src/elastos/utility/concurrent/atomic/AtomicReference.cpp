@@ -15,7 +15,6 @@
 //=========================================================================
 
 #include "AtomicReference.h"
-#include <cutils/atomic.h>
 
 using Elastos::IO::EIID_ISerializable;
 
@@ -26,6 +25,8 @@ namespace Atomic {
 
 static Boolean CompareAndSwapObject(volatile int32_t* address, IInterface* expect, IInterface* update)
 {
+    return FALSE;
+#if 0
     // Note: android_atomic_cmpxchg() returns 0 on success, not failure.
     int ret = android_atomic_release_cas((int32_t)expect,
             (int32_t)update, address);
@@ -34,6 +35,7 @@ static Boolean CompareAndSwapObject(volatile int32_t* address, IInterface* expec
         REFCOUNT_RELEASE(expect)
     }
     return (ret == 0);
+#endif
 }
 
 const Int64 AtomicReference::mSerialVersionUID = -1848883965231344442L;

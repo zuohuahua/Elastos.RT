@@ -33,6 +33,8 @@ INCLUDES += $(MAKEDIR)/../../../../../../../inc/libcore/utility
 INCLUDES += $(MAKEDIR)/../../../../../../../inc/org/apache/harmony/security
 INCLUDES += $(MAKEDIR)/../../../../../../../inc/org/apache/harmony/security/provider
 INCLUDES += $(MAKEDIR)/../../../../../../../inc/org/apache/harmony/security/provider/crypto
+INCLUDES += $(MAKEDIR)/../../../../../../../inc/org;
+INCLUDES += $(MAKEDIR)/../../../../../../../inc/org/android_prebuilt;
 
 SOURCES = CCryptoProvider.cpp
 #SOURCES += CDSAKeyFactoryImpl.cpp

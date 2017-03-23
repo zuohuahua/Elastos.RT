@@ -37,6 +37,6 @@ INCLUDES += $(MAKEDIR)/../../../../inc/elastos/utility;
 INCLUDES += $(MAKEDIR)/../../../../inc/elastos/utility/zip;
 INCLUDES += $(MAKEDIR)/../../../../inc/elastos/utility/jar;
 INCLUDES += $(MAKEDIR)/../../../../inc/org;
-INCLUDES += $(MAKEDIR)/../../../../inc/org/misc;
+INCLUDES += $(MAKEDIR)/../../../../inc/org/android_prebuilt;
 
 SOURCES = CHttpDate.cpp

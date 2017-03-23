@@ -37,6 +37,8 @@ INCLUDES += $(MAKEDIR)/../../../inc/libcore/utility;
 INCLUDES += $(MAKEDIR)/../../../inc/libcore/io;
 INCLUDES += $(MAKEDIR)/../../../inc/libcore/net;
 INCLUDES += $(MAKEDIR)/../../../inc/libcore/net/url;
+INCLUDES += $(MAKEDIR)/../../../inc/org;
+INCLUDES += $(MAKEDIR)/../../../inc/org/android_prebuilt;
 
 SOURCES = AddressCache.cpp
 SOURCES += Authenticator.cpp

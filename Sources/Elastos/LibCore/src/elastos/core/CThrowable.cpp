@@ -22,7 +22,6 @@
 #include "CoreUtils.h"
 #include "CArrayList.h"
 #include "Arrays.h"
-#include <utils/CallStack.h>
 
 using Elastos::Utility::Arrays;
 using Elastos::Utility::Collections;
@@ -106,6 +105,7 @@ ECode CThrowable::constructor(
         mStackTrace = EmptyArray::STACK_TRACE_ELEMENT;
         FillInStackTrace();
     }
+#if 0
     else {
         mStackTrace = NULL;
 
@@ -113,6 +113,7 @@ ECode CThrowable::constructor(
         stack.update();
         mBacktrace = String(stack.toString("").string());
     }
+#endif
     return NOERROR;
 }
 
@@ -126,9 +127,11 @@ ECode CThrowable::FillInStackTrace()
     // Mark the full representation as in need of update.
     mStackTrace = EmptyArray::STACK_TRACE_ELEMENT;
 
+#if 0
     android::CallStack stack;
     stack.update();
     mBacktrace = String(stack.toString("").string());
+#endif
     return NOERROR;
 }
 

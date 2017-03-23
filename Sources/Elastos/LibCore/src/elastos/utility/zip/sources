@@ -30,6 +30,8 @@ INCLUDES += $(MAKEDIR)/../../../../inc/elastos/utility/zip;
 INCLUDES += $(MAKEDIR)/../../../../inc/elastos/io;
 INCLUDES += $(MAKEDIR)/../../../../inc/libcore/io;
 INCLUDES += $(MAKEDIR)/../../../../inc/libcore/utility;
+INCLUDES += $(MAKEDIR)/../../../../inc/org;
+INCLUDES += $(MAKEDIR)/../../../../inc/org/android_prebuilt;
 
 SOURCES += CAdler32.cpp
 SOURCES += CCRC32.cpp

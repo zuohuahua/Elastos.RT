@@ -19,7 +19,6 @@
 #include "JarURLConnection.h"
 #include "UriCodec.h"
 #include "CURL.h"
-#include <cutils/log.h>
 
 using Elastos::Core::ICloneable;
 using Libcore::Net::UriCodec;
@@ -183,8 +182,8 @@ ECode JarURLConnection::Decode(
         AutoPtr<ICharset> charset;// = StandardCharsets::UTF_8
         ECode ec = UriCodec::Decode(encoded, convertPlus, charset, TRUE /* throwOnFailure */, value);
         if (ec == (ECode)E_ILLEGAL_ARGUMENT_EXCEPTION) {
-            ALOGE("E_MALFORMED_URL_EXCEPTION: JarURLConnection: Unable to decode URL %s",
-                encoded.string());
+            //ALOGE("E_MALFORMED_URL_EXCEPTION: JarURLConnection: Unable to decode URL %s",
+            //    encoded.string());
             return E_MALFORMED_URL_EXCEPTION;
         }
     //} catch (IllegalArgumentException e) {

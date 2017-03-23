@@ -20,8 +20,6 @@
 #include "StringUtils.h"
 #include "StringBuilder.h"
 #include "io/CFile.h"
-#include <cutils/properties.h>
-#include <cutils/log.h>
 
 using Elastos::IO::CFile;
 using Elastos::IO::IFile;
@@ -48,7 +46,7 @@ ECode ClassLoader::constructor(
     /* [in] */ IClassLoader* parent)
 {
     if (classPath.IsNullOrEmpty()) {
-        ALOGE("ClassLoader::constructor: module path is null or empty");
+        //ALOGE("ClassLoader::constructor: module path is null or empty");
         return E_INVALID_ARGUMENT;
     }
 
@@ -97,6 +95,7 @@ static String GetSystemProperties(
     /* [in] */ const String& key,
     /* [in] */ const String& def)
 {
+#if 0
     static const  Int32 SYSTEM_PROPERTY_VALUE_MAX = 91;
     int len;
     char buf[SYSTEM_PROPERTY_VALUE_MAX + 1];
@@ -108,7 +107,7 @@ static String GetSystemProperties(
     else if (len >= 0) {
         return String(buf);
     }
-
+#endif
     return String("");
 }
 
@@ -142,7 +141,7 @@ AutoPtr<IClassLoader> ClassLoader::GetClassLoader(
     /* [in] */ IClassInfo* clsInfo)
 {
     if (clsInfo == NULL) {
-        ALOGE("ClassLoader::GetClassLoader: invalid argument. class info is NULL.");
+        //ALOGE("ClassLoader::GetClassLoader: invalid argument. class info is NULL.");
         return NULL;
     }
 
@@ -198,7 +197,7 @@ ECode ClassLoader::FindClass(
     *klass = NULL;
 
     if (className.IsNullOrEmpty()) {
-        ALOGE("ClassLoader::FindClass: className is null or empty");
+        //ALOGE("ClassLoader::FindClass: className is null or empty");
         return E_INVALID_ARGUMENT;
     }
 
@@ -211,8 +210,8 @@ ECode ClassLoader::FindClass(
         if (it == mModuleTable.End()) {
             ec = CReflector::AcquireModuleInfo(path, (IModuleInfo**)&moduleInfo);
             if (FAILED(ec) || moduleInfo == NULL) {
-                ALOGE("ClassLoader::FindClass %s, failed to AcquireModuleInfo at path %d/%d: %s",
-                    className.string(), i +1, mClassPaths->GetLength(), path.string());
+                //ALOGE("ClassLoader::FindClass %s, failed to AcquireModuleInfo at path %d/%d: %s",
+                //    className.string(), i +1, mClassPaths->GetLength(), path.string());
                 continue;
             }
             mModuleTable[path] = moduleInfo;
@@ -262,7 +261,7 @@ ECode ClassLoader::FindInterface(
     *result = NULL;
 
     if (name.IsNullOrEmpty()) {
-        ALOGE("ClassLoader::FindClass: interface name is null or empty");
+        //ALOGE("ClassLoader::FindClass: interface name is null or empty");
         return E_INVALID_ARGUMENT;
     }
 
@@ -275,8 +274,8 @@ ECode ClassLoader::FindInterface(
         if (it == mModuleTable.End()) {
             ec = CReflector::AcquireModuleInfo(path, (IModuleInfo**)&moduleInfo);
             if (FAILED(ec) || moduleInfo == NULL) {
-                ALOGE("ClassLoader::FindInterface %s, failed to AcquireModuleInfo at path %d/%d: %s",
-                    name.string(), i +1, mClassPaths->GetLength(), path.string());
+                //ALOGE("ClassLoader::FindInterface %s, failed to AcquireModuleInfo at path %d/%d: %s",
+                //    name.string(), i +1, mClassPaths->GetLength(), path.string());
                 continue;
             }
             mModuleTable[path] = moduleInfo;

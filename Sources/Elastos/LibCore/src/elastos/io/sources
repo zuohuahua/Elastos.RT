@@ -40,6 +40,8 @@ INCLUDES += $(MAKEDIR)/../../../inc/elastos/utility/logging;
 INCLUDES += $(MAKEDIR)/../../../inc/libcore/io;
 INCLUDES += $(MAKEDIR)/../../../inc/libcore/icu;
 INCLUDES += $(MAKEDIR)/../../../inc/libcore/net;
+INCLUDES += $(MAKEDIR)/../../../inc/org;
+INCLUDES += $(MAKEDIR)/../../../inc/org/android_prebuilt;
 
 SOURCES = io.cpp
 SOURCES += PipedInputStream.cpp

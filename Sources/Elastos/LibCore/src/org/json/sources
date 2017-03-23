@@ -28,6 +28,8 @@ INCLUDES += $(MAKEDIR)/../../../inc/org/json;
 INCLUDES += $(MAKEDIR)/../../../inc/elastos;
 INCLUDES += $(MAKEDIR)/../../../inc/elastos/core;
 INCLUDES += $(MAKEDIR)/../../../inc/elastos/io;
+INCLUDES += $(MAKEDIR)/../../../inc/org;
+INCLUDES += $(MAKEDIR)/../../../inc/org/android_prebuilt;
 
 SOURCES = JSON.cpp
 SOURCES += JSONArray.cpp

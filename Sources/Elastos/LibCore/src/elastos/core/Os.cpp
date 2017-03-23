@@ -22,7 +22,6 @@
 #include <errno.h>
 
 // #include <cutils/sched_policy.h>
-#include <utils/threads.h>
 
 using Elastos::Core::NTHREAD_MIN_PRIORITY;
 using Elastos::Core::NTHREAD_NORM_PRIORITY;
@@ -32,6 +31,7 @@ using Elastos::Core::NTHREAD_MAX_PRIORITY;
 #define NELEM(x) ((int) (sizeof(x) / sizeof((x)[0])))
 #endif
 
+#if 0
 /*
  * Conversion map for "nice" values.
  *
@@ -72,3 +72,5 @@ int os_getThreadPriorityFromSystem()
     }
     return jprio;
 }
+
+#endif

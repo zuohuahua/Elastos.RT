@@ -32,6 +32,8 @@ INCLUDES += $(MAKEDIR)/../../../../inc/elastosx/xml/datatype
 INCLUDES += $(MAKEDIR)/../../../../inc/elastosx/xml/namespace
 INCLUDES += $(MAKEDIR)/../../../../inc/elastosx/xml/parsers
 INCLUDES += $(MAKEDIR)/../../../../inc/org/xml/sax
+INCLUDES += $(MAKEDIR)/../../../../inc/org;
+INCLUDES += $(MAKEDIR)/../../../../inc/org/android_prebuilt;
 
 SOURCES += CSAXParserFactoryHelper.cpp
 SOURCES += CDocumentBuilderFactoryHelper.cpp

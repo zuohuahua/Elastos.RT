@@ -18,7 +18,6 @@
 #include "StringBuffer.h"
 #include "CHashSet.h"
 #include "CHashMap.h"
-#include <utils/Log.h>
 
 using Elastos::Core::StringBuffer;
 using Elastos::Core::EIID_ICloneable;
@@ -75,7 +74,7 @@ AttributedString::AttributedIterator::AttributedIterator(
     /* [in] */ Int32 end)
 {
     if (begin < 0 || end > (Int32)mAttrString->mText.GetLength() || begin > end) {
-        ALOGE("AttributedString::AttributedIterator(): IllegalArgumentException.");
+        //ALOGE("AttributedString::AttributedIterator(): IllegalArgumentException.");
         //throw new IllegalArgumentException();
         assert(0);
     }
@@ -545,7 +544,7 @@ ECode AttributedString::constructor(
     ci->GetBeginIndex(&bi);
     ci->GetEndIndex(&ei);
     if (bi > ei) {
-        ALOGE("AttributedString::constructor(): IllegalArgumentException, invalid substring range.");
+        //ALOGE("AttributedString::constructor(): IllegalArgumentException, invalid substring range.");
         //throw new IllegalArgumentException("Invalid substring range");
         return E_ILLEGAL_ARGUMENT_EXCEPTION;
     }

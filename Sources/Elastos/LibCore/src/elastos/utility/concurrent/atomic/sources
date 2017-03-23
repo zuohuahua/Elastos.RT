@@ -29,6 +29,8 @@ INCLUDES += $(MAKEDIR)/../../../../../inc/elastos/utility;
 INCLUDES += $(MAKEDIR)/../../../../../inc/elastos/utility/concurrent;
 INCLUDES += $(MAKEDIR)/../../../../../inc/elastos/utility/concurrent/atomic;
 INCLUDES += $(MAKEDIR)/../../../../../inc/elastos/utility/concurrent/locks;
+INCLUDES += $(MAKEDIR)/../../../../../inc/org;
+INCLUDES += $(MAKEDIR)/../../../../../inc/org/android_prebuilt;
 
 SOURCES = AtomicReference.cpp
 SOURCES += CAtomicBoolean.cpp

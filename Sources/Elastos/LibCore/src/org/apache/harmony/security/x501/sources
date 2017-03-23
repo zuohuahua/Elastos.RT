@@ -33,6 +33,8 @@ INCLUDES += $(MAKEDIR)/../../../../../../inc/org/apache/harmony/security/asn1
 INCLUDES += $(MAKEDIR)/../../../../../../inc/org/apache/harmony/security/utils
 INCLUDES += $(MAKEDIR)/../../../../../../inc/org/apache/harmony/security/x501
 INCLUDES += $(MAKEDIR)/../../../../../../inc/org/apache/harmony/security/x509
+INCLUDES += $(MAKEDIR)/../../../../../../inc/org;
+INCLUDES += $(MAKEDIR)/../../../../../../inc/org/android_prebuilt;
 
 SOURCES = CAttributeTypeAndValue.cpp
 SOURCES += CAttributeTypeAndValueComparator.cpp

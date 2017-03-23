@@ -35,6 +35,8 @@ INCLUDES += $(MAKEDIR)/../../../inc/src/elastos
 INCLUDES += $(MAKEDIR)/../../../../LibCore/inc/elastos/core/
 INCLUDES += $(MAKEDIR)/../../../../LibCore/inc/elastos/io/
 #INCLUDES += $(MAKEDIR)/../../../inc/Org/Apache/Harmony/Security/Fortress
+INCLUDES += $(MAKEDIR)/../../../inc/org;
+INCLUDES += $(MAKEDIR)/../../../inc/org/android_prebuilt;
 
 SOURCES =  CCipher.cpp
 SOURCES += Cipher.cpp

@@ -17,7 +17,6 @@
 #include "BlockGuard.h"
 #include "Thread.h"
 #include "StringUtils.h"
-#include <cutils/log.h>
 #include "AutoLock.h"
 
 using Elastos::Core::StringUtils;

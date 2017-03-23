@@ -24,12 +24,9 @@
 #include "Os.h"
 #include <sys/resource.h>
 #include <sys/time.h>
-#include <cutils/sched_policy.h>
-#include <cutils/atomic.h>
 #include <unistd.h>
 #include <errno.h>
 #include <stdio.h>
-#include <utils/Log.h>
 
 namespace Elastos {
 namespace Core {
@@ -369,11 +366,7 @@ static NativeThread* AllocThread(
  */
 pid_t NativeGetSysThreadId()
 {
-#ifdef HAVE_GETTID
-    return gettid();
-#else
     return getpid();
-#endif
 }
 
 /*
@@ -638,9 +631,10 @@ static void ReleaseThreadId(
 static void SetThreadName(
     /* [in] */ const char *threadName)
 {
+    /*
     if (threadName == NULL) {
         ALOGD("Thread name is null. Maybe you forgot to call Thread::constructor() explicitly.");
-    }
+    }*/
     assert(threadName != NULL && "Thread name is null. Maybe you forgot to call Thread::constructor() explicitly.");
 
     Int32 hasAt = 0;

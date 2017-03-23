@@ -15,8 +15,6 @@
 //=========================================================================
 
 #include "CAtomicInteger32.h"
-#include <cutils/atomic.h>
-#include <cutils/atomic-inline.h>
 
 using Elastos::IO::EIID_ISerializable;
 
@@ -66,7 +64,7 @@ ECode CAtomicInteger32::LazySet(
 {
     volatile Int32* address = &mValue;
 
-    ANDROID_MEMBAR_STORE();
+//    ANDROID_MEMBAR_STORE();
     *address = newValue;
     return NOERROR;
 }
@@ -102,10 +100,10 @@ ECode CAtomicInteger32::CompareAndSet(
     volatile int32_t* address = (volatile int32_t*)&mValue;
 
     // Note: android_atomic_release_cas() returns 0 on success, not failure.
-    int ret = android_atomic_release_cas(expect, update, address);
+/*    int ret = android_atomic_release_cas(expect, update, address);
 
     *result = (ret == 0);
-    return NOERROR;
+*/    return NOERROR;
 //  return unsafe.compareAndSwapInt(this, valueOffset, expect, update);
 }
 
@@ -117,10 +115,10 @@ ECode CAtomicInteger32::WeakCompareAndSet(
     volatile int32_t* address = (volatile int32_t*)&mValue;
 
     // Note: android_atomic_release_cas() returns 0 on success, not failure.
-    int ret = android_atomic_release_cas(expect, update, address);
+/*    int ret = android_atomic_release_cas(expect, update, address);
 
     *result = (ret == 0);
-    return NOERROR;
+*/    return NOERROR;
 //  return unsafe.compareAndSwapInt(this, valueOffset, expect, update);
 }
 

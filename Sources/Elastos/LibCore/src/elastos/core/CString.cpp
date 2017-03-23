@@ -16,7 +16,6 @@
 
 #include "CString.h"
 #include "StringBuilder.h"
-#include <cutils/log.h>
 
 namespace Elastos {
 namespace Core {

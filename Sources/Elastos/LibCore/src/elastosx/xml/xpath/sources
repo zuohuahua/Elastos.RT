@@ -31,6 +31,8 @@ INCLUDES += $(MAKEDIR)/../../../../inc/elastos/io;
 INCLUDES += $(MAKEDIR)/../../../../inc/elastos/utility;
 INCLUDES += $(MAKEDIR)/../../../../inc/elastos/utility/logging;
 INCLUDES += $(MAKEDIR)/../../../../inc/libcore/io;
+INCLUDES += $(MAKEDIR)/../../../../inc/org;
+INCLUDES += $(MAKEDIR)/../../../../inc/org/android_prebuilt;
 
 SOURCES = CXPathConstants.cpp
 SOURCES += XPathFactory.cpp

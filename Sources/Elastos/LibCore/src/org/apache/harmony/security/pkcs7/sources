@@ -28,6 +28,8 @@ INCLUDES += $(MAKEDIR)/../../../../../../inc/elastos
 INCLUDES += $(MAKEDIR)/../../../../../../inc/elastos/core
 INCLUDES += $(MAKEDIR)/../../../../../../inc/org/apache/harmony/security
 INCLUDES += $(MAKEDIR)/../../../../../../inc/org/apache/harmony/security/pkcs7
+INCLUDES += $(MAKEDIR)/../../../../../../inc/org;
+INCLUDES += $(MAKEDIR)/../../../../../../inc/org/android_prebuilt;
 
 SOURCES = AuthenticatedAttributes.cpp
 SOURCES += SignedData.cpp

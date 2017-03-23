@@ -31,6 +31,8 @@ INCLUDES += $(MAKEDIR)/../../../../../../inc/elastos/text
 INCLUDES += $(MAKEDIR)/../../../../../../inc/elastos/utility
 INCLUDES += $(MAKEDIR)/../../../../../../inc/org/apache/harmony/security
 INCLUDES += $(MAKEDIR)/../../../../../../inc/org/apache/harmony/security/asn1
+INCLUDES += $(MAKEDIR)/../../../../../../inc/org;
+INCLUDES += $(MAKEDIR)/../../../../../../inc/org/android_prebuilt;
 
 SOURCES = ASN1Constructed.cpp
 SOURCES += ASN1Primitive.cpp

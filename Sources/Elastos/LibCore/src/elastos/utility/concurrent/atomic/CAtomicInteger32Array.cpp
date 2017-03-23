@@ -15,8 +15,6 @@
 //=========================================================================
 
 #include "CAtomicInteger32Array.h"
-#include <cutils/atomic.h>
-#include <cutils/atomic-inline.h>
 #include <StringBuilder.h>
 
 using Elastos::Core::StringBuilder;
@@ -103,9 +101,11 @@ Int32 CAtomicInteger32Array::GetRaw(
 {
     volatile int32_t* address = (volatile int32_t*)(mArray->GetPayload() + index);
 
-    int32_t value = android_atomic_acquire_load(address);
+/*    int32_t value = android_atomic_acquire_load(address);
 
     return value;
+*/
+return 0;
 }
 
 /**
@@ -122,7 +122,7 @@ ECode CAtomicInteger32Array::Set(
 
     volatile int32_t* address = (volatile int32_t*)(mArray->GetPayload() + index);
 
-    android_atomic_release_store(newValue, address);
+//    android_atomic_release_store(newValue, address);
 
     return NOERROR;
 }
@@ -142,7 +142,7 @@ ECode CAtomicInteger32Array::LazySet(
 
     volatile int32_t* address = (volatile int32_t*)(mArray->GetPayload() + index);
 
-    ANDROID_MEMBAR_STORE();
+//    ANDROID_MEMBAR_STORE();
     *address = newValue;
     return NOERROR;
 }
@@ -203,9 +203,11 @@ Boolean CAtomicInteger32Array::CompareAndSetRaw(
     volatile int32_t* address = (volatile int32_t*)(mArray->GetPayload() + index);
 
     // Note: android_atomic_release_cas() returns 0 on success, not failure.
-    int result = android_atomic_release_cas(expect, update, address);
+/*    int result = android_atomic_release_cas(expect, update, address);
 
     return (result != 0);
+*/
+return FALSE;
 }
 
 /**

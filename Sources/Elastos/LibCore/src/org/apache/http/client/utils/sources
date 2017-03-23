@@ -24,6 +24,8 @@ include $(MAKEDIR)/../../../../../sources.inc
 INCLUDES += $(PREBUILD_INC)/sys;
 INCLUDES += ../../../../../corelibrary
 INCLUDES += $(MAKEDIR)/../../../../../../inc;
+INCLUDES += $(MAKEDIR)/../../../../../../inc/org;
+INCLUDES += $(MAKEDIR)/../../../../../../inc/org/android_prebuilt;
 
 SOURCES = CloneUtils.cpp
 SOURCES += URIUtils.cpp

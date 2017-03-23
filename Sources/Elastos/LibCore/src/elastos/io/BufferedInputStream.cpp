@@ -16,7 +16,6 @@
 
 #include "BufferedInputStream.h"
 #include <elastos/core/AutoLock.h>
-#include <cutils/log.h>
 
 using Elastos::Core::AutoLock;
 
@@ -47,7 +46,7 @@ ECode BufferedInputStream::constructor(
 {
     FAIL_RETURN(FilterInputStream::constructor(in));
     if (size <= 0) {
-        ALOGE("BufferedInputStream::constructor: IllegalArgumentException, size <= 0");
+        //ALOGE("BufferedInputStream::constructor: IllegalArgumentException, size <= 0");
         return E_ILLEGAL_ARGUMENT_EXCEPTION;
     }
 
@@ -76,7 +75,7 @@ ECode BufferedInputStream::Available(
 
 ECode BufferedInputStream::StreamClosed()
 {
-    ALOGE("BufferedInputStream::StreamClosed: IOException, BufferedInputStream is closed");
+    //ALOGE("BufferedInputStream::StreamClosed: IOException, BufferedInputStream is closed");
     return E_IO_EXCEPTION;
 }
 

@@ -15,8 +15,6 @@
 //=========================================================================
 
 #include "CAtomicBoolean.h"
-#include <cutils/atomic.h>
-#include <cutils/atomic-inline.h>
 #include "StringUtils.h"
 
 using Elastos::Core::StringUtils;
@@ -91,7 +89,7 @@ ECode CAtomicBoolean::LazySet(
     /* [in] */ Boolean newValue)
 {
     Int32 v = newValue ? 1 : 0;
-    ANDROID_MEMBAR_STORE();
+//    ANDROID_MEMBAR_STORE();
     mValue = v;
     return NOERROR;
 }
@@ -138,10 +136,10 @@ ECode CAtomicBoolean::CompareAndSet(
     int u = update ? 1 : 0;
 
     // Note: android_atomic_release_cas() returns 0 on success, not failure.
-    int ret = android_atomic_release_cas(e, u, address);
+/*    int ret = android_atomic_release_cas(e, u, address);
 
     *result = (ret == 0);
-    return NOERROR;
+*/    return NOERROR;
 
     // int e = expect ? 1 : 0;
     // int u = update ? 1 : 0;
@@ -159,10 +157,10 @@ ECode CAtomicBoolean::WeakCompareAndSet(
     int u = update ? 1 : 0;
 
     // Note: android_atomic_release_cas() returns 0 on success, not failure.
-    int ret = android_atomic_release_cas(e, u, address);
+/*    int ret = android_atomic_release_cas(e, u, address);
 
     *result = (ret == 0);
-    return NOERROR;
+    */return NOERROR;
 
     // int e = expect ? 1 : 0;
     // int u = update ? 1 : 0;

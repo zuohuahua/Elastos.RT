@@ -18,8 +18,6 @@
 #include "CConcurrentLinkedQueue.h"
 #include "CArrayList.h"
 #include <Math.h>
-#include <cutils/atomic.h>
-#include <cutils/atomic-inline.h>
 
 using Elastos::Core::Math;
 using Elastos::IO::IObjectInput;
@@ -35,8 +33,7 @@ namespace Concurrent {
 static Boolean CompareAndSwapObject(volatile int32_t* address, IInterface* expect, IInterface* update)
 {
     // Note: android_atomic_cmpxchg() returns 0 on success, not failure.
-    int ret = android_atomic_release_cas((int32_t)expect,
-            (int32_t)update, address);
+    int ret = __sync_bool_compare_and_swap(address, (int32_t)expect, (int32_t)update);
     if (ret == 0) {
         REFCOUNT_ADD(update)
         REFCOUNT_RELEASE(expect)
@@ -47,8 +44,7 @@ static Boolean CompareAndSwapObject(volatile int32_t* address, IInterface* expec
 static Boolean CompareAndSwapObject(volatile int32_t* address, Object* expect, Object* update)
 {
     // Note: android_atomic_cmpxchg() returns 0 on success, not failure.
-    int ret = android_atomic_release_cas((int32_t)expect,
-            (int32_t)update, address);
+    int ret = __sync_bool_compare_and_swap(address, (int32_t)expect, (int32_t)update);
     if (ret == 0) {
         REFCOUNT_ADD(update)
         REFCOUNT_RELEASE(expect)
@@ -58,7 +54,7 @@ static Boolean CompareAndSwapObject(volatile int32_t* address, Object* expect, O
 
 static void PutOrderedObject(volatile int32_t* address, Object* newValue)
 {
-    ANDROID_MEMBAR_STORE();
+//    ANDROID_MEMBAR_STORE();
     Object* oldValue = reinterpret_cast<Object*>(*address);
     *address = reinterpret_cast<int32_t>(newValue);
     REFCOUNT_ADD(newValue);

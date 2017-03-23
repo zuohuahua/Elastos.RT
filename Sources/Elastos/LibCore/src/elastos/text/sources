@@ -32,6 +32,8 @@ INCLUDES += $(MAKEDIR)/../../../inc/elastos/utility;
 INCLUDES += $(MAKEDIR)/../../../inc/elastos/utility/logging;
 INCLUDES += $(MAKEDIR)/../../../inc/libcore/icu;
 INCLUDES += $(MAKEDIR)/../../../inc/libcore/utility;
+INCLUDES += $(MAKEDIR)/../../../inc/org;
+INCLUDES += $(MAKEDIR)/../../../inc/org/android_prebuilt;
 
 SOURCES = CAnnotation.cpp
 SOURCES += AttributedCharacterIteratorAttribute.cpp

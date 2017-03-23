@@ -27,6 +27,11 @@
 #include "CArrayList.h"
 #include "Arrays.h"
 #include <net/if.h>
+#include <sys/socket.h>
+#include <sys/ioctl.h>
+#include <net/if.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 
 using Elastos::Core::StringBuilder;
 using Elastos::Core::StringUtils;

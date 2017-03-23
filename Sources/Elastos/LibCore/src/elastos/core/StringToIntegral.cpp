@@ -18,7 +18,6 @@
 #include "Character.h"
 #include "Math.h"
 #include "HexStringParser.h"
-#include <utils/Log.h>
 
 namespace Elastos {
 namespace Core {
@@ -43,7 +42,7 @@ ECode StringToIntegral::Decode(
     }
 
     *result = 0;
-    ALOGE("StringToIntegral::Decode() Value out of range for short: \"%s\"", string.string());
+    //ALOGE("StringToIntegral::Decode() Value out of range for short: \"%s\"", string.string());
     return E_NUMBER_FORMAT_EXCEPTION;
 }
 
@@ -72,7 +71,7 @@ ECode StringToIntegral::Parse(
     }
 
     *result = 0;
-    ALOGE("StringToIntegral::Parse() Value out of range for byte: \"%s\"", string.string());
+    //ALOGE("StringToIntegral::Parse() Value out of range for byte: \"%s\"", string.string());
     return E_NUMBER_FORMAT_EXCEPTION;
 }
 
@@ -101,7 +100,7 @@ ECode StringToIntegral::Parse(
     }
 
     *result = 0;
-    ALOGE("StringToIntegral::Parse() Value out of range for short: \"%s\"", string.string());
+    //ALOGE("StringToIntegral::Parse() Value out of range for short: \"%s\"", string.string());
     return E_NUMBER_FORMAT_EXCEPTION;
 }
 
@@ -302,7 +301,7 @@ ECode StringToIntegral::Parse(
     *result = 0;
 
     if (radix < Character::MIN_RADIX || radix > Character::MAX_RADIX) {
-        ALOGE("StringToIntegral::Decode() invalid radix %d for Int64: \"%s\"", radix, string.string());
+        //ALOGE("StringToIntegral::Decode() invalid radix %d for Int64: \"%s\"", radix, string.string());
         return E_NUMBER_FORMAT_EXCEPTION;
     }
     if (string.IsNull()) {

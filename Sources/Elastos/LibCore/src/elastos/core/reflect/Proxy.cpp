@@ -135,9 +135,9 @@ EXTERN_C void ProxyEntryFunc(void);
                 ".globl _ProxyEntryFunc;"          \
                 "_ProxyEntryFunc:"                 \
                 ".intel_syntax;"                   \
-                "push   esp;"                      \
-                "mov    eax, dword ptr [esp + 8];" \
-                "call   dword ptr [eax + 4];"      \
+                "push   %esp;"                      \
+                "mov    %eax, dword ptr [%esp + 8];" \
+                "call   dword ptr [%eax + 4];"      \
                 "ret    0x4;"                      \
                 ".att_syntax;"                     \
             )
@@ -150,9 +150,9 @@ EXTERN_C void ProxyEntryFunc(void);
 #       define DECL_SYS_PROXY_ENTRY() \
             __declspec( naked ) void ProxyEntryFunc() \
             {                                       \
-                __asm push esp                      \
-                __asm mov eax, dword ptr [esp + 8]  \
-                __asm call dword ptr [eax +4]       \
+                __asm push %esp                      \
+                __asm mov %eax, dword ptr [%esp + 8]  \
+                __asm call dword ptr [%eax +4]       \
                 __asm ret  0x4                      \
             }
         DECL_SYS_PROXY_ENTRY();

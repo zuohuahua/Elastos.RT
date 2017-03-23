@@ -30,6 +30,8 @@ INCLUDES += $(MAKEDIR)/../../../../inc/elastos/security/spec
 INCLUDES += $(MAKEDIR)/../../../../inc/elastos/utility
 INCLUDES += $(MAKEDIR)/../../../../inc/libcore/utility
 INCLUDES += $(MAKEDIR)/../../../../inc/src/elastos
+INCLUDES += $(MAKEDIR)/../../../../inc/org;
+INCLUDES += $(MAKEDIR)/../../../../inc/org/android_prebuilt;
 
 SOURCES =  CDESKeySpec.cpp
 SOURCES += CDESKeySpecHelper.cpp

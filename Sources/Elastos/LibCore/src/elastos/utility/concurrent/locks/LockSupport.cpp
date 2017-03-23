@@ -16,7 +16,6 @@
 
 #include "LockSupport.h"
 #include <Thread.h>
-#include <cutils/atomic.h>
 
 using Elastos::Core::Thread;
 
@@ -78,8 +77,10 @@ AutoPtr<IInterface> LockSupport::GetBlocker(
     }
     volatile int32_t* address = (volatile int32_t*) (&((Thread*)t)->mParkBlocker);
 
-    AutoPtr<IInterface> blocker = reinterpret_cast<IInterface*>(android_atomic_acquire_load(address));
+/*    AutoPtr<IInterface> blocker = reinterpret_cast<IInterface*>(android_atomic_acquire_load(address));
     return blocker;
+*/
+return NULL;
 }
 
 ECode LockSupport::Park()

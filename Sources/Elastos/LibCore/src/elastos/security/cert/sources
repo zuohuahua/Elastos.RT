@@ -31,6 +31,8 @@ INCLUDES += $(MAKEDIR)/../../../../inc/elastos/security/cert;
 INCLUDES += $(MAKEDIR)/../../../../inc/elastosx/security/auth/x500;
 INCLUDES += $(MAKEDIR)/../../../../inc/elastos/utility;
 INCLUDES += $(MAKEDIR)/../../../../inc/elastos/io;
+INCLUDES += $(MAKEDIR)/../../../../inc/org;
+INCLUDES += $(MAKEDIR)/../../../../inc/org/android_prebuilt;
 
 SOURCES += CRL.cpp
 SOURCES += CertPath.cpp

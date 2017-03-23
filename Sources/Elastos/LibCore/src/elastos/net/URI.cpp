@@ -21,7 +21,6 @@
 #include "UrlUtils.h"
 #include "StringBuilder.h"
 #include "StringUtils.h"
-#include <cutils/log.h>
 
 namespace Elastos {
 namespace Net {
@@ -339,14 +338,14 @@ ECode URI::ParseAuthority(
             ECode ec = StringUtils::Parse(temp.Substring(index + 1), &tempPort);
             if (ec == (ECode)E_NUMBER_FORMAT_EXCEPTION) {
                 if (forceServer) {
-                    ALOGE("%s Invalid port number %d", mAuthority.string(), hostIndex + index + 1);
+                    //ALOGE("%s Invalid port number %d", mAuthority.string(), hostIndex + index + 1);
                     return E_URI_SYNTAX_EXCEPTION;
                 }
                 return NOERROR;
             }
         } else {
             if (forceServer) {
-                ALOGE("%s Invalid port number %d", mAuthority.string(), hostIndex + index + 1);
+                //ALOGE("%s Invalid port number %d", mAuthority.string(), hostIndex + index + 1);
                 return E_URI_SYNTAX_EXCEPTION;
             }
             return NOERROR;

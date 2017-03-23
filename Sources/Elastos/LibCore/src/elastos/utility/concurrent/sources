@@ -31,6 +31,8 @@ INCLUDES += $(MAKEDIR)/../../../../inc/elastos/utility/concurrent;
 INCLUDES += $(MAKEDIR)/../../../../inc/elastos/utility/concurrent/atomic;
 INCLUDES += $(MAKEDIR)/../../../../inc/elastos/utility/concurrent/locks;
 INCLUDES += $(MAKEDIR)/../../../../inc/libcore/io;
+INCLUDES += $(MAKEDIR)/../../../../inc/org;
+INCLUDES += $(MAKEDIR)/../../../../inc/org/android_prebuilt;
 
 SOURCES += AbstractExecutorService.cpp
 SOURCES += CArrayBlockingQueue.cpp

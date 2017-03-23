@@ -15,6 +15,7 @@
 //=========================================================================
 
 #include "FileChannel.h"
+#include <limits.h>
 
 namespace Elastos {
 namespace IO {

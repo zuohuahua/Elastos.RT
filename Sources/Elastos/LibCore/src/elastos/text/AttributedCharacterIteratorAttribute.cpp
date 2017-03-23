@@ -17,7 +17,6 @@
 #include "StringBuilder.h"
 #include "AttributedCharacterIteratorAttribute.h"
 #include "CAttributedCharacterIteratorAttribute.h"
-#include <utils/Log.h>
 
 using Elastos::Core::StringBuilder;
 using Elastos::IO::EIID_ISerializable;
@@ -107,7 +106,7 @@ ECode AttributedCharacterIteratorAttribute::ReadResolve(
     ClassID clsid;
     GetClassID(&clsid);
     if (clsid != ECLSID_CAttributedCharacterIteratorAttribute) {
-        ALOGE("AttributedCharacterIteratorAttribute::ReadResolve: cannot resolve subclasses");
+        //ALOGE("AttributedCharacterIteratorAttribute::ReadResolve: cannot resolve subclasses");
         return E_INVALID_OBJECT_EXCEPTION;
     }
 
@@ -131,7 +130,7 @@ ECode AttributedCharacterIteratorAttribute::ReadResolve(
         return NOERROR;
     }
 
-    ALOGE("AttributedCharacterIteratorAttribute::ReadResolve: Unknown attribute");
+    //ALOGE("AttributedCharacterIteratorAttribute::ReadResolve: Unknown attribute");
     return E_INVALID_OBJECT_EXCEPTION;
 }
 

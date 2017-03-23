@@ -16,6 +16,7 @@
 
 #include "Atomic.h"
 
+#ifndef _x86
 int QuasiAtomicCas64(int64_t oldvalue, int64_t newvalue,
     volatile int64_t* addr)
 {
@@ -34,3 +35,4 @@ int QuasiAtomicCas64(int64_t oldvalue, int64_t newvalue,
     } while (__builtin_expect(status != 0, 0));
     return prev != oldvalue;
 }
+#endif

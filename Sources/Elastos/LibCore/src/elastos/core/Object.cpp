@@ -17,7 +17,6 @@
 #include "Object.h"
 #include "Thread.h"
 #include "ClassLoader.h"
-#include <utils/Log.h>
 
 using Elastos::Core::Thread;
 using Elastos::Core::IThread;
@@ -202,9 +201,10 @@ AutoPtr<IClassInfo> Object::GetClassInfo(
 {
     AutoPtr<IClassInfo> classInfo;
     _CObject_ReflectClassInfo(obj, (IClassInfo**)&classInfo);
+    /*
     if (classInfo == NULL) {
         if (DEBUG) ALOGD("error: failed to GetClassInfo with %s. It is not a Car class.", TO_CSTR(obj));
-    }
+    }*/
     return classInfo;
 }
 
@@ -216,10 +216,10 @@ AutoPtr<IClassLoader> Object::GetClassLoader(
     _CObject_ReflectClassInfo(obj, (IClassInfo**)&classInfo);
     if (classInfo) {
         classLoader = ClassLoader::GetClassLoader(classInfo);
-    }
+    } /*
     else {
         if (DEBUG) ALOGW("error: Object::GetClassLoader failed to GetClassLoader with %s. It is not a Car class.", TO_CSTR(obj));
-    }
+    } */
     return classLoader;
 }
 
@@ -232,9 +232,10 @@ String Object::GetClassName(
     if (classInfo != NULL) {
         classInfo->GetName(&className);
     }
+    /*
     else {
         if (DEBUG) ALOGD("error: failed to GetClassName with %s. It is not a Car class.", TO_CSTR(obj));
-    }
+    }*/
     return className;
 }
 
@@ -249,10 +250,10 @@ String Object::GetFullClassName(
         classInfo->GetName(&className);
         classInfo->GetNamespace(&ns);
         fullClassName = ns + String(".") + className;
-    }
+    } /*
     else {
         if (DEBUG) ALOGD("error: failed to GetFullClassName with %s. It is not a Car class.", TO_CSTR(obj));
-    }
+    } */
     return fullClassName;
 }
 
@@ -264,10 +265,10 @@ String Object::GetNamespace(
     String ns;
     if (classInfo != NULL) {
         classInfo->GetNamespace(&ns);
-    }
+    } /*
     else {
         if (DEBUG) ALOGD("error: failed to GetNamespace with %s. It is not a Car class.", TO_CSTR(obj));
-    }
+    } */
     return ns;
 }
 
@@ -286,10 +287,10 @@ String Object::GetModulePath(
     String path;
     if (moduleInfo != NULL) {
         moduleInfo->GetPath(&path);
-    }
+    } /*
     else {
         if (DEBUG) ALOGD("error: failed to GetModulePath with %s. It is not a Car class.", TO_CSTR(obj));
-    }
+    } */
     return path;
 }
 

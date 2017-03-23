@@ -20,6 +20,7 @@
 #include <elastos/core/Object.h>
 #include <elastos/core/Math.h>
 #include <elastos/utility/ComparableTimSort.h>
+#include <cutils/log.h>
 
 using Elastos::Core::IComparator;
 using Elastos::Core::IComparable;

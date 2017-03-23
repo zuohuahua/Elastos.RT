@@ -29,13 +29,11 @@
 #include "droid/system/Os.h"
 
 #include <stdlib.h>
-#include <cutils/log.h>
 #include <unistd.h>
 #include <sys/utsname.h>
+#include <sys/time.h>
 #include "openssl/opensslv.h"
 #include "zlib.h"
-
-#include <cutils/properties.h>
 
 using Elastos::Core::CString;
 using Elastos::Core::ICharSequence;
@@ -66,6 +64,7 @@ namespace Core {
  */
 static void ReadLocale(String* language, String* region)
 {
+#if 0
     char propLang[PROPERTY_VALUE_MAX], propRegn[PROPERTY_VALUE_MAX];
 
     property_get("persist.sys.language", propLang, "");
@@ -78,6 +77,7 @@ static void ReadLocale(String* language, String* region)
     *language = propLang;
     *region = propRegn;
     // ALOGD("language=%s region=%s\n", language.string(), region.string());
+#endif
 }
 
 INIT_PROI_2 String CSystem::sLineSeparator;
@@ -265,7 +265,7 @@ String CSystem::GetEnvByName(
     /* [in] */ const String& name)
 {
     if (name.IsNull()) {
-        ALOGD("Failed to CSystem::GetEnv(), name == null!");
+        //ALOGD("Failed to CSystem::GetEnv(), name == null!");
         return String(NULL);
     }
 
@@ -432,7 +432,7 @@ ECode CSystem::GetProperty(
     *value = String(NULL);
 
     if (prop.IsNullOrEmpty()) {
-        ALOGD("Failed to GetProperty! parameter prop is null or empty!");
+        //ALOGD("Failed to GetProperty! parameter prop is null or empty!");
         return E_ILLEGAL_ARGUMENT_EXCEPTION;
     }
 
@@ -454,7 +454,7 @@ ECode CSystem::SetProperty(
     *oldValue = String(NULL);
 
     if (prop.IsNullOrEmpty()) {
-        ALOGD("Failed to SetProperty! parameter prop is null or empty!");
+        //ALOGD("Failed to SetProperty! parameter prop is null or empty!");
         return E_ILLEGAL_ARGUMENT_EXCEPTION;
     }
 
@@ -472,7 +472,7 @@ ECode CSystem::ClearProperty(
     *value = String(NULL);
 
     if (key.IsNullOrEmpty()) {
-        ALOGD("Failed to ClearProperty! parameter key is null or empty!");
+        //ALOGD("Failed to ClearProperty! parameter key is null or empty!");
         return E_ILLEGAL_ARGUMENT_EXCEPTION;
     }
 
@@ -589,7 +589,7 @@ ECode CSystem::GetInstructionSet(
 
     HashMap<String, String>::Iterator it = ABI_TO_INSTRUCTION_SET_MAP->Find(abi);
     if (it == ABI_TO_INSTRUCTION_SET_MAP->End()) {
-        ALOGE("Unsupported ABI: %s", abi.string());
+        //ALOGE("Unsupported ABI: %s", abi.string());
         return E_ILLEGAL_ARGUMENT_EXCEPTION;
     }
 

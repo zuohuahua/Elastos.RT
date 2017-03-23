@@ -20,7 +20,6 @@
 #include "CLocale.h"
 #include "CSimpleDateFormat.h"
 #include "CParsePosition.h"
-#include <cutils/log.h>
 
 using Elastos::Core::StringUtils;
 using Elastos::Utility::IDate;
@@ -383,8 +382,8 @@ ECode CTimestamp::ValueOf(
 ECode CTimestamp::BadTimestampString(
     /* [in] */ const String& s)
 {
-    ALOGE("E_ILLEGAL_ARGUMENT_EXCEPTION: Timestamp format must be "
-        "yyyy-MM-dd HH:mm:ss.fffffffff; was '%s'", s.string());
+    //ALOGE("E_ILLEGAL_ARGUMENT_EXCEPTION: Timestamp format must be "
+    //    "yyyy-MM-dd HH:mm:ss.fffffffff; was '%s'", s.string());
     return E_ILLEGAL_ARGUMENT_EXCEPTION;
 }
 

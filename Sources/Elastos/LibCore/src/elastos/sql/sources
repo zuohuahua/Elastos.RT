@@ -35,6 +35,8 @@ INCLUDES += $(MAKEDIR)/../../../inc/elastos/utility
 INCLUDES += $(MAKEDIR)/../../../inc/elastos/utility/regex
 INCLUDES += $(MAKEDIR)/../../../inc/elastos/sql/sqlite
 INCLUDES += $(MAKEDIR)/../../../inc/elastos/sql/sqlite/jdbc
+INCLUDES += $(MAKEDIR)/../../../inc/org;
+INCLUDES += $(MAKEDIR)/../../../inc/org/android_prebuilt;
 
 SOURCES += CDriverPropertyInfo.cpp
 SOURCES += CSqlDate.cpp
@@ -45,4 +47,4 @@ SOURCES += CSQLWarning.cpp
 SOURCES += CDriverManager.cpp
 SOURCES += CTime.cpp
 
-ELASTOS_LIBS += sqlite/sqlite.lib
+#ELASTOS_LIBS += sqlite/sqlite.lib

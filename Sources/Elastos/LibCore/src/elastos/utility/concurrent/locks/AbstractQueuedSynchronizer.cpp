@@ -19,7 +19,6 @@
 #include "LockSupport.h"
 #include "CSystem.h"
 #include <Thread.h>
-#include <cutils/atomic.h>
 #include <StringUtils.h>
 
 using Elastos::Core::Thread;
@@ -443,7 +442,7 @@ Boolean AbstractQueuedSynchronizer::CompareAndSetState(
     volatile int32_t* address = (volatile int32_t*)&mState;
 
     // Note: android_atomic_release_cas() returns 0 on success, not failure.
-    int ret = android_atomic_release_cas(expect, update, address);
+    int ret = __sync_bool_compare_and_swap(address, expect, update);
 
     return (ret == 0);
 }
@@ -850,8 +849,7 @@ Boolean AbstractQueuedSynchronizer::CompareAndSetHead(
     int32_t* address = (int32_t*)&mHead;
 
     // Note: android_atomic_cmpxchg() returns 0 on success, not failure.
-    int result = android_atomic_release_cas((int32_t)NULL,
-            (int32_t)update, address);
+    int result = __sync_bool_compare_and_swap(address, (int32_t)NULL, (int32_t)update);
     // dvmWriteBarrierField(obj, address);
     if (result == 0) REFCOUNT_ADD(mHead);
     return result == 0;
@@ -864,8 +862,7 @@ Boolean AbstractQueuedSynchronizer::CompareAndSetTail(
     int32_t* address = (int32_t*)&mTail;
 
     // Note: android_atomic_cmpxchg() returns 0 on success, not failure.
-    int result = android_atomic_release_cas((int32_t)expect,
-            (int32_t)update, address);
+    int result = __sync_bool_compare_and_swap(address, (int32_t)expect, (int32_t)update);
     // dvmWriteBarrierField(obj, address);
     if (result == 0) {
         if (expect != NULL) expect->Release();
@@ -882,7 +879,7 @@ Boolean AbstractQueuedSynchronizer::CompareAndSetWaitStatus(
     int32_t* address = (int32_t*)&node->mWaitStatus;
 
     // Note: android_atomic_cmpxchg() returns 0 on success, not failure.
-    int result = android_atomic_release_cas(expect, update, address);
+    int result = __sync_bool_compare_and_swap(address, expect, update);
 
     return result == 0;
 }
@@ -895,8 +892,7 @@ Boolean AbstractQueuedSynchronizer::CompareAndSetNext(
     int32_t* address = (int32_t*)&node->mNext;
 
     // Note: android_atomic_cmpxchg() returns 0 on success, not failure.
-    int result = android_atomic_release_cas((int32_t)expect,
-            (int32_t)update, address);
+    int result = __sync_bool_compare_and_swap(address, (int32_t)expect, (int32_t)update);
     // dvmWriteBarrierField(obj, address);
     if (result == 0) {
         if (expect != NULL) expect->Release();

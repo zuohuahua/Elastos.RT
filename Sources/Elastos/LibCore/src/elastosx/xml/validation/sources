@@ -35,6 +35,8 @@ INCLUDES += $(MAKEDIR)/../../../../inc/elastosx/xml/parsers
 INCLUDES += $(MAKEDIR)/../../../../inc/elastosx/xml/transform
 INCLUDES += $(MAKEDIR)/../../../../inc/elastosx/xml/validation
 INCLUDES += $(MAKEDIR)/../../../../inc/org/xml/sax
+INCLUDES += $(MAKEDIR)/../../../../inc/org;
+INCLUDES += $(MAKEDIR)/../../../../inc/org/android_prebuilt;
 
 SOURCES = Schema.cpp
 SOURCES += SchemaFactory.cpp

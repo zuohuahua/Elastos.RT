@@ -30,6 +30,8 @@ INCLUDES += $(MAKEDIR)/../../../../../../inc/elastos/security
 INCLUDES += $(MAKEDIR)/../../../../../../inc/org/apache/harmony/security
 INCLUDES += $(MAKEDIR)/../../../../../../inc/org/apache/harmony/security/asn1
 INCLUDES += $(MAKEDIR)/../../../../../../inc/org/apache/harmony/security/utils
+INCLUDES += $(MAKEDIR)/../../../../../../inc/org;
+INCLUDES += $(MAKEDIR)/../../../../../../inc/org/android_prebuilt;
 
 SOURCES = AlgNameMapper.cpp
 SOURCES += CAlgNameMapperHelper.cpp

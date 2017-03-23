@@ -37,7 +37,6 @@
 #include <elastos/utility/logging/Logger.h>
 
 #include <errno.h>
-#include <asm/signal.h>
 
 using Elastos::Core::Mutex;
 using Elastos::Utility::Logging::Logger;
@@ -54,6 +53,7 @@ using Elastos::Utility::Logging::Logger;
 static Mutex sBlockedThreadListMutex;
 static AsynchronousCloseMonitor* sBlockedThreadList = NULL;
 
+#if 0
 /**
  * The specific signal chosen here is arbitrary, but bionic needs to know so that SIGRTMIN
  * starts at a higher value.
@@ -63,6 +63,7 @@ static const int BLOCKED_THREAD_SIGNAL = SIGUSR2;
 #else
 static const int BLOCKED_THREAD_SIGNAL = __SIGRTMIN + 2;
 #endif
+#endif
 
 static void BlockedThreadSignalHandler(int /*signal*/)
 {
@@ -71,6 +72,7 @@ static void BlockedThreadSignalHandler(int /*signal*/)
 
 void AsynchronousCloseMonitor::Init()
 {
+#if 0
     // Ensure that the signal we send interrupts system calls but doesn't kill threads.
     // Using sigaction(2) lets us ensure that the SA_RESTART flag is not set.
     // (The whole reason we're sending this signal is to unblock system calls!)
@@ -82,6 +84,7 @@ void AsynchronousCloseMonitor::Init()
     if (rc == -1) {
         Logger::E(LOG_TAG, "setting blocked thread signal handler failed: %s", strerror(errno));
     }
+#endif
 }
 
 void AsynchronousCloseMonitor::SignalBlockedThreads(
@@ -91,7 +94,7 @@ void AsynchronousCloseMonitor::SignalBlockedThreads(
     for (AsynchronousCloseMonitor* it = sBlockedThreadList; it != NULL; it = it->mNext) {
         if (it->mFd == fd) {
             it->mSignaled = TRUE;
-            pthread_kill(it->mThread, BLOCKED_THREAD_SIGNAL);
+//            pthread_kill(it->mThread, BLOCKED_THREAD_SIGNAL);
             // Keep going, because there may be more than one thread...
         }
     }

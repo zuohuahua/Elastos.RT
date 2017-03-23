@@ -29,7 +29,7 @@ INCLUDES += $(MAKEDIR)/../../../inc/elastos;
 INCLUDES += $(MAKEDIR)/../../../inc/elastos/core;
 INCLUDES += $(MAKEDIR)/../../../inc/elastos/utility;
 INCLUDES += $(MAKEDIR)/../../../inc/org;
-INCLUDES += $(MAKEDIR)/../../../inc/org/misc;
+INCLUDES += $(MAKEDIR)/../../../inc/org/android_prebuilt;
 
 SOURCES = BasicLruCache.cpp
 SOURCES += CBasicLruCache.cpp

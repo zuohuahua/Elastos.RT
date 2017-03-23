@@ -25,7 +25,6 @@
 #include "CLibcore.h"
 #include "IoBridge.h"
 #include "OsConstants.h"
-#include <cutils/log.h>
 
 #include <elastos/core/AutoLock.h>
 using Elastos::Core::AutoLock;
@@ -85,7 +84,7 @@ ECode DatagramSocket::constructor(
     if (localAddr != NULL) {
         IInetSocketAddress* netSocketAddr = IInetSocketAddress::Probe(localAddr);
         if (netSocketAddr == NULL) {
-            ALOGD("Error in DatagramSocket: Local address not an InetSocketAddress!");
+            //ALOGD("Error in DatagramSocket: Local address not an InetSocketAddress!");
             return E_ILLEGAL_ARGUMENT_EXCEPTION;
         }
 
@@ -105,7 +104,7 @@ ECode DatagramSocket::constructor(
         ECode ec = Bind(localAddr);
         if (FAILED(ec)) {
             Close();
-            ALOGD("Error in DatagramSocket: failed to bind socket!");
+            //ALOGD("Error in DatagramSocket: failed to bind socket!");
             return ec;
         }
         // } catch (SocketException e) {
@@ -188,7 +187,7 @@ ECode DatagramSocket::CreateSocket(
         ECode ec = mImpl->Bind(aPort, addr);
         if (FAILED(ec)) {
             Close();
-            ALOGD("Error in DatagramSocket: failed to create socket!");
+            //ALOGD("Error in DatagramSocket: failed to create socket!");
             return ec;
         }
         mIsBound = TRUE;
@@ -305,7 +304,7 @@ ECode DatagramSocket::Receive(
         FAIL_RETURN(CheckOpen());
         FAIL_RETURN(EnsureBound());
         if (pack == NULL) {
-            ALOGD("Error in DatagramSocket: pack == null!");
+            //ALOGD("Error in DatagramSocket: pack == null!");
             return E_NULL_POINTER_EXCEPTION;
         }
         if (FAILED(mPendingConnectException)) {
@@ -333,7 +332,7 @@ ECode DatagramSocket::Send(
             IObject* o = (IObject*)mAddress->Probe(EIID_IObject);
             o->Equals(packAddr, &flag);
             if (!flag || mPort != port) {
-                ALOGD("Error in DatagramSocket: Packet address mismatch with connected address!");
+                //ALOGD("Error in DatagramSocket: Packet address mismatch with connected address!");
                 return E_ILLEGAL_ARGUMENT_EXCEPTION;
             }
         }
@@ -355,7 +354,7 @@ ECode DatagramSocket::SetNetworkInterface(
     /* [in] */ INetworkInterface* netInterface)
 {
     if (netInterface == NULL) {
-        ALOGD("Error in DatagramSocket: netInterface == null!");
+        //ALOGD("Error in DatagramSocket: netInterface == null!");
         return E_NULL_POINTER_EXCEPTION;
     }
     //try {
@@ -379,7 +378,7 @@ ECode DatagramSocket::SetSendBufferSize(
 {
     {    AutoLock syncLock(this);
         if (size < 1) {
-            ALOGD("Error in DatagramSocket: send buffer size < 1!");
+            //ALOGD("Error in DatagramSocket: send buffer size < 1!");
             return E_ILLEGAL_ARGUMENT_EXCEPTION;
         }
         FAIL_RETURN(CheckOpen());
@@ -396,7 +395,7 @@ ECode DatagramSocket::SetReceiveBufferSize(
 {
     {    AutoLock syncLock(this);
         if (size < 1) {
-            ALOGD("Error in DatagramSocket: receive buffer size < 1!");
+            //ALOGD("Error in DatagramSocket: receive buffer size < 1!");
             return E_ILLEGAL_ARGUMENT_EXCEPTION;
         }
         FAIL_RETURN(CheckOpen());
@@ -413,7 +412,7 @@ ECode DatagramSocket::SetSoTimeout(
 {
     {    AutoLock syncLock(this);
         if (timeout < 0) {
-            ALOGD("Error in DatagramSocket: timeout < 0!");
+            //ALOGD("Error in DatagramSocket: timeout < 0!");
             return E_ILLEGAL_ARGUMENT_EXCEPTION;
         }
         FAIL_RETURN(CheckOpen());
@@ -430,7 +429,7 @@ ECode DatagramSocket::SetDatagramSocketImplFactory(
 {
     {    AutoLock syncLock(sLock);
         if (mFactory != NULL) {
-            ALOGD("Error in DatagramSocket: Factory already set!");
+            //ALOGD("Error in DatagramSocket: Factory already set!");
             return E_SOCKET_EXCEPTION;
         }
         mFactory = fac;
@@ -442,7 +441,7 @@ ECode DatagramSocket::CheckOpen()
 {
     Boolean isClosed = FALSE;
     if (IsClosed(&isClosed), isClosed) {
-        ALOGD("Error in DatagramSocket: Socket is closed!");
+        //ALOGD("Error in DatagramSocket: Socket is closed!");
         return E_SOCKET_EXCEPTION;
     }
     return NOERROR;
@@ -467,7 +466,7 @@ ECode DatagramSocket::Bind(
     if (localAddr != NULL) {
         IInetSocketAddress* inetAddr = IInetSocketAddress::Probe(localAddr);
         if (inetAddr == NULL) {
-            ALOGD("Error in DatagramSocket: Socket is closedLocal address not an InetSocketAddress!");
+            //ALOGD("Error in DatagramSocket: Socket is closedLocal address not an InetSocketAddress!");
             return E_ILLEGAL_ARGUMENT_EXCEPTION;
         }
 
@@ -476,7 +475,7 @@ ECode DatagramSocket::Bind(
         if (addr == NULL) {
             String hostName;
             inetAddr->GetHostName(&hostName);
-            ALOGD("Error in DatagramSocket: Host is unresolved: %s!", hostName.string());
+            //ALOGD("Error in DatagramSocket: Host is unresolved: %s!", hostName.string());
             return E_SOCKET_EXCEPTION;
         }
         inetAddr->GetPort(&localPort);
@@ -499,13 +498,13 @@ ECode DatagramSocket::Connect(
     /* [in] */ ISocketAddress* peer)
 {
     if (peer == NULL) {
-        ALOGD("Error in DatagramSocket: remoteAddr == null!");
+        //ALOGD("Error in DatagramSocket: remoteAddr == null!");
         return E_ILLEGAL_ARGUMENT_EXCEPTION;
     }
 
     IInetSocketAddress* isa = IInetSocketAddress::Probe(peer);
     if (isa == NULL) {
-        ALOGD("Error in DatagramSocket: Remote address not an InetSocketAddress!");
+        //ALOGD("Error in DatagramSocket: Remote address not an InetSocketAddress!");
         return E_ILLEGAL_ARGUMENT_EXCEPTION;
     }
 
@@ -514,7 +513,7 @@ ECode DatagramSocket::Connect(
     if (addr == NULL) {
         String hostName;
         isa->GetHostName(&hostName);
-        ALOGD("Error in DatagramSocket: Host is unresolved: %s!", hostName.string());
+        //ALOGD("Error in DatagramSocket: Host is unresolved: %s!", hostName.string());
         return E_SOCKET_EXCEPTION;
     }
 
@@ -549,7 +548,7 @@ ECode DatagramSocket::Connect(
     /* [in] */ Int32 port)
 {
     if (address == NULL) {
-        ALOGD("Error in DatagramSocket: failed to connect, address == null!");
+        //ALOGD("Error in DatagramSocket: failed to connect, address == null!");
         return E_ILLEGAL_ARGUMENT_EXCEPTION;
     }
     // try {

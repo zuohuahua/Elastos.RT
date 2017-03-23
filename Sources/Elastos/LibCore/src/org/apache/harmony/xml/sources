@@ -24,6 +24,8 @@ include $(MAKEDIR)/../../../../sources.inc
 INCLUDES += ../../../../corelibrary
 INCLUDES += $(MAKEDIR)/../../../../../inc
 #INCLUDES += $(MAKEDIR)/../../../../../inc/org/apache/harmony/crypto/internal
+INCLUDES += $(MAKEDIR)/../../../../../inc/org;
+INCLUDES += $(MAKEDIR)/../../../../../inc/org/android_prebuilt;
 
 SOURCES = CExpatReader.cpp
 SOURCES += ExpatAttributes.cpp

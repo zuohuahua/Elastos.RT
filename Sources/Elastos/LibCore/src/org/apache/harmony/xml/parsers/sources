@@ -24,6 +24,8 @@ include $(MAKEDIR)/../../../../../sources.inc
 INCLUDES += ../../../../../corelibrary
 INCLUDES += $(MAKEDIR)/../../../../../../inc
 INCLUDES += $(MAKEDIR)/../../../../../../inc/elastos/core
+INCLUDES += $(MAKEDIR)/../../../../../../inc/org;
+INCLUDES += $(MAKEDIR)/../../../../../../inc/org/android_prebuilt;
 
 SOURCES = CDocumentBuilderFactoryImpl.cpp
 SOURCES += CSAXParserFactoryImpl.cpp

@@ -29,7 +29,7 @@
 #include "StringUtils.h"
 #include "CString.h"
 #include "Collections.h"
-#include <ustrenum.h>
+//#include <ustrenum.h>
 
 #include <unicode/ucat.h>
 #include <unicode/ureslocs.h>
@@ -736,9 +736,11 @@ ECode ICUUtil::GetAvailableCurrencyCodes(
     VALIDATE_NOT_NULL(codes)
     *codes = NULL;
 
+#if 0
     UErrorCode status = U_ZERO_ERROR;
     UStringEnumeration e(ucurr_openISOCurrencies(UCURR_COMMON|UCURR_NON_DEPRECATED, &status));
     return fromStringEnumeration(status, "ucurr_openISOCurrencies", &e, codes);
+#endif
 }
 
 // TODO: rewrite this with int32_t ucurr_forLocale(const char* locale, UChar* buff, int32_t buffCapacity, UErrorCode* ec)...
