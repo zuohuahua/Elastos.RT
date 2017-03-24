@@ -32,6 +32,7 @@
 #include <unistd.h>
 #include <sys/utsname.h>
 #include <sys/time.h>
+#include <linux/limits.h>
 #include "openssl/opensslv.h"
 #include "zlib.h"
 
