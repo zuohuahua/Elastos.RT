@@ -19,7 +19,7 @@
 #include <stdio.h>
 #include <elastos.h>
 #include <clsinfo.h>
-#include <cutils/log.h>
+//#include <cutils/log.h>
 
 _ELASTOS_NAMESPACE_USING
 
@@ -36,11 +36,13 @@ static pthread_mutex_t sModuleInfoLock;
 #if defined(_DEBUG) || defined(_MARSHAL_DEBUG)
 int _DumpGUID(REIID riid)
 {
+/*
     ALOGD("%08X-%04X-%04X-%02X%02X-%02X%02X%02X%02X%02X%02X\n",
         riid.mData1, riid.mData2, riid.mData3,
         riid.mData4[0], riid.mData4[1], riid.mData4[2],
         riid.mData4[3], riid.mData4[4], riid.mData4[5],
         riid.mData4[6], riid.mData4[7]);
+*/
     return printf("%08X-%04X-%04X-%02X%02X-%02X%02X%02X%02X%02X%02X\n",
         riid.mData1, riid.mData2, riid.mData3,
         riid.mData4[0], riid.mData4[1], riid.mData4[2],
@@ -51,7 +53,7 @@ int _DumpGUID(REIID riid)
 int _DumpCLSID(RClassID rclsid)
 {
     _DumpGUID((REIID)rclsid);
-    ALOGD("%s\n", rclsid.mUunm);
+//    ALOGD("%s\n", rclsid.mUunm);
     return printf("%s\n", rclsid.mUunm);
 }
 #endif // _DEBUG || _MARSHAL_DEBUG
@@ -297,7 +299,7 @@ ELAPI ECO_PUBLIC RegisterModuleInfo(
     ECode ec = RegisterModuleInfo(modInfo);
     if (FAILED(ec)) {
 #if defined(_DEBUG) || defined(_MARSHAL_DEBUG)
-        ALOGD("Failed to RegisterModuleInfo in %s", moduleName.string());
+        //ALOGD("Failed to RegisterModuleInfo in %s", moduleName.string());
 #endif
     }
     return ec;
@@ -330,7 +332,7 @@ ECode AcquireClassInfo(
     if (FAILED(ec)) {
 #if defined(_DEBUG) || defined(_MARSHAL_DEBUG)
         _DumpCLSID(classId);
-        ALOGD("Failed to RegisterModuleInfo in %s", classId.mUunm);
+        //ALOGD("Failed to RegisterModuleInfo in %s", classId.mUunm);
 #endif
         return ec;
     }
@@ -339,7 +341,7 @@ ECode AcquireClassInfo(
     if (FAILED(ec)) {
 #if defined(_DEBUG) || defined(_MARSHAL_DEBUG)
         _DumpCLSID(classId);
-        ALOGD("Failed to LookupModuleInfo in %s", classId.mUunm);
+        //ALOGD("Failed to LookupModuleInfo in %s", classId.mUunm);
 #endif
         return ec;
     }
@@ -353,7 +355,7 @@ ECode AcquireClassInfo(
 
 #if defined(_DEBUG) || defined(_MARSHAL_DEBUG)
     _DumpCLSID(classId);
-    ALOGD("Failed to AcquireClassInfo in %s", classId.mUunm);
+    //ALOGD("Failed to AcquireClassInfo in %s", classId.mUunm);
 #endif
     return E_DOES_NOT_EXIST;
 }

@@ -15,7 +15,7 @@
 #=========================================================================
 
 DIRS = reflection
-#DIRS += marshal
+DIRS += marshal
 DIRS += libusr
 DIRS += carapi
 #DIRS += elapi

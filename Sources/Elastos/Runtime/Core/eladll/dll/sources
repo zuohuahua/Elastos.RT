@@ -38,6 +38,8 @@ ELASTOS_LIBS += ../../carapi/carapi.lib
 ELASTOS_LIBS += ../../reflection/reflection.lib
 ELASTOS_LIBS += ../../../Library/clsmodule/clsinfo.lib
 
+ELASTOS_LIBS += ../../marshal/marshalcomm.lib
+
 ifeq "$(XDK_TARGET_PLATFORM)" "win32"
 #ELASTOS_LIBS += ../../elapi/elapi.lib
 #ELASTOS_LIBS += ../../marshal/others/marshal.lib

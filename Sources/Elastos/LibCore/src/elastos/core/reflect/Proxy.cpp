@@ -132,8 +132,8 @@ EXTERN_C void ProxyEntryFunc(void);
             __asm__(                               \
                 ".text;"                           \
                 ".align 4;"                        \
-                ".globl _ProxyEntryFunc;"          \
-                "_ProxyEntryFunc:"                 \
+                ".globl ProxyEntryFunc;"          \
+                "ProxyEntryFunc:"                 \
                 ".intel_syntax;"                   \
                 "push   %esp;"                      \
                 "mov    %eax, dword ptr [%esp + 8];" \
@@ -193,7 +193,8 @@ DECL_PROXY_ENTRY();
 
 static void DUMP_GUID(REIID riid)
 {
-    Logger::D("Proxy", "%08X-%04X-%04X-%02X%02X-%02X%02X%02X%02X%02X%02X\n",
+    //Logger::D
+    printf("Proxy", "%08X-%04X-%04X-%02X%02X-%02X%02X%02X%02X%02X%02X\n",
         riid.mData1, riid.mData2, riid.mData3,
         riid.mData4[0], riid.mData4[1], riid.mData4[2],
         riid.mData4[3], riid.mData4[4], riid.mData4[5],
@@ -208,7 +209,7 @@ void InitProxyEntry()
             PROT_READ | PROT_WRITE | PROT_EXEC,
             MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
     if (s_proxyEntryAddress == 0) {
-        Logger::E("Proxy", "out of memory.\n");
+        //Logger::E("Proxy", "out of memory.\n");
         return;
     }
 
@@ -385,7 +386,7 @@ ECode CInterfaceProxy::PackingArguments(
                     args++;
                     break;
                 default:
-                    Logger::E("Proxy", "MshProc: Invalid [in] type(%d), param index: %d.\n", type, n);
+                    //Logger::E("Proxy", "MshProc: Invalid [in] type(%d), param index: %d.\n", type, n);
                     assert(0);
                     return E_INVALID_ARGUMENT;
             }
@@ -437,7 +438,7 @@ ECode CInterfaceProxy::PackingArguments(
                 // CarDataType_CppVector   = 17,
                 // CarDataType_Struct      = 18,
                 default:
-                    Logger::E("Proxy", "MshProc: Invalid [out] type(%d), param index: %d.\n", type, n);
+                    //Logger::E("Proxy", "MshProc: Invalid [out] type(%d), param index: %d.\n", type, n);
                     assert(0);
                     return E_INVALID_ARGUMENT;
             }
@@ -471,7 +472,7 @@ ECode CInterfaceProxy::ProxyEntry(
     args++; // skip this
 
     if (DEBUG) {
-        Logger::D("Proxy", "*args = %x, args = %x, \niid: ", *args, (UInt32)args);
+        //Logger::D("Proxy", "*args = %x, args = %x, \niid: ", *args, (UInt32)args);
         DUMP_GUID(thisPtr->mInfo->mIID);
     }
 
@@ -490,7 +491,7 @@ ECode CInterfaceProxy::ProxyEntry(
     argNum = thisPtr->CountMethodArgs(methodIndex);
 
     if (DEBUG) {
-        Logger::D("Proxy", "Method index(%d), args size(%d)\n", methodIndex + 4, argNum * 4);
+        //Logger::D("Proxy", "Method index(%d), args size(%d)\n", methodIndex + 4, argNum * 4);
     }
 #endif
 
@@ -525,7 +526,7 @@ ECode CInterfaceProxy::ProxyEntry(
 
 ProxyExit:
     if (DEBUG) {
-        Logger::D("Proxy", "Exit proxy: ec(%x)\n", ec);
+        //Logger::D("Proxy", "Exit proxy: ec(%x)\n", ec);
     }
 
 #ifndef _mips
@@ -609,7 +610,7 @@ PInterface CObjectProxy::Probe(REIID riid)
     }
 
     if (TRUE) {
-        Logger::D("CObjectProxy", "Probe: QI failed, iid: \n");
+        //Logger::D("CObjectProxy", "Probe: QI failed, iid: \n");
         DUMP_GUID(riid);
     }
 
@@ -840,7 +841,7 @@ ECode CObjectProxy::S_CreateObject(
         (*interfaceInfos)[n]->GetId(&iid);
         ec = LookupInterfaceInfo(iid, &(interfaces[n].mInfo));
         if (FAILED(ec)) {
-            Logger::E("CObjectProxy::S_CreateObject", "Failed to LookupInterfaceInfo ec=%08x for:");
+            //Logger::E("CObjectProxy::S_CreateObject", "Failed to LookupInterfaceInfo ec=%08x for:");
             DUMP_GUID(iid);
             return ec;
         }

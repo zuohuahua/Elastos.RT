@@ -16,13 +16,44 @@
 
 #include "StrictMath.h"
 #include "Math.h"
+#ifndef ANDROID
+#include <math.h>
+#else
 #include <fdlibm.h>
+#endif
 
 namespace Elastos {
 namespace Core {
 
 const Double StrictMath::E                        = 2.718281828459045;
 const Double StrictMath::PI                       = 3.141592653589793;
+
+#ifndef ANDROID
+#define ieee_acos       acos
+#define ieee_asin       asin
+#define ieee_atan       atan
+#define ieee_atan2      atan2
+#define ieee_cbrt       cbrt
+#define ieee_ceil       ceil
+#define ieee_cos        cos
+#define ieee_cosh       cosh
+#define ieee_exp        exp
+#define ieee_expm1      expm1
+#define ieee_floor      floor
+#define ieee_hypot      hypot
+#define ieee_remainder  remainder
+#define ieee_log        log
+#define ieee_log10      log10
+#define ieee_log1p      log1p
+#define ieee_pow        pow
+#define ieee_rint       rint
+#define ieee_sin        sin
+#define ieee_sinh       sinh
+#define ieee_sqrt       sqrt
+#define ieee_tan        tan
+#define ieee_tanh       tanh
+#define ieee_nextafter  nextafter
+#endif
 
 Double StrictMath::Abs(
     /* [in] */ Double d)
@@ -51,7 +82,8 @@ Int64 StrictMath::Abs(
 Double StrictMath::Acos(
     /* [in] */ Double d)
 {
-    return ieee_acos(d);
+//    return ieee_acos(d);
+        return ieee_acos(d);
 }
 
 Double StrictMath::Asin(

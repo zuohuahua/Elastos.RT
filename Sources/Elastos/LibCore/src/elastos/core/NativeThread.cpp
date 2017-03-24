@@ -1277,8 +1277,9 @@ ECode NativeAttachCurrentThread(
      * provides values for priority and daemon (which are normally inherited
      * from the current thread).
      */
-    ec = CThread::NewByFriend(reinterpret_cast<IThreadGroup*>(args->mGroup),
-            threadNameStr, os_getThreadPriorityFromSystem(), isDaemon, (CThread**)&threadObj);
+    ec = NOERROR;
+//    ec = CThread::NewByFriend(reinterpret_cast<IThreadGroup*>(args->mGroup),
+//            threadNameStr, os_getThreadPriorityFromSystem(), isDaemon, (CThread**)&threadObj);
     if (FAILED(ec)) {
     //     LOGE("exception thrown while constructing attached thread object\n");
         goto fail_unlink;
@@ -1496,7 +1497,7 @@ void NativeDetachCurrentThread()
      * parallel with us from here out.  It's important to do this if
      * profiling is enabled, since we can wait indefinitely.
      */
-    android_atomic_release_store(NTHREAD_VMWAIT, (int32_t*)&self->mStatus);
+//    android_atomic_release_store(NTHREAD_VMWAIT, (int32_t*)&self->mStatus);
 
     /*
      * If we're doing method trace profiling, we don't want threads to exit,
@@ -1683,7 +1684,7 @@ NativeThreadStatus NativeChangeStatus(
          * on SMP and slightly more correct, but less convenient.
          */
         assert(oldStatus != NTHREAD_RUNNING);
-        android_atomic_acquire_store(newStatus, (int32_t*)&self->mStatus);
+//        android_atomic_acquire_store(newStatus, (int32_t*)&self->mStatus);
         if (self->mSuspendCount != 0) {
             FullSuspendCheck(self);
         }
@@ -1697,7 +1698,7 @@ NativeThreadStatus NativeChangeStatus(
          * will be observed before the state change.
          */
         assert(newStatus != NTHREAD_SUSPENDED);
-        android_atomic_release_store(newStatus, (int32_t*)&self->mStatus);
+//        android_atomic_release_store(newStatus, (int32_t*)&self->mStatus);
     }
 
     return oldStatus;
@@ -1784,6 +1785,7 @@ void NativeChangeThreadPriority(
     }
     newNice = kNiceValues[newPriority - 1];
 
+/*
     if (newNice >= ELASTOS_PRIORITY_BACKGROUND) {
         set_sched_policy(NativeGetSysThreadId(), SP_BACKGROUND);
     }
@@ -1800,6 +1802,7 @@ void NativeChangeThreadPriority(
         // LOGV("setPriority(%d) to prio=%d(n=%d)\n",
         //     pid, newPriority, newNice);
     }
+*/
 }
 
 Int32 NativeGetCount()
@@ -1834,8 +1837,9 @@ static Monitor* NativeCreateMonitor(
     /* replace the head of the list with the new monitor */
     do {
         mon->mNext = gCore.mMonitorList;
-    } while (android_atomic_release_cas((int32_t)mon->mNext, (int32_t)mon,
-           (int32_t*)(void*)&gCore.mMonitorList) != 0);
+    } while (__sync_bool_compare_and_swap((int32_t*)(void*)&gCore.mMonitorList, (int32_t)mon->mNext, (int32_t)mon) != 0);
+    //} while (android_atomic_release_cas((int32_t)mon->mNext, (int32_t)mon,
+    //           (int32_t*)(void*)&gCore.mMonitorList) != 0);
 
     return mon;
 }
@@ -2342,7 +2346,7 @@ static void InflateMonitor(
     thin &= LW_HASH_STATE_MASK << LW_HASH_STATE_SHIFT;
     thin |= (UInt32)mon | LW_SHAPE_FAT;
     /* Publish the updated lock word. */
-    android_atomic_release_store(thin, (int32_t *)&obj->mLock);
+//    android_atomic_release_store(thin, (int32_t *)&obj->mLock);
 }
 
 NativeObject* NativeCreateObject()
@@ -2411,8 +2415,9 @@ retry:
              * will have tried this before calling out to the VM.
              */
             newThin = thin | (threadId << LW_LOCK_OWNER_SHIFT);
-            if (android_atomic_acquire_cas(thin, newThin,
-                    (int32_t*)thinp) != 0) {
+            if (__sync_bool_compare_and_swap((int32_t*)thinp, thin, newThin) != 0) {
+            //if (android_atomic_acquire_cas(thin, newThin,
+            //        (int32_t*)thinp) != 0) {
                 /*
                  * The acquire failed.  Try again.
                  */
@@ -2445,8 +2450,9 @@ retry:
                          * owner field.
                          */
                         newThin = thin | (threadId << LW_LOCK_OWNER_SHIFT);
-                        if (android_atomic_acquire_cas(thin, newThin,
-                                (int32_t *)thinp) == 0) {
+                        //if (android_atomic_acquire_cas(thin, newThin,
+                        //        (int32_t *)thinp) == 0) {
+                        if (__sync_bool_compare_and_swap((int32_t *)thinp, thin, newThin) == 0) {
                             /*
                              * The acquire succeed.  Break out of the
                              * loop and proceed to inflate the lock.
