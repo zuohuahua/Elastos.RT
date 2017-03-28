@@ -18,30 +18,30 @@ module
 {
     submodule Elastos.CoreLibrary.Core {
     merge("../../car/elastos/core.car");
-    merge("../../car/elastos/math.car");
+//    merge("../../car/elastos/math.car");
 //    merge("../../car/elastos/system.car");
     }
 
-    submodule Elastos.CoreLibrary.Utility {
-    merge("../../car/elastos/utility.car");
-    }
+//    submodule Elastos.CoreLibrary.Utility {
+//    merge("../../car/elastos/utility.car");
+//    }
 
-/*
-    submodule Elastos.CoreLibrary.Utility {
-    merge("../../car/elastos/utility2.car");
-    }
 
-    submodule Elastos.CoreLibrary.IO {
-    merge("../../car/elastos/io2.car");
-    }
+//    submodule Elastos.CoreLibrary.Utility {
+//    merge("../../car/elastos/utility2.car");
+//    }
+
+//    submodule Elastos.CoreLibrary.IO {
+//    merge("../../car/elastos/io2.car");
+//    }
 
 //    submodule Elastos.CoreLibrary.Security {
 //    merge("../../car/elastos/security.car");
 //    }
 
-    submodule Elastos.CoreLibrary.IO {
-    merge("../../car/elastos/io.car");
-    }
+//    submodule Elastos.CoreLibrary.IO {
+//    merge("../../car/elastos/io.car");
+//    }
 
 //    submodule Elastos.CoreLibrary.Net {
 //    merge("../../car/elastos/net.car");
@@ -51,9 +51,9 @@ module
 //    merge("../../car/elastos/text.car");
 //    }
 
-    submodule Elastos.CoreLibrary.Utility {
-    merge("../../car/elastos/utility.car");
-    }
+//    submodule Elastos.CoreLibrary.Utility {
+//    merge("../../car/elastos/utility.car");
+//    }
 
 //    submodule Elastos.CoreLibrary.Utility.Concurrent {
 //    merge("../../car/elastos/utility.concurrent.car");
@@ -67,12 +67,12 @@ module
 //    merge("../../car/elastos/sql.car");
 //    }
 
-    submodule Elastos.CoreLibrary.Libcore {
+//    submodule Elastos.CoreLibrary.Libcore {
 //    merge("../../car/libcore/icu.car");
-    merge("../../car/libcore/io.car");
-    merge("../../car/libcore/utility.car");
+//    merge("../../car/libcore/io.car");
+//    merge("../../car/libcore/utility.car");
 //    merge("../../car/libcore/net.car");
-    }
+//    }
 
     submodule Elastos.CoreLibrary.Extensions {
     merge("../../car/elastosx/Exceptions.car");
@@ -94,5 +94,5 @@ module
 //    submodule Elastos.CoreLibrary.Apache {
 //    merge("../../car/org/apache.car");
 //    }
-*/
+
 }

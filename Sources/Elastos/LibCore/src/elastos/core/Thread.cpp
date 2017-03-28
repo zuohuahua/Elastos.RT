@@ -18,13 +18,40 @@
 #include "ThreadGroup.h"
 #include "Math.h"
 #include "AutoLock.h"
-#include "CSystem.h"
+// #include "CSystem.h"
+#include <sys/time.h>
 
-#include "elastos/utility/CArrayList.h"
-using Elastos::Utility::CArrayList;
+// #include "elastos/utility/CArrayList.h"
+// using Elastos::Utility::CArrayList;
 
 namespace Elastos {
 namespace Core {
+
+static ECode GetCurrentTimeMillis(
+    /* [out] */ Int64* value)
+{
+    VALIDATE_NOT_NULL(value);
+
+    // we don't support the clocks here.
+    struct timeval t;
+    t.tv_sec = t.tv_usec = 0;
+    gettimeofday(&t, NULL);
+    *value = ((Int64)t.tv_sec * 1000 + (Int64)t.tv_usec / 1000.0);
+    return NOERROR;
+}
+
+static ECode GetNanoTime(
+    /* [out] */ Int64* value)
+{
+    VALIDATE_NOT_NULL(value);
+
+    struct timespec ts;
+
+    ts.tv_sec = ts.tv_nsec = 0;
+    clock_gettime(CLOCK_MONOTONIC, &ts);
+    *value = (Int64)ts.tv_sec*1000000000LL + ts.tv_nsec;
+    return NOERROR;
+}
 
 const Int32 Thread::ParkState::UNPARKED;
 const Int32 Thread::ParkState::PREEMPTIVELY_UNPARKED;
@@ -59,7 +86,7 @@ Thread::Thread()
 #if defined(_DEBUG)
     mIsConstructed = FALSE;
 #endif
-    CArrayList::New((IList**)&mInterruptActions);
+    //RT-TODO CArrayList::New((IList**)&mInterruptActions);
 }
 
 Thread::~Thread()
@@ -249,9 +276,9 @@ ECode Thread::CheckAccess()
     // Forwards the message to the SecurityManager (if there's one) passing
     // the receiver as parameter
 
-    AutoPtr<CSystem> cs;
-    CSystem::AcquireSingletonByFriend((CSystem**)&cs);
-    AutoPtr<ISystem> system = (ISystem*)cs.Get();
+    // AutoPtr<CSystem> cs;
+    // CSystem::AcquireSingletonByFriend((CSystem**)&cs);
+    // AutoPtr<ISystem> system = (ISystem*)cs.Get();
 
     // SecurityManager currentManager = System.getSecurityManager();
     // if (currentManager != null) {
@@ -442,14 +469,15 @@ ECode Thread::Interrupt()
     // will see that this thread is in the interrupted state.
     NativeInterrupt();
 
-    AutoLock lock(mInterruptActions);
-    Int32 size;
-    mInterruptActions->GetSize(&size);
-    for (Int32 i = size - 1; i >= 0; i--) {
-        AutoPtr<IInterface> item;
-        mInterruptActions->Get(i, (IInterface**)&item);
-        IRunnable::Probe(item)->Run();
-    }
+    //RT-TODO
+    // AutoLock lock(mInterruptActions);
+    // Int32 size;
+    // mInterruptActions->GetSize(&size);
+    // for (Int32 i = size - 1; i >= 0; i--) {
+    //     AutoPtr<IInterface> item;
+    //     mInterruptActions->Get(i, (IInterface**)&item);
+    //     IRunnable::Probe(item)->Run();
+    // }
 
     return NOERROR;
 }
@@ -565,23 +593,19 @@ ECode Thread::Join(
         return NOERROR;
     }
 
-    AutoPtr<CSystem> cs;
-    CSystem::AcquireSingletonByFriend((CSystem**)&cs);
-    AutoPtr<ISystem> system = (ISystem*)cs.Get();
-
 //     // guaranteed not to overflow
     Int64 nanosToWait = millis * NANOS_PER_MILLI + nanos;
 
     // wait until this thread completes or the timeout has elapsed
     Int64 start, nanosElapsed, nanosRemaining;
-    system->GetNanoTime(&start);
+    GetNanoTime(&start);
     while (TRUE) {
         Wait(millis, nanos);
         IsAlive(&isAlive);
         if (!isAlive) {
             break;
         }
-        system->GetNanoTime(&nanosElapsed);
+        GetNanoTime(&nanosElapsed);
         nanosElapsed -= start;
         nanosRemaining = nanosToWait - nanosElapsed;
         if (nanosRemaining <= 0) {
@@ -758,9 +782,9 @@ ECode Thread::Start()
 
 ECode Thread::Stop()
 {
-    AutoPtr<CSystem> cs;
-    CSystem::AcquireSingletonByFriend((CSystem**)&cs);
-    AutoPtr<ISystem> system = (ISystem*)cs.Get();
+    // AutoPtr<CSystem> cs;
+    // CSystem::AcquireSingletonByFriend((CSystem**)&cs);
+    // AutoPtr<ISystem> system = (ISystem*)cs.Get();
 
     // SecurityManager securityManager = System.getSecurityManager();
     // if (securityManager != null) {
@@ -944,13 +968,8 @@ ECode Thread::ParkUntil(
          * spuriously return for any reason, and this situation
          * can safely be construed as just such a spurious return.
          */
-
-        AutoPtr<CSystem> cs;
-        CSystem::AcquireSingletonByFriend((CSystem**)&cs);
-        AutoPtr<ISystem> system = (ISystem*)cs.Get();
-
         Int64 delayMillis;
-        system->GetCurrentTimeMillis(&delayMillis);
+        GetCurrentTimeMillis(&delayMillis);
         delayMillis = time - delayMillis;
 
         if (delayMillis <= 0) {
@@ -1107,8 +1126,9 @@ ECode Thread::PushInterruptAction(
     /* [in] */ IRunnable* interruptAction)
 {
     {
-        AutoLock syncLock(mInterruptActions);
-        mInterruptActions->Add(interruptAction);
+        //RT-TODO
+        // AutoLock syncLock(mInterruptActions);
+        // mInterruptActions->Add(interruptAction);
     }
 
     Boolean isflag = FALSE;
@@ -1121,15 +1141,16 @@ ECode Thread::PushInterruptAction(
 ECode Thread::PopInterruptAction(
     /* [in] */ IRunnable* interruptAction)
 {
-    AutoLock syncLock(mInterruptActions);
-    Int32 size = 0;
-    mInterruptActions->GetSize(&size);
-    AutoPtr<IInterface> removed;
-    mInterruptActions->Remove(size - 1, (IInterface**)&removed);
-    if (interruptAction != IRunnable::Probe(removed)) {
-        //ALOGE("Expected %s but was %s", TO_CSTR(interruptAction), TO_CSTR(removed));
-        return E_ILLEGAL_ARGUMENT_EXCEPTION;
-    }
+    //RT-TODO
+    // AutoLock syncLock(mInterruptActions);
+    // Int32 size = 0;
+    // mInterruptActions->GetSize(&size);
+    // AutoPtr<IInterface> removed;
+    // mInterruptActions->Remove(size - 1, (IInterface**)&removed);
+    // if (interruptAction != IRunnable::Probe(removed)) {
+    //     //ALOGE("Expected %s but was %s", TO_CSTR(interruptAction), TO_CSTR(removed));
+    //     return E_ILLEGAL_ARGUMENT_EXCEPTION;
+    // }
 
     return NOERROR;
 }

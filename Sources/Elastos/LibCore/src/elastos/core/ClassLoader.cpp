@@ -19,10 +19,10 @@
 #include "Globals.h"
 #include "StringUtils.h"
 #include "StringBuilder.h"
-#include "io/CFile.h"
+// #include "io/CFile.h"
 
-using Elastos::IO::CFile;
-using Elastos::IO::IFile;
+// using Elastos::IO::CFile;
+// using Elastos::IO::IFile;
 
 ELAPI RegisterModuleInfo(
     /* [in] */ const String& moduleName);

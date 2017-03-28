@@ -19,8 +19,6 @@
 
 #include <elastos/core/AbstractStringBuilder.h>
 
-using Elastos::IO::ISerializable;
-
 namespace Elastos {
 namespace Core {
 

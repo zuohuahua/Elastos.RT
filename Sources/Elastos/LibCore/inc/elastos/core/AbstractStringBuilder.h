@@ -19,7 +19,7 @@
 
 #include <elastos/core/Object.h>
 
-using Elastos::IO::ISerializable;
+// using Elastos::IO::ISerializable;
 
 namespace Elastos {
 namespace Core {
@@ -37,7 +37,7 @@ namespace Core {
 class AbstractStringBuilder
     : public Object
     , public IAppendable
-    , public ISerializable
+    // , public ISerializable
     , public ICharSequence
 {
 public:
