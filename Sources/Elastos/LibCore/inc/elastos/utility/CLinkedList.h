@@ -21,9 +21,9 @@
 #include "AbstractSequentialList.h"
 
 using Elastos::Core::ICloneable;
-using Elastos::IO::IObjectInputStream;
-using Elastos::IO::IObjectOutputStream;
-using Elastos::IO::ISerializable;
+//using Elastos::IO::IObjectInputStream;
+//using Elastos::IO::IObjectOutputStream;
+//using Elastos::IO::ISerializable;
 
 namespace Elastos {
 namespace Utility {
@@ -34,7 +34,7 @@ CarClass(CLinkedList)
     , public IDeque
     , public IQueue
     , public ICloneable
-    , public ISerializable
+//    , public ISerializable
 {
 private:
     class Link
@@ -387,11 +387,11 @@ private:
     CARAPI PeekFirstImpl(
         /* [out] */ IInterface** object);
 
-    CARAPI WriteObject(
-        /* [in] */ IObjectOutputStream* stream);
+//    CARAPI WriteObject(
+//        /* [in] */ IObjectOutputStream* stream);
 
-    CARAPI ReadObject(
-        /* [in] */ IObjectInputStream* stream);
+//    CARAPI ReadObject(
+//        /* [in] */ IObjectInputStream* stream);
 
 public:
     Int32 mSize;

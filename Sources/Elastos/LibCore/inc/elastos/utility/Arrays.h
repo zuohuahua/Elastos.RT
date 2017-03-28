@@ -32,7 +32,7 @@ using Elastos::Core::IComparable;
 using Elastos::Core::StringBuilder;
 using Elastos::Core::IArrayOf;
 // using Elastos::IO::ISerializable;
-using Elastos::Utility::Logging::Logger;
+//using Elastos::Utility::Logging::Logger;
 
 namespace Elastos {
 namespace Utility {
@@ -819,7 +819,7 @@ ECode Arrays::BinarySearch(
 
     ECode ec = CheckBinarySearchBounds(startIndex, endIndex, array->GetLength());
     if (FAILED(ec)) {
-        Logger::E("Arrays", "BinarySearch: error %08x, startIndex: %d, endIndex: %d, array length: %d",
+        printf("Arrays", "BinarySearch: error %08x, startIndex: %d, endIndex: %d, array length: %d",
             ec, startIndex, endIndex, array->GetLength());
         return ec;
     }
@@ -897,7 +897,7 @@ ECode Arrays::BinarySearch(
 
     ECode ec = CheckBinarySearchBounds(startIndex, endIndex, array->GetLength());
     if (FAILED(ec)) {
-        Logger::E("Arrays", "BinarySearch: error %08x, startIndex: %d, endIndex: %d, array length: %d",
+        printf("Arrays", "BinarySearch: error %08x, startIndex: %d, endIndex: %d, array length: %d",
             ec, startIndex, endIndex, array->GetLength());
         return ec;
     }
@@ -910,7 +910,7 @@ ECode Arrays::BinarySearch(
         mid = (UInt32(lo + hi)) >> 1;
         comp = IComparable::Probe((*array)[mid]);
         if (comp == NULL) {
-            Logger::E("Arrays", "BinarySearch: object at %d does not implement IComparable.", mid);
+            printf("Arrays", "BinarySearch: object at %d does not implement IComparable.", mid);
         }
         assert(comp != NULL);
         comp->CompareTo(TO_IINTERFACE(value), &midValCmp);
@@ -1650,13 +1650,13 @@ ECode Arrays::CopyOfRange(
     VALIDATE_NOT_NULL(original)
 
     if (start > end) {
-        Logger::E("Arrays", "CopyOfRange: error, E_ILLEGAL_ARGUMENT_EXCEPTION, start %d, end %d", start, end);
+        printf("Arrays", "CopyOfRange: error, E_ILLEGAL_ARGUMENT_EXCEPTION, start %d, end %d", start, end);
         return E_ILLEGAL_ARGUMENT_EXCEPTION;
     }
 
     Int32 originalLength = original->GetLength();
     if (start < 0 || start > originalLength) {
-        Logger::E("Arrays", "CopyOfRange: error, E_ARRAY_INDEX_OUT_OF_BOUNDS_EXCEPTION, start %d, originalLength %d",
+        printf("Arrays", "CopyOfRange: error, E_ARRAY_INDEX_OUT_OF_BOUNDS_EXCEPTION, start %d, originalLength %d",
             start, originalLength);
         return E_ARRAY_INDEX_OUT_OF_BOUNDS_EXCEPTION;
     }
@@ -1677,7 +1677,7 @@ ECode Arrays::CopyOf(
     /* [out, callee] */ ArrayOf<T> ** result)
 {
     if (newLength < 0) {
-        Logger::E("Arrays", "CopyOf: error, E_NAGATIVE_ARRAY_SIZE_EXCEPTION, newLength %d", newLength);
+        printf("Arrays", "CopyOf: error, E_NAGATIVE_ARRAY_SIZE_EXCEPTION, newLength %d", newLength);
         return E_NAGATIVE_ARRAY_SIZE_EXCEPTION;
     }
 
@@ -1716,13 +1716,13 @@ ECode Arrays::CopyOfRange(
     VALIDATE_NOT_NULL(original)
 
     if (start > end) {
-        Logger::E("Arrays", "CopyOfRange: error, E_ILLEGAL_ARGUMENT_EXCEPTION, start %d, end %d", start, end);
+        printf("Arrays", "CopyOfRange: error, E_ILLEGAL_ARGUMENT_EXCEPTION, start %d, end %d", start, end);
         return E_ILLEGAL_ARGUMENT_EXCEPTION;
     }
 
     Int32 originalLength = original->GetLength();
     if (start < 0 || start > originalLength) {
-        Logger::E("Arrays", "CopyOfRange: error, E_ARRAY_INDEX_OUT_OF_BOUNDS_EXCEPTION, start %d, originalLength %d",
+        printf("Arrays", "CopyOfRange: error, E_ARRAY_INDEX_OUT_OF_BOUNDS_EXCEPTION, start %d, originalLength %d",
             start, originalLength);
         return E_ARRAY_INDEX_OUT_OF_BOUNDS_EXCEPTION;
     }
@@ -1746,7 +1746,7 @@ ECode Arrays::CopyOf(
     /* [out, callee] */ ArrayOf<U> ** result)
 {
     if (newLength < 0) {
-        Logger::E("Arrays", "CopyOf: error, E_NAGATIVE_ARRAY_SIZE_EXCEPTION, newLength %d", newLength);
+        printf("Arrays", "CopyOf: error, E_NAGATIVE_ARRAY_SIZE_EXCEPTION, newLength %d", newLength);
         return E_NAGATIVE_ARRAY_SIZE_EXCEPTION;
     }
 

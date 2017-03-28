@@ -17,14 +17,14 @@
 #ifndef __ELASTOS_UTILITY_CBITSET_H__
 #define __ELASTOS_UTILITY_CBITSET_H__
 
-#include "_Elastos_Utility_CBitSet.h"
+//#include "_Elastos_Utility_CBitSet.h"
 #include "Object.h"
 
 using Elastos::Core::ICloneable;
 using Elastos::Core::Object;
 using Elastos::IO::IInt64Buffer;
 using Elastos::IO::IByteBuffer;
-using Elastos::IO::ISerializable;
+//using Elastos::IO::ISerializable;
 
 namespace Elastos {
 namespace Utility {
@@ -32,7 +32,7 @@ namespace Utility {
 CarClass(CBitSet)
     , public Object
     , public IBitSet
-    , public ISerializable
+//    , public ISerializable
     , public ICloneable
 {
 public:

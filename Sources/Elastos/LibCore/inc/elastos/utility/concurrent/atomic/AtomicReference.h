@@ -17,11 +17,11 @@
 #ifndef __ELASTOS_UTILITY_CONCURRENT_ATOMIC_ELASTOS_UTILITY_ATOMICREFERENCE_H__
 #define __ELASTOS_UTILITY_CONCURRENT_ATOMIC_ELASTOS_UTILITY_ATOMICREFERENCE_H__
 
-#include "Elastos.CoreLibrary.Utility.Concurrent.h"
+//#include "Elastos.CoreLibrary.Utility.Concurrent.h"
 #include "Object.h"
 
 using Elastos::Core::Object;
-using Elastos::IO::ISerializable;
+//using Elastos::IO::ISerializable;
 
 namespace Elastos {
 namespace Utility {
@@ -31,7 +31,7 @@ namespace Atomic {
 class AtomicReference
     : public Object
     , public IAtomicReference
-    , public ISerializable
+//    , public ISerializable
 {
 public:
     CAR_INTERFACE_DECL()

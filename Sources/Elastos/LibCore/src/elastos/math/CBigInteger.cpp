@@ -81,6 +81,7 @@ ECode CBigInteger::constructor(
     return NOERROR;
 }
 
+#if 0
 ECode CBigInteger::constructor(
     /* [in] */ Int32 numBits,
     /* [in] */ IRandom* random)
@@ -144,6 +145,7 @@ ECode CBigInteger::constructor(
 
     return NOERROR;
 }
+#endif
 
 Boolean CBigInteger::IsSmallPrime(
     /* [in] */ Int32 x)
@@ -1075,6 +1077,7 @@ ECode CBigInteger::NextProbablePrime(
     return Primality::NextProbablePrime(this, result);
 }
 
+#if 0
 ECode CBigInteger::ProbablePrime(
     /* [in] */ Int32 bitLength,
     /* [in] */ IRandom* random,
@@ -1084,6 +1087,7 @@ ECode CBigInteger::ProbablePrime(
 
     return CBigInteger::New(bitLength, 100, random, result);
 }
+#endif
 
 ECode CBigInteger::TwosComplement(
     /* [out, callee] */ ArrayOf<Byte>** bytes)

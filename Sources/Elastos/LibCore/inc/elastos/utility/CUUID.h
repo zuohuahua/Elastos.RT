@@ -21,9 +21,9 @@
 #include "Object.h"
 
 using Elastos::Core::IComparable;
-using Elastos::IO::ISerializable;
-using Elastos::IO::IObjectInputStream;
-using Elastos::Security::ISecureRandom;
+// using Elastos::IO::ISerializable;
+// using Elastos::IO::IObjectInputStream;
+// using Elastos::Security::ISecureRandom;
 
 namespace Elastos {
 namespace Utility {
@@ -32,7 +32,7 @@ CarClass(CUUID)
     , public Object
     , public IUUID
     , public IComparable
-    , public ISerializable
+    // , public ISerializable
 {
 public:
     CAR_INTERFACE_DECL()
@@ -199,11 +199,11 @@ private:
         /* [in] */ ArrayOf<Byte>* hash,
         /* [in] */ Int32 version);
 
-    CARAPI ReadObject(
-        /* [in] */ IObjectInputStream* in);
+    // CARAPI ReadObject(
+    //      [in]  IObjectInputStream* in);
 
 private:
-    static AutoPtr<ISecureRandom> sRng;
+//    static AutoPtr<ISecureRandom> sRng;
     static Object sRngLock;
 
     Int64 mMostSigBits;

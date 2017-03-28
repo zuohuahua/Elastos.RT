@@ -14,12 +14,12 @@
 // limitations under the License.
 //=========================================================================
 
-#include "Elastos.CoreLibrary.IO.h"
+//#include "Elastos.CoreLibrary.IO.h"
 #include "Collections.h"
 #include "CBoolean.h"
 #include "Arrays.h"
 #include "CArrayList.h"
-#include "CRandom.h"
+//#include "CRandom.h"
 #include "AutoLock.h"
 
 #include <elastos/core/AutoLock.h>
@@ -28,11 +28,12 @@ using Elastos::Core::IComparable;
 using Elastos::Core::IBoolean;
 using Elastos::Core::CBoolean;
 using Elastos::Core::EIID_IComparator;
-using Elastos::Utility::CRandom;
+//using Elastos::Utility::CRandom;
 using Elastos::Utility::Arrays;
 using Elastos::Utility::IArrayList;
 using Elastos::Utility::CArrayList;
-using Elastos::IO::EIID_ISerializable;
+//using Elastos::IO::EIID_ISerializable;
+#define E_NO_SUCH_ELEMENT_EXCEPTION     0xAB000000
 
 namespace Elastos {
 namespace Utility {

@@ -38,12 +38,12 @@ INCLUDES += $(MAKEDIR)/../../../inc/org;
 INCLUDES += $(MAKEDIR)/../../../inc/org/android_prebuilt;
 
 SOURCES += core.cpp
-SOURCES += Thread.cpp
-SOURCES += NativeThread.cpp
+#SOURCES += Thread.cpp
+#SOURCES += NativeThread.cpp
 SOURCES += Object.cpp
-SOURCES += Singleton.cpp
-SOURCES += Runnable.cpp
-SOURCES += ClassLoader.cpp
+#SOURCES += Singleton.cpp
+#SOURCES += Runnable.cpp
+#SOURCES += ClassLoader.cpp
 
 SOURCES += exportext.cpp
 SOURCES += CString.cpp
@@ -59,17 +59,17 @@ SOURCES += CArrayOf.cpp
 SOURCES += CThrowable.cpp
 SOURCES += Init.cpp
 
-SOURCES += ThreadGroup.cpp
-SOURCES += CThread.cpp
-SOURCES += CThreadGroup.cpp
-SOURCES += CPathClassLoader.cpp
+#SOURCES += ThreadGroup.cpp
+#SOURCES += CThread.cpp
+#SOURCES += CThreadGroup.cpp
+#SOURCES += CPathClassLoader.cpp
 SOURCES += Os.cpp
-SOURCES += BlockGuard.cpp
-SOURCES += CBlockGuard.cpp
-SOURCES += CCloseGuard.cpp
-SOURCES += CCloseGuardHelper.cpp
+#SOURCES += BlockGuard.cpp
+#SOURCES += CBlockGuard.cpp
+#SOURCES += CCloseGuard.cpp
+#SOURCES += CCloseGuardHelper.cpp
 SOURCES += Enum.cpp
-SOURCES += CSystem.cpp
+#SOURCES += CSystem.cpp
 
 SOURCES += Math.cpp
 SOURCES += StrictMath.cpp
@@ -85,6 +85,6 @@ SOURCES += Character.cpp
 SOURCES += AbstractStringBuilder.cpp
 SOURCES += StringBuffer.cpp
 SOURCES += StringBuilder.cpp
-SOURCES += CaseMapper.cpp
+#SOURCES += CaseMapper.cpp
 
-ELASTOS_LIBS += reflect/reflect.lib
+#ELASTOS_LIBS += reflect/reflect.lib

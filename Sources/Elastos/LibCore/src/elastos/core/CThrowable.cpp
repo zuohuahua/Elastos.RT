@@ -14,11 +14,11 @@
 // limitations under the License.
 //=========================================================================
 
-#include "Elastos.CoreLibrary.IO.h"
+//#include "Elastos.CoreLibrary.IO.h"
 #include "CThrowable.h"
 #include "Collections.h"
 #include "EmptyArray.h"
-#include "CSystem.h"
+//#include "CSystem.h"
 #include "CoreUtils.h"
 #include "CArrayList.h"
 #include "Arrays.h"
@@ -178,11 +178,13 @@ ECode CThrowable::SetStackTrace(
 
 ECode CThrowable::PrintStackTrace()
 {
+/*
     AutoPtr<Elastos::Core::ISystem> system;
     Elastos::Core::CSystem::AcquireSingleton((Elastos::Core::ISystem**)&system);
     AutoPtr<IPrintStream> err;
     system->GetErr((IPrintStream**)&err);
     return PrintStackTrace(err);
+*/
 }
 
 Int32 CThrowable::CountDuplicates(
@@ -221,6 +223,7 @@ AutoPtr<ArrayOf<IStackTraceElement*> > CThrowable::GetInternalStackTrace()
     }
 }
 
+#if 0
 ECode CThrowable::PrintStackTrace(
     /* [in] */ IPrintStream* err)
 {
@@ -299,6 +302,7 @@ ECode CThrowable::PrintStackTrace(
     }
     return NOERROR;
 }
+#endif
 
 ECode CThrowable::ToString(
     /* [out] */ String * info)

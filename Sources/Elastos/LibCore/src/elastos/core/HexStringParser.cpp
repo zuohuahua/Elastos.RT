@@ -20,13 +20,13 @@
 #include "StringBuilder.h"
 #include "StringToIntegral.h"
 #include "StringUtils.h"
-#include "CPatternHelper.h"
+//#include "CPatternHelper.h"
 
 using Elastos::Core::Math;
-using Elastos::Utility::Regex::IMatcher;
-using Elastos::Utility::Regex::IMatchResult;
-using Elastos::Utility::Regex::IPatternHelper;
-using Elastos::Utility::Regex::CPatternHelper;
+//using Elastos::Utility::Regex::IMatcher;
+//using Elastos::Utility::Regex::IMatchResult;
+//using Elastos::Utility::Regex::IPatternHelper;
+//using Elastos::Utility::Regex::CPatternHelper;
 
 namespace Elastos {
 namespace Core {
@@ -41,6 +41,7 @@ static String InitHEX_PATTERN()
     return sb.ToString();
 }
 
+#if 0
 static AutoPtr<IPattern> InitPATTERN()
 {
     AutoPtr<IPattern> pattern;
@@ -49,6 +50,7 @@ static AutoPtr<IPattern> InitPATTERN()
     helper->Compile(InitHEX_PATTERN(), (IPattern**)&pattern);
     return pattern;
 }
+#endif
 
 const Int32 HexStringParser::DOUBLE_EXPONENT_WIDTH = 11;
 const Int32 HexStringParser::DOUBLE_MANTISSA_WIDTH = 52;
@@ -62,7 +64,7 @@ const String HexStringParser::BINARY_EXPONENT = String("[pP]([+-]?\\d+)");
 const String HexStringParser::FLOAT_TYPE_SUFFIX = String("[fFdD]?");
 const String HexStringParser::HEX_PATTERN = InitHEX_PATTERN();
 
-AutoPtr<IPattern> HexStringParser::PATTERN = NULL;
+//AutoPtr<IPattern> HexStringParser::PATTERN = NULL;
 
 HexStringParser::HexStringParser(
     /* [in] */ Int32 exponentWidth,
@@ -129,10 +131,12 @@ ECode HexStringParser::Parse(
     /* [in] */ Boolean isDouble,
     /* [out] */ Int64* result)
 {
+#if 0
     if (result == NULL) {
         return E_ILLEGAL_ARGUMENT_EXCEPTION;
     }
     *result = 0;
+
 
     if (PATTERN == NULL) {
         PATTERN = InitPATTERN();
@@ -140,6 +144,7 @@ ECode HexStringParser::Parse(
 
     AutoPtr<IMatcher> matcher;
     PATTERN->Matcher(hexString, (IMatcher**)&matcher);
+
     Boolean matches;
     matcher->Matches(&matches);
     if (!matches) {
@@ -162,6 +167,7 @@ ECode HexStringParser::Parse(
     mSign <<= (MANTISSA_WIDTH + EXPONENT_WIDTH);
     mExponent <<= MANTISSA_WIDTH;
     *result = mSign | mExponent | mMantissa;
+#endif
     return NOERROR;
 }
 

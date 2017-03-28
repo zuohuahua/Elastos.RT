@@ -17,9 +17,9 @@
 #include <elastos/core/Math.h>
 #include <math.h>
 #include <stdlib.h>
-#include "CRandom.h"
+//#include "CRandom.h"
 
-using Elastos::Utility::CRandom;
+//using Elastos::Utility::CRandom;
 
 namespace Elastos {
 namespace Core {
@@ -117,7 +117,7 @@ AutoPtr< ArrayOf<Int64> > Math::INIT_LONG_POWERS_OF_TEN()
     return array;
 }
 
-AutoPtr<IRandom> Math::sRandom;
+//AutoPtr<IRandom> Math::sRandom;
 
 /*
  * These match the definitions in the VM specification.
@@ -517,12 +517,13 @@ Double Math::Tanh(
 
 Double Math::Random()
 {
+/*
     if (NULL == sRandom) {
         CRandom::New((IRandom**)&sRandom);
     }
-
+*/
     Double d;
-    sRandom->NextDouble(&d);
+//    sRandom->NextDouble(&d);
     return d;
 }
 

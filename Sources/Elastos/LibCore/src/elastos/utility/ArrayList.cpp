@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "Elastos.CoreLibrary.IO.h"
+//#include "Elastos.CoreLibrary.IO.h"
 #include "ArrayList.h"
 #include "CArrayList.h"
 #include "CArrayListIterator.h"
@@ -22,10 +22,11 @@
 
 using Elastos::Core::EIID_ICloneable;
 using Elastos::Core::StringBuilder;
-using Elastos::IO::IObjectOutputStreamPutField;
-using Elastos::IO::EIID_ISerializable;
-using Elastos::IO::IOutputStream;
-using Elastos::IO::IInputStream;
+// using Elastos::IO::IObjectOutputStreamPutField;
+// using Elastos::IO::EIID_ISerializable;
+// using Elastos::IO::IOutputStream;
+// using Elastos::IO::IInputStream;
+#define E_NO_SUCH_ELEMENT_EXCEPTION     0xAB000000
 
 namespace Elastos {
 namespace Utility {
@@ -35,7 +36,7 @@ namespace Utility {
 // ArrayList::ArrayListIterator
 //====================================================================
 
-CAR_INTERFACE_IMPL_4(ArrayList, AbstractList, IArrayList, ICloneable, ISerializable, IRandomAccess)
+CAR_INTERFACE_IMPL_3(ArrayList, AbstractList, IArrayList, ICloneable, IRandomAccess)
 
 CAR_INTERFACE_IMPL(ArrayList::ArrayListIterator, Object, IIterator)
 
@@ -651,6 +652,7 @@ ECode ArrayList::Equals(
     return NOERROR;
 }
 
+#if 0
 ECode ArrayList::WriteObject(
     /* [in] */ IObjectOutputStream* stream)
 {
@@ -684,6 +686,7 @@ ECode ArrayList::ReadObject(
     }
     return NOERROR;
 }
+#endif
 
 ECode ArrayList::ContainsAll(
     /* [in] */ ICollection* collection,

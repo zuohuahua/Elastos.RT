@@ -21,10 +21,10 @@
 #include "elastos/core/Object.h"
 
 using Elastos::Core::ICloneable;
-using Elastos::IO::ISerializable;
-using Elastos::IO::IObjectInputStream;
-using Elastos::IO::IObjectOutputStream;
-using Elastos::IO::IObjectStreamField;
+//using Elastos::IO::ISerializable;
+//using Elastos::IO::IObjectInputStream;
+//using Elastos::IO::IObjectOutputStream;
+//using Elastos::IO::IObjectStreamField;
 
 namespace Elastos {
 namespace Utility {
@@ -33,7 +33,7 @@ class ECO_PUBLIC HashMap
     : public AbstractMap
     , public IHashMap
     , public ICloneable
-    , public ISerializable
+//    , public ISerializable
 {
 public:
     class HashMapEntry
@@ -758,11 +758,11 @@ private:
     ECO_LOCAL static CARAPI_(Int32) RoundUpToPowerOfTwo(
         /* [in] */ Int32 i);
 
-    ECO_LOCAL CARAPI WriteObject(
-        /* [in] */ IObjectOutputStream* stream);
+//    ECO_LOCAL CARAPI WriteObject(
+//        /* [in] */ IObjectOutputStream* stream);
 
-    ECO_LOCAL CARAPI ReadObject(
-        /* [in] */ IObjectInputStream* stream);
+//    ECO_LOCAL CARAPI ReadObject(
+//        /* [in] */ IObjectInputStream* stream);
 
 public:
     /**
@@ -798,7 +798,7 @@ protected:
 private:
     ECO_LOCAL static const Int64 sSerialVersionUID = 362498820763181265L;
 
-    ECO_LOCAL static AutoPtr< ArrayOf<IObjectStreamField*> > sSerialPersistentFields;
+//    ECO_LOCAL static AutoPtr< ArrayOf<IObjectStreamField*> > sSerialPersistentFields;
 
     /**
      * Min capacity (other than zero) for a HashMap. Must be a power of two

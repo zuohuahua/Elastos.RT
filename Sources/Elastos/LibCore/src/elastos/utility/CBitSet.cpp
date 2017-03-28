@@ -24,7 +24,7 @@ using Elastos::Core::EIID_ICloneable;
 using Elastos::IO::IBuffer;
 using Elastos::IO::ByteBuffer;
 using Elastos::IO::IByteBuffer;
-using Elastos::IO::EIID_ISerializable;
+//using Elastos::IO::EIID_ISerializable;
 
 namespace Elastos {
 namespace Utility {

@@ -20,9 +20,9 @@
 #include "AbstractSet.h"
 
 using Elastos::Core::ICloneable;
-using Elastos::IO::IObjectInputStream;
-using Elastos::IO::IObjectOutputStream;
-using Elastos::IO::ISerializable;
+//using Elastos::IO::IObjectInputStream;
+//using Elastos::IO::IObjectOutputStream;
+//using Elastos::IO::ISerializable;
 
 namespace Elastos {
 namespace Utility {
@@ -31,7 +31,7 @@ class ECO_PUBLIC HashSet
     : public AbstractSet
     , public IHashSet
     , public ICloneable
-    , public ISerializable
+//    , public ISerializable
 {
 public:
 
@@ -218,12 +218,12 @@ public:
         /* [in] */ Float loadFactor);
 
 private:
-    CARAPI WriteObject(
-        /* [in] */ IObjectOutputStream* stream);
+//    CARAPI WriteObject(
+//        /* [in] */ IObjectOutputStream* stream);
 
     // @SuppressWarnings("unchecked")
-    CARAPI ReadObject(
-        /* [in] */ IObjectInputStream* stream);
+//    CARAPI ReadObject(
+//        /* [in] */ IObjectInputStream* stream);
 
 private:
     ECO_LOCAL static const Int64 sSerialVersionUID = -5024744406713321676LL;

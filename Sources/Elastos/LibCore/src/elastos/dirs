@@ -16,10 +16,10 @@
 
 DIRS = core
 #DIRS += io
-#DIRS += math
+DIRS += math
 #DIRS += net
 #DIRS += security
 #DIRS += sql
 #DIRS += text
-#DIRS += utility
+DIRS += utility
 #DIRS += droid

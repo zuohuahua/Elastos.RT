@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "Elastos.CoreLibrary.IO.h"
+//#include "Elastos.CoreLibrary.IO.h"
 #include "CEnumMap.h"
 #include "Arrays.h"
 #include "Enum.h"
@@ -24,9 +24,10 @@ using Elastos::Core::EIID_ICloneable;
 using Elastos::Core::StringBuilder;
 using Elastos::Core::Enum;
 using Elastos::Core::EIID_IEnum;
-using Elastos::IO::IInputStream;
-using Elastos::IO::IOutputStream;
-using Elastos::IO::EIID_ISerializable;
+// using Elastos::IO::IInputStream;
+// using Elastos::IO::IOutputStream;
+// using Elastos::IO::EIID_ISerializable;
+#define E_NO_SUCH_ELEMENT_EXCEPTION     0xAB000000
 
 namespace Elastos {
 namespace Utility {
@@ -36,7 +37,7 @@ namespace Utility {
 //       CEnumMap
 //==========================================================
 
-CAR_INTERFACE_IMPL_3(CEnumMap, AbstractMap, IEnumMap, ISerializable, ICloneable)
+CAR_INTERFACE_IMPL_2(CEnumMap, AbstractMap, IEnumMap, ICloneable)
 CAR_OBJECT_IMPL(CEnumMap)
 
 CEnumMap::CEnumMap()
@@ -314,6 +315,7 @@ ECode CEnumMap::GetValues(
     return NOERROR;
 }
 
+#if 0
 ECode CEnumMap::ReadObject(
     /* [in] */ IObjectInputStream* stream)
 {
@@ -353,6 +355,7 @@ ECode CEnumMap::WriteObject(
     }
     return NOERROR;
 }
+#endif
 
 Boolean CEnumMap::IsValidKeyType(
     /* [in] */ IInterface* key)

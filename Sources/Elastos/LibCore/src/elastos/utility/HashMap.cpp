@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "Elastos.CoreLibrary.IO.h"
+//#include "Elastos.CoreLibrary.IO.h"
 #include "HashMap.h"
 #include "CFloat.h"
 
@@ -36,10 +36,10 @@ using Elastos::Core::IInteger32;
 using Elastos::Core::EIID_IInteger32;
 using Elastos::Core::IInteger64;
 using Elastos::Core::EIID_IInteger64;
-using Elastos::IO::IObjectOutputStreamPutField;
-using Elastos::IO::EIID_ISerializable;
-using Elastos::IO::IInputStream;
-using Elastos::IO::IOutputStream;
+// using Elastos::IO::IObjectOutputStreamPutField;
+// using Elastos::IO::EIID_ISerializable;
+// using Elastos::IO::IInputStream;
+// using Elastos::IO::IOutputStream;
 
 namespace Elastos {
 namespace Utility {
