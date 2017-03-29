@@ -23,7 +23,7 @@
 using Elastos::Core::ICloneable;
 //using Elastos::IO::IObjectInputStream;
 //using Elastos::IO::IObjectOutputStream;
-//using Elastos::IO::ISerializable;
+using Elastos::IO::ISerializable;
 
 namespace Elastos {
 namespace Utility {
@@ -34,7 +34,7 @@ CarClass(CLinkedList)
     , public IDeque
     , public IQueue
     , public ICloneable
-//    , public ISerializable
+    , public ISerializable
 {
 private:
     class Link

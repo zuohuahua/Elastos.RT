@@ -22,7 +22,7 @@
 #include "Object.h"
 
 using Elastos::Core::Object;
-//using Elastos::IO::ISerializable;
+using Elastos::IO::ISerializable;
 
 namespace Elastos {
 namespace Utility {
@@ -30,7 +30,7 @@ namespace Utility {
 class EventObject
     : public Object
     , public IEventObject
-//    , public ISerializable
+    , public ISerializable
 {
 public:
     CAR_INTERFACE_DECL()

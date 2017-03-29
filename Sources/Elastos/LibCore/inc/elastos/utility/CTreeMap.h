@@ -25,7 +25,7 @@
 //using Elastos::IO::IObjectInputStream;
 //using Elastos::IO::IObjectOutputStream;
 //using Elastos::IO::IObjectStreamField;
-//using Elastos::IO::ISerializable;
+using Elastos::IO::ISerializable;
 using Elastos::Core::ICloneable;
 using Elastos::Utility::AbstractMap;
 using Elastos::Core::IComparator;
@@ -38,7 +38,7 @@ CarClass(CTreeMap)
     , public ISortedMap
     , public INavigableMap
     , public ICloneable
-//    , public ISerializable
+    , public ISerializable
     , public ITreeMap
 {
 public:

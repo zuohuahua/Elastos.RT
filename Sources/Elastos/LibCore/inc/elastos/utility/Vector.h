@@ -22,7 +22,7 @@
 using Elastos::Core::ICloneable;
 using Elastos::Utility::AbstractList;
 //using Elastos::IO::IObjectOutputStream;
-//using Elastos::IO::ISerializable;
+using Elastos::IO::ISerializable;
 
 namespace Elastos {
 namespace Utility {
@@ -32,7 +32,7 @@ class Vector
     , public IVector
     , public IRandomAccess
     , public ICloneable
-//    , public ISerializable
+    , public ISerializable
 {
 private:
     class Enumeration

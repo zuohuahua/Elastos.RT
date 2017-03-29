@@ -34,7 +34,7 @@ namespace Utility {
 CarClass(CEnumMap)
     , public AbstractMap
     , public IEnumMap
-//    , public ISerializable
+    , public ISerializable
     , public ICloneable
 {
 private:

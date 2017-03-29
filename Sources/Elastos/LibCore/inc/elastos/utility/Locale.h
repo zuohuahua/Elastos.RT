@@ -41,7 +41,7 @@ class Locale
     : public Object
     , public ILocale
     , public ICloneable
-//    , public ISerializable
+    , public ISerializable
 {
 public:
     CAR_INTERFACE_DECL()

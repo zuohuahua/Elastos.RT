@@ -22,7 +22,7 @@
 using Elastos::Core::ICloneable;
 //using Elastos::IO::IObjectOutputStream;
 //using Elastos::IO::IObjectInputStream;
-//using Elastos::IO::ISerializable;
+using Elastos::IO::ISerializable;
 using Elastos::Utility::AbstractList;
 
 namespace Elastos {
@@ -32,7 +32,7 @@ class ECO_PUBLIC ArrayList
     : public AbstractList
     , public IArrayList
     , public ICloneable
-//    , public ISerializable
+    , public ISerializable
     , public IRandomAccess
 {
 public:

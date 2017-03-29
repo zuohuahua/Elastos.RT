@@ -36,7 +36,7 @@ CarClass(CTreeSet)
     , public INavigableSet
     , public ISortedSet
     , public ICloneable
-//    , public ISerializable
+    , public ISerializable
 {
 public:
     CAR_OBJECT_DECL()

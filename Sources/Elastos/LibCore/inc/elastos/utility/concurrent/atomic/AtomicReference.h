@@ -21,7 +21,7 @@
 #include "Object.h"
 
 using Elastos::Core::Object;
-//using Elastos::IO::ISerializable;
+using Elastos::IO::ISerializable;
 
 namespace Elastos {
 namespace Utility {
@@ -31,7 +31,7 @@ namespace Atomic {
 class AtomicReference
     : public Object
     , public IAtomicReference
-//    , public ISerializable
+    , public ISerializable
 {
 public:
     CAR_INTERFACE_DECL()

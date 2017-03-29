@@ -31,7 +31,7 @@ namespace Utility {
 CarClass(CPriorityQueue)
     , public AbstractQueue
     , public IPriorityQueue
-//    , public ISerializable
+    , public ISerializable
 {
 private:
     class PriorityIterator

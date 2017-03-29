@@ -24,7 +24,7 @@ using Elastos::Core::ICloneable;
 using Elastos::Core::Object;
 using Elastos::IO::IInt64Buffer;
 using Elastos::IO::IByteBuffer;
-//using Elastos::IO::ISerializable;
+using Elastos::IO::ISerializable;
 
 namespace Elastos {
 namespace Utility {
@@ -32,7 +32,7 @@ namespace Utility {
 CarClass(CBitSet)
     , public Object
     , public IBitSet
-//    , public ISerializable
+    , public ISerializable
     , public ICloneable
 {
 public:

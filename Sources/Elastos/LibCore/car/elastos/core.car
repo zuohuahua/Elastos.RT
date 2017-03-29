@@ -52,11 +52,11 @@ module
     //merge("core/reflect/IInvocationHandler.car");
     //merge("core/reflect/IProxyFactory.car");
 
-    //merge("io/ISerializable.car");
+    merge("io/ISerializable.car");
 
     interface Elastos.Core.IRunnable;
     interface Elastos.Core.ICharSequence;
-    //interface Elastos.IO.ISerializable;
+    interface Elastos.IO.ISerializable;
 
     namespace Elastos {
     namespace Core {

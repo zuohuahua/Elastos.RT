@@ -21,7 +21,7 @@
 #include "elastos/core/Object.h"
 
 using Elastos::Core::ICloneable;
-//using Elastos::IO::ISerializable;
+using Elastos::IO::ISerializable;
 //using Elastos::IO::IObjectInputStream;
 //using Elastos::IO::IObjectOutputStream;
 //using Elastos::IO::IObjectStreamField;
@@ -33,7 +33,7 @@ class ECO_PUBLIC HashMap
     : public AbstractMap
     , public IHashMap
     , public ICloneable
-//    , public ISerializable
+    , public ISerializable
 {
 public:
     class HashMapEntry

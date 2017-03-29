@@ -19,7 +19,7 @@
 #define E_NO_SUCH_ELEMENT_EXCEPTION     0xAB000000
 
 using Elastos::Core::EIID_ICloneable;
-//using Elastos::IO::EIID_ISerializable;
+using Elastos::IO::EIID_ISerializable;
 //using Elastos::IO::IOutputStream;
 //using Elastos::IO::IInputStream;
 
@@ -30,7 +30,7 @@ namespace Utility {
 // CArrayDeque::DeqIterator
 //====================================================================
 
-CAR_INTERFACE_IMPL_3(CArrayDeque, AbstractCollection, IArrayDeque, IDeque, ICloneable)
+CAR_INTERFACE_IMPL_4(CArrayDeque, AbstractCollection, IArrayDeque, IDeque, ISerializable, ICloneable)
 
 CAR_OBJECT_IMPL(CArrayDeque)
 

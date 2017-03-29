@@ -21,7 +21,7 @@
 #include "AbstractCollection.h"
 
 using Elastos::Core::ICloneable;
-//using Elastos::IO::ISerializable;
+using Elastos::IO::ISerializable;
 //using Elastos::IO::IObjectOutputStream;
 //using Elastos::IO::IObjectInputStream;
 
@@ -33,7 +33,7 @@ CarClass(CArrayDeque)
     , public IArrayDeque
     , public IDeque
     , public ICloneable
-//    , public ISerializable
+    , public ISerializable
 {
 private:
     class DeqIterator

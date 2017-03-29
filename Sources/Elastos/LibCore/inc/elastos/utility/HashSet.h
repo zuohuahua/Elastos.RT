@@ -22,7 +22,7 @@
 using Elastos::Core::ICloneable;
 //using Elastos::IO::IObjectInputStream;
 //using Elastos::IO::IObjectOutputStream;
-//using Elastos::IO::ISerializable;
+using Elastos::IO::ISerializable;
 
 namespace Elastos {
 namespace Utility {
@@ -31,7 +31,7 @@ class ECO_PUBLIC HashSet
     : public AbstractSet
     , public IHashSet
     , public ICloneable
-//    , public ISerializable
+    , public ISerializable
 {
 public:
 
