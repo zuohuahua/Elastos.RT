@@ -1837,7 +1837,7 @@ static Monitor* NativeCreateMonitor(
     /* replace the head of the list with the new monitor */
     do {
         mon->mNext = gCore.mMonitorList;
-    } while (__sync_bool_compare_and_swap((int32_t*)(void*)&gCore.mMonitorList, (int32_t)mon->mNext, (int32_t)mon) != 0);
+    } while (!__sync_bool_compare_and_swap((int32_t*)(void*)&gCore.mMonitorList, (int32_t)mon->mNext, (int32_t)mon));
     //} while (android_atomic_release_cas((int32_t)mon->mNext, (int32_t)mon,
     //           (int32_t*)(void*)&gCore.mMonitorList) != 0);
 
@@ -2415,7 +2415,7 @@ retry:
              * will have tried this before calling out to the VM.
              */
             newThin = thin | (threadId << LW_LOCK_OWNER_SHIFT);
-            if (__sync_bool_compare_and_swap((int32_t*)thinp, thin, newThin) != 0) {
+            if (!__sync_bool_compare_and_swap((int32_t*)thinp, thin, newThin)) {
             //if (android_atomic_acquire_cas(thin, newThin,
             //        (int32_t*)thinp) != 0) {
                 /*
@@ -2452,7 +2452,7 @@ retry:
                         newThin = thin | (threadId << LW_LOCK_OWNER_SHIFT);
                         //if (android_atomic_acquire_cas(thin, newThin,
                         //        (int32_t *)thinp) == 0) {
-                        if (__sync_bool_compare_and_swap((int32_t *)thinp, thin, newThin) == 0) {
+                        if (__sync_bool_compare_and_swap((int32_t *)thinp, thin, newThin)) {
                             /*
                              * The acquire succeed.  Break out of the
                              * loop and proceed to inflate the lock.

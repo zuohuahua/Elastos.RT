@@ -52,9 +52,8 @@ namespace Concurrent {
 static Boolean CompareAndSwapInt32(volatile int32_t* address, Int32 expect, Int32 update)
 {
     // Note: android_atomic_release_cas() returns 0 on success, not failure.
-    int ret = __sync_bool_compare_and_swap(address, expect, update);
+    return __sync_bool_compare_and_swap(address, expect, update);
 
-    return (ret == 0);
 }
 
 static Boolean CompareAndSwapInt64(volatile int64_t* address, Int64 expect, Int64 update)

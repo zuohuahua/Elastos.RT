@@ -33,23 +33,23 @@ namespace Concurrent {
 static Boolean CompareAndSwapObject(volatile int32_t* address, IInterface* expect, IInterface* update)
 {
     // Note: android_atomic_cmpxchg() returns 0 on success, not failure.
-    int ret = __sync_bool_compare_and_swap(address, (int32_t)expect, (int32_t)update);
-    if (ret == 0) {
+    Boolean ret = __sync_bool_compare_and_swap(address, (int32_t)expect, (int32_t)update);
+    if (ret) {
         REFCOUNT_ADD(update)
         REFCOUNT_RELEASE(expect)
     }
-    return (ret == 0);
+    return ret;
 }
 
 static Boolean CompareAndSwapObject(volatile int32_t* address, Object* expect, Object* update)
 {
     // Note: android_atomic_cmpxchg() returns 0 on success, not failure.
-    int ret = __sync_bool_compare_and_swap(address, (int32_t)expect, (int32_t)update);
-    if (ret == 0) {
+    Boolean ret = __sync_bool_compare_and_swap(address, (int32_t)expect, (int32_t)update);
+    if (ret) {
         REFCOUNT_ADD(update)
         REFCOUNT_RELEASE(expect)
     }
-    return (ret == 0);
+    return ret;
 }
 
 static void PutOrderedObject(volatile int32_t* address, Object* newValue)

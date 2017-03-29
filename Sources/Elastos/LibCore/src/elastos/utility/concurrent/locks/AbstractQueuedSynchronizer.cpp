@@ -442,9 +442,7 @@ Boolean AbstractQueuedSynchronizer::CompareAndSetState(
     volatile int32_t* address = (volatile int32_t*)&mState;
 
     // Note: android_atomic_release_cas() returns 0 on success, not failure.
-    int ret = __sync_bool_compare_and_swap(address, expect, update);
-
-    return (ret == 0);
+    return __sync_bool_compare_and_swap(address, expect, update);
 }
 
 AutoPtr<AbstractQueuedSynchronizer::Node> AbstractQueuedSynchronizer::Enq(
@@ -849,10 +847,10 @@ Boolean AbstractQueuedSynchronizer::CompareAndSetHead(
     int32_t* address = (int32_t*)&mHead;
 
     // Note: android_atomic_cmpxchg() returns 0 on success, not failure.
-    int result = __sync_bool_compare_and_swap(address, (int32_t)NULL, (int32_t)update);
+    Boolean result = __sync_bool_compare_and_swap(address, (int32_t)NULL, (int32_t)update);
     // dvmWriteBarrierField(obj, address);
-    if (result == 0) REFCOUNT_ADD(mHead);
-    return result == 0;
+    if (result) REFCOUNT_ADD(mHead);
+    return result;
 }
 
 Boolean AbstractQueuedSynchronizer::CompareAndSetTail(
@@ -862,13 +860,13 @@ Boolean AbstractQueuedSynchronizer::CompareAndSetTail(
     int32_t* address = (int32_t*)&mTail;
 
     // Note: android_atomic_cmpxchg() returns 0 on success, not failure.
-    int result = __sync_bool_compare_and_swap(address, (int32_t)expect, (int32_t)update);
+    Boolean result = __sync_bool_compare_and_swap(address, (int32_t)expect, (int32_t)update);
     // dvmWriteBarrierField(obj, address);
-    if (result == 0) {
+    if (result) {
         if (expect != NULL) expect->Release();
         REFCOUNT_ADD(mTail);
     }
-    return result == 0;
+    return result;
 }
 
 Boolean AbstractQueuedSynchronizer::CompareAndSetWaitStatus(
@@ -879,9 +877,7 @@ Boolean AbstractQueuedSynchronizer::CompareAndSetWaitStatus(
     int32_t* address = (int32_t*)&node->mWaitStatus;
 
     // Note: android_atomic_cmpxchg() returns 0 on success, not failure.
-    int result = __sync_bool_compare_and_swap(address, expect, update);
-
-    return result == 0;
+    return __sync_bool_compare_and_swap(address, expect, update);
 }
 
 Boolean AbstractQueuedSynchronizer::CompareAndSetNext(
@@ -892,13 +888,13 @@ Boolean AbstractQueuedSynchronizer::CompareAndSetNext(
     int32_t* address = (int32_t*)&node->mNext;
 
     // Note: android_atomic_cmpxchg() returns 0 on success, not failure.
-    int result = __sync_bool_compare_and_swap(address, (int32_t)expect, (int32_t)update);
+    Boolean result = __sync_bool_compare_and_swap(address, (int32_t)expect, (int32_t)update);
     // dvmWriteBarrierField(obj, address);
-    if (result == 0) {
+    if (result) {
         if (expect != NULL) expect->Release();
         REFCOUNT_ADD(node->mNext);
     }
-    return result == 0;
+    return result;
 }
 
 ECode AbstractQueuedSynchronizer::AcquireShared(
