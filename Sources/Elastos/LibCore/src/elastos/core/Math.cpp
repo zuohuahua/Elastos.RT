@@ -522,7 +522,7 @@ Double Math::Random()
         CRandom::New((IRandom**)&sRandom);
     }
 */
-    Double d;
+    Double d = 0;
 //    sRandom->NextDouble(&d);
     return d;
 }

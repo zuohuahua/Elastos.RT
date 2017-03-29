@@ -51,7 +51,7 @@
 #include <elastos/core/StringUtils.h>
 #include <elastos/core/StringBuilder.h>
 #include <elastos/utility/etl/List.h>
-#include <elastos/utility/Arrays.h>
+//#include <elastos/utility/Arrays.h>
 
 #include <dlfcn.h>
 
@@ -59,15 +59,15 @@
 using Elastos::Core::AutoLock;
 using namespace Elastos;
 
-using Elastos::Core::ISystem;
-using Elastos::Core::CSystem;
+//using Elastos::Core::ISystem;
+//using Elastos::Core::CSystem;
 using Elastos::Core::CString;
 using Elastos::Core::StringUtils;
 using Elastos::Core::StringBuilder;
 using Elastos::Core::IThread;
 using Elastos::Core::Math;
 using Elastos::Utility::Etl::List;
-using Elastos::Utility::Arrays;
+//using Elastos::Utility::Arrays;
 
 using Elastos::HelloCar::IAnimal;
 using Elastos::HelloCar::IDog;
@@ -115,42 +115,42 @@ void assertEquals(Int32 testValue, Int32 expectation)
     }
 }
 
-void testArrays()
-{
-    AutoPtr<ArrayOf<Int32> > int32Arr = ArrayOf<Int32>::Alloc(100);
-    for (Int32 i = 0; i < int32Arr->GetLength(); ++i) {
-        int32Arr->Set(i, i);
-    }
-
-    Int32 index;
-    Arrays::BinarySearch(int32Arr.Get(), 0, 50, 25, &index);
-    assertEquals(index, 25);
-
-    Arrays::BinarySearch(int32Arr.Get(), 0, 50, 60, &index);
-    printf("Arrays::BinarySearch(int32Arr, 0, 50, 60); result: %d\n", index);
-
-    AutoPtr<ArrayOf<Char32> > charArr = ArrayOf<Char32>::Alloc(20);
-    for (Int32 i = 0; i < charArr->GetLength(); ++i) {
-        charArr->Set(i, (Char32)('a' + i));
-    }
-    Arrays::BinarySearch(charArr.Get(), 0, charArr->GetLength(), (Char32)('a' + 15), &index);
-    assertEquals(index, 15);
-
-    AutoPtr<ArrayOf<IInterface*> > animalArr = ArrayOf<IInterface*>::Alloc(10);
-    for (Int32 i = 0; i < animalArr->GetLength(); ++i) {
-        StringBuilder sb("Dog_");
-        sb.Append(i);
-        AutoPtr<IAnimal> animal;
-        CDog::New(i, sb.ToString(), (IAnimal**)&animal);
-
-        animalArr->Set(i, TO_IINTERFACE(animal));
-    }
-
-    AutoPtr<IAnimal> dog;
-    CDog::New(4, String("Dog_4"), (IAnimal**)&dog);
-    Arrays::BinarySearch(animalArr.Get(), 0, animalArr->GetLength(), TO_IINTERFACE(dog), &index);
-    printf("Arrays::BinarySearch(animalArr, Dog_4); result: %d\n", index);
-}
+//void testArrays()
+//{
+//    AutoPtr<ArrayOf<Int32> > int32Arr = ArrayOf<Int32>::Alloc(100);
+//    for (Int32 i = 0; i < int32Arr->GetLength(); ++i) {
+//        int32Arr->Set(i, i);
+//    }
+//
+//    Int32 index;
+//    Arrays::BinarySearch(int32Arr.Get(), 0, 50, 25, &index);
+//    assertEquals(index, 25);
+//
+//    Arrays::BinarySearch(int32Arr.Get(), 0, 50, 60, &index);
+//    printf("Arrays::BinarySearch(int32Arr, 0, 50, 60); result: %d\n", index);
+//
+//    AutoPtr<ArrayOf<Char32> > charArr = ArrayOf<Char32>::Alloc(20);
+//    for (Int32 i = 0; i < charArr->GetLength(); ++i) {
+//        charArr->Set(i, (Char32)('a' + i));
+//    }
+//    Arrays::BinarySearch(charArr.Get(), 0, charArr->GetLength(), (Char32)('a' + 15), &index);
+//    assertEquals(index, 15);
+//
+//    AutoPtr<ArrayOf<IInterface*> > animalArr = ArrayOf<IInterface*>::Alloc(10);
+//    for (Int32 i = 0; i < animalArr->GetLength(); ++i) {
+//        StringBuilder sb("Dog_");
+//        sb.Append(i);
+//        AutoPtr<IAnimal> animal;
+//        CDog::New(i, sb.ToString(), (IAnimal**)&animal);
+//
+//        animalArr->Set(i, TO_IINTERFACE(animal));
+//    }
+//
+//    AutoPtr<IAnimal> dog;
+//    CDog::New(4, String("Dog_4"), (IAnimal**)&dog);
+//    Arrays::BinarySearch(animalArr.Get(), 0, animalArr->GetLength(), TO_IINTERFACE(dog), &index);
+//    printf("Arrays::BinarySearch(animalArr, Dog_4); result: %d\n", index);
+//}
 
 class AutoLockTest
     : public Object
@@ -430,39 +430,39 @@ void testHelloCar()
     printf("CAnimalHelper::CanFly : %s %s!\n\n", name.string(), canFly ? "can fly" : "can not fly");
 }
 
-void testTimeConsuming()
-{
-    AutoPtr<ISystem> system;
-    CSystem::AcquireSingleton((ISystem**)&system);
-
-    Int64 begin, end;
-    system->GetNanoTime(&begin);
-    system->GetNanoTime(&end);
-    Int64 timeConsumingOfGetNanoTime = end - begin;
-
-    AutoPtr<ICharSequence> csq;
-    system->GetNanoTime(&begin);
-    CString::New(String("Hello World!"), (ICharSequence**)&csq);
-    system->GetNanoTime(&end);
-    Int64 timeConsumingOfFirstNewCString = end - begin - timeConsumingOfGetNanoTime;
-
-    csq = NULL;
-    system->GetNanoTime(&begin);
-    CString::New(String("Hello World!"), (ICharSequence**)&csq);
-    system->GetNanoTime(&end);
-    Int64 timeConsumingOfSecondNewCString = end - begin - timeConsumingOfGetNanoTime;
-
-    system->GetNanoTime(&begin);
-    csq->AddRef();
-    system->GetNanoTime(&end);
-    Int64 timeConsumingOfAddRef = end - begin - timeConsumingOfGetNanoTime;
-
-    printf("timeConsumingOfGetNanoTime: %f, timeConsumingOfFirstNewCString: %f, timeConsumingOfSecondNewCString: %f,"
-            "timeConsumingOfAddRef: %f\n",
-            (double)timeConsumingOfGetNanoTime / 1e6, ((double)timeConsumingOfFirstNewCString) / 1e6,
-            ((double)timeConsumingOfSecondNewCString) / 1e6,
-            ((double)timeConsumingOfAddRef) / 1e6);
-}
+//void testTimeConsuming()
+//{
+//    AutoPtr<ISystem> system;
+//    CSystem::AcquireSingleton((ISystem**)&system);
+//
+//    Int64 begin, end;
+//    system->GetNanoTime(&begin);
+//    system->GetNanoTime(&end);
+//    Int64 timeConsumingOfGetNanoTime = end - begin;
+//
+//    AutoPtr<ICharSequence> csq;
+//    system->GetNanoTime(&begin);
+//    CString::New(String("Hello World!"), (ICharSequence**)&csq);
+//    system->GetNanoTime(&end);
+//    Int64 timeConsumingOfFirstNewCString = end - begin - timeConsumingOfGetNanoTime;
+//
+//    csq = NULL;
+//    system->GetNanoTime(&begin);
+//    CString::New(String("Hello World!"), (ICharSequence**)&csq);
+//    system->GetNanoTime(&end);
+//    Int64 timeConsumingOfSecondNewCString = end - begin - timeConsumingOfGetNanoTime;
+//
+//    system->GetNanoTime(&begin);
+//    csq->AddRef();
+//    system->GetNanoTime(&end);
+//    Int64 timeConsumingOfAddRef = end - begin - timeConsumingOfGetNanoTime;
+//
+//    printf("timeConsumingOfGetNanoTime: %f, timeConsumingOfFirstNewCString: %f, timeConsumingOfSecondNewCString: %f,"
+//            "timeConsumingOfAddRef: %f\n",
+//            (double)timeConsumingOfGetNanoTime / 1e6, ((double)timeConsumingOfFirstNewCString) / 1e6,
+//            ((double)timeConsumingOfSecondNewCString) / 1e6,
+//            ((double)timeConsumingOfAddRef) / 1e6);
+//}
 
 int main(int argc, char *argv[])
 {
@@ -470,12 +470,12 @@ int main(int argc, char *argv[])
     printf("=========== Hello Car ============\n");
     printf("==================================\n");
 
-    // testHelloCar();
+    testHelloCar();
 
     // other tests
     // otherTests();
 
-    testTimeConsuming();
+    //testTimeConsuming();
 
     printf("=========== Exit Hello Car ============\n");
     return 0;

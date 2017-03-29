@@ -65,10 +65,10 @@ static const int BLOCKED_THREAD_SIGNAL = __SIGRTMIN + 2;
 #endif
 #endif
 
-static void BlockedThreadSignalHandler(int /*signal*/)
-{
-    // Do nothing. We only sent this signal for its side-effect of interrupting syscalls.
-}
+// static void BlockedThreadSignalHandler(int /*signal*/)
+// {
+//     // Do nothing. We only sent this signal for its side-effect of interrupting syscalls.
+// }
 
 void AsynchronousCloseMonitor::Init()
 {

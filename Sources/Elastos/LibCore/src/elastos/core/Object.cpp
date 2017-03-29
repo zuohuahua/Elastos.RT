@@ -25,7 +25,7 @@ using Elastos::Core::EIID_ISynchronize;
 namespace Elastos {
 namespace Core {
 
-static Boolean DEBUG = FALSE;
+//static Boolean DEBUG = FALSE;
 
 Object::Object()
 {

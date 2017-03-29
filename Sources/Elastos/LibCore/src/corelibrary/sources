@@ -173,6 +173,6 @@ LIBRARIES += $(XDK_TARGETS)/Elastos.Runtime.eco
 #LIBRARIES += -lcutils -licuuc -licui18n -lm -lssl -lcrypto -lsqlite
 #LIBRARIES += -llog -lselinux -lz -lutils -lziparchive -lfdlibm
 
-LIBRARIES += -lm -lc -ldl -lpthread -lstdc++ -lz -lrt
+LIBRARIES += -lm -lc -ldl -lpthread -lstdc++ -lz -lrt -licuuc
 
 

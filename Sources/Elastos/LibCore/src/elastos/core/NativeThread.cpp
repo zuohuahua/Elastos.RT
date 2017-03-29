@@ -93,8 +93,8 @@ static void* InternalThreadStart(void* arg);
 static void ThreadExitCheck(void* arg);
 static Boolean PrepareThread(NativeThread* thread);
 static Monitor* NativeCreateMonitor(NativeObject* obj);
-static UInt64 NativeGetRelativeTimeNsec();
-static UInt64 NativeGetRelativeTimeUsec();
+//static UInt64 NativeGetRelativeTimeNsec();
+//static UInt64 NativeGetRelativeTimeUsec();
 
 /*
  * Initialize thread list and main thread's environment.  We need to set
@@ -1776,7 +1776,7 @@ void NativeChangeThreadPriority(
     /* [in] */ NativeThread* thread,
     /* [in] */ Int32 newPriority)
 {
-    pid_t pid = thread->mSystemTid;
+/*    pid_t pid = thread->mSystemTid;
     Int32 newNice;
 
     if (newPriority < 1 || newPriority > 10) {
@@ -1785,7 +1785,7 @@ void NativeChangeThreadPriority(
     }
     newNice = kNiceValues[newPriority - 1];
 
-/*
+
     if (newNice >= ELASTOS_PRIORITY_BACKGROUND) {
         set_sched_policy(NativeGetSysThreadId(), SP_BACKGROUND);
     }
@@ -2830,28 +2830,28 @@ ECode NativeThreadSleep(
  * it could be wall-clock time or a monotonic counter, and is only suitable
  * for computing time deltas.
  */
-UInt64 NativeGetRelativeTimeNsec()
-{
-#ifdef HAVE_POSIX_CLOCKS
-    struct timespec now;
-    clock_gettime(CLOCK_MONOTONIC, &now);
-    return (u8)now.tv_sec*1000000000LL + now.tv_nsec;
-#else
-    struct timeval now;
-    gettimeofday(&now, NULL);
-    return (UInt64)now.tv_sec*1000000000LL + now.tv_usec * 1000LL;
-#endif
-}
+// UInt64 NativeGetRelativeTimeNsec()
+// {
+// #ifdef HAVE_POSIX_CLOCKS
+//     struct timespec now;
+//     clock_gettime(CLOCK_MONOTONIC, &now);
+//     return (u8)now.tv_sec*1000000000LL + now.tv_nsec;
+// #else
+//     struct timeval now;
+//     gettimeofday(&now, NULL);
+//     return (UInt64)now.tv_sec*1000000000LL + now.tv_usec * 1000LL;
+// #endif
+// }
 
 /*
  * Get the current time, in microseconds.  This is "relative" time, meaning
  * it could be wall-clock time or a monotonic counter, and is only suitable
  * for computing time deltas.
  */
-static UInt64 NativeGetRelativeTimeUsec()
-{
-    return NativeGetRelativeTimeNsec() / 1000;
-}
+// static UInt64 NativeGetRelativeTimeUsec()
+// {
+//     return NativeGetRelativeTimeNsec() / 1000;
+// }
 
 } // namespace Core
 } // namespace Elastos

@@ -14,7 +14,7 @@
 # limitations under the License.
 #=========================================================================
 
-TARGET_NAME = helloCar
+TARGET_NAME = HelloCar
 TARGET_TYPE = ecx
 
 CAR_FLAGS += -n -u
@@ -32,4 +32,5 @@ SOURCES += Elastos.CoreLibrary.cpp
 LIBRARIES = $(XDK_USER_LIB)/Elastos.Runtime.lib
 LIBRARIES += $(XDK_TARGETS)/Elastos.Runtime.eco
 LIBRARIES += $(XDK_TARGETS)/Elastos.CoreLibrary.eco
-LIBRARIES += -lm -lcutils -ldl
+LIBRARIES += -lm -lstdc++ -ldl
+#LIBRARIES += -lm -lcutils -ldl
