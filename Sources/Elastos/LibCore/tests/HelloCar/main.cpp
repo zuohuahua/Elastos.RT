@@ -408,7 +408,12 @@ void testHelloCar()
     String name;
 
     AutoPtr<IAnimal> cat;
-    CCat::New((IAnimal**)&cat);
+    ECode ec = CCat::New((IAnimal**)&cat);
+    if(FAILED(ec)) {
+        printf("CCat::New() error! ec = %x\n\n", ec);
+        return;
+    }
+
     cat->SetName(String("Kitty"));
     cat->GetName(&name);
     cat->CanFly(&canFly);
