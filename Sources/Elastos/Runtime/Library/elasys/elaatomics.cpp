@@ -76,7 +76,7 @@ int atomic_add(int value, volatile int* ptr)
 #ifdef _android
     return android_atomic_add(value, ptr);
 #else
-    return -1;
+    return __sync_add_and_fetch(ptr, value);
 #endif
 }
 
@@ -85,7 +85,7 @@ int atomic_and(int value, volatile int* ptr)
 #ifdef _android
     return android_atomic_and(value, ptr);
 #else
-    return -1;
+    return __sync_and_and_fetch(ptr, value);
 #endif
 }
 
@@ -94,6 +94,6 @@ int atomic_or(int value, volatile int *ptr)
 #ifdef _android
     return android_atomic_or(value, ptr);
 #else
-    return -1;
+    return __sync_or_and_fetch(ptr, value);
 #endif
 }
