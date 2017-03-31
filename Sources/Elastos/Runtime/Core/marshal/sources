@@ -22,4 +22,7 @@ C_DEFINES+=-DHAVE_PTHREADS
 
 SOURCES = metainfos.cpp
 
+#ELASTOS_LIBS = android_linux/marshal.lib
+#ELASTOS_LIBS += linux_rpc/marshal_rpc.lib
+
 INCLUDES += $(MAKEDIR)/../../Library/inc/elasys

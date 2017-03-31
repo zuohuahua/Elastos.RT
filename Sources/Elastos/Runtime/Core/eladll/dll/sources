@@ -26,7 +26,7 @@ INCLUDES += $(INCLUDESTEMP);
 C_DEFINES= -D_USE_MY_DLLMAIN_
 
 SOURCES += elastos.def
-SOURCES += elastos.rc
+#SOURCES += elastos.rc
 
 
 ELASTOS_LIBS += ../../libusr/lib4car/lib4ela/lib4ela.lib

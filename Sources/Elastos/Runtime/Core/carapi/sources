@@ -21,28 +21,11 @@ C_DEFINES= -D_CAR_RUNTIME
 
 INCLUDESTEMP := $(INCLUDES);
 INCLUDES = $(MAKEDIR)/../inc;
-INCLUDES += $(MAKEDIR)/../stream;
 INCLUDES += $(MAKEDIR)/../../Library/inc/elasys;
 INCLUDES += ../../Library/syscar;
 INCLUDES += $(INCLUDESTEMP);
-
 
 SOURCES = carapi.cpp
 SOURCES += locmod.cpp
 SOURCES += todo.cpp
 
-#SOURCES += cbapi.cpp
-#SOURCES += CCallbackContext.cpp
-#SOURCES += CCallbackParcel.cpp
-
-ifeq "$(XDK_TARGET_CPU)" "arm"
-ifneq "$(XDK_COMPILER)" "gnu"
-#SOURCES += invokeCallback_ievc.asm
-else
-#SOURCES += invokeCallback_gnuc.S
-#SOURCES += invokeCoalescer_gnuc.S
-endif
-else
-#SOURCES += invokeCallback.cpp
-#SOURCES += invokeCoalescer.cpp
-endif

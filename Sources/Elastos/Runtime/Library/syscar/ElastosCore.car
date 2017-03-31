@@ -33,26 +33,6 @@ library Elastos:System:elastos.eco
 
     merge("stdobjs.car");
 
-    enum CallbackPriority {
-        CallbackPriority_Highest     = 0x00,
-        CallbackPriority_AboveNormal = 0x07,
-        CallbackPriority_Normal      = 0x10,
-        CallbackPriority_BelowNormal = 0x17,
-        CallbackPriority_Lowest      = 0x1F,
-    }
-
-    enum CallbackContextStatus {
-        CallbackContextStatus_Created = 0x01,
-        CallbackContextStatus_Idling,
-        CallbackContextStatus_Working,
-        CallbackContextStatus_Finishing,
-    }
-
-    enum CallbackContextFinish {
-        CallbackContextFinish_Nice = 0x01,
-        CallbackContextFinish_ASAP,
-    }
-
     merge("ElReflection.car");
     merge("ElMarshal.car");
 }
