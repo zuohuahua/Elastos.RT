@@ -129,27 +129,6 @@ STRIP = $(CROSS_COMPILE)strip
 OBJCOPY = $(CROSS_COMPILE)objcopy
 PASS2LD = -Wl,
 
-ifeq "$(ECX_ENTRY)" ""
-  EXE_ENTRY = _start
-  ECX_ENTRY = _start
-endif
-
-ifeq "$(DLL_ENTRY)" ""
-  DLL_ENTRY = _DllMainCRTStartup
-
-  ifeq "$(XDK_TARGET_CPU)" "x86"
-    ifneq "$(findstring msvcrt,$(EXTERN_LIBS))" ""
-      DLL_ENTRY = DllMainCRTStartup@12
-    else
-      DLL_ENTRY = _DllMainCRTStartup@12
-    endif
-  endif
-endif
-
-ifeq "$(DLL_BASE)" ""
-  DLL_BASE = 0x10000000
-endif
-
 #ifeq "$(ECX_BASE)" ""
 #  ECX_BASE = 0x400000
 #endif
@@ -162,14 +141,6 @@ endif
 #
 # EXE_FLAGS and DLL_FLAGS
 #
-ifeq "$(XDK_COMPILER_VERSION)" "_gcc4"
-  EXE_FLAGS := --entry $(EXE_ENTRY) $(EXE_FLAGS)
-  ECX_FLAGS := --entry $(ECX_ENTRY) $(ECX_FLAGS)
-else
-  EXE_FLAGS := --entry $(EXE_ENTRY) $(EXE_FLAGS)
-  ECX_FLAGS := --entry $(ECX_ENTRY) $(ECX_FLAGS)
-endif
-
 ifneq "$(XDK_TARGET_FORMAT)" "elf"
   ifeq "$(XDK_COMPILER_VERSION)" "_gcc4"
     DLL_FLAGS := $(DLL_FLAGS) --dll --entry $(DLL_ENTRY) -shared
