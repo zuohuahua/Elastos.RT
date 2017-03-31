@@ -30,7 +30,6 @@
 #include "CConstructorInfo.h"
 #include "CLocalTypeInfo.h"
 #include "CLocalPtrInfo.h"
-#include "CCallbackMethodInfo.h"
 #include <pthread.h>
 #include <dlfcn.h>
 

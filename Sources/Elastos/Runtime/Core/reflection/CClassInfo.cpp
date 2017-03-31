@@ -15,7 +15,6 @@
 //=========================================================================
 
 #include "CClassInfo.h"
-#include "CCallbackMethodInfo.h"
 #include "CConstructorInfo.h"
 #include "CAnnotationInfo.h"
 

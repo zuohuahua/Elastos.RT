@@ -80,39 +80,6 @@ ELAPI ECO_PUBLIC _CObject_DetachAspect(
     /* [in] */ PInterface aggregator,
     /* [in] */ _ELASTOS RClassID aspectClsid);
 
-ELAPI ECO_PUBLIC _CObject_EnterRegime(
-    /* [in] */ PInterface object,
-    /* [in] */ PRegime regime);
-
-ELAPI ECO_PUBLIC _CObject_LeaveRegime(
-    /* [in] */ PInterface object,
-    /* [in] */ PRegime regime);
-
-typedef interface ICallbackSink *PCALLBACKSINK;
-typedef interface ICallbackRendezvous* PCallbackRendezvous;
-
-ELAPI ECO_PUBLIC _CObject_AcquireCallbackSink(
-    /* [in] */ PInterface object,
-    /* [out] */ PCALLBACKSINK* callbackSink);
-
-ELAPI ECO_PUBLIC _CObject_AddCallback(
-    /* [in] */ PInterface serverObj,
-    /* [in] */ _ELASTOS Int32 event,
-    /* [in] */ _ELASTOS EventHandler delegate);
-
-ELAPI ECO_PUBLIC _CObject_RemoveCallback(
-    /* [in] */ PInterface serverObj,
-    /* [in] */ _ELASTOS Int32 event,
-    /* [in] */ _ELASTOS EventHandler delegate);
-
-ELAPI ECO_PUBLIC _CObject_RemoveAllCallbacks(
-    /* [in] */ PInterface serverObj);
-
-ELAPI ECO_PUBLIC _CObject_AcquireCallbackRendezvous(
-    /* [in] */ PInterface serverObj,
-    /* [in] */ _ELASTOS Int32 event,
-    /* [out] */ PCallbackRendezvous* callbackRendezvous);
-
 ELAPI_(_ELASTOS Boolean) ECO_PUBLIC _CModule_CanUnloadAllModules();
 
 }

@@ -17,7 +17,6 @@
 #include "CMethodInfo.h"
 #include "CParamInfo.h"
 #include "CArgumentList.h"
-#include "CCallbackArgumentList.h"
 #include "CAnnotationInfo.h"
 
 #define INVALID_PARAM_COUNT 0xFFFFFFFF

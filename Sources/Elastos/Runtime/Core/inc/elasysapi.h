@@ -96,22 +96,6 @@ public:
         return _CObject_Compare(objectA, objectB);
     }
 
-    STATIC CARAPI EnterRegime(
-        /* [in] */ PInterface object,
-        /* [in] */ PRegime regime)
-    {
-        if (!regime) return E_NO_INTERFACE;
-        return _CObject_EnterRegime(object, regime);
-    }
-
-    STATIC CARAPI LeaveRegime(
-        /* [in] */ PInterface object,
-        /* [in] */ PRegime regime)
-    {
-        if (!regime) return E_NO_INTERFACE;
-        return _CObject_LeaveRegime(object, regime);
-    }
-
     STATIC CARAPI CreateInstance(
         /* [in] */ RClassID rclsid,
         /* [in] */ PRegime regime,
