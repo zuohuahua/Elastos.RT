@@ -306,7 +306,6 @@ module
         interface IComparable;
     }
 
-/*
     class CBoolean {
         constructor(
            [in] Boolean value);
@@ -393,6 +392,7 @@ module
         interface IArrayOf;
     }
 
+/*
     class CThrowable {
         constructor();
 

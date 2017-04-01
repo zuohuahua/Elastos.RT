@@ -48,15 +48,15 @@ SOURCES += ClassLoader.cpp
 
 SOURCES += exportext.cpp
 SOURCES += CString.cpp
-#SOURCES += CBoolean.cpp
-#SOURCES += CByte.cpp
-#SOURCES += CChar32.cpp
-#SOURCES += CInteger16.cpp
-#SOURCES += CInteger32.cpp
-#SOURCES += CInteger64.cpp
-#SOURCES += CFloat.cpp
-#SOURCES += CDouble.cpp
-#SOURCES += CArrayOf.cpp
+SOURCES += CBoolean.cpp
+SOURCES += CByte.cpp
+SOURCES += CChar32.cpp
+SOURCES += CInteger16.cpp
+SOURCES += CInteger32.cpp
+SOURCES += CInteger64.cpp
+SOURCES += CFloat.cpp
+SOURCES += CDouble.cpp
+SOURCES += CArrayOf.cpp
 #SOURCES += CThrowable.cpp
 SOURCES += Init.cpp
 
@@ -69,7 +69,7 @@ SOURCES += CPathClassLoader.cpp
 #SOURCES += CBlockGuard.cpp
 #SOURCES += CCloseGuard.cpp
 #SOURCES += CCloseGuardHelper.cpp
-#SOURCES += Enum.cpp
+SOURCES += Enum.cpp
 #SOURCES += CSystem.cpp
 
 SOURCES += Math.cpp

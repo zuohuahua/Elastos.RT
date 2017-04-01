@@ -23,7 +23,7 @@
 using Elastos::Core::IComparator;
 // using Elastos::IO::IObjectInputStream;
 // using Elastos::IO::IObjectOutputStream;
-// using Elastos::IO::ISerializable;
+using Elastos::IO::ISerializable;
 
 namespace Elastos {
 namespace Utility {

@@ -20,7 +20,7 @@
 #include <elastos/core/Object.h>
 #include <elastos/core/Math.h>
 #include <elastos/utility/ComparableTimSort.h>
-#include <cutils/log.h>
+//#include <cutils/log.h>
 
 using Elastos::Core::IComparator;
 using Elastos::Core::IComparable;
@@ -430,13 +430,13 @@ ECode TimSort<T>::Sort(
     }
 
     if (lo < 0 || hi > a->GetLength()) {
-        ALOGE("Arrays::CheckStartAndEnd: E_ARRAY_INDEX_OUT_OF_BOUNDS_EXCEPTION: len: %d, start: %d, end: %d",
-            a->GetLength(), lo, hi);
+        //ALOGE("Arrays::CheckStartAndEnd: E_ARRAY_INDEX_OUT_OF_BOUNDS_EXCEPTION: len: %d, start: %d, end: %d",
+        //    a->GetLength(), lo, hi);
         return E_ARRAY_INDEX_OUT_OF_BOUNDS_EXCEPTION;
     }
     if (lo > hi) {
-        ALOGE("Arrays::CheckStartAndEnd: E_ILLEGAL_ARGUMENT_EXCEPTION: len: %d, start: %d, end: %d",
-            a->GetLength(), lo, hi);
+        //ALOGE("Arrays::CheckStartAndEnd: E_ILLEGAL_ARGUMENT_EXCEPTION: len: %d, start: %d, end: %d",
+        //    a->GetLength(), lo, hi);
         return E_ILLEGAL_ARGUMENT_EXCEPTION;
     }
 

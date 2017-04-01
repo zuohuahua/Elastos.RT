@@ -22,9 +22,9 @@ module
 //    merge("../../car/elastos/system.car");
     }
 
-//    submodule Elastos.CoreLibrary.Utility {
-//    merge("../../car/elastos/utility.car");
-//    }
+    submodule Elastos.CoreLibrary.Utility {
+    merge("../../car/elastos/utility.car");
+    }
 
 
 //    submodule Elastos.CoreLibrary.Utility {

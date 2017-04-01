@@ -19,6 +19,7 @@
 #include "Arrays.h"
 
 using Elastos::Core::IEnum;
+#define E_NO_SUCH_ELEMENT_EXCEPTION     0xAB000000
 
 namespace Elastos {
 namespace Utility {

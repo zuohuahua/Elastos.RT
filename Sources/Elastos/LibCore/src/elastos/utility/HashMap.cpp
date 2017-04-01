@@ -37,7 +37,7 @@ using Elastos::Core::EIID_IInteger32;
 using Elastos::Core::IInteger64;
 using Elastos::Core::EIID_IInteger64;
 // using Elastos::IO::IObjectOutputStreamPutField;
-// using Elastos::IO::EIID_ISerializable;
+using Elastos::IO::EIID_ISerializable;
 // using Elastos::IO::IInputStream;
 // using Elastos::IO::IOutputStream;
 
@@ -49,7 +49,7 @@ namespace Utility {
 //==========================================================
 const Int64 HashMap::sSerialVersionUID;
 
-AutoPtr< ArrayOf<IObjectStreamField*> > HashMap::sSerialPersistentFields;
+//AutoPtr< ArrayOf<IObjectStreamField*> > HashMap::sSerialPersistentFields;
 
 const Int32 HashMap::MINIMUM_CAPACITY;
 
@@ -783,6 +783,7 @@ Int32 HashMap::RoundUpToPowerOfTwo(
     return i + 1;
 }
 
+#if 0
 ECode HashMap::WriteObject(
     /* [in] */ IObjectOutputStream* stream)
 {
@@ -852,6 +853,7 @@ ECode HashMap::ReadObject(
     }
     return NOERROR;
 }
+#endif
 
 ECode HashMap::Put(
     /* [in] */ PInterface key,

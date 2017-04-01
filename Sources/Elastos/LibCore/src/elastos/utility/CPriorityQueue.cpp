@@ -14,15 +14,16 @@
 // limitations under the License.
 //=========================================================================
 
-#include "Elastos.CoreLibrary.IO.h"
+//#include "Elastos.CoreLibrary.IO.h"
 #include "CPriorityQueue.h"
 #include "Arrays.h"
 #include "Math.h"
 
 using Elastos::Core::IComparable;
 using Elastos::IO::EIID_ISerializable;
-using Elastos::IO::IOutputStream;
-using Elastos::IO::IInputStream;
+// using Elastos::IO::IOutputStream;
+// using Elastos::IO::IInputStream;
+#define E_NO_SUCH_ELEMENT_EXCEPTION     0xAB000000
 
 namespace Elastos {
 namespace Utility {
@@ -346,6 +347,14 @@ ECode CPriorityQueue::GetIterator(
     return NOERROR;
 }
 
+AutoPtr< ArrayOf<IInterface*> > CPriorityQueue::NewElementArray(
+    /* [in] */ Int32 capacity)
+{
+    AutoPtr< ArrayOf<IInterface*> > outres = ArrayOf<IInterface*>::Alloc(capacity);
+    return outres;
+}
+
+#if 0
 ECode CPriorityQueue::ReadObject(
     /* [in] */ IObjectInputStream* in)
 {
@@ -360,13 +369,6 @@ ECode CPriorityQueue::ReadObject(
     return NOERROR;
 }
 
-AutoPtr< ArrayOf<IInterface*> > CPriorityQueue::NewElementArray(
-    /* [in] */ Int32 capacity)
-{
-    AutoPtr< ArrayOf<IInterface*> > outres = ArrayOf<IInterface*>::Alloc(capacity);
-    return outres;
-}
-
 ECode CPriorityQueue::WriteObject(
     /* [in] */ IObjectOutputStream* out)
 {
@@ -378,6 +380,7 @@ ECode CPriorityQueue::WriteObject(
     }
     return NOERROR;
 }
+#endif
 
 ECode CPriorityQueue::GetFromPriorityQueue(
     /* [in] */ IPriorityQueue* c)

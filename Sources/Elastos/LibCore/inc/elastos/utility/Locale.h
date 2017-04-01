@@ -24,7 +24,7 @@
 
 using Elastos::Core::ICloneable;
 using Elastos::Core::Object;
-// using Elastos::IO::ISerializable;
+using Elastos::IO::ISerializable;
 // using Elastos::IO::IObjectOutputStream;
 // using Elastos::IO::IObjectStreamField;
 

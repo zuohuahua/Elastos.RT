@@ -21,7 +21,7 @@
 #include "Object.h"
 
 using Elastos::Core::IComparable;
-// using Elastos::IO::ISerializable;
+using Elastos::IO::ISerializable;
 // using Elastos::IO::IObjectInputStream;
 // using Elastos::Security::ISecureRandom;
 
@@ -32,7 +32,7 @@ CarClass(CUUID)
     , public Object
     , public IUUID
     , public IComparable
-    // , public ISerializable
+    , public ISerializable
 {
 public:
     CAR_INTERFACE_DECL()

@@ -31,7 +31,7 @@ using Elastos::Core::IComparator;
 using Elastos::Core::IComparable;
 using Elastos::Core::StringBuilder;
 using Elastos::Core::IArrayOf;
-// using Elastos::IO::ISerializable;
+using Elastos::IO::ISerializable;
 //using Elastos::Utility::Logging::Logger;
 
 namespace Elastos {

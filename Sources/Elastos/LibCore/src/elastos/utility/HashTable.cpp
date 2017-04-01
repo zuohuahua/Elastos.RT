@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "Elastos.CoreLibrary.IO.h"
+//#include "Elastos.CoreLibrary.IO.h"
 #include "CFloat.h"
 #include "StringBuilder.h"
 #include "HashTable.h"
@@ -25,9 +25,9 @@ using Elastos::Core::AutoLock;
 using Elastos::Core::IFloat;
 using Elastos::Core::CFloat;
 using Elastos::Core::StringBuilder;
-using Elastos::IO::IObjectOutputStreamPutField;
-using Elastos::IO::IInputStream;
-using Elastos::IO::IOutputStream;
+// using Elastos::IO::IObjectOutputStreamPutField;
+// using Elastos::IO::IInputStream;
+// using Elastos::IO::IOutputStream;
 using Elastos::Core::EIID_ICloneable;
 using Elastos::IO::EIID_ISerializable;
 
@@ -805,7 +805,7 @@ const Int32 HashTable::CHARS_PER_ENTRY;
 
 const Int64 HashTable::sSerialVersionUID;
 
-const AutoPtr<ArrayOf<IObjectStreamField*> > HashTable::sSerialPersistentFields;// = {
+//const AutoPtr<ArrayOf<IObjectStreamField*> > HashTable::sSerialPersistentFields;// = {
     //     new ObjectStreamField("threshold", int.class),
     //     new ObjectStreamField("loadFactor", float.class),
     // };
@@ -1560,6 +1560,7 @@ Int32 HashTable::RoundUpToPowerOfTwo(
     return i + 1;
 }
 
+#if 0
 ECode HashTable::WriteObject(
     /* [in] */ IObjectOutputStream* stream)
 {
@@ -1627,6 +1628,7 @@ ECode HashTable::ReadObject(
     }
     return NOERROR;
 }
+#endif
 
 } // namespace Utility
 } // namespace Elastos

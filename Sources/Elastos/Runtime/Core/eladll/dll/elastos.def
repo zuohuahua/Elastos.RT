@@ -35,6 +35,8 @@ EXPORTS
     _CObject_CreateInstanceEx                       @107    NONAME
     _CObject_AcquireClassFactory                    @108    NONAME
 
+    _CObject_Compare                                @114    NONAME
+
     _CObject_ReflectModuleInfo                      @117    NONAME
     _CObject_ReflectClassInfo                       @118    NONAME
     _CObject_ReflectInterfaceInfo                   @119    NONAME

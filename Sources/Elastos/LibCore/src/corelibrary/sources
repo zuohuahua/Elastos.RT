@@ -39,7 +39,7 @@ INCLUDES += $(MAKEDIR)/../../inc/elastos/math
 #INCLUDES += $(MAKEDIR)/../../inc/elastos/sql/sqlite
 #INCLUDES += $(MAKEDIR)/../../inc/elastos/sql/sqlite/jdbc
 #INCLUDES += $(MAKEDIR)/../../inc/elastos/text
-#INCLUDES += $(MAKEDIR)/../../inc/elastos/utility
+INCLUDES += $(MAKEDIR)/../../inc/elastos/utility
 #INCLUDES += $(MAKEDIR)/../../inc/elastos/utility/concurrent
 #INCLUDES += $(MAKEDIR)/../../inc/elastos/utility/concurrent/atomic
 #INCLUDES += $(MAKEDIR)/../../inc/elastos/utility/concurrent/locks
@@ -142,7 +142,7 @@ ELASTOS_LIBS += ../elastos/math/elastos.math.lib
 #ELASTOS_LIBS += ../elastos/security/elastos.security.lib
 #ELASTOS_LIBS += ../elastos/sql/elastos.sql.lib
 #ELASTOS_LIBS += ../elastos/text/elastos.text.lib
-#ELASTOS_LIBS += ../elastos/utility/elastos.utility.lib
+ELASTOS_LIBS += ../elastos/utility/elastos.utility.lib
 #ELASTOS_LIBS += ../libcore/io/libcore.io.lib
 
 #ELASTOS_LIBS += ../libcore/icu/libcore.icu.lib

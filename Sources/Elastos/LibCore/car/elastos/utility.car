@@ -22,7 +22,7 @@ module
     merge("utility/Exceptions.car");
 //    merge("utility/IBitSet.car");
     merge("utility/IDate.car");
-    merge("utility/ICalendar.car");
+//    merge("utility/ICalendar.car");
     merge("utility/IIterable.car");
     merge("utility/ICollection.car");
     merge("utility/IList.car");
@@ -47,13 +47,13 @@ module
     merge("utility/ITreeMap.car");
     merge("utility/ITreeSet.car");
     merge("utility/IRandomAccess.car");
-    merge("utility/ITimeZone.car");
-    merge("utility/ISimpleTimeZone.car");
-    merge("utility/ITimerTask.car");
-    merge("utility/ITimer.car");
+//    merge("utility/ITimeZone.car");
+//    merge("utility/ISimpleTimeZone.car");
+//    merge("utility/ITimerTask.car");
+//    merge("utility/ITimer.car");
     merge("utility/ICurrency.car");
     merge("utility/IUUID.car");
-    merge("utility/ITimeZoneGetter.car");
+//    merge("utility/ITimeZoneGetter.car");
     merge("utility/IArrayList.car");
     merge("utility/IFormattableFlags.car");
     merge("utility/IFormatter.car");
@@ -62,8 +62,8 @@ module
     merge("utility/IEventListener.car");
     merge("utility/IEventListenerProxy.car");
     merge("utility/IEventObject.car");
-    merge("utility/IResourceBundle.car");
-    merge("utility/IListResourceBundle.car");
+//    merge("utility/IResourceBundle.car");
+//    merge("utility/IListResourceBundle.car");
     merge("utility/ISortedMap.car");
     merge("utility/INavigableMap.car");
     merge("utility/ISet.car");
@@ -75,7 +75,7 @@ module
     merge("utility/IEnumSet.car");
     merge("utility/IHugeEnumSet.car");
     merge("utility/IMiniEnumSet.car");
-    merge("utility/IPropertyResourceBundle.car");
+//    merge("utility/IPropertyResourceBundle.car");
 //    merge("utility/IScanner.car");
     merge("utility/IServiceLoader.car");
     merge("utility/IVector.car");
@@ -362,7 +362,7 @@ module
         //interface ISerializable;
     }
 
-    class CIdentityHashMap {
+/*    class CIdentityHashMap {
         constructor();
 
         constructor(
@@ -376,6 +376,7 @@ module
         //interface ISerializable;
         interface ICloneable;
     }
+*/
 
     class CLinkedHashMap {
         constructor();
@@ -615,276 +616,278 @@ module
         interface IEnumSetHelper;
     }
 
-    singleton class CCalendarHelper {
+/*    singleton class CCalendarHelper {
         interface ICalendarHelper;
     }
-
+*/
+/*
     singleton class CCurrencyHelper {
         interface ICurrencyHelper;
     }
-
+*/
+/*
     singleton class CDateHelper {
         interface IDateHelper;
     }
-
-    class CGregorianCalendar {
-        /**
-         * Constructs a new {@code GregorianCalendar} initialized to the current date and
-         * time with the default {@code Locale} and {@code TimeZone}.
-         */
-        constructor();
-
-        /**
-         * Constructs a new {@code GregorianCalendar} initialized to midnight in the default
-         * {@code TimeZone} and {@code Locale} on the specified date.
-         *
-         * @param year
-         *            the year.
-         * @param month
-         *            the month.
-         * @param day
-         *            the day of the month.
-         */
-        constructor(
-            [in] Int32 year,
-            [in] Int32 month,
-            [in] Int32 day);
-
-        /**
-         * Constructs a new {@code GregorianCalendar} initialized to the specified date and
-         * time in the default {@code TimeZone} and {@code Locale}.
-         *
-         * @param year
-         *            the year.
-         * @param month
-         *            the month.
-         * @param day
-         *            the day of the month.
-         * @param hour
-         *            the hour.
-         * @param minute
-         *            the minute.
-         */
-        constructor(
-            [in] Int32 year,
-            [in] Int32 month,
-            [in] Int32 day,
-            [in] Int32 hour,
-            [in] Int32 minute);
-
-        /**
-         * Constructs a new {@code GregorianCalendar} initialized to the specified date and
-         * time in the default {@code TimeZone} and {@code Locale}.
-         *
-         * @param year
-         *            the year.
-         * @param month
-         *            the month.
-         * @param day
-         *            the day of the month.
-         * @param hour
-         *            the hour.
-         * @param minute
-         *            the minute.
-         * @param second
-         *            the second.
-         */
-        constructor(
-            [in] Int32 year,
-            [in] Int32 month,
-            [in] Int32 day,
-            [in] Int32 hour,
-            [in] Int32 minute,
-            [in] Int32 second);
-
-        constructor(
-            [in] Int64 milliseconds);
-
-        /**
-         * Constructs a new {@code GregorianCalendar} initialized to the current date and
-         * time and using the specified {@code Locale} and the default {@code TimeZone}.
-         *
-         * @param locale
-         *            the {@code Locale}.
-         */
-        constructor(
-            [in] ILocale* locale);
-
-        /**
-         * Constructs a new {@code GregorianCalendar} initialized to the current date and
-         * time and using the specified {@code TimeZone} and the default {@code Locale}.
-         *
-         * @param timezone
-         *            the {@code TimeZone}.
-         */
-        constructor(
-            [in] ITimeZone* timeZone);
-
-        /**
-         * Constructs a new {@code GregorianCalendar} initialized to the current date and
-         * time and using the specified {@code TimeZone} and {@code Locale}.
-         *
-         * @param timezone
-         *            the {@code TimeZone}.
-         * @param locale
-         *            the {@code Locale}.
-         */
-        constructor(
-            [in] ITimeZone* timeZone,
-            [in] ILocale* locale);
-
-        constructor(
-            [in] Boolean ignored);
-
-        interface IGregorianCalendar;
-        interface ICalendar;
-        //interface ISerializable;
-        interface ICloneable;
-        interface IComparable;
-    }
-
-    class CTimer {
-        constructor(
-            [in] String name,
-            [in] Boolean isDaemon);
-
-        constructor(
-            [in] String name);
-
-        constructor(
-            [in] Boolean isDaemon);
-
-        constructor();
-
-        interface ITimer;
-    }
-
-    class CUUID {
-        /**
-         * <p>
-         * Constructs an instance with the specified bits.
-         *
-         * @param mostSigBits
-         *            The 64 most significant bits of the UUID.
-         * @param leastSigBits
-         *            The 64 least significant bits of the UUID.
-         */
-        constructor(
-            [in] Int64 mostSigBits,
-            [in] Int64 leastSigBits);
-
-        interface IUUID;
-        interface IComparable;
-        //interface ISerializable;
-    }
-
-    singleton class CUUIDHelper {
-        interface IUUIDHelper;
-    }
-
-    singleton class CTimeZoneHelper {
-        interface ITimeZoneHelper;
-    }
-
-    class CLocale {
-        /**
-         * There's a circular dependency between toLowerCase/toUpperCase and
-         * Locale.US. Work around this by avoiding these methods when constructing
-         * the built-in locales.
-         *
-         * @param unused required for this constructor to have a unique signature
-         */
-        constructor(
-            [in] Boolean unused,
-            [in] String lowerCaseLanguageCode,
-            [in] String upperCaseCountryCode);
-
-        /**
-         * Constructs a new {@code Locale} using the specified language.
-         */
-        constructor(
-            [in] String language);
-
-        /**
-         * Constructs a new {@code Locale} using the specified language and country codes.
-         */
-        constructor(
-           [in] String language,
-           [in] String country);
-
-        /**
-         * Constructs a new {@code Locale} using the specified language, country,
-         * and variant codes.
-         */
-        constructor(
-            [in] String language,
-            [in] String country,
-            [in] String variant);
-
-        constructor(
-            [in] String language,
-            [in] String country,
-            [in] String variant,
-            [in] String scriptCode,
-            [in] ISet* unicodeAttributes,
-            [in] IMap* unicodeKeywords,
-            [in] IMap* extensions,
-            [in] Boolean hasValidatedFields);
-
-        interface ILocale;
-        interface ICloneable;
-        //interface ISerializable;
-    }
-
-    singleton class CLocaleHelper {
-        interface ILocaleHelper;
-    }
-
-    class CLocaleBuilder {
-        constructor();
-
-        interface ILocaleBuilder;
-    }
-
-    class CDate {
-
-        constructor();
-
-        //@Deprecated
-        constructor(
-            [in] Int32 year,
-            [in] Int32 month,
-            [in] Int32 day);
-
-        //@Deprecated
-        constructor(
-            [in] Int32 year,
-            [in] Int32 month,
-            [in] Int32 day,
-            [in] Int32 hour,
-            [in] Int32 minute);
-
-        //@Deprecated
-        constructor(
-            [in] Int32 year,
-            [in] Int32 month,
-            [in] Int32 day,
-            [in] Int32 hour,
-            [in] Int32 minute,
-            [in] Int32 second);
-
-        constructor(
-            [in] Int64 milliseconds);
-
-        //@Deprecated
-        constructor(
-            [in] String string);
-
-        interface IDate;
-        //interface ISerializable;
-        interface ICloneable;
-        interface IComparable;
-    }
+*/
+//    class CGregorianCalendar {
+//        /**
+//         * Constructs a new {@code GregorianCalendar} initialized to the current date and
+//         * time with the default {@code Locale} and {@code TimeZone}.
+//         */
+//        constructor();
+//
+//        /**
+//         * Constructs a new {@code GregorianCalendar} initialized to midnight in the default
+//         * {@code TimeZone} and {@code Locale} on the specified date.
+//         *
+//         * @param year
+//         *            the year.
+//         * @param month
+//         *            the month.
+//         * @param day
+//         *            the day of the month.
+//         */
+//        constructor(
+//            [in] Int32 year,
+//            [in] Int32 month,
+//            [in] Int32 day);
+//
+//        /**
+//         * Constructs a new {@code GregorianCalendar} initialized to the specified date and
+//         * time in the default {@code TimeZone} and {@code Locale}.
+//         *
+//         * @param year
+//         *            the year.
+//         * @param month
+//         *            the month.
+//         * @param day
+//         *            the day of the month.
+//         * @param hour
+//         *            the hour.
+//         * @param minute
+//         *            the minute.
+//         */
+//        constructor(
+//            [in] Int32 year,
+//            [in] Int32 month,
+//            [in] Int32 day,
+//            [in] Int32 hour,
+//            [in] Int32 minute);
+//
+//        /**
+//         * Constructs a new {@code GregorianCalendar} initialized to the specified date and
+//         * time in the default {@code TimeZone} and {@code Locale}.
+//         *
+//         * @param year
+//         *            the year.
+//         * @param month
+//         *            the month.
+//         * @param day
+//         *            the day of the month.
+//         * @param hour
+//         *            the hour.
+//         * @param minute
+//         *            the minute.
+//         * @param second
+//         *            the second.
+//         */
+//        constructor(
+//            [in] Int32 year,
+//            [in] Int32 month,
+//            [in] Int32 day,
+//            [in] Int32 hour,
+//            [in] Int32 minute,
+//            [in] Int32 second);
+//
+//        constructor(
+//            [in] Int64 milliseconds);
+//
+//        /**
+//         * Constructs a new {@code GregorianCalendar} initialized to the current date and
+//         * time and using the specified {@code Locale} and the default {@code TimeZone}.
+//         *
+//         * @param locale
+//         *            the {@code Locale}.
+//         */
+//        constructor(
+//            [in] ILocale* locale);
+//
+//        /**
+//         * Constructs a new {@code GregorianCalendar} initialized to the current date and
+//         * time and using the specified {@code TimeZone} and the default {@code Locale}.
+//         *
+//         * @param timezone
+//         *            the {@code TimeZone}.
+//         */
+//        constructor(
+//            [in] ITimeZone* timeZone);
+//
+//        /**
+//         * Constructs a new {@code GregorianCalendar} initialized to the current date and
+//         * time and using the specified {@code TimeZone} and {@code Locale}.
+//         *
+//         * @param timezone
+//         *            the {@code TimeZone}.
+//         * @param locale
+//         *            the {@code Locale}.
+//         */
+//        constructor(
+//            [in] ITimeZone* timeZone,
+//            [in] ILocale* locale);
+//
+//        constructor(
+//            [in] Boolean ignored);
+//
+//        interface IGregorianCalendar;
+//        interface ICalendar;
+//        //interface ISerializable;
+//        interface ICloneable;
+//        interface IComparable;
+//    }
+//
+//    class CTimer {
+//        constructor(
+//            [in] String name,
+//            [in] Boolean isDaemon);
+//
+//        constructor(
+//            [in] String name);
+//
+//        constructor(
+//            [in] Boolean isDaemon);
+//
+//        constructor();
+//
+//        interface ITimer;
+//    }
+//
+//    class CUUID {
+//        /**
+//         * <p>
+//         * Constructs an instance with the specified bits.
+//         *
+//         * @param mostSigBits
+//         *            The 64 most significant bits of the UUID.
+//         * @param leastSigBits
+//         *            The 64 least significant bits of the UUID.
+//         */
+//        constructor(
+//            [in] Int64 mostSigBits,
+//            [in] Int64 leastSigBits);
+//
+//        interface IUUID;
+//        interface IComparable;
+//        //interface ISerializable;
+//    }
+//
+//    singleton class CUUIDHelper {
+//        interface IUUIDHelper;
+//    }
+//
+//    singleton class CTimeZoneHelper {
+//        interface ITimeZoneHelper;
+//    }
+//
+//    class CLocale {
+//        /**
+//         * There's a circular dependency between toLowerCase/toUpperCase and
+//         * Locale.US. Work around this by avoiding these methods when constructing
+//         * the built-in locales.
+//         *
+//         * @param unused required for this constructor to have a unique signature
+//         */
+//        constructor(
+//            [in] Boolean unused,
+//            [in] String lowerCaseLanguageCode,
+//            [in] String upperCaseCountryCode);
+//
+//        /**
+//         * Constructs a new {@code Locale} using the specified language.
+//         */
+//        constructor(
+//            [in] String language);
+//
+//        /**
+//         * Constructs a new {@code Locale} using the specified language and country codes.
+//         */
+//        constructor(
+//           [in] String language,
+//           [in] String country);
+//
+//        /**
+//         * Constructs a new {@code Locale} using the specified language, country,
+//         * and variant codes.
+//         */
+//        constructor(
+//            [in] String language,
+//            [in] String country,
+//            [in] String variant);
+//
+//        constructor(
+//            [in] String language,
+//            [in] String country,
+//            [in] String variant,
+//            [in] String scriptCode,
+//            [in] ISet* unicodeAttributes,
+//            [in] IMap* unicodeKeywords,
+//            [in] IMap* extensions,
+//            [in] Boolean hasValidatedFields);
+//
+//        interface ILocale;
+//        interface ICloneable;
+//        //interface ISerializable;
+//    }
+//
+//    singleton class CLocaleHelper {
+//        interface ILocaleHelper;
+//    }
+//
+//    class CLocaleBuilder {
+//        constructor();
+//
+//        interface ILocaleBuilder;
+//    }
+//
+//    class CDate {
+//
+//        constructor();
+//
+//        //@Deprecated
+//        constructor(
+//            [in] Int32 year,
+//            [in] Int32 month,
+//            [in] Int32 day);
+//
+//        //@Deprecated
+//        constructor(
+//            [in] Int32 year,
+//            [in] Int32 month,
+//            [in] Int32 day,
+//            [in] Int32 hour,
+//            [in] Int32 minute);
+//
+//        //@Deprecated
+//        constructor(
+//            [in] Int32 year,
+//            [in] Int32 month,
+//            [in] Int32 day,
+//            [in] Int32 hour,
+//            [in] Int32 minute,
+//            [in] Int32 second);
+//
+//        constructor(
+//            [in] Int64 milliseconds);
+//
+//        //@Deprecated
+//        constructor(
+//            [in] String string);
+//
+//        interface IDate;
+//        //interface ISerializable;
+//        interface ICloneable;
+//        interface IComparable;
+//    }
 
     } // namespace Utility
     } // namespace Elastos

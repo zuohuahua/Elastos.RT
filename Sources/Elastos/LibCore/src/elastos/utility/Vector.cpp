@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "Elastos.CoreLibrary.IO.h"
+//#include "Elastos.CoreLibrary.IO.h"
 #include "Vector.h"
 #include "Arrays.h"
 #include "Collections.h"
@@ -27,6 +27,7 @@ using Elastos::Core::EIID_ICloneable;
 using Elastos::Core::StringBuilder;
 using Elastos::Utility::Arrays;
 using Elastos::IO::EIID_ISerializable;
+#define E_NO_SUCH_ELEMENT_EXCEPTION     0xAB000000
 
 namespace Elastos {
 namespace Utility {
@@ -914,6 +915,7 @@ ECode Vector::TrimToSize()
     return NOERROR;
 }
 
+#if 0
 ECode Vector::WriteObject(
     /* [in] */ IObjectOutputStream* stream)
 {
@@ -923,6 +925,7 @@ ECode Vector::WriteObject(
 
     return NOERROR;
 }
+#endif
 
 } // namespace Utility
 } // namespace Elastos
