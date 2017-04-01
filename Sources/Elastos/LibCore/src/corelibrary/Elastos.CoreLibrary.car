@@ -18,7 +18,7 @@ module
 {
     submodule Elastos.CoreLibrary.Core {
     merge("../../car/elastos/core.car");
-//    merge("../../car/elastos/math.car");
+    merge("../../car/elastos/math.car");
 //    merge("../../car/elastos/system.car");
     }
 

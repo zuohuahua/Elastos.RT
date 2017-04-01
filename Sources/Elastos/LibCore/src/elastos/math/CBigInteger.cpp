@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "Elastos.CoreLibrary.Utility.h"
+//#include "Elastos.CoreLibrary.Utility.h"
 #include "CBigInteger.h"
 #include "Conversion.h"
 #include "BitLevel.h"

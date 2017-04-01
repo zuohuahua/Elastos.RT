@@ -1,6 +1,6 @@
 # Tips for build process
 
-## How to install icu library(32bit) on ubuntu
+## How to install icu library(32bit) on Ubuntu
 
 Install the icu library with version 52, and find the location where the *.so installed.
 ```
@@ -24,3 +24,9 @@ endif
 ```
 If you want to make 64 bits version ElastosRT on Ubuntu 64bit, remove these statements.
 
+## How to install ssl library(32bit) on Ubuntu
+
+Install the ssl library(32bit) on Ubuntu
+```
+$ sudo apt-get install libssl-dev:i386
+```
