@@ -37,22 +37,22 @@ using Elastos::Core::EIID_INumber;
 namespace Elastos {
 namespace Math {
 
-static void assertEquals(const char *info, Int32 aspect, Int32 test)
+static void assertEquals(const char *hintMessage, Int32 expecting, Int32 toVerify)
 {
-    printf("aspect: %d, test: %d. %s\n", aspect, test, info);
-    assert(aspect == test);
+    printf("expecting: %d, toVerify: %d. %s\n", expecting, toVerify, hintMessage);
+    assert(expecting == toVerify);
 }
 
-static void assertEquals(const char *info, Double aspect, Double test)
+static void assertEquals(const char *hintMessage, Double expecting, Double toVerify)
 {
-    printf("aspect: %f, test: %f. %s\n", aspect, test, info);
-    assert(aspect == test);
+    printf("expecting: %f, toVerify: %f. %s\n", expecting, toVerify, hintMessage);
+    assert(expecting == toVerify);
 }
 
-static void assertEquals(const char *info, String aspect, String test)
+static void assertEquals(const char *hintMessage, String expecting, String toVerify)
 {
-    printf("aspect: %s, test: %s. %s\n", aspect.string(), test.string(), info);
-    assert(aspect.Equals(test) == 0);
+    printf("expecting: %s, toVerify: %s. %s\n", expecting.string(), toVerify.string(), hintMessage);
+    assert(expecting.Equals(toVerify) == TRUE);
 }
 
 #if 0
@@ -213,7 +213,7 @@ void test_ConstructorLjava_math_BigIntegerI()
 		assertTrue(
 				"the double representation of 0.00345 bigDecimal is not correct",
 				big.doubleValue() == 0.00345);
-        // regression test for HARMONY-2429
+        // regression toVerify for HARMONY-2429
         big = new BigDecimal(-0.0);
         assertTrue(
         		"the double representation of -0.0 bigDecimal is not correct",
@@ -1247,7 +1247,7 @@ void test_ConstructorD()
 
 //==============================================================================
 
-int mainBigDecimalTest(int argc, char *argv[])
+EXTERN_C int mainBigDecimalTest(int argc, char *argv[])
 {
     printf("\n==== libcore/math/BigDecimalTest ====\n");
     test_ConstructorLjava_math_BigInteger();

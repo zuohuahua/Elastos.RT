@@ -36,10 +36,10 @@ using Elastos::Core::EIID_IComparable;
 namespace Elastos {
 namespace Math {
 
-static void assertEquals(const char *info, Int32 aspect, Int32 test)
+static void assertEquals(const char *hintMessage, Int32 expecting, Int32 toVerify)
 {
-    printf("aspect: %d, test: %d. %s\n", aspect, test, info);
-    assert(aspect == test);
+    printf("expecting: %d, toVerify: %d. %s\n", expecting, toVerify, hintMessage);
+    assert(expecting == toVerify);
 }
 
 #if 0
@@ -130,7 +130,7 @@ void testAndNotPosPosFirstLonger() {
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
@@ -194,7 +194,7 @@ void testAndNotPosPosFirstShorter() {
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
@@ -258,7 +258,7 @@ void testAndNotNegNegFirstLonger() {
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
@@ -382,7 +382,7 @@ void testAndNotNegNegFirstLonger() {
 #endif
 //==============================================================================
 
-int mainBigIntegerNotTest(int argc, char *argv[])
+EXTERN_C int mainBigIntegerNotTest(int argc, char *argv[])
 {
     printf("\n==== libcore/math/BigIntegerNotTest ====\n");
     testAndNotPosPosFirstLonger();

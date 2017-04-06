@@ -31,53 +31,54 @@ using Elastos::Math::CBigDecimal;
 using Elastos::Math::IBigDecimalHelper;
 using Elastos::Math::CBigDecimalHelper;
 
+#define ARRAY_SIZE(a)   (sizeof (a) / sizeof ((a)[0]))
 
-static void assertEquals(const String& aspect, const String& test)
+static void assertEquals(const String& expecting, const String& toVerify)
 {
-    printf("aspect: [%s], test: [%s]\n", aspect.string(), test.string());
-    assert(aspect.Equals(test) && "result not equals aspect!");
+    printf("expecting: [%s], toVerify: [%s]\n", expecting.string(), toVerify.string());
+    assert(expecting.Equals(toVerify) && "result not equals expecting!");
 }
 
-static void assertEquals(Double aspect, Double test)
+static void assertEquals(Double expecting, Double toVerify)
 {
-    printf("aspect: %f, test: %f\n", aspect, test);
-    assert(aspect == test);
+    printf("expecting: %f, toVerify: %f\n", expecting, toVerify);
+    assert(expecting == toVerify);
 }
 
-static void assertEquals(Float aspect, Float test)
+static void assertEquals(Float expecting, Float toVerify)
 {
-    printf("aspect: %f, test: %f\n", aspect, test);
-    assert(aspect == test);
+    printf("expecting: %f, toVerify: %f\n", expecting, toVerify);
+    assert(expecting == toVerify);
 }
 
-static void assertEquals(Int64 aspect, Int64 test)
+static void assertEquals(Int64 expecting, Int64 toVerify)
 {
-    printf("aspect: %lld, test: %lld\n", aspect, test);
-    assert(aspect == test);
+    printf("expecting: %lld, toVerify: %lld\n", expecting, toVerify);
+    assert(expecting == toVerify);
 }
 
-static void assertEquals(const char *info, Int32 aspect, Int32 test)
+static void assertEquals(const char *hintMessage, Int32 expecting, Int32 toVerify)
 {
-    printf("aspect: %d, test: %d. %s\n", aspect, test, info);
-    assert(aspect == test);
+    printf("expecting: %d, toVerify: %d. %s\n", expecting, toVerify, hintMessage);
+    assert(expecting == toVerify);
 }
 
-static void assertEquals(const char* info, Int64 test, Int64 aspect)
+static void assertEquals(const char* hintMessage, Int64 toVerify, Int64 expecting)
 {
-    printf("aspect: %lld, test: %lld. %s\n", aspect, test, info);
-    assert(aspect == test);
+    printf("expecting: %lld, toVerify: %lld. %s\n", expecting, toVerify, hintMessage);
+    assert(expecting == toVerify);
 }
 
-static void assertEquals(const char* info, Byte test, Byte aspect)
+static void assertEquals(const char* hintMessage, Byte toVerify, Byte expecting)
 {
-    printf("aspect: %x, test: %x. %s\n", aspect, test, info);
-    assert(aspect == test);
+    printf("expecting: %x, toVerify: %x. %s\n", expecting, toVerify, hintMessage);
+    assert(expecting == toVerify);
 }
 
 
-static void printArray(ArrayOf<IBigInteger *> *v, const char* info)
+static void printArray(ArrayOf<IBigInteger *> *v, const char* hintMessage)
 {
-    printf("  >------Start print %s ------<\n", info);
+    printf("  >------Start print %s ------<\n", hintMessage);
     Int32 len = v->GetLength();
     for (Int32 i = 0; i < len; ++i) {
         if ((*v)[i]) {
@@ -90,7 +91,7 @@ static void printArray(ArrayOf<IBigInteger *> *v, const char* info)
             printf("    > %d: NULL\n", i);
         }
     }
-    printf("  >------End print %s ------<\n", info);
+    printf("  >------End print %s ------<\n", hintMessage);
 }
 
 #if 0
@@ -151,15 +152,16 @@ public class BigIntegerAndTest extends TestCase {
 #endif
 void testZeroPos()
 {
-    AutoPtr<ArrayOf<Byte> > aBytes = ArrayOf<Byte>::Alloc(1);
-    AutoPtr<ArrayOf<Byte> > bBytes = ArrayOf<Byte>::Alloc(14);
-    AutoPtr<ArrayOf<Byte> > rBytes = ArrayOf<Byte>::Alloc(1);
-
     signed char _aBytes[] = {0};
     signed char _bBytes[] = {-2, -3, -4, -4, 5, 14, 23, 39, 48, 57, 66, 5, 14, 23};
     signed char _rBytes[] = {0};
+
+    AutoPtr<ArrayOf<Byte> > aBytes = ArrayOf<Byte>::Alloc(1);
+    AutoPtr<ArrayOf<Byte> > bBytes = ArrayOf<Byte>::Alloc(ARRAY_SIZE(_bBytes));
+    AutoPtr<ArrayOf<Byte> > rBytes = ArrayOf<Byte>::Alloc(1);
+
     memcpy(aBytes->GetPayload(), _aBytes, 1);
-    memcpy(bBytes->GetPayload(), _bBytes, 14);
+    memcpy(bBytes->GetPayload(), _bBytes, ARRAY_SIZE(_bBytes));
     memcpy(rBytes->GetPayload(), _rBytes, 1);
 
     int aSign = 0;
@@ -167,14 +169,16 @@ void testZeroPos()
 
     AutoPtr<IBigInteger> aNumber;
     ECode ec = CBigInteger::New(aSign, *aBytes, (IBigInteger**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
-        printf(" Failed to create CBigInteger. Error %08X\n", ec);
+    if (FAILED(ec)) {
+        printf("testZeroPos() Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> bNumber;
     ec = CBigInteger::New(bSign, *bBytes, (IBigInteger**)&bNumber);
-    if (FAILED(ec) || bNumber == NULL) {
-        printf(" Failed to create CBigInteger. Error %08X\n", ec);
+    if (FAILED(ec)) {
+        printf("testZeroPos() Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> result;
@@ -184,12 +188,12 @@ void testZeroPos()
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("testZeroPos() data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
     result->GetSignum(&sign);
-    assertEquals("incorrect sign", 0, sign);
+    assertEquals("testZeroPos() incorrect sign", 0, sign);
 }
 
 
@@ -249,7 +253,7 @@ void testZeroNeg()
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
@@ -313,7 +317,7 @@ void testPosZero()
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
@@ -700,7 +704,7 @@ void testPosZero()
 
 //==============================================================================
 
-int mainBigIntegerAndTest(int argc, char *argv[])
+EXTERN_C int mainBigIntegerAndTest(int argc, char *argv[])
 {
     printf("\n==== libcore/math/BigIntegerAndTest ====\n");
     testZeroPos();

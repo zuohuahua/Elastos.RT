@@ -106,10 +106,10 @@ module
         interface IBigDecimal;
     }
 
-/*    singleton class CBigDecimalHelper {
+    singleton class CBigDecimalHelper {
         interface IBigDecimalHelper;
     }
-*/
+
     [deprecated]
     class CBigInteger {
         constructor();
@@ -152,11 +152,10 @@ module
         interface IComparable;
         interface IBigInteger;
     }
-/*
+
     singleton class CBigIntegerHelper {
         interface IBigIntegerHelper;
     }
-*/
 
     class CMathContext {
         constructor(
@@ -169,11 +168,11 @@ module
         //interface ISerializable;
         interface IMathContext;
     }
-/*
+
     singleton class CMathContextHelper {
         interface IMathContextHelper;
     }
-*/
+
     } // namespace Core
     } // namespace Elastos
 

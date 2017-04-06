@@ -36,10 +36,10 @@ using Elastos::Core::EIID_IComparable;
 namespace Elastos {
 namespace Math {
 
-static void assertEquals(const char *info, Int32 aspect, Int32 test)
+static void assertEquals(const char *hintMessage, Int32 expecting, Int32 toVerify)
 {
-    printf("aspect: %d, test: %d. %s\n", aspect, test, info);
-    assert(aspect == test);
+    printf("expecting: %d, toVerify: %d. %s\n", expecting, toVerify, hintMessage);
+    assert(expecting == toVerify);
 }
 
 #if 0
@@ -112,7 +112,7 @@ void testRadixOutOfRange()
 
 
     /**
-     * test negative number of radix 2
+     * toVerify negative number of radix 2
      */
 #if 0
     public void testRadix2Neg() {
@@ -126,7 +126,7 @@ void testRadixOutOfRange()
 
 
     /**
-     * test positive number of radix 2
+     * toVerify positive number of radix 2
      */
 #if 0
     public void testRadix2Pos() {
@@ -140,7 +140,7 @@ void testRadixOutOfRange()
 
 
     /**
-     * test negative number of radix 10
+     * toVerify negative number of radix 10
      */
 #if 0
     public void testRadix10Neg() {
@@ -154,7 +154,7 @@ void testRadixOutOfRange()
 
 
     /**
-     * test positive number of radix 10
+     * toVerify positive number of radix 10
      */
 #if 0
     public void testRadix10Pos() {
@@ -168,7 +168,7 @@ void testRadixOutOfRange()
 
 
     /**
-     * test negative number of radix 16
+     * toVerify negative number of radix 16
      */
 #if 0
     public void testRadix16Neg() {
@@ -182,7 +182,7 @@ void testRadixOutOfRange()
 
 
     /**
-     * test positive number of radix 16
+     * toVerify positive number of radix 16
      */
 #if 0
     public void testRadix16Pos() {
@@ -196,7 +196,7 @@ void testRadixOutOfRange()
 
 
     /**
-     * test negative number of radix 24
+     * toVerify negative number of radix 24
      */
 #if 0
     public void testRadix24Neg() {
@@ -210,7 +210,7 @@ void testRadixOutOfRange()
 
 
     /**
-     * test positive number of radix 24
+     * toVerify positive number of radix 24
      */
 #if 0
     public void testRadix24Pos() {
@@ -224,7 +224,7 @@ void testRadixOutOfRange()
 
 
     /**
-     * test negative number of radix 24
+     * toVerify negative number of radix 24
      */
 #if 0
     public void testRadix36Neg() {
@@ -238,7 +238,7 @@ void testRadixOutOfRange()
 
 
     /**
-     * test positive number of radix 24
+     * toVerify positive number of radix 24
      */
 #if 0
     public void testRadix36Pos() {
@@ -253,7 +253,7 @@ void testRadixOutOfRange()
 
 //==============================================================================
 
-int mainBigIntegerToStringTest(int argc, char *argv[])
+EXTERN_C int mainBigIntegerToStringTest(int argc, char *argv[])
 {
     printf("\n==== libcore/math/BigIntegerToStringTest ====\n");
     testRadixOutOfRange();

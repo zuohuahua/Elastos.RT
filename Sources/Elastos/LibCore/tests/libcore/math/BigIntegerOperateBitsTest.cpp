@@ -36,10 +36,10 @@ using Elastos::Core::EIID_IComparable;
 namespace Elastos {
 namespace Math {
 
-static void assertEquals(const char *info, Int32 aspect, Int32 test)
+static void assertEquals(const char *hintMessage, Int32 expecting, Int32 toVerify)
 {
-    printf("aspect: %d, test: %d. %s\n", aspect, test, info);
-    assert(aspect == test);
+    printf("expecting: %d, toVerify: %d. %s\n", expecting, toVerify, hintMessage);
+    assert(expecting == toVerify);
 }
 
 #if 0
@@ -1665,7 +1665,7 @@ void testBitLengthPositive2()
 #endif
 //==============================================================================
 
-int mainBigIntegerOperateBitsTest(int argc, char *argv[])
+EXTERN_C int mainBigIntegerOperateBitsTest(int argc, char *argv[])
 {
     printf("\n==== libcore/math/BigIntegerOperateBitsTest ====\n");
     testBitCountZero();

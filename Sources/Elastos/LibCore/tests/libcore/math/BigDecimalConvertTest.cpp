@@ -37,35 +37,39 @@ using Elastos::Core::EIID_INumber;
 namespace Elastos {
 namespace Math {
 
-static void assertEquals(const char *info, Int32 aspect, Int32 test)
+#if 0
+static void assertEquals(const char *hintMessage, Int32 expecting, Int32 toVerify)
 {
-    printf("aspect: %d, test: %d. %s\n", aspect, test, info);
-    assert(aspect == test);
+    printf("expecting: %d, toVerify: %d. %s\n", expecting, toVerify, hintMessage);
+    assert(expecting == toVerify);
+}
+#endif
+
+static void assertEquals(const char *hintMessage, Int64 expecting, Int64 toVerify)
+{
+    printf("expecting: %lld, toVerify: %lld. %s\n", expecting, toVerify, hintMessage);
+    assert(expecting == toVerify);
 }
 
-static void assertEquals(const char *info, Int64 aspect, Int64 test)
+static void assertEquals(const char *hintMessage, Double expecting, Double toVerify)
 {
-    printf("aspect: %lld, test: %lld. %s\n", aspect, test, info);
-    assert(aspect == test);
+    printf("expecting: %f, toVerify: %f. %s\n", expecting, toVerify, hintMessage);
+    assert(expecting == toVerify);
 }
 
-static void assertEquals(const char *info, Double aspect, Double test)
+static void assertEquals(const char *hintMessage, Float expecting, Float toVerify)
 {
-    printf("aspect: %f, test: %f. %s\n", aspect, test, info);
-    assert(aspect == test);
+    printf("expecting: %f, toVerify: %f. %s\n", expecting, toVerify, hintMessage);
+    assert(expecting == toVerify);
 }
 
-static void assertEquals(const char *info, Float aspect, Float test)
+#if 0
+static void assertEquals(const char *hintMessage, String expecting, String toVerify)
 {
-    printf("aspect: %f, test: %f. %s\n", aspect, test, info);
-    assert(aspect == test);
+    printf("expecting: %s, toVerify: %s. %s\n", expecting.string(), toVerify.string(), hintMessage);
+    assert(expecting.Equals(toVerify) == TRUE);
 }
-
-static void assertEquals(const char *info, String aspect, String test)
-{
-    printf("aspect: %s, test: %s. %s\n", aspect.string(), test.string(), info);
-    assert(aspect.Equals(test) == 0);
-}
+#endif
 
 #if 0
 /*
@@ -238,8 +242,8 @@ void testDoubleValueNegInfinity()
 void testDoubleValueMinusZero()
 {
     String a = String("-123809648392384754573567356745735.63567890295784902768787678287E-400");
-    double result;
-    Int64 minusZero = -9223372036854775808L;
+    //Int64 minusZero = -9223372036854775808L;
+    Int64 maxNegative = 9223372036854775807L;
     Double bNumber;
 
     AutoPtr<IBigDecimal> aNumber;
@@ -251,6 +255,9 @@ void testDoubleValueMinusZero()
     AutoPtr<INumber> cNumber;
     cNumber = (INumber *)aNumber->Probe(EIID_INumber);
     cNumber->DoubleValue(&bNumber);
+
+    // 9223372036854775807L+1 == -9223372036854775808L == 0x8000 0000 0000 0000L == minusZero
+    assertEquals("testDoubleValueMinusZero() incorrect value", Elastos::Core::Math::DoubleToRawInt64Bits(bNumber), maxNegative+1);
 }
     /**
      * Double value of a small positive BigDecimal
@@ -267,8 +274,6 @@ void testDoubleValueMinusZero()
 void testDoubleValuePlusZero()
 {
     String a = String("123809648392384754573567356745735.63567890295784902768787678287E-400");
-    double result;
-    Int64 zero = 0;
     Double bNumber;
 
     AutoPtr<IBigDecimal> aNumber;
@@ -881,7 +886,7 @@ void testFloatValuePos()
 
 //==============================================================================
 
-int mainBigDecimalConvertTest(int argc, char *argv[])
+EXTERN_C int mainBigDecimalConvertTest(int argc, char *argv[])
 {
     printf("\n==== libcore/math/BigDecimalConvertTest ====\n");
     testDoubleValueNeg();

@@ -36,13 +36,13 @@ using Elastos::Core::EIID_IComparable;
 namespace Elastos {
 namespace Math {
 
-static void assertEquals(const char *info, Int32 aspect, Int32 test)
+#if 0
+static void assertEquals(const char *hintMessage, Int32 expecting, Int32 toVerify)
 {
-    printf("aspect: %d, test: %d. %s\n", aspect, test, info);
-    assert(aspect == test);
+    printf("expecting: %d, toVerify: %d. %s\n", expecting, toVerify, hintMessage);
+    assert(expecting == toVerify);
 }
 
-#if 0
 /*
  *  Licensed to the Apache Software Foundation (ASF) under one or more
  *  contributor license agreements.  See the NOTICE file distributed with
@@ -143,7 +143,7 @@ IBigInteger* myBigInteger(String s, Int32 radix)
 	 */
 #if 0
     public void test_ConstructorILjava_util_Random() {
-        // regression test for HARMONY-1047
+        // regression toVerify for HARMONY-1047
 		try {
 			new BigInteger(Integer.MAX_VALUE, (Random)null);
 			fail("NegativeArraySizeException expected");
@@ -1005,7 +1005,7 @@ IBigInteger* myBigInteger(String s, Int32 radix)
 
  #if 0
     public void testClone() {
-        // Regression test for HARMONY-1770
+        // Regression toVerify for HARMONY-1770
         MyBigInteger myBigInteger = new MyBigInteger("12345");
         myBigInteger = (MyBigInteger) myBigInteger.clone();
     }
@@ -1152,7 +1152,7 @@ IBigInteger* myBigInteger(String s, Int32 radix)
 
 //==============================================================================
 
-int mainBigIntegerTest(int argc, char *argv[])
+EXTERN_C int mainBigIntegerTest(int argc, char *argv[])
 {
     printf("\n==== libcore/math/BigIntegerTest ====\n");
     printf("\n==== end of libcore/math/BigIntegerTest ====\n");

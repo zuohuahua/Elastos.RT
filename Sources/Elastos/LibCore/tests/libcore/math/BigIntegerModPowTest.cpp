@@ -36,10 +36,10 @@ using Elastos::Core::EIID_IComparable;
 namespace Elastos {
 namespace Math {
 
-static void assertEquals(const char *info, Int32 aspect, Int32 test)
+static void assertEquals(const char *hintMessage, Int32 expecting, Int32 toVerify)
 {
-    printf("aspect: %d, test: %d. %s\n", aspect, test, info);
-    assert(aspect == test);
+    printf("expecting: %d, toVerify: %d. %s\n", expecting, toVerify, hintMessage);
+    assert(expecting == toVerify);
 }
 
 #if 0
@@ -244,20 +244,22 @@ void testModPowPosExp()
 
     AutoPtr<IBigInteger> aNumber;
     ECode ec = CBigInteger::New(aSign, *aBytes, (IBigInteger**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> eNumber;
     ec = CBigInteger::New(eSign, *eBytes, (IBigInteger**)&eNumber);
-    if (FAILED(ec) || eNumber == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigInteger. Error %08X\n", ec);
     }
 
     AutoPtr<IBigInteger> mNumber;
     ec = CBigInteger::New(mSign, *mBytes, (IBigInteger**)&mNumber);
-    if (FAILED(ec) || mNumber == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> result;
@@ -267,7 +269,7 @@ void testModPowPosExp()
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
@@ -589,7 +591,7 @@ void testModPowPosExp()
 
 //==============================================================================
 
-int mainBigIntegerModPowTest(int argc, char *argv[])
+EXTERN_C int mainBigIntegerModPowTest(int argc, char *argv[])
 {
     printf("\n==== libcore/math/BigIntegerModPowTest ====\n");
     testModPowException();

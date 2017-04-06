@@ -39,16 +39,16 @@ using Elastos::Core::EIID_INumber;
 namespace Elastos {
 namespace Math {
 
-static void assertEquals(const char *info, Int32 aspect, Int32 test)
+static void assertEquals(const char *hintMessage, Int32 expecting, Int32 toVerify)
 {
-    printf("aspect: %d, test: %d. %s\n", aspect, test, info);
-    assert(aspect == test);
+    printf("expecting: %d, toVerify: %d. %s\n", expecting, toVerify, hintMessage);
+    assert(expecting == toVerify);
 }
 
-static void assertEquals(const char *info, double aspect, double test)
+static void assertEquals(const char *hintMessage, double expecting, double toVerify)
 {
-    printf("aspect: %f, test: %f. %s\n", aspect, test, info);
-    assert(aspect == test);
+    printf("expecting: %f, toVerify: %f. %s\n", expecting, toVerify, hintMessage);
+    assert(expecting == toVerify);
 }
 
 #if 0
@@ -1123,7 +1123,7 @@ void testDoubleValuePosNotRounded()
 
 //==============================================================================
 
-int mainBigIntegerConvertTest(int argc, char *argv[])
+EXTERN_C int mainBigIntegerConvertTest(int argc, char *argv[])
 {
     printf("\n==== libcore/math/BigIntegerConvertTest ====\n");
     testDoubleValueZero();

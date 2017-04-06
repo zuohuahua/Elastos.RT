@@ -31,53 +31,58 @@ using Elastos::Math::CBigDecimal;
 using Elastos::Math::IBigDecimalHelper;
 using Elastos::Math::CBigDecimalHelper;
 
+#define ARRAY_SIZE(a)   (sizeof (a) / sizeof ((a)[0]))
 
-static void assertEquals(const String& aspect, const String& test)
+#if 0
+static void assertEquals(const String& expecting, const String& toVerify)
 {
-    printf("aspect: [%s], test: [%s]\n", aspect.string(), test.string());
-    assert(aspect.Equals(test) && "result not equals aspect!");
+    printf("expecting: [%s], toVerify: [%s]\n", expecting.string(), toVerify.string());
+    assert(expecting.Equals(toVerify) && "result not equals expecting!");
 }
 
-static void assertEquals(Double aspect, Double test)
+static void assertEquals(Double expecting, Double toVerify)
 {
-    printf("aspect: %f, test: %f\n", aspect, test);
-    assert(aspect == test);
+    printf("expecting: %f, toVerify: %f\n", expecting, toVerify);
+    assert(expecting == toVerify);
 }
 
-static void assertEquals(Float aspect, Float test)
+static void assertEquals(Float expecting, Float toVerify)
 {
-    printf("aspect: %f, test: %f\n", aspect, test);
-    assert(aspect == test);
+    printf("expecting: %f, toVerify: %f\n", expecting, toVerify);
+    assert(expecting == toVerify);
 }
 
-static void assertEquals(Int64 aspect, Int64 test)
+static void assertEquals(Int64 expecting, Int64 toVerify)
 {
-    printf("aspect: %lld, test: %lld\n", aspect, test);
-    assert(aspect == test);
+    printf("expecting: %lld, toVerify: %lld\n", expecting, toVerify);
+    assert(expecting == toVerify);
+}
+#endif
+
+static void assertEquals(const char *hintMessage, Int32 expecting, Int32 toVerify)
+{
+    printf("expecting: %d, toVerify: %d. %s\n", expecting, toVerify, hintMessage);
+    assert(expecting == toVerify);
 }
 
-static void assertEquals(const char *info, Int32 aspect, Int32 test)
+#if 0
+static void assertEquals(const char* hintMessage, Int64 toVerify, Int64 expecting)
 {
-    printf("aspect: %d, test: %d. %s\n", aspect, test, info);
-    assert(aspect == test);
+    printf("expecting: %lld, toVerify: %lld. %s\n", expecting, toVerify, hintMessage);
+    assert(expecting == toVerify);
+}
+#endif
+
+static void assertEquals(const char* hintMessage, Byte toVerify, Byte expecting)
+{
+    printf("expecting: %x, toVerify: %x. %s\n", expecting, toVerify, hintMessage);
+    assert(expecting == toVerify);
 }
 
-static void assertEquals(const char* info, Int64 test, Int64 aspect)
+#if 0
+static void printArray(ArrayOf<IBigInteger *> *v, const char* hintMessage)
 {
-    printf("aspect: %lld, test: %lld. %s\n", aspect, test, info);
-    assert(aspect == test);
-}
-
-static void assertEquals(const char* info, Byte test, Byte aspect)
-{
-    printf("aspect: %x, test: %x. %s\n", aspect, test, info);
-    assert(aspect == test);
-}
-
-
-static void printArray(ArrayOf<IBigInteger *> *v, const char* info)
-{
-    printf("  >------Start print %s ------<\n", info);
+    printf("  >------Start print %s ------<\n", hintMessage);
     Int32 len = v->GetLength();
     for (Int32 i = 0; i < len; ++i) {
         if ((*v)[i]) {
@@ -90,8 +95,9 @@ static void printArray(ArrayOf<IBigInteger *> *v, const char* info)
             printf("    > %d: NULL\n", i);
         }
     }
-    printf("  >------End print %s ------<\n", info);
+    printf("  >------End print %s ------<\n", hintMessage);
 }
+#endif
 
 
 /**
@@ -116,7 +122,8 @@ static void printArray(ArrayOf<IBigInteger *> *v, const char* info)
     }
 #endif
 
-void testCase1() {
+void testCase1()
+{
     AutoPtr<ArrayOf<Byte> > aBytes = ArrayOf<Byte>::Alloc(10);
     AutoPtr<ArrayOf<Byte> > bBytes = ArrayOf<Byte>::Alloc(10);
     AutoPtr<ArrayOf<Byte> > rBytes = ArrayOf<Byte>::Alloc(10);
@@ -133,14 +140,16 @@ void testCase1() {
 
     AutoPtr<IBigInteger> aNumber;
     ECode ec = CBigInteger::New(aSign, *aBytes, (IBigInteger**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> bNumber;
     ec = CBigInteger::New(bSign, *bBytes, (IBigInteger**)&bNumber);
-    if (FAILED(ec) || bNumber == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> result;
@@ -150,12 +159,12 @@ void testCase1() {
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("testCase1() data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
     result->GetSignum(&sign);
-    assertEquals("incorrect sign", 1, sign);
+    assertEquals("testCase1() incorrect sign", 1, sign);
 }
 
     /**
@@ -180,7 +189,8 @@ void testCase1() {
     }
 #endif
 
-void testCase2() {
+void testCase2()
+{
     AutoPtr<ArrayOf<Byte> > aBytes = ArrayOf<Byte>::Alloc(10);
     AutoPtr<ArrayOf<Byte> > bBytes = ArrayOf<Byte>::Alloc(10);
     AutoPtr<ArrayOf<Byte> > rBytes = ArrayOf<Byte>::Alloc(10);
@@ -197,14 +207,16 @@ void testCase2() {
 
     AutoPtr<IBigInteger> aNumber;
     ECode ec = CBigInteger::New(aSign, *aBytes, (IBigInteger**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> bNumber;
     ec = CBigInteger::New(bSign, *bBytes, (IBigInteger**)&bNumber);
-    if (FAILED(ec) || bNumber == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> result;
@@ -214,12 +226,12 @@ void testCase2() {
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("testCase2() data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
     result->GetSignum(&sign);
-    assertEquals("incorrect sign", -1, sign);
+    assertEquals("testCase2() incorrect sign", -1, sign);
 }
 
     /**
@@ -246,7 +258,8 @@ void testCase2() {
     }
 #endif
 
-void testCase3() {
+void testCase3()
+{
     AutoPtr<ArrayOf<Byte> > aBytes = ArrayOf<Byte>::Alloc(7);
     AutoPtr<ArrayOf<Byte> > bBytes = ArrayOf<Byte>::Alloc(7);
     AutoPtr<ArrayOf<Byte> > rBytes = ArrayOf<Byte>::Alloc(7);
@@ -263,14 +276,16 @@ void testCase3() {
 
     AutoPtr<IBigInteger> aNumber;
     ECode ec = CBigInteger::New(aSign, *aBytes, (IBigInteger**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> bNumber;
     ec = CBigInteger::New(bSign, *bBytes, (IBigInteger**)&bNumber);
-    if (FAILED(ec) || bNumber == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> result;
@@ -280,12 +295,12 @@ void testCase3() {
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("testCase3() data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
     result->GetSignum(&sign);
-    assertEquals("incorrect sign", 1, sign);
+    assertEquals("testCase3() incorrect sign", 1, sign);
 }
 
 
@@ -312,7 +327,8 @@ void testCase3() {
         assertEquals("incorrect sign", -1, result.signum());
     }
 #endif
-void testCase4() {
+void testCase4()
+{
     AutoPtr<ArrayOf<Byte> > aBytes = ArrayOf<Byte>::Alloc(7);
     AutoPtr<ArrayOf<Byte> > bBytes = ArrayOf<Byte>::Alloc(7);
     AutoPtr<ArrayOf<Byte> > rBytes = ArrayOf<Byte>::Alloc(7);
@@ -329,14 +345,16 @@ void testCase4() {
 
     AutoPtr<IBigInteger> aNumber;
     ECode ec = CBigInteger::New(aSign, *aBytes, (IBigInteger**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> bNumber;
     ec = CBigInteger::New(bSign, *bBytes, (IBigInteger**)&bNumber);
-    if (FAILED(ec) || bNumber == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> result;
@@ -346,12 +364,12 @@ void testCase4() {
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("testCase4() data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
     result->GetSignum(&sign);
-    assertEquals("incorrect sign", -1, sign);
+    assertEquals("testCase4() incorrect sign", -1, sign);
 }
 
 #if 0
@@ -377,7 +395,8 @@ void testCase4() {
         assertEquals("incorrect sign", -1, result.signum());
     }
 #endif
-void testCase5() {
+void testCase5()
+{
     AutoPtr<ArrayOf<Byte> > aBytes = ArrayOf<Byte>::Alloc(7);
     AutoPtr<ArrayOf<Byte> > bBytes = ArrayOf<Byte>::Alloc(7);
     AutoPtr<ArrayOf<Byte> > rBytes = ArrayOf<Byte>::Alloc(7);
@@ -394,14 +413,16 @@ void testCase5() {
 
     AutoPtr<IBigInteger> aNumber;
     ECode ec = CBigInteger::New(aSign, *aBytes, (IBigInteger**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> bNumber;
     ec = CBigInteger::New(bSign, *bBytes, (IBigInteger**)&bNumber);
-    if (FAILED(ec) || bNumber == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> result;
@@ -411,12 +432,12 @@ void testCase5() {
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("testCase5() data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
     result->GetSignum(&sign);
-    assertEquals("incorrect sign", -1, sign);
+    assertEquals("testCase5() incorrect sign", -1, sign);
 }
 
     /**
@@ -442,7 +463,8 @@ void testCase5() {
         assertEquals("incorrect sign", 1, result.signum());
     }
 #endif
-void testCase6() {
+void testCase6()
+{
     AutoPtr<ArrayOf<Byte> > aBytes = ArrayOf<Byte>::Alloc(7);
     AutoPtr<ArrayOf<Byte> > bBytes = ArrayOf<Byte>::Alloc(7);
     AutoPtr<ArrayOf<Byte> > rBytes = ArrayOf<Byte>::Alloc(7);
@@ -459,14 +481,16 @@ void testCase6() {
 
     AutoPtr<IBigInteger> aNumber;
     ECode ec = CBigInteger::New(aSign, *aBytes, (IBigInteger**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> bNumber;
     ec = CBigInteger::New(bSign, *bBytes, (IBigInteger**)&bNumber);
-    if (FAILED(ec) || bNumber == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> result;
@@ -476,12 +500,12 @@ void testCase6() {
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("testCase6() data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
     result->GetSignum(&sign);
-    assertEquals("incorrect sign", 1, sign);
+    assertEquals("testCase6() incorrect sign", 1, sign);
 }
 
     /**
@@ -506,31 +530,35 @@ void testCase6() {
         assertEquals("incorrect sign", 1, result.signum());
     }
 #endif
-void testCase7() {
-    AutoPtr<ArrayOf<Byte> > aBytes = ArrayOf<Byte>::Alloc(10);
-    AutoPtr<ArrayOf<Byte> > bBytes = ArrayOf<Byte>::Alloc(10);
-    AutoPtr<ArrayOf<Byte> > rBytes = ArrayOf<Byte>::Alloc(10);
-
+void testCase7()
+{
     unsigned char _aBytes[] = {1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6, 7};
     unsigned char _bBytes[] = {10, 20, 30, 40, 50, 60, 70, 10, 20, 30};
     signed char _rBytes[] = {1, 2, 3, 4, 15, 26, 37, 41, 52, 63, 74, 15, 26, 37};
-    memcpy(aBytes->GetPayload(), _aBytes, 10);
-    memcpy(bBytes->GetPayload(), _bBytes, 10);
-    memcpy(rBytes->GetPayload(), _rBytes, 10);
+
+    AutoPtr<ArrayOf<Byte> > aBytes = ArrayOf<Byte>::Alloc(ARRAY_SIZE(_aBytes));
+    AutoPtr<ArrayOf<Byte> > bBytes = ArrayOf<Byte>::Alloc(ARRAY_SIZE(_bBytes));
+    AutoPtr<ArrayOf<Byte> > rBytes = ArrayOf<Byte>::Alloc(ARRAY_SIZE(_rBytes));
+
+    memcpy(aBytes->GetPayload(), _aBytes, ARRAY_SIZE(_aBytes));
+    memcpy(bBytes->GetPayload(), _bBytes, ARRAY_SIZE(_bBytes));
+    memcpy(rBytes->GetPayload(), _rBytes, ARRAY_SIZE(_rBytes));
 
     int aSign = 1;
     int bSign = 1;
 
     AutoPtr<IBigInteger> aNumber;
     ECode ec = CBigInteger::New(aSign, *aBytes, (IBigInteger**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> bNumber;
     ec = CBigInteger::New(bSign, *bBytes, (IBigInteger**)&bNumber);
-    if (FAILED(ec) || bNumber == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> result;
@@ -540,12 +568,12 @@ void testCase7() {
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("testCase7() data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
     result->GetSignum(&sign);
-    assertEquals("incorrect sign", 1, sign);
+    assertEquals("testCase7() incorrect sign", 1, sign);
 }
 
     /**
@@ -568,28 +596,31 @@ void testCase7() {
         assertEquals("incorrect sign", 1, result.signum());
     }
 #endif
-void testCase8() {
+void testCase8()
+{
     AutoPtr<ArrayOf<Byte> > aBytes = ArrayOf<Byte>::Alloc(10);
-    AutoPtr<ArrayOf<Byte> > bBytes = ArrayOf<Byte>::Alloc(10);
-    AutoPtr<ArrayOf<Byte> > rBytes = ArrayOf<Byte>::Alloc(10);
+    AutoPtr<ArrayOf<Byte> > bBytes = ArrayOf<Byte>::Alloc(14);
+    AutoPtr<ArrayOf<Byte> > rBytes = ArrayOf<Byte>::Alloc(14);
 
     unsigned char _aBytes[] = {10, 20, 30, 40, 50, 60, 70, 10, 20, 30};
     unsigned char _bBytes[] = {1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6, 7};
     signed char _rBytes[] = {1, 2, 3, 4, 15, 26, 37, 41, 52, 63, 74, 15, 26, 37};
     memcpy(aBytes->GetPayload(), _aBytes, 10);
-    memcpy(bBytes->GetPayload(), _bBytes, 10);
-    memcpy(rBytes->GetPayload(), _rBytes, 10);
+    memcpy(bBytes->GetPayload(), _bBytes, 14);
+    memcpy(rBytes->GetPayload(), _rBytes, 14);
 
     AutoPtr<IBigInteger> aNumber;
     ECode ec = CBigInteger::New(*aBytes, (IBigInteger**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> bNumber;
     ec = CBigInteger::New(*bBytes, (IBigInteger**)&bNumber);
-    if (FAILED(ec) || bNumber == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> result;
@@ -599,12 +630,12 @@ void testCase8() {
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("testCase8() data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
     result->GetSignum(&sign);
-    assertEquals("incorrect sign", 1, sign);
+    assertEquals("testCase8() incorrect sign", 1, sign);
 }
 
     /**
@@ -629,31 +660,35 @@ void testCase8() {
         assertEquals("incorrect sign", -1, result.signum());
     }
 #endif
-void testCase9() {
-    AutoPtr<ArrayOf<Byte> > aBytes = ArrayOf<Byte>::Alloc(10);
-    AutoPtr<ArrayOf<Byte> > bBytes = ArrayOf<Byte>::Alloc(10);
-    AutoPtr<ArrayOf<Byte> > rBytes = ArrayOf<Byte>::Alloc(10);
-
+void testCase9()
+{
     unsigned char _aBytes[] = {1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6, 7};
     unsigned char _bBytes[] = {10, 20, 30, 40, 50, 60, 70, 10, 20, 30};
     signed char _rBytes[] = {-2, -3, -4, -5, -16, -27, -38, -42, -53, -64, -75, -16, -27, -37};
-    memcpy(aBytes->GetPayload(), _aBytes, 10);
-    memcpy(bBytes->GetPayload(), _bBytes, 10);
-    memcpy(rBytes->GetPayload(), _rBytes, 10);
+
+    AutoPtr<ArrayOf<Byte> > aBytes = ArrayOf<Byte>::Alloc(ARRAY_SIZE(_aBytes));
+    AutoPtr<ArrayOf<Byte> > bBytes = ArrayOf<Byte>::Alloc(ARRAY_SIZE(_bBytes));
+    AutoPtr<ArrayOf<Byte> > rBytes = ArrayOf<Byte>::Alloc(ARRAY_SIZE(_rBytes));
+
+    memcpy(aBytes->GetPayload(), _aBytes, ARRAY_SIZE(_aBytes));
+    memcpy(bBytes->GetPayload(), _bBytes, ARRAY_SIZE(_bBytes));
+    memcpy(rBytes->GetPayload(), _rBytes, ARRAY_SIZE(_rBytes));
 
     int aSign = -1;
     int bSign = -1;
 
     AutoPtr<IBigInteger> aNumber;
     ECode ec = CBigInteger::New(aSign, *aBytes, (IBigInteger**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> bNumber;
     ec = CBigInteger::New(bSign, *bBytes, (IBigInteger**)&bNumber);
-    if (FAILED(ec) || bNumber == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> result;
@@ -663,12 +698,12 @@ void testCase9() {
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("testCase9() data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
     result->GetSignum(&sign);
-    assertEquals("incorrect sign", -1, sign);
+    assertEquals("testCase9() incorrect sign", -1, sign);
 }
 
     /**
@@ -693,30 +728,32 @@ void testCase9() {
         assertEquals("incorrect sign", -1, result.signum());
     }
 #endif
-void testCase10() {
-    AutoPtr<ArrayOf<Byte> > aBytes = ArrayOf<Byte>::Alloc(10);
-    AutoPtr<ArrayOf<Byte> > bBytes = ArrayOf<Byte>::Alloc(10);
-    AutoPtr<ArrayOf<Byte> > rBytes = ArrayOf<Byte>::Alloc(10);
-
+void testCase10()
+{
     unsigned char _aBytes[] = {10, 20, 30, 40, 50, 60, 70, 10, 20, 30};
     unsigned char _bBytes[] = {1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6, 7};
     signed char _rBytes[] = {-2, -3, -4, -5, -16, -27, -38, -42, -53, -64, -75, -16, -27, -37};
-    memcpy(aBytes->GetPayload(), _aBytes, 10);
-    memcpy(bBytes->GetPayload(), _bBytes, 10);
-    memcpy(rBytes->GetPayload(), _rBytes, 10);
+
+    AutoPtr<ArrayOf<Byte> > aBytes = ArrayOf<Byte>::Alloc(ARRAY_SIZE(_aBytes));
+    AutoPtr<ArrayOf<Byte> > bBytes = ArrayOf<Byte>::Alloc(ARRAY_SIZE(_bBytes));
+    AutoPtr<ArrayOf<Byte> > rBytes = ArrayOf<Byte>::Alloc(ARRAY_SIZE(_rBytes));
+
+    memcpy(aBytes->GetPayload(), _aBytes, ARRAY_SIZE(_aBytes));
+    memcpy(bBytes->GetPayload(), _bBytes, ARRAY_SIZE(_bBytes));
+    memcpy(rBytes->GetPayload(), _rBytes, ARRAY_SIZE(_rBytes));
 
     int aSign = -1;
     int bSign = -1;
 
     AutoPtr<IBigInteger> aNumber;
     ECode ec = CBigInteger::New(aSign, *aBytes, (IBigInteger**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigInteger. Error %08X\n", ec);
     }
 
     AutoPtr<IBigInteger> bNumber;
     ec = CBigInteger::New(bSign, *bBytes, (IBigInteger**)&bNumber);
-    if (FAILED(ec) || bNumber == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigInteger. Error %08X\n", ec);
     }
 
@@ -727,12 +764,12 @@ void testCase10() {
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("testCase10() data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
     result->GetSignum(&sign);
-    assertEquals("incorrect sign", -1, sign);
+    assertEquals("testCase10() incorrect sign", -1, sign);
 }
 
     /**
@@ -1020,7 +1057,7 @@ void testCase10() {
 
 //==============================================================================
 
-int mainBigIntegerAddTest(int argc, char *argv[])
+EXTERN_C int mainBigIntegerAddTest(int argc, char *argv[])
 {
 	printf("\n==== libcore/math/BigIntegerAddTest ====\n");
 	testCase1();

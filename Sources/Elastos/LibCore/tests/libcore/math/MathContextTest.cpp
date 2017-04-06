@@ -36,16 +36,16 @@ using Elastos::Core::EIID_IComparable;
 namespace Elastos {
 namespace Math {
 
-static void assertEquals(const char *info, Int32 aspect, Int32 test)
+static void assertEquals(const char *hintMessage, Int32 expecting, Int32 toVerify)
 {
-    printf("aspect: %d, test: %d. %s\n", aspect, test, info);
-    assert(aspect == test);
+    printf("expecting: %d, toVerify: %d. %s\n", expecting, toVerify, hintMessage);
+    assert(expecting == toVerify);
 }
 
-static void assertEquals(const char *info, const String& aspect, const String& test)
+static void assertEquals(const char *hintMessage, const String& expecting, const String& toVerify)
 {
-    printf("aspect: [%s], test: [%s] %s\n", aspect.string(), test.string(), info);
-    assert(aspect.Equals(test) && "result not equals aspect!");
+    printf("expecting: [%s], toVerify: [%s] %s\n", expecting.string(), toVerify.string(), hintMessage);
+    assert(expecting.Equals(toVerify) && "result not equals expecting!");
 }
 
 #if 0
@@ -135,14 +135,16 @@ void test_MathContextConstruction()
         AutoPtr<IBigDecimal> aNumber;
 
         ECode ec = CBigDecimal::New(a, (IBigDecimal**)&aNumber);
-        if (FAILED(ec) || aNumber == NULL) {
+        if (FAILED(ec)) {
             printf(" Failed to create CBigInteger. Error %08X\n", ec);
+            return;
         }
 
         AutoPtr<IMathContext> mcIntRm6hd;
         ec = CMathContext::New(6, RoundingMode_HALF_DOWN, (IMathContext**)&mcIntRm6hd);
-        if (FAILED(ec) || mcIntRm6hd == NULL) {
+        if (FAILED(ec)) {
             printf(" Failed to create CMathContext. Error %08X\n", ec);
+            return;
         }
 
 /*        AutoPtr<IMathContext> mcStr6hd;
@@ -153,14 +155,16 @@ void test_MathContextConstruction()
 */
         AutoPtr<IMathContext> mcInt6;
         ec = CMathContext::New(6, (IMathContext**)&mcInt6);
-        if (FAILED(ec) || mcInt6 == NULL) {
+        if (FAILED(ec)) {
             printf(" Failed to create CMathContext. Error %08X\n", ec);
+            return;
         }
 
         AutoPtr<IMathContext> mcInt134;
         ec = CMathContext::New(134, (IMathContext**)&mcInt134);
-        if (FAILED(ec) || mcInt134 == NULL) {
+        if (FAILED(ec)) {
             printf(" Failed to create CMathContext. Error %08X\n", ec);
+            return;
         }
 
         // getPrecision()
@@ -181,7 +185,7 @@ void test_MathContextConstruction()
 
 //==============================================================================
 
-int mainMathContextTest(int argc, char *argv[])
+EXTERN_C int mainMathContextTest(int argc, char *argv[])
 {
     printf("\n==== libcore/math/MathContextTest ====\n");
     printf("\n==== end of libcore/math/MathContextTest ====\n");

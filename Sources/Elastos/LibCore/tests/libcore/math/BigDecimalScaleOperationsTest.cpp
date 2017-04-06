@@ -37,23 +37,25 @@ using Elastos::Core::EIID_INumber;
 namespace Elastos {
 namespace Math {
 
-static void assertEquals(const char *info, Int32 aspect, Int32 test)
+static void assertEquals(const char *hintMessage, Int32 expecting, Int32 toVerify)
 {
-    printf("aspect: %d, test: %d. %s\n", aspect, test, info);
-    assert(aspect == test);
+    printf("expecting: %d, toVerify: %d. %s\n", expecting, toVerify, hintMessage);
+    assert(expecting == toVerify);
 }
 
-static void assertEquals(const char *info, Double aspect, Double test)
+#if 0
+static void assertEquals(const char *hintMessage, Double expecting, Double toVerify)
 {
-    printf("aspect: %f, test: %f. %s\n", aspect, test, info);
-    assert(aspect == test);
+    printf("expecting: %f, toVerify: %f. %s\n", expecting, toVerify, hintMessage);
+    assert(expecting == toVerify);
 }
 
-static void assertEquals(const char *info, String aspect, String test)
+static void assertEquals(const char *hintMessage, String expecting, String toVerify)
 {
-    printf("aspect: %s, test: %s. %s\n", aspect.string(), test.string(), info);
-    assert(aspect.Equals(test) == 0);
+    printf("expecting: %s, toVerify: %s. %s\n", expecting.string(), toVerify.string(), hintMessage);
+    assert(expecting.Equals(toVerify) == TRUE);
 }
+#endif
 
 #if 0
 /*
@@ -106,20 +108,22 @@ void testScaleDefault()
 
     AutoPtr<IBigInteger> bA;
     ECode ec = CBigInteger::New(a, (IBigInteger**)&bA);
-    if (FAILED(ec) || bA == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigDecimal> aNumber;
     ec = CBigDecimal::New((IBigInteger*)bA, (IBigDecimal**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigDecimal. Error %08X\n", ec);
+        return;
     }
 
     Int32 r;
     aNumber->GetScale(&r);
 
-    assertEquals("incorrect scale", cScale, r);
+    assertEquals("testScaleDefault() incorrect scale", cScale, r);
 }
 
     /**
@@ -142,20 +146,22 @@ void testScaleNeg()
 
     AutoPtr<IBigInteger> bA;
     ECode ec = CBigInteger::New(a, (IBigInteger**)&bA);
-    if (FAILED(ec) || bA == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigDecimal> aNumber;
     ec = CBigDecimal::New((IBigInteger*)bA, aScale, (IBigDecimal**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigDecimal. Error %08X\n", ec);
+        return;
     }
 
     Int32 r;
     aNumber->GetScale(&r);
 
-    assertEquals("incorrect scale", cScale, r);
+    assertEquals("testScaleNeg() incorrect scale", cScale, r);
 }
 
     /**
@@ -178,20 +184,22 @@ void testScalePos()
 
     AutoPtr<IBigInteger> bA;
     ECode ec = CBigInteger::New(a, (IBigInteger**)&bA);
-    if (FAILED(ec) || bA == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigDecimal> aNumber;
     ec = CBigDecimal::New((IBigInteger*)bA, aScale, (IBigDecimal**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigDecimal. Error %08X\n", ec);
+        return;
     }
 
     Int32 r;
     aNumber->GetScale(&r);
 
-    assertEquals("incorrect scale", cScale, r);
+    assertEquals("testScalePos() incorrect scale", cScale, r);
 }
 
     /**
@@ -220,14 +228,15 @@ void testScaleZero()
 
     AutoPtr<IBigDecimal> aNumber;
     ec = CBigDecimal::New((IBigInteger*)bA, aScale, (IBigDecimal**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigDecimal. Error %08X\n", ec);
+        return;
     }
 
     Int32 r;
     aNumber->GetScale(&r);
 
-    assertEquals("incorrect scale", cScale, r);
+    assertEquals("testScaleZero() incorrect scale", cScale, r);
 }
 
     /**
@@ -249,31 +258,37 @@ void testUnscaledValue()
 
     AutoPtr<IBigInteger> bA;
     ECode ec = CBigInteger::New(a, (IBigInteger**)&bA);
-    if (FAILED(ec) || bA == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigDecimal> aNumber;
     ec = CBigDecimal::New((IBigInteger*)bA, aScale, (IBigDecimal**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigDecimal. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> rInteger;
     aNumber->GetUnscaledValue((IBigInteger**)&rInteger);
 
-    IComparable* comp = (IComparable *)rInteger->Probe(EIID_IComparable);
+    AutoPtr<IComparable> comp;
+    comp = IComparable::Probe(rInteger);
+    if (comp == NULL) {
+        printf(" Failed to Probe IComparable. Error\n");
+        return;
+    }
+
     Int32 r;
     comp->CompareTo(rInteger, &r);
-
     if (r != 0) {
         printf("incorrect value\n");
     }
 
+    assertEquals("testUnscaledValue() incorrect scale", 0, r);
+
     aNumber->GetScale(&r);
-
-    assertEquals("incorrect scale", 0, r);
-
 }
 
     /**
@@ -586,7 +601,7 @@ void testUnscaledValue()
 
 //==============================================================================
 
-int mainBigDecimalScaleOperationsTest(int argc, char *argv[])
+EXTERN_C int mainBigDecimalScaleOperationsTest(int argc, char *argv[])
 {
     printf("\n==== libcore/math/BigDecimalScaleOperationsTest ====\n");
     testScaleDefault();

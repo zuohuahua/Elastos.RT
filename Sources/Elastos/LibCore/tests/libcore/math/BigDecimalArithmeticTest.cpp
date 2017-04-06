@@ -36,16 +36,16 @@ using Elastos::Core::EIID_IComparable;
 namespace Elastos {
 namespace Math {
 
-static void assertEquals(const char *info, Int32 aspect, Int32 test)
+static void assertEquals(const char *hintMessage, Int32 expecting, Int32 toVerify)
 {
-    printf("aspect: %d, test: %d. %s\n", aspect, test, info);
-    assert(aspect == test);
+    printf("expecting: %d, toVerify: %d. %s\n", expecting, toVerify, hintMessage);
+    assert(expecting == toVerify);
 }
 
-static void assertEquals(const char *info, String aspect, String test)
+static void assertEquals(const char *hintMessage, String expecting, String toVerify)
 {
-    printf("aspect: %s, test: %s. %s\n", aspect.string(), test.string(), info);
-    assert(aspect.Equals(test) == 0);
+    printf("expecting: %s, toVerify: %s. %s\n", expecting.string(), toVerify.string(), hintMessage);
+    assert(expecting.Equals(toVerify) == TRUE);
 }
 
 #if 0
@@ -1751,7 +1751,7 @@ void testAddMathContextEqualScaleNegNeg()
     /**
      * BigDecimal.divide with a scale that's too large
      *
-     * Regression test for HARMONY-6271
+     * Regression toVerify for HARMONY-6271
      */
 #if 0
     public void testDivideLargeScale() {
@@ -2134,7 +2134,7 @@ void testAddMathContextEqualScaleNegNeg()
 
 //==============================================================================
 
-int mainBigDecimalArithmeticTest(int argc, char *argv[])
+EXTERN_C int mainBigDecimalArithmeticTest(int argc, char *argv[])
 {
     printf("\n==== libcore/math/BigDecimalArithmeticTest ====\n");
     testAddEqualScalePosPos();

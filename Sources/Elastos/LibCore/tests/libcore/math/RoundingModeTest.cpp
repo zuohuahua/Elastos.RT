@@ -36,13 +36,13 @@ using Elastos::Core::EIID_IComparable;
 namespace Elastos {
 namespace Math {
 
-static void assertEquals(const char *info, Int32 aspect, Int32 test)
+#if 0
+static void assertEquals(const char *hintMessage, Int32 expecting, Int32 toVerify)
 {
-    printf("aspect: %d, test: %d. %s\n", aspect, test, info);
-    assert(aspect == test);
+    printf("expecting: %d, toVerify: %d. %s\n", expecting, toVerify, hintMessage);
+    assert(expecting == toVerify);
 }
 
-#if 0
 /*
  *  Licensed to the Apache Software Foundation (ASF) under one or more
  *  contributor license agreements.  See the NOTICE file distributed with
@@ -95,7 +95,7 @@ public class RoundingModeTest extends junit.framework.TestCase {
 
 //==============================================================================
 
-int mainRoundingModeTest(int argc, char *argv[])
+EXTERN_C int mainRoundingModeTest(int argc, char *argv[])
 {
     printf("\n==== libcore/math/RoundingModeTest ====\n");
     printf("\n==== end of libcore/math/RoundingModeTest ====\n");

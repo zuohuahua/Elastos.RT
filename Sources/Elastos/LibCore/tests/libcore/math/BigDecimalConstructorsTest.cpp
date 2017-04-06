@@ -30,21 +30,20 @@ using Elastos::Math::IBigDecimal;
 using Elastos::Math::CBigDecimal;
 using Elastos::Math::IBigDecimalHelper;
 using Elastos::Math::CBigDecimalHelper;
-using Elastos::Core::EIID_IComparable;
 
 namespace Elastos {
 namespace Math {
 
-static void assertEquals(const char *info, Int32 aspect, Int32 test)
+static void assertEquals(const char *hintMessage, Int32 expecting, Int32 toVerify)
 {
-    printf("aspect: %d, test: %d. %s\n", aspect, test, info);
-    assert(aspect == test);
+    printf("expecting: %d, toVerify: %d. %s\n", expecting, toVerify, hintMessage);
+    assert(expecting == toVerify);
 }
 
-static void assertEquals(const char *info, String aspect, String test)
+static void assertEquals(const char *hintMessage, String expecting, String toVerify)
 {
-    printf("aspect: %s, test: %s. %s\n", aspect.string(), test.string(), info);
-    assert(aspect.Equals(test) == 0);
+    printf("expecting: %s, toVerify: %s. %s\n", expecting.string(), toVerify.string(), hintMessage);
+    assert(expecting.Equals(toVerify) == TRUE);
 }
 
 #if 0
@@ -139,26 +138,35 @@ public class BigDecimalConstructorsTest extends TestCase {
         }
     }
 #endif
+
 void testConstrBI()
 {
     String a = String("1231212478987482988429808779810457634781384756794987");
 
     AutoPtr<IBigInteger> bA;
     ECode ec = CBigInteger::New(a, (IBigInteger**)&bA);
-    if (FAILED(ec) || bA == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigDecimal> aNumber;
     ec = CBigDecimal::New((IBigInteger*)bA, (IBigDecimal**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigDecimal. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> rInteger;
     aNumber->GetUnscaledValue((IBigInteger**)&rInteger);
 
-    IComparable* comp = (IComparable *)rInteger->Probe(EIID_IComparable);
+    AutoPtr<IComparable> comp;
+    comp = IComparable::Probe(rInteger);
+    if (comp == NULL) {
+        printf(" Failed to Probe IComparable. Error\n");
+        return;
+    }
+
     Int32 r;
     comp->CompareTo(rInteger, &r);
 
@@ -168,8 +176,7 @@ void testConstrBI()
 
     aNumber->GetScale(&r);
 
-    assertEquals("incorrect scale", 0, r);
-
+    assertEquals("testConstrBI() incorrect scale", 0, r);
 }
 
     /**
@@ -188,34 +195,43 @@ void testConstrBI()
 void testConstrBIScale()
 {
     String a = String("1231212478987482988429808779810457634781384756794987");
-    int aScale = 10;
 
     AutoPtr<IBigInteger> bA;
     ECode ec = CBigInteger::New(a, (IBigInteger**)&bA);
-    if (FAILED(ec) || bA == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
+    int aScale = 10;
     AutoPtr<IBigDecimal> aNumber;
     ec = CBigDecimal::New((IBigInteger*)bA, aScale, (IBigDecimal**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigDecimal. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> rInteger;
     aNumber->GetUnscaledValue((IBigInteger**)&rInteger);
 
-    IComparable* comp = (IComparable *)rInteger->Probe(EIID_IComparable);
+//    IComparable* comp = (IComparable *)rInteger->Probe(EIID_IComparable);
+    AutoPtr<IComparable> comp;
+    comp = IComparable::Probe(rInteger);
+    if (comp == NULL) {
+        printf(" Failed to Probe IComparable. Error\n");
+        return;
+    }
+
     Int32 r;
-    comp->CompareTo(rInteger, &r);
+    comp->CompareTo(bA, &r);
 
     if (r != 0) {
         printf("incorrect value\n");
     }
+    assertEquals("testConstrBIScale() incorrect scale", 0, r);
+
 
     aNumber->GetScale(&r);
-
-    assertEquals("incorrect scale", 0, r);
 
 }
 
@@ -246,20 +262,23 @@ void testConstrBigIntegerMathContext()
 
     AutoPtr<IBigInteger> bA;
     ECode ec = CBigInteger::New(a, (IBigInteger**)&bA);
-    if (FAILED(ec) || bA == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IMathContext> mc;
     ec = CMathContext::New(precision, rm, (IMathContext**)&mc);
-    if (FAILED(ec) || mc == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CMathContext. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigDecimal> result;
     ec = CBigDecimal::New((IBigInteger*)bA, mc, (IBigDecimal**)&result);
-    if (FAILED(ec) || result == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigDecimal. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> rInteger;
@@ -270,9 +289,8 @@ void testConstrBigIntegerMathContext()
     Int32 scale;
     result->GetScale(&scale);
 
-    assertEquals("incorrect value", res, str);
-    assertEquals("incorrect scale", resScale, scale);
-
+    assertEquals("testConstrBigIntegerMathContext() incorrect value", res, str);
+    assertEquals("testConstrBigIntegerMathContext() incorrect scale", resScale, scale);
 }
 
 
@@ -305,8 +323,9 @@ void testConstrBigIntegerScaleMathContext()
 
     AutoPtr<IBigInteger> bA;
     ECode ec = CBigInteger::New(a, (IBigInteger**)&bA);
-    if (FAILED(ec) || bA == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IMathContext> mc;
@@ -317,8 +336,9 @@ void testConstrBigIntegerScaleMathContext()
 
     AutoPtr<IBigDecimal> result;
     ec = CBigDecimal::New((IBigInteger*)bA, aScale, mc, (IBigDecimal**)&result);
-    if (FAILED(ec) || result == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigDecimal. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> rInteger;
@@ -329,8 +349,8 @@ void testConstrBigIntegerScaleMathContext()
     Int32 scale;
     result->GetScale(&scale);
 
-    assertEquals("incorrect value", res, str);
-    assertEquals("incorrect scale", resScale, scale);
+    assertEquals("testConstrBigIntegerScaleMathContext() incorrect value", res, str);
+    assertEquals("testConstrBigIntegerScaleMathContext() incorrect scale", resScale, scale);
 
 }
 
@@ -366,8 +386,9 @@ void testConstrChar()
 
     AutoPtr<IBigDecimal> result;
     ECode ec = CBigDecimal::New(*value, (IBigDecimal**)&result);
-    if (FAILED(ec) || result == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigDecimal. Error %08X\n", ec);
+        return;
     }
 
     String str;
@@ -375,15 +396,16 @@ void testConstrChar()
     Int32 scale;
     result->GetScale(&scale);
 
-    assertEquals("incorrect value", res, str);
-    assertEquals("incorrect scale", resScale, scale);
+    assertEquals("testConstrChar() incorrect value", res, str);
+    assertEquals("testConstrChar() incorrect scale", resScale, scale);
 
     AutoPtr<ArrayOf<Char32> > value2 = ArrayOf<Char32>::Alloc(0);
 
     AutoPtr<IBigDecimal> result2;
     ec = CBigDecimal::New(*value2, (IBigDecimal**)&result2);
-    if (FAILED(ec) || result2 == NULL) {
+    if (FAILED(ec)) {
         printf("NumberFormatException has been thrown\n");
+        return;
     } else {
         printf("NumberFormatException has not been thrown\n");
     }
@@ -1045,15 +1067,15 @@ void testConstrCharIntInt()
 
 //==============================================================================
 
-int mainBigDecimalConstructorsTest(int argc, char *argv[])
+EXTERN_C int mainBigDecimalConstructorsTest(int argc, char *argv[])
 {
     printf("\n==== libcore/math/BigDecimalConstructorsTest ====\n");
     testConstrBI();
     testConstrBIScale();
     testConstrBigIntegerMathContext();
     testConstrBigIntegerScaleMathContext();
-    testConstrChar();
-    testConstrCharIntInt();
+    //testConstrChar();
+    //testConstrCharIntInt();
     printf("\n==== end of libcore/math/BigDecimalConstructorsTest ====\n");
 
     return 0;

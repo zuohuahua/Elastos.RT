@@ -36,10 +36,10 @@ using Elastos::Core::EIID_IComparable;
 namespace Elastos {
 namespace Math {
 
-static void assertEquals(const char *info, Int32 aspect, Int32 test)
+static void assertEquals(const char *hintMessage, Int32 expecting, Int32 toVerify)
 {
-    printf("aspect: %d, test: %d. %s\n", aspect, test, info);
-    assert(aspect == test);
+    printf("expecting: %d, toVerify: %d. %s\n", expecting, toVerify, hintMessage);
+    assert(expecting == toVerify);
 }
 
 #if 0
@@ -98,13 +98,15 @@ static void testZeroPos()
     AutoPtr<IBigInteger> aNumber, bNumber;
 
     ECode ec = CBigInteger::New(numA, (IBigInteger**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
-        printf(" Failed to create CBigInteger. Error %08X\n", ec);
+    if (FAILED(ec)) {
+        printf("testZeroPos() Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     ec = CBigInteger::New(numB, (IBigInteger**)&bNumber);
-    if (FAILED(ec) || bNumber == NULL) {
-        printf(" Failed to create CBigInteger. Error %08X\n", ec);
+    if (FAILED(ec)) {
+        printf("testZeroPos() Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> result;
@@ -114,9 +116,9 @@ static void testZeroPos()
     result->ToString(10, &str);
 
     if (str.Equals(res)) {
-        printf("corrent testPosNegFirstShorter\n");
+        printf("testZeroPos() corrent testPosNegFirstShorter\n");
     } else {
-        printf("fail testPosNegFirstShorter\n");
+        printf("testZeroPos() fail testPosNegFirstShorter\n");
     }
 }
 
@@ -442,7 +444,7 @@ static void testPosNegFirstShorter()
 
 //==============================================================================
 
-int mainBigIntegerXorTest(int argc, char *argv[])
+EXTERN_C int mainBigIntegerXorTest(int argc, char *argv[])
 {
     printf("\n==== libcore/math/BigIntegerXorTest ====\n");
     testPosNegFirstShorter();

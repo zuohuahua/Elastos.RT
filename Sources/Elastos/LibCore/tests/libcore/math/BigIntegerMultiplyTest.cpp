@@ -36,10 +36,10 @@ using Elastos::Core::EIID_IComparable;
 namespace Elastos {
 namespace Math {
 
-static void assertEquals(const char *info, Int32 aspect, Int32 test)
+static void assertEquals(const char *hintMessage, Int32 expecting, Int32 toVerify)
 {
-    printf("aspect: %d, test: %d. %s\n", aspect, test, info);
-    assert(aspect == test);
+    printf("expecting: %d, toVerify: %d. %s\n", expecting, toVerify, hintMessage);
+    assert(expecting == toVerify);
 }
 
 #if 0
@@ -131,7 +131,7 @@ static void testCase1()
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
@@ -197,7 +197,7 @@ static void testCase2()
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
@@ -249,14 +249,14 @@ static void testCase3()
 
     AutoPtr<IBigInteger> aNumber;
     ECode ec = CBigInteger::New(aSign, *aBytes, (IBigInteger**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
-        printf(" Failed to create CBigInteger. Error %08X\n", ec);
+    if (FAILED(ec)) {
+        printf("testCase3() Failed to create CBigInteger. Error %08X\n", ec);
     }
 
     AutoPtr<IBigInteger> bNumber;
     ec = CBigInteger::New(bSign, *bBytes, (IBigInteger**)&bNumber);
-    if (FAILED(ec) || bNumber == NULL) {
-        printf(" Failed to create CBigInteger. Error %08X\n", ec);
+    if (FAILED(ec)) {
+        printf("testCase3() Failed to create CBigInteger. Error %08X\n", ec);
     }
 
     AutoPtr<IBigInteger> result;
@@ -266,12 +266,12 @@ static void testCase3()
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("testCase3() data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
     result->GetSignum(&sign);
-    assertEquals("incorrect sign", 1, sign);
+    assertEquals("testCase3() incorrect sign", 1, sign);
 }
 
 
@@ -335,7 +335,7 @@ static void testCase4()
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
@@ -388,14 +388,15 @@ static void testCase5()
 
     AutoPtr<IBigInteger> aNumber;
     ECode ec = CBigInteger::New(aSign, *aBytes, (IBigInteger**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
-        printf(" Failed to create CBigInteger. Error %08X\n", ec);
+    if (FAILED(ec)) {
+        printf("testCase5() Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> bNumber;
     ec = CBigInteger::New(bSign, *bBytes, (IBigInteger**)&bNumber);
-    if (FAILED(ec) || bNumber == NULL) {
-        printf(" Failed to create CBigInteger. Error %08X\n", ec);
+    if (FAILED(ec)) {
+        printf("testCase5() Failed to create CBigInteger. Error %08X\n", ec);
     }
 
     AutoPtr<IBigInteger> result;
@@ -405,12 +406,13 @@ static void testCase5()
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("testCase5() data error", (*resBytes)[i], (*rBytes)[i]);
+        return;
     }
 
     Int32 sign;
     result->GetSignum(&sign);
-    assertEquals("incorrect sign", 1, sign);
+    assertEquals("testCase5() incorrect sign", -1, sign);
 }
 
 
@@ -475,7 +477,7 @@ static void testCase6()
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
@@ -541,7 +543,7 @@ static void testCase7()
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
@@ -605,7 +607,7 @@ static void testCase8()
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
@@ -669,7 +671,7 @@ static void testCase9()
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
@@ -733,7 +735,7 @@ static void testCase10()
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
@@ -799,7 +801,7 @@ static void testIntbyInt1()
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
@@ -865,7 +867,7 @@ static void testIntbyInt2()
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
@@ -974,7 +976,7 @@ static void testPowNegativeNumToOddExp()
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
@@ -1033,7 +1035,7 @@ static void testPowNegativeNumToEvenExp()
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
@@ -1089,7 +1091,7 @@ void testPowNegativeNumToZeroExp()
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
@@ -1122,7 +1124,7 @@ void testPowNegativeNumToZeroExp()
 #endif
 void testPowPositiveNum()
 {
-    signed char _aBytes[] = {1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 1, 2, 3, 4, 5};
+    signed char _aBytes[] = {50, -26, 90, 69, 120, 32, 63, -103, -14, 35};
     signed char _rBytes[] = {20, 93, 41, 14, 126, -114, 49, 87, -116, 34, -4, -60,
             91, -112, 74, -104, 41, -42, -35, 113, -100, 31, -106, 58, -128,
             -46, -109, -75, 92, -106, -34, -13, 4, 19, -18, 20, 118, 126, 114,
@@ -1139,8 +1141,9 @@ void testPowPositiveNum()
 
     AutoPtr<IBigInteger> aNumber;
     ECode ec = CBigInteger::New(aSign, *aBytes, (IBigInteger**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
-        printf(" Failed to create CBigInteger. Error %08X\n", ec);
+    if (FAILED(ec)) {
+        printf("testPowPositiveNum() Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> result;
@@ -1150,12 +1153,12 @@ void testPowPositiveNum()
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("testPowPositiveNum() data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
     result->GetSignum(&sign);
-    assertEquals("incorrect sign", 1, sign);
+    assertEquals("testPowPositiveNum() incorrect sign", 1, sign);
 }
 
 
@@ -1205,7 +1208,7 @@ void testPowPositiveNumToZeroExp()
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
@@ -1215,7 +1218,7 @@ void testPowPositiveNumToZeroExp()
 
 //==============================================================================
 
-int mainBigIntegerMultiplyTest(int argc, char *argv[])
+EXTERN_C int mainBigIntegerMultiplyTest(int argc, char *argv[])
 {
     printf("\n==== libcore/math/BigIntegerMultiplyTest ====\n");
     testCase1();

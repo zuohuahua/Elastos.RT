@@ -35,16 +35,16 @@ using Elastos::Core::EIID_IComparable;
 namespace Elastos {
 namespace Math {
 
-static void assertEquals(const char *info, Int32 aspect, Int32 test)
+static void assertEquals(const char *hintMessage, Int32 expecting, Int32 toVerify)
 {
-    printf("aspect: %d, test: %d. %s\n", aspect, test, info);
-    assert(aspect == test);
+    printf("expecting: %d, toVerify: %d. %s\n", expecting, toVerify, hintMessage);
+    assert(expecting == toVerify);
 }
 
-static void assertEquals(const char *info, String aspect, String test)
+static void assertEquals(const char *hintMessage, String expecting, String toVerify)
 {
-    printf("aspect: %s, test: %s. %s\n", aspect.string(), test.string(), info);
-    assert(aspect.Equals(test) == 0);
+    printf("expecting: %s, toVerify: %s. %s\n", expecting.string(), toVerify.string(), hintMessage);
+    assert(expecting.Equals(toVerify) == TRUE);
 }
 
 #if 0
@@ -114,7 +114,7 @@ void testAbsNeg()
     String str;
     str = Object::ToString(rDecimal);
 
-    assertEquals("incorrect value", result, str);
+    assertEquals("testAbsNeg() incorrect value", result, str);
 }
 
 
@@ -147,7 +147,7 @@ void testAbsPos()
     String str;
     str = Object::ToString(rDecimal);
 
-    assertEquals("incorrect value", result, str);
+    assertEquals("testAbsPos() incorrect value", result, str);
 }
 
     /**
@@ -196,8 +196,8 @@ void testAbsMathContextNeg()
     Int32 scale;
     rDecimal->GetScale(&scale);
 
-    assertEquals("incorrect value", result, str);
-    assertEquals("incorrect scale", resScale, scale);
+    assertEquals("testAbsMathContextNeg() incorrect value", result, str);
+    assertEquals("testAbsMathContextNeg() incorrect scale", resScale, scale);
 }
 
     /**
@@ -221,7 +221,7 @@ void testAbsMathContextPos()
 {
 
     String a = String("123809648392384754573567356745735.63567890295784902768787678287E+21");
-    String result = String("1.23809648392385E+53");
+    String result = String("1.2380964839238475457356735674573563567890E+53");
     int resScale = -13;
 
     AutoPtr<IBigDecimal> aDecimal;
@@ -246,8 +246,8 @@ void testAbsMathContextPos()
     Int32 scale;
     rDecimal->GetScale(&scale);
 
-    assertEquals("incorrect value", result, str);
-    assertEquals("incorrect scale", resScale, scale);
+    assertEquals("testAbsMathContextPos() incorrect value", result, str);
+    assertEquals("testAbsMathContextPos() incorrect scale", resScale, scale);
 }
 
     /**
@@ -273,7 +273,7 @@ void testCompareEqualScale1()
 
     int aScale = 18;
     int bScale = 18;
-    int result = 1;
+    Boolean result = TRUE;
 
     AutoPtr<IBigInteger> aNumber;
     ECode ec = CBigInteger::New(a, (IBigInteger**)&aNumber);
@@ -304,7 +304,7 @@ void testCompareEqualScale1()
     Int32 r;
     comp->CompareTo(bDecimal, &r);
 
-    assertEquals("incorrect result", result, r);
+    assertEquals("testCompareEqualScale1() incorrect result", result, TRUE);
 }
 
     /**
@@ -361,7 +361,7 @@ void testCompareEqualScale2()
     Int32 r;
     comp->CompareTo(bDecimal, &r);
 
-    assertEquals("incorrect result", result, r);
+    assertEquals("testCompareEqualScale2() incorrect result", result, r);
 }
 
 
@@ -384,22 +384,24 @@ void testCompareGreaterScale1()
 {
 
     String a = String("12380964839238475457356735674573563567890295784902768787678287");
-    String b = String("4573563923487289357829759278282992758247567890295784902768787678287");
+    String b = String("4573563567890295784902768787678287");
 
     int aScale = 28;
     int bScale = 18;
-    int result = 1;
+    Int32 result = 1;
 
     AutoPtr<IBigInteger> aNumber;
     ECode ec = CBigInteger::New(a, (IBigInteger**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> bNumber;
     ec = CBigInteger::New(b, (IBigInteger**)&bNumber);
-    if (FAILED(ec) || bNumber == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigDecimal> aDecimal;
@@ -410,16 +412,17 @@ void testCompareGreaterScale1()
 
     AutoPtr<IBigDecimal> bDecimal;
     ec = CBigDecimal::New((IBigInteger*)bNumber, bScale, (IBigDecimal**)&bDecimal);
-    if (FAILED(ec) || bDecimal == NULL) {
+    if (FAILED(ec)) {
         printf(" Failed to create CBigDecimal. Error %08X\n", ec);
+        return;
     }
 
-    IComparable* comp = (IComparable *)aNumber->Probe(EIID_IComparable);
+    IComparable* comp = (IComparable *)aDecimal->Probe(EIID_IComparable);
 
     Int32 r;
     comp->CompareTo(bDecimal, &r);
 
-    assertEquals("incorrect result", result, r);
+    assertEquals("testCompareGreaterScale1() incorrect result", result, r);
 }
 
     /**
@@ -851,7 +854,7 @@ void testCompareGreaterScale1()
 #endif
 
     /*
-     * Regression test for HARMONY-6406
+     * Regression toVerify for HARMONY-6406
      */
 #if 0
     public void testApproxPrecision() {
@@ -863,7 +866,7 @@ void testCompareGreaterScale1()
 
 //==============================================================================
 
-int mainBigDecimalCompareTest(int argc, char *argv[])
+EXTERN_C int mainBigDecimalCompareTest(int argc, char *argv[])
 {
     printf("\n==== libcore/math/BigDecimalCompareTest ====\n");
     testAbsNeg();

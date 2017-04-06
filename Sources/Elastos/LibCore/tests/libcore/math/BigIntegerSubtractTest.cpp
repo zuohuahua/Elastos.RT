@@ -36,10 +36,10 @@ using Elastos::Core::EIID_IComparable;
 namespace Elastos {
 namespace Math {
 
-static void assertEquals(const char *info, Int32 aspect, Int32 test)
+static void assertEquals(const char *hintMessage, Int32 expecting, Int32 toVerify)
 {
-    printf("aspect: %d, test: %d. %s\n", aspect, test, info);
-    assert(aspect == test);
+    printf("expecting: %d, toVerify: %d. %s\n", expecting, toVerify, hintMessage);
+    assert(expecting == toVerify);
 }
 
 #if 0
@@ -132,7 +132,7 @@ void testCase1()
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
@@ -198,7 +198,7 @@ void testCase2()
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
@@ -264,7 +264,7 @@ void testCase3()
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
@@ -330,7 +330,7 @@ void testCase4()
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
@@ -396,7 +396,7 @@ void testCase5()
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*(ArrayOf<Byte> *)(&resBytes))[i], (*(ArrayOf<Byte> *)(&rBytes))[i]);
+        assertEquals("data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
@@ -856,7 +856,7 @@ void testCase5()
 
 //==============================================================================
 
-int mainBigIntegerSubtractTest(int argc, char *argv[])
+EXTERN_C int mainBigIntegerSubtractTest(int argc, char *argv[])
 {
     printf("\n==== libcore/math/BigIntegerSubtractTest ====\n");
     testCase1();
