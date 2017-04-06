@@ -8,6 +8,8 @@ $ sudo apt-get install libicu52:i386
 $ dpkg -L libicu52:i386
 ```
 Copy the needed libs to /usr/lib/i386-linux-gnu/
+in directory /usr/lib/i386-linux-gnu/
+$ sudo ln -s libicuuc.so.52.1 libicuuc.so
 
 
 Issue Handling

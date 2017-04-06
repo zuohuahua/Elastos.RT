@@ -18,7 +18,7 @@ $ git clone https://github.com/elastos/ElastosRT
 
 On Ubuntu this should obtain the necessary pre-reqs:
 ```
-sudo apt-get install texinfo libglib2.0-dev autoconf libtool libsdl-dev build-essential tofrodos
+sudo apt-get install texinfo libglib2.0-dev autoconf libtool libsdl-dev build-essential tofrodos zlib1g-dev:amd64 zlib1g-dev:i386
 ```
 
 ## Build ElastosRT
