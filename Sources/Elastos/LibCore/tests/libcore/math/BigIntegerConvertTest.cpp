@@ -39,11 +39,13 @@ using Elastos::Core::EIID_INumber;
 namespace Elastos {
 namespace Math {
 
+#if 0
 static void assertEquals(const char *hintMessage, Int32 expecting, Int32 toVerify)
 {
     printf("expecting: %d, toVerify: %d. %s\n", expecting, toVerify, hintMessage);
     assert(expecting == toVerify);
 }
+#endif
 
 static void assertEquals(const char *hintMessage, double expecting, double toVerify)
 {

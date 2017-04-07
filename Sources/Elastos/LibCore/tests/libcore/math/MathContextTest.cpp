@@ -42,11 +42,13 @@ static void assertEquals(const char *hintMessage, Int32 expecting, Int32 toVerif
     assert(expecting == toVerify);
 }
 
+#if 0
 static void assertEquals(const char *hintMessage, const String& expecting, const String& toVerify)
 {
     printf("expecting: [%s], toVerify: [%s] %s\n", expecting.string(), toVerify.string(), hintMessage);
     assert(expecting.Equals(toVerify) && "result not equals expecting!");
 }
+#endif
 
 #if 0
 /*

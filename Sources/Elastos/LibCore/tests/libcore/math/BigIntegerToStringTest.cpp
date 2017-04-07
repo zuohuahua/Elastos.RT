@@ -36,13 +36,13 @@ using Elastos::Core::EIID_IComparable;
 namespace Elastos {
 namespace Math {
 
+#if 0
 static void assertEquals(const char *hintMessage, Int32 expecting, Int32 toVerify)
 {
     printf("expecting: %d, toVerify: %d. %s\n", expecting, toVerify, hintMessage);
     assert(expecting == toVerify);
 }
 
-#if 0
 /*
  *  Licensed to the Apache Software Foundation (ASF) under one or more
  *  contributor license agreements.  See the NOTICE file distributed with

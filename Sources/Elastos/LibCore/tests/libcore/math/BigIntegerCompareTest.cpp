@@ -36,6 +36,7 @@ using Elastos::Core::EIID_IComparable;
 namespace Elastos {
 namespace Math {
 
+#if 0
 static void assertEquals(const String& expecting, const String& toVerify)
 {
     printf("expecting: [%s], toVerify: [%s]\n", expecting.string(), toVerify.string());
@@ -59,6 +60,7 @@ static void assertEquals(Int64 expecting, Int64 toVerify)
     printf("expecting: %lld, toVerify: %lld\n", expecting, toVerify);
     assert(expecting == toVerify);
 }
+#endif
 
 static void assertEquals(const char *hintMessage, Int32 expecting, Int32 toVerify)
 {
@@ -66,11 +68,13 @@ static void assertEquals(const char *hintMessage, Int32 expecting, Int32 toVerif
     assert(expecting == toVerify);
 }
 
+#if 0
 static void assertEquals(const char* hintMessage, Int64 toVerify, Int64 expecting)
 {
     printf("expecting: %lld, toVerify: %lld. %s\n", expecting, toVerify, hintMessage);
     assert(expecting == toVerify);
 }
+#endif
 
 static void assertEquals(const char* hintMessage, Byte toVerify, Byte expecting)
 {
@@ -79,6 +83,7 @@ static void assertEquals(const char* hintMessage, Byte toVerify, Byte expecting)
 }
 
 
+#if 0
 static void printArray(ArrayOf<IBigInteger *> *v, const char* hintMessage)
 {
     printf("  >------Start print %s ------<\n", hintMessage);
@@ -96,6 +101,7 @@ static void printArray(ArrayOf<IBigInteger *> *v, const char* hintMessage)
     }
     printf("  >------End print %s ------<\n", hintMessage);
 }
+#endif
 
 #if 0
 /*

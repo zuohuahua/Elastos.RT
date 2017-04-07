@@ -36,6 +36,7 @@ using Elastos::Core::EIID_IComparable;
 namespace Elastos {
 namespace Math {
 
+#if 0
 static void assertEquals(const String& expecting, const String& toVerify)
 {
     printf("expecting: [%s], toVerify: [%s]\n", expecting.string(), toVerify.string());
@@ -96,6 +97,7 @@ static void printArray(ArrayOf<IBigInteger *> *v, const char* hintMessage)
     }
     printf("  >------End print %s ------<\n", hintMessage);
 }
+#endif
 
 #if 0
 /*
