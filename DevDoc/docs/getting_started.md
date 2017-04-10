@@ -34,6 +34,9 @@ cd ~/ElastosRT/Setup
 
 2. build CAR tools
 ```
+#build release version of carc
+#the debug version doesn't work now
+~/ElastosRT/Sources$rls
 ~/ElastosRT/Sources$ emake
 ~/ElastosRT/Sources$ pd @
 ```
@@ -48,7 +51,7 @@ CInfoReader  Cls2C  carc  carcode  dbg_info  libz.so  lubc  lube  package
 copy your build result to ~/ElastosRT/Build/Tools
 from ~/ElastosRT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin
 ```
-cp CInfoReader Cls2C carc carcode lubc lube ~/ElastosRT/Build/Tools/
+cp CInfoReader Cls2C carc carcode lubc lube libz.so ~/ElastosRT/Build/Tools/
 ```
 
 5. release version or debug version
