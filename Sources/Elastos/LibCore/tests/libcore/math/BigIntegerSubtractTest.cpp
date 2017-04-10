@@ -115,14 +115,16 @@ void testCase1()
 
     AutoPtr<IBigInteger> aNumber;
     ECode ec = CBigInteger::New(aSign, *aBytes, (IBigInteger**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
-        printf(" Failed to create CBigInteger. Error %08X\n", ec);
+    if (FAILED(ec)) {
+        printf("testCase1() Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> bNumber;
     ec = CBigInteger::New(bSign, *bBytes, (IBigInteger**)&bNumber);
-    if (FAILED(ec) || bNumber == NULL) {
-        printf(" Failed to create CBigInteger. Error %08X\n", ec);
+    if (FAILED(ec)) {
+        printf("testCase1() Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> result;
@@ -132,12 +134,12 @@ void testCase1()
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*resBytes)[i], (*rBytes)[i]);
+        assertEquals("testCase1() data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
     result->GetSignum(&sign);
-    assertEquals("incorrect sign", 1, sign);
+    assertEquals("testCase1() incorrect sign", 1, sign);
 }
 
 
@@ -181,14 +183,16 @@ void testCase2()
 
     AutoPtr<IBigInteger> aNumber;
     ECode ec = CBigInteger::New(aSign, *aBytes, (IBigInteger**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
-        printf(" Failed to create CBigInteger. Error %08X\n", ec);
+    if (FAILED(ec)) {
+        printf("testCase2() Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> bNumber;
     ec = CBigInteger::New(bSign, *bBytes, (IBigInteger**)&bNumber);
-    if (FAILED(ec) || bNumber == NULL) {
-        printf(" Failed to create CBigInteger. Error %08X\n", ec);
+    if (FAILED(ec)) {
+        printf("testCase2() Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> result;
@@ -198,12 +202,12 @@ void testCase2()
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*resBytes)[i], (*rBytes)[i]);
+        assertEquals("testCase2() data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
     result->GetSignum(&sign);
-    assertEquals("incorrect sign", -1, sign);
+    assertEquals("testCase2() incorrect sign", -1, sign);
 }
 
     /**
@@ -247,14 +251,16 @@ void testCase3()
 
     AutoPtr<IBigInteger> aNumber;
     ECode ec = CBigInteger::New(aSign, *aBytes, (IBigInteger**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
-        printf(" Failed to create CBigInteger. Error %08X\n", ec);
+    if (FAILED(ec)) {
+        printf("testCase3() Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> bNumber;
     ec = CBigInteger::New(bSign, *bBytes, (IBigInteger**)&bNumber);
-    if (FAILED(ec) || bNumber == NULL) {
-        printf(" Failed to create CBigInteger. Error %08X\n", ec);
+    if (FAILED(ec)) {
+        printf("testCase3() Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> result;
@@ -264,12 +270,12 @@ void testCase3()
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*resBytes)[i], (*rBytes)[i]);
+        assertEquals("testCase3() data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
     result->GetSignum(&sign);
-    assertEquals("incorrect sign", 1, sign);
+    assertEquals("testCase3() incorrect sign", 1, sign);
 }
 
     /**
@@ -313,14 +319,16 @@ void testCase4()
 
     AutoPtr<IBigInteger> aNumber;
     ECode ec = CBigInteger::New(aSign, *aBytes, (IBigInteger**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
-        printf(" Failed to create CBigInteger. Error %08X\n", ec);
+    if (FAILED(ec)) {
+        printf("testCase4() Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> bNumber;
     ec = CBigInteger::New(bSign, *bBytes, (IBigInteger**)&bNumber);
-    if (FAILED(ec) || bNumber == NULL) {
-        printf(" Failed to create CBigInteger. Error %08X\n", ec);
+    if (FAILED(ec)) {
+        printf("testCase4() Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> result;
@@ -330,12 +338,12 @@ void testCase4()
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*resBytes)[i], (*rBytes)[i]);
+        assertEquals("testCase4() data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
     result->GetSignum(&sign);
-    assertEquals("incorrect sign", 1, sign);
+    assertEquals("testCase4() incorrect sign", 1, sign);
 }
 
 
@@ -379,14 +387,16 @@ void testCase5()
 
     AutoPtr<IBigInteger> aNumber;
     ECode ec = CBigInteger::New(aSign, *aBytes, (IBigInteger**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
-        printf(" Failed to create CBigInteger. Error %08X\n", ec);
+    if (FAILED(ec)) {
+        printf("testCase5() Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> bNumber;
     ec = CBigInteger::New(bSign, *bBytes, (IBigInteger**)&bNumber);
-    if (FAILED(ec) || bNumber == NULL) {
-        printf(" Failed to create CBigInteger. Error %08X\n", ec);
+    if (FAILED(ec)) {
+        printf("testCase5() Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> result;
@@ -396,12 +406,12 @@ void testCase5()
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*resBytes)[i], (*rBytes)[i]);
+        assertEquals("testCase5() data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
     result->GetSignum(&sign);
-    assertEquals("incorrect sign", -1, sign);
+    assertEquals("testCase5() incorrect sign", -1, sign);
 }
 
 

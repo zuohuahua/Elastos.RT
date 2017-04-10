@@ -814,14 +814,17 @@ ECode CBigInteger::Equals(
     *result = FALSE;
     VALIDATE_NOT_NULL(other);
 
-    if (IBigInteger::Probe(other) == NULL) return NOERROR;
-
     CBigInteger* bi = (CBigInteger*)IBigInteger::Probe(other);
+    if (bi == NULL)
+        return E_ILLEGAL_ARGUMENT_EXCEPTION;
+
     if (this == bi) {
         *result = TRUE;
     }
     else {
-        *result = (BigInt::Cmp(*mBigInt, *bi->GetBigInt()) == 0);
+        AutoPtr<BigInt> tmpBitInt = bi->GetBigInt();
+        Boolean tmpBool = (BigInt::Cmp(*GetBigInt(), *tmpBitInt) == 0);
+        *result = tmpBool;
     }
     return NOERROR;
 }

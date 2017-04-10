@@ -92,12 +92,13 @@ void testBitCountZero()
 
     AutoPtr<IBigInteger> aNumber;
     ECode ec = CBigInteger::New(a, (IBigInteger**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
-        printf(" Failed to create CBigInteger. Error %08X\n", ec);
+    if (FAILED(ec)) {
+        printf("testBitCountZero() Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     aNumber->BitCount(&bNumber);
-    assertEquals("testBitCountZero", bNumber, 0);
+    assertEquals("testBitCountZero() testBitCountZero", bNumber, 0);
 }
 
 
@@ -117,12 +118,13 @@ void testBitCountNeg()
 
     AutoPtr<IBigInteger> aNumber;
     ECode ec = CBigInteger::New(a, (IBigInteger**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
-        printf(" Failed to create CBigInteger. Error %08X\n", ec);
+    if (FAILED(ec)) {
+        printf("testBitCountNeg() Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     aNumber->BitCount(&bNumber);
-    assertEquals("testBitCountNeg", bNumber, 87);
+    assertEquals("testBitCountNeg()", bNumber, 87);
 }
 
 
@@ -142,12 +144,13 @@ void testBitCountPos()
 
     AutoPtr<IBigInteger> aNumber;
     ECode ec = CBigInteger::New(a, (IBigInteger**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
-        printf(" Failed to create CBigInteger. Error %08X\n", ec);
+    if (FAILED(ec)) {
+        printf("testBitCountPos() Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     aNumber->BitCount(&bNumber);
-    assertEquals("testBitCountNeg", bNumber, 107);
+    assertEquals("testBitCountPos()", bNumber, 107);
 }
     /**
      * bitLength() of zero.
@@ -182,12 +185,13 @@ void testBitLengthPositive1()
 
     AutoPtr<IBigInteger> aNumber;
     ECode ec = CBigInteger::New(aSign, *aBytes, (IBigInteger**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
-        printf(" Failed to create CBigInteger. Error %08X\n", ec);
+    if (FAILED(ec)) {
+        printf("testBitLengthPositive1() Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     aNumber->BitLength(&bNumber);
-    assertEquals("testBitLengthPositive2", bNumber, 108);
+    assertEquals("testBitLengthPositive1()", bNumber, 108);
 }
     /**
      * bitLength() of a positive number with the leftmost bit set
@@ -212,12 +216,13 @@ void testBitLengthPositive2()
 
     AutoPtr<IBigInteger> aNumber;
     ECode ec = CBigInteger::New(aSign, *aBytes, (IBigInteger**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
-        printf(" Failed to create CBigInteger. Error %08X\n", ec);
+    if (FAILED(ec)) {
+        printf("testBitLengthPositive2() Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     aNumber->BitLength(&bNumber);
-    assertEquals("testBitLengthPositive2", bNumber, 96);
+    assertEquals("testBitLengthPositive2()", bNumber, 96);
 }
 
     /**

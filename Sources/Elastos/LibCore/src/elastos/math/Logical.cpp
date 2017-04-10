@@ -38,7 +38,8 @@ AutoPtr<IBigInteger> Logical::Not(
     }
 
     AutoPtr<IBigInteger> result;
-    AutoPtr< ArrayOf<Int32> > resDigits = val->mDigits->Clone();
+//    AutoPtr< ArrayOf<Int32> > resDigits = val->mDigits->Clone();
+    AutoPtr< ArrayOf<Int32> > resDigits = ArrayOf<Int32>::Alloc(val->mNumberLength + 1);
 
     Int32 i;
     if (val->mSign > 0) {

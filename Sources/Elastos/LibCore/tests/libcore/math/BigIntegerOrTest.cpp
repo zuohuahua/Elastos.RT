@@ -116,14 +116,16 @@ void testZeroPos()
 
     AutoPtr<IBigInteger> aNumber;
     ECode ec = CBigInteger::New(aSign, *aBytes, (IBigInteger**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
-        printf(" Failed to create CBigInteger. Error %08X\n", ec);
+    if (FAILED(ec)) {
+        printf("testZeroPos() Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> bNumber;
     ec = CBigInteger::New(bSign, *bBytes, (IBigInteger**)&bNumber);
-    if (FAILED(ec) || bNumber == NULL) {
-        printf(" Failed to create CBigInteger. Error %08X\n", ec);
+    if (FAILED(ec)) {
+        printf("testZeroPos() Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> result;
@@ -133,12 +135,12 @@ void testZeroPos()
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*resBytes)[i], (*rBytes)[i]);
+        assertEquals("testZeroPos() data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
     result->GetSignum(&sign);
-    assertEquals("incorrect sign", 1, sign);
+    assertEquals("testZeroPos() incorrect sign", 1, sign);
 }
 
     /**
@@ -180,14 +182,16 @@ void testZeroNeg()
 
     AutoPtr<IBigInteger> aNumber;
     ECode ec = CBigInteger::New(aSign, *aBytes, (IBigInteger**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
-        printf(" Failed to create CBigInteger. Error %08X\n", ec);
+    if (FAILED(ec)) {
+        printf("testZeroNeg() Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> bNumber;
     ec = CBigInteger::New(bSign, *bBytes, (IBigInteger**)&bNumber);
-    if (FAILED(ec) || bNumber == NULL) {
-        printf(" Failed to create CBigInteger. Error %08X\n", ec);
+    if (FAILED(ec)) {
+        printf("testZeroNeg() Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> result;
@@ -197,12 +201,12 @@ void testZeroNeg()
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*resBytes)[i], (*rBytes)[i]);
+        assertEquals("testZeroNeg() data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
     result->GetSignum(&sign);
-    assertEquals("incorrect sign", -1, sign);
+    assertEquals("testZeroNeg() incorrect sign", -1, sign);
 }
 
     /**
@@ -244,14 +248,16 @@ void testPosZero()
 
     AutoPtr<IBigInteger> aNumber;
     ECode ec = CBigInteger::New(aSign, *aBytes, (IBigInteger**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
-        printf(" Failed to create CBigInteger. Error %08X\n", ec);
+    if (FAILED(ec)) {
+        printf("testPosZero() Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> bNumber;
     ec = CBigInteger::New(bSign, *bBytes, (IBigInteger**)&bNumber);
-    if (FAILED(ec) || bNumber == NULL) {
-        printf(" Failed to create CBigInteger. Error %08X\n", ec);
+    if (FAILED(ec)) {
+        printf("testPosZero() Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> result;
@@ -261,12 +267,12 @@ void testPosZero()
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*resBytes)[i], (*rBytes)[i]);
+        assertEquals("testPosZero() data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
     result->GetSignum(&sign);
-    assertEquals("incorrect sign", 1, sign);
+    assertEquals("testPosZero() incorrect sign", 1, sign);
 }
 
 
@@ -639,14 +645,16 @@ void testPosNegFirstShorter()
 
     AutoPtr<IBigInteger> aNumber;
     ECode ec = CBigInteger::New(aSign, *aBytes, (IBigInteger**)&aNumber);
-    if (FAILED(ec) || aNumber == NULL) {
-        printf(" Failed to create CBigInteger. Error %08X\n", ec);
+    if (FAILED(ec)) {
+        printf("testPosNegFirstShorter() Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> bNumber;
     ec = CBigInteger::New(bSign, *bBytes, (IBigInteger**)&bNumber);
-    if (FAILED(ec) || bNumber == NULL) {
-        printf(" Failed to create CBigInteger. Error %08X\n", ec);
+    if (FAILED(ec)) {
+        printf("testPosNegFirstShorter() Failed to create CBigInteger. Error %08X\n", ec);
+        return;
     }
 
     AutoPtr<IBigInteger> result;
@@ -656,12 +664,12 @@ void testPosNegFirstShorter()
     result->ToByteArray((ArrayOf<Byte> **)&resBytes);
 
     for(int i = 0; i < resBytes->GetLength(); i++) {
-        assertEquals("data error", (*resBytes)[i], (*rBytes)[i]);
+        assertEquals("testPosNegFirstShorter() data error", (*resBytes)[i], (*rBytes)[i]);
     }
 
     Int32 sign;
     result->GetSignum(&sign);
-    assertEquals("incorrect sign", -1, sign);
+    assertEquals("testPosNegFirstShorter() incorrect sign", -1, sign);
 }
 
 #if 0
@@ -694,13 +702,19 @@ void testRegression()
         return;
     }
 
-    AutoPtr<IBigInteger> a, b, c, r1, r2, r3, result;
+    AutoPtr<IBigInteger> a, b, c, d, r1, r2, r3, result;
     zeroNumber->Not((IBigInteger**)&b);
     b->ShiftLeft(32, (IBigInteger**)&c);
-
     xNumber->And(c, (IBigInteger**)&r1);
-    c->Not((IBigInteger**)&r2);
-    xNumber->And(r2, (IBigInteger**)&r3);
+
+    b->ShiftLeft(32, (IBigInteger**)&c);
+    ec = c->Not((IBigInteger**)&d);
+    if (FAILED(ec)) {
+        printf("testRegression() c->Not((IBigInteger**)&d). Error %08X\n", ec);
+        return;
+    }
+
+    xNumber->And(d, (IBigInteger**)&r3);
 
     r1->Or(r3, (IBigInteger**)&result);
 
@@ -716,7 +730,7 @@ void testRegression()
 
     cNumber = NULL;
 
-    cNumber = INumber::Probe(r3);
+    cNumber = INumber::Probe(result);
     if (cNumber == NULL) {
         printf("testRegression() Failed to Probe IComparable. Error\n");
         return;
@@ -736,7 +750,7 @@ EXTERN_C int mainBigIntegerOrTest(int argc, char *argv[])
     testZeroNeg();
     testPosZero();
     testPosNegFirstShorter();
-//BUG    testRegression();
+    testRegression();
     printf("\n==== end of libcore/math/BigIntegerOrTest ====\n");
 
     return 0;
