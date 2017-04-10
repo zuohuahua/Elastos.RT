@@ -822,9 +822,9 @@ ECode CBigInteger::Equals(
         *result = TRUE;
     }
     else {
-        AutoPtr<BigInt> tmpBitInt = bi->GetBigInt();
-        Boolean tmpBool = (BigInt::Cmp(*GetBigInt(), *tmpBitInt) == 0);
-        *result = tmpBool;
+        AutoPtr<BigInt> myBitInt = GetBigInt();
+        AutoPtr<BigInt> biBitInt = bi->GetBigInt();
+        *result = Boolean(BigInt::Cmp(*myBitInt, *biBitInt) == 0);
     }
     return NOERROR;
 }
