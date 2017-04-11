@@ -210,316 +210,316 @@ public:
          * @Deprecated
          */
 
-        static const AutoPtr<UnicodeBlock> SURROGATES_AREA;
+        static /*const*/ AutoPtr<UnicodeBlock> SURROGATES_AREA;
 
         /**
          * The &quot;Basic Latin&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> BASIC_LATIN;
+        static /*const*/ AutoPtr<UnicodeBlock> BASIC_LATIN;
         /**
          * The &quot;Latin-1 Supplement&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> LATIN_1_SUPPLEMENT;
+        static /*const*/ AutoPtr<UnicodeBlock> LATIN_1_SUPPLEMENT;
         /**
          * The &quot;Latin Extended-A&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> LATIN_EXTENDED_A;
+        static /*const*/ AutoPtr<UnicodeBlock> LATIN_EXTENDED_A;
         /**
          * The &quot;Latin Extended-B&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> LATIN_EXTENDED_B;
+        static /*const*/ AutoPtr<UnicodeBlock> LATIN_EXTENDED_B;
         /**
          * The &quot;IPA Extensions&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> IPA_EXTENSIONS;
+        static /*const*/ AutoPtr<UnicodeBlock> IPA_EXTENSIONS;
         /**
          * The &quot;Spacing Modifier Letters&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> SPACING_MODIFIER_LETTERS;
+        static /*const*/ AutoPtr<UnicodeBlock> SPACING_MODIFIER_LETTERS;
         /**
          * The &quot;Combining Diacritical Marks&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> COMBINING_DIACRITICAL_MARKS;
+        static /*const*/ AutoPtr<UnicodeBlock> COMBINING_DIACRITICAL_MARKS;
         /**
          * The &quot;Greek and Coptic&quot; Unicode Block. Previously referred
          * to as &quot;Greek&quot;.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> GREEK;
+        static /*const*/ AutoPtr<UnicodeBlock> GREEK;
         /**
          * The &quot;Cyrillic&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> CYRILLIC;
+        static /*const*/ AutoPtr<UnicodeBlock> CYRILLIC;
         /**
          * The &quot;Cyrillic Supplement&quot; Unicode Block. Previously
          * referred to as &quot;Cyrillic Supplementary&quot;.
          *
          * @since 1.5
          */
-        static const AutoPtr<UnicodeBlock> CYRILLIC_SUPPLEMENTARY;
+        static /*const*/ AutoPtr<UnicodeBlock> CYRILLIC_SUPPLEMENTARY;
         /**
          * The &quot;Armenian&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> ARMENIAN;
+        static /*const*/ AutoPtr<UnicodeBlock> ARMENIAN;
         /**
          * The &quot;Hebrew&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> HEBREW;
+        static /*const*/ AutoPtr<UnicodeBlock> HEBREW;
         /**
          * The &quot;Arabic&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> ARABIC;
+        static /*const*/ AutoPtr<UnicodeBlock> ARABIC;
         /**
          * The &quot;Syriac&quot; Unicode Block.
          *
          * @since 1.4
          */
-        static const AutoPtr<UnicodeBlock> SYRIAC;
+        static /*const*/ AutoPtr<UnicodeBlock> SYRIAC;
         /**
          * The &quot;Thaana&quot; Unicode Block.
          *
          * @since 1.4
          */
-        static const AutoPtr<UnicodeBlock> THAANA;
+        static /*const*/ AutoPtr<UnicodeBlock> THAANA;
         /**
          * The &quot;Devanagari&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> DEVANAGARI;
+        static /*const*/ AutoPtr<UnicodeBlock> DEVANAGARI;
         /**
          * The &quot;Bengali&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> BENGALI;
+        static /*const*/ AutoPtr<UnicodeBlock> BENGALI;
         /**
          * The &quot;Gurmukhi&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> GURMUKHI;
+        static /*const*/ AutoPtr<UnicodeBlock> GURMUKHI;
         /**
          * The &quot;Gujarati&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> GUJARATI;
+        static /*const*/ AutoPtr<UnicodeBlock> GUJARATI;
         /**
          * The &quot;Oriya&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> ORIYA;
+        static /*const*/ AutoPtr<UnicodeBlock> ORIYA;
         /**
          * The &quot;Tamil&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> TAMIL;
+        static /*const*/ AutoPtr<UnicodeBlock> TAMIL;
         /**
          * The &quot;Telugu&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> TELUGU;
+        static /*const*/ AutoPtr<UnicodeBlock> TELUGU;
         /**
          * The &quot;Kannada&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> KANNADA;
+        static /*const*/ AutoPtr<UnicodeBlock> KANNADA;
         /**
          * The &quot;Malayalam&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> MALAYALAM;
+        static /*const*/ AutoPtr<UnicodeBlock> MALAYALAM;
         /**
          * The &quot;Sinhala&quot; Unicode Block.
          *
          * @since 1.4
          */
-        static const AutoPtr<UnicodeBlock> SINHALA;
+        static /*const*/ AutoPtr<UnicodeBlock> SINHALA;
         /**
          * The &quot;Thai&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> THAI;
+        static /*const*/ AutoPtr<UnicodeBlock> THAI;
         /**
          * The &quot;Lao&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> LAO;
+        static /*const*/ AutoPtr<UnicodeBlock> LAO;
         /**
          * The &quot;Tibetan&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> TIBETAN;
+        static /*const*/ AutoPtr<UnicodeBlock> TIBETAN;
         /**
          * The &quot;Myanmar&quot; Unicode Block.
          *
          * @since 1.4
          */
-        static const AutoPtr<UnicodeBlock> MYANMAR;
+        static /*const*/ AutoPtr<UnicodeBlock> MYANMAR;
         /**
          * The &quot;Georgian&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> GEORGIAN;
+        static /*const*/ AutoPtr<UnicodeBlock> GEORGIAN;
         /**
          * The &quot;Hangul Jamo&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> HANGUL_JAMO;
+        static /*const*/ AutoPtr<UnicodeBlock> HANGUL_JAMO;
         /**
          * The &quot;Ethiopic&quot; Unicode Block.
          *
          * @since 1.4
          */
-        static const AutoPtr<UnicodeBlock> ETHIOPIC;
+        static /*const*/ AutoPtr<UnicodeBlock> ETHIOPIC;
         /**
          * The &quot;Cherokee&quot; Unicode Block.
          *
          * @since 1.4
          */
-        static const AutoPtr<UnicodeBlock> CHEROKEE;
+        static /*const*/ AutoPtr<UnicodeBlock> CHEROKEE;
         /**
          * The &quot;Unified Canadian Aboriginal Syllabics&quot; Unicode Block.
          *
          * @since 1.4
          */
-        static const AutoPtr<UnicodeBlock> UNIFIED_CANADIAN_ABORIGINAL_SYLLABICS;
+        static /*const*/ AutoPtr<UnicodeBlock> UNIFIED_CANADIAN_ABORIGINAL_SYLLABICS;
         /**
          * The &quot;Ogham&quot; Unicode Block.
          *
          * @since 1.4
          */
-        static const AutoPtr<UnicodeBlock> OGHAM;
+        static /*const*/ AutoPtr<UnicodeBlock> OGHAM;
         /**
          * The &quot;Runic&quot; Unicode Block.
          *
          * @since 1.4
          */
-        static const AutoPtr<UnicodeBlock> RUNIC;
+        static /*const*/ AutoPtr<UnicodeBlock> RUNIC;
         /**
          * The &quot;Tagalog&quot; Unicode Block.
          *
          * @since 1.5
          */
-        static const AutoPtr<UnicodeBlock> TAGALOG;
+        static /*const*/ AutoPtr<UnicodeBlock> TAGALOG;
         /**
          * The &quot;Hanunoo&quot; Unicode Block.
          *
          * @since 1.5
          */
-        static const AutoPtr<UnicodeBlock> HANUNOO;
+        static /*const*/ AutoPtr<UnicodeBlock> HANUNOO;
         /**
          * The &quot;Buhid&quot; Unicode Block.
          *
          * @since 1.5
          */
-        static const AutoPtr<UnicodeBlock> BUHID;
+        static /*const*/ AutoPtr<UnicodeBlock> BUHID;
         /**
          * The &quot;Tagbanwa&quot; Unicode Block.
          *
          * @since 1.5
          */
-        static const AutoPtr<UnicodeBlock> TAGBANWA;
+        static /*const*/ AutoPtr<UnicodeBlock> TAGBANWA;
         /**
          * The &quot;Khmer&quot; Unicode Block.
          *
          * @since 1.4
          */
-        static const AutoPtr<UnicodeBlock> KHMER;
+        static /*const*/ AutoPtr<UnicodeBlock> KHMER;
         /**
          * The &quot;Mongolian&quot; Unicode Block.
          *
          * @since 1.4
          */
-        static const AutoPtr<UnicodeBlock> MONGOLIAN;
+        static /*const*/ AutoPtr<UnicodeBlock> MONGOLIAN;
         /**
          * The &quot;Limbu&quot; Unicode Block.
          *
          * @since 1.5
          */
-        static const AutoPtr<UnicodeBlock> LIMBU;
+        static /*const*/ AutoPtr<UnicodeBlock> LIMBU;
         /**
          * The &quot;Tai Le&quot; Unicode Block.
          *
          * @since 1.5
          */
-        static const AutoPtr<UnicodeBlock> TAI_LE;
+        static /*const*/ AutoPtr<UnicodeBlock> TAI_LE;
         /**
          * The &quot;Khmer Symbols&quot; Unicode Block.
          *
          * @since 1.5
          */
-        static const AutoPtr<UnicodeBlock> KHMER_SYMBOLS;
+        static /*const*/ AutoPtr<UnicodeBlock> KHMER_SYMBOLS;
         /**
          * The &quot;Phonetic Extensions&quot; Unicode Block.
          *
          * @since 1.5
          */
-        static const AutoPtr<UnicodeBlock> PHONETIC_EXTENSIONS;
+        static /*const*/ AutoPtr<UnicodeBlock> PHONETIC_EXTENSIONS;
         /**
          * The &quot;Latin Extended Additional&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> LATIN_EXTENDED_ADDITIONAL;
+        static /*const*/ AutoPtr<UnicodeBlock> LATIN_EXTENDED_ADDITIONAL;
         /**
          * The &quot;Greek Extended&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> GREEK_EXTENDED;
+        static /*const*/ AutoPtr<UnicodeBlock> GREEK_EXTENDED;
         /**
          * The &quot;General Punctuation&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> GENERAL_PUNCTUATION;
+        static /*const*/ AutoPtr<UnicodeBlock> GENERAL_PUNCTUATION;
         /**
          * The &quot;Superscripts and Subscripts&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> SUPERSCRIPTS_AND_SUBSCRIPTS;
+        static /*const*/ AutoPtr<UnicodeBlock> SUPERSCRIPTS_AND_SUBSCRIPTS;
         /**
          * The &quot;Currency Symbols&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> CURRENCY_SYMBOLS;
+        static /*const*/ AutoPtr<UnicodeBlock> CURRENCY_SYMBOLS;
         /**
          * The &quot;Combining Diacritical Marks for Symbols&quot; Unicode
          * Block. Previously referred to as &quot;Combining Marks for
@@ -527,443 +527,443 @@ public:
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> COMBINING_MARKS_FOR_SYMBOLS;
+        static /*const*/ AutoPtr<UnicodeBlock> COMBINING_MARKS_FOR_SYMBOLS;
         /**
          * The &quot;Letterlike Symbols&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> LETTERLIKE_SYMBOLS;
+        static /*const*/ AutoPtr<UnicodeBlock> LETTERLIKE_SYMBOLS;
         /**
          * The &quot;Number Forms&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> NUMBER_FORMS;
+        static /*const*/ AutoPtr<UnicodeBlock> NUMBER_FORMS;
         /**
          * The &quot;Arrows&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> ARROWS;
+        static /*const*/ AutoPtr<UnicodeBlock> ARROWS;
         /**
          * The &quot;Mathematical Operators&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> MATHEMATICAL_OPERATORS;
+        static /*const*/ AutoPtr<UnicodeBlock> MATHEMATICAL_OPERATORS;
         /**
          * The &quot;Miscellaneous Technical&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> MISCELLANEOUS_TECHNICAL;
+        static /*const*/ AutoPtr<UnicodeBlock> MISCELLANEOUS_TECHNICAL;
         /**
          * The &quot;Control Pictures&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> CONTROL_PICTURES;
+        static /*const*/ AutoPtr<UnicodeBlock> CONTROL_PICTURES;
         /**
          * The &quot;Optical Character Recognition&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> OPTICAL_CHARACTER_RECOGNITION;
+        static /*const*/ AutoPtr<UnicodeBlock> OPTICAL_CHARACTER_RECOGNITION;
         /**
          * The &quot;Enclosed Alphanumerics&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> ENCLOSED_ALPHANUMERICS;
+        static /*const*/ AutoPtr<UnicodeBlock> ENCLOSED_ALPHANUMERICS;
         /**
          * The &quot;Box Drawing&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> BOX_DRAWING;
+        static /*const*/ AutoPtr<UnicodeBlock> BOX_DRAWING;
         /**
          * The &quot;Block Elements&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> BLOCK_ELEMENTS;
+        static /*const*/ AutoPtr<UnicodeBlock> BLOCK_ELEMENTS;
         /**
          * The &quot;Geometric Shapes&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> GEOMETRIC_SHAPES;
+        static /*const*/ AutoPtr<UnicodeBlock> GEOMETRIC_SHAPES;
         /**
          * The &quot;Miscellaneous Symbols&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> MISCELLANEOUS_SYMBOLS;
+        static /*const*/ AutoPtr<UnicodeBlock> MISCELLANEOUS_SYMBOLS;
         /**
          * The &quot;Dingbats&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> DINGBATS;
+        static /*const*/ AutoPtr<UnicodeBlock> DINGBATS;
         /**
          * The &quot;Miscellaneous Mathematical Symbols-A&quot; Unicode Block.
          *
          * @since 1.5
          */
-        static const AutoPtr<UnicodeBlock> MISCELLANEOUS_MATHEMATICAL_SYMBOLS_A;
+        static /*const*/ AutoPtr<UnicodeBlock> MISCELLANEOUS_MATHEMATICAL_SYMBOLS_A;
         /**
          * The &quot;Supplemental Arrows-A&quot; Unicode Block.
          *
          * @since 1.5
          */
-        static const AutoPtr<UnicodeBlock> SUPPLEMENTAL_ARROWS_A;
+        static /*const*/ AutoPtr<UnicodeBlock> SUPPLEMENTAL_ARROWS_A;
         /**
          * The &quot;Braille Patterns&quot; Unicode Block.
          *
          * @since 1.4
          */
-        static const AutoPtr<UnicodeBlock> BRAILLE_PATTERNS;
+        static /*const*/ AutoPtr<UnicodeBlock> BRAILLE_PATTERNS;
         /**
          * The &quot;Supplemental Arrows-B&quot; Unicode Block.
          *
          * @since 1.5
          */
-        static const AutoPtr<UnicodeBlock> SUPPLEMENTAL_ARROWS_B;
+        static /*const*/ AutoPtr<UnicodeBlock> SUPPLEMENTAL_ARROWS_B;
         /**
          * The &quot;Miscellaneous Mathematical Symbols-B&quot; Unicode Block.
          *
          * @since 1.5
          */
-        static const AutoPtr<UnicodeBlock> MISCELLANEOUS_MATHEMATICAL_SYMBOLS_B;
+        static /*const*/ AutoPtr<UnicodeBlock> MISCELLANEOUS_MATHEMATICAL_SYMBOLS_B;
         /**
          * The &quot;Supplemental Mathematical Operators&quot; Unicode Block.
          *
          * @since 1.5
          */
-        static const AutoPtr<UnicodeBlock> SUPPLEMENTAL_MATHEMATICAL_OPERATORS;
+        static /*const*/ AutoPtr<UnicodeBlock> SUPPLEMENTAL_MATHEMATICAL_OPERATORS;
         /**
          * The &quot;Miscellaneous Symbols and Arrows&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> MISCELLANEOUS_SYMBOLS_AND_ARROWS;
+        static /*const*/ AutoPtr<UnicodeBlock> MISCELLANEOUS_SYMBOLS_AND_ARROWS;
         /**
          * The &quot;CJK Radicals Supplement&quot; Unicode Block.
          *
          * @since 1.4
          */
-        static const AutoPtr<UnicodeBlock> CJK_RADICALS_SUPPLEMENT;
+        static /*const*/ AutoPtr<UnicodeBlock> CJK_RADICALS_SUPPLEMENT;
         /**
          * The &quot;Kangxi Radicals&quot; Unicode Block.
          *
          * @since 1.4
          */
-        static const AutoPtr<UnicodeBlock> KANGXI_RADICALS;
+        static /*const*/ AutoPtr<UnicodeBlock> KANGXI_RADICALS;
         /**
          * The &quot;Ideographic Description Characters&quot; Unicode Block.
          *
          * @since 1.4
          */
-        static const AutoPtr<UnicodeBlock> IDEOGRAPHIC_DESCRIPTION_CHARACTERS;
+        static /*const*/ AutoPtr<UnicodeBlock> IDEOGRAPHIC_DESCRIPTION_CHARACTERS;
         /**
          * The &quot;CJK Symbols and Punctuation&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> CJK_SYMBOLS_AND_PUNCTUATION;
+        static /*const*/ AutoPtr<UnicodeBlock> CJK_SYMBOLS_AND_PUNCTUATION;
         /**
          * The &quot;Hiragana&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> HIRAGANA;
+        static /*const*/ AutoPtr<UnicodeBlock> HIRAGANA;
         /**
          * The &quot;Katakana&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> KATAKANA;
+        static /*const*/ AutoPtr<UnicodeBlock> KATAKANA;
         /**
          * The &quot;Bopomofo&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> BOPOMOFO;
+        static /*const*/ AutoPtr<UnicodeBlock> BOPOMOFO;
         /**
          * The &quot;Hangul Compatibility Jamo&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> HANGUL_COMPATIBILITY_JAMO;
+        static /*const*/ AutoPtr<UnicodeBlock> HANGUL_COMPATIBILITY_JAMO;
         /**
          * The &quot;Kanbun&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> KANBUN;
+        static /*const*/ AutoPtr<UnicodeBlock> KANBUN;
         /**
          * The &quot;Bopomofo Extended&quot; Unicode Block.
          *
          * @since 1.4
          */
-        static const AutoPtr<UnicodeBlock> BOPOMOFO_EXTENDED;
+        static /*const*/ AutoPtr<UnicodeBlock> BOPOMOFO_EXTENDED;
         /**
          * The &quot;Katakana Phonetic Extensions&quot; Unicode Block.
          *
          * @since 1.5
          */
-        static const AutoPtr<UnicodeBlock> KATAKANA_PHONETIC_EXTENSIONS;
+        static /*const*/ AutoPtr<UnicodeBlock> KATAKANA_PHONETIC_EXTENSIONS;
         /**
          * The &quot;Enclosed CJK Letters and Months&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> ENCLOSED_CJK_LETTERS_AND_MONTHS;
+        static /*const*/ AutoPtr<UnicodeBlock> ENCLOSED_CJK_LETTERS_AND_MONTHS;
         /**
          * The &quot;CJK Compatibility&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> CJK_COMPATIBILITY;
+        static /*const*/ AutoPtr<UnicodeBlock> CJK_COMPATIBILITY;
         /**
          * The &quot;CJK Unified Ideographs Extension A&quot; Unicode Block.
          *
          * @since 1.4
          */
-        static const AutoPtr<UnicodeBlock> CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A;
+        static /*const*/ AutoPtr<UnicodeBlock> CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A;
         /**
          * The &quot;Yijing Hexagram Symbols&quot; Unicode Block.
          *
          * @since 1.5
          */
-        static const AutoPtr<UnicodeBlock> YIJING_HEXAGRAM_SYMBOLS;
+        static /*const*/ AutoPtr<UnicodeBlock> YIJING_HEXAGRAM_SYMBOLS;
         /**
          * The &quot;CJK Unified Ideographs&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> CJK_UNIFIED_IDEOGRAPHS;
+        static /*const*/ AutoPtr<UnicodeBlock> CJK_UNIFIED_IDEOGRAPHS;
         /**
          * The &quot;Yi Syllables&quot; Unicode Block.
          *
          * @since 1.4
          */
-        static const AutoPtr<UnicodeBlock> YI_SYLLABLES;
+        static /*const*/ AutoPtr<UnicodeBlock> YI_SYLLABLES;
         /**
          * The &quot;Yi Radicals&quot; Unicode Block.
          *
          * @since 1.4
          */
-        static const AutoPtr<UnicodeBlock> YI_RADICALS;
+        static /*const*/ AutoPtr<UnicodeBlock> YI_RADICALS;
         /**
          * The &quot;Hangul Syllables&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> HANGUL_SYLLABLES;
+        static /*const*/ AutoPtr<UnicodeBlock> HANGUL_SYLLABLES;
         /**
          * The &quot;High Surrogates&quot; Unicode Block. This block represents
          * code point values in the high surrogate range 0xD800 to 0xDB7F
          */
-        static const AutoPtr<UnicodeBlock> HIGH_SURROGATES;
+        static /*const*/ AutoPtr<UnicodeBlock> HIGH_SURROGATES;
         /**
          * The &quot;High Private Use Surrogates&quot; Unicode Block. This block
          * represents code point values in the high surrogate range 0xDB80 to
          * 0xDBFF
          */
-        static const AutoPtr<UnicodeBlock> HIGH_PRIVATE_USE_SURROGATES;
+        static /*const*/ AutoPtr<UnicodeBlock> HIGH_PRIVATE_USE_SURROGATES;
         /**
          * The &quot;Low Surrogates&quot; Unicode Block. This block represents
          * code point values in the low surrogate range 0xDC00 to 0xDFFF
          */
-        static const AutoPtr<UnicodeBlock> LOW_SURROGATES;
+        static /*const*/ AutoPtr<UnicodeBlock> LOW_SURROGATES;
         /**
          * The &quot;Private Use Area&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> PRIVATE_USE_AREA;
+        static /*const*/ AutoPtr<UnicodeBlock> PRIVATE_USE_AREA;
         /**
          * The &quot;CJK Compatibility Ideographs&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> CJK_COMPATIBILITY_IDEOGRAPHS;
+        static /*const*/ AutoPtr<UnicodeBlock> CJK_COMPATIBILITY_IDEOGRAPHS;
         /**
          * The &quot;Alphabetic Presentation Forms&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> ALPHABETIC_PRESENTATION_FORMS;
+        static /*const*/ AutoPtr<UnicodeBlock> ALPHABETIC_PRESENTATION_FORMS;
         /**
          * The &quot;Arabic Presentation Forms-A&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> ARABIC_PRESENTATION_FORMS_A;
+        static /*const*/ AutoPtr<UnicodeBlock> ARABIC_PRESENTATION_FORMS_A;
         /**
          * The &quot;Variation Selectors&quot; Unicode Block.
          *
          * @since 1.5
          */
-        static const AutoPtr<UnicodeBlock> VARIATION_SELECTORS;
+        static /*const*/ AutoPtr<UnicodeBlock> VARIATION_SELECTORS;
         /**
          * The &quot;Combining Half Marks&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> COMBINING_HALF_MARKS;
+        static /*const*/ AutoPtr<UnicodeBlock> COMBINING_HALF_MARKS;
         /**
          * The &quot;CJK Compatibility Forms&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> CJK_COMPATIBILITY_FORMS;
+        static /*const*/ AutoPtr<UnicodeBlock> CJK_COMPATIBILITY_FORMS;
         /**
          * The &quot;Small Form Variants&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> SMALL_FORM_VARIANTS;
+        static /*const*/ AutoPtr<UnicodeBlock> SMALL_FORM_VARIANTS;
         /**
          * The &quot;Arabic Presentation Forms-B&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> ARABIC_PRESENTATION_FORMS_B;
+        static /*const*/ AutoPtr<UnicodeBlock> ARABIC_PRESENTATION_FORMS_B;
         /**
          * The &quot;Halfwidth and Fullwidth Forms&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> HALFWIDTH_AND_FULLWIDTH_FORMS;
+        static /*const*/ AutoPtr<UnicodeBlock> HALFWIDTH_AND_FULLWIDTH_FORMS;
         /**
          * The &quot;Specials&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> SPECIALS;
+        static /*const*/ AutoPtr<UnicodeBlock> SPECIALS;
         /**
          * The &quot;Linear B Syllabary&quot; Unicode Block.
          *
          * @since 1.2
          */
-        static const AutoPtr<UnicodeBlock> LINEAR_B_SYLLABARY;
+        static /*const*/ AutoPtr<UnicodeBlock> LINEAR_B_SYLLABARY;
         /**
          * The &quot;Linear B Ideograms&quot; Unicode Block.
          *
          * @since 1.5
          */
-        static const AutoPtr<UnicodeBlock> LINEAR_B_IDEOGRAMS;
+        static /*const*/ AutoPtr<UnicodeBlock> LINEAR_B_IDEOGRAMS;
         /**
          * The &quot;Aegean Numbers&quot; Unicode Block.
          *
          * @since 1.5
          */
-        static const AutoPtr<UnicodeBlock> AEGEAN_NUMBERS;
+        static /*const*/ AutoPtr<UnicodeBlock> AEGEAN_NUMBERS;
         /**
          * The &quot;Old Italic&quot; Unicode Block.
          *
          * @since 1.5
          */
-        static const AutoPtr<UnicodeBlock> OLD_ITALIC;
+        static /*const*/ AutoPtr<UnicodeBlock> OLD_ITALIC;
         /**
          * The &quot;Gothic&quot; Unicode Block.
          *
          * @since 1.5
          */
-        static const AutoPtr<UnicodeBlock> GOTHIC;
+        static /*const*/ AutoPtr<UnicodeBlock> GOTHIC;
         /**
          * The &quot;Ugaritic&quot; Unicode Block.
          *
          * @since 1.5
          */
-        static const AutoPtr<UnicodeBlock> UGARITIC;
+        static /*const*/ AutoPtr<UnicodeBlock> UGARITIC;
         /**
          * The &quot;Deseret&quot; Unicode Block.
          *
          * @since 1.5
          */
-        static const AutoPtr<UnicodeBlock> DESERET;
+        static /*const*/ AutoPtr<UnicodeBlock> DESERET;
         /**
          * The &quot;Shavian&quot; Unicode Block.
          *
          * @since 1.5
          */
-        static const AutoPtr<UnicodeBlock> SHAVIAN;
+        static /*const*/ AutoPtr<UnicodeBlock> SHAVIAN;
         /**
          * The &quot;Osmanya&quot; Unicode Block.
          *
          * @since 1.5
          */
-        static const AutoPtr<UnicodeBlock> OSMANYA;
+        static /*const*/ AutoPtr<UnicodeBlock> OSMANYA;
         /**
          * The &quot;Cypriot Syllabary&quot; Unicode Block.
          *
          * @since 1.5
          */
-        static const AutoPtr<UnicodeBlock> CYPRIOT_SYLLABARY;
+        static /*const*/ AutoPtr<UnicodeBlock> CYPRIOT_SYLLABARY;
         /**
          * The &quot;Byzantine Musical Symbols&quot; Unicode Block.
          *
          * @since 1.5
          */
-        static const AutoPtr<UnicodeBlock> BYZANTINE_MUSICAL_SYMBOLS;
+        static /*const*/ AutoPtr<UnicodeBlock> BYZANTINE_MUSICAL_SYMBOLS;
         /**
          * The &quot;Musical Symbols&quot; Unicode Block.
          *
          * @since 1.5
          */
-        static const AutoPtr<UnicodeBlock> MUSICAL_SYMBOLS;
+        static /*const*/ AutoPtr<UnicodeBlock> MUSICAL_SYMBOLS;
         /**
          * The &quot;Tai Xuan Jing Symbols&quot; Unicode Block.
          *
          * @since 1.5
          */
-        static const AutoPtr<UnicodeBlock> TAI_XUAN_JING_SYMBOLS;
+        static /*const*/ AutoPtr<UnicodeBlock> TAI_XUAN_JING_SYMBOLS;
         /**
          * The &quot;Mathematical Alphanumeric Symbols&quot; Unicode Block.
          *
          * @since 1.5
          */
-        static const AutoPtr<UnicodeBlock> MATHEMATICAL_ALPHANUMERIC_SYMBOLS;
+        static /*const*/ AutoPtr<UnicodeBlock> MATHEMATICAL_ALPHANUMERIC_SYMBOLS;
         /**
          * The &quot;CJK Unified Ideographs Extension B&quot; Unicode Block.
          *
          * @since 1.5
          */
-        static const AutoPtr<UnicodeBlock> CJK_UNIFIED_IDEOGRAPHS_EXTENSION_B;
+        static /*const*/ AutoPtr<UnicodeBlock> CJK_UNIFIED_IDEOGRAPHS_EXTENSION_B;
         /**
          * The &quot;CJK Compatibility Ideographs Supplement&quot; Unicode Block.
          *
          * @since 1.5
          */
-        static const AutoPtr<UnicodeBlock> CJK_COMPATIBILITY_IDEOGRAPHS_SUPPLEMENT;
+        static /*const*/ AutoPtr<UnicodeBlock> CJK_COMPATIBILITY_IDEOGRAPHS_SUPPLEMENT;
         /**
          * The &quot;Tags&quot; Unicode Block.
          *
          * @since 1.5
          */
-        static const AutoPtr<UnicodeBlock> TAGS;
+        static /*const*/ AutoPtr<UnicodeBlock> TAGS;
         /**
          * The &quot;Variation Selectors Supplement&quot; Unicode Block.
          *
          * @since 1.5
          */
-        static const AutoPtr<UnicodeBlock> VARIATION_SELECTORS_SUPPLEMENT;
+        static /*const*/ AutoPtr<UnicodeBlock> VARIATION_SELECTORS_SUPPLEMENT;
         /**
          * The &quot;Supplementary Private Use Area-A&quot; Unicode Block.
          *
          * @since 1.5
          */
-        static const AutoPtr<UnicodeBlock> SUPPLEMENTARY_PRIVATE_USE_AREA_A;
+        static /*const*/ AutoPtr<UnicodeBlock> SUPPLEMENTARY_PRIVATE_USE_AREA_A;
         /**
          * The &quot;Supplementary Private Use Area-B&quot; Unicode Block.
          *
          * @since 1.5
          */
-        static const AutoPtr<UnicodeBlock> SUPPLEMENTARY_PRIVATE_USE_AREA_B;
+        static /*const*/ AutoPtr<UnicodeBlock> SUPPLEMENTARY_PRIVATE_USE_AREA_B;
 
     private:
         ECO_LOCAL static void InitBlocks();
