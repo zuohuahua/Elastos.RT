@@ -131,7 +131,10 @@ AutoPtr<T>::AutoPtr(const AutoPtr<U>& other) : mPtr(other.mPtr)
 template<typename T>
 AutoPtr<T>::~AutoPtr()
 {
-    if (mPtr) mPtr->Release();
+    if (mPtr) {
+        if (mPtr->Release() == 0)
+            mPtr = NULL;
+    }
 }
 
 template<typename T>
