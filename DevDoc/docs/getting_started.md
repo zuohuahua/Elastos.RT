@@ -21,6 +21,16 @@ On Ubuntu this should obtain the necessary pre-reqs:
 sudo apt-get install texinfo libglib2.0-dev autoconf libtool libsdl-dev build-essential tofrodos zlib1g-dev:amd64 zlib1g-dev:i386
 sudo apt-get install bison g++-multilib git gperf libxml2-utils make zlib1g-dev:i386 zip
 ```
+or
+copy the libs under folder Build/Prebuilt/Linux/usr/lib to /lib/i386-linux-gnu/
+```
+sudo cp ~/ElastosRT/Build/Prebuilt/Linux/usr/lib/lib* /lib/i386-linux-gnu/
+
+cd /lib/i386-linux-gnu/
+sudo ln -s libicuuc.so.52 libicuuc.so
+sudo ln -s libcrypto.so.1.0.0 libcrypto.so
+
+```
 
 ## Build ElastosRT
 
@@ -109,19 +119,25 @@ cd ~/ElastosRT/Setup
 ~/ElastosRT/Setup$ source Ubuntu_SetEnv_RT.sh
 ```
 
-2. build HelloCar
+2. build Elastos.HelloCar.eco
+```
+cd ~/ElastosRT/Sources/Elastos/LibCore/tests/HelloCar/eco
+~/ElastosRT/Sources/Elastos/LibCore/tests/HelloCar/eco$ emake
+```
+
+3. build HelloCar
 ```
 cd ~/ElastosRT/Sources/Elastos/LibCore/tests/HelloCar
 ~/ElastosRT/Sources/Elastos/LibCore/tests/HelloCar$ emake
 ```
 
-3. build result
+4. build result
 ```
 ~/ElastosRT/Sources/Elastos/LibCore/tests/HelloCar$pd @
 ~/ElastosRT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin$ll HelloCar
 ```
 
-4. Run HelloCar
+5. Run HelloCar
 ```
 #export the path where the .eco files are stored, or you maybe get 80050000 error code
 ~/ElastosRT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin$export LD_LIBRARY_PATH=dbg_info
