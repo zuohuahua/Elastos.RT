@@ -20,12 +20,14 @@ TARGET_TYPE = ecx
 CAR_FLAGS += -n -u
 LUBE_FLAGS += -n -u
 
+SOURCES = Elastos.CoreLibrary.cpp
+SOURCES += test.cpp
+
+
 IMPORTS = Elastos.CoreLibrary.eco
 
 LIBRARIES = $(XDK_USER_LIB)/Elastos.Runtime.lib
 LIBRARIES += $(XDK_TARGETS)/Elastos.Runtime.eco
 LIBRARIES += $(XDK_TARGETS)/Elastos.CoreLibrary.eco
-LIBRARIES += -lm -lcutils
+LIBRARIES += -lm -ldl -lstdc++
 
-SOURCES = Elastos.CoreLibrary.cpp
-SOURCES += test.cpp
