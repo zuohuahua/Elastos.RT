@@ -117,6 +117,7 @@ else
 #                   -l $(XDK_USER_LIB)/$(TARGET_NAME).lib \
 #                   $(DLLTOOL_FLAGS)
   DLLTOOL_FLAGS := -D $(TARGET_NAME).$(DEPEND_OBJ_TYPE)  \
+                   -Wl,-soname,$(TARGET_NAME).$(DEPEND_OBJ_TYPE) \
                    $(DLLTOOL_FLAGS)
 endif
 
