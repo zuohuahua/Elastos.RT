@@ -24,13 +24,6 @@ using Elastos::Core::StringUtils;
 using Elastos::Core::CString;
 using Elastos::Core::StringBuilder;
 using Elastos::Core::ICharSequence;
-using Elastos::Utility::Regex::CSplitter;
-using Elastos::Utility::Regex::ISplitter;
-using Elastos::Utility::Regex::IPattern;
-using Elastos::Utility::Regex::IPatternHelper;
-using Elastos::Utility::Regex::CPatternHelper;
-using Elastos::Utility::Regex::IMatcher;
-using Elastos::Utility::Regex::CMatcher;
 
 //====================================================================================================================
 //                  Assert Assistant

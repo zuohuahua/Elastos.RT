@@ -137,6 +137,7 @@ void testArrayOf()
     }
 }
 
+#if 0
 void testPerformance()
 {
     AutoPtr<ISystem> system;
@@ -155,6 +156,7 @@ void testPerformance()
 
     printf("===== time consuming: %lld =====", afterTime - beforeTime);
 }
+#endif
 
 int main(int argc, char *argv[])
 {
@@ -167,8 +169,11 @@ int main(int argc, char *argv[])
     printf("==== call testArrayOf end ====\n");
 
     printf("==== call testPerformance ====\n");
+
+#if 0
     testPerformance();
     printf("==== call testPerformance end ====\n");
+#endif
 
     return 0;
 }
