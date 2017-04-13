@@ -272,10 +272,10 @@ inline void AddTokenChar(char c)
 
 inline void AddTokenInt(int n)
 {
-    if (g_nCurrentTokenLen + sizeof(int) < (UINT)c_nMaxTokenSize) {
+    if (g_nCurrentTokenLen + sizeof(void*) < (UINT)c_nMaxTokenSize) {
         *(int *)&(g_szCurrentToken[g_nCurrentTokenLen]) = n;
     }
-    g_nCurrentTokenLen += sizeof(int);
+    g_nCurrentTokenLen += sizeof(void*);
 }
 
 inline bool IsCurrentTokenOverflow()

@@ -22,6 +22,14 @@
 
 #define _Impl_Memset memset
 
+#ifndef INTEGER_DST
+#if (WORD_WIDE == 8)
+typedef Elastos::UInt64 INTEGER_DST;
+#else
+typedef Elastos::UInt32 INTEGER_DST;
+#endif
+#endif
+
 typedef struct _Delegate
 {
     union
@@ -96,7 +104,7 @@ public:
     {
         if (NULL == mValue.mFunc) return NULL;
 #ifndef _GNUC
-        return (void *)((Elastos::UInt32)mValue.mFunc & CallbackPtrMask);
+        return (void *)((INTEGER_DST)mValue.mFunc & CallbackPtrMask);
 #else
 #if defined(_arm) || defined(_x86)
         // for gnu-arm-pe compiler, it is another story
@@ -107,13 +115,13 @@ public:
         // function according to mThis and mFunc.
         //
         if (*(int*)&mValue.mFunc & 0xFFFFF000) {
-            return (void *)((Elastos::UInt32)mValue.mFunc & CallbackPtrMask);
+            return (void *)((INTEGER_DST)mValue.mFunc & CallbackPtrMask);
         }
         else {
             mValue.mFunc = (void*)(
-                    (int)(*(*(void***)mValue.mThis + ((int)mValue.mFunc >> 2)))
-                    | ((int)mValue.mFunc & CallbackTypeMask) );
-            return (void *)((Elastos::UInt32)mValue.mFunc & CallbackPtrMask);
+                    (INTEGER_DST)(*(*(void***)mValue.mThis + ((INTEGER_DST)mValue.mFunc >> 2)))
+                    | ((INTEGER_DST)mValue.mFunc & CallbackTypeMask) );
+            return (void *)((INTEGER_DST)mValue.mFunc & CallbackPtrMask);
         }
 #else
         assert(0 && "your compiler is not support yet!\n");
@@ -124,7 +132,7 @@ public:
 
     CallbackType GetFuncType()
     {
-        return (CallbackType)(CallbackTypeMask & (_ELASTOS Int32)mValue.mFunc);
+        return (CallbackType)(CallbackTypeMask & (INTEGER_DST)mValue.mFunc);
     }
 
     static EventHandler Make(
@@ -155,7 +163,7 @@ private:
         mValue.mThis = thisPtr;
         mValue.mFunc = funcPtr;
 
-        mValue.mFunc = (_ELASTOS PVoid)((_ELASTOS Int32)mValue.mFunc | (CallbackTypeMask & type));
+        mValue.mFunc = (_ELASTOS PVoid)((INTEGER_DST)mValue.mFunc | (CallbackTypeMask & type));
         mCarObjClient = object;
     }
 

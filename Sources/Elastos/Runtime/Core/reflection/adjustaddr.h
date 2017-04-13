@@ -17,6 +17,14 @@
 #ifndef __AJUSTADD_H__
 #define __AJUSTADD_H__
 
+#ifndef INTEGER_DST
+#if (WORD_WIDE == 8)
+typedef Elastos::UInt64 INTEGER_DST;
+#else
+typedef Elastos::UInt32 INTEGER_DST;
+#endif
+#endif
+
 _ELASTOS_NAMESPACE_USING
 
 inline ClassDirEntry* getClassDirAddr(
@@ -24,8 +32,8 @@ inline ClassDirEntry* getClassDirAddr(
     /* [in] */ ClassDirEntry** dir,
     /* [in] */ Int32 index)
 {
-    dir = (ClassDirEntry**)((Int32)dir + base);
-    return (ClassDirEntry*)((Int32)dir[index] + base);
+    dir = (ClassDirEntry**)((INTEGER_DST)dir + base);
+    return (ClassDirEntry*)((INTEGER_DST)dir[index] + base);
 }
 
 inline InterfaceDirEntry* getInterfaceDirAddr(
@@ -33,8 +41,8 @@ inline InterfaceDirEntry* getInterfaceDirAddr(
     /* [in] */ InterfaceDirEntry** dir,
     /* [in] */ Int32 index)
 {
-    dir = (InterfaceDirEntry**)((Int32)dir + base);
-    return (InterfaceDirEntry*)((Int32)dir[index] + base);
+    dir = (InterfaceDirEntry**)((INTEGER_DST)dir + base);
+    return (InterfaceDirEntry*)((INTEGER_DST)dir[index] + base);
 }
 
 inline StructDirEntry* getStructDirAddr(
@@ -42,8 +50,8 @@ inline StructDirEntry* getStructDirAddr(
     /* [in] */ StructDirEntry** dir,
     /* [in] */ Int32 index)
 {
-    dir = (StructDirEntry**)((Int32)dir + base);
-    return (StructDirEntry*)((Int32)dir[index] + base);
+    dir = (StructDirEntry**)((INTEGER_DST)dir + base);
+    return (StructDirEntry*)((INTEGER_DST)dir[index] + base);
 }
 
 inline EnumDirEntry* getEnumDirAddr(
@@ -51,8 +59,8 @@ inline EnumDirEntry* getEnumDirAddr(
     /* [in] */ EnumDirEntry** dir,
     /* [in] */ Int32 index)
 {
-    dir = (EnumDirEntry**)((Int32)dir + base);
-    return (EnumDirEntry*)((Int32)dir[index] + base);
+    dir = (EnumDirEntry**)((INTEGER_DST)dir + base);
+    return (EnumDirEntry*)((INTEGER_DST)dir[index] + base);
 }
 
 inline AliasDirEntry* getAliasDirAddr(
@@ -60,8 +68,8 @@ inline AliasDirEntry* getAliasDirAddr(
     /* [in] */ AliasDirEntry** dir,
     /* [in] */ Int32 index)
 {
-    dir = (AliasDirEntry**)((Int32)dir + base);
-    return (AliasDirEntry*)((Int32)dir[index] + base);
+    dir = (AliasDirEntry**)((INTEGER_DST)dir + base);
+    return (AliasDirEntry*)((INTEGER_DST)dir[index] + base);
 }
 
 inline ArrayDirEntry* getArrayDirAddr(
@@ -69,8 +77,8 @@ inline ArrayDirEntry* getArrayDirAddr(
     /* [in] */ ArrayDirEntry** dir,
     /* [in] */ Int32 index)
 {
-    dir = (ArrayDirEntry**)((Int32)dir + base);
-    return (ArrayDirEntry*)((Int32)dir[index] + base);
+    dir = (ArrayDirEntry**)((INTEGER_DST)dir + base);
+    return (ArrayDirEntry*)((INTEGER_DST)dir[index] + base);
 }
 
 inline ConstDirEntry* getConstDirAddr(
@@ -78,8 +86,8 @@ inline ConstDirEntry* getConstDirAddr(
     /* [in] */ ConstDirEntry** dir,
     /* [in] */ Int32 index)
 {
-    dir = (ConstDirEntry**)((Int32)dir + base);
-    return (ConstDirEntry*)((Int32)dir[index] + base);
+    dir = (ConstDirEntry**)((INTEGER_DST)dir + base);
+    return (ConstDirEntry*)((INTEGER_DST)dir[index] + base);
 }
 
 inline MethodDescriptor* getMethodDescAddr(
@@ -87,8 +95,8 @@ inline MethodDescriptor* getMethodDescAddr(
     /* [in] */ MethodDescriptor** desc,
     /* [in] */ Int32 index)
 {
-    desc = (MethodDescriptor**)((Int32)desc + base);
-    return (MethodDescriptor*)((Int32)desc[index] + base);
+    desc = (MethodDescriptor**)((INTEGER_DST)desc + base);
+    return (MethodDescriptor*)((INTEGER_DST)desc[index] + base);
 }
 
 inline ParamDescriptor* getParamDescAddr(
@@ -96,8 +104,8 @@ inline ParamDescriptor* getParamDescAddr(
     /* [in] */ ParamDescriptor** desc,
     /* [in] */ Int32 index)
 {
-    desc = (ParamDescriptor**)((Int32)desc + base);
-    return (ParamDescriptor*)((Int32)desc[index] + base);
+    desc = (ParamDescriptor**)((INTEGER_DST)desc + base);
+    return (ParamDescriptor*)((INTEGER_DST)desc[index] + base);
 }
 
 inline StructElement* getStructElementAddr(
@@ -105,8 +113,8 @@ inline StructElement* getStructElementAddr(
     /* [in] */ StructElement** element,
     /* [in] */ Int32 index)
 {
-    element = (StructElement**)((Int32)element + base);
-    return (StructElement*)((Int32)element[index] + base);
+    element = (StructElement**)((INTEGER_DST)element + base);
+    return (StructElement*)((INTEGER_DST)element[index] + base);
 }
 
 inline EnumElement* getEnumElementAddr(
@@ -114,8 +122,8 @@ inline EnumElement* getEnumElementAddr(
     /* [in] */ EnumElement** element,
     /* [in] */ Int32 index)
 {
-    element = (EnumElement**)((Int32)element + base);
-    return (EnumElement*)((Int32)element[index] + base);
+    element = (EnumElement**)((INTEGER_DST)element + base);
+    return (EnumElement*)((INTEGER_DST)element[index] + base);
 }
 
 inline ClassInterface* getCIFAddr(
@@ -123,8 +131,8 @@ inline ClassInterface* getCIFAddr(
     /* [in] */ ClassInterface** clsInterface,
     /* [in] */ Int32 index)
 {
-    clsInterface = (ClassInterface**)((Int32)clsInterface + base);
-    return (ClassInterface*)((Int32)clsInterface[index] + base);
+    clsInterface = (ClassInterface**)((INTEGER_DST)clsInterface + base);
+    return (ClassInterface*)((INTEGER_DST)clsInterface[index] + base);
 }
 
 inline char* getLibNameAddr(
@@ -132,8 +140,8 @@ inline char* getLibNameAddr(
     /* [in] */ char** libName,
     /* [in] */ Int32 index)
 {
-    libName = (char**)((Int32)libName + base);
-    return (char*)((Int32)libName[index] + base);
+    libName = (char**)((INTEGER_DST)libName + base);
+    return (char*)((INTEGER_DST)libName[index] + base);
 }
 
 inline char* adjustNameAddr(

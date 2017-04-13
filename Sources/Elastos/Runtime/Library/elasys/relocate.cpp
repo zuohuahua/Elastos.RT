@@ -46,6 +46,14 @@ CAR_INLINE void RelocateUnalignedPtr(
 #endif
 }
 
+#ifndef INTEGER_DST
+#if (WORD_WIDE == 8)
+typedef UInt64 INTEGER_DST;
+#else
+typedef UInt32 INTEGER_DST;
+#endif
+#endif
+
 void RelocateModuleInfo(
     /* [in] */ CIModuleInfo *srcModInfo,
     /* [out] */ CIModuleInfo *destModInfo)
@@ -58,30 +66,30 @@ void RelocateModuleInfo(
     memcpy(destModInfo, srcModInfo, srcModInfo->mTotalSize);
 
     destModInfo->mInterfaces = (CIInterfaceInfo*)((Byte *)destModInfo +
-        (UInt32)destModInfo->mInterfaces);
+        (INTEGER_DST)destModInfo->mInterfaces);
     interfaceInfo = destModInfo->mInterfaces;
     for (Int32 i = 0; i < destModInfo->mInterfaceNum; i++) {
         interfaceInfo[i].mMethods = (CIMethodInfo *) \
-              ((Byte *)destModInfo + (UInt32)interfaceInfo[i].mMethods);
+              ((Byte *)destModInfo + (INTEGER_DST)interfaceInfo[i].mMethods);
         methodInfo = interfaceInfo[i].mMethods;
         for (Int32 j = 0; j < interfaceInfo[i].mMethodNumMinus4; j++) {
             methodInfo[j].mParams = (CIBaseType*) \
-                 ((Byte *)destModInfo + (UInt32)methodInfo[j].mParams);
+                 ((Byte *)destModInfo + (INTEGER_DST)methodInfo[j].mParams);
         }
     }
 
     destModInfo->mClasses = (CIClassInfo *)((Byte *)destModInfo +
-       (UInt32)destModInfo->mClasses);
+       (INTEGER_DST)destModInfo->mClasses);
     classInfo = destModInfo->mClasses;
     for (Int32 i = 0; i < destModInfo->mClassNum; i++) {
         classInfo[i].mInterfaces = (CIInterfaceInfo **) \
-                ((Byte *)destModInfo + (Int32)(classInfo[i].mInterfaces));
+                ((Byte *)destModInfo + (INTEGER_DST)(classInfo[i].mInterfaces));
         interfaceInfos = classInfo[i].mInterfaces;
         for (Int32 j = 0; j < classInfo[i].mInterfaceNum; j++) {
             RelocateUnalignedPtr(interfaceInfos + j, (size_t)destModInfo);
         }
         classInfo[i].mUunm =
-                (char*)((Byte *)destModInfo + (UInt32)classInfo[i].mUunm);
+                (char*)((Byte *)destModInfo + (INTEGER_DST)classInfo[i].mUunm);
     }
 }
 
@@ -125,36 +133,36 @@ void FlatModuleInfo(
 
     memcpy(destModInfo, srcModInfo, srcModInfo->mTotalSize);
     destModInfo->mInterfaces = (CIInterfaceInfo*) \
-            ((Byte*)destModInfo->mInterfaces - (UInt32)srcModInfo);
+            ((Byte*)destModInfo->mInterfaces - (INTEGER_DST)srcModInfo);
     interfaceInfo = (CIInterfaceInfo*)((Byte*) destModInfo->mInterfaces + \
-                      (UInt32)destModInfo);
+                      (INTEGER_DST)destModInfo);
 
     for (i = 0; i < destModInfo->mInterfaceNum; i++) {
         interfaceInfo[i].mMethods = (CIMethodInfo *) \
-              ((Byte*)interfaceInfo[i].mMethods - (UInt32)srcModInfo);
+              ((Byte*)interfaceInfo[i].mMethods - (INTEGER_DST)srcModInfo);
 
         methodInfo = (CIMethodInfo*)((Byte*)interfaceInfo[i].mMethods + \
-                            (UInt32)destModInfo);
+                            (INTEGER_DST)destModInfo);
         for (j = 0; j < interfaceInfo[i].mMethodNumMinus4; j++) {
             methodInfo[j].mParams = (CIBaseType*) \
-                 ((Byte*)methodInfo[j].mParams - (UInt32)srcModInfo);
+                 ((Byte*)methodInfo[j].mParams - (INTEGER_DST)srcModInfo);
         }
     }
 
     destModInfo->mClasses = (CIClassInfo*) \
-            ((Byte*)destModInfo->mClasses - (UInt32)srcModInfo);
+            ((Byte*)destModInfo->mClasses - (INTEGER_DST)srcModInfo);
 
-    classInfo = (CIClassInfo*)((Byte*)destModInfo->mClasses + (UInt32)destModInfo);
+    classInfo = (CIClassInfo*)((Byte*)destModInfo->mClasses + (INTEGER_DST)destModInfo);
     for (i = 0; i < destModInfo->mClassNum; i++) {
         classInfo[i].mInterfaces = (CIInterfaceInfo**) \
-                ((Byte*)classInfo[i].mInterfaces - (UInt32)srcModInfo);
+                ((Byte*)classInfo[i].mInterfaces - (INTEGER_DST)srcModInfo);
 
         interfaceInfos = (CIInterfaceInfo**)((Byte*)classInfo[i].mInterfaces + \
-                (UInt32)destModInfo);
+                (INTEGER_DST)destModInfo);
         for (j = 0; j < classInfo[i].mInterfaceNum; j++) {
             FlatUnalignedPtr(interfaceInfos + j, (size_t)srcModInfo);
         }
         classInfo[i].mUunm =  \
-            (char*)((Byte*)classInfo[i].mUunm - (UInt32)srcModInfo);
+            (char*)((Byte*)classInfo[i].mUunm - (INTEGER_DST)srcModInfo);
     }
 }

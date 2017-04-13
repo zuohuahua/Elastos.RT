@@ -21,6 +21,14 @@
 #include <clsinfo.h>
 //#include <cutils/log.h>
 
+#ifndef INTEGER_DST
+#if (WORD_WIDE == 8)
+typedef Elastos::UInt64 INTEGER_DST;
+#else
+typedef Elastos::UInt32 INTEGER_DST;
+#endif
+#endif
+
 _ELASTOS_NAMESPACE_USING
 
 void RelocateUnalignedPtr(void* ptr, size_t offset);
@@ -88,8 +96,8 @@ ECode RegisterModuleInfo(
     //
     pthread_mutex_lock(&sModuleInfoLock);
     if (srcModuleInfo->mClassNum != 0) {
-        CIClassInfo* classInfo = (CIClassInfo *)((UInt32)srcModuleInfo->mClasses \
-                + (UInt32)srcModuleInfo);
+        CIClassInfo* classInfo = (CIClassInfo *)((INTEGER_DST)srcModuleInfo->mClasses \
+                + (INTEGER_DST)srcModuleInfo);
         curNode = sModuleInfoList;
         while (curNode != NULL) {
             if (curNode->mModInfo->mClassNum != 0 \
@@ -101,8 +109,8 @@ ECode RegisterModuleInfo(
         }
     }
     else if (srcModuleInfo->mInterfaceNum != 0) {
-        CIInterfaceInfo* interfaceInfo = (CIInterfaceInfo *)((UInt32)srcModuleInfo->mInterfaces \
-                + (UInt32)srcModuleInfo);
+        CIInterfaceInfo* interfaceInfo = (CIInterfaceInfo *)((INTEGER_DST)srcModuleInfo->mInterfaces \
+                + (INTEGER_DST)srcModuleInfo);
         curNode = sModuleInfoList;
         while (curNode != NULL) {
             if (curNode->mModInfo->mInterfaceNum != 0 \
