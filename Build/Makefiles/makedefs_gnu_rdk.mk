@@ -134,8 +134,12 @@ PASS2LD = -Wl,
 #  ECX_BASE = 0x400000
 #endif
 
+#32B_FLAGS = "64"
 ifeq "$(32B_FLAGS)" ""
   32B_FLAG = -m32
+  C_DEFINES += -DWORD_WIDE=4
+else
+  C_DEFINES += -DWORD_WIDE=8
 endif
 
 ##########################################################################

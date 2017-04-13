@@ -345,7 +345,12 @@ ECode CMethodInfo::SetParamElem(
 #endif
 
     parmElement->mPos = mParamBufSize;
+
+#if (WORD_WIDE == 8)
+    mParamBufSize += ROUND8(parmElement->mSize);
+#else
     mParamBufSize += ROUND4(parmElement->mSize);
+#endif
 
     return NOERROR;
 }
@@ -359,7 +364,8 @@ ECode CMethodInfo::InitParmElement()
     }
     memset(mParamElem, 0, sizeof(mParamElem) * count);
 
-    mParamBufSize = 4; //For this pointer
+    mParamBufSize = sizeof(void *);     //For this pointer
+
     ECode ec = NOERROR;
     for (Int32 i = 0; i < count; i++) {
         ec = SetParamElem(

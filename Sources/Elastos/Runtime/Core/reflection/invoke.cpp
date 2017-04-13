@@ -56,6 +56,87 @@ do_call:
     }
 }
 #else // __GNUC__
+
+#if (WORD_WIDE == 8)
+int invoke(void* func, int* param, int size)
+{
+    int rval;
+    __asm__ (
+//        "movk   %2, %%rax\n"
+//        "movk   %3, %%rcx\n"
+        "addq   %%rcx, %%rax\n"
+        "subq   $8, %%rax\n"
+
+        "test   %%rcx, %%rcx\n"
+        "jz     do_call\n"
+
+        // 1st parameter, %%RDI
+        "movq   (%%rax), %%rdi\n"
+        "subq   $8, %%rax\n"
+        "subq   $8, %%rcx\n"
+        "test   %%rcx, %%rcx\n"
+        "jz     do_call\n"
+
+        // 2nd parameter, %%RSI
+        "movq   (%%rax), %%rdx\n"
+        "subq   $8, %%rax\n"
+        "subq   $8, %%rcx\n"
+        "test   %%rcx, %%rcx\n"
+        "jz     do_call\n"
+
+        // 3rd parameter, %%RDX
+        "movq   (%%rax), %%rcx\n"
+        "subq   $8, %%rax\n"
+        "subq   $8, %%rcx\n"
+        "test   %%rcx, %%rcx\n"
+        "jz     do_call\n"
+
+
+        // 4th parameter, %%RDX
+        "movq   (%%rax), %%rcx\n"
+        "subq   $8, %%rax\n"
+        "subq   $8, %%rcx\n"
+        "test   %%rcx, %%rcx\n"
+        "jz     do_call\n"
+
+        // 5th parameter, %%RDX
+        "movq   (%%rax), %%r8\n"
+        "subq   $8, %%rax\n"
+        "subq   $8, %%rcx\n"
+        "test   %%rcx, %%rcx\n"
+        "jz     do_call\n"
+
+        // 6th parameter, %%RDX
+        "movq   (%%rax), %%r9\n"
+        "subq   $8, %%rax\n"
+        "subq   $8, %%rcx\n"
+
+        // more than 6 parameters, on stack
+        "push_param:\n"
+            "test   %%rcx, %%rcx\n"
+            "jz     do_call\n"
+
+            "movq   (%%rax), %%rdx\n"
+            "pushq  %%rdx\n"
+            "subq   $8, %%rax\n"
+            "subq   $8, %%rcx\n"
+            "jmp    push_param\n"
+        "do_call:\n"
+//            "movq   %1, %%rcx\n"
+            "callq  *%%rcx\n"
+            "movq   %%rbp, %%rsp\n"
+//            "movq   %%rax, %0"
+        : "=r" (rval)
+        : "m" (func)
+        , "m" (param)
+        , "d" (size)
+        : "rax"
+        , "rcx"
+    );
+
+    return rval;
+}
+#else
 int invoke(void* func, int* param, int size)
 {
     int rval;
@@ -65,18 +146,18 @@ int invoke(void* func, int* param, int size)
         "addl   %%ecx, %%eax\n"
         "subl   $4, %%eax\n"
         "push_param:\n"
-        "test   %%ecx, %%ecx\n"
-        "jz     do_call\n"
-        "movl   (%%eax), %%edx\n"
-        "pushl  %%edx\n"
-        "subl   $4, %%eax\n"
-        "subl   $4, %%ecx\n"
-        "jmp    push_param\n"
+            "test   %%ecx, %%ecx\n"
+            "jz     do_call\n"
+            "movl   (%%eax), %%edx\n"
+            "pushl  %%edx\n"
+            "subl   $4, %%eax\n"
+            "subl   $4, %%ecx\n"
+            "jmp    push_param\n"
         "do_call:\n"
-        "movl   %1, %%ecx\n"
-        "calll  *%%ecx\n"
-        "movl   %%ebp, %%esp\n"
-        "movl   %%eax, %0"
+            "movl   %1, %%ecx\n"
+            "calll  *%%ecx\n"
+            "movl   %%ebp, %%esp\n"
+            "movl   %%eax, %0"
         : "=r" (rval)
         : "m" (func)
         , "m" (param)
@@ -87,7 +168,7 @@ int invoke(void* func, int* param, int size)
 
     return rval;
 }
-
+#endif
 #endif // _MSC_VER
 
 }

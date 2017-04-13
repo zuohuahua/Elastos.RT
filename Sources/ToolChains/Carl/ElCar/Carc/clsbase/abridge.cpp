@@ -323,7 +323,7 @@ int CAbridgedBuffer::WriteClsIntfs(ClassDescriptor *pDesc, int interfaceCount)
             ->mDesc->mAttribs & InterfaceAttrib_local)
                 || (m_pModule->mInterfaceDirs[pDesc->mInterfaces[n]->mIndex]
             ->mDesc->mAttribs & InterfaceAttrib_parcelable))) {
-            WriteInt(nAddr + (n - cLocal) * sizeof(int),
+            WriteInt(nAddr + (n - cLocal) * sizeof(void*),
                     m_interfaceAddrs[pDesc->mInterfaces[n]->mIndex]);
         }
         else {
@@ -397,7 +397,7 @@ void CAbridgedBuffer::InitInterfaceIndexTable()
     InterfaceDirEntry *pEntry;
 
     m_cInterfaces = 0;
-    memset(m_methodNumbers, -1, sizeof(int) * m_pModule->mInterfaceCount);
+    memset(m_methodNumbers, -1, sizeof(void*) * m_pModule->mInterfaceCount);
 
     for (n = 0; n < m_pModule->mInterfaceCount; n++) {
         pEntry = m_pModule->mInterfaceDirs[n];
@@ -479,7 +479,7 @@ void CAbridgedBuffer::InitClassIndexTable()
     ClassDirEntry *pEntry;
 
     m_cClasses = 0;
-    memset(m_interfaceNumbers, 0, sizeof(int) * m_pModule->mClassCount);
+    memset(m_interfaceNumbers, 0, sizeof(void*) * m_pModule->mClassCount);
     memset(m_classVirTable, 0xFF, sizeof(m_classVirTable));
 
     for (n = 0; n < m_pModule->mClassCount; n++) {

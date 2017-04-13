@@ -103,11 +103,11 @@ int CLubeBuffer::Flat(PLUBEHEADER pLube, char *pBuffer)
     pLube = (PLUBEHEADER)pBuffer;
     memcpy(pLube, m_pLube, sizeof(LubeHeader));
 
-    p = (int *)_alloca(pLube->cTemplates * sizeof(int));
+    p = (int *)_alloca(pLube->cTemplates * sizeof(void*));
     for (n = 0; n < pLube->cTemplates; n++) {
         p[n] = WriteTemplate(pLube->ppTemplates[n]);
     }
-    pLube->ppTemplates = (LubeTemplate **)WriteData(p, n * sizeof(int));
+    pLube->ppTemplates = (LubeTemplate **)WriteData(p, n * sizeof(void*));
 
     return m_nOffset;
 }
