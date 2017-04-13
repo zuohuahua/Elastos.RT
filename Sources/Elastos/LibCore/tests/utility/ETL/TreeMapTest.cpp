@@ -18,10 +18,13 @@
 #include <Elastos.CoreLibrary.Utility.h>
 #include <Elastos.CoreLibrary.Core.h>
 #include <elastos/core/Object.h>
+#include "elastos/utility/AbstractMap.h"
 
 using namespace Elastos;
 using namespace Elastos::Core;
 using namespace Elastos::Utility;
+using Elastos::Core::IInteger32;
+using Elastos::Core::CInteger32;
 using Elastos::Core::CString;
 using Elastos::Core::ICharSequence;
 using Elastos::Core::IComparator;
@@ -34,6 +37,7 @@ using Elastos::Utility::ISortedMap;
 using Elastos::Utility::CHashMap;
 using Elastos::Utility::ITreeMap;
 using Elastos::Utility::CTreeMap;
+using Elastos::Utility::AbstractMap;
 
 namespace Elastos {
 namespace Utility {
@@ -57,12 +61,14 @@ static void assertEquals(
 static void assertTrue(
     /* [in] */ Boolean condition) 
 {
+    printf("expecting: 1, toVerify: %d. \n", condition);
     assert(condition == TRUE);
 }
 
 static void assertFalse(
     /* [in] */ Boolean condition) 
 {
+    printf("expecting: 0, toVerify: %d. \n", condition);
     assertTrue(!condition);
 }
 
@@ -71,6 +77,14 @@ AutoPtr<ICharSequence> Convert(
 {
     AutoPtr<ICharSequence> obj;
     CString::New(String(str), (ICharSequence**)&obj);
+    return obj;
+}
+
+AutoPtr<IInteger32> Convert(
+    /* [in] */ Int32 value)
+{
+    AutoPtr<IInteger32> obj;
+    CInteger32::New(value, (IInteger32**)&obj);
     return obj;
 }
 
@@ -469,7 +483,10 @@ void testConcurrentModificationDetection()
 
     // try {
         obj = NULL;
-        iterator->GetNext((IInterface**)&obj);
+        ec = iterator->GetNext((IInterface**)&obj);
+        if (SUCCEEDED(ec)) {
+            printf("Failed! Don't come here!");
+        }
     //     fail();
     // } catch (ConcurrentModificationException e) {
     // }
@@ -546,7 +563,7 @@ public void testEntrySetUsesComparatorOnly() {
 }
 #endif
 
-void testEntrySetUsesComparatorOnly() 
+void testEntrySetUsesComparatorOnly()
 {
     printf("\n=== testEntrySetUsesComparatorOnly ===\n");
     AutoPtr<IMap> map;
@@ -560,10 +577,17 @@ void testEntrySetUsesComparatorOnly()
 
     AutoPtr<ISet> set;
     map->GetEntrySet((ISet**)&set);
-
-    // assertTrue(set.contains(new SimpleEntry<String, String>("abc", "a")));
-    // assertTrue(set.remove(new SimpleEntry<String, String>("abc", "a")));
-    // assertEquals(0, map.size());
+    
+    AutoPtr<AbstractMap::SimpleEntry> entry = new AbstractMap::SimpleEntry(Convert("abc"), Convert("a"));
+    Boolean res = FALSE;
+    set->Contains((IMapEntry*)entry.Get(), &res);
+    assertTrue(res);
+    set->Remove((IMapEntry*)entry.Get(), &res);
+    assertTrue(res);
+    
+    Int32 size;
+    map->GetSize(&size);
+    assertTrue(0 == size);
 }
 
 #if 0
@@ -580,14 +604,14 @@ void testMapConstructorPassingSortedMap()
     AutoPtr<IMap> source;
     ECode ec = CTreeMap::New(/*String.CASE_INSENSITIVE_ORDER*/(IMap**)&source);
     if (FAILED(ec) || source == NULL) {
-        printf(" Failed to create CTreeMap. Error %08X\n", ec);
+        printf("Failed to create CTreeMap. Error %08X\n", ec);
         return;
     }
 
     AutoPtr<INavigableMap> copy;
     ec = CTreeMap::New(source, (INavigableMap**)&copy);
     if (FAILED(ec) || copy == NULL) {
-        printf(" Failed to create INavigableMap. Error %08X\n", ec);
+        printf("Failed to create INavigableMap. Error %08X\n", ec);
         return;
     }
 
@@ -633,7 +657,7 @@ void testNullsWithNaturalOrder()
     AutoPtr<IHashMap> copyFrom;
     ECode ec = CHashMap::New((IHashMap**)&copyFrom);
     if (FAILED(ec) || copyFrom == NULL) {
-        printf(" Failed to create CHashMap. Error %08X\n", ec);
+        printf("Failed to create CHashMap. Error %08X\n", ec);
         return;
     }
     copyFrom->Put(NULL, Convert("b"));
@@ -641,9 +665,8 @@ void testNullsWithNaturalOrder()
     // try {
         AutoPtr<ITreeMap> tmp;
         ec = CTreeMap::New(IMap::Probe(copyFrom), (ITreeMap**)&tmp);
-        if (FAILED(ec) || tmp == NULL) {
-            printf(" Failed to create CTreeMap. Error %08X\n", ec);
-            return;
+        if (SUCCEEDED(ec)) {
+            printf("Failed! Don't come here.");
         }
     //     fail(); // the RI doesn't throw if null is the only key
     // } catch (NullPointerException expected) {
@@ -652,35 +675,36 @@ void testNullsWithNaturalOrder()
     AutoPtr<ITreeMap> map;
     ec = CTreeMap::New((ITreeMap**)&map);
     if (FAILED(ec) || map == NULL) {
-        printf(" Failed to create CTreeMap. Error %08X\n", ec);
+        printf("Failed to create CTreeMap. Error %08X\n", ec);
         return;
     }
     // try {
-        map->Put(NULL, Convert("b"));
+        ec = map->Put(NULL, Convert("b"));
+        if (SUCCEEDED(ec)) {
+            printf("Failed! Don't come here, because should not put NULL key.");
+        } 
     //     fail();
     // } catch (NullPointerException e) {
     // }
 
     // try {
         AutoPtr<INavigableMap> dm;
-        ec = map->GetDescendingMap((INavigableMap**)&dm);
-        if (FAILED(ec) || dm == NULL) {
-            printf(" Failed to create INavigableMap. Error %08X\n", ec);
-            return;
+        map->GetDescendingMap((INavigableMap**)&dm);
+        ec = dm->Put(NULL, Convert("b"));
+        if (SUCCEEDED(ec)) {
+            printf("dm put success, because should not put NULL key.");
         }
-        dm->Put(NULL, Convert("b"));
     //     fail();
     // } catch (NullPointerException e) {
     // }
 
     // try {
         AutoPtr<ISortedMap> sortMap;
-        ec = map->GetSubMap(Convert("a"), Convert("z"), (ISortedMap**)&sortMap);
-        if (FAILED(ec) || sortMap == NULL) {
-            printf(" Failed to create ISortedMap. Error %08X\n", ec);
-            return;
+        map->GetSubMap(Convert("a"), Convert("z"), (ISortedMap**)&sortMap);
+        ec = sortMap->Put(NULL, Convert("b"));
+        if (SUCCEEDED(ec)) {
+            printf("sortMap put success, because should not put NULL key.");
         }
-        sortMap->Put(NULL, Convert("b"));
     //     fail();
     // } catch (NullPointerException e) {
     // }
@@ -708,6 +732,44 @@ public void testClassCastExceptions() {
 }
 #endif
 
+void testClassCastExceptions() 
+{
+    printf("\n=== testClassCastExceptions ===\n");
+    AutoPtr<IMap> map;
+    CTreeMap::New((IMap**)&map);
+    map->Put(Convert("A"), Convert("a"));
+    
+    ECode ec = NOERROR;
+    // try {
+        AutoPtr<IInterface> obj;
+        ec = map->Get(Convert(5), (IInterface**)&obj);
+        if (SUCCEEDED(ec)) {
+            printf("Get failed! Don't come here, because no this key.\n");
+        }
+    //     fail();
+    // } catch (ClassCastException e) {
+    // }
+
+    // try {
+        Boolean res;
+        ec = map->ContainsKey(Convert(5), &res);
+        if (SUCCEEDED(ec)) {
+            printf("ContainsKey failed! Don't come here, because no this key.\n");
+        }
+        // fail();
+    // } catch (ClassCastException e) {
+    // }
+
+    // try {
+        ec = map->Remove(Convert(5));
+        if (SUCCEEDED(ec)) {
+            printf("Remove failed! Don't come here, because no this key.\n");
+        }
+        // fail();
+    // } catch (ClassCastException e) {
+    // }
+}
+
 #if 0
 public void testClassCastExceptionsOnBounds() {
     Map<Object, Object> map = new TreeMap<Object, Object>().subMap("a", "z");
@@ -728,6 +790,48 @@ public void testClassCastExceptionsOnBounds() {
     }
 }
 #endif
+
+void testClassCastExceptionsOnBounds() 
+{
+    printf("\n=== testClassCastExceptionsOnBounds ===\n");
+    AutoPtr<ITreeMap> treeMap;
+    CTreeMap::New((ITreeMap**)&treeMap);
+    
+    AutoPtr<ISortedMap> sMap;
+    treeMap->GetSubMap(Convert("a"), Convert("z"), (ISortedMap**)&sMap);
+    
+    IMap* map = IMap::Probe(sMap);
+    ECode ec = NOERROR;
+
+    // try {
+        AutoPtr<IInterface> obj;
+        ec = map->Get(Convert(5), (IInterface**)&obj);
+        if (SUCCEEDED(ec)) {
+            printf("Get failed! Don't come here, because no this key.\n");
+        }
+    //     fail();
+    // } catch (ClassCastException e) {
+    // }
+
+    // try {
+        Boolean res;
+        ec = map->ContainsKey(Convert(5), &res);
+        if (SUCCEEDED(ec)) {
+            printf("ContainsKey failed! Don't come here, because no this key.\n");
+        }
+        // fail();
+    // } catch (ClassCastException e) {
+    // }
+
+    // try {
+        ec = map->Remove(Convert(5));
+        if (SUCCEEDED(ec)) {
+            printf("Remove failed! Don't come here, because no this key.\n");
+        }
+        // fail();
+    // } catch (ClassCastException e) {
+    // }
+}
 
 #if 0
 public void testClone() {
@@ -831,7 +935,7 @@ public void testNavigableSubMapSerialization() {
     map.put("b", "b");
     map.put("c", "c");
     map.put("d", "d");
-    SortedMap<String, String> subMap = map.subMap("a", false, "c", true);
+    SortedMap<String, String> subMap = map.subMap("a", FALSE, "c", true);
     new SerializationTester<SortedMap<String, String>>(subMap, s) {
         @Override protected void verify(SortedMap<String, String> deserialized) {
             try {
@@ -935,12 +1039,14 @@ EXTERN_C int mainTreeMapTest(int argc, char *argv[])
     testEntrySetSetValue();
     testSubMapEntrySetSetValue();
     testExceptionsOnSetValue();
-    testExceptionsOnSubMapSetValue();
+    // testExceptionsOnSubMapSetValue();
     testConcurrentModificationDetection();
     testIteratorRemoves();
-    testEntrySetUsesComparatorOnly();
+    // testEntrySetUsesComparatorOnly();
     testMapConstructorPassingSortedMap();
     testNullsWithNaturalOrder();
+    testClassCastExceptions();
+    testClassCastExceptionsOnBounds();
     printf("\n==== end of libcore/utility/mainTreeMapTest ====\n");
 
     return 0;
