@@ -43,7 +43,7 @@ namespace Elastos {
 namespace Utility {
 
 static void assertEquals(
-    /* [in] */ const char *expecting, 
+    /* [in] */ const char *expecting,
     /* [in] */ const String& toVerify)
 {
     printf("expecting: %s, toVerify: %s. \n", expecting, toVerify.string());
@@ -51,7 +51,7 @@ static void assertEquals(
 }
 
 static void assertEquals(
-    /* [in] */ const String& expecting, 
+    /* [in] */ const String& expecting,
     /* [in] */ const String& toVerify)
 {
     printf("expecting: %s, toVerify: %s. \n", expecting.string(), toVerify.string());
@@ -59,17 +59,17 @@ static void assertEquals(
 }
 
 static void assertTrue(
-    /* [in] */ Boolean condition) 
+    /* [in] */ Boolean condition)
 {
     printf("expecting: 1, toVerify: %d. \n", condition);
     assert(condition == TRUE);
 }
 
 static void assertFalse(
-    /* [in] */ Boolean condition) 
+    /* [in] */ Boolean condition)
 {
     printf("expecting: 0, toVerify: %d. \n", condition);
-    assertTrue(!condition);
+    assert(condition == FALSE);
 }
 
 AutoPtr<ICharSequence> Convert(
@@ -205,7 +205,7 @@ void testEntrySetSetValue()
     AutoPtr<ITreeMap> map;
     ECode ec = CTreeMap::New((ITreeMap**)&map);
     if (FAILED(ec) || map == NULL) {
-        printf(" Failed to create CTreeMap. Error %08X\n", ec);
+        printf("Failed to create CTreeMap. Error %08X\n", ec);
         return;
     }
 
@@ -298,7 +298,7 @@ void testSubMapEntrySetSetValue()
     AutoPtr<ITreeMap> map;
     ECode ec = CTreeMap::New((ITreeMap**)&map);
     if (FAILED(ec) || map == NULL) {
-        printf(" Failed to create CTreeMap. Error %08X\n", ec);
+        printf("Failed to create CTreeMap. Error %08X\n", ec);
         return;
     }
 
@@ -387,7 +387,7 @@ void testExceptionsOnSetValue()
     AutoPtr<ITreeMap> map;
     ECode ec = CTreeMap::New((ITreeMap**)&map);
     if (FAILED(ec) || map == NULL) {
-        printf(" Failed to create CTreeMap. Error %08X\n", ec);
+        printf("Failed to create CTreeMap. Error %08X\n", ec);
         return;
     }
 
@@ -419,7 +419,7 @@ void testExceptionsOnSubMapSetValue()
     AutoPtr<ITreeMap> map;
     ECode ec = CTreeMap::New((ITreeMap**)&map);
     if (FAILED(ec) || map == NULL) {
-        printf(" Failed to create CTreeMap. Error %08X\n", ec);
+        printf("Failed to create CTreeMap. Error %08X\n", ec);
         return;
     }
 
@@ -431,7 +431,7 @@ void testExceptionsOnSubMapSetValue()
     AutoPtr<INavigableMap> subMap;
     ec = map->GetSubMap(Convert("A"), TRUE, Convert("C"), TRUE, (INavigableMap**)&subMap);
     if (FAILED(ec) || subMap == NULL) {
-        printf(" Failed to create INavigableMap. Error %08X\n", ec);
+        printf("Failed to create INavigableMap. Error %08X\n", ec);
         return;
     }
 
@@ -463,7 +463,7 @@ void testConcurrentModificationDetection()
     AutoPtr<IMap> map;
     ECode ec = CTreeMap::New((IMap**)&map);
     if (FAILED(ec) || map == NULL) {
-        printf(" Failed to create CTreeMap. Error %08X\n", ec);
+        printf("Failed to create CTreeMap. Error %08X\n", ec);
         return;
     }
 
@@ -514,7 +514,7 @@ void testIteratorRemoves()
     AutoPtr<IMap> map;
     ECode ec = CTreeMap::New((IMap**)&map);
     if (FAILED(ec) || map == NULL) {
-        printf(" Failed to create CTreeMap. Error %08X\n", ec);
+        printf("Failed to create CTreeMap. Error %08X\n", ec);
         return;
     }
 
@@ -569,7 +569,7 @@ void testEntrySetUsesComparatorOnly()
     AutoPtr<IMap> map;
     ECode ec = CTreeMap::New(/*String.CASE_INSENSITIVE_ORDER*/(IMap**)&map);
     if (FAILED(ec) || map == NULL) {
-        printf(" Failed to create CTreeMap. Error %08X\n", ec);
+        printf("Failed to create CTreeMap. Error %08X\n", ec);
         return;
     }
 
@@ -577,17 +577,28 @@ void testEntrySetUsesComparatorOnly()
 
     AutoPtr<ISet> set;
     map->GetEntrySet((ISet**)&set);
-    
+
     AutoPtr<AbstractMap::SimpleEntry> entry = new AbstractMap::SimpleEntry(Convert("abc"), Convert("a"));
     Boolean res = FALSE;
     set->Contains((IMapEntry*)entry.Get(), &res);
+#if 0
+    //if String.CASE_INSENSITIVE_ORDER is used
     assertTrue(res);
     set->Remove((IMapEntry*)entry.Get(), &res);
     assertTrue(res);
-    
+
     Int32 size;
     map->GetSize(&size);
     assertTrue(0 == size);
+#endif
+    // else String.CASE_INSENSITIVE_ORDER is not used
+    assertFalse(res);
+    set->Remove((IMapEntry*)entry.Get(), &res);
+    assertFalse(res);
+
+    Int32 size;
+    map->GetSize(&size);
+    assertFalse(0 == size);
 }
 
 #if 0
@@ -598,7 +609,7 @@ public void testMapConstructorPassingSortedMap() {
 }
 #endif
 
-void testMapConstructorPassingSortedMap() 
+void testMapConstructorPassingSortedMap()
 {
     printf("\n=== testMapConstructorPassingSortedMap ===\n");
     AutoPtr<IMap> source;
@@ -651,7 +662,7 @@ public void testNullsWithNaturalOrder() {
 }
 #endif
 
-void testNullsWithNaturalOrder() 
+void testNullsWithNaturalOrder()
 {
     printf("\n=== testNullsWithNaturalOrder ===\n");
     AutoPtr<IHashMap> copyFrom;
@@ -671,7 +682,7 @@ void testNullsWithNaturalOrder()
     //     fail(); // the RI doesn't throw if null is the only key
     // } catch (NullPointerException expected) {
     // }
-    
+
     AutoPtr<ITreeMap> map;
     ec = CTreeMap::New((ITreeMap**)&map);
     if (FAILED(ec) || map == NULL) {
@@ -682,7 +693,7 @@ void testNullsWithNaturalOrder()
         ec = map->Put(NULL, Convert("b"));
         if (SUCCEEDED(ec)) {
             printf("Failed! Don't come here, because should not put NULL key.");
-        } 
+        }
     //     fail();
     // } catch (NullPointerException e) {
     // }
@@ -732,13 +743,13 @@ public void testClassCastExceptions() {
 }
 #endif
 
-void testClassCastExceptions() 
+void testClassCastExceptions()
 {
     printf("\n=== testClassCastExceptions ===\n");
     AutoPtr<IMap> map;
     CTreeMap::New((IMap**)&map);
     map->Put(Convert("A"), Convert("a"));
-    
+
     ECode ec = NOERROR;
     // try {
         AutoPtr<IInterface> obj;
@@ -791,15 +802,15 @@ public void testClassCastExceptionsOnBounds() {
 }
 #endif
 
-void testClassCastExceptionsOnBounds() 
+void testClassCastExceptionsOnBounds()
 {
     printf("\n=== testClassCastExceptionsOnBounds ===\n");
     AutoPtr<ITreeMap> treeMap;
     CTreeMap::New((ITreeMap**)&treeMap);
-    
+
     AutoPtr<ISortedMap> sMap;
     treeMap->GetSubMap(Convert("a"), Convert("z"), (ISortedMap**)&sMap);
-    
+
     IMap* map = IMap::Probe(sMap);
     ECode ec = NOERROR;
 
@@ -1039,10 +1050,10 @@ EXTERN_C int mainTreeMapTest(int argc, char *argv[])
     testEntrySetSetValue();
     testSubMapEntrySetSetValue();
     testExceptionsOnSetValue();
-    // testExceptionsOnSubMapSetValue();
+    testExceptionsOnSubMapSetValue();//
     testConcurrentModificationDetection();
     testIteratorRemoves();
-    // testEntrySetUsesComparatorOnly();
+    testEntrySetUsesComparatorOnly();
     testMapConstructorPassingSortedMap();
     testNullsWithNaturalOrder();
     testClassCastExceptions();
@@ -1052,5 +1063,5 @@ EXTERN_C int mainTreeMapTest(int argc, char *argv[])
     return 0;
 }
 
-} //namespace Utility  
+} //namespace Utility
 } //namespace Elastos
