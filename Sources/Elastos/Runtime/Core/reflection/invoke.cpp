@@ -61,34 +61,36 @@ do_call:
 int invoke(void* func, int* param, int size)
 {
     int rval;
-    __asm__ (
-//        "movk   %2, %%rax\n"
-//        "movk   %3, %%rcx\n"
+
+    __asm__ __volatile__(
+        "movq   $0, %%rcx\n"
+        "movq   %2, %%rax\n"
+        "movl   %3, %%ecx\n"
         "addq   %%rcx, %%rax\n"
         "subq   $8, %%rax\n"
 
-        "test   %%rcx, %%rcx\n"
+        "test   %%ecx, %%ecx\n"
         "jz     do_call\n"
 
         // 1st parameter, %%RDI
         "movq   (%%rax), %%rdi\n"
         "subq   $8, %%rax\n"
         "subq   $8, %%rcx\n"
-        "test   %%rcx, %%rcx\n"
+        "test   %%ecx, %%ecx\n"
         "jz     do_call\n"
 
         // 2nd parameter, %%RSI
         "movq   (%%rax), %%rdx\n"
         "subq   $8, %%rax\n"
         "subq   $8, %%rcx\n"
-        "test   %%rcx, %%rcx\n"
+        "test   %%ecx, %%ecx\n"
         "jz     do_call\n"
 
         // 3rd parameter, %%RDX
         "movq   (%%rax), %%rcx\n"
         "subq   $8, %%rax\n"
         "subq   $8, %%rcx\n"
-        "test   %%rcx, %%rcx\n"
+        "test   %%ecx, %%ecx\n"
         "jz     do_call\n"
 
 
@@ -96,14 +98,14 @@ int invoke(void* func, int* param, int size)
         "movq   (%%rax), %%rcx\n"
         "subq   $8, %%rax\n"
         "subq   $8, %%rcx\n"
-        "test   %%rcx, %%rcx\n"
+        "test   %%ecx, %%ecx\n"
         "jz     do_call\n"
 
         // 5th parameter, %%RDX
         "movq   (%%rax), %%r8\n"
         "subq   $8, %%rax\n"
         "subq   $8, %%rcx\n"
-        "test   %%rcx, %%rcx\n"
+        "test   %%ecx, %%ecx\n"
         "jz     do_call\n"
 
         // 6th parameter, %%RDX
@@ -113,7 +115,7 @@ int invoke(void* func, int* param, int size)
 
         // more than 6 parameters, on stack
         "push_param:\n"
-            "test   %%rcx, %%rcx\n"
+            "test   %%ecx, %%ecx\n"
             "jz     do_call\n"
 
             "movq   (%%rax), %%rdx\n"
@@ -122,16 +124,23 @@ int invoke(void* func, int* param, int size)
             "subq   $8, %%rcx\n"
             "jmp    push_param\n"
         "do_call:\n"
-//            "movq   %1, %%rcx\n"
+            "movq   %1, %%rcx\n"
             "callq  *%%rcx\n"
             "movq   %%rbp, %%rsp\n"
-//            "movq   %%rax, %0"
+            // we shouldn't reset the return value, for invoke is just a bridge function
+            //"movl   %%eax, %0"
         : "=r" (rval)
         : "m" (func)
         , "m" (param)
-        , "d" (size)
+        , "m" (size)
         : "rax"
         , "rcx"
+        , "rdx"
+        , "rdi"
+        , "rsi"
+        , "rcx"
+        , "r8"
+        , "r9"
     );
 
     return rval;
