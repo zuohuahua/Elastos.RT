@@ -33,6 +33,17 @@ inline int RoundUp4(int n)
     return ((n) + 4 - 1) & ~(4 - 1);
 }
 
+inline int RoundUp8(int n)
+{
+    return ((n) + 8 - 1) & ~(8 - 1);
+}
+
+#if (WORD_WIDE == 8)
+    #define DST_ROUNDUP     RoundUp8
+#else
+    #define DST_ROUNDUP     RoundUp4
+#endif
+
 extern int sCLSErrorNumber;
 extern char sCLSErrorName[];
 extern char sCLSErrorMessage[];
