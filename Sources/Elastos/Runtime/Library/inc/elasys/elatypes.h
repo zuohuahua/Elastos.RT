@@ -80,12 +80,12 @@ typedef signed short Int16;
 typedef unsigned short UInt16;
 typedef int Int32;
 typedef unsigned int UInt32;
-#ifdef __GNUC__
+#if (defined(__GNUC__) && (WORD_WIDE == 4))
 typedef long long Int64;
 typedef unsigned long long UInt64;
 #else
-typedef __int64 Int64;
-typedef unsigned __int64 UInt64;
+typedef int64_t Int64;
+typedef uint64_t UInt64;
 #endif
 typedef float Float;
 typedef double Double;
