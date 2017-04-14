@@ -4,6 +4,8 @@
  */
 
 #include "gzguts.h"
+#include <sys/types.h>
+#include <unistd.h>
 
 #if defined(_LARGEFILE64_SOURCE) && _LFS64_LARGEFILE-0
 #  define LSEEK lseek64

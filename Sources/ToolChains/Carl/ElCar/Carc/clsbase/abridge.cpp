@@ -41,7 +41,7 @@ public:
     void GenerateAbridged(void *pvBuffer);
 
 private:
-    inline int AllocData(int nSize);
+    inline long AllocData(int nSize);
     inline void WriteData(int nOffset, void *pvData, int size);
     inline void WriteParams(int nOffset, AbridgedParamsInfo c);
     inline void WriteInt(int nOffset, int n);
@@ -66,12 +66,12 @@ private:
     void InitClassIndexTable();
 
 private:
-    const CLSModule     *m_pModule;
+    const CLSModule    *m_pModule;
 
-    char                *m_pBuffer;
-    int                 m_nClassOffset;
-    int                 m_nInterfaceOffset;
-    int                 m_nDataOffset;
+    char               *m_pBuffer;
+    long                m_nClassOffset;
+    long                m_nInterfaceOffset;
+    long                m_nDataOffset;
 
     int                 m_cClasses;
     int                 m_interfaceNumbers[MAX_CLASS_NUMBER];
@@ -87,11 +87,12 @@ private:
 #define m_interfaceAddrs    m_mi.m_interfaceAddrs
 };
 
-int CAbridgedBuffer::AllocData(int nSize)
+long CAbridgedBuffer::AllocData(int nSize)
 {
-    int nOffset = m_nDataOffset;
+    long nOffset = m_nDataOffset;
 
-    m_nDataOffset += RoundUp4(nSize);
+    m_nDataOffset += DST_ROUNDUP(nSize);
+
     return nOffset;
 }
 
@@ -253,7 +254,8 @@ AbridgedParamsInfo CAbridgedBuffer::GetParamType(
 void CAbridgedBuffer::WriteMethodInfo(int nAddr, MethodDescriptor *pDesc)
 {
     AbridgedParamsInfo param = 0;
-    int n, nParamAddr;
+    int n;
+    long nParamAddr;
     AbridgedMethodInfo entry;
 
     nParamAddr = AllocData(pDesc->mParamCount * sizeof(AbridgedParamsInfo));
@@ -291,7 +293,8 @@ int CAbridgedBuffer::WriteMethodInfos(int nAddr, InterfaceDescriptor *pDesc)
 
 void CAbridgedBuffer::WriteInterfaces()
 {
-    int n, nAddr;
+    int n;
+    long nAddr;
     InterfaceDescriptor *pDesc;
     AbridgedInterfaceInfo entry;
 
@@ -336,7 +339,8 @@ int CAbridgedBuffer::WriteClsIntfs(ClassDescriptor *pDesc, int interfaceCount)
 
 void CAbridgedBuffer::WriteClasses()
 {
-    int n, nAddr;
+    int n;
+    long nAddr;
     AbridgedClassInfo entry;
 
     for (n = 0; n < m_pModule->mClassCount; n++) {
@@ -505,7 +509,7 @@ int CAbridgedBuffer::TotalParamSize(InterfaceDescriptor *pDesc)
     }
 
     for (n = 0; n < pDesc->mMethodCount; n++) {
-        size += RoundUp4(pDesc->mMethods[n]->mParamCount * sizeof(AbridgedParamsInfo));
+        size += DST_ROUNDUP(pDesc->mMethods[n]->mParamCount * sizeof(AbridgedParamsInfo));
     }
 
     return size;
@@ -522,23 +526,23 @@ int CAbridgedBuffer::Prepare(const CLSModule *pModule)
 
     size = sizeof(AbridgedModuleInfo);
     if (pModule->mUunm) size += strlen(pModule->mUunm);
-    size = m_nClassOffset = RoundUp4(size);
+    size = m_nClassOffset = DST_ROUNDUP(size);
 
-    size += RoundUp4(m_cClasses * sizeof(AbridgedClassInfo));
+    size += DST_ROUNDUP(m_cClasses * sizeof(AbridgedClassInfo));
     m_nInterfaceOffset = size;
 
-    size += RoundUp4(m_cInterfaces * sizeof(AbridgedInterfaceInfo));
+    size += DST_ROUNDUP(m_cInterfaces * sizeof(AbridgedInterfaceInfo));
     m_nDataOffset = size;
 
     for (n = 0; n < m_pModule->mClassCount; n++) {
         if (m_interfaceNumbers[n] != 0) {
-            size += RoundUp4(
+            size += DST_ROUNDUP(
                     m_interfaceNumbers[n] * sizeof(AbridgedInterfaceInfo *));
         }
     }
     for (n = 0; n < m_pModule->mInterfaceCount; n++) {
         if (m_methodNumbers[n] != 0) {
-            size += RoundUp4(m_methodNumbers[n] * sizeof(AbridgedMethodInfo));
+            size += DST_ROUNDUP(m_methodNumbers[n] * sizeof(AbridgedMethodInfo));
             size += TotalParamSize(m_pModule->mInterfaceDirs[n]->mDesc);
         }
     }

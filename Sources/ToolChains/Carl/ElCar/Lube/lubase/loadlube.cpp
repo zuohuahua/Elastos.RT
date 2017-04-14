@@ -30,7 +30,7 @@
 
 static const char *s_pszLubePath = "";
 const char *g_pszOutputPath = "";
-static int s_nOffset;
+static long s_nOffset;
 
 static const CLSID CLSID_XOR_CallbackSink = \
 /* e724df56-e16a-4599-8edd-a97ab245d583 */
@@ -50,24 +50,24 @@ extern void DestroyAllLibraries();
 void RelocateState(PSTATEDESC pDesc)
 {
     if (pDesc->pBlockette) {
-        pDesc->pBlockette = (PSTATEDESC)((int)pDesc->pBlockette + s_nOffset);
+        pDesc->pBlockette = (PSTATEDESC)((long)pDesc->pBlockette + s_nOffset);
         RelocateState(pDesc->pBlockette);
     }
     if (pDesc->pNext) {
-        pDesc->pNext = (PSTATEDESC)((int)pDesc->pNext + s_nOffset);
+        pDesc->pNext = (PSTATEDESC)((long)pDesc->pNext + s_nOffset);
         RelocateState(pDesc->pNext);
     }
     if (pDesc->pvData) {
-        pDesc->pvData = (PVOID)((int)pDesc->pvData + s_nOffset);
+        pDesc->pvData = (PVOID)((long)pDesc->pvData + s_nOffset);
     }
 }
 
 void RelocateTemplate(LubeTemplate *pTemplate)
 {
-    pTemplate->mName = (char *)((int)pTemplate->mName + s_nOffset);
+    pTemplate->mName = (char *)((long)pTemplate->mName + s_nOffset);
     if (pTemplate->tRoot.pBlockette) {
         pTemplate->tRoot.pBlockette = (PSTATEDESC)
-                    ((int)pTemplate->tRoot.pBlockette + s_nOffset);
+                    ((long)pTemplate->tRoot.pBlockette + s_nOffset);
         RelocateState(pTemplate->tRoot.pBlockette);
     }
 }
@@ -76,13 +76,13 @@ void RelocateLube(PLUBEHEADER pLube)
 {
     int n;
 
-    s_nOffset = (int)pLube;
+    s_nOffset = (long)pLube;
 
     pLube->ppTemplates = (LubeTemplate **)
-                ((int)pLube->ppTemplates + s_nOffset);
+                ((long)pLube->ppTemplates + s_nOffset);
     for (n = 0; n < pLube->cTemplates; n++) {
         pLube->ppTemplates[n] = (LubeTemplate *)
-                    ((int)pLube->ppTemplates[n] + s_nOffset);
+                    ((long)pLube->ppTemplates[n] + s_nOffset);
         RelocateTemplate(pLube->ppTemplates[n]);
     }
 }

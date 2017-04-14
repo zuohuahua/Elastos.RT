@@ -58,7 +58,8 @@ PVOID SaveTokenContext()
 
 void RestoreTokenContext(PVOID pvCtx)
 {
-    DWORD dwContext = (DWORD)pvCtx;
+    //DWORD dwContext = (DWORD)pvCtx;
+    long dwContext = (long)pvCtx;
 
     if (dwContext & 0x40000000) s_bBrace = true;
     if (dwContext & 0x80000000) s_bIn = true;
