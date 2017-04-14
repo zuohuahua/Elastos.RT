@@ -4,6 +4,8 @@
  */
 
 #include "gzguts.h"
+#include <sys/types.h>
+#include <unistd.h>
 
 /* Local functions */
 local int gz_load OF((gz_statep, unsigned char *, unsigned, unsigned *));

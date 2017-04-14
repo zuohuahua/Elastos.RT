@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
 
 	fprintf(fWfile, "};\n");
 	fprintf(fWfile, "\n");
-	fprintf(fWfile, "int g_pDllResource = (int)&DllResource;\n");
+	fprintf(fWfile, "long g_pDllResource = (long)&DllResource;\n");
 	fprintf(fWfile, "\n");
 
     fclose(fRfile);

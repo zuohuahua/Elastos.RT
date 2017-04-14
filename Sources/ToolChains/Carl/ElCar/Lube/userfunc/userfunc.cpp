@@ -2408,7 +2408,7 @@ public:
 private:
     NamespaceUnit* FindUnit(char* nameSpace)
     {
-        if (nameSpace == NULL) nameSpace = "";
+        if (nameSpace == NULL) nameSpace = (char *)"";
         if (mHead == NULL) {
             mHead = new NamespaceUnit();
             mHead->mNameSpace = nameSpace;

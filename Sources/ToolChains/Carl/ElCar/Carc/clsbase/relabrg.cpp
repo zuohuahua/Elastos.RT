@@ -23,7 +23,7 @@
 #include "clstype.h"
 #include "abrgcls.h"
 
-#define RELOC(p, t, b)    p = (t)((int)(p) + b)
+#define RELOC(p, t, b)    p = (t)((long)(p) + b)
 
 void RelocAbridgedCLS(void *pvAbrgCLS)
 {
@@ -33,7 +33,7 @@ void RelocAbridgedCLS(void *pvAbrgCLS)
     AbridgedInterface *pIntf;
 
     pInfo = (AbridgedModuleInfo *)pvAbrgCLS;
-    nBase = (int)pvAbrgCLS;
+    nBase = (long)pvAbrgCLS;
 
     if ((size_t)(pInfo->pClasses) > nBase) return; // has relocated
 

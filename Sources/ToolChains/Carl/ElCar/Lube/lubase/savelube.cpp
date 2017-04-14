@@ -17,17 +17,11 @@
 #include <malloc.h>
 #include <stdlib.h>
 #include <lube.h>
+#include "clsbase.h"
 
 #ifdef _linux
 #define _alloca alloca
 #endif
-
-#define ALIGN_BOUND 4
-
-inline int RoundUp4(int n)
-{
-    return ((n) + ALIGN_BOUND - 1) & ~(ALIGN_BOUND - 1);
-}
 
 class CLubeBuffer
 {
@@ -35,34 +29,34 @@ public:
     int Flat(PLUBEHEADER pLube, char *pBuffer);
 
 private:
-    inline int WriteData(const void *pvData, int nSize);
-    inline int WriteString(const char *pString);
+    inline long WriteData(const void *pvData, int nSize);
+    inline long WriteString(const char *pString);
 
-    int WriteState(PSTATEDESC pDesc);
-    int WriteTemplate(LubeTemplate *);
+    long WriteState(PSTATEDESC pDesc);
+    long WriteTemplate(LubeTemplate *);
 
 private:
     PLUBEHEADER         m_pLube;
     char *              m_pBuffer;
-    int                 m_nOffset;
+    long                 m_nOffset;
 };
 
-int CLubeBuffer::WriteData(const void *pvData, int nSize)
+long CLubeBuffer::WriteData(const void *pvData, int nSize)
 {
     int nBegin = m_nOffset;
 
     memcpy(m_pBuffer + m_nOffset, pvData, nSize);
-    m_nOffset += RoundUp4(nSize);
+    m_nOffset += DST_ROUNDUP(nSize);
 
     return nBegin;
 }
 
-int CLubeBuffer::WriteString(const char *pString)
+long CLubeBuffer::WriteString(const char *pString)
 {
     return WriteData(pString, strlen(pString) + 1);
 }
 
-int CLubeBuffer::WriteState(PSTATEDESC pDesc)
+long CLubeBuffer::WriteState(PSTATEDESC pDesc)
 {
     StateDesc state;
 
@@ -80,7 +74,7 @@ int CLubeBuffer::WriteState(PSTATEDESC pDesc)
     return WriteData(&state, sizeof(StateDesc));
 }
 
-int CLubeBuffer::WriteTemplate(LubeTemplate *pTemplate)
+long CLubeBuffer::WriteTemplate(LubeTemplate *pTemplate)
 {
     LubeTemplate tmp;
 
@@ -120,7 +114,7 @@ int CalcStatementsSize(PSTATEDESC pDesc)
         if (pDesc->pBlockette) {
             nSize += CalcStatementsSize(pDesc->pBlockette);
         }
-        nSize += sizeof(StateDesc) + RoundUp4(pDesc->uDataSize);
+        nSize += sizeof(StateDesc) + DST_ROUNDUP(pDesc->uDataSize);
         pDesc = pDesc->pNext;
     }
     return nSize;
@@ -131,7 +125,7 @@ int CalcTemplateSize(LubeTemplate *pTemplate)
     int nSize = sizeof(LubeTemplate);
 
     nSize += CalcStatementsSize(pTemplate->tRoot.pBlockette);
-    nSize += RoundUp4(strlen(pTemplate->mName) + 1);
+    nSize += DST_ROUNDUP(strlen(pTemplate->mName) + 1);
 
     return nSize;
 }
