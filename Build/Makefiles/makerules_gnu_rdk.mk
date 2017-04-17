@@ -291,7 +291,7 @@ endif
 
 $(TARGET_NAME).so: $(OBJECTS) $(filter-out -l%,$(LIBRARIES)) $(ELASTOS_LIBS) $(MAKEDIR)/sources
 	@echo Linking $@ ...
-	$(LD) $(LINK_FLAGS) $(32B_FLAG) -shared -fpic -o  $(XDK_TARGETS)/$@ \
+	$(LD) $(LINK_FLAGS) $(TARGET_MACHINE_WORD_SIZE_FLAGS) -shared -fpic -o  $(XDK_TARGETS)/$@ \
 		$(PASS2LD)--start-group $(OBJECTS) $(PASS2LD)--whole-archive $(ELASTOS_LIBS) $(PASS2LD)--no-whole-archive $(LIBRARIES) $(PASS2LD)--end-group
 ifeq "$(DEBUG_INFO)" "1"
 	$(CP) $(XDK_TARGETS)/$@ $(TARGET_DBG_INFO_PATH)

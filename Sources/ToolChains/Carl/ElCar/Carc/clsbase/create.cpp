@@ -647,7 +647,7 @@ CLSModule *CreateCLS()
     pModule->mFileDirs = new FileDirEntry *[MAX_FILE_NUMBER];
     pModule->mClassDirs = new ClassDirEntry *[MAX_CLASS_NUMBER];
     pModule->mInterfaceDirs = new InterfaceDirEntry *[MAX_INTERFACE_NUMBER];
-    pModule->mDefinedInterfaceIndexes = new int[MAX_DEFINED_INTERFACE_NUMBER];
+    pModule->mDefinedInterfaceIndexes = new long[MAX_DEFINED_INTERFACE_NUMBER];
     pModule->mStructDirs = new StructDirEntry *[MAX_STRUCT_NUMBER];
     pModule->mEnumDirs = new EnumDirEntry *[MAX_ENUM_NUMBER];
     pModule->mAliasDirs = new AliasDirEntry *[MAX_ALIAS_NUMBER];

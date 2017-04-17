@@ -18,7 +18,7 @@
 #define __AJUSTADD_H__
 
 #ifndef INTEGER_DST
-#if (WORD_WIDE == 8)
+#if (TARGET_MACHINE_64 == 8)
 typedef Elastos::UInt64 INTEGER_DST;
 #else
 typedef Elastos::UInt32 INTEGER_DST;
@@ -28,7 +28,7 @@ typedef Elastos::UInt32 INTEGER_DST;
 _ELASTOS_NAMESPACE_USING
 
 inline ClassDirEntry* getClassDirAddr(
-    /* [in] */ Int32 base,
+    /* [in] */ long base,
     /* [in] */ ClassDirEntry** dir,
     /* [in] */ Int32 index)
 {
@@ -37,7 +37,7 @@ inline ClassDirEntry* getClassDirAddr(
 }
 
 inline InterfaceDirEntry* getInterfaceDirAddr(
-    /* [in] */ Int32 base,
+    /* [in] */ long base,
     /* [in] */ InterfaceDirEntry** dir,
     /* [in] */ Int32 index)
 {
@@ -46,7 +46,7 @@ inline InterfaceDirEntry* getInterfaceDirAddr(
 }
 
 inline StructDirEntry* getStructDirAddr(
-    /* [in] */ Int32 base,
+    /* [in] */ long base,
     /* [in] */ StructDirEntry** dir,
     /* [in] */ Int32 index)
 {
@@ -55,7 +55,7 @@ inline StructDirEntry* getStructDirAddr(
 }
 
 inline EnumDirEntry* getEnumDirAddr(
-    /* [in] */ Int32 base,
+    /* [in] */ long base,
     /* [in] */ EnumDirEntry** dir,
     /* [in] */ Int32 index)
 {
@@ -64,7 +64,7 @@ inline EnumDirEntry* getEnumDirAddr(
 }
 
 inline AliasDirEntry* getAliasDirAddr(
-    /* [in] */ Int32 base,
+    /* [in] */ long base,
     /* [in] */ AliasDirEntry** dir,
     /* [in] */ Int32 index)
 {
@@ -73,7 +73,7 @@ inline AliasDirEntry* getAliasDirAddr(
 }
 
 inline ArrayDirEntry* getArrayDirAddr(
-    /* [in] */ Int32 base,
+    /* [in] */ long base,
     /* [in] */ ArrayDirEntry** dir,
     /* [in] */ Int32 index)
 {
@@ -82,7 +82,7 @@ inline ArrayDirEntry* getArrayDirAddr(
 }
 
 inline ConstDirEntry* getConstDirAddr(
-    /* [in] */ Int32 base,
+    /* [in] */ long base,
     /* [in] */ ConstDirEntry** dir,
     /* [in] */ Int32 index)
 {
@@ -91,7 +91,7 @@ inline ConstDirEntry* getConstDirAddr(
 }
 
 inline MethodDescriptor* getMethodDescAddr(
-    /* [in] */ Int32 base,
+    /* [in] */ long base,
     /* [in] */ MethodDescriptor** desc,
     /* [in] */ Int32 index)
 {
@@ -100,7 +100,7 @@ inline MethodDescriptor* getMethodDescAddr(
 }
 
 inline ParamDescriptor* getParamDescAddr(
-    /* [in] */ Int32 base,
+    /* [in] */ long base,
     /* [in] */ ParamDescriptor** desc,
     /* [in] */ Int32 index)
 {
@@ -109,7 +109,7 @@ inline ParamDescriptor* getParamDescAddr(
 }
 
 inline StructElement* getStructElementAddr(
-    /* [in] */ Int32 base,
+    /* [in] */ long base,
     /* [in] */ StructElement** element,
     /* [in] */ Int32 index)
 {
@@ -118,7 +118,7 @@ inline StructElement* getStructElementAddr(
 }
 
 inline EnumElement* getEnumElementAddr(
-    /* [in] */ Int32 base,
+    /* [in] */ long base,
     /* [in] */ EnumElement** element,
     /* [in] */ Int32 index)
 {
@@ -127,7 +127,7 @@ inline EnumElement* getEnumElementAddr(
 }
 
 inline ClassInterface* getCIFAddr(
-    /* [in] */ Int32 base,
+    /* [in] */ long base,
     /* [in] */ ClassInterface** clsInterface,
     /* [in] */ Int32 index)
 {
@@ -136,7 +136,7 @@ inline ClassInterface* getCIFAddr(
 }
 
 inline char* getLibNameAddr(
-    /* [in] */ Int32 base,
+    /* [in] */ long base,
     /* [in] */ char** libName,
     /* [in] */ Int32 index)
 {
@@ -145,70 +145,70 @@ inline char* getLibNameAddr(
 }
 
 inline char* adjustNameAddr(
-    /* [in] */ Int32 base,
+    /* [in] */ long base,
     /* [in] */ char* name)
 {
     return name ? name + base : name;
 }
 
 inline USHORT* adjustIndexsAddr(
-    /* [in] */ Int32 base,
+    /* [in] */ long base,
     /* [in] */ USHORT* indexs)
 {
     return indexs ? (USHORT*)((PByte)indexs + base) : indexs;
 }
 
 inline ClassDescriptor* adjustClassDescAddr(
-    /* [in] */ Int32 base,
+    /* [in] */ long base,
     /* [in] */ ClassDescriptor* desc)
 {
     return desc ? (ClassDescriptor*)((PByte)desc + base) : desc;
 }
 
 inline InterfaceDescriptor* adjustInterfaceDescAddr(
-    /* [in] */ Int32 base,
+    /* [in] */ long base,
     /* [in] */ InterfaceDescriptor* desc)
 {
     return desc ? (InterfaceDescriptor*)((PByte)desc + base) : desc;
 }
 
 inline MethodDescriptor* adjustMethodDescAddr(
-    /* [in] */ Int32 base,
+    /* [in] */ long base,
     /* [in] */ MethodDescriptor* desc)
 {
     return desc ? (MethodDescriptor*)((PByte)desc + base) : desc;
 }
 
 inline ParamDescriptor* adjustParamDescAddr(
-    /* [in] */ Int32 base,
+    /* [in] */ long base,
     /* [in] */ ParamDescriptor* desc)
 {
     return desc ? (ParamDescriptor*)((PByte)desc + base) : desc;
 }
 
 inline StructDescriptor* adjustStructDescAddr(
-    /* [in] */ Int32 base,
+    /* [in] */ long base,
     /* [in] */ StructDescriptor* desc)
 {
     return desc ? (StructDescriptor*)((PByte)desc + base) : desc;
 }
 
 inline EnumDescriptor* adjustEnumDescAddr(
-    /* [in] */ Int32 base,
+    /* [in] */ long base,
     /* [in] */ EnumDescriptor* desc)
 {
     return desc ? (EnumDescriptor*)((PByte)desc + base) : desc;
 }
 
 inline TypeDescriptor* adjustTypeAddr(
-    /* [in] */ Int32 base,
+    /* [in] */ long base,
     /* [in] */ TypeDescriptor* desc)
 {
     return desc ? (TypeDescriptor*)((PByte)desc + base) : desc;
 }
 
 inline TypeDescriptor* adjustNestedTypeAddr(
-    /* [in] */ Int32 base,
+    /* [in] */ long base,
     /* [in] */ TypeDescriptor* nestedType)
 {
     return nestedType ?

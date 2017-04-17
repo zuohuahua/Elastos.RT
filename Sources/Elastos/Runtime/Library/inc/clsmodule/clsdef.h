@@ -80,7 +80,7 @@ typedef struct CLSModule
     FileDirEntry**      mFileDirs;
     ClassDirEntry**     mClassDirs;
     InterfaceDirEntry** mInterfaceDirs;
-    int*                mDefinedInterfaceIndexes;
+    long*               mDefinedInterfaceIndexes;
     StructDirEntry**    mStructDirs;
     EnumDirEntry**      mEnumDirs;
     AliasDirEntry**     mAliasDirs;

@@ -134,12 +134,12 @@ PASS2LD = -Wl,
 #  ECX_BASE = 0x400000
 #endif
 
-#32B_FLAGS = "64"
-ifeq "$(32B_FLAGS)" ""
-  32B_FLAG = -m32
-  C_DEFINES += -DWORD_WIDE=4
+TARGET_MACHINE_64 = "YES"
+ifeq "$(TARGET_MACHINE_64)" "YES"
+  C_DEFINES += -DTARGET_MACHINE_64
+  TARGET_MACHINE_WORD_SIZE_FLAGS = -fPIC
 else
-  C_DEFINES += -DWORD_WIDE=8 -fPIC
+  TARGET_MACHINE_WORD_SIZE_FLAGS = -m32
 endif
 
 ##########################################################################
@@ -172,7 +172,7 @@ else # "$(XDK_TARGET_FORMAT)" "elf"
   endif
 
     ifeq "$(XDK_TARGET_PLATFORM)" "linux"
-        DLL_FLAGS := $(32B_FLAG) $(DLL_FLAGS) -shared -Wl,-fPIC,--no-undefined,--no-undefined-version
+        DLL_FLAGS := $(TARGET_MACHINE_WORD_SIZE_FLAGS) $(DLL_FLAGS) -shared -Wl,-fPIC,--no-undefined,--no-undefined-version
         ifeq "$(EXPORT_ALL_SYMBOLS)" ""
             DLL_FLAGS := $(DLL_FLAGS) $(DEF_FLAGS)
         else
@@ -182,8 +182,8 @@ else # "$(XDK_TARGET_FORMAT)" "elf"
           GCC_SYSROOT=$(XDK_SYSROOT_PATH)
           GCC_LIB_PATH=$(shell $(CC) -print-file-name=)
 
-          EXE_FLAGS := $(EXE_FLAGS) $(32B_FLAG) -Bdynamic -Wl,--no-gc-sections -L$(XDK_TARGETS)
-          ECX_FLAGS := $(ECX_FLAGS) $(32B_FLAG) -Bdynamic -Wl,--no-gc-sections -L$(XDK_TARGETS)
+          EXE_FLAGS := $(EXE_FLAGS) $(TARGET_MACHINE_WORD_SIZE_FLAGS) -Bdynamic -Wl,--no-gc-sections -L$(XDK_TARGETS)
+          ECX_FLAGS := $(ECX_FLAGS) $(TARGET_MACHINE_WORD_SIZE_FLAGS) -Bdynamic -Wl,--no-gc-sections -L$(XDK_TARGETS)
 
           EXE_CRT_BEGIN=-Wl,-X
           ECX_CRT_BEGIN=-Wl,-X
@@ -284,12 +284,12 @@ C_DEFINES := -D_GNUC $(C_DEFINES)
 
 ifeq "$(XDK_TARGET_PLATFORM)" "linux"
   ifneq "$(XDK_TARGET_CPU)" "arm"
-    C_DEFINES := $(C_DEFINES) $(32B_FLAG)
+    C_DEFINES := $(C_DEFINES) $(TARGET_MACHINE_WORD_SIZE_FLAGS)
   endif
 endif
 
 ifeq "$(XDK_TARGET_CPU)" "x86"
-  C_FLAGS:= $(C_FLAGS) $(32B_FLAG)
+  C_FLAGS:= $(C_FLAGS) $(TARGET_MACHINE_WORD_SIZE_FLAGS)
   ifeq "$(XDK_TARGET_PLATFORM)" "linux"
     C_FLAGS:= -D_UNDEFDLLEXP $(C_FLAGS)
   endif

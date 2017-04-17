@@ -80,13 +80,8 @@ typedef signed short Int16;
 typedef unsigned short UInt16;
 typedef int Int32;
 typedef unsigned int UInt32;
-#if (defined(__GNUC__) && (WORD_WIDE == 4))
-typedef long long Int64;
-typedef unsigned long long UInt64;
-#else
 typedef int64_t Int64;
 typedef uint64_t UInt64;
-#endif
 typedef float Float;
 typedef double Double;
 typedef unsigned char Boolean;

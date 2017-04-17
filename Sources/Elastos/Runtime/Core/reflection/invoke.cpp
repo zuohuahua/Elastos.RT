@@ -57,7 +57,7 @@ do_call:
 }
 #else // __GNUC__
 
-#if (WORD_WIDE == 8)
+#if (TARGET_MACHINE_64 == 8)
 int invoke(void* func, int* param, int size)
 {
     int rval;

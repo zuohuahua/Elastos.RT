@@ -85,7 +85,7 @@ template<> struct Hash<unsigned int>
     size_t operator()(unsigned int x) const { return x; }
 };
 
-#if (WORD_WIDE == 4)
+#if (!defined(TARGET_MACHINE_64))
 template<> struct Hash<long>
 {
     size_t operator()(long x) const { return x; }

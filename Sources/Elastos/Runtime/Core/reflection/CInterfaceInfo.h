@@ -120,7 +120,7 @@ private:
     UInt32  mIndex;
     UInt32  mIFCount;
     UInt32  mMethodCount;
-    Int32   mBase;
+    long    mBase;
 };
 
 #endif // __CINTERFACEINFO_H__

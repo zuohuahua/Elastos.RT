@@ -17,7 +17,7 @@
 #include <clsbase.h>
 
 #ifndef INTEGER_DST
-#if (WORD_WIDE == 8)
+#if (TARGET_MACHINE_64 == 8)
 typedef Elastos::UInt64 INTEGER_DST;
 #else
 typedef Elastos::UInt32 INTEGER_DST;
@@ -27,7 +27,7 @@ typedef Elastos::UInt32 INTEGER_DST;
 /* on 32 bits platform: sizeof(long) = sizeof(void*) = 4
  * on 64 bits platform: sizeof(long) = sizeof(void*) = 8
  */
-static long sBase;
+static unsigned long sBase;
 
 void MapFileDirEntry(
     /* [in] */ FileDirEntry* p)
@@ -269,7 +269,7 @@ void DoRelocCLS(
     if (p->mUunm) p->mUunm += sBase;
     if (p->mServiceName) p->mServiceName += sBase;
     if (p->mDefinedInterfaceCount > 0) {
-        p->mDefinedInterfaceIndexes = (int *)((INTEGER_DST)(p->mDefinedInterfaceIndexes) + sBase);
+        p->mDefinedInterfaceIndexes = (long *)((INTEGER_DST)(p->mDefinedInterfaceIndexes) + sBase);
     }
 
     if (0 != p->mFileCount) {
