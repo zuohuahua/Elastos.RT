@@ -47,7 +47,7 @@ CAR_INLINE void RelocateUnalignedPtr(
 }
 
 #ifndef INTEGER_DST
-#if (TARGET_MACHINE_64 == 8)
+#ifdef TARGET_MACHINE_64
 typedef UInt64 INTEGER_DST;
 #else
 typedef UInt32 INTEGER_DST;

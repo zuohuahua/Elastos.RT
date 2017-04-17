@@ -22,7 +22,7 @@
 //#include <cutils/log.h>
 
 #ifndef INTEGER_DST
-#if (TARGET_MACHINE_64 == 8)
+#ifdef TARGET_MACHINE_64
 typedef Elastos::UInt64 INTEGER_DST;
 #else
 typedef Elastos::UInt32 INTEGER_DST;

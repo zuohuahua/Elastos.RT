@@ -3829,7 +3829,7 @@ int TypeSignature(TypeDescriptor* pType, StringBuilder& sb)
             }
             break;
         default:
-            assert(0);
+            fprintf(stderr, "assert(0)\n");
             return Ret_AbortOnError;
     }
     switch (pointer) {
