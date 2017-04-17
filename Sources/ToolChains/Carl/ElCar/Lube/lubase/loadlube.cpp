@@ -23,6 +23,7 @@
 #endif
 #include <malloc.h>
 #include <lube.h>
+#include "elf.h"
 
 #ifdef _linux
 #define _MAX_PATH 256
@@ -155,6 +156,7 @@ ErrorExit:
 }
 #endif
 
+#if 0
 typedef	unsigned short		__uint16_t;
 typedef	unsigned int		__uint32_t;
 
@@ -206,6 +208,7 @@ typedef struct {
 	Elf32_Word	sh_addralign;	/* address alignment */
 	Elf32_Word	sh_entsize;	/* section entry size */
 } Elf32_Shdr;
+#endif
 
 typedef struct ModuleRscStruct {
     unsigned int    uSize;

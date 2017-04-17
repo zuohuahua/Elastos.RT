@@ -26,6 +26,7 @@
 #endif
 #include <sys/stat.h>
 #include <stdio.h>
+#include "elf.h"
 
 #ifdef _linux
 #define _stricmp  strcasecmp
@@ -34,6 +35,7 @@
 #define ALIGNMENT    0x8000
 #define NAMELEN  260
 
+#if 0
 typedef	unsigned short		__uint16_t;
 typedef	unsigned int		__uint32_t;
 
@@ -85,6 +87,7 @@ typedef struct {
 	Elf32_Word	sh_addralign;	/* address alignment */
 	Elf32_Word	sh_entsize;	/* section entry size */
 } Elf32_Shdr;
+#endif
 
 char *gbuf = NULL;
 
