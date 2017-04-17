@@ -346,7 +346,7 @@ ECode CMethodInfo::SetParamElem(
 
     parmElement->mPos = mParamBufSize;
 
-#ifdef TARGET_MACHINE_64
+#ifdef _ELASTOS64
     mParamBufSize += ROUND8(parmElement->mSize);
 #else
     mParamBufSize += ROUND4(parmElement->mSize);

@@ -38,7 +38,7 @@ inline int RoundUp8(int n)
     return ((n) + 8 - 1) & ~(8 - 1);
 }
 
-#ifdef TARGET_MACHINE_64
+#ifdef _ELASTOS64
     #define DST_ROUNDUP     RoundUp8
 #else
     #define DST_ROUNDUP     RoundUp4

@@ -57,7 +57,7 @@ do_call:
 }
 #else // __GNUC__
 
-#ifdef TARGET_MACHINE_64
+#ifdef _ELASTOS64
 int invoke(void* func, int* param, int size)
 {
     int rval;

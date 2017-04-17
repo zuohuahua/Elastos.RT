@@ -19,7 +19,7 @@
 #include <dlfcn.h>
 
 #ifndef INTEGER_DST
-#ifdef TARGET_MACHINE_64
+#ifdef _ELASTOS64
 typedef Elastos::UInt64 INTEGER_DST;
 #else
 typedef Elastos::UInt32 INTEGER_DST;
