@@ -27,7 +27,7 @@ typedef Elastos::UInt32 INTEGER_DST;
 /* on 32 bits platform: sizeof(long) = sizeof(void*) = 4
  * on 64 bits platform: sizeof(long) = sizeof(void*) = 8
  */
-static unsigned long sBase;
+static size_t sBase;
 
 void MapFileDirEntry(
     /* [in] */ FileDirEntry* p)
@@ -263,7 +263,7 @@ void MapAliasDirEntry(
 void DoRelocCLS(
     /* [in] */ CLSModule* p)
 {
-    sBase = (long)p;
+    sBase = (size_t)p;
 
     p->mName += sBase;
     if (p->mUunm) p->mUunm += sBase;
@@ -381,7 +381,7 @@ void DoRelocCLS(
 
 int RelocFlattedCLS(
     /* [in] */ const void* src,
-    /* [in] */ int size,
+    /* [in] */ long size,
     /* [out] */ CLSModule** outDest)
 {
     CLSModule* srcModule = (CLSModule *)src;
@@ -390,7 +390,7 @@ int RelocFlattedCLS(
     if (!destModule) _ReturnError(CLSError_OutOfMemory);
 
     if (srcModule->mAttribs & CARAttrib_compress) {
-        int n = UncompressCLS(src, size, destModule);
+        long n = UncompressCLS(src, size, destModule);
         if (n != srcModule->mSize) {
             delete [] (char *)destModule;
             _ReturnError(CLSError_FormatSize);

@@ -25,7 +25,11 @@
 #if defined(_arm) && defined(__GNUC__) && (__GNUC__ >= 4) || defined(_MSVC)
 #define ALIGN_BOUND 8
 #else
-#define ALIGN_BOUND 4
+#ifdef _ELASTOS64
+    #define ALIGN_BOUND 8
+#else
+    #define ALIGN_BOUND 4
+#endif
 #endif
 
 inline int RoundUp4(int n)

@@ -526,12 +526,12 @@ const int MAX_SEED_SIZE = 255;
 EXTERN_C int GuidFromSeedString(const char *, GUID *);
 EXTERN_C int SeedStringFromGuid(REFGUID, char *);
 
-extern int FlatCLS(const CLSModule *, void **);
+extern size_t FlatCLS(const CLSModule *, void **);
 extern int DisposeFlattedCLS(void *);
-extern int RelocFlattedCLS(const void *, int, CLSModule **);
+extern int RelocFlattedCLS(const void *, long, CLSModule **);
 
-extern int CompressCLS(void *);
-extern int UncompressCLS(const void *, int, CLSModule *);
+extern long CompressCLS(void *);
+extern long UncompressCLS(const void *, long, CLSModule *);
 
 extern void SetLibraryPath(const char *);
 extern int CopyCLS(const CLSModule *, CLSModule *);

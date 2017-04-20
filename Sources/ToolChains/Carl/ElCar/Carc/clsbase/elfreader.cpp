@@ -24,9 +24,17 @@
 #include <io.h>
 #endif
 #include <stdio.h>
+#include <elf.h>
 
 #include "clsbase.h"
-#include "elf.h"
+
+#ifdef _ELASTOS64
+    #define Elf32_64_Ehdr   Elf64_Ehdr
+    #define Elf32_64_Shdr   Elf64_Shdr
+#else
+    #define Elf32_64_Ehdr   Elf32_Ehdr
+    #define Elf32_64_Shdr   Elf32_Shdr
+#endif
 
 typedef struct ModuleRscStruct {
     unsigned int    uSize;
@@ -37,18 +45,14 @@ typedef struct ModuleRscStruct {
 int CheckFileFormat(FILE *pFile)
 {
     int         cnt  = 0;
-#ifdef _ELASTOS64
-    Elf64_Ehdr  ehdr;
-#else
-    Elf32_Ehdr  ehdr;
-#endif
+    Elf32_64_Ehdr  ehdr;
 
     if(fseek(pFile, 0, SEEK_SET) < 0) {
         ExtraMessage("fseek() failed");
         _ReturnError (CLSError_OpenFile);
     }
 
-    if ((cnt = fread((char *)&ehdr, 1,sizeof(Elf32_Ehdr),pFile)) < 0) {
+    if ((cnt = fread((char *)&ehdr, 1,sizeof(Elf32_64_Ehdr), pFile)) < 0) {
         ExtraMessage("fread() failed");
         _ReturnError (CLSError_OpenFile);
     }
@@ -64,19 +68,9 @@ int CheckFileFormat(FILE *pFile)
 
 int LoadResourceFromELF(const char *pszName, CLSModule **ppDest)
 {
-#ifdef _ELASTOS64
-    Elf64_Ehdr      ehdr;
-    Elf64_Shdr      *shdr         = NULL;
-    Elf64_Shdr      *pTemShdr     = NULL;
-
-    #define Elf32_64_Ehdr   sizeof(Elf64_Ehdr)
-#else
-    Elf32_Ehdr      ehdr;
-    Elf32_Shdr      *shdr         = NULL;
-    Elf32_Shdr      *pTemShdr     = NULL;
-
-    #define Elf32_64_Ehdr   sizeof(Elf32_Ehdr)
-#endif
+    Elf32_64_Ehdr   ehdr;
+    Elf32_64_Shdr   *shdr         = NULL;
+    Elf32_64_Shdr   *pTemShdr     = NULL;
     ModuleRscStruct *pRsc         = NULL;
     FILE            *pFile        = NULL;
     char            *pStringTable = NULL;
@@ -107,7 +101,7 @@ int LoadResourceFromELF(const char *pszName, CLSModule **ppDest)
         _ReturnError (CLSError_OpenFile);
     }
 
-    if ((cnt = fread((char *)&ehdr, 1, Elf32_64_Ehdr, pFile)) < 0) {
+    if ((cnt = fread((char *)&ehdr, 1, sizeof(Elf32_64_Ehdr), pFile)) < 0) {
         ExtraMessage("fread() failed!");
         _ReturnError (CLSError_OpenFile);
     }
@@ -117,7 +111,7 @@ int LoadResourceFromELF(const char *pszName, CLSModule **ppDest)
         _ReturnError (CLSError_OpenFile);
     }
 
-    secHeader = (char *)malloc(Elf32_64_Ehdr * ehdr.e_shnum);
+    secHeader = (char *)malloc(sizeof(Elf32_64_Shdr) * ehdr.e_shnum);
 
     if(NULL == secHeader){
         ExtraMessage("malloc() failed!");
@@ -125,18 +119,13 @@ int LoadResourceFromELF(const char *pszName, CLSModule **ppDest)
         goto reterr;
     }
 
-    if ((cnt = fread(secHeader, 1, ehdr.e_shnum * Elf32_64_Ehdr, pFile)) < 0) {
+    if ((cnt = fread(secHeader, 1, ehdr.e_shnum * sizeof(Elf32_64_Shdr), pFile)) < 0) {
         ExtraMessage("fread() failed!");
         nRet = CLSError_OpenFile;
         goto reterr;
     }
 
-#ifdef _ELASTOS64
-    shdr         = (Elf64_Shdr *)secHeader;
-#else
-    shdr         = (Elf32_Shdr *)secHeader;
-#endif
-
+    shdr         = (Elf32_64_Shdr *)secHeader;
     pTemShdr     = shdr + ehdr.e_shstrndx;
     pStringTable = (char *)malloc(pTemShdr->sh_size);
 

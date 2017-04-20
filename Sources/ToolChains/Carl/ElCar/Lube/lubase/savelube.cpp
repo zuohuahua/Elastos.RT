@@ -26,24 +26,24 @@
 class CLubeBuffer
 {
 public:
-    int Flat(PLUBEHEADER pLube, char *pBuffer);
+    size_t Flat(PLUBEHEADER pLube, char *pBuffer);
 
 private:
-    inline long WriteData(const void *pvData, int nSize);
-    inline long WriteString(const char *pString);
+    inline size_t WriteData(const void *pvData, size_t nSize);
+    inline size_t WriteString(const char *pString);
 
-    long WriteState(PSTATEDESC pDesc);
-    long WriteTemplate(LubeTemplate *);
+    size_t WriteState(PSTATEDESC pDesc);
+    size_t WriteTemplate(LubeTemplate *);
 
 private:
     PLUBEHEADER         m_pLube;
     char *              m_pBuffer;
-    long                 m_nOffset;
+    size_t              m_nOffset;
 };
 
-long CLubeBuffer::WriteData(const void *pvData, int nSize)
+size_t CLubeBuffer::WriteData(const void *pvData, size_t nSize)
 {
-    int nBegin = m_nOffset;
+    size_t nBegin = m_nOffset;
 
     memcpy(m_pBuffer + m_nOffset, pvData, nSize);
     m_nOffset += DST_ROUNDUP(nSize);
@@ -51,12 +51,12 @@ long CLubeBuffer::WriteData(const void *pvData, int nSize)
     return nBegin;
 }
 
-long CLubeBuffer::WriteString(const char *pString)
+size_t CLubeBuffer::WriteString(const char *pString)
 {
     return WriteData(pString, strlen(pString) + 1);
 }
 
-long CLubeBuffer::WriteState(PSTATEDESC pDesc)
+size_t CLubeBuffer::WriteState(PSTATEDESC pDesc)
 {
     StateDesc state;
 
@@ -74,7 +74,7 @@ long CLubeBuffer::WriteState(PSTATEDESC pDesc)
     return WriteData(&state, sizeof(StateDesc));
 }
 
-long CLubeBuffer::WriteTemplate(LubeTemplate *pTemplate)
+size_t CLubeBuffer::WriteTemplate(LubeTemplate *pTemplate)
 {
     LubeTemplate tmp;
 
@@ -86,9 +86,10 @@ long CLubeBuffer::WriteTemplate(LubeTemplate *pTemplate)
     return WriteData(&tmp, sizeof(LubeTemplate));
 }
 
-int CLubeBuffer::Flat(PLUBEHEADER pLube, char *pBuffer)
+size_t CLubeBuffer::Flat(PLUBEHEADER pLube, char *pBuffer)
 {
-    int *p, n;
+    size_t *p;
+    int n;
 
     m_pLube = pLube;
     m_pBuffer = pBuffer;
@@ -97,7 +98,7 @@ int CLubeBuffer::Flat(PLUBEHEADER pLube, char *pBuffer)
     pLube = (PLUBEHEADER)pBuffer;
     memcpy(pLube, m_pLube, sizeof(LubeHeader));
 
-    p = (int *)_alloca(pLube->cTemplates * sizeof(void*));
+    p = (size_t *)_alloca(pLube->cTemplates * sizeof(void*));
     for (n = 0; n < pLube->cTemplates; n++) {
         p[n] = WriteTemplate(pLube->ppTemplates[n]);
     }
@@ -106,9 +107,9 @@ int CLubeBuffer::Flat(PLUBEHEADER pLube, char *pBuffer)
     return m_nOffset;
 }
 
-int CalcStatementsSize(PSTATEDESC pDesc)
+size_t CalcStatementsSize(PSTATEDESC pDesc)
 {
-    int nSize = 0;
+    size_t nSize = 0;
 
     while (pDesc) {
         if (pDesc->pBlockette) {
@@ -120,9 +121,9 @@ int CalcStatementsSize(PSTATEDESC pDesc)
     return nSize;
 }
 
-int CalcTemplateSize(LubeTemplate *pTemplate)
+size_t CalcTemplateSize(LubeTemplate *pTemplate)
 {
-    int nSize = sizeof(LubeTemplate);
+    size_t nSize = sizeof(LubeTemplate);
 
     nSize += CalcStatementsSize(pTemplate->tRoot.pBlockette);
     nSize += DST_ROUNDUP(strlen(pTemplate->mName) + 1);
@@ -130,9 +131,10 @@ int CalcTemplateSize(LubeTemplate *pTemplate)
     return nSize;
 }
 
-int CalcLubeSize(PLUBEHEADER pLube)
+size_t CalcLubeSize(PLUBEHEADER pLube)
 {
-    int n, nSize = sizeof(LubeHeader);
+    size_t nSize = sizeof(LubeHeader);
+    int n;
 
     for (n = 0; n < pLube->cTemplates; n++) {
         nSize += CalcTemplateSize(pLube->ppTemplates[n]);
@@ -145,7 +147,7 @@ int CalcLubeSize(PLUBEHEADER pLube)
 int SaveLube(PLUBEHEADER pLube, const char *pszName)
 {
     FILE *pFile;
-    int nSize;
+    size_t nSize;
     char *pBuffer;
     CLubeBuffer buffer;
 

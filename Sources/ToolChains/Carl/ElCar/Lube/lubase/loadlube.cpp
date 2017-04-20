@@ -22,8 +22,17 @@
 #include <windows.h>
 #endif
 #include <malloc.h>
-#include <lube.h>
-#include "elf.h"
+#include <elf.h>
+
+#include "lube.h"
+
+#ifdef _ELASTOS64
+    #define Elf32_64_Ehdr   Elf64_Ehdr
+    #define Elf32_64_Shdr   Elf64_Shdr
+#else
+    #define Elf32_64_Ehdr   Elf32_Ehdr
+    #define Elf32_64_Shdr   Elf32_Shdr
+#endif
 
 #ifdef _linux
 #define _MAX_PATH 256
@@ -31,7 +40,7 @@
 
 static const char *s_pszLubePath = "";
 const char *g_pszOutputPath = "";
-static long s_nOffset;
+static size_t s_nOffset;
 
 static const CLSID CLSID_XOR_CallbackSink = \
 /* e724df56-e16a-4599-8edd-a97ab245d583 */
@@ -51,24 +60,24 @@ extern void DestroyAllLibraries();
 void RelocateState(PSTATEDESC pDesc)
 {
     if (pDesc->pBlockette) {
-        pDesc->pBlockette = (PSTATEDESC)((long)pDesc->pBlockette + s_nOffset);
+        pDesc->pBlockette = (PSTATEDESC)((size_t)pDesc->pBlockette + s_nOffset);
         RelocateState(pDesc->pBlockette);
     }
     if (pDesc->pNext) {
-        pDesc->pNext = (PSTATEDESC)((long)pDesc->pNext + s_nOffset);
+        pDesc->pNext = (PSTATEDESC)((size_t)pDesc->pNext + s_nOffset);
         RelocateState(pDesc->pNext);
     }
     if (pDesc->pvData) {
-        pDesc->pvData = (PVOID)((long)pDesc->pvData + s_nOffset);
+        pDesc->pvData = (PVOID)((size_t)pDesc->pvData + s_nOffset);
     }
 }
 
 void RelocateTemplate(LubeTemplate *pTemplate)
 {
-    pTemplate->mName = (char *)((long)pTemplate->mName + s_nOffset);
+    pTemplate->mName = (char *)((size_t)pTemplate->mName + s_nOffset);
     if (pTemplate->tRoot.pBlockette) {
         pTemplate->tRoot.pBlockette = (PSTATEDESC)
-                    ((long)pTemplate->tRoot.pBlockette + s_nOffset);
+                    ((size_t)pTemplate->tRoot.pBlockette + s_nOffset);
         RelocateState(pTemplate->tRoot.pBlockette);
     }
 }
@@ -77,13 +86,13 @@ void RelocateLube(PLUBEHEADER pLube)
 {
     int n;
 
-    s_nOffset = (long)pLube;
+    s_nOffset = (size_t)pLube;
 
     pLube->ppTemplates = (LubeTemplate **)
-                ((long)pLube->ppTemplates + s_nOffset);
+                ((size_t)pLube->ppTemplates + s_nOffset);
     for (n = 0; n < pLube->cTemplates; n++) {
         pLube->ppTemplates[n] = (LubeTemplate *)
-                    ((long)pLube->ppTemplates[n] + s_nOffset);
+                    ((size_t)pLube->ppTemplates[n] + s_nOffset);
         RelocateTemplate(pLube->ppTemplates[n]);
     }
 }
@@ -156,60 +165,6 @@ ErrorExit:
 }
 #endif
 
-#if 0
-typedef	unsigned short		__uint16_t;
-typedef	unsigned int		__uint32_t;
-
-typedef __uint16_t	Elf32_Half;	/* Unsigned medium integer */
-typedef __uint32_t	Elf32_Word;	/* Unsigned large integer */
-typedef __uint32_t	Elf32_Addr;	/* Unsigned program address */
-typedef __uint32_t	Elf32_Off;	/* Unsigned file offset */
-
-#define EI_MAG0		0		/* file ID */
-#define EI_MAG1		1		/* file ID */
-#define EI_MAG2		2		/* file ID */
-#define EI_MAG3		3		/* file ID */
-#define EI_NIDENT   16
-
-#define	ELFMAG0		0x7f		/* e_ident[EI_MAG0] */
-#define	ELFMAG1		'E'		/* e_ident[EI_MAG1] */
-#define	ELFMAG2		'L'		/* e_ident[EI_MAG2] */
-#define	ELFMAG3		'F'		/* e_ident[EI_MAG3] */
-#define	ELFMAG		"\177ELF"	/* magic */
-
-typedef struct elfhdr {
-	unsigned char	e_ident[EI_NIDENT]; /* ELF Identification */
-	Elf32_Half	e_type;		/* object file type */
-	Elf32_Half	e_machine;	/* machine */
-	Elf32_Word	e_version;	/* object file version */
-	Elf32_Addr	e_entry;	/* virtual entry point */
-	Elf32_Off	e_phoff;	/* program header table offset */
-	Elf32_Off	e_shoff;	/* section header table offset */
-	Elf32_Word	e_flags;	/* processor-specific flags */
-	Elf32_Half	e_ehsize;	/* ELF header size */
-	Elf32_Half	e_phentsize;	/* program header entry size */
-	Elf32_Half	e_phnum;	/* number of program header entries */
-	Elf32_Half	e_shentsize;	/* section header entry size */
-	Elf32_Half	e_shnum;	/* number of section header entries */
-	Elf32_Half	e_shstrndx;	/* section header table's "section
-					   header string table" entry offset */
-} Elf32_Ehdr;
-
-typedef struct {
-	Elf32_Word	sh_name;	/* name - index into section header
-					   string table section */
-	Elf32_Word	sh_type;	/* type */
-	Elf32_Word	sh_flags;	/* flags */
-	Elf32_Addr	sh_addr;	/* address */
-	Elf32_Off	sh_offset;	/* file offset */
-	Elf32_Word	sh_size;	/* section size */
-	Elf32_Word	sh_link;	/* section header table index link */
-	Elf32_Word	sh_info;	/* extra information */
-	Elf32_Word	sh_addralign;	/* address alignment */
-	Elf32_Word	sh_entsize;	/* section entry size */
-} Elf32_Shdr;
-#endif
-
 typedef struct ModuleRscStruct {
     unsigned int    uSize;
 	const char      uClsinfo[0];
@@ -217,9 +172,9 @@ typedef struct ModuleRscStruct {
 
 int LoadLubeFromELF(const char *pszName, PLUBEHEADER *ppLube)
 {
-    Elf32_Ehdr      ehdr;
-    Elf32_Shdr      *shdr         = NULL;
-    Elf32_Shdr      *pTemShdr     = NULL;
+    Elf32_64_Ehdr   ehdr;
+    Elf32_64_Shdr   *shdr         = NULL;
+    Elf32_64_Shdr   *pTemShdr     = NULL;
     ModuleRscStruct *pRsc         = NULL;
     FILE            *pFile        = NULL;
     char            *pStringTable = NULL;
@@ -248,7 +203,7 @@ int LoadLubeFromELF(const char *pszName, PLUBEHEADER *ppLube)
         return LUBE_FAIL;
     }
 
-    if ((cnt = fread((char *)&ehdr, 1, sizeof(Elf32_Ehdr), pFile)) < 0) {
+    if ((cnt = fread((char *)&ehdr, 1, sizeof(Elf32_64_Ehdr), pFile)) < 0) {
         return LUBE_FAIL;
     }
 
@@ -256,19 +211,19 @@ int LoadLubeFromELF(const char *pszName, PLUBEHEADER *ppLube)
         return LUBE_FAIL;
     }
 
-    secHeader = (char *)malloc(sizeof(Elf32_Shdr) * ehdr.e_shnum);
+    secHeader = (char *)malloc(sizeof(Elf32_64_Shdr) * ehdr.e_shnum);
 
     if(NULL == secHeader){
         nRet = LUBE_FAIL;
         goto reterr;
     }
 
-    if ((cnt = fread(secHeader, 1, ehdr.e_shnum * sizeof(Elf32_Shdr), pFile)) < 0) {
+    if ((cnt = fread(secHeader, 1, ehdr.e_shnum * sizeof(Elf32_64_Shdr), pFile)) < 0) {
         nRet = LUBE_FAIL;
         goto reterr;
     }
 
-    shdr         = (Elf32_Shdr *)secHeader;
+    shdr         = (Elf32_64_Shdr *)secHeader;
     pTemShdr     = shdr + ehdr.e_shstrndx;
     pStringTable = (char *)malloc(pTemShdr->sh_size);
 
@@ -335,7 +290,8 @@ reterr:
 
 int LoadLubeFromFile(const char *pszName, PLUBEHEADER *ppLube)
 {
-    int nSize, nRet = LUBE_FAIL;
+    size_t nSize;
+    int nRet = LUBE_FAIL;
     FILE *pFile;
     PLUBEHEADER pLube;
 
@@ -348,6 +304,7 @@ int LoadLubeFromFile(const char *pszName, PLUBEHEADER *ppLube)
 #ifdef _linux
     fseek(pFile, 0, SEEK_END);
     nSize = ftell(pFile);
+    rewind (pFile);
 #else
     nSize = _filelength(pFile->_file);
 #endif
@@ -356,7 +313,10 @@ int LoadLubeFromFile(const char *pszName, PLUBEHEADER *ppLube)
         fprintf(stderr, "[ERROR] lube (0x0305 : Out of memory.\n");
         goto ErrorExit;
     }
-    fread(pLube, nSize, 1, pFile);
+    if (fread(pLube, nSize, 1, pFile) != nSize) {
+        fprintf(stderr, "[ERROR] lube (0x0304 : Can't open file %s.\n", pszName);
+        return LUBE_FAIL;
+    }
 
     nRet = RelocFlattedLube(pLube, nSize, ppLube);
     delete [] (char *)pLube;

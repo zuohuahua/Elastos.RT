@@ -21,7 +21,7 @@
 
 #include <clsbase.h>
 
-int CompressCLS(
+long CompressCLS(
     /* [in] */ void* dest)
 {
     CLSModule* destModule = (CLSModule *)dest;
@@ -42,9 +42,9 @@ int CompressCLS(
     _ReturnOK(dataSize + sizeof(CLSModule));
 }
 
-int UncompressCLS(
+long UncompressCLS(
     /* [in] */ const void* src,
-    /* [in] */ int size,
+    /* [in] */ long size,
     /* [in] */ CLSModule* destModule)
 {
     CLSModule* srcModule = (CLSModule *)src;

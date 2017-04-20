@@ -26,7 +26,16 @@
 #endif
 #include <sys/stat.h>
 #include <stdio.h>
+
 #include "elf.h"
+
+#ifdef _ELASTOS64
+    #define Elf32_64_Ehdr   Elf64_Ehdr
+    #define Elf32_64_Shdr   Elf64_Shdr
+#else
+    #define Elf32_64_Ehdr   Elf32_Ehdr
+    #define Elf32_64_Shdr   Elf32_Shdr
+#endif
 
 #ifdef _linux
 #define _stricmp  strcasecmp
@@ -34,60 +43,6 @@
 
 #define ALIGNMENT    0x8000
 #define NAMELEN  260
-
-#if 0
-typedef	unsigned short		__uint16_t;
-typedef	unsigned int		__uint32_t;
-
-typedef __uint16_t	Elf32_Half;	/* Unsigned medium integer */
-typedef __uint32_t	Elf32_Word;	/* Unsigned large integer */
-typedef __uint32_t	Elf32_Addr;	/* Unsigned program address */
-typedef __uint32_t	Elf32_Off;	/* Unsigned file offset */
-
-#define EI_MAG0		0		/* file ID */
-#define EI_MAG1		1		/* file ID */
-#define EI_MAG2		2		/* file ID */
-#define EI_MAG3		3		/* file ID */
-#define EI_NIDENT   16
-
-#define	ELFMAG0		0x7f		/* e_ident[EI_MAG0] */
-#define	ELFMAG1		'E'		/* e_ident[EI_MAG1] */
-#define	ELFMAG2		'L'		/* e_ident[EI_MAG2] */
-#define	ELFMAG3		'F'		/* e_ident[EI_MAG3] */
-#define	ELFMAG		"\177ELF"	/* magic */
-
-typedef struct elfhdr {
-	unsigned char	e_ident[EI_NIDENT]; /* ELF Identification */
-	Elf32_Half	e_type;		/* object file type */
-	Elf32_Half	e_machine;	/* machine */
-	Elf32_Word	e_version;	/* object file version */
-	Elf32_Addr	e_entry;	/* virtual entry point */
-	Elf32_Off	e_phoff;	/* program header table offset */
-	Elf32_Off	e_shoff;	/* section header table offset */
-	Elf32_Word	e_flags;	/* processor-specific flags */
-	Elf32_Half	e_ehsize;	/* ELF header size */
-	Elf32_Half	e_phentsize;	/* program header entry size */
-	Elf32_Half	e_phnum;	/* number of program header entries */
-	Elf32_Half	e_shentsize;	/* section header entry size */
-	Elf32_Half	e_shnum;	/* number of section header entries */
-	Elf32_Half	e_shstrndx;	/* section header table's "section
-					   header string table" entry offset */
-} Elf32_Ehdr;
-
-typedef struct {
-	Elf32_Word	sh_name;	/* name - index into section header
-					   string table section */
-	Elf32_Word	sh_type;	/* type */
-	Elf32_Word	sh_flags;	/* flags */
-	Elf32_Addr	sh_addr;	/* address */
-	Elf32_Off	sh_offset;	/* file offset */
-	Elf32_Word	sh_size;	/* section size */
-	Elf32_Word	sh_link;	/* section header table index link */
-	Elf32_Word	sh_info;	/* extra information */
-	Elf32_Word	sh_addralign;	/* address alignment */
-	Elf32_Word	sh_entsize;	/* section entry size */
-} Elf32_Shdr;
-#endif
 
 char *gbuf = NULL;
 
@@ -169,7 +124,7 @@ int CheckParam(char *pType)
     return utype;
 }
 
-int CheckFileFormat(int fd, Elf32_Ehdr *ehdr)
+int CheckFileFormat(int fd, Elf32_64_Ehdr *ehdr)
 {
     int cnt;
 
@@ -178,7 +133,7 @@ int CheckFileFormat(int fd, Elf32_Ehdr *ehdr)
         return RETFAIL;
     }
 
-    if ((cnt = read(fd, (char *)ehdr, sizeof(Elf32_Ehdr))) < 0) {
+    if ((cnt = read(fd, (char *)ehdr, sizeof(Elf32_64_Ehdr))) < 0) {
         printf("read() %s failed! <%s,line:%d>\n", __FUNCTION__, __LINE__);
         return RETFAIL;
     }
@@ -192,13 +147,13 @@ int CheckFileFormat(int fd, Elf32_Ehdr *ehdr)
     return 0;
 }
 
-void* ReadResourceSection(int fd, Elf32_Ehdr *ehdr)
+void* ReadResourceSection(int fd, Elf32_64_Ehdr *ehdr)
 {
     int cnt;
-    Elf32_Shdr *shdr;
+    Elf32_64_Shdr *shdr;
     char *pStringTable = NULL;
     char *pName;
-    Elf32_Shdr *pTemShdr;
+    Elf32_64_Shdr *pTemShdr;
     char *ptp = NULL;
 
    if (lseek(fd, ehdr->e_shoff, SEEK_SET) < 0) {
@@ -206,17 +161,17 @@ void* ReadResourceSection(int fd, Elf32_Ehdr *ehdr)
         goto reterr;
     }
 
-    gbuf = (char *)malloc(sizeof(Elf32_Shdr) * ehdr->e_shnum);
+    gbuf = (char *)malloc(sizeof(Elf32_64_Shdr) * ehdr->e_shnum);
     if(NULL == gbuf){
         printf("malloc() failed! <%s,line:%d>\n", __FUNCTION__, __LINE__);
         goto reterr;
     }
 
-    if ((cnt = read(fd, gbuf, ehdr->e_shnum * sizeof(Elf32_Shdr))) < 0) {
+    if ((cnt = read(fd, gbuf, ehdr->e_shnum * sizeof(Elf32_64_Shdr))) < 0) {
         printf("read() failed! <%s,line:%d>\n", __FUNCTION__, __LINE__);
         goto reterr;
     }
-    shdr = (Elf32_Shdr *)gbuf;
+    shdr = (Elf32_64_Shdr *)gbuf;
     pTemShdr = shdr + ehdr->e_shstrndx;
     pStringTable = (char *)malloc(pTemShdr->sh_size);
 
@@ -283,7 +238,7 @@ int main(int argc, char *argv[])
     char *pFile;
     int ret;
     int iType;
-    Elf32_Ehdr ehdr;
+    Elf32_64_Ehdr ehdr;
     const CarcodeStruct *pCarCode = NULL;
 
     if (argc == 2) {

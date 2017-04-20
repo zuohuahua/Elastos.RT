@@ -55,7 +55,7 @@ void DestroyStatement(PSTATEDESC pDesc)
 
 void DestroyLube(PLUBEHEADER pLube)
 {
-    for (int n = 0; n < pLube->cTemplates; n++) {
+    for (long n = 0; n < pLube->cTemplates; n++) {
         DestroyStatement(pLube->ppTemplates[n]->tRoot.pBlockette);
         delete [] pLube->ppTemplates[n]->mName;
         delete pLube->ppTemplates[n];
@@ -66,7 +66,7 @@ void DestroyLube(PLUBEHEADER pLube)
 
 void GetTemplateName(const char *pszName, char *pszBuf)
 {
-    int n = strlen(pszName) - 1;
+    long n = strlen(pszName) - 1;
 
     while (n >= 0) {
         if (IS_PATH_SEPARATOR(*(pszName + n))) break;
@@ -110,7 +110,7 @@ int FindTemplate(PLUBEHEADER pLube, const char *pszName)
     char szBuf[_MAX_PATH];
 
     GetTemplateName(pszName, szBuf);
-    for (int n = 0; n < pLube->cTemplates; n++) {
+    for (long n = 0; n < pLube->cTemplates; n++) {
         if (!_stricmp(szBuf, pLube->ppTemplates[n]->mName)) {
             return n;
         }

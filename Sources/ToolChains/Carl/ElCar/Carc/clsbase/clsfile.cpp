@@ -90,7 +90,7 @@ void SetLibraryPath(const char *pszPath)
 
 int SaveCLS(const char *pszName, const CLSModule *pModule)
 {
-    int nSize;
+    long nSize;
     FILE *pFile;
     void *pDest;
 
@@ -111,7 +111,8 @@ int SaveCLS(const char *pszName, const CLSModule *pModule)
 
 int LoadCLSFromFile(const char *pszName, CLSModule **ppDest)
 {
-    int r, nLength, nRet = CLSError_OutOfMemory;
+    int r, nRet = CLSError_OutOfMemory;
+    long nLength;
     FILE *pFile;
     CLSModule *pSrc;
 
