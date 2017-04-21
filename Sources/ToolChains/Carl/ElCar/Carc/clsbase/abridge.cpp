@@ -37,22 +37,22 @@ _ELASTOS_NAMESPACE_USING
 class CAbridgedBuffer
 {
 public:
-    int Prepare(const CLSModule *pModule);
+    size_t Prepare(const CLSModule *pModule);
     void GenerateAbridged(void *pvBuffer);
 
 private:
     inline long AllocData(int nSize);
-    inline void WriteData(int nOffset, void *pvData, int size);
-    inline void WriteParams(int nOffset, AbridgedParamsInfo c);
-    inline void WriteInt(int nOffset, int n);
-    inline int IWriteInfo(AbridgedInterfaceInfo *pEntry);
+    inline void WriteData(long nOffset, void *pvData, int size);
+    inline void WriteParams(long nOffset, AbridgedParamsInfo c);
+    inline void WriteInt(long nOffset, int n);
+    inline long IWriteInfo(AbridgedInterfaceInfo *pEntry);
     inline void CWriteInfo(AbridgedClassInfo *pEntry);
 
     AbridgedParamsInfo GetParamAttrib(DWORD attribs);
     AbridgedParamsInfo GetParamType(TypeDescriptor *pType,
                         DWORD attribs, unsigned char *pStackSize);
-    void WriteMethodInfo(int nAddr, MethodDescriptor *pDesc);
-    int WriteMethodInfos(int nAddr, InterfaceDescriptor *pDesc);
+    void WriteMethodInfo(long nAddr, MethodDescriptor *pDesc);
+    int WriteMethodInfos(long nAddr, InterfaceDescriptor *pDesc);
     int WriteClsIntfs(ClassDescriptor *pDesc, int interfaceCount);
     void WriteClasses();
     void WriteInterfaces();
@@ -96,24 +96,24 @@ long CAbridgedBuffer::AllocData(int nSize)
     return nOffset;
 }
 
-void CAbridgedBuffer::WriteParams(int nOffset, AbridgedParamsInfo c)
+void CAbridgedBuffer::WriteParams(long nOffset, AbridgedParamsInfo c)
 {
     *(AbridgedParamsInfo *)(m_pBuffer + nOffset) = c;
 }
 
-void CAbridgedBuffer::WriteInt(int nOffset, int n)
+void CAbridgedBuffer::WriteInt(long nOffset, int n)
 {
     *(int *)(m_pBuffer + nOffset) = n;
 }
 
-void CAbridgedBuffer::WriteData(int nOffset, void *pvData, int nSize)
+void CAbridgedBuffer::WriteData(long nOffset, void *pvData, int nSize)
 {
     memcpy(m_pBuffer + nOffset, pvData, nSize);
 }
 
-int CAbridgedBuffer::IWriteInfo(AbridgedInterfaceInfo *pInfo)
+long CAbridgedBuffer::IWriteInfo(AbridgedInterfaceInfo *pInfo)
 {
-    int nOffset = m_nInterfaceOffset;
+    long nOffset = m_nInterfaceOffset;
 
     memcpy(m_pBuffer + nOffset, pInfo, sizeof(AbridgedInterfaceInfo));
     m_nInterfaceOffset += sizeof(AbridgedInterfaceInfo);
@@ -251,7 +251,7 @@ AbridgedParamsInfo CAbridgedBuffer::GetParamType(
     return Param_Type_none;
 }
 
-void CAbridgedBuffer::WriteMethodInfo(int nAddr, MethodDescriptor *pDesc)
+void CAbridgedBuffer::WriteMethodInfo(long nAddr, MethodDescriptor *pDesc)
 {
     AbridgedParamsInfo param = 0;
     int n;
@@ -275,7 +275,7 @@ void CAbridgedBuffer::WriteMethodInfo(int nAddr, MethodDescriptor *pDesc)
     WriteData(nAddr, &entry, sizeof(AbridgedMethodInfo));
 }
 
-int CAbridgedBuffer::WriteMethodInfos(int nAddr, InterfaceDescriptor *pDesc)
+int CAbridgedBuffer::WriteMethodInfos(long nAddr, InterfaceDescriptor *pDesc)
 {
     int n;
 
@@ -316,7 +316,8 @@ void CAbridgedBuffer::WriteInterfaces()
 
 int CAbridgedBuffer::WriteClsIntfs(ClassDescriptor *pDesc, int interfaceCount)
 {
-    int n, nAddr, cLocal = 0;
+    int n, cLocal = 0;
+    long nAddr;
 
     nAddr = AllocData(interfaceCount * sizeof(AbridgedInterfaceInfo *));
 
@@ -515,9 +516,10 @@ int CAbridgedBuffer::TotalParamSize(InterfaceDescriptor *pDesc)
     return size;
 }
 
-int CAbridgedBuffer::Prepare(const CLSModule *pModule)
+size_t CAbridgedBuffer::Prepare(const CLSModule *pModule)
 {
-    int n, size;
+    int n;
+    size_t size;
 
     m_pModule = pModule;
 
@@ -552,7 +554,7 @@ int CAbridgedBuffer::Prepare(const CLSModule *pModule)
 
 int AbridgeCLS(const CLSModule *pModule, void **ppvAbrgCLS)
 {
-    int n;
+    size_t n;
     CAbridgedBuffer buffer;
     void *pvBuffer;
     CLSModule *pModuleTmp;

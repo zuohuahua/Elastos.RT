@@ -20,7 +20,12 @@
 #include <string.h>
 #include "clstype.h"
 
-const char * const MAGIC_STRING = "CAR ClassInfo\r\n\x1a";
+#ifdef _ELASTOS64
+const char * const MAGIC_STRING = "CAR ClassInfo64\x1a";
+#else
+const char * const MAGIC_STRING = "CAR ClassInfo32\x1a";
+#endif
+
 const int MAGIC_STRING_LENGTH = 16;
 const unsigned short MAJOR_VERSION = 5;
 const unsigned short MINOR_VERSION = 0;
