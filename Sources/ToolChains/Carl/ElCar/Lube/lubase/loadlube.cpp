@@ -304,7 +304,7 @@ int LoadLubeFromFile(const char *pszName, PLUBEHEADER *ppLube)
 #ifdef _linux
     fseek(pFile, 0, SEEK_END);
     nSize = ftell(pFile);
-    rewind (pFile);
+    rewind(pFile);
 #else
     nSize = _filelength(pFile->_file);
 #endif

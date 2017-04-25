@@ -93,7 +93,7 @@ size_t CLubeBuffer::Flat(PLUBEHEADER pLube, char *pBuffer)
 
     m_pLube = pLube;
     m_pBuffer = pBuffer;
-    m_nOffset = sizeof(LubeHeader);
+    m_nOffset = DST_ROUNDUP(sizeof(LubeHeader));
 
     pLube = (PLUBEHEADER)pBuffer;
     memcpy(pLube, m_pLube, sizeof(LubeHeader));
@@ -133,13 +133,13 @@ size_t CalcTemplateSize(LubeTemplate *pTemplate)
 
 size_t CalcLubeSize(PLUBEHEADER pLube)
 {
-    size_t nSize = sizeof(LubeHeader);
+    size_t nSize = DST_ROUNDUP(sizeof(LubeHeader));
     int n;
 
     for (n = 0; n < pLube->cTemplates; n++) {
         nSize += CalcTemplateSize(pLube->ppTemplates[n]);
     }
-    nSize += pLube->cTemplates * sizeof(LubeTemplate *);
+    nSize += (size_t)pLube->cTemplates * sizeof(LubeTemplate *);
 
     return nSize;
 }
