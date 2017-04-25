@@ -346,7 +346,11 @@ ECode CArrayBlockingQueue::GetHashCode(
     /* [out] */ Int32* hashCode)
 {
     VALIDATE_NOT_NULL(hashCode);
+#ifdef _ELASTOS64
+    *hashCode = *(Int32 *)this;
+#else
     *hashCode = (Int32)this;
+#endif
     return NOERROR;
 }
 

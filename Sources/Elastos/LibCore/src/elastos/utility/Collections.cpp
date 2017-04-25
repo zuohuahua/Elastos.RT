@@ -1752,7 +1752,11 @@ ECode Collections::_SynchronizedCollection::GetHashCode(
     /* [out] */ Int32* hashCode)
 {
     VALIDATE_NOT_NULL(hashCode);
+#ifdef _ELASTOS64
+    *hashCode = *(Int32 *)this;
+#else
     *hashCode = (Int32)this;
+#endif
     return NOERROR;
 }
 
@@ -3238,7 +3242,11 @@ ECode Collections::_UnmodifiableCollection::GetHashCode(
     /* [out] */ Int32* hashCode)
 {
     VALIDATE_NOT_NULL(hashCode);
+#ifdef _ELASTOS64
+    *hashCode = *(Int32 *)this;
+#else
     *hashCode = (Int32)this;
+#endif
     return NOERROR;
 }
 
@@ -6029,7 +6037,11 @@ ECode Collections::_AsLIFOQueue::GetHashCode(
     /* [out] */ Int32* hashCode)
 {
     VALIDATE_NOT_NULL(hashCode);
+#ifdef _ELASTOS64
+    *hashCode = *(Int32 *)this;
+#else
     *hashCode = (Int32)this;
+#endif
     return NOERROR;
 }
 
@@ -6231,7 +6243,11 @@ ECode Collections::_CheckedCollection::GetHashCode(
     /* [out] */ Int32* hashCode)
 {
     VALIDATE_NOT_NULL(hashCode);
+#ifdef _ELASTOS64
+    *hashCode = *(Int32 *)this;
+#else
     *hashCode = (Int32)this;
+#endif
     return NOERROR;
 }
 

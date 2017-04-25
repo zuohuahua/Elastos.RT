@@ -63,7 +63,11 @@ ECode ClassLoader::ToString(
     StringBuilder sb;
     if (mParent != NULL) {
         sb += "ClassLoader{0x";
+#ifdef _ELASTOS64
+        sb += StringUtils::ToHexString((Int64)this);
+#else
         sb += StringUtils::ToHexString((Int32)this);
+#endif
         sb += " ";
         for (Int32 i = 0; i < mClassPaths->GetLength(); i++) {
             if (i != 0) {
@@ -77,7 +81,11 @@ ECode ClassLoader::ToString(
     }
     else {
         sb += "ClassLoader{0x";
+#ifdef _ELASTOS64
+        sb += StringUtils::ToHexString((Int64)this);
+#else
         sb += StringUtils::ToHexString((Int32)this);
+#endif
         sb += " ";
         for (Int32 i = 0; i < mClassPaths->GetLength(); i++) {
             if (i != 0) {

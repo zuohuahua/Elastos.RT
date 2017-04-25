@@ -327,7 +327,11 @@ Int32 Object::GetHashCode(
 
     IObject* o = (IObject*)obj->Probe(EIID_IObject);
     if (o == NULL) {
+#ifdef _ELASTOS64
+        return *(Int32 *)obj;
+#else
         return (Int32)obj;
+#endif
     }
 
     Int32 hashcode = 0;
@@ -354,7 +358,11 @@ String Object::ToString(
 
     IObject* o = (IObject*)obj->Probe(EIID_IObject);
     if (o == NULL) {
+#ifdef _ELASTOS64
+        return StringUtils::ToHexString((Int64)obj);
+#else
         return StringUtils::ToHexString((Int32)obj);
+#endif
     }
 
     String str;

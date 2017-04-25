@@ -773,7 +773,11 @@ ECode CObjectProxy::GetHashCode(
     /* [out] */ Int32* hashCode)
 {
     if (hashCode == NULL) return E_INVALID_ARGUMENT;
+#ifdef _ELASTOS64
+    *hashCode = *(Int32 *)this;
+#else
     *hashCode = (Int32)this;
+#endif
     return NOERROR;
 }
 

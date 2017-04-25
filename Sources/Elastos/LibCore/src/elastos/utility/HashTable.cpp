@@ -603,7 +603,12 @@ ECode HashTable::_Values::GetHashCode(
     /* [out] */ Int32* value)
 {
     VALIDATE_NOT_NULL(value)
+#ifdef _ELASTOS64
+    *value = *(Int32 *)this;
+#else
     *value = (Int32)this;
+#endif
+
     return NOERROR;
 }
 

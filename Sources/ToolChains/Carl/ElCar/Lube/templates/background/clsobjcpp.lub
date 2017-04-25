@@ -101,7 +101,11 @@ ECode ${name}::GetHashCode(
     _ELASTOS Int32 * pHashCode)
 {
     if (NULL == pHashCode) return E_INVALID_ARGUMENT;
+#ifdef _ELASTOS64
+    *pHashCode = *(Int32 *)this;
+#else
     *pHashCode = (Int32)this;
+#endif
     return NOERROR;
 }
 
