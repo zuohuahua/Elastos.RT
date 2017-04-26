@@ -42,7 +42,11 @@ else
         source $XDK_SETUP_PATH/Config/$1.sh
 
         # Set command and build-tool lookup path
+    if [[ ! "$_ELASTOS64" == "" ]]; then
+        export XDK_TOOLS=$XDK_BUILD_PATH/Tools_64
+    else
         export XDK_TOOLS=$XDK_BUILD_PATH/Tools
+    fi
         #export XDK_COMMANDES=$XDK_ROOT/Commandes
         export PATH=.:$XDK_TOOLS:$PATH:
         #export PATH=.:$XDK_TOOLS:$XDK_COMMANDES:
