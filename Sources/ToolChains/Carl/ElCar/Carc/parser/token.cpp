@@ -110,6 +110,7 @@ static const KeywordToken s_keywords_e[] = {
     { "enum", Token_K_enum },
     { "enable", Token_K_enable },
     { "extends", Token_K_extends },
+    { "endif", Token_K_endif },
 };
 
 static const KeywordToken s_keywords_f[] = {
@@ -131,6 +132,7 @@ static const KeywordToken s_keywords_i[] = {
     { "in", Token_K_in },
     { "inherits", Token_K_inherits },
     { "interface", Token_K_interface },
+    { "ifdef", Token_K_ifdef },
 };
 
 static const KeywordToken s_keywords_l[] = {
@@ -708,6 +710,11 @@ CARToken PeekToken(FILE *fp)
         strcpy(g_szCurrentToken, szCurrentToken);
     }
     return s_peekToken;
+}
+
+void DiscardToken()
+{
+    s_peekToken = Token_Nothing;
 }
 
 /*

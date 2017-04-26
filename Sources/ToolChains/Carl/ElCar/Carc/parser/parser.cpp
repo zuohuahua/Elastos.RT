@@ -5786,6 +5786,7 @@ int P_UsingNamespace()
 
 int P_DeclNamespace();
 int P_Submodule();
+int P_Ifdef();
 
 // CAR_ELEM    -> INTERFACE | CLASS | ENUM | STRUCT | TYPEDEF |
 //                PRAGMA | IMPORT | IMPORTLIB | MERGE
@@ -5842,6 +5843,9 @@ int P_CARElement()
 
         case Token_K_submodule:
             return P_Submodule();
+
+        case Token_K_ifdef:
+            return P_Ifdef();
 
         default:
             return P_InterfaceAndClass(token);
@@ -5906,6 +5910,43 @@ int P_Submodule()
 
     GetToken(s_pFile); // skip "}"
     ChangeSubmodule(NULL);
+    return Ret_Continue;
+}
+
+// FILE -> k_ifdef string CAR_BODY k_endif
+int P_Ifdef()
+{
+    CARToken token;
+    char *pszIfdef;
+
+    if (GetToken(s_pFile) != Token_ident) {
+        ErrorReport(CAR_E_UnexpectSymbol, g_szCurrentToken);
+        return Ret_AbortOnError;
+    }
+
+    ChangeSubmodule(g_szCurrentToken);
+    pszIfdef = getenv(g_szCurrentToken);
+printf("==================pszIfdef  %s  : %s length: %d\n", g_szCurrentToken, pszIfdef, strlen(pszIfdef));
+    if ((pszIfdef != NULL) && (*pszIfdef != '\0')) {
+printf("===111111111===============pszIfdef    : %s\n", pszIfdef);
+        do {
+            if (P_CARElement() == Ret_AbortOnError) {
+                return Ret_AbortOnError;
+            }
+            token = PeekToken(s_pFile);
+        } while (Token_K_endif != token);
+    }
+    else {
+printf("===22222222222===============pszIfdef    : %s\n", pszIfdef);
+        do {
+            DiscardToken();
+            token = PeekToken(s_pFile);
+        } while (Token_K_endif != token);
+
+    }
+
+    GetToken(s_pFile); // skip "endif"
+
     return Ret_Continue;
 }
 

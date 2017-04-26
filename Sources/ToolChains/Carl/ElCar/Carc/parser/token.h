@@ -77,6 +77,8 @@ typedef enum CARToken {
 
     Token_K_true,           Token_K_false,          Token_K_null,
 
+    Token_K_ifdef,          Token_K_endif,
+
     // Others --> Token_xxx
     Token_others    = 10000,
     Token_uunm,             Token_ident,            Token_integer,
@@ -99,6 +101,7 @@ extern void TokenInit();
 extern CARToken GetToken(FILE *);
 extern char GetNextChar(FILE *);
 extern CARToken PeekToken(FILE *);
+extern void DiscardToken();
 extern CARToken GetUunm(FILE *);
 extern void * SaveTokenContext();
 extern void RestoreTokenContext(void *);

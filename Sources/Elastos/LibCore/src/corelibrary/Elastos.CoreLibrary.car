@@ -39,9 +39,11 @@ module
 //    merge("../../car/elastos/security.car");
 //    }
 
-//    submodule Elastos.CoreLibrary.IO {
-//    merge("../../car/elastos/io.car");
-//    }
+ifdef USING_ELASTOS_LIBCORE_IO
+      submodule Elastos.CoreLibrary.IO {
+      merge("../../car/elastos/io.car");
+      }
+endif
 
 //    submodule Elastos.CoreLibrary.Net {
 //    merge("../../car/elastos/net.car");

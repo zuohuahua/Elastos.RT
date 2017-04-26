@@ -15,7 +15,12 @@
 #=========================================================================
 
 DIRS = core
-#DIRS += io
+
+USING_ELASTOS_LIBCORE_IO := $(USING_ELASTOS_LIBCORE_IO)
+ifdef USING_ELASTOS_LIBCORE_IO
+    DIRS += io
+endif
+
 DIRS += math
 #DIRS += net
 #DIRS += security
