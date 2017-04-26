@@ -43,19 +43,11 @@ inline int RoundUp8(int n)
 }
 
 #ifdef _ELASTOS64
-    inline size_t Size_t_RoundUp8(size_t n)
-    {
-        return ((n) + 8 - 1) & ~(8 - 1);
-    }
-
-    #define DST_ROUNDUP     Size_t_RoundUp8
+    // round up to multiple of 8 bytes
+    #define DST_ROUNDUP(n)     (((n) + 8 - 1) & ~(8 - 1))
 #else
-    inline size_t Size_t_RoundUp4(size_t n)
-    {
-        return ((n) + 4 - 1) & ~(4 - 1);
-    }
-
-    #define DST_ROUNDUP     Size_t_RoundUp4
+    // round up to multiple of 4 bytes
+    #define DST_ROUNDUP(n)     (((n) + 4 - 1) & ~(4 - 1))
 #endif
 
 extern int sCLSErrorNumber;
