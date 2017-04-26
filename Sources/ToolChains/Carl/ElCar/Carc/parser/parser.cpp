@@ -5924,11 +5924,8 @@ int P_Ifdef()
         return Ret_AbortOnError;
     }
 
-    ChangeSubmodule(g_szCurrentToken);
     pszIfdef = getenv(g_szCurrentToken);
-printf("==================pszIfdef  %s  : %s length: %d\n", g_szCurrentToken, pszIfdef, strlen(pszIfdef));
     if ((pszIfdef != NULL) && (*pszIfdef != '\0')) {
-printf("===111111111===============pszIfdef    : %s\n", pszIfdef);
         do {
             if (P_CARElement() == Ret_AbortOnError) {
                 return Ret_AbortOnError;
@@ -5937,7 +5934,6 @@ printf("===111111111===============pszIfdef    : %s\n", pszIfdef);
         } while (Token_K_endif != token);
     }
     else {
-printf("===22222222222===============pszIfdef    : %s\n", pszIfdef);
         do {
             DiscardToken();
             token = PeekToken(s_pFile);
