@@ -42,11 +42,12 @@ else
         source $XDK_SETUP_PATH/Config/$1.sh
 
         # Set command and build-tool lookup path
-    if [[ ! "$_ELASTOS64" == "" ]]; then
-        export XDK_TOOLS=$XDK_BUILD_PATH/Tools_64
-    else
-        export XDK_TOOLS=$XDK_BUILD_PATH/Tools
-    fi
+        if [[ ! "$_ELASTOS64" == "" ]]; then
+            export XDK_TOOLS=$XDK_BUILD_PATH/Tools_64
+        else
+            export XDK_TOOLS=$XDK_BUILD_PATH/Tools
+        fi
+
         #export XDK_COMMANDES=$XDK_ROOT/Commandes
         export PATH=.:$XDK_TOOLS:$PATH:
         #export PATH=.:$XDK_TOOLS:$XDK_COMMANDES:
@@ -124,12 +125,22 @@ else
             cd $XDK_SOURCE_PATH
 
             #set title
-            if [ -z "$XDK_TARGET_PRODUCT" ]; then
-                TITLE=$XDK_TARGET_PLATFORM-$XDK_TARGET_CPU.$XDK_COMPILER-$XDK_VERSION
+            if [[ ! "$_ELASTOS64" == "" ]]; then
+                TITLE="64"
+                GREEN="$(tput setab 17)"
+                RESET="$(tput sgr0)"
             else
-                TITLE=$XDK_TARGET_PLATFORM-$XDK_TARGET_CPU.$XDK_COMPILER-$XDK_TARGET_PRODUCT-$XDK_VERSION
+                TITLE="32"
+                GREEN="$(tput setab 2)"
+                RESET="$(tput sgr0)"
             fi
-            export PS1='\[\e]0;$TITLE \w\a\]${debian_chroot:+($debian_chroot)}\w\$ '
+
+            if [ -z "$XDK_TARGET_PRODUCT" ]; then
+                TITLE=$XDK_TARGET_PLATFORM-$XDK_TARGET_CPU.$XDK_COMPILER-$XDK_VERSION@$TITLE
+            else
+                TITLE=$XDK_TARGET_PLATFORM-$XDK_TARGET_CPU.$XDK_COMPILER-$XDK_TARGET_PRODUCT-$XDK_VERSION@$TITLE
+            fi
+            export PS1='\[\e]0;$TITLE \w\a\]${GREEN}${debian_chroot:+($debian_chroot)}\w\$ ${RESET}'
             #clear
         fi
 fi
