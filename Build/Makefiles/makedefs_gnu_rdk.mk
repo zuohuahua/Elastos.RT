@@ -191,7 +191,11 @@ else # "$(XDK_TARGET_FORMAT)" "elf"
           ECX_CRT_BEGIN=-Wl,-X
 
           DLL_CRT_BEGIN=-Wl,-X
-          DLL_CRT_END=$(GCC_LIB_PATH)/32/libgcc.a
+          ifdef _ELASTOS64
+            DLL_CRT_END=$(GCC_LIB_PATH)/libgcc.a
+          else
+            DLL_CRT_END=$(GCC_LIB_PATH)/32/libgcc.a
+          endif
     endif
     ifeq "$(XDK_TARGET_PLATFORM)" "android"
           DLL_FLAGS := $(DLL_FLAGS) -nostdlib -shared -fPIC -Wl,--gc-sections -Wl,--no-undefined,--no-undefined-version
