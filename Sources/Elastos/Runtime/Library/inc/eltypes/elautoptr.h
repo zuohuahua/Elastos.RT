@@ -208,7 +208,7 @@ template<typename T> template<typename U>
 AutoPtr<T>& AutoPtr<T>::operator = (AutoPtr<U>&& other)
 {
     T* mPtr_ = mPtr;
-    mPtr_ = other.mPtr;
+    mPtr = other.mPtr;
     other.mPtr = mPtr_;
 
     return *this;
