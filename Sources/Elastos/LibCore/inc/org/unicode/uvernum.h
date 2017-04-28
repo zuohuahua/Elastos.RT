@@ -85,7 +85,12 @@
  *  This value will change in the subsequent releases of ICU
  *  @stable ICU 2.6
  */
-#define U_ICU_VERSION_SUFFIX _52 //leiang, update for ubuntu because only the version 52 of icuuc lib found on ubuntu platform.
+//leiang, update for ubuntu because only the version 52 of icuuc lib found on ubuntu platform.
+#ifdef _ELASTOS64
+    #define U_ICU_VERSION_SUFFIX _55
+#else
+    #define U_ICU_VERSION_SUFFIX _52
+#endif
 
 /**
  * \def U_DEF2_ICU_ENTRY_POINT_RENAME
