@@ -58,36 +58,58 @@ inline Boolean operator _op_ (const U* o) const {               \
     return mPtr _op_ o;                                         \
 }
 
+
+// AutoPtr<T> holds a reference to an intrusively-refcounted object of type
+// T that deletes the object when the refcount drops to 0.
+//
+// T should be a subclass of Elastos::Core::Object, or something that adheres to
+// the same contract for AddRef() and Release().
+//
+// Except for initial construction (see below), this generally adheres to a
+// subset of the interface for std::shared_ptr<>. Unlike std::shared_ptr<> this
+// type does not support vending weak pointers, introspecting the reference
+// count, or any operations that would result in allocating memory (unless
+// T::AddRef or T::Release allocate memory).
+//
+
 template <typename T>
 class AutoPtr
 {
 public:
-    inline AutoPtr() : mPtr(0) {}
+    // Constructors
+    constexpr AutoPtr() : mPtr(nullptr) {}
+    constexpr AutoPtr(decltype(nullptr)) : AutoPtr() {}
 
-    AutoPtr(T* other);
+    // Constructs a RefPtr from a pointer that has already been adopted.
+    explicit AutoPtr(T* other);
+
+    // Copy construction.
     AutoPtr(const AutoPtr<T>& other);
     template<typename U> AutoPtr(U* other);
     template<typename U> AutoPtr(const AutoPtr<U>& other);
 
+    // Move construction
+    template<typename U> AutoPtr(AutoPtr<U>&& other);
+
     ~AutoPtr();
 
     // Assignment
-
     AutoPtr& operator = (T* other);
     AutoPtr& operator = (const AutoPtr<T>& other);
 
     template<typename U> AutoPtr& operator = (const AutoPtr<U>& other);
     template<typename U> AutoPtr& operator = (U* other);
 
-    // Accessors
+    // Move assignment
+    template<typename U> AutoPtr& operator = (AutoPtr<U>&& other);
 
+    // Accessors
     inline  T& operator* () const  { return *mPtr; }
     inline  T* operator-> () const { return mPtr;  }
     inline  T* Get() const         { return mPtr; }
     inline  operator T*() const { return mPtr; }
 
     // Operators
-
     AUTOPTR_COMPARE(==)
     AUTOPTR_COMPARE(!=)
     AUTOPTR_COMPARE(>)
@@ -128,6 +150,13 @@ AutoPtr<T>::AutoPtr(const AutoPtr<U>& other) : mPtr(other.mPtr)
     if (mPtr) mPtr->AddRef();
 }
 
+// Move construction
+template<typename T> template<typename U>
+AutoPtr<T>::AutoPtr(AutoPtr<U>&& other) : mPtr(other.mPtr)
+{
+    other.mPtr = nullptr;
+}
+
 template<typename T>
 AutoPtr<T>::~AutoPtr()
 {
@@ -137,6 +166,7 @@ AutoPtr<T>::~AutoPtr()
     }
 }
 
+// Assignment
 template<typename T>
 AutoPtr<T>& AutoPtr<T>::operator = (const AutoPtr<T>& other)
 {
@@ -149,6 +179,15 @@ AutoPtr<T>& AutoPtr<T>::operator = (const AutoPtr<T>& other)
 template<typename T>
 AutoPtr<T>& AutoPtr<T>::operator = (T* other)
 {
+    /* mAutoptr = nullptr
+     * will force delete the object mPtr?
+     *
+    if (other == nullptr) {
+        delete mPtr;
+        return nullptr;
+    }
+    */
+
     if (other) other->AddRef();
     if (mPtr) mPtr->Release();
     mPtr = other;
@@ -161,6 +200,17 @@ AutoPtr<T>& AutoPtr<T>::operator = (const AutoPtr<U>& other)
     if (other.mPtr) other.mPtr->AddRef();
     if (mPtr) mPtr->Release();
     mPtr = other.mPtr;
+    return *this;
+}
+
+// Move assignment
+template<typename T> template<typename U>
+AutoPtr<T>& AutoPtr<T>::operator = (AutoPtr<U>&& other)
+{
+    T* mPtr_ = mPtr;
+    mPtr_ = other.mPtr;
+    other.mPtr = mPtr_;
+
     return *this;
 }
 

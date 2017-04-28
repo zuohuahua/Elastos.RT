@@ -31,7 +31,7 @@ CAR_INTERFACE_IMPL(MiniEnumSet::MiniEnumSetIterator, Object, IIterator)
 MiniEnumSet::MiniEnumSetIterator::MiniEnumSetIterator(
     /* [in] */ IMiniEnumSet* host)
     : mHost(host)
-    , mLast(NULL)
+    , mLast(nullptr)
 {
     Int64 bits;
     mHost->GetBits(&bits);
@@ -89,7 +89,7 @@ const Int32 MiniEnumSet::MAX_ELEMENTS = 64;
 
 MiniEnumSet::MiniEnumSet()
     :EnumSet(EIID_IInterface)
-    , mEnums(NULL)
+    , mEnums(nullptr)
     , mSize(0)
     , mBits(0)
 {}

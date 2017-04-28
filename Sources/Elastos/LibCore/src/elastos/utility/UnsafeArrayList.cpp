@@ -23,7 +23,7 @@ CAR_INTERFACE_IMPL(UnsafeArrayList, AbstractList, IUnsafeArrayList)
 
 UnsafeArrayList::UnsafeArrayList()
     : mElementType(EIID_IInterface)
-    , mArray(NULL)
+    , mArray(nullptr)
     , mSize(0)
 {}
 

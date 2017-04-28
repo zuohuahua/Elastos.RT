@@ -28,7 +28,7 @@ CAR_INTERFACE_IMPL(CArrayOf, Object, IArrayOf)
 CAR_OBJECT_IMPL(CArrayOf)
 
 CArrayOf::CArrayOf()
-    : mElements(NULL)
+    : mElements(nullptr)
 {}
 
 CArrayOf::~CArrayOf()

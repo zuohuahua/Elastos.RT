@@ -34,7 +34,7 @@ HugeEnumSet::HugeEnumSetIterator::HugeEnumSetIterator(
     : mHost(host)
     , mIndex(0)
     , mMask(0)
-    , mLast(NULL)
+    , mLast(nullptr)
 {
     AutoPtr< ArrayOf<Int64> > bits;
     mHost->GetBits((ArrayOf<Int64>**)&bits);
@@ -108,8 +108,8 @@ const Int32 HugeEnumSet::BIT_IN_LONG = 64;
 
 HugeEnumSet::HugeEnumSet()
     : EnumSet(EIID_IInterface)
-    , mEnums(NULL)
-    , mBits(NULL)
+    , mEnums(nullptr)
+    , mBits(nullptr)
     , mSize(0)
 {
 }
