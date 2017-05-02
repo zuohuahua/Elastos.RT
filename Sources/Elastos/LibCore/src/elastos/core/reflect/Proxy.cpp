@@ -769,6 +769,15 @@ ECode CObjectProxy::GetClassID(
     return E_NOT_IMPLEMENTED;
 }
 
+ECode CObjectProxy::GetClassInfo(
+    /* [out] */ CIClassInfo** classInfo)
+{
+    assert(classInfo != NULL);
+
+    *classInfo = mInfo;
+    return NOERROR;
+}
+
 ECode CObjectProxy::GetHashCode(
     /* [out] */ Int32* hashCode)
 {
