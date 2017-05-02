@@ -90,7 +90,7 @@ const Int64 CPriorityQueue::sSerialVersionUID;
 
 const Int32 CPriorityQueue::DEFAULT_CAPACITY;
 
-const Double CPriorityQueue::DEFAULT_INIT_CAPACITY_RATIO;
+constexpr Double CPriorityQueue::DEFAULT_INIT_CAPACITY_RATIO;
 
 const Int32 CPriorityQueue::DEFAULT_CAPACITY_RATIO;
 

@@ -57,7 +57,7 @@ const Int32 HashMap::MAXIMUM_CAPACITY;
 
 INIT_PROI_1 const AutoPtr< ArrayOf<HashMap::HashMapEntry*> > HashMap::EMPTY_TABLE =  ArrayOf<HashMap::HashMapEntry*>::Alloc(MINIMUM_CAPACITY >> 1) ; // new HashMapEntry[MINIMUM_CAPACITY >> 1];
 
-const Float HashMap::DEFAULT_LOAD_FACTOR;
+constexpr Float HashMap::DEFAULT_LOAD_FACTOR;
 
 CAR_INTERFACE_IMPL_3(HashMap, AbstractMap, IHashMap, ICloneable, ISerializable)
 

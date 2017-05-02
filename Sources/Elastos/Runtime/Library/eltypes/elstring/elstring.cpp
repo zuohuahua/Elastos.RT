@@ -1208,7 +1208,7 @@ Int32 String::IndexOfIgnoreCase(Char32 target, Int32 start) const
             if (IsASCII(*p)) {
                 byteLength = 1;
                 if (p + byteLength >= pEnd) break;
-                if (*p == target || ToUpperCase(*p) == upperTarget)
+                if (*p == (char)target || ToUpperCase(*p) == upperTarget)
                     return i;
             }
             else {

@@ -55,4 +55,6 @@ module
     const E_CLASS_CAST_EXCEPTION                        = 0xA0200000;
 
     const E_ARRAY_STORE_EXCEPTION                       = 0xA0210000;
+
+    const E_NO_SUCH_ELEMENT_EXCEPTION                   = 0xAB000000;
 }

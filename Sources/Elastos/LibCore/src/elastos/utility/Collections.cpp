@@ -4863,6 +4863,7 @@ ECode Collections::Shuffle(
     CRandom::New((IRandom**)&r);
     return Shuffle(list, r);
 #endif
+    return NOERROR;
 }
 
 #if 0

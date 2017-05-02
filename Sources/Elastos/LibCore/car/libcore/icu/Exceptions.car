@@ -23,5 +23,5 @@ module
 
     //==========================================================================
     // Platform exception codes (Family: 0x2A)
-    const E_NO_SUCH_ELEMENT_EXCEPTION                       = 0xAB000000;
+    //const E_NO_SUCH_ELEMENT_EXCEPTION                       = 0xAB000000;
 }

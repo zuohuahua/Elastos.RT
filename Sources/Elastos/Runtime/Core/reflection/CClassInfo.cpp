@@ -776,7 +776,7 @@ ECode CClassInfo::HasInterfaceInfo(
         return E_INVALID_ARGUMENT;
     }
 
-    for (Int32 i = 0; i < mIFCount; i++) {
+    for (UInt32 i = 0; i < mIFCount; i++) {
         AutoPtr<IInterfaceInfo> obj;
         mInterfaceList->AcquireObjByIndex(i, (IInterface**)&obj);
         IInterfaceInfo* itfInfo = IInterfaceInfo::Probe(obj);
