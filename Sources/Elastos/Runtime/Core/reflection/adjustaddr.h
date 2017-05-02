@@ -90,6 +90,15 @@ inline ConstDirEntry* getConstDirAddr(
     return (ConstDirEntry*)((INTEGER_DST)dir[index] + base);
 }
 
+inline AnnotationDescriptor* getAnnotationDescAddr(
+    /* [in] */ size_t base,
+    /* [in] */ AnnotationDescriptor** desc,
+    /* [in] */ Int32 index)
+{
+    desc = (AnnotationDescriptor**)((INTEGER_DST)desc + base);
+    return (AnnotationDescriptor*)((INTEGER_DST)desc[index] + base);
+}
+
 inline MethodDescriptor* getMethodDescAddr(
     /* [in] */ long base,
     /* [in] */ MethodDescriptor** desc,
