@@ -27,7 +27,6 @@ using Elastos::Core::EIID_IEnum;
 // using Elastos::IO::IInputStream;
 // using Elastos::IO::IOutputStream;
 // using Elastos::IO::EIID_ISerializable;
-#define E_NO_SUCH_ELEMENT_EXCEPTION     0xAB000000
 
 namespace Elastos {
 namespace Utility {

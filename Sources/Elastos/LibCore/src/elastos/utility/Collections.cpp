@@ -33,7 +33,6 @@ using Elastos::Utility::Arrays;
 using Elastos::Utility::IArrayList;
 using Elastos::Utility::CArrayList;
 using Elastos::IO::EIID_ISerializable;
-#define E_NO_SUCH_ELEMENT_EXCEPTION     0xAB000000
 
 namespace Elastos {
 namespace Utility {

@@ -23,7 +23,6 @@ using Elastos::Core::EIID_ICloneable;
 using Elastos::IO::EIID_ISerializable;
 // using Elastos::IO::IDataOutput;
 // using Elastos::IO::IDataInput;
-#define E_NO_SUCH_ELEMENT_EXCEPTION     0xAB000000
 
 namespace Elastos {
 namespace Utility {

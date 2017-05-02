@@ -103,7 +103,7 @@ private void assertImmutable(Entry<String, String> entry) {
 #endif
 
 void assertImmutable(
-    /* [in] */ IMapEntry* entry) 
+    /* [in] */ IMapEntry* entry)
 {
     printf("\n== assertImmutable  start ==\n");
     AutoPtr<IInterface> value;
@@ -112,7 +112,8 @@ void assertImmutable(
 
     // try {
         value = NULL;
-        ECode ec = entry->SetValue(Convert("x"), (IInterface**)&value);
+        AutoPtr<ICharSequence> xCharseq = Convert("x");
+        ECode ec = entry->SetValue(xCharseq, (IInterface**)&value);
         if (SUCCEEDED(ec)) {
             // fail();
             printf("Don't come here! MapEntry SetValue success, value: %s\n", Object::ToString(value).string());
@@ -121,7 +122,9 @@ void assertImmutable(
     // }
     value = NULL;
     entry->GetValue((IInterface**)&value);
-    assertEquals(initialValue, Object::ToString(value));
+
+    String svalue = Object::ToString(value);
+    assertEquals(initialValue, svalue);
     printf("\n== assertImmutable  end ==\n");
 }
 
@@ -143,7 +146,7 @@ private void assertAllEntryMethodsReturnImmutableEntries(NavigableMap<String, St
 #endif
 
 void assertAllEntryMethodsReturnImmutableEntries(
-    /* [in] */ INavigableMap* map) 
+    /* [in] */ INavigableMap* map)
 {
     printf("\n== assertAllEntryMethodsReturnImmutableEntries  start ==\n");
     AutoPtr<IMapEntry> entry;
@@ -199,7 +202,7 @@ public void testEntrySetSetValue() {
 }
 #endif
 
-void testEntrySetSetValue() 
+void testEntrySetSetValue()
 {
     printf("\n=== testEntrySetSetValue ===\n");
     AutoPtr<ITreeMap> map;
@@ -292,7 +295,7 @@ public void testSubMapEntrySetSetValue() {
 }
 #endif
 
-void testSubMapEntrySetSetValue() 
+void testSubMapEntrySetSetValue()
 {
     printf("\n=== testSubMapEntrySetSetValue ===\n");
     AutoPtr<ITreeMap> map;
@@ -330,7 +333,7 @@ void testSubMapEntrySetSetValue()
     value = NULL;
     map->Get(Convert("A"), (IInterface**)&value);
     assertEquals("x", Object::ToString(value));
-    
+
     obj = NULL;
     iterator->GetNext((IInterface**)&obj);
     IMapEntry* entryB = IMapEntry::Probe(obj);
@@ -370,7 +373,7 @@ void testSubMapEntrySetSetValue()
 /**
  * Test that an Entry given by any method except entrySet() is immutable.
  */
-public void testExceptionsOnSetValue() 
+public void testExceptionsOnSetValue()
 {
     TreeMap<String, String> map = new TreeMap<String, String>();
     map.put("A", "a");
@@ -381,7 +384,7 @@ public void testExceptionsOnSetValue()
 }
 #endif
 
-void testExceptionsOnSetValue() 
+void testExceptionsOnSetValue()
 {
     printf("\n=== testExceptionsOnSetValue ===\n");
     AutoPtr<ITreeMap> map;
@@ -413,7 +416,7 @@ public void testExceptionsOnSubMapSetValue() {
 }
 #endif
 
-void testExceptionsOnSubMapSetValue() 
+void testExceptionsOnSubMapSetValue()
 {
     printf("\n=== testExceptionsOnSubMapSetValue ===\n");
     AutoPtr<ITreeMap> map;
@@ -457,7 +460,7 @@ public void testConcurrentModificationDetection() {
 }
 #endif
 
-void testConcurrentModificationDetection() 
+void testConcurrentModificationDetection()
 {
     printf("\n=== testConcurrentModificationDetection ===\n");
     AutoPtr<IMap> map;
@@ -508,7 +511,7 @@ public void testIteratorRemoves() {
 }
 #endif
 
-void testIteratorRemoves() 
+void testIteratorRemoves()
 {
     printf("\n=== testIteratorRemoves ===\n");
     AutoPtr<IMap> map;

@@ -16,8 +16,6 @@
 
 #include "AbstractQueue.h"
 
-#define E_NO_SUCH_ELEMENT_EXCEPTION     0xAB000000
-
 namespace Elastos {
 namespace Utility {
 

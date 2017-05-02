@@ -18,6 +18,7 @@
 #include "CTreeMap.h"
 #include "Collections.h"
 #include "Math.h"
+#include "elaerror.h"
 
 using Elastos::Core::IComparable;
 using Elastos::Core::EIID_IComparable;
@@ -29,7 +30,6 @@ using Elastos::Core::EIID_ICloneable;
 // using Elastos::IO::IObjectInputStreamGetField;
 // using Elastos::IO::IOutputStream;
 // using Elastos::IO::IInputStream;
-#define E_NO_SUCH_ELEMENT_EXCEPTION     0xAB000000
 
 namespace Elastos {
 namespace Utility {
@@ -3072,7 +3072,7 @@ ECode CTreeMap::BoundedMap::GetCeilingEntry(
     if (res2 == NULL)
         return E_NO_SUCH_ELEMENT_EXCEPTION;
 
-    *outent = (IMapEntry*)res.Get();
+    *outent = (IMapEntry*)res2.Get();
     REFCOUNT_ADD(*outent)
     return NOERROR;
 }

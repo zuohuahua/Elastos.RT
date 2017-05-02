@@ -141,4 +141,9 @@
 //// must use a derived interface to connect
 #define E_CONNECT_OVERRIDDEN             RUNTIME_ERROR(0x2C) // 0x802C0000
 
+//==========================================================================
+// Macros and constants for CoreLibrary error codes
+//==========================================================================
+#define E_NO_SUCH_ELEMENT_EXCEPTION     0xAB000000
+
 #endif // __ELAERROR_H__

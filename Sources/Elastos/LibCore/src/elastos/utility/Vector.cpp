@@ -27,7 +27,6 @@ using Elastos::Core::EIID_ICloneable;
 using Elastos::Core::StringBuilder;
 using Elastos::Utility::Arrays;
 using Elastos::IO::EIID_ISerializable;
-#define E_NO_SUCH_ELEMENT_EXCEPTION     0xAB000000
 
 namespace Elastos {
 namespace Utility {
