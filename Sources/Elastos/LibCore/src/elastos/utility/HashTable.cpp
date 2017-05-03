@@ -1550,6 +1550,14 @@ Int32 HashTable::SecondaryHash(
     return h ^ ((UInt32)h >> 7) ^ ((UInt32)h >> 4);
 }
 
+/**
+ * Returns the smallest power of two >= its argument, with several caveats:
+ * If the argument is negative but not Integer.MIN_VALUE, the method returns
+ * zero. If the argument is > 2^30 or equal to Integer.MIN_VALUE, the method
+ * returns Integer.MIN_VALUE. If the argument is zero, the method returns
+ * zero.
+ * @hide
+ */
 Int32 HashTable::RoundUpToPowerOfTwo(
     /* [in] */ Int32 i)
 {
