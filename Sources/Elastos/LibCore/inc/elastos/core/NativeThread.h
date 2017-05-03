@@ -77,6 +77,14 @@ enum {
 #define kMaxThreadId        ((1 << 16) - 1)
 #define kMainThreadId       1
 
+/*
+ * Initialize a Lock to the proper starting value.
+ * This is necessary for thin locking.
+ */
+#define NATIVE_LOCK_INITIAL_THIN_VALUE (0)
+#define NATIVE_LOCK_INIT(lock) \
+    do { *(lock) = NATIVE_LOCK_INITIAL_THIN_VALUE; } while (0)
+
 struct NativeAttachArgs
 {
     Int32        mVersion;    /* must be >= JNI_VERSION_1_2 */
@@ -410,13 +418,6 @@ ELAPI_(void) NativeChangeThreadPriority(
     /* [in] */ Int32 newPriority);
 
 ELAPI_(Int32) NativeGetCount();
-
-
-// //sync
-ELAPI_(NativeObject*) NativeCreateObject();
-
-ELAPI_(void) NativeDestroyObject(
-    /* [in] */ NativeObject* obj);
 
 /*
  * Implements monitorenter for "synchronized" stuff.

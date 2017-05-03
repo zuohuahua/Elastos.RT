@@ -311,7 +311,7 @@ public:
         /* [in] */ IInterface* obj);
 
 public:
-    NativeObject* mNativeObject;
+    NativeObject mNativeObject;
     AutoPtr<IClassInfo> mClassInfo;
 };
 

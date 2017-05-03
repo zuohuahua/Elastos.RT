@@ -75,16 +75,6 @@ namespace Core {
 #define LW_LOCK_COUNT_SHIFT 19
 #define LW_LOCK_COUNT(x) (((x) >> LW_LOCK_COUNT_SHIFT) & LW_LOCK_COUNT_MASK)
 
-/*
- * Initialize a Lock to the proper starting value.
- * This is necessary for thin locking.
- */
-#define NATIVE_LOCK_INITIAL_THIN_VALUE (0)
-
-#define NATIVE_LOCK_INIT(lock) \
-    do { *(lock) = NATIVE_LOCK_INITIAL_THIN_VALUE; } while (0)
-
-
 static NativeThread* AllocThread(Int32 stackSize);
 static void SetThreadSelf(NativeThread* thread);
 static void AssignThreadId(NativeThread* thread);
@@ -2347,22 +2337,6 @@ static void InflateMonitor(
     thin |= (UInt32)mon | LW_SHAPE_FAT;
     /* Publish the updated lock word. */
 //    android_atomic_release_store(thin, (int32_t *)&obj->mLock);
-}
-
-NativeObject* NativeCreateObject()
-{
-    NativeObject* obj = (NativeObject*)calloc(1, sizeof(NativeObject));
-    if (obj == NULL) {
-        return NULL;
-    }
-    NATIVE_LOCK_INIT(&(obj)->mLock);
-    return obj;
-}
-
-void NativeDestroyObject(
-    /* [in] */ NativeObject* obj)
-{
-    free(obj);
 }
 
 /*

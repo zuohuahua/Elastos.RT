@@ -30,13 +30,13 @@ namespace Core {
 Object::Object()
 {
     IncrementDllLockCount();
-    mNativeObject = NativeCreateObject();
-    mNativeObject->mObjectObj = reinterpret_cast<Int64>(this);
+
+    NATIVE_LOCK_INIT(&(mNativeObject.mLock));
+    mNativeObject.mObjectObj = reinterpret_cast<Int64>(this);
 }
 
 Object::~Object()
 {
-    NativeDestroyObject(mNativeObject);
     DecrementDllLockCount();
 }
 
@@ -174,7 +174,7 @@ ECode Object::Lock()
     // the following codes should be remove
     AutoPtr<IThread> t;
     Thread::Attach((IThread**)&t);
-    return NativeLockObject(mNativeObject);
+    return NativeLockObject(&mNativeObject);
 }
 
 ECode Object::Unlock()
@@ -182,17 +182,17 @@ ECode Object::Unlock()
     // the following codes should be remove
     AutoPtr<IThread> t;
     Thread::Attach((IThread**)&t);
-    return NativeUnlockObject(mNativeObject);
+    return NativeUnlockObject(&mNativeObject);
 }
 
 ECode Object::Notify()
 {
-    return NativeObjectNotify(mNativeObject);
+    return NativeObjectNotify(&mNativeObject);
 }
 
 ECode Object::NotifyAll()
 {
-    return NativeObjectNotifyAll(mNativeObject);
+    return NativeObjectNotifyAll(&mNativeObject);
 }
 
 ECode Object::Wait()
@@ -210,7 +210,7 @@ ECode Object::Wait(
     /* [in] */ Int64 millis,
     /* [in] */ Int32 nanos)
 {
-    return NativeObjectWait(mNativeObject, millis, nanos, TRUE);
+    return NativeObjectWait(&mNativeObject, millis, nanos, TRUE);
 }
 
 ECode Object::GetWeakReference(
