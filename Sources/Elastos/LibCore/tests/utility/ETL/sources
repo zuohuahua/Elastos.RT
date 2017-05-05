@@ -19,6 +19,7 @@ TARGET_TYPE = ecx
 
 SOURCES = TreeMapTest.cpp
 SOURCES += testUtilityMain.cpp
+SOURCES += BitSetTest.cpp
 #SOURCES += test.cpp
 
 SOURCES += Elastos.CoreLibrary.cpp

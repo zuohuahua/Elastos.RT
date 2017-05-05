@@ -15,19 +15,14 @@
  */
 #include <elautoptr.h>
 #include <elastos/coredef.h>
-#include <Elastos.CoreLibrary.Utility.h>
-#include <Elastos.CoreLibrary.Core.h>
-#include <elastos/core/Object.h>
-#include "elastos/utility/AbstractMap.h"
+#include <elastos/core/StringUtils.h>
+#include <elastos/core/StringBuilder.h>
+#include <elastos/utility/etl/List.h>
+#include <elastos/utility/Arrays.h>
 
 using namespace Elastos;
-using namespace Elastos::Core;
-using namespace Elastos::Utility;
-using Elastos::Core::IInteger32;
-using Elastos::Core::CInteger32;
-using Elastos::Core::CString;
-using Elastos::Core::ICharSequence;
-using Elastos::Core::IComparator;
+using Elastos::Core::StringUtils;
+using Elastos::Core::Math;
 
 namespace Elastos {
 namespace Utility {
@@ -61,6 +56,16 @@ import java.util.BitSet;
 public class BitSetTest extends junit.framework.TestCase {
 #endif
 
+static void assertEquals(
+    /* [in] */ const char *hintMessage,
+    /* [in] */ const char *expecting,
+    /* [in] */ const String& toVerify)
+{
+    printf("[TESTCASE: %s] expecting: %s, toVerify: %s. \n", hintMessage, expecting, toVerify.string());
+    assert(toVerify.Equals(expecting) == TRUE);
+}
+
+#if 0
     public void test_toString() throws Exception {
         // From the RI javadoc.
         BitSet bs = new BitSet();
@@ -71,7 +76,21 @@ public class BitSetTest extends junit.framework.TestCase {
         bs.set(10);
         assertEquals("{2, 4, 10}", bs.toString());
     }
+#endif
+void test_toString()
+{
+    AutoPtr<IBitSet> bs;
+    CBitSet::New((IBitSet**)&bs);
 
+    assertEquals("test_toString", "{}", Object::ToString(bs));
+    bs->Set(2);
+    assertEquals("test_toString", "{2}", Object::ToString(bs));
+    bs->Set(4);
+    bs->Set(10);
+    assertEquals("test_toString", "{2, 4, 10}", Object::ToString(bs));
+}
+
+#if 0
     private static void assertBitSet(BitSet bs, long[] longs, String s) {
         for (int i = 0; i < 64 * longs.length; ++i) {
             assertEquals(bs.toString(), ((longs[i / 64] & (1L << (i % 64))) != 0), bs.get(i));
@@ -89,7 +108,42 @@ public class BitSetTest extends junit.framework.TestCase {
         assertEquals(64 * longs.length, bs.size());
         assertEquals(s, bs.toString());
     }
+#endif
+void assertBitSet(const char *hintMessage, IBitSet *bs, ArrayOf<Int64> *longs, String s)
+{
+    Int32 len;
 
+    len = longs->GetLength();
+
+    for (int i = 0; i < 64 * len; ++i) {
+        Boolean value;
+        bs->Get(i, &value);
+
+        if ((((*longs)[i / 64] & (1L << (i % 64))) != 0) == value) {
+            printf("[TESTCASE: %s] %s\n", hintMessage, Object::ToString(bs));
+        } else {
+            assert(0);
+        }
+
+    }
+
+    int cardinality = 0;
+    for (int i = 0; i < len; ++i) {
+        cardinality += Elastos::Core::Math::BitCount((*longs)[i]);
+    }
+    /*
+    if (cardinality != 0) {
+        assertFalse(bs.isEmpty());
+    } else {
+        assertTrue(bs.isEmpty());
+    }
+    assertEquals(cardinality, bs.cardinality());
+    assertEquals(64 * longs.length, bs.size());
+    assertEquals(s, Object::ToString(bs));
+    */
+}
+
+#if 0
     private static void assertBitSet(long[] longs, String s) {
         // Test BitSet.valueOf(long[]).
         assertBitSet(BitSet.valueOf(longs), longs, s);
@@ -108,6 +162,24 @@ public class BitSetTest extends junit.framework.TestCase {
             assertFalse(BitSet.valueOf(longs).equals(original));
         }
     }
+void assertBitSet(long[] longs, String s) {
+        // Test BitSet.valueOf(long[]).
+        assertBitSet(BitSet.valueOf(longs), longs, s);
+        // Test BitSet.valueOf(LongBuffer).
+        assertBitSet(BitSet.valueOf(LongBuffer.wrap(longs)), longs, s);
+        // Surround 'longs' with junk set bits but exclude them from the LongBuffer.
+        long[] paddedLongs = new long[1 + longs.length + 1];
+        paddedLongs[0] = paddedLongs[paddedLongs.length - 1] = -1L;
+        System.arraycopy(longs, 0, paddedLongs, 1, longs.length);
+        assertBitSet(BitSet.valueOf(LongBuffer.wrap(paddedLongs, 1, longs.length)), longs, s);
+
+        // Check that the long[] is copied.
+        if (longs.length > 0) {
+            BitSet original = BitSet.valueOf(longs);
+            longs[0] = ~longs[0];
+            assertFalse(BitSet.valueOf(longs).equals(original));
+        }
+}
 
     public void test_valueOf_long() throws Exception {
         assertBitSet(new long[0], "{}");
@@ -115,8 +187,14 @@ public class BitSetTest extends junit.framework.TestCase {
         assertBitSet(new long[] { 0x111L }, "{0, 4, 8}");
         assertBitSet(new long[] { 0x101L, 0x4000000000000000L }, "{0, 8, 126}");
     }
+void test_valueOf_long() throws Exception {
+        assertBitSet(new long[0], "{}");
+        assertBitSet(new long[] { 1L }, "{0}");
+        assertBitSet(new long[] { 0x111L }, "{0, 4, 8}");
+        assertBitSet(new long[] { 0x101L, 0x4000000000000000L }, "{0, 8, 126}");
+    }
 
-    private static void assertBitSet(BitSet bs, byte[] bytes, String s) {
+private static void assertBitSet(BitSet bs, byte[] bytes, String s) {
         for (int i = 0; i < 8 * bytes.length; ++i) {
             assertEquals(bs.toString(), ((bytes[i / 8] & (1L << (i % 8))) != 0), bs.get(i));
         }
@@ -270,4 +348,18 @@ public class BitSetTest extends junit.framework.TestCase {
         result.xor(big());
         assertEquals("{10, 1000}", result.toString());
     }
+#endif
+
+//==============================================================================
+
+EXTERN_C int mainBitSetTest(int argc, char *argv[])
+{
+    printf("\n==== libcore/utility/mainBitSetTest ====\n");
+    test_toString();
+    printf("\n==== end of libcore/utility/mainBitSetTest ====\n");
+
+    return 0;
 }
+
+} //namespace Utility
+} //namespace Elastos

@@ -18,12 +18,14 @@
 #include <elatypes.h>
 
 EXTERN_C int mainTreeMapTest(int argc, char *argv[]);
+EXTERN_C int mainBitSetTest(int argc, char *argv[]);
 
 int main(int argc, char *argv[])
 {
 	printf("\n begin utility toVerify\n");
 
     mainTreeMapTest(argc, argv);
+    mainBitSetTest(argc, argv);
 
     return 0;
 }
