@@ -20,7 +20,7 @@ module
     // Elastos.Utility
     //======================================================
     merge("utility/Exceptions.car");
-//    merge("utility/IBitSet.car");
+    merge("utility/IBitSet.car");
     merge("utility/IDate.car");
 //    merge("utility/ICalendar.car");
     merge("utility/IIterable.car");
@@ -262,7 +262,6 @@ module
     }
 
     [deprecated]
-/*
     class CBitSet {
         constructor();
 
@@ -280,7 +279,7 @@ module
     singleton class CBitSetHelper {
         interface IBitSetHelper;
     }
-*/
+
     class CEnumMap {
         constructor();
 

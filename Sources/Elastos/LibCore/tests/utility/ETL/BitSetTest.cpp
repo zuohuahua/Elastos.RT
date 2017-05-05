@@ -1,4 +1,39 @@
 /*
+ * Copyright (C) 2010 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+#include <elautoptr.h>
+#include <elastos/coredef.h>
+#include <Elastos.CoreLibrary.Utility.h>
+#include <Elastos.CoreLibrary.Core.h>
+#include <elastos/core/Object.h>
+#include "elastos/utility/AbstractMap.h"
+
+using namespace Elastos;
+using namespace Elastos::Core;
+using namespace Elastos::Utility;
+using Elastos::Core::IInteger32;
+using Elastos::Core::CInteger32;
+using Elastos::Core::CString;
+using Elastos::Core::ICharSequence;
+using Elastos::Core::IComparator;
+
+namespace Elastos {
+namespace Utility {
+
+#if 0
+/*
  * Copyright (C) 2011 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +56,11 @@ import java.nio.LongBuffer;
 import java.util.Arrays;
 import java.util.BitSet;
 
+
+
 public class BitSetTest extends junit.framework.TestCase {
+#endif
+
     public void test_toString() throws Exception {
         // From the RI javadoc.
         BitSet bs = new BitSet();
