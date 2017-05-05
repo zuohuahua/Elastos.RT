@@ -1487,7 +1487,9 @@ void NativeDetachCurrentThread()
      * parallel with us from here out.  It's important to do this if
      * profiling is enabled, since we can wait indefinitely.
      */
-//    android_atomic_release_store(NTHREAD_VMWAIT, (int32_t*)&self->mStatus);
+
+    __sync_synchronize();
+    self->mStatus = NTHREAD_VMWAIT;
 
     /*
      * If we're doing method trace profiling, we don't want threads to exit,
@@ -1674,7 +1676,10 @@ NativeThreadStatus NativeChangeStatus(
          * on SMP and slightly more correct, but less convenient.
          */
         assert(oldStatus != NTHREAD_RUNNING);
-//        android_atomic_acquire_store(newStatus, (int32_t*)&self->mStatus);
+
+        self->mStatus = newStatus;
+        __sync_synchronize();
+
         if (self->mSuspendCount != 0) {
             FullSuspendCheck(self);
         }
@@ -1688,7 +1693,9 @@ NativeThreadStatus NativeChangeStatus(
          * will be observed before the state change.
          */
         assert(newStatus != NTHREAD_SUSPENDED);
-//        android_atomic_release_store(newStatus, (int32_t*)&self->mStatus);
+
+        __sync_synchronize();
+        self->mStatus = newStatus;
     }
 
     return oldStatus;
@@ -1817,7 +1824,7 @@ static Monitor* NativeCreateMonitor(
         //LOGE("Unable to allocate monitor\n");
         //dvmAbort();
     }
-    if (((UInt32)mon & 7) != 0) {
+    if (((size_t)mon & 7) != 0) {
         //LOGE("Misaligned monitor: %p\n", mon);
         //dvmAbort();
     }
@@ -1827,9 +1834,7 @@ static Monitor* NativeCreateMonitor(
     /* replace the head of the list with the new monitor */
     do {
         mon->mNext = gCore.mMonitorList;
-    } while (!__sync_bool_compare_and_swap((int32_t*)(void*)&gCore.mMonitorList, (int32_t)mon->mNext, (int32_t)mon));
-    //} while (android_atomic_release_cas((int32_t)mon->mNext, (int32_t)mon,
-    //           (int32_t*)(void*)&gCore.mMonitorList) != 0);
+    } while (!__sync_bool_compare_and_swap((size_t*)(void*)&gCore.mMonitorList, (size_t)mon->mNext, (size_t)mon));
 
     return mon;
 }
@@ -2321,22 +2326,26 @@ static void InflateMonitor(
     /* [in] */ NativeObject *obj)
 {
     Monitor *mon;
-    UInt32 thin;
+    size_t thin;
 
     assert(self != NULL);
     assert(obj != NULL);
     assert(LW_SHAPE(obj->mLock) == LW_SHAPE_THIN);
     assert(LW_LOCK_OWNER(obj->mLock) == self->mThreadId);
+
     /* Allocate and acquire a new monitor. */
     mon = NativeCreateMonitor(obj);
     LockMonitor(self, mon);
+
     /* Propagate the lock state. */
     thin = obj->mLock;
     mon->mLockCount = LW_LOCK_COUNT(thin);
     thin &= LW_HASH_STATE_MASK << LW_HASH_STATE_SHIFT;
-    thin |= (UInt32)mon | LW_SHAPE_FAT;
+    thin |= (size_t)mon | LW_SHAPE_FAT;
+
     /* Publish the updated lock word. */
-//    android_atomic_release_store(thin, (int32_t *)&obj->mLock);
+    __sync_synchronize();
+    obj->mLock = thin;
 }
 
 /*
@@ -2348,7 +2357,7 @@ static void InflateMonitor(
 ECode NativeLockObject(
     /* [in] */ NativeObject *obj)
 {
-    volatile UInt32* thinp;
+    volatile size_t* thinp;
     NativeThreadStatus oldStatus;
     useconds_t sleepDelay;
     const useconds_t maxSleepDelay = 1 << 20;
@@ -2357,6 +2366,7 @@ ECode NativeLockObject(
     NativeThread* self = NativeThreadSelf();
     assert(self != NULL);
     assert(obj != NULL);
+
     threadId = self->mThreadId;
     thinp = &obj->mLock;
 retry:
@@ -2390,8 +2400,6 @@ retry:
              */
             newThin = thin | (threadId << LW_LOCK_OWNER_SHIFT);
             if (!__sync_bool_compare_and_swap((int32_t*)thinp, thin, newThin)) {
-            //if (android_atomic_acquire_cas(thin, newThin,
-            //        (int32_t*)thinp) != 0) {
                 /*
                  * The acquire failed.  Try again.
                  */
@@ -2424,8 +2432,6 @@ retry:
                          * owner field.
                          */
                         newThin = thin | (threadId << LW_LOCK_OWNER_SHIFT);
-                        //if (android_atomic_acquire_cas(thin, newThin,
-                        //        (int32_t *)thinp) == 0) {
                         if (__sync_bool_compare_and_swap((int32_t *)thinp, thin, newThin)) {
                             /*
                              * The acquire succeed.  Break out of the
@@ -2665,7 +2671,7 @@ ELAPI NativeObjectNotify(
     NativeThread* self = NativeThreadSelf();
     assert(self != NULL);
 
-    UInt32 thin = obj->mLock;
+    size_t thin = obj->mLock;
 
     /* If the lock is still thin, there aren't any waiters;
      * waiting on an object forces lock fattening.
@@ -2698,7 +2704,7 @@ ELAPI NativeObjectNotifyAll(
     NativeThread* self = NativeThreadSelf();
     assert(self != NULL);
 
-    UInt32 thin = obj->mLock;
+    size_t thin = obj->mLock;
 
     /* If the lock is still thin, there aren't any waiters;
      * waiting on an object forces lock fattening.

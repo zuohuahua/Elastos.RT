@@ -732,8 +732,9 @@ void Thread::NativeSetPriority(
 {
     NativeLockThreadList(NULL);
     NativeThread* thread = NativeGetThreadFromThreadObject(reinterpret_cast<Int64>(this));
-    if (thread != NULL)
+    if (thread != NULL) {
         NativeChangeThreadPriority(thread, priority);
+    }
     //dvmDumpAllThreads(false);
     NativeUnlockThreadList();
 }
