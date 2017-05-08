@@ -167,4 +167,15 @@ extern void RestoreErrorContext(void *);
 extern int g_nErrorNumber;
 extern int g_nWarningNumber;
 
+// Running Dbginfo, assist for .car debuging
+typedef struct tagRunningDbginfo {
+    void    *p;
+    char    *szSourceFile;
+    int      nLineNumber;;
+} RunningDbginfo;
+
+void AddRunningDbginfo(void *p);
+void FreeRunningDbginfo();
+RunningDbginfo *FindRunningDbginfo(void *p);
+
 #endif // __CARERR_H__

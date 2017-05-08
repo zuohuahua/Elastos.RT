@@ -16,6 +16,7 @@
 
 #include <stdarg.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <assert.h>
 
 #include "carc.h"
@@ -27,6 +28,9 @@ typedef struct ErrorMessage {
     CARErrorNo      err;
     const char *    pszMessage;
 } ErrorMessage;
+
+static RunningDbginfo *g_RunningDbginfo = nullptr;
+static int g_NumRunningDbginfo = 0;
 
 static ErrorMessage s_errorMessages[] = {
     { CAR_W_LocalResult, "Return type of method \"%s\" is not ECode." },
@@ -346,4 +350,43 @@ void CreateError(int r, const char *pszType, const char *pszName)
             assert(TRUE == FALSE);
             break;
     }
+}
+
+// Running Dbginfo, assist for .car debuging
+void AddRunningDbginfo(void *p)
+{
+    if ((g_NumRunningDbginfo % 32) == 0) {
+        g_RunningDbginfo = (RunningDbginfo *)realloc(g_RunningDbginfo, sizeof(RunningDbginfo) * (g_NumRunningDbginfo+32));
+    }
+
+    g_RunningDbginfo[g_NumRunningDbginfo].p = p;
+    g_RunningDbginfo[g_NumRunningDbginfo].szSourceFile = (char *)SaveErrorContext();
+    g_RunningDbginfo[g_NumRunningDbginfo].nLineNumber = g_nLineNumber;
+
+    g_NumRunningDbginfo++;
+}
+
+void FreeRunningDbginfo()
+{
+    int i;
+
+    for(i = 0;  i < g_NumRunningDbginfo;  i++) {
+        delete[] (char *)(g_RunningDbginfo[i].p);
+    }
+    free(g_RunningDbginfo);
+
+    g_RunningDbginfo = nullptr;
+    g_NumRunningDbginfo = 0;
+}
+
+RunningDbginfo *FindRunningDbginfo(void *p)
+{
+    int i;
+
+    for(i = 0;  i < g_NumRunningDbginfo;  i++) {
+        if (g_RunningDbginfo[i].p == p) {
+            return &g_RunningDbginfo[i];
+        }
+    }
+    return NULL;
 }

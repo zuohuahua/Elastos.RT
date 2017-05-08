@@ -1673,6 +1673,9 @@ int GenerateSinkInterface(
         //CreateError(n, "interfcace", szSinkName);
         return 0;
     }
+
+    AddRunningDbginfo(pModule->mInterfaceDirs[n]);
+
     pSinkDesc = pModule->mInterfaceDirs[n]->mDesc;
     pModule->mDefinedInterfaceIndexes[pModule->mDefinedInterfaceCount++] = n;
     InterfaceDescriptorCopy(pModule, pSrcDesc, pModule, pSinkDesc, TRUE);
@@ -4253,6 +4256,9 @@ int P_Interface(CARToken token, DWORD properties, int annotationCount, Annotatio
     strcat(pszFullName, g_szCurrentToken);
     r = CreateInterfaceDirEntry(pszFullName, s_pModule, attribs);
 
+    AddRunningDbginfo(s_pModule->mInterfaceDirs[r]);
+
+
     if (Token_S_semicolon == PeekToken(s_pFile)) {
         AddFrontDeclaration(pszFullName, Type_interface);
         free(pszFullName);
@@ -4275,6 +4281,7 @@ int P_Interface(CARToken token, DWORD properties, int annotationCount, Annotatio
         CreateError(r, "interface", g_szCurrentToken);
         return Ret_AbortOnError;
     }
+
     s_pModule->mInterfaceDirs[r]->mFileIndex = CreateFileDirEntry(GetSubmodule(), s_pModule);
     pDesc = s_pModule->mInterfaceDirs[r]->mDesc;
     pDesc->mAttribs = attribs;
@@ -4860,6 +4867,8 @@ int P_ClassInterface(ClassDirEntry *pClass)
     }
 
     n = CreateClassInterface(n, pDesc);
+    AddRunningDbginfo(pDesc->mInterfaces[n]);
+
     if (n < 0) {
         ErrorReport(CAR_E_DupEntry, "class interface", g_szCurrentToken);
         goto ErrorSkip;
@@ -6149,6 +6158,7 @@ ExitEntry:
 void InterfaceLastCheck(InterfaceDirEntry *pInterface)
 {
     char szSeedBuf[MAX_SEED_SIZE + 1];
+    RunningDbginfo *info;
 
     if (NULL != pInterface->mNameSpace && !strcmp(pInterface->mNameSpace, "systypes")) return;
 
@@ -6160,6 +6170,11 @@ void InterfaceLastCheck(InterfaceDirEntry *pInterface)
     if (!(pInterface->mDesc->mAttribs & InterfaceAttrib_defined)) {
         if (RetrieveInterface(pInterface->mName, NULL, s_pModule, TRUE) < 0) {
             ErrorReport(CAR_E_NotFound, "interface", pInterface->mName);
+
+            info = FindRunningDbginfo(pInterface);
+            if (info != NULL) {
+                printf("--> %s  Line: %d\n", info->szSourceFile, info->nLineNumber);
+            }
             // continue on error
         }
     }
