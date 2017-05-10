@@ -575,8 +575,6 @@ function emake ()
 
             export XDK_MAKEFILE=$XDK_BUILD_PATH/Makefiles/makefile_$XDK_BUILD_ENV.mk
 
-            export LD_LIBRARY_PATH=$XDK_BUILD_PATH/Tools
-
             if [ ! "${1%.car}" == "$1" ]; then
                 carc -i -c ${1%.car}.cls $1
                 if [ "$?" == "0" ]; then
@@ -616,7 +614,7 @@ function emake ()
                     local SECONDS=`echo $ELAPSED_TIME%60 | bc`
                     echo "Build finished, elapsed time: $HOURS Hours, $MINUTES Minutes, $SECONDS Seconds."
                 fi
-                unset XDK_MAKE XDK_MAKEFILE LD_LIBRARY_PATH XDK_EMAKE_DIR BUILD_VERBOSE TEST_COVERAGE
+                unset XDK_MAKE XDK_MAKEFILE XDK_EMAKE_DIR BUILD_VERBOSE TEST_COVERAGE
             fi
         fi
     fi
