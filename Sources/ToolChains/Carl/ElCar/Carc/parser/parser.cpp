@@ -1080,7 +1080,7 @@ int P_Enum()
         s_pModule->mEnumDirs[r]->mFileIndex = CreateFileDirEntry(GetSubmodule(), s_pModule);
     }
     else if (Token_S_semicolon == token) {
-        AddFrontDeclaration(pszFullName, Type_interface);
+        AddFrontDeclaration(pszFullName, Type_enum);
         free(pszFullName);
         if (r < 0 && r != CLSError_DupEntry) {
             CreateError(r, "enum", g_szCurrentToken);
@@ -4256,8 +4256,9 @@ int P_Interface(CARToken token, DWORD properties, int annotationCount, Annotatio
     strcat(pszFullName, g_szCurrentToken);
     r = CreateInterfaceDirEntry(pszFullName, s_pModule, attribs);
 
-    AddRunningDbginfo(s_pModule->mInterfaceDirs[r]);
-
+    if (r == (s_pModule->mInterfaceCount - 1)) {
+        AddRunningDbginfo(s_pModule->mInterfaceDirs[r]);
+    }
 
     if (Token_S_semicolon == PeekToken(s_pFile)) {
         AddFrontDeclaration(pszFullName, Type_interface);
