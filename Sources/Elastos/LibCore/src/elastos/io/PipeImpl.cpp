@@ -17,11 +17,11 @@
 #include "PipeImpl.h"
 #include "SocketChannelImpl.h"
 #include "IoUtils.h"
-#include "CLibcore.h"
+//#include "CLibcore.h"
 #include "OsConstants.h"
 
-using Libcore::IO::IoUtils;
-using Libcore::IO::CLibcore;
+//using Libcore::IO::IoUtils;
+//using Libcore::IO::CLibcore;
 using Elastos::IO::Channels::ISocketChannel;
 using Elastos::IO::Channels::EIID_ISinkChannel;
 using Elastos::IO::Channels::EIID_ISourceChannel;
@@ -58,7 +58,7 @@ ECode PipeImpl::PipeSourceChannel::ImplConfigureBlocking(
 {
     AutoPtr<IFileDescriptor> descriptor;
     FAIL_RETURN(GetFD((IFileDescriptor**)&descriptor))
-    return IoUtils::SetBlocking(descriptor, blocking);
+    //return IoUtils::SetBlocking(descriptor, blocking);
 }
 
 ECode PipeImpl::PipeSourceChannel::Read(
@@ -122,7 +122,7 @@ ECode PipeImpl::PipeSinkChannel::ImplConfigureBlocking(
 {
     AutoPtr<IFileDescriptor> desc;
     FAIL_RETURN(GetFD((IFileDescriptor**)&desc))
-    return IoUtils::SetBlocking(desc, blocking);
+    //return IoUtils::SetBlocking(desc, blocking);
 }
 
 ECode PipeImpl::PipeSinkChannel::Write(
@@ -169,7 +169,7 @@ PipeImpl::PipeImpl(
     CFileDescriptor::New((IFileDescriptor**)&fd1);
     AutoPtr<IFileDescriptor> fd2;
     CFileDescriptor::New((IFileDescriptor**)&fd2);
-    CLibcore::sOs->Socketpair(OsConstants::_AF_UNIX, OsConstants::_SOCK_STREAM, 0, fd1, fd2);
+    //CLibcore::sOs->Socketpair(OsConstants::_AF_UNIX, OsConstants::_SOCK_STREAM, 0, fd1, fd2);
 
     // It doesn't matter which file descriptor we use for which end;
     // they're guaranteed to be indistinguishable.

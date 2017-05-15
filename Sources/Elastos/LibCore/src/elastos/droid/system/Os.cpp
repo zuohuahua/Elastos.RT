@@ -17,7 +17,7 @@
 #include "Os.h"
 #include "CLibcore.h"
 
-using Libcore::IO::CLibcore;
+//using Libcore::IO::CLibcore;
 
 namespace Elastos {
 namespace Droid {

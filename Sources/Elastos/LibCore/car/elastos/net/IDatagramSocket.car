@@ -16,7 +16,7 @@
 
 module
 {
-    interface Elastos.IO.Channels.IDatagramChannel;
+    //interface Elastos.IO.Channels.IDatagramChannel;
     interface Elastos.Net.IDatagramPacket;
     interface Elastos.Net.IDatagramSocketImplFactory;
     interface Elastos.Net.IInetAddress;
@@ -403,8 +403,10 @@ module
          *
          * @sa java.nio.channels.DatagramChannel#open
          */
+         /*
         GetChannel(
             [out] IDatagramChannel** channel);
+        */
 
         GetFileDescriptor(
             [out] IFileDescriptor** fd);

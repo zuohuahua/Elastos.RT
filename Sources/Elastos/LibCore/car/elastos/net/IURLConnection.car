@@ -19,7 +19,7 @@ module
     interface Elastos.IO.IInputStream;
     interface Elastos.IO.IOutputStream;
     interface Elastos.Utility.IMap;
-    interface Elastos.Security.IPermission;
+    //interface Elastos.Security.IPermission;
     interface Elastos.Net.IURL;
     interface Elastos.Net.IFileNameMap;
     interface Elastos.Net.IContentHandlerFactory;
@@ -420,9 +420,10 @@ module
          * :-|:------------|
          * IOException | if an I/O error occurs while creating the permission object.
          */
+         /*
         GetPermission(
             [out] IPermission** perm);
-
+        */
         /**
          * Returns the value of the request header property specified by {code field}
          * or {null} if there is no field with this name. The base

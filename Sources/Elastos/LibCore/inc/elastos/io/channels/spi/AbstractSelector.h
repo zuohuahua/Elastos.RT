@@ -22,7 +22,7 @@
 
 using Elastos::Core::Runnable;
 using Elastos::IO::Channels::Selector;
-using Elastos::Utility::Concurrent::Atomic::IAtomicBoolean;
+//using Elastos::Utility::Concurrent::Atomic::IAtomicBoolean;
 
 namespace Elastos {
 namespace IO {
@@ -96,7 +96,7 @@ protected:
         /* [in] */ ISelectionKey* key);
 
 private:
-    AutoPtr<IAtomicBoolean> mIsOpen;
+//    AutoPtr<IAtomicBoolean> mIsOpen;
     AutoPtr<ISelectorProvider> mSelectorProvider;
     AutoPtr<ISet> mCancelledKeySet;
     AutoPtr<IRunnable> mWakeupRunnable;

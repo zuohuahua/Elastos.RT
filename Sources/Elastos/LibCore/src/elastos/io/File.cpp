@@ -22,10 +22,10 @@
 #include <elastos/utility/etl/Vector.h>
 #include "StringBuilder.h"
 #include "CSystem.h"
-#include "CRandom.h"
+//#include "CRandom.h"
 #include "OsConstants.h"
-#include "CLibcore.h"
-#include "DeleteOnExit.h"
+//#include "CLibcore.h"
+//#include "DeleteOnExit.h"
 #include "url/UrlUtils.h"
 #include "CURL.h"
 #include "CURI.h"
@@ -38,7 +38,7 @@
 
 using Elastos::Utility::Etl::List;
 using Elastos::Utility::Etl::Vector;
-using Elastos::Utility::CRandom;
+//using Elastos::Utility::CRandom;
 using Elastos::Core::StringBuilder;
 using Elastos::Core::CSystem;;
 using Elastos::Core::ISystem;
@@ -46,16 +46,16 @@ using Elastos::Core::EIID_IComparable;
 using Elastos::Net::CURL;
 using Elastos::Net::CURI;
 using Elastos::Droid::System::OsConstants;
-using Elastos::Droid::System::IStructStat;
+//using Elastos::Droid::System::IStructStat;
 // using Elastos::Droid::System::IStructStatFs;
-using Elastos::Droid::System::IStructStatVfs;
-using Libcore::IO::ILibcore;
-using Libcore::IO::CLibcore;
-using Libcore::IO::IoUtils;
-using Libcore::IO::IOs;
-using Libcore::IO::DeleteOnExit;
-using Libcore::IO::IDeleteOnExit;
-using Libcore::Net::Url::UrlUtils;
+//using Elastos::Droid::System::IStructStatVfs;
+//using Libcore::IO::ILibcore;
+//using Libcore::IO::CLibcore;
+//using Libcore::IO::IoUtils;
+//using Libcore::IO::IOs;
+//using Libcore::IO::DeleteOnExit;
+//using Libcore::IO::IDeleteOnExit;
+//using Libcore::Net::Url::UrlUtils;
 
 namespace Elastos {
 namespace IO {
@@ -74,8 +74,9 @@ const Char32 File::sPathSeparatorChar = ':';
 const String File::sSeparator = String("/");
 const String File::sPathSeparator = String(":");
 
-AutoPtr<IRandom> File::mTempFileRandom ;
+//AutoPtr<IRandom> File::mTempFileRandom ;
 
+#if 0
 AutoPtr<IRandom> File::GetTempFileRandom()
 {
     if (mTempFileRandom == NULL) {
@@ -83,9 +84,9 @@ AutoPtr<IRandom> File::GetTempFileRandom()
         CRandom::NewByFriend((CRandom**)&random);
         mTempFileRandom = (IRandom*)random.Get();
     }
-
     return mTempFileRandom;
 }
+#endif
 
 File::File()
 {}
@@ -269,6 +270,7 @@ Boolean File::DoAccess(
     /* [in] */ Int32 mode)
 {
     // try {
+#if 0
     AutoPtr<ILibcore> libcore;
     CLibcore::AcquireSingleton((ILibcore**)&libcore);
     AutoPtr<IOs> os;
@@ -277,6 +279,7 @@ Boolean File::DoAccess(
     if (SUCCEEDED(os->Access(mPath, mode, &result))) {
         return result;
     }
+#endif
     return FALSE;
     // } catch (ErrnoException errnoException) {
     //     return false;
@@ -323,6 +326,7 @@ ECode File::Delete(
 {
     VALIDATE_NOT_NULL(succeeded)
 
+#if 0
     // try {
     AutoPtr<ILibcore> libcore;
     CLibcore::AcquireSingleton((ILibcore**)&libcore);
@@ -333,6 +337,7 @@ ECode File::Delete(
         return NOERROR;
     }
     *succeeded = FALSE;
+#endif
     return NOERROR;
     // } catch (ErrnoException errnoException) {
     //     return false;
@@ -347,11 +352,14 @@ ECode File::Delete()
 
 ECode File::DeleteOnExit()
 {
+#if 0
     AutoPtr<IDeleteOnExit> doe;
     DeleteOnExit::GetInstance((IDeleteOnExit**)&doe);
     String path;
     GetAbsolutePath(&path);
     return doe->AddFile(path);
+#endif
+    return NOERROR;
 }
 
 ECode File::Equals(
@@ -414,10 +422,11 @@ ECode File::GetCanonicalPath(
     /* [out] */ String* path)
 {
     VALIDATE_NOT_NULL(path)
-
+#if 0
     String absolutePath;
     GetAbsolutePath(&absolutePath);
     *path = UrlUtils::CanonicalizePath(absolutePath, TRUE);
+#endif
     return NOERROR;
 }
 
@@ -505,7 +514,7 @@ ECode File::IsDirectory(
     /* [out] */ Boolean* isDirectory)
 {
     VALIDATE_NOT_NULL(isDirectory)
-
+#if 0
     // try {
     AutoPtr<ILibcore> libcore;
     CLibcore::AcquireSingleton((ILibcore**)&libcore);
@@ -519,6 +528,7 @@ ECode File::IsDirectory(
     Int32 mode;
     stat->GetMode(&mode);
     *isDirectory = OsConstants::S_IsDIR(mode);
+#endif
     return NOERROR;
     // } catch (ErrnoException errnoException) {
     //     // The RI returns false on error. (Even for errors like EACCES or ELOOP.)
@@ -530,6 +540,7 @@ ECode File::IsFile(
     /* [out] */ Boolean* isFile)
 {
     VALIDATE_NOT_NULL(isFile)
+#if 0
     // try {
     AutoPtr<ILibcore> libcore;
     CLibcore::AcquireSingleton((ILibcore**)&libcore);
@@ -543,6 +554,7 @@ ECode File::IsFile(
     Int32 mode;
     stat->GetMode(&mode);
     *isFile = OsConstants::S_IsREG(mode);
+#endif
     return NOERROR;
     // } catch (ErrnoException errnoException) {
     //     // The RI returns false on error. (Even for errors like EACCES or ELOOP.)
@@ -568,6 +580,7 @@ ECode File::GetLastModified(
     /* [out] */ Int64* time)
 {
     VALIDATE_NOT_NULL(time)
+#if 0
     // try {
     AutoPtr<ILibcore> libcore;
     CLibcore::AcquireSingleton((ILibcore**)&libcore);
@@ -581,6 +594,7 @@ ECode File::GetLastModified(
     Int64 mtime;
     stat->GetMtime(&mtime);
     *time = mtime * 1000LL;
+#endif
     return NOERROR;
     // } catch (ErrnoException errnoException) {
     //     // The RI returns 0 on error. (Even for errors like EACCES or ELOOP.)
@@ -692,6 +706,7 @@ Boolean File::DoChmod(
     /* [in] */ Int32 mask,
     /* [in] */ Boolean set)
 {
+#if 0
     // try {
     AutoPtr<ILibcore> libcore;
     CLibcore::AcquireSingleton((ILibcore**)&libcore);
@@ -707,6 +722,7 @@ Boolean File::DoChmod(
     if (FAILED(os->Chmod(mPath, newMode))) {
         return FALSE;
     }
+#endif
     return TRUE;
     // } catch (ErrnoException errnoException) {
     //     return false;
@@ -718,6 +734,7 @@ ECode File::GetLength(
 {
     VALIDATE_NOT_NULL(length)
     // try {
+#if 0
     AutoPtr<ILibcore> libcore;
     CLibcore::AcquireSingleton((ILibcore**)&libcore);
     AutoPtr<IOs> os;
@@ -730,6 +747,7 @@ ECode File::GetLength(
     Int64 size;
     stat->GetSize(&size);
     *length = size;
+#endif
     return NOERROR;
     // } catch (ErrnoException errnoException) {
     //     // The RI returns 0 on error. (Even for errors like EACCES or ELOOP.)
@@ -956,12 +974,15 @@ ECode File::Mkdir(
 
 ECode File::MkdirErrno()
 {
+#if 0
     //On Android, we don't want default permissions to allow global access.
     AutoPtr<ILibcore> libcore;
     CLibcore::AcquireSingleton((ILibcore**)&libcore);
     AutoPtr<IOs> os;
     libcore->GetOs((IOs**)&os);
     return os->Mkdir(mPath, OsConstants::_S_IRWXU);
+#endif
+    return NOERROR;
 }
 
 ECode File::Mkdirs(
@@ -999,6 +1020,7 @@ ECode File::CreateNewFile(
     VALIDATE_NOT_NULL(succeeded)
     *succeeded = FALSE;
 
+#if 0
     // try {
     // On Android, we don't want default permissions to allow global access.
 
@@ -1028,6 +1050,7 @@ ECode File::CreateNewFile(
     // } finally {
     IoUtils::Close(fd); // TODO: should we suppress IOExceptions thrown here?
     // }
+#endif
     return NOERROR;
 }
 
@@ -1048,6 +1071,7 @@ ECode File::CreateTempFile(
 {
     // Force a prefix null check first
     String _suffix = suffix;
+#if 0
     if (prefix.GetLength() < 3) {
         //throw new IllegalArgumentException("prefix must be at least 3 characters");
         return E_ILLEGAL_ARGUMENT_EXCEPTION;
@@ -1066,7 +1090,9 @@ ECode File::CreateTempFile(
     }
     AutoPtr<IFile> result;
     Boolean succeeded;
+#endif
     ECode ec = NOERROR;
+#if 0
     AutoPtr<IRandom> random = GetTempFileRandom();
     do {
         Int32 randomInt32;
@@ -1082,6 +1108,7 @@ ECode File::CreateTempFile(
         *file = result;
         REFCOUNT_ADD(*file);
     }
+#endif
     return ec;
 }
 
@@ -1092,7 +1119,7 @@ ECode File::RenameTo(
     VALIDATE_NOT_NULL(newPath)
     VALIDATE_NOT_NULL(succeeded)
     *succeeded = FALSE;
-
+#if 0
     // try {
     String path;
     newPath->GetPath(&path);
@@ -1101,6 +1128,7 @@ ECode File::RenameTo(
     AutoPtr<IOs> os;
     libcore->GetOs((IOs**)&os);
     *succeeded = SUCCEEDED(os->Rename(mPath, path)) ? TRUE : FALSE;
+#endif
     return NOERROR;
     // } catch (ErrnoException errnoException) {
     //     return false;
@@ -1211,6 +1239,7 @@ ECode File::GetTotalSpace(
     /* [out] */ Int64* space)
 {
     VALIDATE_NOT_NULL(space)
+#if 0
     // try {
     AutoPtr<ILibcore> libcore;
     CLibcore::AcquireSingleton((ILibcore**)&libcore);
@@ -1225,6 +1254,7 @@ ECode File::GetTotalSpace(
     sb->GetBlocks(&blocks);
     sb->GetBsize(&bsize);
     *space = blocks * bsize; // total block count * block size in bytes.
+#endif
     return NOERROR;
     // } catch (ErrnoException errnoException) {
     //     return 0;
@@ -1236,6 +1266,7 @@ ECode File::GetUsableSpace(
 {
     VALIDATE_NOT_NULL(space)
     // try {
+#if 0
     AutoPtr<ILibcore> libcore;
     CLibcore::AcquireSingleton((ILibcore**)&libcore);
     AutoPtr<IOs> os;
@@ -1249,6 +1280,7 @@ ECode File::GetUsableSpace(
     sb->GetBavail(&bavail);
     sb->GetBsize(&bsize);
     *space = bavail * bsize; // non-root free block count * block size in bytes.
+#endif
     return NOERROR;
     // } catch (ErrnoException errnoException) {
     //     return 0;
@@ -1259,6 +1291,7 @@ ECode File::GetFreeSpace(
     /* [out] */ Int64* space)
 {
     VALIDATE_NOT_NULL(space)
+#if 0
     // try {
     AutoPtr<ILibcore> libcore;
     CLibcore::AcquireSingleton((ILibcore**)&libcore);
@@ -1273,6 +1306,7 @@ ECode File::GetFreeSpace(
     sb->GetBfree(&bfree);
     sb->GetBsize(&bsize);
     *space = bfree * bsize; // free block count * block size in bytes.
+#endif
     return NOERROR;
     // } catch (ErrnoException errnoException) {
     //     return 0;

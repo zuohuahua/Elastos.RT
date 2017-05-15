@@ -14,7 +14,7 @@
 # limitations under the License.
 #=========================================================================
 
-DIRS = icu
+#DIRS = icu
 DIRS += io
-DIRS += net
-DIRS += utility
+#DIRS += net
+#DIRS += utility

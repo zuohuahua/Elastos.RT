@@ -16,7 +16,7 @@
 
 module
 {
-    interface Elastos.IO.Channels.IFileLock;
+    //interface Elastos.IO.Channels.IFileLock;
 
     namespace Elastos {
     namespace IO {
@@ -45,8 +45,10 @@ module
         * Non-API method to release a given lock on a file channel. Assumes that
         * the lock will mark itself invalid after successful unlocking.
         */
+        /*
         ReleaseLock(
             [in] IFileLock* lock);
+        */
 
         /*
         Force(

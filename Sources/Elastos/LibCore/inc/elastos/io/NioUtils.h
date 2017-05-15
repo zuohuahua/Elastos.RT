@@ -20,7 +20,7 @@
 #include "Buffer.h"
 #include "ByteBuffer.h"
 
-using Elastos::IO::Channels::IFileChannel;
+//using Elastos::IO::Channels::IFileChannel;
 
 namespace Elastos {
 namespace IO {
@@ -32,7 +32,7 @@ class NioUtils
 public:
     static CARAPI FreeDirectBuffer(
         /* [in] */ IByteBuffer* buffer);
-
+#if 0
     static AutoPtr<IFileDescriptor> GetFD(
         /* [in] */ IFileChannel* fc);
 
@@ -40,7 +40,7 @@ public:
         /* [in] */ ICloseable *stream,
         /* [in] */ IFileDescriptor *fd,
         /* [in] */ Int32 mode);
-
+#endif
     static AutoPtr<ArrayOf<Byte> > GetUnsafeArray(
         /* [in] */ IByteBuffer* b);
 

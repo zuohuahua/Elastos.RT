@@ -30,7 +30,7 @@ INCLUDES += $(MAKEDIR)/../../../inc/elastos;
 INCLUDES += $(MAKEDIR)/../../../inc/elastos/io;
 INCLUDES += $(MAKEDIR)/../../../inc/elastos/utility;
 INCLUDES += $(MAKEDIR)/../../../inc/elastos/utility/logging;
-INCLUDES += $(MAKEDIR)/../../../inc/libcore/io;
+#INCLUDES += $(MAKEDIR)/../../../inc/libcore/io;
 
 ELASTOS_LIBS += datatype/datatype.lib
 ELASTOS_LIBS += namespace/namespace.lib

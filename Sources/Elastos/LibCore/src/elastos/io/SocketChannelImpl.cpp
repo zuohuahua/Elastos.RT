@@ -23,14 +23,14 @@
 #include "Buffer.h"
 #include "Arrays.h"
 #include "FileChannelImpl.h"
-#include "CLibcore.h"
+//#include "CLibcore.h"
 #include "IoUtils.h"
 
 #include <elastos/core/AutoLock.h>
 using Elastos::Core::AutoLock;
-using Libcore::IO::IoBridge;
-using Libcore::IO::CLibcore;
-using Libcore::IO::IoUtils;
+//using Libcore::IO::IoBridge;
+//using Libcore::IO::CLibcore;
+//using Libcore::IO::IoUtils;
 using Elastos::Net::SocketUtils;
 using Elastos::Net::ISocketImpl;
 using Elastos::Net::EIID_ISocket;

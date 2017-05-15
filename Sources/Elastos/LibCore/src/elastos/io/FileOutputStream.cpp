@@ -20,18 +20,18 @@
 #include "IoBridge.h"
 #include "NioUtils.h"
 #include "OsConstants.h"
-#include "CLibcore.h"
+//#include "CLibcore.h"
 #include "IoBridge.h"
 #include "CFileDescriptor.h"
 #include "AutoLock.h"
 
 using Elastos::Droid::System::OsConstants;
 using Elastos::IO::NioUtils;
-using Libcore::IO::ILibcore;
-using Libcore::IO::CLibcore;
-using Libcore::IO::IOs;
-using Libcore::IO::IoUtils;
-using Libcore::IO::IoBridge;
+//using Libcore::IO::ILibcore;
+//using Libcore::IO::CLibcore;
+//using Libcore::IO::IOs;
+//using Libcore::IO::IoUtils;
+//using Libcore::IO::IoBridge;
 
 namespace Elastos {
 namespace IO {
@@ -78,7 +78,7 @@ ECode FileOutputStream::constructor(
         // throw new NullPointerException("file == null");
         return E_NULL_POINTER_EXCEPTION;
     }
-
+#if 0
     mMode = OsConstants::_O_WRONLY
         | OsConstants::_O_CREAT
         | (append ? OsConstants::_O_APPEND : OsConstants::_O_TRUNC);
@@ -86,6 +86,7 @@ ECode FileOutputStream::constructor(
     file->GetPath(&path);
     FAIL_RETURN(IoBridge::Open(path, mMode, (IFileDescriptor**)&mFd))
     mShouldClose = TRUE;
+#endif
     return NOERROR;
 }
 
@@ -96,10 +97,12 @@ ECode FileOutputStream::constructor(
 //        throw new NullPointerException("fd == null");
         return E_NULL_POINTER_EXCEPTION;
     }
+#if 0
     mFd = fd;
     mShouldClose = FALSE;
     mMode = OsConstants::_O_WRONLY;
     mChannel = NioUtils::NewFileChannel((ICloseable*)new _Closable(this), fd, mMode);
+#endif
     return NOERROR;
 }
 
@@ -122,7 +125,7 @@ ECode FileOutputStream::Close()
 {
     return CloseInner();
 }
-
+#if 0
 ECode FileOutputStream::GetChannel(
     /* [out] */ IFileChannel** channel)
 {
@@ -137,6 +140,7 @@ ECode FileOutputStream::GetChannel(
     REFCOUNT_ADD(*channel);
     return NOERROR;
 }
+#endif
 
 ECode FileOutputStream::GetFD(
     /* [out] */ IFileDescriptor** fd)
@@ -161,13 +165,16 @@ ECode FileOutputStream::Write(
     /* [in] */ Int32 byteOffset,
     /* [in] */ Int32 byteCount)
 {
+#if 0
     return IoBridge::Write(mFd, buffer, byteOffset, byteCount);
+#endif
+    return NOERROR;
 }
 
 ECode FileOutputStream::CloseInner()
 {
     AutoLock lock(this);
-
+#if 0
     if (mShouldClose) {
         return IoBridge::CloseAndSignalBlockedThreads(mFd);
     }
@@ -178,6 +185,7 @@ ECode FileOutputStream::CloseInner()
         CFileDescriptor::NewByFriend((CFileDescriptor**)&cfd);
         mFd = (IFileDescriptor*)cfd.Get();
     }
+#endif
     return NOERROR;
 }
 

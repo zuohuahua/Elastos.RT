@@ -19,7 +19,7 @@
 #include "InputStream.h"
 #include "OutputStream.h"
 #include "Charset.h"
-#include "CStreams.h"
+//#include "CStreams.h"
 #include "CInputStreamReader.h"
 #include "COutputStreamWriter.h"
 #include "elastos/core/Math.h"
@@ -28,8 +28,8 @@ using Elastos::IO::InputStream;
 using Elastos::IO::OutputStream;
 using Elastos::IO::COutputStreamWriter;
 using Elastos::IO::Charset::Charset;
-using Libcore::IO::IStreams;
-using Libcore::IO::CStreams;
+//using Libcore::IO::IStreams;
+//using Libcore::IO::CStreams;
 
 namespace Elastos {
 namespace IO {

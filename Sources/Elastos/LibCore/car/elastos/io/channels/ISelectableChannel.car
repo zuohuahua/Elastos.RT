@@ -16,7 +16,7 @@
 
 module
 {
-    interface Elastos.IO.Channels.Spi.ISelectorProvider;
+    //interface Elastos.IO.Channels.Spi.ISelectorProvider;
     interface Elastos.IO.Channels.ISelector;
     interface Elastos.IO.Channels.ISelectionKey;
 
@@ -109,8 +109,10 @@ module
          *
          * @return the provider of this channel.
          */
+        /*
         GetProvider(
             [out] ISelectorProvider** provider);
+        */
 
          /**
          * Registers this channel with the specified selector for the specified

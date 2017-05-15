@@ -34,7 +34,7 @@ INCLUDES += $(MAKEDIR)/../../../inc/elastos/utility;
 INCLUDES += $(MAKEDIR)/../../../inc/org;
 INCLUDES += $(MAKEDIR)/../../../inc/org/android_prebuilt;
 
-SOURCES = CAsynchronousCloseMonitor.cpp
+#SOURCES = CAsynchronousCloseMonitor.cpp
 SOURCES += CPosix.cpp
 SOURCES += NetworkUtilities.cpp
 SOURCES += SocketTagger.cpp

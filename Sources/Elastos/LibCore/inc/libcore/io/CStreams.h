@@ -17,7 +17,7 @@
 #ifndef __LIBCORE_IO_ELASTOS_IO_CSTREAMS_H__
 #define __LIBCORE_IO_ELASTOS_IO_CSTREAMS_H__
 
-#include "_Libcore_IO_CStreams.h"
+//#include "_Libcore_IO_CStreams.h"
 #include "elastos/core/Singleton.h"
 
 using Elastos::Core::Singleton;

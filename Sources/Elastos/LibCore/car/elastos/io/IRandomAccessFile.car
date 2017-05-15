@@ -16,7 +16,7 @@
 
 module
 {
-    interface Elastos.IO.Channels.IFileChannel;
+    //interface Elastos.IO.Channels.IFileChannel;
     interface Elastos.IO.IFileDescriptor;
 
     namespace Elastos {
@@ -51,8 +51,10 @@ module
          *
          * @return this file's file channel instance.
          */
+        /*
         GetChannel(
             [out] IFileChannel** channel);
+        */
 
         /**
          * Gets this file's FileDescriptor. This represents the operating

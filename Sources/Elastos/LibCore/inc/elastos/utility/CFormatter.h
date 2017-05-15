@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_UTILITY_CFORMATTER_H__
 #define __ELASTOS_UTILITY_CFORMATTER_H__
 
-#include "Elastos.CoreLibrary.Libcore.h"
+//#include "Elastos.CoreLibrary.Libcore.h"
 #include "_Elastos_Utility_CFormatter.h"
 #include "StringBuilder.h"
 #include <elastos/core/Object.h>
@@ -26,8 +26,8 @@ using Elastos::Core::Object;
 using Elastos::Core::IAppendable;
 using Elastos::Core::StringBuilder;
 using Elastos::Core::ICharSequence;
-using Libcore::ICU::ILocaleData;
-using Libcore::ICU::INativeDecimalFormat;
+//using Libcore::ICU::ILocaleData;
+//using Libcore::ICU::INativeDecimalFormat;
 using Elastos::IO::IFile;
 using Elastos::IO::IOutputStream;
 using Elastos::IO::IPrintStream;
@@ -65,13 +65,17 @@ public:
     public:
         CachedDecimalFormat();
 
+#if 0
         AutoPtr<INativeDecimalFormat> Update(
             /* [in] */ ILocaleData* localeData,
             /* [in] */ const String& pattern);
+#endif
 
     public:
+#if 0
         AutoPtr<INativeDecimalFormat> mDecimalFormat;
         AutoPtr<ILocaleData> mCurrentLocaleData;
+#endif
         String mCurrentPattern;
     };
 
@@ -608,9 +612,10 @@ public:
     CARAPI GetIoException();
 
 private:
+#if 0
     CARAPI_(AutoPtr<INativeDecimalFormat>) GetDecimalFormat(
         /* [in] */ const String& pattern);
-
+#endif
     CARAPI CheckNotClosed();
 
     CARAPI DoFormat(
@@ -670,11 +675,12 @@ private:
 
     CARAPI_(AutoPtr<ICharSequence>) TransformFromDateTime();
 
+#if 0
     CARAPI_(Boolean) AppendT(
         /* [in] */ StringBuilder* result,
         /* [in] */ Char32 conversion,
         /* [in] */ ICalendar* calendar);
-
+#endif
     CARAPI_(Int32) To12Hour(
         /* [in] */ Int32 hour);
 
@@ -720,7 +726,9 @@ private:
     Boolean mClosed; // = false;
     AutoPtr<FormatToken> mFormatToken;
     ECode mLastIOException;
+#if 0
     AutoPtr<ILocaleData> mLocaleData;
+#endif
 };
 
 } // namespace Utility

@@ -17,7 +17,7 @@
 module
 {
     interface Elastos.Utility.IList;
-    interface Elastos.Security.IPrincipal;
+    //interface Elastos.Security.IPrincipal;
 
     namespace Elastos{
     namespace Net{
@@ -71,8 +71,10 @@ module
          * @throws SSLPeerUnverifiedException
          *             if the peer is unverified.
          */
+        /*
         GetPeerPrincipal(
             [out] IPrincipal** principal);
+        */
 
         /**
          * Gets the local principle that the original connection sent to the server.
@@ -83,8 +85,10 @@ module
          *         {@code X500Principal} object for X509-based cipher suites. If no
          *         principal was sent, it returns {@code null}.
          */
+        /*
         GetLocalPrincipal(
             [out] IPrincipal** principal);
+        */
     }
 
     } // namespace Net

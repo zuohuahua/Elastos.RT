@@ -24,8 +24,8 @@
 using Elastos::IO::IInputStream;
 using Elastos::IO::IOutputStream;
 using Elastos::IO::IPrintStream;
-using Elastos::IO::Channels::IChannel;
-using Elastos::Utility::IProperties;
+//using Elastos::IO::Channels::IChannel;
+//using Elastos::Utility::IProperties;
 using Elastos::Utility::IMap;
 using Elastos::Utility::Etl::HashMap;
 
@@ -186,8 +186,10 @@ public:
      * @see SelectorProvider
      * @see SelectorProvider#inheritedChannel()
      */
+#if 0
     CARAPI InheritedChannel(
         /* [out] */ IChannel** channel);
+#endif
 
     /**
      * Returns the system properties. Note that this is not a copy, so that
@@ -196,8 +198,10 @@ public:
      *
      * @return the system properties.
      */
+#if 0
     CARAPI GetProperties(
         /* [out] */ IProperties** prop);
+#endif
 
     /**
      * Returns the value of a particular system property or {@code null} if no
@@ -362,8 +366,10 @@ public:
      * directly. Passing null causes the VM to reinitialize the properties to how they were
      * when the VM was started.
      */
+#if 0
     CARAPI SetProperties(
         /* [in] */ IProperties* properties);
+#endif
 
     /**
      * Throws {@code SecurityException}.
@@ -432,13 +438,14 @@ private:
      * Adds each element of 'assignments' to 'p', treating each element as an
      * assignment in the form "key=value".
      */
+#if 0
     CARAPI ParsePropertyAssignments(
         /* [in] */ IProperties* p,
         /* [in] */ ArrayOf<String>* assignments);
-
+#endif
 private:
     static String sLineSeparator;
-    static AutoPtr<IProperties> sSystemProperties;
+    //static AutoPtr<IProperties> sSystemProperties;
 
     static AutoPtr<IInputStream> mIn;
     static AutoPtr<IPrintStream> mOut;

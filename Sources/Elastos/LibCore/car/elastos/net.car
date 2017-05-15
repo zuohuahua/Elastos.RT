@@ -73,8 +73,8 @@ module
     interface Elastos.IO.IFileDescriptor;
     interface Elastos.IO.IInputStream;
     interface Elastos.IO.IOutputStream;
-    interface Elastos.Security.IGuard;
-    interface Elastos.Security.IPermission;
+//    interface Elastos.Security.IGuard;
+    //interface Elastos.Security.IPermission;
 
     namespace Elastos {
     namespace Net {
@@ -453,8 +453,8 @@ module
 
         interface INetPermission;
         //interface IBasicPermission;
-        interface IPermission;
-        interface IGuard;
+//        interface IPermission;
+//        interface IGuard;
         interface ISerializable;
     }
 
@@ -650,8 +650,8 @@ module
             [in] String action);
 
         interface ISocketPermission;
-        interface IPermission;
-        interface IGuard;
+//        interface IPermission;
+//        interface IGuard;
         interface ISerializable;
     }
 

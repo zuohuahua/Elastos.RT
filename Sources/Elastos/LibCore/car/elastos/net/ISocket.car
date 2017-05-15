@@ -19,7 +19,7 @@ module
     interface Elastos.IO.IInputStream;
     interface Elastos.IO.IOutputStream;
     interface Elastos.IO.IFileDescriptor;
-    interface Elastos.IO.Channels.ISocketChannel;
+    //interface Elastos.IO.Channels.ISocketChannel;
 
     interface Elastos.Net.IInetAddress;
     interface Elastos.Net.ISocketAddress;
@@ -435,8 +435,10 @@ module
          * @sa java.nio.channels.ServerSocketChannel#accept
          * @sa java.nio.channels.SocketChannel#open
          */
+        /*
         GetChannel(
             [out] ISocketChannel** channel);
+        */
 
         /**
          * @hide internal use only

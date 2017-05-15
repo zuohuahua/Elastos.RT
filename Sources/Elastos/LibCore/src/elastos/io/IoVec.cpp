@@ -16,14 +16,14 @@
 
 #include "IoVec.h"
 #include "NioUtils.h"
-#include "CLibcore.h"
+//#include "CLibcore.h"
 #include "CInteger32.h"
 #include "CoreUtils.h"
 
 using Elastos::Core::CoreUtils;
 using Elastos::Core::IInteger32;
 using Elastos::Core::CInteger32;
-using Libcore::IO::CLibcore;
+//using Libcore::IO::CLibcore;
 
 namespace Elastos {
 namespace IO {
@@ -83,8 +83,9 @@ ECode IoVec::DoTransfer(
     VALIDATE_NOT_NULL(result)
     // try {
     *result = 0;
+#if 0
     if (mDirection == Direction_READV) {
-        FAIL_RETURN(CLibcore::sOs->Readv(fd, mIoBuffers, mOffsets, mByteCounts, result));
+        FAIL_RETURN(Readv(fd, mIoBuffers, mOffsets, mByteCounts, result));
         if (*result == 0) {
             *result = -1;
         }
@@ -94,6 +95,8 @@ ECode IoVec::DoTransfer(
         FAIL_RETURN(CLibcore::sOs->Writev(fd, mIoBuffers, mOffsets, mByteCounts, result));
         return NOERROR;
     }
+#endif
+    return NOERROR;
     // } catch (ErrnoException errnoException) {
     //     throw errnoException.rethrowAsIOException();
     // }

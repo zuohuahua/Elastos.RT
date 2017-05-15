@@ -17,7 +17,7 @@
 #ifndef __LIBCORE_IO_IOBRIDGE_H__
 #define __LIBCORE_IO_IOBRIDGE_H__
 
-#include "Elastos.CoreLibrary.Libcore.h"
+//#include "Elastos.CoreLibrary.Libcore.h"
 
 using Elastos::IO::IByteBuffer;
 using Elastos::IO::IFileDescriptor;

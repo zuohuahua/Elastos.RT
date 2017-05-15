@@ -46,7 +46,7 @@ module
     merge("core/IBlockGuard.car");
     merge("core/ICloseGuard.car");
     merge("core/IEnum.car");
-    //merge("core/ISystem.car");
+    merge("core/ISystem.car");
     merge("core/IThreadLocal.car");
 
     //merge("core/reflect/IInvocationHandler.car");
@@ -420,7 +420,7 @@ module
     singleton class CCloseGuardHelper {
         interface ICloseGuardHelper;
     }
-
+*/
 
     singleton class CSystem {
          constructor();
@@ -428,6 +428,7 @@ module
          interface ISystem;
     }
 
+/*
     namespace Reflect {
 
     singleton class CProxyFactory {

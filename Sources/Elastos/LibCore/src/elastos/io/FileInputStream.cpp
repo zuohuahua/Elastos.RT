@@ -19,23 +19,23 @@
 #include "IoUtils.h"
 #include "IoBridge.h"
 #include "OsConstants.h"
-#include "CLibcore.h"
+//#include "CLibcore.h"
 #include "NioUtils.h"
 #include "CFileDescriptor.h"
 #include "AutoLock.h"
-#include "CStreams.h"
-#include "CCloseGuard.h"
+//#include "CStreams.h"
+//#include "CCloseGuard.h"
 
 #include <elastos/core/AutoLock.h>
 using Elastos::Core::AutoLock;
-using Elastos::Core::CCloseGuard;
+//using Elastos::Core::CCloseGuard;
 using Elastos::Droid::System::OsConstants;
-using Libcore::IO::ILibcore;
-using Libcore::IO::CLibcore;
-using Libcore::IO::IOs;
-using Libcore::IO::IoBridge;
-using Libcore::IO::IStreams;
-using Libcore::IO::CStreams;
+//using Libcore::IO::ILibcore;
+//using Libcore::IO::CLibcore;
+//using Libcore::IO::IOs;
+//using Libcore::IO::IoBridge;
+//using Libcore::IO::IStreams;
+//using Libcore::IO::CStreams;
 
 namespace Elastos {
 namespace IO {
@@ -45,15 +45,17 @@ CAR_INTERFACE_IMPL(FileInputStream, InputStream, IFileInputStream)
 FileInputStream::FileInputStream()
     : mShouldClose(FALSE)
 {
-    CCloseGuard::New((ICloseGuard**)&mGuard);
+    //CCloseGuard::New((ICloseGuard**)&mGuard);
 }
 
 FileInputStream::~FileInputStream()
 {
     // try {
+/*
     if (mGuard != NULL) {
         mGuard->WarnIfOpen();
     }
+*/
     Close();
 }
 
@@ -64,6 +66,7 @@ ECode FileInputStream::constructor(
 //        throw new NullPointerException("file == null");
         return E_NULL_POINTER_EXCEPTION;
     }
+#if 0
     CFileDescriptor::New((IFileDescriptor**)&mFd);
     String path;
     file->GetPath(&path);
@@ -74,6 +77,7 @@ ECode FileInputStream::constructor(
     mFd->SetDescriptor(ifd);
     mShouldClose = TRUE;
     mGuard->Open(String("FileInputStream::Close"));
+#endif
     return NOERROR;
 }
 
@@ -101,16 +105,18 @@ ECode FileInputStream::Available(
     /* [out] */ Int32* avail)
 {
     VALIDATE_NOT_NULL(avail)
-
+#if 0
     ECode ec = IoBridge::Available(mFd, avail);
     if (FAILED(ec)) {
         return E_IO_EXCEPTION;
     }
+#endif
     return NOERROR;
 }
 
 ECode FileInputStream::Close()
 {
+#if 0
     mGuard->Close();
     {
         AutoLock syncLock(this);
@@ -128,14 +134,15 @@ ECode FileInputStream::Close()
             CFileDescriptor::New((IFileDescriptor**)&mFd);
         }
     }
+#endif
     return NOERROR;
 }
 
+#if 0
 ECode FileInputStream::GetChannel(
     /* [out] */ IFileChannel** channel)
 {
     VALIDATE_NOT_NULL(channel)
-
     AutoLock lock(this);
 
     if (mChannel == NULL) {
@@ -145,6 +152,7 @@ ECode FileInputStream::GetChannel(
     REFCOUNT_ADD(*channel)
     return NOERROR;
 }
+#endif
 
 ECode FileInputStream::GetFD(
     /* [out] */ IFileDescriptor** fd)
@@ -159,9 +167,12 @@ ECode FileInputStream::GetFD(
 ECode FileInputStream::Read(
     /* [out] */ Int32* value)
 {
+#if 0
     AutoPtr<IStreams> streams;
     CStreams::AcquireSingleton((IStreams**)&streams);
     return streams->ReadSingleByte(this, value);
+#endif
+    return NOERROR;
 }
 
 ECode FileInputStream::Read(
@@ -173,8 +184,10 @@ ECode FileInputStream::Read(
     VALIDATE_NOT_NULL(number)
     *number = -1;
     VALIDATE_NOT_NULL(buffer);
-
+#if 0
     return IoBridge::Read(mFd, buffer, byteOffset, byteCount, number);
+#endif
+    return NOERROR;
 }
 
 ECode FileInputStream::Skip(
@@ -188,6 +201,7 @@ ECode FileInputStream::Skip(
 //      throw new IOException("byteCount < 0: " + byteCount);
         return E_IO_EXCEPTION;
     }
+#if 0
     // try {
         // Try lseek(2). That returns the new offset, but we'll throw an
         // exception if it couldn't perform exactly the seek we asked for.
@@ -197,6 +211,7 @@ ECode FileInputStream::Skip(
         libcore->GetOs((IOs**)&os);
         os->Lseek(mFd, byteCount, OsConstants::_SEEK_CUR, number);
         *number = byteCount;
+#endif
         return NOERROR;
     // } catch (ErrnoException errnoException) {
     //     if (errnoException.errno == ESPIPE) {

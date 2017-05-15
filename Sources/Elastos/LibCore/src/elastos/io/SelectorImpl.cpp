@@ -15,22 +15,22 @@
 //=========================================================================
 
 #include "SelectorImpl.h"
-#include "CLibcore.h"
+//#include "CLibcore.h"
 #include "IoUtils.h"
-#include "CStructPollfd.h"
+//#include "CStructPollfd.h"
 #include "OsConstants.h"
 #include "IoBridge.h"
 #include "SelectionKeyImpl.h"
 #include "AutoLock.h"
 
-using Libcore::IO::IOs;
-using Libcore::IO::ILibcore;
-using Libcore::IO::CLibcore;
-using Libcore::IO::IoUtils;
-using Elastos::Droid::System::IStructPollfd;
-using Elastos::Droid::System::CStructPollfd;
+//using Libcore::IO::IOs;
+//using Libcore::IO::ILibcore;
+//using Libcore::IO::CLibcore;
+//using Libcore::IO::IoUtils;
+//using Elastos::Droid::System::IStructPollfd;
+//using Elastos::Droid::System::CStructPollfd;
 using Elastos::Droid::System::OsConstants;
-using Libcore::IO::IoBridge;
+//using Libcore::IO::IoBridge;
 using Elastos::IO::Channels::EIID_ISelector;
 using Elastos::IO::Channels::Spi::IAbstractSelectionKey;
 using Elastos::IO::Channels::Spi::EIID_IAbstractSelector;
@@ -165,6 +165,7 @@ ECode SelectorImpl::constructor()
 ECode SelectorImpl::constructor(
     /* [in] */ ISelectorProvider* selectorProvider)
 {
+#if 0
     AbstractSelector::constructor(selectorProvider);
     AutoPtr<ArrayOf<IFileDescriptor*> > fds;
     FAIL_RETURN(CLibcore::sOs->Pipe((ArrayOf<IFileDescriptor*>**)&fds));
@@ -181,6 +182,7 @@ ECode SelectorImpl::constructor(
     Boolean isflag = FALSE;
     mPollFds->Add(structfd, &isflag);
     SetPollFd(0, mWakeupIn, OsConstants::_POLLIN, NULL);
+#endif
     return NOERROR;
 }
 
@@ -193,7 +195,7 @@ ECode SelectorImpl::Cancel(
 ECode SelectorImpl::ImplCloseSelector()
 {
     Wakeup();
-
+#if 0
     AutoLock lock(mLock);
     FAIL_RETURN(IoUtils::Close(mWakeupIn));
     FAIL_RETURN(IoUtils::Close(mWakeupOut));
@@ -205,6 +207,7 @@ ECode SelectorImpl::ImplCloseSelector()
         AutoPtr<IAbstractSelectionKey> ask = IAbstractSelectionKey::Probe((*outarr)[i]);
         Deregister(ISelectionKey::Probe(ask));
     }
+#endif
     return NOERROR;
 }
 
@@ -217,7 +220,7 @@ ECode SelectorImpl::Register(
     VALIDATE_NOT_NULL(key)
     *key = NULL;
     VALIDATE_NOT_NULL(asc)
-
+#if 0
     AutoPtr<ISelectorProvider> sp1;
     GetProvider((ISelectorProvider**)&sp1);
     AutoPtr<ISelectorProvider> sp2;
@@ -233,6 +236,7 @@ ECode SelectorImpl::Register(
     EnsurePollFdsCapacity();
     *key = selectionKey;
     REFCOUNT_ADD(*key)
+#endif
     return NOERROR;
 }
 
@@ -240,10 +244,11 @@ ECode SelectorImpl::GetKeys(
     /* [out] */ ISet** keySet)
 {
     VALIDATE_NOT_NULL(keySet)
-
+#if 0
     FAIL_RETURN(CheckClosed());
     *keySet = mUnmodifiableKeys;
     REFCOUNT_ADD(*keySet);
+#endif
     return NOERROR;
 }
 
@@ -284,7 +289,7 @@ ECode SelectorImpl::SelectInternal(
     /* [out] */ Int32* ret)
 {
     VALIDATE_NOT_NULL(ret)
-
+#if 0
     FAIL_RETURN(CheckClosed());
     AutoLock lock(mLock);
     DoCancel();
@@ -308,6 +313,7 @@ ECode SelectorImpl::SelectInternal(
     Int32 readyCount = (rc > 0) ? ProcessPollFds() : 0;
     readyCount -= DoCancel();
     *ret = readyCount;
+#endif
     return NOERROR;
 }
 
@@ -318,6 +324,7 @@ void SelectorImpl::SetPollFd(
     /* [in] */ IInterface* object)
 {
     AutoPtr<IInterface> outface;
+#if 0
     IList::Probe(mPollFds)->Get(index, (IInterface**)&outface);
     AutoPtr<IStructPollfd> pollFd = IStructPollfd::Probe(outface);
     if (pollFd != NULL) {
@@ -325,10 +332,12 @@ void SelectorImpl::SetPollFd(
         pollFd->SetEvents(events);
         pollFd->SetUserData(object);
     }
+#endif
 }
 
 void SelectorImpl::PreparePollFds()
 {
+#if 0
     AutoPtr< ArrayOf<IInterface*> > outarr;
     mMutableKeys->ToArray((ArrayOf<IInterface*>**)&outarr);
 
@@ -354,10 +363,12 @@ void SelectorImpl::PreparePollFds()
             }
         }
     }
+#endif
 }
 
 void SelectorImpl::EnsurePollFdsCapacity()
 {
+#if 0
     // We need one slot for each element of mutableKeys, plus one for the wakeup pipe.
     Int32 fdsvalue = 0;
     Int32 keysvalue = 0;
@@ -371,10 +382,12 @@ void SelectorImpl::EnsurePollFdsCapacity()
         mPollFds->GetSize(&fdsvalue);
         mMutableKeys->GetSize(&keysvalue);
     }
+#endif
 }
 
 Int32 SelectorImpl::ProcessPollFds()
 {
+#if 0
     AutoPtr< ArrayOf<IInterface*> > outarr;
     mPollFds->ToArray((ArrayOf<IInterface*>**)&outarr);
     Int16 revents = 0;
@@ -445,6 +458,7 @@ Int32 SelectorImpl::ProcessPollFds()
     }
 
     return readyKeyCount;
+#endif
 }
 
 ECode SelectorImpl::SelectedKeys(
@@ -489,7 +503,7 @@ ECode SelectorImpl::Wakeup()
     Int32 nWrite;
     AutoPtr< ArrayOf<Byte> > inbyte = ArrayOf<Byte>::Alloc(1);
     (*inbyte)[0] = 1;
-    FAIL_RETURN(CLibcore::sOs->Write(mWakeupOut, inbyte, 0, 1, &nWrite));
+    //FAIL_RETURN(CLibcore::sOs->Write(mWakeupOut, inbyte, 0, 1, &nWrite));
 
     return NOERROR;
 }

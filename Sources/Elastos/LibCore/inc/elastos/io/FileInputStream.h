@@ -20,7 +20,7 @@
 #include <elastos/io/InputStream.h>
 
 using Elastos::Core::ICloseGuard;
-using Elastos::IO::Channels::IFileChannel;
+//using Elastos::IO::Channels::IFileChannel;
 
 namespace Elastos {
 namespace IO {
@@ -123,8 +123,10 @@ public:
      *
      * @return the file channel for this stream.
      */
+    #if 0
     virtual CARAPI GetChannel(
         /* [out] */ IFileChannel** channel);
+    #endif
 
     /**
      * Returns the {@link FileDescriptor} representing the operating system
@@ -211,7 +213,7 @@ private:
     Boolean mShouldClose;
 
     /** The unique file channel. Lazily initialized because it's rarely needed. */
-    AutoPtr<IFileChannel> mChannel;
+    //AutoPtr<IFileChannel> mChannel;
 
     AutoPtr<ICloseGuard> mGuard;
 };

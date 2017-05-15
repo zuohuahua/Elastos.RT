@@ -86,10 +86,9 @@ module
     merge("io/IDirectByteBuffer.car");
     merge("io/INIOAccess.car");
     merge("io/IFileDescriptorChannel.car");
-//    merge("io/IFileChannelImpl.car");
+    merge("io/IFileChannelImpl.car");
     merge("io/INioUtils.car");
 
-/*
     merge("io/channels/IChannel.car");
     merge("io/channels/IReadableByteChannel.car");
     merge("io/channels/IWritableByteChannel.car");
@@ -97,7 +96,7 @@ module
     merge("io/channels/IScatteringByteChannel.car");
     merge("io/channels/IGatheringByteChannel.car");
     merge("io/channels/IInterruptibleChannel.car");
-//    merge("io/channels/IFileChannel.car");
+    merge("io/channels/IFileChannel.car");
     merge("io/channels/ISelectableChannel.car");
     merge("io/channels/ISelectionKey.car");
     merge("io/channels/ISelector.car");
@@ -109,7 +108,6 @@ module
     merge("io/channels/IPipe.car");
     merge("io/channels/IFileLock.car");
     merge("io/channels/IByteChannel.car");
-
     merge("io/channels/spi/ISelectorProvider.car");
     merge("io/channels/spi/IAbstractSelector.car");
     merge("io/channels/spi/IAbstractSelectionKey.car");
@@ -126,7 +124,6 @@ module
     merge("io/charset/IStandardCharsets.car");
 
     merge("io/charset/spi/ICharsetProvider.car");
-*/
 
     interface Elastos.Core.IAppendable;
     interface Elastos.Core.IComparable;
@@ -137,12 +134,12 @@ module
     interface Elastos.IO.IByteOrderHelper;
     interface Elastos.IO.Charset.ICharsetEncoder;
     interface Elastos.IO.Charset.ICharsetDecoder;
-/*
+
     interface Elastos.IO.Channels.Spi.ISelectorProvider;
     interface Elastos.IO.Channels.Spi.IAbstractSelector;
     interface Elastos.IO.Channels.IChannels;
     interface Elastos.IO.Channels.ISelector;
-*/
+
     interface Elastos.Net.IURI;
     interface Elastos.Utility.IEnumeration;
 //    interface Elastos.Security.IGuard;
@@ -165,12 +162,11 @@ module
         interface ICloseable;
     }
 
-/*    class CSelectorProviderImpl {
+    class CSelectorProviderImpl {
         constructor();
 
         interface ISelectorProvider;
     }
-*/
 
     class CByteArrayOutputStream {
         /**
@@ -383,7 +379,6 @@ module
         interface IByteOrderHelper;
     }
 
-/*
     class CSelectorImpl {
         constructor();
 
@@ -394,7 +389,6 @@ module
         interface ISelector;
         interface ICloseable;
     }
-*/
 
     class CFileDescriptor {
         constructor();
@@ -668,18 +662,17 @@ module
         interface IOutputStream;
     }
 
-/*
     class CFilePermission {
         constructor(
             [in] String path,
             [in] String actions);
 
         interface IFilePermission;
-        interface IGuard;
-        interface IPermission;
+//        interface IGuard;
+//        interface IPermission;
         interface ISerializable;
     }
-*/
+
     class CFileReader {
         constructor(
             [in] IFile* file);
@@ -819,7 +812,6 @@ module
         // interface IAutoCloseable;
     }
 
-/*
     namespace Channels {
 
         singleton class CChannels {
@@ -827,8 +819,7 @@ module
         }
 
     } // namespace Channels
-*/
-/*
+
     namespace Channels {
     namespace Spi {
 
@@ -838,7 +829,7 @@ module
 
     } // namespace Spi
     } // namespace Channels
-*/
+
     namespace Charset {
 
         class CCodingErrorAction {

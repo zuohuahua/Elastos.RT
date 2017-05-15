@@ -17,10 +17,10 @@
 module
 {
     interface Elastos.Utility.IMap;
-    interface Elastos.Utility.IProperties;
+    //interface Elastos.Utility.IProperties;
     interface Elastos.IO.IInputStream;
     interface Elastos.IO.IPrintStream;
-    interface Elastos.IO.Channels.IChannel;
+    //interface Elastos.IO.Channels.IChannel;
 
     namespace Elastos {
     namespace Core {
@@ -170,8 +170,10 @@ module
          * @see SelectorProvider
          * @see SelectorProvider#inheritedChannel()
          */
+         /*
         InheritedChannel(
             [out] IChannel** channel);
+        */
 
         /**
          * Returns the system properties. Note that this is not a copy, so that
@@ -180,8 +182,10 @@ module
          *
          * @return the system properties.
          */
+         /*
         GetProperties(
             [out] IProperties** prop);
+        */
 
         /**
          * Returns the value of a particular system property or {@code null} if no
@@ -346,8 +350,10 @@ module
          * directly. Passing null causes the VM to reinitialize the properties to how they were
          * when the VM was started.
          */
+         /*
         SetProperties(
             [in] IProperties* properties);
+        */
 
         /**
          * Throws {@code SecurityException}.

@@ -17,11 +17,11 @@
 #include "elastos/io/InputStream.h"
 #include "elastos/core/Math.h"
 #include <elastos/utility/logging/Logger.h>
-#include "libcore/io/CStreams.h"
+//#include "libcore/io/CStreams.h"
 
 using Elastos::Utility::Logging::Logger;
-using Libcore::IO::IStreams;
-using Libcore::IO::CStreams;
+//using Libcore::IO::IStreams;
+//using Libcore::IO::CStreams;
 
 namespace Elastos {
 namespace IO {
@@ -131,9 +131,12 @@ ECode InputStream::Skip(
 {
     VALIDATE_NOT_NULL(number);
 
+#if 0
     AutoPtr<IStreams> streams;
     CStreams::AcquireSingleton((IStreams**)&streams);
     return streams->SkipByReading(this, byteCount, number);
+#endif
+    return NOERROR;
 }
 
 } // namespace IO
