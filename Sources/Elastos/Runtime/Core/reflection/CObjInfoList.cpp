@@ -309,9 +309,10 @@ ECode CObjInfoList::AcquireModuleInfo(
 #else
     void* module = dlopen(name.string(), RTLD_LAZY);
 #endif
-    if(NULL == module){
+    if (NULL == module) {
         //ALOGE("<%s, %d> dlopen '%s' failed.\n", __FILE__, __LINE__, name.string());
         //ALOGE("error: %s\n", dlerror());
+        UnlockHashTable(EntryType_Module);
         return E_FILE_NOT_FOUND;
     }
 
