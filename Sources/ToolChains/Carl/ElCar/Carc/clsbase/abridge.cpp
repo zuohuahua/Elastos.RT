@@ -45,6 +45,7 @@ private:
     inline void WriteData(long nOffset, void *pvData, int size);
     inline void WriteParams(long nOffset, AbridgedParamsInfo c);
     inline void WriteInt(long nOffset, int n);
+    inline void WriteLong(long nOffset, long n);
     inline long IWriteInfo(AbridgedInterfaceInfo *pEntry);
     inline void CWriteInfo(AbridgedClassInfo *pEntry);
 
@@ -104,6 +105,11 @@ void CAbridgedBuffer::WriteParams(long nOffset, AbridgedParamsInfo c)
 void CAbridgedBuffer::WriteInt(long nOffset, int n)
 {
     *(int *)(m_pBuffer + nOffset) = n;
+}
+
+void CAbridgedBuffer::WriteLong(long nOffset, long n)
+{
+    *(long *)(m_pBuffer + nOffset) = n;
 }
 
 void CAbridgedBuffer::WriteData(long nOffset, void *pvData, int nSize)
@@ -324,10 +330,10 @@ int CAbridgedBuffer::WriteClsIntfs(ClassDescriptor *pDesc, int interfaceCount)
     for (n = 0; n < pDesc->mInterfaceCount; n++) {
         if (!(pDesc->mInterfaces[n]->mAttribs & ClassInterfaceAttrib_callback)
             && (!(m_pModule->mInterfaceDirs[pDesc->mInterfaces[n]->mIndex]
-            ->mDesc->mAttribs & InterfaceAttrib_local)
+                            ->mDesc->mAttribs & InterfaceAttrib_local)
                 || (m_pModule->mInterfaceDirs[pDesc->mInterfaces[n]->mIndex]
-            ->mDesc->mAttribs & InterfaceAttrib_parcelable))) {
-            WriteInt(nAddr + (n - cLocal) * sizeof(void*),
+                            ->mDesc->mAttribs & InterfaceAttrib_parcelable))) {
+            WriteLong(nAddr + (n - cLocal) * sizeof(void*),
                     m_interfaceAddrs[pDesc->mInterfaces[n]->mIndex]);
         }
         else {
