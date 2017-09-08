@@ -217,7 +217,7 @@ private:
     AutoPtr<CClsModule> mClsModule;
     CLSModule*          mClsMod;
     ClassDescriptor*    mDesc;
-    Int32               mBase;
+    size_t              mBase;
 
     char   mUrn[_MAX_PATH];
 
