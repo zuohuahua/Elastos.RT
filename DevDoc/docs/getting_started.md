@@ -2,14 +2,14 @@
 
 ## Checking out the source code
 
-The ElastosRT Git repository is located
-at: https://github.com/elastos/ElastosRT
+The Elastos.RT Git repository is located
+at: https://github.com/elastos/Elastos.RT
 
 To clone the repository, assuming you setup the $SRC variable
 in your environment:
 ```shell
 $ cd ~
-$ git clone https://github.com/elastos/ElastosRT
+$ git clone https://github.com/elastos/Elastos.RT
 ```
 
 ## Preparing the build environment
@@ -24,7 +24,7 @@ sudo apt-get install bison g++-multilib git gperf libxml2-utils make zlib1g-dev:
 or
 copy the libs under folder Build/Prebuilt/Linux/usr/lib to /lib/i386-linux-gnu/
 ```
-sudo cp ~/ElastosRT/Build/Prebuilt/Linux/usr/lib/lib* /lib/i386-linux-gnu/
+sudo cp ~/Elastos.RT/Build/Prebuilt/Linux/usr/lib/lib* /lib/i386-linux-gnu/
 
 cd /lib/i386-linux-gnu/
 sudo ln -s libicuuc.so.52 libicuuc.so
@@ -32,36 +32,36 @@ sudo ln -s libcrypto.so.1.0.0 libcrypto.so
 
 ```
 
-## Build ElastosRT
+## Build Elastos.RT
 
 ### Build CAR Compiler(optional)
 
 1. enter the build environment
 ```
-cd ~/ElastosRT/Setup
-~/ElastosRT/Setup$ source Ubuntu_SetEnv_tools.sh
+cd ~/Elastos.RT/Setup
+~/Elastos.RT/Setup$ source Ubuntu_SetEnv_tools.sh
 ```
 
 2. build CAR tools
 ```
 #build release version of carc
 #the debug version doesn't work now
-~/ElastosRT/Sources$rls
-~/ElastosRT/Sources$ emake
-~/ElastosRT/Sources$ pd @
+~/Elastos.RT/Sources$rls
+~/Elastos.RT/Sources$ emake
+~/Elastos.RT/Sources$ pd @
 ```
 
 3. build result
 ```
-~/ElastosRT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin$ ls
+~/Elastos.RT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin$ ls
 CInfoReader  Cls2C  carc  carcode  dbg_info  libz.so  lubc  lube  package
 ```
 
 4. use your new CAR tools
-copy your build result to ~/ElastosRT/Build/Tools
-from ~/ElastosRT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin
+copy your build result to ~/Elastos.RT/Build/Tools
+from ~/Elastos.RT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin
 ```
-cp CInfoReader Cls2C carc carcode lubc lube libz.so ~/ElastosRT/Build/Tools/
+cp CInfoReader Cls2C carc carcode lubc lube libz.so ~/Elastos.RT/Build/Tools/
 ```
 
 5. release version or debug version
@@ -74,39 +74,39 @@ cp CInfoReader Cls2C carc carcode lubc lube libz.so ~/ElastosRT/Build/Tools/
 
 1. enter the build environment
 ```
-cd ~/ElastosRT/Setup
-~/ElastosRT/Setup$ source Ubuntu_SetEnv_RT.sh
+cd ~/Elastos.RT/Setup
+~/Elastos.RT/Setup$ source Ubuntu_SetEnv_RT.sh
 ```
 
 2. build Runtime
 ```
-cd ~/ElastosRT/Sources/Elastos/Runtime
-~/ElastosRT/Sources/Elastos/Runtime$ emake
+cd ~/Elastos.RT/Sources/Elastos/Runtime
+~/Elastos.RT/Sources/Elastos/Runtime$ emake
 ```
 
 3. build result
 ```
-~/ElastosRT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin/Elastos.Runtime.eco
-~/myfile/projects/ElastosRT/Targets/obj/rdk/x86.gnu.linux.devtools.dbg/lib/Elastos.Runtime.lib
+~/Elastos.RT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin/Elastos.Runtime.eco
+~/myfile/projects/Elastos.RT/Targets/obj/rdk/x86.gnu.linux.devtools.dbg/lib/Elastos.Runtime.lib
 ```
 
 ### Build LibCore
 
 1. enter the build environment(optional)
 ```
-cd ~/ElastosRT/Setup
-~/ElastosRT/Setup$ source Ubuntu_SetEnv_RT.sh
+cd ~/Elastos.RT/Setup
+~/Elastos.RT/Setup$ source Ubuntu_SetEnv_RT.sh
 ```
 
 2. build LibCore
 ```
-cd ~/ElastosRT/Sources/Elastos/LibCore
-~/ElastosRT/Sources/Elastos/LibCore$ emake
+cd ~/Elastos.RT/Sources/Elastos/LibCore
+~/Elastos.RT/Sources/Elastos/LibCore$ emake
 ```
 
 3. build result
 ```
-~/ElastosRT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin/Elastos.CoreLibrary.eco
+~/Elastos.RT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin/Elastos.CoreLibrary.eco
 ```
 
 ### Build Test cases
@@ -115,33 +115,33 @@ cd ~/ElastosRT/Sources/Elastos/LibCore
 
 1. enter the build environment(optional)
 ```
-cd ~/ElastosRT/Setup
-~/ElastosRT/Setup$ source Ubuntu_SetEnv_RT.sh
+cd ~/Elastos.RT/Setup
+~/Elastos.RT/Setup$ source Ubuntu_SetEnv_RT.sh
 ```
 
 2. build Elastos.HelloCar.eco
 ```
-cd ~/ElastosRT/Sources/Elastos/LibCore/tests/HelloCar/eco
-~/ElastosRT/Sources/Elastos/LibCore/tests/HelloCar/eco$ emake
+cd ~/Elastos.RT/Sources/Elastos/LibCore/tests/HelloCar/eco
+~/Elastos.RT/Sources/Elastos/LibCore/tests/HelloCar/eco$ emake
 ```
 
 3. build HelloCar
 ```
-cd ~/ElastosRT/Sources/Elastos/LibCore/tests/HelloCar
-~/ElastosRT/Sources/Elastos/LibCore/tests/HelloCar$ emake
+cd ~/Elastos.RT/Sources/Elastos/LibCore/tests/HelloCar
+~/Elastos.RT/Sources/Elastos/LibCore/tests/HelloCar$ emake
 ```
 
 4. build result
 ```
-~/ElastosRT/Sources/Elastos/LibCore/tests/HelloCar$pd @
-~/ElastosRT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin$ll HelloCar
+~/Elastos.RT/Sources/Elastos/LibCore/tests/HelloCar$pd @
+~/Elastos.RT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin$ll HelloCar
 ```
 
 5. Run HelloCar
 ```
 #export the path where the .eco files are stored, or you maybe get 80050000 error code
-~/ElastosRT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin$export LD_LIBRARY_PATH=dbg_info
-~/ElastosRT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin$./HelloCar
+~/Elastos.RT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin$export LD_LIBRARY_PATH=dbg_info
+~/Elastos.RT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin$./HelloCar
 ==================================
 =========== Hello Car ============
 ==================================
@@ -163,26 +163,26 @@ CAnimalHelper::CanFly : Kitty can not fly!
 
 1. enter the build environment(optional)
 ```
-cd ~/ElastosRT/Setup
-~/ElastosRT/Setup$ source Ubuntu_SetEnv_RT.sh
+cd ~/Elastos.RT/Setup
+~/Elastos.RT/Setup$ source Ubuntu_SetEnv_RT.sh
 ```
 
 2. build Math test case
 ```
-cd ~/ElastosRT/Sources/Elastos/LibCore/tests/libcore/math
-~/ElastosRT/Sources/Elastos/LibCore/tests/libcore/math$ emake
+cd ~/Elastos.RT/Sources/Elastos/LibCore/tests/libcore/math
+~/Elastos.RT/Sources/Elastos/LibCore/tests/libcore/math$ emake
 ```
 
 3. build result
 ```
-~/ElastosRT/Sources/Elastos/LibCore/tests/libcore/math$pd @
-~/ElastosRT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin$ll testMath
+~/Elastos.RT/Sources/Elastos/LibCore/tests/libcore/math$pd @
+~/Elastos.RT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin$ll testMath
 ```
 
 4. Run testMath
 ```
 #export the path where the .eco files are stored,  or you maybe get 80050000 error code
-~/ElastosRT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin$export LD_LIBRARY_PATH=dbg_info
-~/ElastosRT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin$./testMath
+~/Elastos.RT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin$export LD_LIBRARY_PATH=dbg_info
+~/Elastos.RT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin$./testMath
 
 ```
