@@ -16,3 +16,4 @@
 
 DIRS += inc
 DIRS += src
+DIRS += tests

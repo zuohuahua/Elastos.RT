@@ -26,4 +26,5 @@ else
   DIRS += External/zlib
   DIRS += Elastos/Runtime/Library/clsmodule
   DIRS += ToolChains
+  DIRS += Elastos
 endif

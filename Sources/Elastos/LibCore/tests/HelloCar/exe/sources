@@ -20,8 +20,8 @@ TARGET_TYPE = ecx
 CAR_FLAGS += -n -u
 LUBE_FLAGS += -n -u
 
-INCLUDES += $(MAKEDIR)/eco
-VPATH := $(MAKEDIR)/eco/
+INCLUDES += $(MAKEDIR)/../eco
+VPATH := $(MAKEDIR)/../eco/
 
 IMPORTS = Elastos.HelloCar.eco
 
