@@ -1,0 +1,8 @@
+
+version: "2"
+services:
+  build-env:
+    build: .
+    volumes:
+      - ..:/home/hostuser/Elastos.RT
+
