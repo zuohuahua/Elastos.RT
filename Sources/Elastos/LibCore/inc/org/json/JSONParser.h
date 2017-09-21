@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#ifndef __ORG_JSON_JSON_H__
-#define __ORG_JSON_JSON_H__
+#ifndef __ORG_JSON_JSONPARSER_H__
+#define __ORG_JSON_JSONPARSER_H__
 
 #include "Elastos.CoreLibrary.Core.h"
 
@@ -31,11 +31,11 @@ namespace Json {
 /**
  * An XML pull parser with limited support for parsing internal DTDs.
  */
-class JSON
+class JSONParser
 {
 public:
     /**
-     * Returns the input if it is a JSON-permissible value; throws otherwise.
+     * Returns the input if it is a JSONParser-permissible value; throws otherwise.
      */
     static CARAPI CheckDouble(
         /* [in] */ Double d);
@@ -73,4 +73,4 @@ public:
 } //namespace Json
 } //namespace Org
 
-#endif //__ORG_JSON_JSON_H__
+#endif //__ORG_JSON_JSONPARSER_H__

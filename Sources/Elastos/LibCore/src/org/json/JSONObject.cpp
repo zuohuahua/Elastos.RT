@@ -15,7 +15,7 @@
 //=========================================================================
 
 #include "JSONObject.h"
-#include "JSON.h"
+#include "JSONParser.h"
 #include "CJSONArray.h"
 #include "CJSONObject.h"
 #include "CJSONTokener.h"
@@ -151,7 +151,7 @@ ECode JSONObject::constructor(
         mNameValuePairs = jObject->mNameValuePairs;
     }
     else {
-        return JSON::TypeMismatch(object, String("JSONObject"));
+        return JSONParser::TypeMismatch(object, String("JSONObject"));
     }
     return NOERROR;
 }
@@ -200,7 +200,7 @@ ECode JSONObject::Put(
     /* [in] */ Double value)
 {
     FAIL_RETURN(CheckName(name));
-    FAIL_RETURN(JSON::CheckDouble(value));
+    FAIL_RETURN(JSONParser::CheckDouble(value));
     return mNameValuePairs->Put(CoreUtils::Convert(name), CoreUtils::Convert(value));
 }
 
@@ -232,7 +232,7 @@ ECode JSONObject::Put(
         // deviate from the original by checking all Numbers, not just floats & doubles
         Double data;
         INumber::Probe(value)->DoubleValue(&data);
-        FAIL_RETURN(JSON::CheckDouble(data));
+        FAIL_RETURN(JSONParser::CheckDouble(data));
     }
 
     FAIL_RETURN(CheckName(name));
@@ -379,9 +379,9 @@ ECode JSONObject::GetBoolean(
     AutoPtr<IInterface> object;
     Get(name, (IInterface**)&object);
     AutoPtr<IBoolean> result;
-    JSON::ToBoolean(object, (IBoolean**)&result);
+    JSONParser::ToBoolean(object, (IBoolean**)&result);
     if (result == NULL) {
-        return JSON::TypeMismatch(CoreUtils::Convert(name), object, String("boolean"));
+        return JSONParser::TypeMismatch(CoreUtils::Convert(name), object, String("boolean"));
     }
 
     return result->GetValue(res);
@@ -404,7 +404,7 @@ ECode JSONObject::OptBoolean(
     AutoPtr<IInterface> object;
     Opt(name, (IInterface**)&object);
     AutoPtr<IBoolean> result;
-    JSON::ToBoolean(object, (IBoolean**)&result);
+    JSONParser::ToBoolean(object, (IBoolean**)&result);
     if (result != NULL) {
         return result->GetValue(res);
     }
@@ -422,9 +422,9 @@ ECode JSONObject::GetDouble(
     AutoPtr<IInterface> object;
     Get(name, (IInterface**)&object);
     AutoPtr<IDouble> result;
-    JSON::ToDouble(object, (IDouble**)&result);
+    JSONParser::ToDouble(object, (IDouble**)&result);
     if (result == NULL) {
-        return JSON::TypeMismatch(CoreUtils::Convert(name), object, String("double"));
+        return JSONParser::TypeMismatch(CoreUtils::Convert(name), object, String("double"));
     }
     return result->GetValue(data);
 }
@@ -447,7 +447,7 @@ ECode JSONObject::OptDouble(
     AutoPtr<IInterface> object;
     Opt(name, (IInterface**)&object);
     AutoPtr<IDouble> result;
-    JSON::ToDouble(object, (IDouble**)&result);
+    JSONParser::ToDouble(object, (IDouble**)&result);
     if (result != NULL) {
         return result->GetValue(data);
     }
@@ -465,9 +465,9 @@ ECode JSONObject::GetInt32(
     AutoPtr<IInterface> object;
     Get(name, (IInterface**)&object);
     AutoPtr<IInteger32> result;
-    JSON::ToInteger32(object, (IInteger32**)&result);
+    JSONParser::ToInteger32(object, (IInteger32**)&result);
     if (result == NULL) {
-        return JSON::TypeMismatch(CoreUtils::Convert(name), object, String("int"));
+        return JSONParser::TypeMismatch(CoreUtils::Convert(name), object, String("int"));
     }
     return result->GetValue(data);
 }
@@ -490,7 +490,7 @@ ECode JSONObject::OptInt32(
     AutoPtr<IInterface> object;
     Opt(name, (IInterface**)&object);
     AutoPtr<IInteger32> result;
-    JSON::ToInteger32(object, (IInteger32**)&result);
+    JSONParser::ToInteger32(object, (IInteger32**)&result);
     if (result != NULL) {
         return result->GetValue(data);
     }
@@ -508,9 +508,9 @@ ECode JSONObject::GetInt64(
     AutoPtr<IInterface> object;
     Get(name, (IInterface**)&object);
     AutoPtr<IInteger64> result;
-    JSON::ToInteger64(object, (IInteger64**)&result);
+    JSONParser::ToInteger64(object, (IInteger64**)&result);
     if (result == NULL) {
-        return JSON::TypeMismatch(CoreUtils::Convert(name), object, String("long"));
+        return JSONParser::TypeMismatch(CoreUtils::Convert(name), object, String("long"));
     }
     return result->GetValue(data);
 }
@@ -533,7 +533,7 @@ ECode JSONObject::OptInt64(
     AutoPtr<IInterface> object;
     Opt(name, (IInterface**)&object);
     AutoPtr<IInteger64> result;
-    JSON::ToInteger64(object, (IInteger64**)&result);
+    JSONParser::ToInteger64(object, (IInteger64**)&result);
     if (result != NULL) {
         return result->GetValue(data);
     }
@@ -551,9 +551,9 @@ ECode JSONObject::GetString(
     AutoPtr<IInterface> object;
     Get(name, (IInterface**)&object);
     String result;
-    JSON::ToString(object, &result);
+    JSONParser::ToString(object, &result);
     if (result.IsNull()) {
-        return JSON::TypeMismatch(CoreUtils::Convert(name), object, String("String"));
+        return JSONParser::TypeMismatch(CoreUtils::Convert(name), object, String("String"));
     }
     *str = result;
     return NOERROR;
@@ -577,7 +577,7 @@ ECode JSONObject::OptString(
     AutoPtr<IInterface> object;
     Opt(name, (IInterface**)&object);
     String result;
-    JSON::ToString(object, &result);
+    JSONParser::ToString(object, &result);
     if (!result.IsNull()) {
         *str = result;
         return NOERROR;
@@ -601,7 +601,7 @@ ECode JSONObject::GetJSONArray(
         return NOERROR;
     }
     else {
-        return JSON::TypeMismatch(CoreUtils::Convert(name), object, String("JSONArray"));
+        return JSONParser::TypeMismatch(CoreUtils::Convert(name), object, String("JSONArray"));
     }
 }
 
@@ -636,7 +636,7 @@ ECode JSONObject::GetJSONObject(
         return NOERROR;
     }
     else {
-        return JSON::TypeMismatch(CoreUtils::Convert(name), object, String("JSONObject"));
+        return JSONParser::TypeMismatch(CoreUtils::Convert(name), object, String("JSONObject"));
     }
 }
 
@@ -679,7 +679,7 @@ ECode JSONObject::ToJSONArray(
         AutoPtr<IInterface> obj;
         names->Opt(i, (IInterface**)&obj);
         String name;
-        JSON::ToString(obj, &name);
+        JSONParser::ToString(obj, &name);
         AutoPtr<IInterface> object;
         Opt(name, (IInterface**)&object);
         result->Put(object);
@@ -799,7 +799,7 @@ ECode JSONObject::NumberToString(
 
     Double doubleValue;
     number->DoubleValue(&doubleValue);
-    FAIL_RETURN(JSON::CheckDouble(doubleValue));
+    FAIL_RETURN(JSONParser::CheckDouble(doubleValue));
 
     // the original returns "-0" instead of "-0.0" for negative zero
     Boolean res;

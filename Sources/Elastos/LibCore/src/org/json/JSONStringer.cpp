@@ -15,7 +15,7 @@
 //=========================================================================
 
 #include "JSONStringer.h"
-#include "JSON.h"
+#include "JSONParser.h"
 #include "JSONArray.h"
 #include "JSONObject.h"
 #include "CoreUtils.h"

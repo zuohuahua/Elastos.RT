@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "JSON.h"
+#include "JSONParser.h"
 #include "CoreUtils.h"
 #include "Math.h"
 #include "StringUtils.h"
@@ -29,19 +29,19 @@ using Elastos::Utility::Logging::Logger;
 namespace Org {
 namespace Json {
 
-ECode JSON::CheckDouble(
+ECode JSONParser::CheckDouble(
     /* [in] */ Double d)
 {
     using Elastos::Core::Math;
     if (Math::IsInfinite(d) || Math::IsNaN(d)) {
-        Logger::E("JSON", "Forbidden numeric value: %lf", d);
+        Logger::E("JSONParser", "Forbidden numeric value: %lf", d);
         return E_JSON_EXCEPTION;
         // throw new JSONException("Forbidden numeric value: " + d);
     }
     return NOERROR;
 }
 
-ECode JSON::ToBoolean(
+ECode JSONParser::ToBoolean(
     /* [in] */ IInterface* value,
     /* [out] */ IBoolean** result)
 {
@@ -73,7 +73,7 @@ ECode JSON::ToBoolean(
     return NOERROR;
 }
 
-ECode JSON::ToDouble(
+ECode JSONParser::ToDouble(
     /* [in] */ IInterface* value,
     /* [out] */ IDouble** result)
 {
@@ -110,7 +110,7 @@ ECode JSON::ToDouble(
     return NOERROR;
 }
 
-ECode JSON::ToInteger32(
+ECode JSONParser::ToInteger32(
     /* [in] */ IInterface* value,
     /* [out] */ IInteger32** result)
 {
@@ -147,7 +147,7 @@ ECode JSON::ToInteger32(
     return NOERROR;
 }
 
-ECode JSON::ToInteger64(
+ECode JSONParser::ToInteger64(
     /* [in] */ IInterface* value,
     /* [out] */ IInteger64** result)
 {
@@ -184,7 +184,7 @@ ECode JSON::ToInteger64(
     return NOERROR;
 }
 
-ECode JSON::ToString(
+ECode JSONParser::ToString(
     /* [in] */ IInterface* value,
     /* [out] */ String* result)
 {
@@ -201,18 +201,18 @@ ECode JSON::ToString(
     return NOERROR;
 }
 
-ECode JSON::TypeMismatch(
+ECode JSONParser::TypeMismatch(
     /* [in] */ IInterface* indexOrName,
     /* [in] */ IInterface* actual,
     /* [in] */ const String& requiredType)
 {
     if (actual == NULL) {
-        Logger::E("JSON", "Value at %p is null", indexOrName);
+        Logger::E("JSONParser", "Value at %p is null", indexOrName);
         return E_JSON_EXCEPTION;
         // throw new JSONException("Value at " + indexOrName + " is null.");
     }
     else {
-        Logger::E("JSON", "Value %p at %p of type actual cannot be converted to %s",
+        Logger::E("JSONParser", "Value %p at %p of type actual cannot be converted to %s",
                 actual, indexOrName, requiredType.string());
         return E_JSON_EXCEPTION;
         // throw new JSONException("Value " + actual + " at " + indexOrName
@@ -222,17 +222,17 @@ ECode JSON::TypeMismatch(
     return NOERROR;
 }
 
-ECode JSON::TypeMismatch(
+ECode JSONParser::TypeMismatch(
     /* [in] */ IInterface* actual,
     /* [in] */ const String& requiredType)
 {
     if (actual == NULL) {
-        Logger::E("JSON", "Value is null.");
+        Logger::E("JSONParser", "Value is null.");
         return E_JSON_EXCEPTION;
         // throw new JSONException("Value is null.");
     }
     else {
-        Logger::E("JSON", "Value %p of type actual cannot be converted to %s",
+        Logger::E("JSONParser", "Value %p of type actual cannot be converted to %s",
                 actual, requiredType.string());
         return E_JSON_EXCEPTION;
         // throw new JSONException("Value " + actual

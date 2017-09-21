@@ -15,7 +15,7 @@
 //=========================================================================
 
 #include "JSONTokener.h"
-#include "JSON.h"
+#include "JSONParser.h"
 #include "CJSONArray.h"
 #include "CJSONObject.h"
 #include "JSONObject.h"
@@ -155,7 +155,7 @@ ECode JSONTokener::NextCleanInternal(
 
             case '#':
                 /*
-                 * Skip a # hash end-of-line comment. The JSON RFC doesn't
+                 * Skip a # hash end-of-line comment. The JSONParser RFC doesn't
                  * specify this behavior, but it's required to parse
                  * existing documents. See http://b/2571423.
                  */

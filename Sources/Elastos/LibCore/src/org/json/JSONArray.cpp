@@ -15,7 +15,7 @@
 //=========================================================================
 
 #include "JSONArray.h"
-#include "JSON.h"
+#include "JSONParser.h"
 #include "JSONObject.h"
 #include "CJSONObject.h"
 #include "CJSONTokener.h"
@@ -82,8 +82,8 @@ ECode JSONArray::constructor(
         mValues = ((JSONArray*)obj.Get())->mValues;
     }
     else {
-        return JSON::TypeMismatch(object, String("JSONArray"));
-        // throw JSON.typeMismatch(object, "JSONArray");
+        return JSONParser::TypeMismatch(object, String("JSONArray"));
+        // throw JSONParser.typeMismatch(object, "JSONArray");
     }
     return NOERROR;
 }
@@ -137,7 +137,7 @@ ECode JSONArray::Put(
 ECode JSONArray::Put(
     /* [in] */ Double value)
 {
-    FAIL_RETURN(JSON::CheckDouble(value));
+    FAIL_RETURN(JSONParser::CheckDouble(value));
     mValues->Add(CoreUtils::Convert(value));
     return NOERROR;
 }
@@ -169,7 +169,7 @@ ECode JSONArray::CheckedPut(
     if (INumber::Probe(value)) {
         Double result;
         INumber::Probe(value)->DoubleValue(&result);
-        FAIL_RETURN(JSON::CheckDouble(result));
+        FAIL_RETURN(JSONParser::CheckDouble(result));
     }
 
     return Put(value);
@@ -211,7 +211,7 @@ ECode JSONArray::Put(
         // deviate from the original by checking all Numbers, not just floats & doubles
         Double result;
         INumber::Probe(value)->DoubleValue(&result);
-        FAIL_RETURN(JSON::CheckDouble(result));
+        FAIL_RETURN(JSONParser::CheckDouble(result));
     }
     Int32 size;
     while (mValues->GetSize(&size), size <= index) {
@@ -302,10 +302,10 @@ ECode JSONArray::GetBoolean(
     AutoPtr<IInterface> object;
     Get(index, (IInterface**)&object);
     AutoPtr<IBoolean> result;
-    JSON::ToBoolean(object, (IBoolean**)&result);
+    JSONParser::ToBoolean(object, (IBoolean**)&result);
     if (result == NULL) {
-        return JSON::TypeMismatch(CoreUtils::Convert(index), object, String("boolean"));
-        // throw JSON.typeMismatch(index, object, "boolean");
+        return JSONParser::TypeMismatch(CoreUtils::Convert(index), object, String("boolean"));
+        // throw JSONParser.typeMismatch(index, object, "boolean");
     }
     return result->GetValue(res);
 }
@@ -328,7 +328,7 @@ ECode JSONArray::OptBoolean(
     AutoPtr<IInterface> object;
     Opt(index, (IInterface**)&object);
     AutoPtr<IBoolean> result;
-    JSON::ToBoolean(object, (IBoolean**)&result);
+    JSONParser::ToBoolean(object, (IBoolean**)&result);
     if (result != NULL) {
         return result->GetValue(res);
     }
@@ -346,10 +346,10 @@ ECode JSONArray::GetDouble(
     AutoPtr<IInterface> object;
     Get(index, (IInterface**)&object);
     AutoPtr<IDouble> result;
-    JSON::ToDouble(object, (IDouble**)&result);
+    JSONParser::ToDouble(object, (IDouble**)&result);
     if (result == NULL) {
-        return JSON::TypeMismatch(CoreUtils::Convert(index), object, String("double"));
-        // throw JSON.typeMismatch(index, object, "double");
+        return JSONParser::TypeMismatch(CoreUtils::Convert(index), object, String("double"));
+        // throw JSONParser.typeMismatch(index, object, "double");
     }
     return result->GetValue(data);
 }
@@ -372,7 +372,7 @@ ECode JSONArray::OptDouble(
     AutoPtr<IInterface> object;
     Opt(index, (IInterface**)&object);
     AutoPtr<IDouble> result;
-    JSON::ToDouble(object, (IDouble**)&result);
+    JSONParser::ToDouble(object, (IDouble**)&result);
     if (result != NULL) {
         return result->GetValue(data);
     }
@@ -390,10 +390,10 @@ ECode JSONArray::GetInt32(
     AutoPtr<IInterface> object;
     Get(index, (IInterface**)&object);
     AutoPtr<IInteger32> result;
-    JSON::ToInteger32(object, (IInteger32**)&result);
+    JSONParser::ToInteger32(object, (IInteger32**)&result);
     if (result == NULL) {
-        return JSON::TypeMismatch(CoreUtils::Convert(index), object, String("int"));
-        // throw JSON.typeMismatch(index, object, "int");
+        return JSONParser::TypeMismatch(CoreUtils::Convert(index), object, String("int"));
+        // throw JSONParser.typeMismatch(index, object, "int");
     }
     return result->GetValue(data);
 }
@@ -416,7 +416,7 @@ ECode JSONArray::OptInt32(
     AutoPtr<IInterface> object;
     Opt(index, (IInterface**)&object);
     AutoPtr<IInteger32> result;
-    JSON::ToInteger32(object, (IInteger32**)&result);
+    JSONParser::ToInteger32(object, (IInteger32**)&result);
     if (result != NULL) {
         return result->GetValue(data);
     }
@@ -434,10 +434,10 @@ ECode JSONArray::GetInt64(
     AutoPtr<IInterface> object;
     Get(index, (IInterface**)&object);
     AutoPtr<IInteger64> result;
-    JSON::ToInteger64(object, (IInteger64**)&result);
+    JSONParser::ToInteger64(object, (IInteger64**)&result);
     if (result == NULL) {
-        return JSON::TypeMismatch(CoreUtils::Convert(index), object, String("long"));
-        // throw JSON.typeMismatch(index, object, "long");
+        return JSONParser::TypeMismatch(CoreUtils::Convert(index), object, String("long"));
+        // throw JSONParser.typeMismatch(index, object, "long");
     }
     return result->GetValue(data);
 }
@@ -460,7 +460,7 @@ ECode JSONArray::OptInt64(
     AutoPtr<IInterface> object;
     Opt(index, (IInterface**)&object);
     AutoPtr<IInteger64> result;
-    JSON::ToInteger64(object, (IInteger64**)&result);
+    JSONParser::ToInteger64(object, (IInteger64**)&result);
     if (result != NULL) {
         return result->GetValue(data);
     }
@@ -478,10 +478,10 @@ ECode JSONArray::GetString(
     AutoPtr<IInterface> object;
     Get(index, (IInterface**)&object);
     String result;
-    JSON::ToString(object, &result);
+    JSONParser::ToString(object, &result);
     if (result.IsNull()) {
-        return JSON::TypeMismatch(CoreUtils::Convert(index), object, String("String"));
-        // throw JSON.typeMismatch(index, object, "String");
+        return JSONParser::TypeMismatch(CoreUtils::Convert(index), object, String("String"));
+        // throw JSONParser.typeMismatch(index, object, "String");
     }
     *str = result;
     return NOERROR;
@@ -505,7 +505,7 @@ ECode JSONArray::OptString(
     AutoPtr<IInterface> object;
     Opt(index, (IInterface**)&object);
     String result;
-    JSON::ToString(object, &result);
+    JSONParser::ToString(object, &result);
     if (!result.IsNull()) {
         *str = result;
         return NOERROR;
@@ -529,8 +529,8 @@ ECode JSONArray::GetJSONArray(
         return NOERROR;
     }
     else {
-        return JSON::TypeMismatch(CoreUtils::Convert(index), object, String("JSONArray"));
-        // throw JSON.typeMismatch(index, object, "JSONArray");
+        return JSONParser::TypeMismatch(CoreUtils::Convert(index), object, String("JSONArray"));
+        // throw JSONParser.typeMismatch(index, object, "JSONArray");
     }
 }
 
@@ -565,8 +565,8 @@ ECode JSONArray::GetJSONObject(
         return NOERROR;
     }
     else {
-        return JSON::TypeMismatch(CoreUtils::Convert(index), object, String("JSONObject"));
-        // throw JSON.typeMismatch(index, object, "JSONObject");
+        return JSONParser::TypeMismatch(CoreUtils::Convert(index), object, String("JSONObject"));
+        // throw JSONParser.typeMismatch(index, object, "JSONObject");
     }
 }
 
@@ -608,7 +608,7 @@ ECode JSONArray::ToJSONObject(
         AutoPtr<IInterface> obj;
         names->Opt(i, (IInterface**)&obj);
         String name;
-        JSON::ToString(obj, &name);
+        JSONParser::ToString(obj, &name);
         AutoPtr<IInterface> object;
         Opt(i, (IInterface**)&object);
         result->Put(name, object);

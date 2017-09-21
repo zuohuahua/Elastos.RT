@@ -31,7 +31,7 @@ INCLUDES += $(MAKEDIR)/../../../inc/elastos/io;
 INCLUDES += $(MAKEDIR)/../../../inc/org;
 INCLUDES += $(MAKEDIR)/../../../inc/org/android_prebuilt;
 
-SOURCES = JSON.cpp
+SOURCES = JSONParser.cpp
 SOURCES += JSONArray.cpp
 SOURCES += JSONObject.cpp
 SOURCES += CJSONObjectHelper.cpp
