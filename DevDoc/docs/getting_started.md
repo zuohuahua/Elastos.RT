@@ -26,7 +26,7 @@ $ cd ~/Elastos.RT/docker
 ```
 NOTE: Please do NOT store any important files outside of the `Elastos.RT` folder as the docker container will be removed after you exit the building environment. And only the changes in the `Elastos.RT` folder will be retained as it has defined as a VOLUME in the Dockerfile.
 
-### Ubuntu
+### Ubuntu_32bit
 
 On Ubuntu this should obtain the necessary pre-reqs:
 ```
@@ -44,6 +44,14 @@ cd /lib/i386-linux-gnu/
 sudo ln -s libicuuc.so.52 libicuuc.so
 sudo ln -s libcrypto.so.1.0.0 libcrypto.so
 
+```
+
+### Ubuntu_64bit
+
+On Ubuntu this should obtain the necessary pre-reqs:
+```
+sudo apt-get install texinfo libglib2.0-dev autoconf libtool libsdl-dev build-essential tofrodos zlib1g-dev:amd64 zlib1g-dev
+sudo apt-get install bison g++-multilib git gperf libxml2-utils make zlib1g-dev zip
 ```
 
 ## Build Elastos.RT
@@ -195,3 +203,5 @@ cd ~/Elastos.RT/Sources/Elastos/LibCore/tests/libcore/math
 ~/Elastos.RT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin$ cd dbg_info
 ~/Elastos.RT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin/dbg_info$ ./testMath
 ```
+
+
