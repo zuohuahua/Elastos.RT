@@ -14,7 +14,7 @@
 # limitations under the License.
 #=========================================================================
 
-#DIRS += PortingLayer
+DIRS += PortingLayer
 DIRS += Core/inc
 DIRS += Library
 DIRS += Core

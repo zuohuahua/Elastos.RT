@@ -26,8 +26,12 @@ INCLUDES += $(INCLUDESTEMP);
 C_DEFINES= -D_USE_MY_DLLMAIN_
 
 SOURCES += elastos.def
-#SOURCES += elastos.rc
 
+ifeq "$(XDK_TARGET_PLATFORM)" "android"
+	SOURCES += dllmain.cpp
+	SOURCES += dllinit.cpp
+	SOURCES += elastos.rc
+endif
 
 ELASTOS_LIBS += ../../libusr/lib4car/lib4ela/lib4ela.lib
 ELASTOS_LIBS += ../../../Library/eltypes/eltypes.lib
@@ -36,30 +40,34 @@ ELASTOS_LIBS += ../../carapi/carapi.lib
 ELASTOS_LIBS += ../../reflection/reflection.lib
 ELASTOS_LIBS += ../../../Library/clsmodule/clsinfo.lib
 
-ELASTOS_LIBS += ../../marshal/marshalcomm.lib
+#ELASTOS_LIBS += ../../marshal/marshalcomm.lib
 
 ifeq "$(XDK_TARGET_PLATFORM)" "win32"
-#ELASTOS_LIBS += ../../elapi/elapi.lib
-#ELASTOS_LIBS += ../../marshal/others/marshal.lib
+ELASTOS_LIBS += ../../elapi/elapi.lib
+ELASTOS_LIBS += ../../marshal/others/marshal.lib
 LIBRARIES += $(XDK_USER_LIB)/libz.lib
 ELASTOS_LIBS += ../../../PortingLayer/win32/win32_porting.lib
 LIBRARIES += -lpthread
 LIBRARIES += $(XDK_LIB_PATH)/dbus-1.lib
 else
-#ELASTOS_LIBS += ../../elapi/elapi.lib
 ifeq "$(XDK_TARGET_PLATFORM)" "android"
+#ELASTOS_LIBS += ../../elapi/elapi.lib
 ELASTOS_LIBS += ../../marshal/marshalcomm.lib
 #ELASTOS_LIBS += ../../marshal/android_linux/marshal.lib
-ELASTOS_LIBS += ../../marshal/linux_rpc/marshal_rpc.lib
-LIBRARIES += -lm -ldl -llog -lz -lcutils -lutils -lbinder
+#ELASTOS_LIBS += ../../marshal/linux_rpc/marshal_rpc.lib
+#LIBRARIES += -lm -ldl -llog -lz -lcutils -lutils -lbinder
+LIBRARIES += -lm -ldl -llog -lz
+LIBRARIES += $(XDK_USER_LIB)/crt0.lib
 else
 ifeq "$(XDK_TARGET_PLATFORM)" "linux"
 #ELASTOS_LIBS += ../../marshal/others_rpc/marshal.lib
 #LIBRARIES += -lm -lc -ldl -lpthread -lstdc++ -ldbus-1 -lz -lrt
+ELASTOS_LIBS += ../../marshal/marshalcomm.lib
 LIBRARIES += -lm -lc -ldl -lpthread -lstdc++ -lz -lrt
 else
-#ELASTOS_LIBS += ../../marshal/others/marshal.lib
-LIBRARIES += -lm -lc -ldl -lpthread -lstdc++ -lz -lrt
+ELASTOS_LIBS += ../../marshal/others/marshal.lib
+LIBRARIES += -lm -lc -ldl -lpthread -lstdc++ -ldbus-1 -lz -lrt
+LIBRARIES += $(XDK_USER_LIB)/crt0.lib
 endif
 endif
 endif

@@ -1596,14 +1596,22 @@ Char32 Character::ToUpperCase(
 Int32 Character::OfImpl(
     /* [in] */ Int32 codePoint)
 {
+#ifndef _android
     return ublock_getCode(codePoint);
+#endif
+    assert(0 && "TODO");
+    return 0;
 }
 
 Int32 Character::DigitImpl(
     /* [in] */ Int32 codePoint,
     /* [in] */ Int32 radix)
 {
+#ifndef _android
     return u_digit(codePoint, radix);
+#endif
+    assert(0 && "TODO");
+    return 0;
 }
 
 Int32 Character::GetNumericValueImpl(
@@ -1629,33 +1637,50 @@ Int32 Character::GetNumericValueImpl(
         return codePoint - 0xFF37;
     }
 
-    Double result = u_getNumericValue(codePoint);
+    Double result = 0;
+
+#ifndef _android
+    result = u_getNumericValue(codePoint);
 
     if (result == U_NO_NUMERIC_VALUE) {
         return -1;
     } else if (result < 0 || Math::Floor(result + 0.5) != result) {
         return -2;
     }
+#endif
 
+    assert(0 && "TODO");
     return (Int32)result;
 }
 
 Int32 Character::GetTypeImpl(
     /* [in] */ Int32 codePoint)
 {
+#ifndef _android
     return u_charType(codePoint);
+#endif
+    assert(0 && "TODO");
+    return 0;
 }
 
 Byte Character::GetDirectionalityImpl(
     /* [in] */ Int32 codePoint)
 {
+#ifndef _android
     return u_charDirection(codePoint);
+#endif
+    assert(0 && "TODO");
+    return 0;
 }
 
 Boolean Character::IsMirroredImpl(
     /* [in] */ Int32 codePoint)
 {
+#ifndef _android
     return u_isMirrored(codePoint);
+#endif
+    assert(0 && "TODO");
+    return 0;
 }
 
 Int32 Character::ForNameImpl(
@@ -1664,19 +1689,33 @@ Int32 Character::ForNameImpl(
     if (blockName.IsNull()) {
         return 0;
     }
+
+#ifndef _android
     return u_getPropertyValueEnum(UCHAR_BLOCK, (const char*)blockName.string());
+#endif
+
+    assert(0 && "TODO");
+    return 0;
 }
 
 Boolean Character::IsDefinedImpl(
     /* [in] */ Int32 codePoint)
 {
+#ifndef _android
     return u_isdefined(codePoint);
+#endif
+    assert(0 && "TODO");
+    return 0;
 }
 
 Boolean Character::IsDigitImpl(
     /* [in] */ Int32 codePoint)
 {
+#ifndef _android
     return u_isdigit(codePoint);
+#endif
+    assert(0 && "TODO");
+    return 0;
 }
 
 Boolean Character::IsIdentifierIgnorableImpl(
@@ -1686,55 +1725,92 @@ Boolean Character::IsIdentifierIgnorableImpl(
     if(codePoint == 0x0085) {
         return TRUE;
     }
+
+#ifndef _android
     return u_isIDIgnorable(codePoint);
+#endif
+    assert(0 && "TODO");
+    return 0;
 }
 
 Boolean Character::IsLetterImpl(
     /* [in] */ Int32 codePoint)
 {
+#ifndef _android
     return u_isalpha(codePoint);
+#endif
+    assert(0 && "TODO");
+    return 0;
 }
 
 Boolean Character::IsLetterOrDigitImpl(
     /* [in] */ Int32 codePoint)
 {
+#ifndef _android
     return u_isalnum(codePoint);
+#endif
+    assert(0 && "TODO");
+    return 0;
 }
 
 Boolean Character::IsLowerCaseImpl(
     /* [in] */ Int32 codePoint)
 {
+#ifndef _android
     return u_islower(codePoint);
+#endif
+    assert(0 && "TODO");
+    return 0;
 }
 
 Boolean Character::IsSpaceCharImpl(
     /* [in] */ Int32 codePoint)
 {
+#ifndef _android
     return u_isJavaSpaceChar(codePoint);
+#endif
+    assert(0 && "TODO");
+    return 0;
 }
 
 Boolean Character::IsTitleCaseImpl(
     /* [in] */ Int32 codePoint)
 {
+#ifndef _android
     return u_istitle(codePoint);
+#endif
+    assert(0 && "TODO");
+    return 0;
 }
 
 Boolean Character::IsUnicodeIdentifierPartImpl(
     /* [in] */ Int32 codePoint)
 {
+#ifndef _android
     return u_isIDPart(codePoint);
+#endif
+    assert(0 && "TODO");
+    return 0;
 }
 
 Boolean Character::IsUnicodeIdentifierStartImpl(
     /* [in] */ Int32 codePoint)
 {
+#ifndef _android
     return u_isIDStart(codePoint);
+#endif
+    assert(0 && "TODO");
+    return 0;
 }
 
 Boolean Character::IsUpperCaseImpl(
     /* [in] */ Int32 codePoint)
 {
+#ifndef _android
     return u_isupper(codePoint);
+#endif
+    assert(0 && "TODO");
+    return 0;
 }
 
 Boolean Character::IsWhitespaceImpl(
@@ -1744,25 +1820,42 @@ Boolean Character::IsWhitespaceImpl(
     if(codePoint == 0x0085) {
         return FALSE;
     }
+
+#ifndef _android
     return u_isWhitespace(codePoint);
+#endif
+    assert(0 && "TODO");
+    return 0;
 }
 
 Int32 Character::ToLowerCaseImpl(
     /* [in] */ Int32 codePoint)
 {
+#ifndef _android
     return u_tolower(codePoint);
+#endif
+    assert(0 && "TODO");
+    return 0;
 }
 
 Int32 Character::ToTitleCaseImpl(
     /* [in] */ Int32 codePoint)
 {
+#ifndef _android
     return u_totitle(codePoint);
+#endif
+    assert(0 && "TODO");
+    return 0;
 }
 
 Int32 Character::ToUpperCaseImpl(
     /* [in] */ Int32 codePoint)
 {
+#ifndef _android
     return u_toupper(codePoint);
+#endif
+    assert(0 && "TODO");
+    return 0;
 }
 
 void Character::WriteUTFBytesToBuffer(

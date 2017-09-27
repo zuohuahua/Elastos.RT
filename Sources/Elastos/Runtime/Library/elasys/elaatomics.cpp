@@ -16,13 +16,15 @@
 
 #include <elaatomics.h>
 #ifdef _android
-#include <cutils/atomic.h>
+// #include <cutils/atomic.h>
+#include <stdatomic.h>
 #endif
 
 int atomic_cmpxchg(int old, int _new, volatile int *ptr)
 {
 #ifdef _android
-    return android_atomic_cmpxchg(old, _new, ptr);
+    // return android_atomic_cmpxchg(old, _new, ptr);
+    return __sync_val_compare_and_swap(ptr, old, _new) != old;
 #else
     return __sync_val_compare_and_swap(ptr, old, _new) != old;
 #endif
@@ -34,7 +36,8 @@ int atomic_swap(int _new, volatile int *ptr)
     int old;
     do {
         old = *ptr;
-    } while (android_atomic_cmpxchg(old, _new, ptr));
+    // } while (android_atomic_cmpxchg(old, _new, ptr));
+    } while (__sync_val_compare_and_swap(ptr, old, _new) != old);
     return old;
 #else
     int old;
@@ -50,9 +53,10 @@ int atomic_inc(volatile int *ptr)
 #ifdef _android
     // __atomic_inc of android bionic C library will return
     // the old value of *ptr before it is increased
-    int prev = android_atomic_inc(ptr);
-    // so we should increase nRef before return
-    return ++prev;
+    // int prev = android_atomic_inc(ptr);
+    // // so we should increase nRef before return
+    // return ++prev;
+    return __sync_add_and_fetch(ptr, 1);
 #else
     return __sync_add_and_fetch(ptr, 1);
 #endif
@@ -63,9 +67,10 @@ int atomic_dec(volatile int *ptr)
 #ifdef _android
     // __atomic_dec of android bionic C library will return
     // the old value of *ptr before it is decreased
-    int prev = android_atomic_dec(ptr);
-    // so we should decrease nRef before return
-    return --prev;
+    // int prev = android_atomic_dec(ptr);
+    // // so we should decrease nRef before return
+    // return --prev;
+    return __sync_sub_and_fetch(ptr, 1);
 #else
     return __sync_sub_and_fetch(ptr, 1);
 #endif
@@ -74,7 +79,8 @@ int atomic_dec(volatile int *ptr)
 int atomic_add(int value, volatile int* ptr)
 {
 #ifdef _android
-    return android_atomic_add(value, ptr);
+    // return android_atomic_add(value, ptr);
+    return __sync_add_and_fetch(ptr, value);
 #else
     return __sync_add_and_fetch(ptr, value);
 #endif
@@ -83,7 +89,8 @@ int atomic_add(int value, volatile int* ptr)
 int atomic_and(int value, volatile int* ptr)
 {
 #ifdef _android
-    return android_atomic_and(value, ptr);
+    // return android_atomic_and(value, ptr);
+    return __sync_and_and_fetch(ptr, value);
 #else
     return __sync_and_and_fetch(ptr, value);
 #endif
@@ -92,7 +99,8 @@ int atomic_and(int value, volatile int* ptr)
 int atomic_or(int value, volatile int *ptr)
 {
 #ifdef _android
-    return android_atomic_or(value, ptr);
+    // return android_atomic_or(value, ptr);
+    return __sync_or_and_fetch(ptr, value);
 #else
     return __sync_or_and_fetch(ptr, value);
 #endif

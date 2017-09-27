@@ -17,8 +17,11 @@
 #ifndef __ELASTOS_CORE_CHARACTER_H__
 #define __ELASTOS_CORE_CHARACTER_H__
 
+#ifndef _android
 #include "unicode/uchar.h"
 #include "unicode/utypes.h"
+#endif
+
 #include <elastos/core/Object.h>
 
 using Elastos::IO::ISerializable;

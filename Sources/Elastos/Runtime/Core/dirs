@@ -17,7 +17,10 @@
 DIRS = reflection
 
 #NOTE: if marshal function used, it should be reimplemented.
-#DIRS += elapi
+ifeq "$(XDK_TARGET_PLATFORM)" "android"
+	#DIRS += elapi
+endif
+
 DIRS += marshal
 
 DIRS += libusr

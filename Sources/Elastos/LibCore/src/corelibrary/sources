@@ -182,9 +182,11 @@ LIBRARIES += $(XDK_TARGETS)/Elastos.Runtime.eco
 #LIBRARIES += $(XDK_USER_LIB)/crt0.lib
 #LIBRARIES += $(PREBUILD_LIB)/libm.a
 
-#LIBRARIES += -lcutils -licuuc -licui18n -lm -lssl -lcrypto -lsqlite
-#LIBRARIES += -llog -lselinux -lz -lutils -lziparchive -lfdlibm
-
+ifeq "$(XDK_TARGET_PLATFORM)" "android"
+	#LIBRARIES += -lcutils -licuuc -licui18n -lssl -lsqlite -lziparchive -lfdlibm -lselinux -lutils
+	LIBRARIES += -llog -lz -lm -lcrypto
+else
+ifeq "$(XDK_TARGET_PLATFORM)" "linux"
 LIBRARIES += -lm -lc -ldl -lpthread -lstdc++ -lz -lrt -licuuc -lssl -lcrypto
-
-
+endif
+endif

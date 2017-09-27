@@ -14,4 +14,6 @@
 # limitations under the License.
 #=========================================================================
 
-DIRS = HelloCar
+ifeq "$(XDK_TARGET_PLATFORM)" "linux"
+    DIRS = HelloCar
+endif

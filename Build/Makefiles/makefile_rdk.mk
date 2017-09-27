@@ -159,8 +159,8 @@ INCLUDES = .; $(XDK_USER_INC); $(XDK_INC_PATH); \
           $(MAKEDIR);
 endif
 ifeq "$(XDK_TARGET_PLATFORM)" "android"
-INCLUDES = .; $(PREBUILD_INC); $(XDK_USER_INC); $(XDK_INC_PATH); \
-          $(MAKEDIR);
+INCLUDES = .; $(PREBUILD_INC); $(PREBUILD_INC)/libcxx/include;$(XDK_USER_INC); \
+          $(XDK_INC_PATH); $(MAKEDIR); $(PREBUILD_INC)/c++/4.8; $(PREBUILD_INC)/c++/4.8/arm-linux-androideabi;
 endif
 SYSTEM_INCLUDES := $(INCLUDES)
 
