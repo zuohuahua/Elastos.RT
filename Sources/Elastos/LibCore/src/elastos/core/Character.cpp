@@ -1596,22 +1596,24 @@ Char32 Character::ToUpperCase(
 Int32 Character::OfImpl(
     /* [in] */ Int32 codePoint)
 {
-#ifndef _android
-    return ublock_getCode(codePoint);
-#endif
+#ifdef _android
     assert(0 && "TODO");
     return 0;
+#else
+    return ublock_getCode(codePoint);
+#endif
 }
 
 Int32 Character::DigitImpl(
     /* [in] */ Int32 codePoint,
     /* [in] */ Int32 radix)
 {
-#ifndef _android
-    return u_digit(codePoint, radix);
-#endif
+#ifdef _android
     assert(0 && "TODO");
     return 0;
+#else
+    return u_digit(codePoint, radix);
+#endif
 }
 
 Int32 Character::GetNumericValueImpl(
@@ -1639,7 +1641,10 @@ Int32 Character::GetNumericValueImpl(
 
     Double result = 0;
 
-#ifndef _android
+#ifdef _android
+    assert(0 && "TODO");
+    return (Int32)result;
+#else
     result = u_getNumericValue(codePoint);
 
     if (result == U_NO_NUMERIC_VALUE) {
@@ -1648,39 +1653,39 @@ Int32 Character::GetNumericValueImpl(
         return -2;
     }
 #endif
-
-    assert(0 && "TODO");
-    return (Int32)result;
 }
 
 Int32 Character::GetTypeImpl(
     /* [in] */ Int32 codePoint)
 {
-#ifndef _android
-    return u_charType(codePoint);
-#endif
+#ifdef _android
     assert(0 && "TODO");
     return 0;
+#else
+    return u_charType(codePoint);
+#endif
 }
 
 Byte Character::GetDirectionalityImpl(
     /* [in] */ Int32 codePoint)
 {
-#ifndef _android
-    return u_charDirection(codePoint);
-#endif
+#ifdef _android
     assert(0 && "TODO");
     return 0;
+#else
+    return u_charDirection(codePoint);
+#endif
 }
 
 Boolean Character::IsMirroredImpl(
     /* [in] */ Int32 codePoint)
 {
-#ifndef _android
-    return u_isMirrored(codePoint);
-#endif
+#ifdef _android
     assert(0 && "TODO");
     return 0;
+#else
+    return u_isMirrored(codePoint);
+#endif
 }
 
 Int32 Character::ForNameImpl(
@@ -1690,32 +1695,34 @@ Int32 Character::ForNameImpl(
         return 0;
     }
 
-#ifndef _android
-    return u_getPropertyValueEnum(UCHAR_BLOCK, (const char*)blockName.string());
-#endif
-
+#ifdef _android
     assert(0 && "TODO");
     return 0;
+#else
+    return u_getPropertyValueEnum(UCHAR_BLOCK, (const char*)blockName.string());
+#endif
 }
 
 Boolean Character::IsDefinedImpl(
     /* [in] */ Int32 codePoint)
 {
-#ifndef _android
-    return u_isdefined(codePoint);
-#endif
+#ifdef _android
     assert(0 && "TODO");
     return 0;
+#else
+    return u_isdefined(codePoint);
+#endif
 }
 
 Boolean Character::IsDigitImpl(
     /* [in] */ Int32 codePoint)
 {
-#ifndef _android
-    return u_isdigit(codePoint);
-#endif
+#ifdef _android
     assert(0 && "TODO");
     return 0;
+#else
+    return u_isdigit(codePoint);
+#endif
 }
 
 Boolean Character::IsIdentifierIgnorableImpl(
@@ -1726,91 +1733,100 @@ Boolean Character::IsIdentifierIgnorableImpl(
         return TRUE;
     }
 
-#ifndef _android
-    return u_isIDIgnorable(codePoint);
-#endif
+#ifdef _android
     assert(0 && "TODO");
     return 0;
+#else
+    return u_isIDIgnorable(codePoint);
+#endif
 }
 
 Boolean Character::IsLetterImpl(
     /* [in] */ Int32 codePoint)
 {
-#ifndef _android
-    return u_isalpha(codePoint);
-#endif
+#ifdef _android
     assert(0 && "TODO");
     return 0;
+#else
+    return u_isalpha(codePoint);
+#endif
 }
 
 Boolean Character::IsLetterOrDigitImpl(
     /* [in] */ Int32 codePoint)
 {
-#ifndef _android
-    return u_isalnum(codePoint);
-#endif
+#ifdef _android
     assert(0 && "TODO");
     return 0;
+#else
+    return u_isalnum(codePoint);
+#endif
 }
 
 Boolean Character::IsLowerCaseImpl(
     /* [in] */ Int32 codePoint)
 {
-#ifndef _android
-    return u_islower(codePoint);
-#endif
+#ifdef _android
     assert(0 && "TODO");
     return 0;
+#else
+    return u_islower(codePoint);
+#endif
 }
 
 Boolean Character::IsSpaceCharImpl(
     /* [in] */ Int32 codePoint)
 {
-#ifndef _android
-    return u_isJavaSpaceChar(codePoint);
-#endif
+#ifdef _android
     assert(0 && "TODO");
     return 0;
+#else
+    return u_isJavaSpaceChar(codePoint);
+#endif
 }
 
 Boolean Character::IsTitleCaseImpl(
     /* [in] */ Int32 codePoint)
 {
-#ifndef _android
-    return u_istitle(codePoint);
-#endif
+#ifdef _android
     assert(0 && "TODO");
     return 0;
+#else
+    return u_istitle(codePoint);
+#endif
 }
 
 Boolean Character::IsUnicodeIdentifierPartImpl(
     /* [in] */ Int32 codePoint)
 {
-#ifndef _android
-    return u_isIDPart(codePoint);
-#endif
+#ifdef _android
     assert(0 && "TODO");
     return 0;
+#else
+    return u_isIDPart(codePoint);
+#endif
 }
 
 Boolean Character::IsUnicodeIdentifierStartImpl(
     /* [in] */ Int32 codePoint)
 {
-#ifndef _android
-    return u_isIDStart(codePoint);
-#endif
+#ifdef _android
     assert(0 && "TODO");
     return 0;
+#else
+    return u_isIDStart(codePoint);
+#endif
 }
 
 Boolean Character::IsUpperCaseImpl(
     /* [in] */ Int32 codePoint)
 {
-#ifndef _android
-    return u_isupper(codePoint);
-#endif
+#ifdef _android
     assert(0 && "TODO");
     return 0;
+#else
+    return u_isupper(codePoint);
+#endif
 }
 
 Boolean Character::IsWhitespaceImpl(
@@ -1821,41 +1837,45 @@ Boolean Character::IsWhitespaceImpl(
         return FALSE;
     }
 
-#ifndef _android
-    return u_isWhitespace(codePoint);
-#endif
+#ifdef _android
     assert(0 && "TODO");
     return 0;
+#else
+    return u_isWhitespace(codePoint);
+#endif
 }
 
 Int32 Character::ToLowerCaseImpl(
     /* [in] */ Int32 codePoint)
 {
-#ifndef _android
-    return u_tolower(codePoint);
-#endif
+#ifdef _android
     assert(0 && "TODO");
     return 0;
+#else
+    return u_tolower(codePoint);
+#endif
 }
 
 Int32 Character::ToTitleCaseImpl(
     /* [in] */ Int32 codePoint)
 {
-#ifndef _android
-    return u_totitle(codePoint);
-#endif
+#ifdef _android
     assert(0 && "TODO");
     return 0;
+#else
+    return u_totitle(codePoint);
+#endif
 }
 
 Int32 Character::ToUpperCaseImpl(
     /* [in] */ Int32 codePoint)
 {
-#ifndef _android
-    return u_toupper(codePoint);
-#endif
+#ifdef _android
     assert(0 && "TODO");
     return 0;
+#else
+    return u_toupper(codePoint);
+#endif
 }
 
 void Character::WriteUTFBytesToBuffer(
