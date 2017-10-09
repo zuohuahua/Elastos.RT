@@ -83,9 +83,9 @@ else
 
             # Set target object environment variables
             if [ -z "$XDK_TARGET_PRODUCT" ]; then
-                export XDK_BUILD_KIND=$XDK_TARGET_CPU.$XDK_COMPILER.$XDK_TARGET_PLATFORM.$XDK_VERSION
+                export XDK_BUILD_KIND=${XDK_TARGET_CPU}_$XDK_TARGET_CPU_ARCH.$XDK_COMPILER.$XDK_TARGET_PLATFORM.$XDK_VERSION
             else
-                export XDK_BUILD_KIND=$XDK_TARGET_CPU.$XDK_COMPILER.$XDK_TARGET_PLATFORM.$XDK_TARGET_PRODUCT.$XDK_VERSION
+                export XDK_BUILD_KIND=${XDK_TARGET_CPU}_$XDK_TARGET_CPU_ARCH.$XDK_COMPILER.$XDK_TARGET_PLATFORM.$XDK_TARGET_PRODUCT.$XDK_VERSION
             fi
             export XDK_USER_OBJ=$XDK_TARGETS_PATH/obj/$XDK_BUILD_ENV
             export XDK_USER_INC=$XDK_USER_OBJ/$XDK_BUILD_KIND/inc
@@ -116,7 +116,7 @@ else
             unset PATH_LIST
             unset PATH_FILTEROUT_ANDROID
 
-           if [ "$XDK_BUILD_ENV" == "sdk" ]; then
+            if [ "$XDK_BUILD_ENV" == "sdk" ]; then
                 export PATH=$PATH:$XDK_LIB_PATH:$XDK_TARGETS
             else
                 export PATH=$PATH:$XDK_TARGETS
@@ -125,22 +125,21 @@ else
             cd $XDK_SOURCE_PATH
 
             #set title
+            PS1_RESET='\[\e[0m\]' # Text Reset
+
             if [[ ! "$_ELASTOS64" == "" ]]; then
-                TITLE="64"
-                GREEN="$(tput setab 17)"
-                RESET="$(tput sgr0)"
+                PS1_COLOR='\[\e[0;32m\]' # Green
             else
-                TITLE="32"
-                GREEN="$(tput setab 2)"
-                RESET="$(tput sgr0)"
+                PS1_COLOR='\[\e[0;33m\]' # Yellow
             fi
 
-            if [ -z "$XDK_TARGET_PRODUCT" ]; then
-                TITLE=$XDK_TARGET_PLATFORM-$XDK_TARGET_CPU.$XDK_COMPILER-$XDK_VERSION@$TITLE
-            else
-                TITLE=$XDK_TARGET_PLATFORM-$XDK_TARGET_CPU.$XDK_COMPILER-$XDK_TARGET_PRODUCT-$XDK_VERSION@$TITLE
-            fi
-            export PS1='\[\e]0;$TITLE \w\a\]${GREEN}${debian_chroot:+($debian_chroot)}\w\$ ${RESET}'
+            TITLE='$XDK_TARGET_PLATFORM-${XDK_TARGET_CPU}_$XDK_TARGET_CPU_ARCH.$XDK_COMPILER-${XDK_TARGET_PRODUCT:+$XDK_TARGET_PRODUCT-}$XDK_VERSION'
+
+            export PS1="\[\e]0;$TITLE \w\a\]\n\${debian_chroot:+(\$debian_chroot) }${PS1_COLOR}\${XDK_TARGET_CPU}_\$XDK_TARGET_CPU_ARCH.\$XDK_VERSION \w${PS1_RESET}\n$ "
+
+            unset PS1_RESET
+            unset PS1_COLOR
+            unset TITLE
             #clear
         fi
 fi

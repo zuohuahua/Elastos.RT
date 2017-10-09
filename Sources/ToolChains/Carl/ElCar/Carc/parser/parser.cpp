@@ -2130,7 +2130,9 @@ int ImportCAR(const char *pszFile)
     s_pModule = pModule;
     s_pFile = pFile;
     assert(s_pszCurrentPath);
-    delete[] s_pszCurrentPath;
+    if ('\0' != *s_pszCurrentPath) {
+        delete[] s_pszCurrentPath;
+    }
     s_pszCurrentPath = pszCtxCurrentPath;
     RestoreErrorContext(pvCtxError);
     RestoreTokenContext(pvCtxToken);
@@ -2292,7 +2294,9 @@ int MergeCAR(const char *pszFile)
     s_pFile = pFile;
 
     assert(s_pszCurrentPath);
-    delete[] s_pszCurrentPath;
+    if ('\0' != *s_pszCurrentPath) {
+        delete[] s_pszCurrentPath;
+    }
     s_pszCurrentPath = pszCtxCurrentPath;
     RestoreErrorContext(pvCtxError);
     RestoreTokenContext(pvCtxToken);
