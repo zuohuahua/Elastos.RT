@@ -36,7 +36,7 @@ namespace Utility {
 //       CEnumMap
 //==========================================================
 
-CAR_INTERFACE_IMPL_2(CEnumMap, AbstractMap, IEnumMap, ICloneable)
+CAR_INTERFACE_IMPL(CEnumMap, AbstractMap, IEnumMap, ICloneable)
 CAR_OBJECT_IMPL(CEnumMap)
 
 CEnumMap::CEnumMap()
