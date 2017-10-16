@@ -21,6 +21,7 @@ CAR_FLAGS += -n -u
 LUBE_FLAGS += -n -u
 
 INCLUDES += $(MAKEDIR)/../../inc
+INCLUDES += $(MAKEDIR)/../../inc/elastos/hellocar
 
 SOURCES = Elastos.HelloCar.car
 SOURCES += Animal.cpp

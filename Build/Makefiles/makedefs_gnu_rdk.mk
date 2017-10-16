@@ -8,7 +8,7 @@ ifneq "$(XDK_TARGET_PRODUCT)" ""
   C_DEFINES:=$(C_DEFINES) -D_$(XDK_TARGET_PRODUCT)
 endif
 
-C_DEFINES:= -std=c++11 -DELASTOS -D_$(XDK_TARGET_CPU) -D_$(XDK_TARGET_BOARD) \
+C_DEFINES:= -DELASTOS -D_$(XDK_TARGET_CPU) -D_$(XDK_TARGET_BOARD) \
             -D_$(XDK_TARGET_PLATFORM) $(C_DEFINES)
 
 NATIVE_BUILD=1
@@ -321,7 +321,7 @@ ifeq "$(XDK_TARGET_CPU)" "arm"
 endif
 
 # -fno-rtti only valid for C++ but not for C/ObjC since 3.3.3
-CPP_FLAGS := -fno-rtti -fcheck-new -Wno-psabi $(CPP_FLAGS)
+CPP_FLAGS := -std=c++11 -fno-rtti -fcheck-new -Wno-psabi $(CPP_FLAGS)
 
 ##########################################################################
 #
