@@ -35,13 +35,13 @@ SOURCES += ${name}.cpp
 $       END IF
 $   END DO ;; all classes
 $
-SOURCES += Elastos.CoreLibrary.cpp
 
 $IF type is not "library"
 
 $  IF compilingenv is not "InSDK"
 LIBRARIES = $$(XDK_USER_LIB)/Elastos.Runtime.lib
 LIBRARIES += $$(XDK_TARGETS)/Elastos.Runtime.eco
+LIBRARIES += $$(XDK_USER_LIB)/Elastos.CoreLibrary.UUIDs.lib
 LIBRARIES += $$(XDK_TARGETS)/Elastos.CoreLibrary.eco
 LIBRARIES += -lstdc++
 $  ELSE
