@@ -14,23 +14,11 @@
 # limitations under the License.
 #=========================================================================
 
-TARGET_NAME = HelloCar
-TARGET_TYPE = ecx
+TARGET_NAME = Elastos.CoreLibrary.UUIDs
+TARGET_TYPE = lib
 
-CAR_FLAGS += -n -u
-LUBE_FLAGS += -n -u
+EXPORT_LIBRARY= 1
+IMPORTS += Elastos.CoreLibrary.eco
 
-INCLUDES += $(MAKEDIR)/../eco
-VPATH := $(MAKEDIR)/../eco/
+SOURCES += Elastos.CoreLibrary.cpp
 
-IMPORTS = Elastos.HelloCar.eco
-
-SOURCES = main.cpp
-SOURCES += Elastos.HelloCar.cpp
-
-LIBRARIES = $(XDK_USER_LIB)/Elastos.Runtime.lib
-LIBRARIES += $(XDK_TARGETS)/Elastos.Runtime.eco
-LIBRARIES += $(XDK_USER_LIB)/Elastos.CoreLibrary.UUIDs.lib
-LIBRARIES += $(XDK_TARGETS)/Elastos.CoreLibrary.eco
-LIBRARIES += -lm -lstdc++ -ldl
-#LIBRARIES += -lm -lcutils -ldl
