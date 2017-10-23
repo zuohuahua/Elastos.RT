@@ -1,1 +1,1 @@
-include ':app', ':elastosrtsdk', ':elastosruntimesdk', ':elastosruntimesdk2'
+include ':app', ':elastosrtsdk'

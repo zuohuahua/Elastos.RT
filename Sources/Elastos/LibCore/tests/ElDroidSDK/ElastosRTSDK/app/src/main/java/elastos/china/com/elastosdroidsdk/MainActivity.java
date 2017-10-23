@@ -1,4 +1,4 @@
-package org.elastos.elastosdroidsdk;
+package elastos.china.com.elastosrtsdk;
 
 import android.app.Activity;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package org.elastos.elastosdroidsdk;
+package elastos.china.com.elastosrtsdk;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("org.elastos.elastosdroidsdk", appContext.getPackageName());
+        assertEquals("org.elastos.elastosrtsdk", appContext.getPackageName());
     }
 }

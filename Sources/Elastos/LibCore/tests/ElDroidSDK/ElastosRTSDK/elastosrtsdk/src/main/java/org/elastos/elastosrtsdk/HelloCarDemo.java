@@ -9,7 +9,7 @@ public class HelloCarDemo {
         System.loadLibrary("Elastos.Runtime");
         System.loadLibrary("Elastos.CoreLibrary");
         System.loadLibrary("Elastos.HelloCarDemo");
-        System.loadLibrary("ElastosSimpleLib");
+        System.loadLibrary("HelloCar");
     }
 
     public HelloCarDemo() {

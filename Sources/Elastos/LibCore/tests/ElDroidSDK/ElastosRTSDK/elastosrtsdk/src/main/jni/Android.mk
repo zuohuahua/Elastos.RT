@@ -46,7 +46,7 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH)/elastos \
 LOCAL_LDLIBS :=-llog
 LOCAL_CFLAGS += -std=c++11 -D_GNUC -D_linux -D_UNDEFDLLEXP
 
-LOCAL_MODULE := libElastosSimpleLib
+LOCAL_MODULE := HelloCar
 
 #The elastos eco and lib.
 LOCAL_LDFLAGS := $(LOCAL_PATH)/elastoslib/libElastos.Runtime.so \
