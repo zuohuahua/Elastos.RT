@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file:///media/kortide/e2a47aa2-4cb2-4e29-b8c1-9b89bed90045/home/xuliting/Workspace/RT/Elastos.RT_master/Sources/Elastos/LibCore/tests/ElDroidSDK/HelloElastosDemo/HelloElastosDemo.iml" filepath="/media/kortide/e2a47aa2-4cb2-4e29-b8c1-9b89bed90045/home/xuliting/Workspace/RT/Elastos.RT_master/Sources/Elastos/LibCore/tests/ElDroidSDK/HelloElastosDemo/HelloElastosDemo.iml" />
       <module fileurl="file:///media/kortide/e2a47aa2-4cb2-4e29-b8c1-9b89bed90045/home/xuliting/Workspace/RT/Elastos.RT_xlt/Sources/Elastos/LibCore/tests/ElDroidSDK/HelloElastosDemo/HelloElastosDemo.iml" filepath="/media/kortide/e2a47aa2-4cb2-4e29-b8c1-9b89bed90045/home/xuliting/Workspace/RT/Elastos.RT_xlt/Sources/Elastos/LibCore/tests/ElDroidSDK/HelloElastosDemo/HelloElastosDemo.iml" />
+      <module fileurl="file:///media/kortide/e2a47aa2-4cb2-4e29-b8c1-9b89bed90045/home/xuliting/Workspace/RT/Elastos.RT_master/Sources/Elastos/LibCore/tests/ElDroidSDK/HelloElastosDemo/app/app.iml" filepath="/media/kortide/e2a47aa2-4cb2-4e29-b8c1-9b89bed90045/home/xuliting/Workspace/RT/Elastos.RT_master/Sources/Elastos/LibCore/tests/ElDroidSDK/HelloElastosDemo/app/app.iml" />
       <module fileurl="file:///media/kortide/e2a47aa2-4cb2-4e29-b8c1-9b89bed90045/home/xuliting/Workspace/RT/Elastos.RT_xlt/Sources/Elastos/LibCore/tests/ElDroidSDK/HelloElastosDemo/app/app.iml" filepath="/media/kortide/e2a47aa2-4cb2-4e29-b8c1-9b89bed90045/home/xuliting/Workspace/RT/Elastos.RT_xlt/Sources/Elastos/LibCore/tests/ElDroidSDK/HelloElastosDemo/app/app.iml" />
     </modules>
   </component>
