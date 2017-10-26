@@ -17,7 +17,7 @@
 #include "UriCodec.h"
 #include "Character.h"
 #include "IntegralToString.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "CharBuffer.h"
 #include "CByteArrayOutputStream.h"
 #include "CCharsets.h"

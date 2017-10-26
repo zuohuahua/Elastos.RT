@@ -16,7 +16,7 @@
 
 #include "Elastos.CoreLibrary.IO.h"
 #include "CConcurrentSkipListMap.h"
-#include <Math.h>
+#include <ElaMath.h>
 #include "CRandom.h"
 #include "CArrayList.h"
 //#include "CCollections.h"

@@ -15,7 +15,7 @@
 //=========================================================================
 
 #include "CDelayQueue.h"
-#include <Math.h>
+#include <ElaMath.h>
 #include "TimeUnit.h"
 #include "Thread.h"
 

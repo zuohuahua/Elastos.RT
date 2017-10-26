@@ -17,7 +17,7 @@
 #include <coredef.h>
 #include "StringToReal.h"
 #include "Character.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "HexStringParser.h"
 #include "StringToIntegral.h"
 #include "cbigint.h"

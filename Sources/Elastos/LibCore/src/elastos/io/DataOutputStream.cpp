@@ -15,7 +15,7 @@
 //=========================================================================
 
 #include "DataOutputStream.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "Character.h"
 
 using Elastos::Core::Character;

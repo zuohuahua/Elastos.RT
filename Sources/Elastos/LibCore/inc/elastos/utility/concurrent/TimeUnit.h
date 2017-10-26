@@ -19,7 +19,7 @@
 
 #include "Elastos.CoreLibrary.Utility.Concurrent.h"
 #include "Object.h"
-#include "Math.h"
+#include "ElaMath.h"
 
 using Elastos::Core::ISynchronize;
 using Elastos::Core::IThread;

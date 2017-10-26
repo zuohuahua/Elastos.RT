@@ -15,7 +15,7 @@
 //=========================================================================
 
 #include "Multiplication.h"
-#include "Math.h"
+#include "ElaMath.h"
 
 namespace Elastos {
 namespace Math {

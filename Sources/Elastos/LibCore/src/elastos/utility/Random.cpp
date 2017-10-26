@@ -16,7 +16,7 @@
 
 #include "Random.h"
 #include "CSystem.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "AutoLock.h"
 
 using Elastos::Core::CSystem;

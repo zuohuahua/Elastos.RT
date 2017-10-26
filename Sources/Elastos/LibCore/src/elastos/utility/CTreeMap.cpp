@@ -17,7 +17,7 @@
 //#include "Elastos.CoreLibrary.IO.h"
 #include "CTreeMap.h"
 #include "Collections.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "elaerror.h"
 
 using Elastos::Core::IComparable;

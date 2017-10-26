@@ -23,7 +23,7 @@
 #include "org/conscrypt/COpenSSLBIOInputStream.h"
 #include "org/conscrypt/COpenSSLKey.h"
 #include "org/conscrypt/CX509PublicKey.h"
-#include <elastos/core/Math.h>
+#include <elastos/core/ElaMath.h>
 #include <elastos/utility/Arrays.h>
 #include <elastos/utility/logging/Logger.h>
 

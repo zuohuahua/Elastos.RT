@@ -15,7 +15,7 @@
 //=========================================================================
 
 #include "Logical.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include <assert.h>
 
 namespace Elastos {

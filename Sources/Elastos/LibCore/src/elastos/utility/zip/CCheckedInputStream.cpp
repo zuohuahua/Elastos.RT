@@ -15,7 +15,7 @@
 //=========================================================================
 
 #include "CCheckedInputStream.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "CStreams.h"
 
 using Elastos::Core::Math;

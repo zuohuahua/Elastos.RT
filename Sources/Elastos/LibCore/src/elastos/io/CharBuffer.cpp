@@ -15,7 +15,7 @@
 //=========================================================================
 
 #include "CharBuffer.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "StringBuilder.h"
 #include "CharSequenceAdapter.h"
 #include "Arrays.h"

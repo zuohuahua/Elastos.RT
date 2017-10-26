@@ -17,7 +17,7 @@
 #include "Elastos.CoreLibrary.IO.h"
 #include "CLinkedTransferQueue.h"
 #include "LockSupport.h"
-#include <Math.h>
+#include <ElaMath.h>
 #include "CSystem.h"
 #include "Thread.h"
 #include "CLibcore.h"

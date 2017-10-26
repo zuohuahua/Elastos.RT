@@ -15,7 +15,7 @@
 //=========================================================================
 
 #include "CharArrayWriter.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "Character.h"
 #include "CString.h"
 #include "AutoLock.h"

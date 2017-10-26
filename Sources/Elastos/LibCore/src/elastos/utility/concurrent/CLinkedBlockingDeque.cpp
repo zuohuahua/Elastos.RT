@@ -17,7 +17,7 @@
 #include "Elastos.CoreLibrary.IO.h"
 #include "CLinkedBlockingDeque.h"
 #include <StringBuilder.h>
-#include <Math.h>
+#include <ElaMath.h>
 
 using Elastos::Core::StringBuilder;
 using Elastos::Core::Math;

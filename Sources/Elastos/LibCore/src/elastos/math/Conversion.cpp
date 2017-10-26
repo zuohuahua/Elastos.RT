@@ -18,7 +18,7 @@
 #include "BitLevel.h"
 #include "BigInt.h"
 #include "Division.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "Character.h"
 #include "IntegralToString.h"
 #include "StringBuilder.h"

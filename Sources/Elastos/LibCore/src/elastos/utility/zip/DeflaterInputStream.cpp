@@ -15,7 +15,7 @@
 //=========================================================================
 
 #include "DeflaterInputStream.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "CStreams.h"
 #include "CDeflater.h"
 #include "Arrays.h"

@@ -16,7 +16,7 @@
 
 #include "Elastos.CoreLibrary.IO.h"
 #include "CPriorityBlockingQueue.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "CReentrantLock.h"
 #include "Thread.h"
 #include "Arrays.h"

@@ -17,7 +17,7 @@
 #include "CLinkedBlockingQueue.h"
 #include "CAtomicInteger32.h"
 #include "CReentrantLock.h"
-#include "Math.h"
+#include "ElaMath.h"
 
 using Elastos::IO::EIID_ISerializable;
 using Elastos::Utility::Concurrent::Atomic::CAtomicInteger32;

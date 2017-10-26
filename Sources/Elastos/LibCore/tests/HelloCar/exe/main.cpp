@@ -46,7 +46,7 @@
 #include <elautoptr.h>
 #include <_Elastos.HelloCar.h>
 #include <elastos/coredef.h>            // include ETL 头文件之前必须先 include 该头文件以便ETL使用其中定义的宏
-#include <elastos/core/Math.h>
+#include <elastos/core/ElaMath.h>
  #include <elastos/core/AutoLock.h>
 #include <elastos/core/StringUtils.h>
 #include <elastos/core/StringBuilder.h>

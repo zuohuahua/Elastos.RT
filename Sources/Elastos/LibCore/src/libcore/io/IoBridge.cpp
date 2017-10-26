@@ -22,7 +22,7 @@
 #include "droid/system/CStructLinger.h"
 #include "droid/system/CStructPollfd.h"
 #include "droid/system/CStructTimeval.h"
-#include "core/Math.h"
+#include "core/ElaMath.h"
 #include "CInteger32.h"
 #include "CBoolean.h"
 #include "io/CIoUtils.h"

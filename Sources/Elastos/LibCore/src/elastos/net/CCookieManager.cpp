@@ -22,7 +22,7 @@
 #include "CString.h"
 #include "StringBuilder.h"
 #include "StringUtils.h"
-#include "Math.h"
+#include "ElaMath.h"
 
 using Elastos::Core::CString;
 using Elastos::Core::StringUtils;

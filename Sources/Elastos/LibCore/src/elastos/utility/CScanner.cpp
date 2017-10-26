@@ -34,7 +34,7 @@
 #include "Character.h"
 #include "CharBuffer.h"
 #include "NumberFormat.h"
-#include <Math.h>
+#include <ElaMath.h>
 #include <StringUtils.h>
 
 using Elastos::Core::ICharSequence;

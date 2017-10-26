@@ -28,7 +28,7 @@
 #include "libcore/utility/EmptyArray.h"
 #include "Arrays.h"
 #include "FileChannelImpl.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "IoUtils.h"
 
 #include <elastos/core/AutoLock.h>

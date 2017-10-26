@@ -34,7 +34,7 @@
 #include "CLocaleDataHelper.h"
 #include "CSimpleDateFormat.h"
 #include "TimeZone.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "Logger.h"
 
 using Elastos::Utility::CGregorianCalendar;

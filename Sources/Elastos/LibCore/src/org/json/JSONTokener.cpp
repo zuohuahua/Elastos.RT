@@ -22,7 +22,7 @@
 #include "CoreUtils.h"
 #include "StringUtils.h"
 #include "CString.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "utility/Arrays.h"
 #include "elastos/utility/logging/Logger.h"
 

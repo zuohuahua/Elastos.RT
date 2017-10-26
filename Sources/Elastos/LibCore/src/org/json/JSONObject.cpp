@@ -22,7 +22,7 @@
 #include "CJSONStringer.h"
 #include "CoreUtils.h"
 #include "StringUtils.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "utility/CArrayList.h"
 #include "utility/CLinkedHashMap.h"
 #include "elastos/utility/logging/Logger.h"

@@ -17,7 +17,7 @@
 #include "Elastos.CoreLibrary.IO.h"
 #include "CConcurrentHashMap.h"
 #include "LockSupport.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "StringBuilder.h"
 #include "CBoolean.h"
 #include "CAtomicInteger32.h"

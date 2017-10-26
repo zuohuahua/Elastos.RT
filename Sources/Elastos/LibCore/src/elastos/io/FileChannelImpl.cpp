@@ -15,7 +15,7 @@
 //=========================================================================
 
 #include "FileChannelImpl.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "MemoryBlock.h"
 #include "NioUtils.h"
 #include "CLibcore.h"

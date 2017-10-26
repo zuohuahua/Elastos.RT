@@ -18,7 +18,7 @@
 #include "Elastos.CoreLibrary.Net.h"
 #include "org/apache/http/impl/conn/AbstractClientConnAdapter.h"
 #include "elastos/core/Thread.h"
-#include "elastos/core/Math.h"
+#include "elastos/core/ElaMath.h"
 #include "elastos/utility/concurrent/CTimeUnitHelper.h"
 #include "elastos/utility/logging/Logger.h"
 

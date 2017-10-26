@@ -17,7 +17,7 @@
 #include "org/apache/http/impl/conn/DefaultResponseParser.h"
 #include "org/apache/http/message/CParserCursor.h"
 #include "org/apache/http/utility/CCharArrayBuffer.h"
-#include "elastos/core/Math.h"
+#include "elastos/core/ElaMath.h"
 #include "elastos/utility/logging/Logger.h"
 
 using Elastos::Core::Math;

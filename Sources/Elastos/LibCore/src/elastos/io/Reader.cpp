@@ -16,7 +16,7 @@
 
 #include "Reader.h"
 #include "Character.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "AutoLock.h"
 
 namespace Elastos {

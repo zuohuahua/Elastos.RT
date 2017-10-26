@@ -18,7 +18,7 @@
 #include "CReentrantLock.h"
 #include <StringBuilder.h>
 #include <StringUtils.h>
-#include <Math.h>
+#include <ElaMath.h>
 
 using Elastos::IO::EIID_ISerializable;
 using Elastos::Core::StringBuilder;

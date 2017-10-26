@@ -16,7 +16,7 @@
 
 #include "DataInputStream.h"
 #include "CPushbackInputStream.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "StringBuilder.h"
 #include "CModifiedUtf8.h"
 

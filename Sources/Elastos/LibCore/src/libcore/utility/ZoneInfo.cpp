@@ -23,7 +23,7 @@
 #include "CDate.h"
 #include "text/CSimpleDateFormat.h"
 #include "CSystem.h"
-#include <Math.h>
+#include <ElaMath.h>
 // #include <assert.h>
 
 namespace Libcore {

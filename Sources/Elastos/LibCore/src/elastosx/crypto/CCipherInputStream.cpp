@@ -17,7 +17,7 @@
 #include "CCipherInputStream.h"
 #include "CNullCipher.h"
 #include "CStreams.h"
-#include "Math.h"
+#include "ElaMath.h"
 
 using Elastos::IO::IBufferedInputStream;
 using Libcore::IO::IStreams;

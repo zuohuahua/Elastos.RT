@@ -15,7 +15,7 @@
 //=========================================================================
 
 #include "Character.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "StringBuilder.h"
 #include "elastos/utility/logging/Slogger.h"
 

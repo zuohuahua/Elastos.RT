@@ -15,7 +15,7 @@
 //=========================================================================
 
 #include "CFloat.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "RealToString.h"
 
 using Elastos::IO::EIID_ISerializable;

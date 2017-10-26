@@ -22,7 +22,7 @@
 #include "CStreams.h"
 #include "CInputStreamReader.h"
 #include "COutputStreamWriter.h"
-#include "elastos/core/Math.h"
+#include "elastos/core/ElaMath.h"
 
 using Elastos::IO::InputStream;
 using Elastos::IO::OutputStream;

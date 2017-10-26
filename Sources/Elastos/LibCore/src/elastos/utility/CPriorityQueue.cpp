@@ -17,7 +17,7 @@
 //#include "Elastos.CoreLibrary.IO.h"
 #include "CPriorityQueue.h"
 #include "Arrays.h"
-#include "Math.h"
+#include "ElaMath.h"
 
 using Elastos::Core::IComparable;
 using Elastos::IO::EIID_ISerializable;

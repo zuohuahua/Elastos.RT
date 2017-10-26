@@ -15,7 +15,7 @@
 //=========================================================================
 
 #include "AbstractStringBuilder.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "RealToString.h"
 #include "IntegralToString.h"
 #include "Character.h"

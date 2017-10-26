@@ -1,6 +1,6 @@
 
 #include "test.h"
-#include <elastos/Math.h>
+#include <elastos/ElaMath.h>
 
 using Elastos::Utility::Arrays;
 using Elastos::Utility::IList;

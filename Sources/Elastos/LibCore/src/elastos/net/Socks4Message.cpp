@@ -16,7 +16,7 @@
 
 
 #include "Socks4Message.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "StringBuilder.h"
 #include "StringBuilder.h"
 

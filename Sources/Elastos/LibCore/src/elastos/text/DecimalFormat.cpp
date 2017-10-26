@@ -15,7 +15,7 @@
 //=========================================================================
 
 #include "DecimalFormat.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "Character.h"
 #include "CDouble.h"
 #include "CInteger64.h"

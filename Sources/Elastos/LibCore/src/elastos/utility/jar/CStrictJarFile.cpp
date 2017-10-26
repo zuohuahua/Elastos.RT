@@ -24,7 +24,7 @@
 #include "IoUtils.h"
 #include "CZipFile.h"
 #include "CInflater.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "CZipEntry.h"
 #include "CStreams.h"
 #include "elastos/core/UniquePtr.h"

@@ -24,7 +24,7 @@
 #include "ByteBufferAsInt32Buffer.h"
 #include "ByteBufferAsInt64Buffer.h"
 #include "CByteOrderHelper.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "logging/Logger.h"
 
 using Libcore::IO::ISizeOf;

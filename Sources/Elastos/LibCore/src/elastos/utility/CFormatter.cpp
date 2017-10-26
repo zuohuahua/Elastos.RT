@@ -33,7 +33,7 @@
 #include "IntegralToString.h"
 #include "Character.h"
 #include "StringUtils.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "CSystem.h"
 #include "CDate.h"
 #include "CNativeDecimalFormat.h"

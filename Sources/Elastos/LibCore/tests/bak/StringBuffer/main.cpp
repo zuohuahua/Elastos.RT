@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <elastos.h>
 #include <elautoptr.h>
-#include <elastos/Math.h>
+#include <elastos/ElaMath.h>
 
 #ifndef DEBUG
 #define DEBUG

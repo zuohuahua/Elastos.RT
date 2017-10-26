@@ -15,7 +15,7 @@
 //=========================================================================
 
 #include "org/apache/http/entity/CInputStreamEntity.h"
-#include "elastos/core/Math.h"
+#include "elastos/core/ElaMath.h"
 #include "elastos/io/CByteArrayInputStream.h"
 #include "elastos/utility/logging/Logger.h"
 

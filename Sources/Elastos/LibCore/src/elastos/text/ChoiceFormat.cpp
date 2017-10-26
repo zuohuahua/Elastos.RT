@@ -15,7 +15,7 @@
 //=========================================================================
 
 #include "ChoiceFormat.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "StringBuffer.h"
 #include "StringBuilder.h"
 #include "Character.h"

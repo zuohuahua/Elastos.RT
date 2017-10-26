@@ -20,7 +20,7 @@
 #include "BitLevel.h"
 #include "Logical.h"
 #include "Primality.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "Character.h"
 #include "StringUtils.h"
 #include "AutoLock.h"

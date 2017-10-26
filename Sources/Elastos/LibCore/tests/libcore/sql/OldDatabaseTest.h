@@ -38,7 +38,7 @@
 //#include <Elastos.CoreLibrary.h>
 #include <stdio.h>
 //#include <elastos/Mutex.h>
-#include <elastos/core/Math.h>
+#include <elastos/core/ElaMath.h>
 #include <unistd.h>
 
 using namespace Elastos;

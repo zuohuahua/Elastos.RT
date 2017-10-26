@@ -24,7 +24,7 @@
 #include "org/conscrypt/Platform.h"
 #include "org/conscrypt/SSLNullSession.h"
 #include <elastos/core/AutoLock.h>
-#include <elastos/core/Math.h>
+#include <elastos/core/ElaMath.h>
 
 using Elastos::IO::CByteBufferHelper;
 using Elastos::IO::IBuffer;

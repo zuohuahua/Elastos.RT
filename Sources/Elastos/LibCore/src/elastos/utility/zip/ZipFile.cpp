@@ -16,7 +16,7 @@
 
 #include "ZipFile.h"
 #include "CInflater.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "CDataInputStream.h"
 #include "CBufferedInputStream.h"
 #include "CRandomAccessFile.h"

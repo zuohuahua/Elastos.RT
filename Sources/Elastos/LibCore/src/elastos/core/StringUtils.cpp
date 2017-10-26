@@ -24,7 +24,7 @@
 #include "CString.h"
 //#include "CPatternHelper.h"
 //#include "CSplitter.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "StringBuilder.h"
 //#include "CFormatter.h"
 //#include "CLocale.h"

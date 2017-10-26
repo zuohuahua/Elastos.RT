@@ -16,7 +16,7 @@
 
 #include "HexStringParser.h"
 #include "Character.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "StringBuilder.h"
 #include "StringToIntegral.h"
 #include "StringUtils.h"

@@ -26,7 +26,7 @@
 #include "org/apache/http/message/CParserCursor.h"
 #include "org/apache/http/message/CBufferedHeader.h"
 #include "org/apache/http/utility/CCharArrayBuffer.h"
-#include "elastos/core/Math.h"
+#include "elastos/core/ElaMath.h"
 #include "elastos/core/StringUtils.h"
 #include "elastos/utility/CCollections.h"
 #include "elastos/utility/CArrayList.h"

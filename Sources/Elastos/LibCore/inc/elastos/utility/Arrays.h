@@ -21,7 +21,7 @@
 #include "Elastos.CoreLibrary.Utility.h"
 #include <elastos/core/Object.h>
 #include <elastos/core/StringBuilder.h>
-#include <elastos/core/Math.h>
+#include <elastos/core/ElaMath.h>
 #include <elastos/utility/DualPivotQuicksort.h>
 #include <elastos/utility/ComparableTimSort.h>
 #include <elastos/utility/TimSort.h>
