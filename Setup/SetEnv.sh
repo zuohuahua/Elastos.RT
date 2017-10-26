@@ -13,6 +13,14 @@ else
     ################################################################################
     # Set DevKit path
 
+    if [ ! $OS_PATH ]; then        
+        export OS_PATH=$PATH:
+        echo "NEW ORG: $OS_PATH"
+    else
+        export PATH=$OS_PATH:
+        echo "ORG: $OS_PATH"
+    fi
+
     if [ "$1" == "sdk" ]; then
         export XDK_BUILD_ENV=sdk
         shift

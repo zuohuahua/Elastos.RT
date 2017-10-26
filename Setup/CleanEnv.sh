@@ -2,6 +2,7 @@ while read I; do
     if [[ "${I%%=*}" != "HOME"
        && "${I%%=*}" != "_"
        && "${I%%=*}" != "DISPLAY"
+       && "${I%%=*}" != "OS_PATH"
        && "${I%%=*}" != "PATH"
        && "${I%%=*}" != "XDK_BUILD_ENV"
        && "${I%%=*}" != "TERM"
