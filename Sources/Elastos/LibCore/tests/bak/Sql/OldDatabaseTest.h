@@ -21,7 +21,7 @@
 #include <Elastos.CoreLibrary.h>
 #include <stdio.h>
 #include <elastos/Mutex.h>
-#include <elastos/Math.h>
+#include <elastos/ElaMath.h>
 #include <unistd.h>
 
 using namespace Elastos;

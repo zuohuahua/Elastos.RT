@@ -15,7 +15,7 @@
 //=========================================================================
 
 #include "CDelayQueue.h"
-#include <Math.h>
+#include <ElaMath.h>
 #include "TimeUnit.h"
 #include "Thread.h"
 
@@ -30,7 +30,7 @@ namespace Concurrent {
 //====================================================================
 // CDelayQueue::
 //====================================================================
-CAR_INTERFACE_IMPL_2(CDelayQueue, AbstractQueue, IDelayQueue, IBlockingQueue)
+CAR_INTERFACE_IMPL(CDelayQueue, AbstractQueue, IDelayQueue, IBlockingQueue)
 
 CAR_OBJECT_IMPL(CDelayQueue)
 

@@ -23,7 +23,7 @@
 #include <RealToString.h>
 #include <IntegralToString.h>
 #include <StringBuilder.h>
-#include <Math.h>
+#include <ElaMath.h>
 #include <cbigint.h>
 #include <stdio.h>
 

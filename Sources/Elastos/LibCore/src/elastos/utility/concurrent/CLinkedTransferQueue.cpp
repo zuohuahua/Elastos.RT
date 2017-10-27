@@ -17,7 +17,7 @@
 #include "Elastos.CoreLibrary.IO.h"
 #include "CLinkedTransferQueue.h"
 #include "LockSupport.h"
-#include <Math.h>
+#include <ElaMath.h>
 #include "CSystem.h"
 #include "Thread.h"
 #include "CLibcore.h"
@@ -135,7 +135,7 @@ Int32 CLinkedTransferQueue::CHAINED_SPINS = FRONT_SPINS >> 1;
 
 Int32 CLinkedTransferQueue::SWEEP_THRESHOLD = 32;
 
-CAR_INTERFACE_IMPL_2(CLinkedTransferQueue, AbstractQueue, ITransferQueue, IBlockingQueue)
+CAR_INTERFACE_IMPL(CLinkedTransferQueue, AbstractQueue, ITransferQueue, IBlockingQueue)
 
 CAR_OBJECT_IMPL(CLinkedTransferQueue)
 

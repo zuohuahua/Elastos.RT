@@ -16,7 +16,7 @@
 
 #include "DatatypeFactory.h"
 #include "utility/logging/Slogger.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "CBigDecimal.h"
 #include "CBigInteger.h"
 #include "Thread.h"

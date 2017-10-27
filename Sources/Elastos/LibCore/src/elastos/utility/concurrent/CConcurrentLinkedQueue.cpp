@@ -17,7 +17,7 @@
 #include "Elastos.CoreLibrary.IO.h"
 #include "CConcurrentLinkedQueue.h"
 #include "CArrayList.h"
-#include <Math.h>
+#include <ElaMath.h>
 
 using Elastos::Core::Math;
 using Elastos::IO::IObjectInput;
@@ -176,7 +176,7 @@ ECode CConcurrentLinkedQueue::Itr::Remove()
 //====================================================================
 // CConcurrentLinkedQueue::
 //====================================================================
-CAR_INTERFACE_IMPL_2(CConcurrentLinkedQueue, AbstractQueue, IConcurrentLinkedQueue, ISerializable)
+CAR_INTERFACE_IMPL(CConcurrentLinkedQueue, AbstractQueue, IConcurrentLinkedQueue, ISerializable)
 
 CAR_OBJECT_IMPL(CConcurrentLinkedQueue)
 

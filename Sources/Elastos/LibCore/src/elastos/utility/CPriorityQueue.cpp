@@ -17,7 +17,7 @@
 #include "Elastos.CoreLibrary.IO.h"
 #include "CPriorityQueue.h"
 #include "Arrays.h"
-#include "Math.h"
+#include "ElaMath.h"
 
 using Elastos::Core::IComparable;
 using Elastos::IO::EIID_ISerializable;
@@ -84,7 +84,7 @@ ECode CPriorityQueue::PriorityIterator::Remove()
 
 CAR_OBJECT_IMPL(CPriorityQueue)
 
-CAR_INTERFACE_IMPL_2(CPriorityQueue, AbstractQueue, IPriorityQueue, ISerializable)
+CAR_INTERFACE_IMPL(CPriorityQueue, AbstractQueue, IPriorityQueue, ISerializable)
 
 const Int64 CPriorityQueue::sSerialVersionUID;
 

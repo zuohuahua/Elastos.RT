@@ -15,7 +15,7 @@
 //=========================================================================
 
 #include "CFloat.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "RealToString.h"
 
 using Elastos::IO::EIID_ISerializable;
@@ -24,7 +24,7 @@ using Elastos::Core::RealToString;
 namespace Elastos {
 namespace Core {
 
-CAR_INTERFACE_IMPL_4(CFloat, Object, IFloat, INumber, ISerializable, IComparable)
+CAR_INTERFACE_IMPL(CFloat, Object, IFloat, INumber, ISerializable, IComparable)
 
 CAR_OBJECT_IMPL(CFloat)
 

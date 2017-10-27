@@ -17,7 +17,7 @@
 #include "CSplitter.h"
 #include "CMatcher.h"
 #include "CString.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "EmptyArray.h"
 
 using Elastos::Core::CString;

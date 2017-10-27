@@ -17,7 +17,7 @@
 #include "Elastos.CoreLibrary.Libcore.h"
 #include "DirectByteBuffer.h"
 #include "CByteOrderHelper.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "ByteBufferAsCharBuffer.h"
 #include "ByteBufferAsDoubleBuffer.h"
 #include "ByteBufferAsFloatBuffer.h"

@@ -20,7 +20,7 @@
 #include "CharBuffer.h"
 #include "ByteBuffer.h"
 #include "CCodingErrorAction.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "Character.h"
 #include "AutoLock.h"
 #include "Arrays.h"

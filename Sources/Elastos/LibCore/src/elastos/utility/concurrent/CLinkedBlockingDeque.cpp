@@ -17,7 +17,7 @@
 #include "Elastos.CoreLibrary.IO.h"
 #include "CLinkedBlockingDeque.h"
 #include <StringBuilder.h>
-#include <Math.h>
+#include <ElaMath.h>
 
 using Elastos::Core::StringBuilder;
 using Elastos::Core::Math;
@@ -163,7 +163,7 @@ AutoPtr<CLinkedBlockingDeque::Node> CLinkedBlockingDeque::DescendingItr::NextNod
 
 Int64 CLinkedBlockingDeque::sSerialVersionUID = -387911632671998426L;
 
-CAR_INTERFACE_IMPL_3(CLinkedBlockingDeque, AbstractQueue, IBlockingDeque, IBlockingQueue, ISerializable)
+CAR_INTERFACE_IMPL(CLinkedBlockingDeque, AbstractQueue, IBlockingDeque, IBlockingQueue, ISerializable)
 
 CAR_OBJECT_IMPL(CLinkedBlockingDeque)
 

@@ -15,7 +15,7 @@
 //=========================================================================
 
 #include "CThreadLocalRandom.h"
-#include "Math.h"
+#include "ElaMath.h"
 
 namespace Elastos {
 namespace Utility {

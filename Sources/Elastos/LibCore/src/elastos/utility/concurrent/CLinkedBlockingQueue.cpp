@@ -17,7 +17,7 @@
 #include "CLinkedBlockingQueue.h"
 #include "CAtomicInteger32.h"
 #include "CReentrantLock.h"
-#include "Math.h"
+#include "ElaMath.h"
 
 using Elastos::IO::EIID_ISerializable;
 using Elastos::Utility::Concurrent::Atomic::CAtomicInteger32;
@@ -108,7 +108,7 @@ ECode CLinkedBlockingQueue::Itr::Remove()
 //====================================================================
 // CLinkedBlockingQueue::
 //====================================================================
-CAR_INTERFACE_IMPL_2(CLinkedBlockingQueue, AbstractQueue, IBlockingQueue, ISerializable)
+CAR_INTERFACE_IMPL(CLinkedBlockingQueue, AbstractQueue, IBlockingQueue, ISerializable)
 
 CAR_OBJECT_IMPL(CLinkedBlockingQueue)
 

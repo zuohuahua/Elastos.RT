@@ -18,7 +18,7 @@
 #include "org/apache/http/impl/conn/SingleClientConnManager.h"
 #include "org/apache/http/impl/conn/DefaultClientConnectionOperator.h"
 #include "elastos/core/CSystem.h"
-#include "elastos/core/Math.h"
+#include "elastos/core/ElaMath.h"
 #include "elastos/utility/concurrent/CTimeUnitHelper.h"
 #include "elastos/utility/logging/Logger.h"
 #include "libcore/io/CSocketTaggerHelper.h"

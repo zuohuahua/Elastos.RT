@@ -17,7 +17,7 @@
 #include "CGregorianCalendar.h"
 #include "TimeZone.h"
 #include "CSystem.h"
-#include <Math.h>
+#include <ElaMath.h>
 //#include <cutils/log.h>
 
 using Elastos::Core::Math;

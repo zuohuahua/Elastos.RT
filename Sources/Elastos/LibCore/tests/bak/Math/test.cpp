@@ -6,7 +6,7 @@
 #include <elastos/IntegralToString.h>
 #include <elastos/RealToString.h>
 #include <elastos/StringUtils.h>
-#include <elastos/Math.h>
+#include <elastos/ElaMath.h>
 #include <Elastos.CoreLibrary.h>
 #include <cmdef.h>
 

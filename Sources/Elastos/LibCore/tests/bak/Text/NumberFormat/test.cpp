@@ -5,7 +5,7 @@
 #include <elautoptr.h>
 #include <elastos/Number.h>
 #include <elastos/StringBuffer.h>
-#include <elastos/Math.h>
+#include <elastos/ElaMath.h>
 
 using namespace Elastos;
 using namespace Elastos::Text;

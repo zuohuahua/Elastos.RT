@@ -15,7 +15,7 @@
 //=========================================================================
 
 #include "StrictMath.h"
-#include "Math.h"
+#include "ElaMath.h"
 #ifndef ANDROID
 #include <math.h>
 #else

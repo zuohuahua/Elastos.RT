@@ -17,7 +17,7 @@
 #include "org/conscrypt/OpenSSLBIOSource.h"
 #include "org/conscrypt/OpenSSLBIOInputStream.h"
 #include "org/conscrypt/NativeCrypto.h"
-#include <elastos/core/Math.h>
+#include <elastos/core/ElaMath.h>
 
 using Elastos::IO::IBuffer;
 

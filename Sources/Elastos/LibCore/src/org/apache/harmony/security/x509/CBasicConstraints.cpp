@@ -17,7 +17,7 @@
 #include "org/apache/harmony/security/x509/CBasicConstraints.h"
 #include "org/apache/harmony/security/asn1/CASN1Boolean.h"
 #include "org/apache/harmony/security/asn1/CASN1Integer.h"
-#include "elastos/core/Math.h"
+#include "elastos/core/ElaMath.h"
 #include "elastos/math/CBigInteger.h"
 #include <elastos/core/CoreUtils.h>
 #include <elastos/core/StringBuilder.h>

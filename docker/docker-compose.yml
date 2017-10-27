@@ -5,4 +5,9 @@ services:
     build: .
     volumes:
       - ..:/home/hostuser/Elastos.RT
-
+    tmpfs:
+      - /tmp
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined

@@ -16,7 +16,7 @@
 
 #include "Elastos.CoreLibrary.IO.h"
 #include "CInflater.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "Arrays.h"
 #include "CCloseGuardHelper.h"
 #include "AutoLock.h"

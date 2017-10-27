@@ -18,7 +18,7 @@
 #include "CReentrantLock.h"
 #include <StringBuilder.h>
 #include <StringUtils.h>
-#include <Math.h>
+#include <ElaMath.h>
 
 using Elastos::IO::EIID_ISerializable;
 using Elastos::Core::StringBuilder;
@@ -35,7 +35,7 @@ namespace Concurrent {
 //==========================================================
 //       CArrayBlockingQueue
 //==========================================================
-CAR_INTERFACE_IMPL_3(CArrayBlockingQueue, AbstractQueue, IArrayBlockingQueue, IBlockingQueue, ISerializable)
+CAR_INTERFACE_IMPL(CArrayBlockingQueue, AbstractQueue, IArrayBlockingQueue, IBlockingQueue, ISerializable)
 
 CAR_OBJECT_IMPL(CArrayBlockingQueue)
 

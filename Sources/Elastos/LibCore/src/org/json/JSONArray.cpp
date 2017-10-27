@@ -22,7 +22,7 @@
 #include "CJSONStringer.h"
 #include "CoreUtils.h"
 #include "utility/CArrayList.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "elastos/utility/logging/Logger.h"
 
 using Elastos::Core::CoreUtils;

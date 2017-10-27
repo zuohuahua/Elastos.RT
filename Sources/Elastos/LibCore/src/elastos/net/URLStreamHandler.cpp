@@ -20,7 +20,7 @@
 #include "InetAddress.h"
 #include "StringBuilder.h"
 #include "StringUtils.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "url/UrlUtils.h"
 
 namespace Elastos {

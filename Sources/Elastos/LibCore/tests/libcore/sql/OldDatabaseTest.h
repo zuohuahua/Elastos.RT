@@ -37,7 +37,7 @@
 #include "_Elastos.CoreLibrary.Sql.h"
 #include <stdio.h>
 //#include <elastos/Mutex.h>
-#include <elastos/core/Math.h>
+#include <elastos/core/ElaMath.h>
 // #include "elastos/sql/CDriverManager.h"
 #include <unistd.h>
 

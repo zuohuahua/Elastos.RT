@@ -20,6 +20,7 @@
 #include "carc.h"
 #include "clsutil.h"
 #include <chgpath.h>
+#include <unistd.h>
 
 #ifdef _linux
 #define _MAX_PATH 256
@@ -217,6 +218,7 @@ CLSModule * CompileCAR(const char *pszName, DWORD attribs)
         return NULL;
     }
 
+    unlink(psztmp);
     delete[] psztmp;
     return pModule;
 }

@@ -15,7 +15,7 @@
 //=========================================================================
 
 #include "HugeEnumSet.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "Arrays.h"
 
 using Elastos::Core::IEnum;

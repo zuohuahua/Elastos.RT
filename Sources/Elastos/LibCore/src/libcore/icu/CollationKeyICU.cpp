@@ -15,7 +15,7 @@
 //=========================================================================
 
 #include "CollationKeyICU.h"
-#include <Math.h>
+#include <ElaMath.h>
 
 using Elastos::Text::EIID_ICollationKey;
 

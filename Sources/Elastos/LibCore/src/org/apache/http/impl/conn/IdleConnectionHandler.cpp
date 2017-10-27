@@ -17,7 +17,7 @@
 #include "Elastos.CoreLibrary.Utility.Concurrent.h"
 #include "org/apache/http/impl/conn/IdleConnectionHandler.h"
 #include "elastos/core/CSystem.h"
-#include "elastos/core/Math.h"
+#include "elastos/core/ElaMath.h"
 #include "elastos/utility/CHashMap.h"
 #include "elastos/utility/logging/Logger.h"
 

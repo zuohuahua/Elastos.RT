@@ -16,7 +16,7 @@
 
 #include "CCipherOutputStream.h"
 #include "CStreams.h"
-#include "Math.h"
+#include "ElaMath.h"
 
 using Libcore::IO::IStreams;
 using Libcore::IO::CStreams;

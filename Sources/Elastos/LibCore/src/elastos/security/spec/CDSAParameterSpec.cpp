@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "security/spec/CDSAParameterSpec.h"
+#include "CDSAParameterSpec.h"
 
 using Elastos::Security::Interfaces::EIID_IDSAParams;
 
@@ -23,7 +23,7 @@ namespace Security {
 namespace Spec {
 
 CAR_OBJECT_IMPL(CDSAParameterSpec)
-CAR_INTERFACE_IMPL_3(CDSAParameterSpec, Object, IDSAParameterSpec, IDSAParams, IAlgorithmParameterSpec)
+CAR_INTERFACE_IMPL(CDSAParameterSpec, Object, IDSAParameterSpec, IDSAParams, IAlgorithmParameterSpec)
 ECode CDSAParameterSpec::GetG(
     /* [out] */ IBigInteger **base)
 {
@@ -64,4 +64,4 @@ ECode CDSAParameterSpec::constructor(
 
 } // namespace Spec
 } // namespace Security
-} // namespace Security
+} // namespace Elastos

@@ -41,8 +41,33 @@ $    END DO
 $  END DO;; all coalescence methods
 $END IF;; hascoalescence
 
+$IF attrib is "singleton"
+CAR_SINGLETON_IMPL(${class.name})
+$ELSE
+CAR_OBJECT_IMPL(${class.name})
+$END IF
 $WITH all interfaces DO
-$   IF attrib is not "callback" and attrib is not "callbacksink" and attrib is not "clsobj" and attrib is not "filter" and name is not "IRegime" and name is not "IObject"
+$   IF interface is first and name is not "IThread"
+
+CAR_INTERFACE_IMPL(${class.name}$^
+$       IF class.attrib is "singleton"
+, Singleton$^
+$       ELSE
+, Object$^
+$       END IF
+$   END IF
+$   IF attrib is not "callback" and attrib is not "callbacksink" and attrib is not "clsobj" and attrib is not "filter" and name is not "IRegime" and name is not "IObject" and name is not "ISynchronize" and name is not "IWeakReferenceSource" and name is not "IThread" and name is not "IRunnable"
+, ${interface.name}$^
+$   END IF
+$END DO
+$WITH all interfaces DO
+$   IF interface is first and name is not "IThread"
+);
+$   END IF
+$END DO
+
+$WITH all interfaces DO
+$   IF attrib is not "callback" and attrib is not "callbacksink" and attrib is not "clsobj" and attrib is not "filter" and name is not "IRegime" and name is not "IObject" and name is not "ISynchronize" and name is not "IWeakReferenceSource" and name is not "IThread"
 $       WITH all parents_and_me DO
 $       WITH all methods DO
 $           IF interface.attrib is "inherited" and interface.name is not "IAppletMain"

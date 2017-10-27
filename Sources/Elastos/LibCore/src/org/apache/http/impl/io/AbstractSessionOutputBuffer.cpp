@@ -18,7 +18,7 @@
 #include "org/apache/http/params/HttpProtocolParams.h"
 #include "org/apache/http/utility/CCharArrayBuffer.h"
 #include "org/apache/http/utility/CByteArrayBuffer.h"
-#include "elastos/core/Math.h"
+#include "elastos/core/ElaMath.h"
 #include "elastos/utility/logging/Logger.h"
 
 using Elastos::Core::Math;

@@ -27,10 +27,10 @@ IMPORTS = Elastos.HelloCar.eco
 
 SOURCES = main.cpp
 SOURCES += Elastos.HelloCar.cpp
-SOURCES += Elastos.CoreLibrary.cpp
 
 LIBRARIES = $(XDK_USER_LIB)/Elastos.Runtime.lib
 LIBRARIES += $(XDK_TARGETS)/Elastos.Runtime.eco
+LIBRARIES += $(XDK_USER_LIB)/Elastos.CoreLibrary.UUIDs.lib
 LIBRARIES += $(XDK_TARGETS)/Elastos.CoreLibrary.eco
 LIBRARIES += -lm -lstdc++ -ldl
 #LIBRARIES += -lm -lcutils -ldl

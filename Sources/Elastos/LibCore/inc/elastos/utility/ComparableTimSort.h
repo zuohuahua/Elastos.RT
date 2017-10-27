@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_COMPARABLETIMSORT_H__
 
 #include <elastos/core/Object.h>
-#include <elastos/core/Math.h>
+#include <elastos/core/ElaMath.h>
 
 using Elastos::Core::Object;
 using Elastos::Core::IComparable;

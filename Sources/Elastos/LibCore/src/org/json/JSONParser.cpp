@@ -16,7 +16,7 @@
 
 #include "JSONParser.h"
 #include "CoreUtils.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "StringUtils.h"
 #include "elastos/utility/logging/Logger.h"
 

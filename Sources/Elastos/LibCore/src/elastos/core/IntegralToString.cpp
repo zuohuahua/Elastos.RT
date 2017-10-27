@@ -17,7 +17,7 @@
 #include "IntegralToString.h"
 #include "Character.h"
 #include "StringBuilder.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include <stdlib.h>
 
 namespace Elastos {

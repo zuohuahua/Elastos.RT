@@ -17,7 +17,7 @@
 #include "Elastos.CoreLibrary.IO.h"
 #include "CConcurrentLinkedDeque.h"
 #include "CArrayList.h"
-#include <Math.h>
+#include <ElaMath.h>
 
 using Elastos::IO::EIID_ISerializable;
 using Elastos::Core::Math;
@@ -111,7 +111,7 @@ Int64 CConcurrentLinkedDeque::Node::sNextOffset = 0;
 AutoPtr<CConcurrentLinkedDeque::Node> CConcurrentLinkedDeque::sPREV_TERMINATOR;
 AutoPtr<CConcurrentLinkedDeque::Node> CConcurrentLinkedDeque::sNEXT_TERMINATOR;
 
-CAR_INTERFACE_IMPL_3(CConcurrentLinkedDeque, AbstractCollection, IDeque, IQueue, ISerializable)
+CAR_INTERFACE_IMPL(CConcurrentLinkedDeque, AbstractCollection, IDeque, IQueue, ISerializable)
 
 CAR_OBJECT_IMPL(CConcurrentLinkedDeque)
 

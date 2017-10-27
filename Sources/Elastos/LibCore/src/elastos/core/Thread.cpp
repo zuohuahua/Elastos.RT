@@ -17,7 +17,7 @@
 #include "Elastos.CoreLibrary.Utility.h"
 #include "Thread.h"
 #include "ThreadGroup.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "AutoLock.h"
 #include "CSystem.h"
 #include <sys/time.h>

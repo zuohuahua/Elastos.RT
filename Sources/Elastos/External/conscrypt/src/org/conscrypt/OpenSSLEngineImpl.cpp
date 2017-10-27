@@ -24,7 +24,7 @@
 #include "org/conscrypt/Platform.h"
 #include "org/conscrypt/SSLNullSession.h"
 #include <elastos/core/AutoLock.h>
-#include <elastos/core/Math.h>
+#include <elastos/core/ElaMath.h>
 
 using Elastos::IO::CByteBufferHelper;
 using Elastos::IO::IBuffer;
@@ -41,7 +41,7 @@ using Elastosx::Net::Ssl::IX509ExtendedKeyManager;
 namespace Org {
 namespace Conscrypt {
 
-CAR_INTERFACE_IMPL_3(OpenSSLEngineImpl, SSLEngine, ISSLHandshakeCallbacks,
+CAR_INTERFACE_IMPL(OpenSSLEngineImpl, SSLEngine, ISSLHandshakeCallbacks,
         ISSLParametersImplAliasChooser, ISSLParametersImplPSKCallbacks)
 
 static AutoPtr<IOpenSSLBIOSource> InitNullSource()

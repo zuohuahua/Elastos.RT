@@ -15,7 +15,7 @@
 //=========================================================================
 
 #include "CStreams.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "StringBuilder.h"
 #include "CByteArrayOutputStream.h"
 #include "CStringWriter.h"

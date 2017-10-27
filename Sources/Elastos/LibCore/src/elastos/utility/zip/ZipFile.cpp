@@ -16,7 +16,7 @@
 
 #include "ZipFile.h"
 #include "CInflater.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "CDataInputStream.h"
 #include "CBufferedInputStream.h"
 // #include "CRandomAccessFile.h"
@@ -280,7 +280,7 @@ ECode ZipFile::Enumeration::GetNextElement(
 // ZipFile::
 //====================================================================
 
-CAR_INTERFACE_IMPL_2(ZipFile, Object, IZipFile, ICloseable)
+CAR_INTERFACE_IMPL(ZipFile, Object, IZipFile, ICloseable)
 
 ZipFile::ZipFile()
 {

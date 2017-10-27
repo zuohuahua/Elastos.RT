@@ -18,7 +18,7 @@
 #include "CGregorianCalendar.h"
 #include "TimeZone.h"
 #include "ZoneInfo.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "CInteger32.h"
 #include "Arrays.h"
 

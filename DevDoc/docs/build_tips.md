@@ -11,6 +11,11 @@ Copy the needed libs to /usr/lib/i386-linux-gnu/
 in directory /usr/lib/i386-linux-gnu/
 $ sudo ln -s libicuuc.so.52.1 libicuuc.so
 
+## How to install icu library(64bit) on Ubuntu
+```
+$ sudo apt-get install icu-devtools
+$ sudo apt install libicu-dev
+```
 
 Issue Handling
 1. /usr/bin/ld: cannot find xxx.map: No such file or directory
@@ -31,4 +36,11 @@ If you want to make 64 bits version ElastosRT on Ubuntu 64bit, remove these stat
 Install the ssl library(32bit) on Ubuntu
 ```
 $ sudo apt-get install libssl-dev:i386
+```
+
+## How to install ssl library(64bit) on Ubuntu
+
+Install the ssl library(64bit) on Ubuntu
+```
+$ sudo apt-get install libssl-dev
 ```

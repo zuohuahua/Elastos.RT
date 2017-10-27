@@ -17,7 +17,7 @@
 #include "Elastos.CoreLibrary.IO.h"
 #include "HttpURLConnection.h"
 #include "StringUtils.h"
-#include "Math.h"
+#include "ElaMath.h"
 
 using Elastos::Core::StringUtils;
 

@@ -16,13 +16,13 @@
 
 #include "Reader.h"
 #include "Character.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "AutoLock.h"
 
 namespace Elastos {
 namespace IO {
 
-CAR_INTERFACE_IMPL_3(Reader, Object, IReadable, IReader, ICloseable)
+CAR_INTERFACE_IMPL(Reader, Object, IReadable, IReader, ICloseable)
 
 Reader::Reader()
     : mLock(NULL)

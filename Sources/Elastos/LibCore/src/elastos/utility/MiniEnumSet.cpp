@@ -15,7 +15,7 @@
 //=========================================================================
 
 #include "MiniEnumSet.h"
-#include "Math.h"
+#include "ElaMath.h"
 
 using Elastos::Core::IEnum;
 

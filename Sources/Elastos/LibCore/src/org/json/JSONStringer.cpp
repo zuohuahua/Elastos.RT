@@ -19,7 +19,7 @@
 #include "JSONArray.h"
 #include "JSONObject.h"
 #include "CoreUtils.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "utility/CArrayList.h"
 #include "utility/Arrays.h"
 #include "elastos/utility/logging/Logger.h"

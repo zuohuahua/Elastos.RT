@@ -1,5 +1,7 @@
 export XDK_TARGET_PLATFORM=android
 export XDK_TARGET_CPU=arm
+export _ELASTOS64=
+export XDK_TARGET_CPU_ARCH=32
 export XDK_COMPILER=gnu
 export XDK_COMPILER_VERSION=_gcc4
 export XDK_TARGET_FORMAT=elf

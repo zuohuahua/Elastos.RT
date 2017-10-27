@@ -19,7 +19,7 @@
 #include "CZipEntry.h"
 #include "CCRC32.h"
 #include "Memory.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "CPushbackInputStream.h"
 #include "CStreams.h"
 #include "CInflater.h"

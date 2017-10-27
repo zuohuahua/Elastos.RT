@@ -16,7 +16,7 @@
 
 #include "DataInputStream.h"
 #include "CPushbackInputStream.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "StringBuilder.h"
 #include "CModifiedUtf8.h"
 
@@ -28,7 +28,7 @@ using Elastos::IO::Charset::CModifiedUtf8;
 namespace Elastos {
 namespace IO {
 
-CAR_INTERFACE_IMPL_2(DataInputStream, FilterInputStream, IDataInputStream, IDataInput)
+CAR_INTERFACE_IMPL(DataInputStream, FilterInputStream, IDataInputStream, IDataInput)
 
 DataInputStream::DataInputStream()
 {

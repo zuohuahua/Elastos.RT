@@ -1,5 +1,16 @@
 while read I; do
-    if [[ "${I%%=*}" != "HOME" && "${I%%=*}" != "_" && "${I%%=*}" != "DISPLAY" && "${I%%=*}" != "PATH" && "${I%%=*}" != "XDK_BUILD_ENV" && "${I%%=*}" != "TERM" && "${I%%=*}" != "SHELL" && "${I%%=*}" != "XDK_ROOT" && "${I%%=*}" != "_ELASTOS64" ]]; then
+    if [[ "${I%%=*}" != "HOME"
+       && "${I%%=*}" != "_"
+       && "${I%%=*}" != "DISPLAY"
+       && "${I%%=*}" != "OS_PATH"
+       && "${I%%=*}" != "PATH"
+       && "${I%%=*}" != "XDK_BUILD_ENV"
+       && "${I%%=*}" != "TERM"
+       && "${I%%=*}" != "SHELL"
+       && "${I%%=*}" != "XDK_ROOT"
+       && "${I%%=*}" != "_ELASTOS64"
+       && "${I%%=*}" != "LANG"
+       ]]; then
         unset ${I%%=*} &>/dev/null || true
     fi
 done < <(env)

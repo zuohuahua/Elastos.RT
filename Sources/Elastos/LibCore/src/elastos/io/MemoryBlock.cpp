@@ -19,7 +19,7 @@
 #include "CByteOrderHelper.h"
 #include "OsConstants.h"
 #include "CLibcore.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "CByteOrderHelper.h"
 #include "OsConstants.h"
 

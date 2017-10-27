@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include <elastos/core/Math.h>
+#include <elastos/core/ElaMath.h>
 #include <math.h>
 #include <stdlib.h>
 //#include "CRandom.h"

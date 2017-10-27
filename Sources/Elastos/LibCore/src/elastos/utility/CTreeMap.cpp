@@ -17,7 +17,7 @@
 #include "Elastos.CoreLibrary.IO.h"
 #include "CTreeMap.h"
 #include "Collections.h"
-#include "Math.h"
+#include "ElaMath.h"
 #include "elaerror.h"
 
 using Elastos::Core::IComparable;
@@ -42,7 +42,7 @@ const AutoPtr<IComparator> CTreeMap::NATURAL_ORDER = (IComparator*) new OrderCom
 
 CAR_OBJECT_IMPL(CTreeMap)
 
-CAR_INTERFACE_IMPL_5(CTreeMap, AbstractMap, ITreeMap, ISortedMap, INavigableMap, ICloneable, ISerializable)
+CAR_INTERFACE_IMPL(CTreeMap, AbstractMap, ITreeMap, ISortedMap, INavigableMap, ICloneable, ISerializable)
 
 CTreeMap::CTreeMap()
     : mSize(0)
@@ -2536,7 +2536,7 @@ ECode CTreeMap::BoundedMap::BoundedKeySet::RetainAll(
  * A map with optional limits on its range.
  */
 
-CAR_INTERFACE_IMPL_3(CTreeMap::BoundedMap, AbstractMap, ISortedMap, INavigableMap, ISerializable)
+CAR_INTERFACE_IMPL(CTreeMap::BoundedMap, AbstractMap, ISortedMap, INavigableMap, ISerializable)
 
 ECode CTreeMap::BoundedMap::constructor(
     /* [in] */ Boolean ascending,
