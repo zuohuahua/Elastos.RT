@@ -20,6 +20,10 @@
 #include <dlfcn.h>
 #include <stdio.h>
 
+#ifdef _android
+#include <utils/Log.h>
+#endif
+
 #define ENABLE_DUMP_CLSID    0    // debug info switch
 #if ENABLE_DUMP_CLSID
 #define DUMP_CLSID(CLSID, info) \
@@ -45,7 +49,11 @@ pthread_mutex_t g_LocModListLock;
 
 CAR_INLINE _ELASTOS Boolean IsRuntimeUunm(const char* uunm)
 {
+#if defined(_android)
+    return !strcmp("libElastos.Runtime.so", uunm);
+#else
     return !strcmp("Elastos.Runtime.eco", uunm);
+#endif
 }
 
 ECode AcquireClassObjectFromLocalModule(
@@ -87,7 +95,9 @@ ECode AcquireClassObjectFromLocalModule(
 #endif
     if (NULL == module) {
         ec = E_FILE_NOT_FOUND;
-        //ALOGE("<%s, %d> dlopen '%s' failed.\n", __FILE__, __LINE__, uunm);
+#ifdef _android
+    ALOGE("<%s, %d> dlopen '%s' failed.\n", __FILE__, __LINE__, uunm);
+#endif
         //ALOGE("error: %s\n", dlerror());
         goto ErrorExit;
     }

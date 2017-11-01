@@ -193,6 +193,7 @@ int getFileType(const char *pFileName)
     else if (!_stricmp(pFileName + n - 4, ".def")) return FILETYPE_DEF;
     else if (!_stricmp(pFileName + n - 4, ".dll")) return FILETYPE_DLL;
     else if (!_stricmp(pFileName + n - 4, ".eco")) return FILETYPE_DLL;
+    else if (!_stricmp(pFileName + n - 3, ".so")) return FILETYPE_DLL;
 
     return FILETYPE_UNKNOWN;
 }

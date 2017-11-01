@@ -1,3 +1,42 @@
+#!/bin/bash
+
+#The arg is NULL, give user a choice.
+if [ "$1" == "" ]; then
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+PS3='Please enter your choice: '
+options=("linux" "arm_android" "devtools_32" "devtools_64" "quit")
+select opt in "${options[@]}"
+do
+    case $opt in
+        "linux")
+            echo "You chose [linux]"
+            export _ELASTOS64=YES
+            source $SCRIPT_DIR/SetEnv.sh x86_linux
+            export LD_LIBRARY_PATH=.
+            return;;
+        "arm_android")
+            echo "You chose [arm_android]"
+            source $SCRIPT_DIR/SetEnv.sh arm_android
+            return;;
+        "devtools_32")
+            echo "You chose [Devtools_32]"
+            source $SCRIPT_DIR/SetEnv.sh gcc_devtools
+            export LD_LIBRARY_PATH=.
+            return;;
+        "devtools_64")
+            echo "You chose [Devtools_64]"
+            export _ELASTOS64=YES
+            source $SCRIPT_DIR/SetEnv.sh gcc_devtools
+            export LD_LIBRARY_PATH=.
+            return;;
+        "quit")
+            return;;
+        *) echo "Invalid option";;
+    esac
+done
+fi
+
+
 if [ "$1" == '-h' ]; then
     echo Usage
     echo
@@ -13,7 +52,7 @@ else
     ################################################################################
     # Set DevKit path
 
-    if [ ! $OS_PATH ]; then        
+    if [ ! $OS_PATH ]; then
         export OS_PATH=$PATH:
     else
         export PATH=$OS_PATH:

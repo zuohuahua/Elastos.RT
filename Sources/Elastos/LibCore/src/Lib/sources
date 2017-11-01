@@ -18,7 +18,12 @@ TARGET_NAME = Elastos.CoreLibrary.UUIDs
 TARGET_TYPE = lib
 
 EXPORT_LIBRARY= 1
+
+ifeq "$(XDK_TARGET_PLATFORM)" "android"
+IMPORTS += libElastos.CoreLibrary.so
+else
 IMPORTS += Elastos.CoreLibrary.eco
+endif
 
 SOURCES += Elastos.CoreLibrary.cpp
 

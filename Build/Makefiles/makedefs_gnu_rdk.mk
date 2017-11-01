@@ -80,7 +80,10 @@ endif
 ifeq "$(DEPEND_OBJ_TYPE)" ""
   DEPEND_OBJ_TYPE = $(TARGET_TYPE)
   ifeq "$(TARGET_TYPE)" "lib"
-    DEPEND_OBJ_TYPE = eco
+      DEPEND_OBJ_TYPE = eco
+    ifeq "$(XDK_TARGET_PLATFORM)" "android"
+      DEPEND_OBJ_TYPE = so
+    endif
   endif
 endif
 
@@ -91,7 +94,7 @@ endif
 ifeq "$(XDK_TARGET_CPU)" "arm"
 ifneq "$(XDK_TARGET_FORMAT)" "elf"
   DLLTOOL_FLAGS := -C -f -mcpu=arm9 -f -march=armv7-a --no-export-all-symbols \
-                   -D $(TARGET_NAME).$(DEPEND_OBJ_TYPE) \
+                   -D $(TARGET_PREFIX)$(TARGET_NAME).$(DEPEND_OBJ_TYPE) \
                    -l $(XDK_USER_LIB)/$(TARGET_NAME).lib \
                    $(DLLTOOL_FLAGS)
 else
@@ -100,24 +103,24 @@ ifeq "$(XDK_TARGET_PLATFORM)" "android"
   ifneq "$(DLLTOOL_FLAGS)" ""
     DLLTOOL_FLAGS := -Wl,-soname,$(strip $(DLLTOOL_FLAGS:-D=))
   endif
-  DLLTOOL_FLAGS := -Wl,-soname,$(TARGET_NAME).$(DEPEND_OBJ_TYPE) -lstdc++ $(LIBC_FLAGS) -nostdlib -L$(PREBUILD_LIB) \
+  DLLTOOL_FLAGS := -Wl,-soname,$(TARGET_PREFIX)$(TARGET_NAME).$(DEPEND_OBJ_TYPE) -lstdc++ $(LIBC_FLAGS) -nostdlib -L$(PREBUILD_LIB) \
                    $(DLLTOOL_FLAGS)
 else
   ifneq "$(DLLTOOL_FLAGS)" ""
     DLLTOOL_FLAGS := -Wl,-soname,/usr/com.elastos.runtime/elastos/$(strip $(DLLTOOL_FLAGS:-D=))
   endif
-  DLLTOOL_FLAGS := -Wl,-soname,/usr/com.elastos.runtime/elastos/$(TARGET_NAME).$(DEPEND_OBJ_TYPE) \
+  DLLTOOL_FLAGS := -Wl,-soname,/usr/com.elastos.runtime/elastos/$(TARGET_PREFIX)$(TARGET_NAME).$(DEPEND_OBJ_TYPE) \
                    $(DLLTOOL_FLAGS)
 endif
 
 
 endif
 else
-#  DLLTOOL_FLAGS := -D $(TARGET_NAME).$(DEPEND_OBJ_TYPE)  \
+#  DLLTOOL_FLAGS := -D $(TARGET_PREFIX)$(TARGET_NAME).$(DEPEND_OBJ_TYPE)  \
 #                   -l $(XDK_USER_LIB)/$(TARGET_NAME).lib \
 #                   $(DLLTOOL_FLAGS)
-  DLLTOOL_FLAGS := -D $(TARGET_NAME).$(DEPEND_OBJ_TYPE)  \
-                   -Wl,-soname,$(TARGET_NAME).$(DEPEND_OBJ_TYPE) \
+  DLLTOOL_FLAGS := -D $(TARGET_PREFIX)$(TARGET_NAME).$(DEPEND_OBJ_TYPE)  \
+                   -Wl,-soname,$(TARGET_PREFIX)$(TARGET_NAME).$(DEPEND_OBJ_TYPE) \
                    $(DLLTOOL_FLAGS)
 endif
 
@@ -388,6 +391,7 @@ ifneq "$(IMPORTS)" ""
   IMPORTS:= $(strip $(IMPORTS))       # remove multiple spaces
   IMPORTS:= $(filter-out \,$(IMPORTS))
   IMPORTHS = $(IMPORTS:.dso=.h)
+  IMPORTHS = $(IMPORTS:.so=.h)
   IMPORTHS = $(IMPORTS:.eco=.h)
 endif
 

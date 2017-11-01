@@ -354,6 +354,9 @@ int LoadLube(const char *pszName, PLUBEHEADER *ppLube)
         return LoadLubeFromDll(szResult, ppLube);
 #endif
     }
+    else if (!_stricmp(pszName + n - 3, ".so")) {
+        return LoadLubeFromELF(szResult, ppLube);
+    }
     return LUBE_FAIL;
 }
 

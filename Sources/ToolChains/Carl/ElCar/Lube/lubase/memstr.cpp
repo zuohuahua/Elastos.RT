@@ -80,7 +80,12 @@ int LubeContext::LibraryMember(MemberType member, char *pszBuffer)
         p--;
 
     if (Member_Name == member) {
-        while (*p && strcasecmp(".eco", p) != 0) *pszBuffer++= *p++;
+#ifdef _android
+        char* suffix =".so";
+#else
+        char* suffix = ".eco";
+#endif
+        while (*p && strcasecmp(suffix, p) != 0) *pszBuffer++= *p++;
         *pszBuffer = 0;
     }
     else if (Member_Type == member) {

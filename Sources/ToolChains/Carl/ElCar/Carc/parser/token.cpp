@@ -770,6 +770,7 @@ bool isValidMiddleName(const char* pszName)
 bool isValidSuffix(const char* pszName)
 {
     if (!strcmp("eco", pszName)) return true;
+    else if (!strcmp("so", pszName)) return true;
     return false;
 }
 

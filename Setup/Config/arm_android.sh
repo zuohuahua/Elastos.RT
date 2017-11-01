@@ -5,6 +5,7 @@ export XDK_TARGET_CPU_ARCH=32
 export XDK_COMPILER=gnu
 export XDK_COMPILER_VERSION=_gcc4
 export XDK_TARGET_FORMAT=elf
+export TARGET_PREFIX=lib
 
 export CROSS_COMPILE=arm-linux-androideabi-
 export XDK_COMPILER_PATH=$XDK_BUILD_PATH/Compilers/arm_android

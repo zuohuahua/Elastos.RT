@@ -68,23 +68,23 @@ endif
 #endif
 
 ifneq "$(XDK_TARGET_PRODUCT)" "devtools"
-	ifndef CERTIFICATE_PATH
-		ifeq "$(XDK_TARGET_PLATFORM)" "android"
-		     XDK_CERTIFICATE_PATH = $(XDK_BUILD_PATH)/Prebuilt/JavaFramework/security
-		     XDK_SIGNAPK_JAR = $(XDK_BUILD_PATH)/Prebuilt/JavaFramework/signapk.jar
-		endif
-	endif
-	ifndef PREBUILD_PATH
-		ifeq "$(XDK_TARGET_PLATFORM)" "android"
-		     PREBUILD_PATH = $(XDK_BUILD_PATH)/Prebuilt/Linux
-			ifndef PREBUILD_INC
-			     PREBUILD_INC = $(PREBUILD_PATH)/usr/include
-			endif
-			ifndef PREBUILD_LIB
-			     PREBUILD_LIB = $(PREBUILD_PATH)/usr/lib
-			endif
-		endif
-	endif
+ifndef CERTIFICATE_PATH
+ifeq "$(XDK_TARGET_PLATFORM)" "android"
+      XDK_CERTIFICATE_PATH = $(XDK_BUILD_PATH)/Prebuilt/JavaFramework/security
+      XDK_SIGNAPK_JAR = $(XDK_BUILD_PATH)/Prebuilt/JavaFramework/signapk.jar
+endif
+endif
+ifndef PREBUILD_PATH
+ifeq "$(XDK_TARGET_PLATFORM)" "android"
+      PREBUILD_PATH = $(XDK_BUILD_PATH)/Prebuilt/Linux
+ifndef PREBUILD_INC
+      PREBUILD_INC = $(PREBUILD_PATH)/usr/include
+endif
+ifndef PREBUILD_LIB
+      PREBUILD_LIB = $(PREBUILD_PATH)/usr/lib
+endif
+endif
+endif
 endif
 
 ##########################################################################
@@ -294,10 +294,17 @@ $(DIRS) : always
 		XDK_EMAKE_DIR=$(XDK_EMAKE_DIR)/$@ $(MAKE_FLAGS)
 endif
 
+#Generating H files fo according to the platform.
 ifneq "$(IMPORTHS)" ""
+ifeq "$(XDK_TARGET_PLATFORM)" "android"
+$(IMPORTHS):
+	@echo Generating H files from $(@:.h=.so)
+	$(LUBE)  -C$(@:.h=.so) -f -T header2 -T headercpp
+else
 $(IMPORTHS):
 	@echo Generating H files from $(@:.h=.eco)
 	$(LUBE)  -C$(@:.h=.eco) -f -T header2 -T headercpp
+endif
 endif
 
 ##########################################################################
