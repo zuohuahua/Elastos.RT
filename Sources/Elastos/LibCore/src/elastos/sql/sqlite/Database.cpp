@@ -274,14 +274,14 @@ ECode Database::Open(
 #if HAVE_SQLITE3
         mode = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE;
 #else
-        mode = IConstants::SQLITE_OPEN_READWRITE |
-                IConstants::SQLITE_OPEN_CREATE;
+        mode = SQLITE_OPEN_READWRITE |
+                SQLITE_OPEN_CREATE;
 #endif
     } else if ((mode & 0400) != 0) {
 #if HAVE_SQLITE3
         mode = SQLITE_OPEN_READONLY;
 #else
-        mode = IConstants::SQLITE_OPEN_READONLY;
+        mode = SQLITE_OPEN_READONLY;
 #endif
     }
     AutoLock lock(this);
@@ -297,14 +297,14 @@ ECode Database::Open(
 #if HAVE_SQLITE3
         mode = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE;
 #else
-        mode = IConstants::SQLITE_OPEN_READWRITE |
-                IConstants::SQLITE_OPEN_CREATE;
+        mode = SQLITE_OPEN_READWRITE |
+                SQLITE_OPEN_CREATE;
 #endif
     } else if ((mode & 0400) != 0) {
 #if HAVE_SQLITE3
         mode = SQLITE_OPEN_READONLY;
 #else
-        mode = IConstants::SQLITE_OPEN_READONLY;
+        mode = SQLITE_OPEN_READONLY;
 #endif
     }
     AutoLock lock(this);
@@ -321,14 +321,14 @@ ECode Database::Open(
 #if HAVE_SQLITE3
         mode = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE;
 #else
-        mode = IConstants::SQLITE_OPEN_READWRITE |
-                IConstants::SQLITE_OPEN_CREATE;
+        mode = SQLITE_OPEN_READWRITE |
+                SQLITE_OPEN_CREATE;
 #endif
     } else if ((mode & 0400) != 0) {
 #if HAVE_SQLITE3
         mode = SQLITE_OPEN_READONLY;
 #else
-        mode = IConstants::SQLITE_OPEN_READONLY;
+        mode = SQLITE_OPEN_READONLY;
 #endif
     }
     AutoLock lock(this);

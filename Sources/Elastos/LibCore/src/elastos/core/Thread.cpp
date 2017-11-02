@@ -76,7 +76,7 @@ const ThreadState Thread::STATE_MAP[] = {
 CAR_INTERFACE_IMPL(Thread, Runnable, IThread)
 
 Thread::Thread()
-    : mNativeThread(NULL)
+    : mNativeThread(nullptr)
     , mDaemon(FALSE)
     , mStackSize(0)
     , mHasBeenStarted(FALSE)

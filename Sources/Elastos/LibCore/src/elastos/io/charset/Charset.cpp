@@ -109,6 +109,7 @@ ECode Charset::AvailableCharsets(
     }
 
     // Add all charsets provided by all charset providers...
+    #if 0
     AutoPtr<IServiceLoader> sl = ServiceLoader::Load(EIID_ICharsetProvider, NULL);
     if (sl) {
         AutoPtr<IIterator> iter;
@@ -132,6 +133,7 @@ ECode Charset::AvailableCharsets(
             }
         }
     }
+    #endif
 
     return Collections::UnmodifiableSortedMap(ISortedMap::Probe(charsets), outsm);
 }

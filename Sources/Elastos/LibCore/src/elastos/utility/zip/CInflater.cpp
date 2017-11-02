@@ -40,7 +40,7 @@ CInflater::CInflater()
     , mInRead(0)
     , mFinished(FALSE)
     , mNeedsDictionary(FALSE)
-    , mStreamHandle(NULL)
+    , mStreamHandle(nullptr)
 {
     AutoPtr<ICloseGuardHelper> helper;
     CCloseGuardHelper::AcquireSingleton((ICloseGuardHelper**)&helper);
