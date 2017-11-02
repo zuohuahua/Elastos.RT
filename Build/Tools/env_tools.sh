@@ -360,6 +360,32 @@ function eldrop ()
     fi
 }
 
+function dropsdk ()
+{
+    SDK_INCLUED_PATH=$ELASTOS_SDK_PATH/include
+    SDK_LIBS_PATH=$ELASTOS_SDK_PATH/libs
+    if [ ! -d "$ELASTOS_SDK_PATH" ]; then
+        rm -rf $ELASTOS_SDK_PATH
+        # mkdir -p "$ELASTOS_SDK_PATH"
+        # mkdir "$SDK_INCLUED_PATH"
+        # mkdir "$SDK_LIBS_PATH"
+    fi
+    mkdir -p "$ELASTOS_SDK_PATH"
+    mkdir "$SDK_INCLUED_PATH"
+    mkdir "$SDK_LIBS_PATH"
+
+    #cp include files to sdk path
+    cp -r $XDK_USER_OBJ/$XDK_BUILD_KIND/inc/* $SDK_INCLUED_PATH
+
+    #cp lib files to libs path
+    cp $XDK_USER_OBJ/$XDK_BUILD_KIND/lib/Elastos.CoreLibrary.UUIDs.lib $SDK_LIBS_PATH
+    cp $XDK_USER_OBJ/$XDK_BUILD_KIND/lib/Elastos.Runtime.lib $SDK_LIBS_PATH
+
+    #cp libraries files to libs path
+    cp $XDK_TARGETS/libElastos.Runtime.so $SDK_LIBS_PATH
+    cp $XDK_TARGETS/libElastos.CoreLibrary.so $SDK_LIBS_PATH
+}
+
 function pd ()
 {
     case "$1" in
