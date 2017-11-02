@@ -9,3 +9,4 @@ export XDK_COMPILER=gnu
 #export XDK_TARGET_BOARD=pc
 export XDK_TARGET_PRODUCT=devtools
 export XDK_TARGET_FORMAT=elf
+export LD_LIBRARY_PATH=.

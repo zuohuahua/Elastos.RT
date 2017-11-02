@@ -1,39 +1,66 @@
 #!/bin/bash
 
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 #The arg is NULL, give user a choice.
 if [ "$1" == "" ]; then
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-PS3='Please enter your choice: '
-options=("linux" "arm_android" "devtools_32" "devtools_64" "quit")
-select opt in "${options[@]}"
-do
-    case $opt in
-        "linux")
-            echo "You chose [linux]"
-            export _ELASTOS64=YES
-            source $SCRIPT_DIR/SetEnv.sh x86_linux
-            export LD_LIBRARY_PATH=.
-            return;;
-        "arm_android")
-            echo "You chose [arm_android]"
-            source $SCRIPT_DIR/SetEnv.sh arm_android
-            return;;
-        "devtools_32")
-            echo "You chose [Devtools_32]"
-            source $SCRIPT_DIR/SetEnv.sh gcc_devtools
-            export LD_LIBRARY_PATH=.
-            return;;
-        "devtools_64")
-            echo "You chose [Devtools_64]"
-            export _ELASTOS64=YES
-            source $SCRIPT_DIR/SetEnv.sh gcc_devtools
-            export LD_LIBRARY_PATH=.
-            return;;
-        "quit")
-            return;;
-        *) echo "Invalid option";;
-    esac
-done
+    PS3='Please enter your choice: '
+    options=("linux" "arm_android" "devtools_32" "devtools_64" "quit")
+    select opt in "${options[@]}"
+    do
+        case $opt in
+            "linux")
+                echo "You choose [linux]"
+                export _ELASTOS64=YES
+                source $SCRIPT_DIR/SetEnv.sh linux
+                return;;
+            "arm_android")
+                echo "You choose [arm_android]"
+                source $SCRIPT_DIR/SetEnv.sh arm_android
+                return;;
+            "devtools_32")
+                echo "You choose [devtools_32]"
+                export _ELASTOS64=
+                source $SCRIPT_DIR/SetEnv.sh gcc_devtools
+                return;;
+            "devtools_64")
+                echo "You choose [devtools_64]"
+                export _ELASTOS64=YES
+                source $SCRIPT_DIR/SetEnv.sh gcc_devtools
+                return;;
+            "quit")
+                return;;
+            *) echo "Invalid option";;
+        esac
+    done
+else
+    #linux or 1
+    if [ "$1" == '1' ]; then
+        echo "You choose [linux]"
+        export _ELASTOS64=YES
+        source $SCRIPT_DIR/SetEnv.sh linux
+        return
+    #arm_android or 2
+    elif [ "$1" == '2' ]; then
+        echo "You choose [arm_android]"
+        source $SCRIPT_DIR/SetEnv.sh arm_android
+        return
+    elif [[ "$1" == "devtools_32" || "$1" == "3" ]]; then
+        echo "You choose [devtools_32]"
+        export _ELASTOS64=
+        source $SCRIPT_DIR/SetEnv.sh gcc_devtools
+        return
+    elif [[ "$1" == "devtools_64" || "$1" == "4" ]]; then
+        echo "You choose [devtools_64]"
+        export _ELASTOS64=YES
+        source $SCRIPT_DIR/SetEnv.sh gcc_devtools
+        return
+    else
+        if [[ "$1" != "arm_android" && "$1" != "gcc_devtools"  && "$1" != "linux" ]]; then
+            echo "Invalid input, please check!"
+            return
+        fi
+    fi
 fi
 
 
