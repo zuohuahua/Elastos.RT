@@ -1,6 +1,7 @@
 #!/bin/bash
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+setupArg=$1
 
 #The arg is NULL, give user a choice.
 if [ "$1" == "" ]; then
@@ -10,61 +11,43 @@ if [ "$1" == "" ]; then
     do
         case $opt in
             "linux")
-                echo "You choose [linux]"
-                export _ELASTOS64=YES
-                source $SCRIPT_DIR/SetEnv.sh linux
-                return;;
+                setupArg="linux"
+                break;;
             "arm_android")
-                echo "You choose [arm_android]"
-                source $SCRIPT_DIR/SetEnv.sh arm_android
-                return;;
+                setupArg="arm_android"
+                break;;
             "devtools_32")
-                echo "You choose [devtools_32]"
-                export _ELASTOS64=
-                source $SCRIPT_DIR/SetEnv.sh gcc_devtools
-                return;;
+                setupArg="devtools_32"
+                break;;
             "devtools_64")
-                echo "You choose [devtools_64]"
-                export _ELASTOS64=YES
-                source $SCRIPT_DIR/SetEnv.sh gcc_devtools
-                return;;
+                setupArg="devtools_64"
+                break;;
             "quit")
                 return;;
             *) echo "Invalid option";;
         esac
     done
-else
-    #linux or 1
-    if [ "$1" == '1' ]; then
-        echo "You choose [linux]"
-        export _ELASTOS64=YES
-        source $SCRIPT_DIR/SetEnv.sh linux
-        return
-    #arm_android or 2
-    elif [ "$1" == '2' ]; then
-        echo "You choose [arm_android]"
-        source $SCRIPT_DIR/SetEnv.sh arm_android
-        return
-    elif [[ "$1" == "devtools_32" || "$1" == "3" ]]; then
-        echo "You choose [devtools_32]"
-        export _ELASTOS64=
-        source $SCRIPT_DIR/SetEnv.sh gcc_devtools
-        return
-    elif [[ "$1" == "devtools_64" || "$1" == "4" ]]; then
-        echo "You choose [devtools_64]"
-        export _ELASTOS64=YES
-        source $SCRIPT_DIR/SetEnv.sh gcc_devtools
-        return
-    else
-        if [[ "$1" != "arm_android" && "$1" != "gcc_devtools"  && "$1" != "linux" ]]; then
-            echo "Invalid input, please check!"
-            return
-        fi
-    fi
 fi
 
+case $setupArg in
+    "linux" | '1')
+        setupArg="linux"
+        export _ELASTOS64=YES;;
+    "arm_android" | '2')
+        setupArg="arm_android";;
+    "devtools_32" | '3')
+        setupArg="gcc_devtools"
+        export _ELASTOS64=;;
+    "devtools_64" | '4')
+        setupArg="gcc_devtools"
+        export _ELASTOS64=YES;;
+    *)
+        echo "Invalid option"
+        return;;
+esac
 
-if [ "$1" == '-h' ]; then
+
+if [ "$setupArg" == '-h' ]; then
     echo Usage
     echo
     echo
@@ -85,7 +68,7 @@ else
         export PATH=$OS_PATH:
     fi
 
-    if [ "$1" == "sdk" ]; then
+    if [ "$setupArg" == "sdk" ]; then
         export XDK_BUILD_ENV=sdk
         shift
     else
@@ -94,8 +77,8 @@ else
 
     export XDK_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 
-    if [[ ! -f $XDK_ROOT/Setup/Config/$1.sh ]]; then
-        echo "Error: $XDK_SETUP_PATH/Config/$1.sh is not exist."
+    if [[ ! -f $XDK_ROOT/Setup/Config/$setupArg.sh ]]; then
+        echo "Error: $XDK_SETUP_PATH/Config/$setupArg.sh is not exist."
         unset XDK_BUILD_ENV XDK_ROOT
         return
     fi
@@ -111,7 +94,7 @@ else
 
     ################################################################################
     # Set user defined environment variables if the user config file exist
-        source $XDK_SETUP_PATH/Config/$1.sh
+        source $XDK_SETUP_PATH/Config/$setupArg.sh
 
         # Set command and build-tool lookup path
         if [[ ! "$_ELASTOS64" == "" ]]; then

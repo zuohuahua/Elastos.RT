@@ -364,7 +364,7 @@ function dropsdk ()
 {
     SDK_INCLUED_PATH=$ELASTOS_SDK_PATH/include
     SDK_LIBS_PATH=$ELASTOS_SDK_PATH/libs
-    if [ ! -d "$ELASTOS_SDK_PATH" ]; then
+    if [ -d "$ELASTOS_SDK_PATH" ]; then
         rm -rf $ELASTOS_SDK_PATH
         # mkdir -p "$ELASTOS_SDK_PATH"
         # mkdir "$SDK_INCLUED_PATH"
@@ -384,6 +384,7 @@ function dropsdk ()
     #cp libraries files to libs path
     cp $XDK_TARGETS/libElastos.Runtime.so $SDK_LIBS_PATH
     cp $XDK_TARGETS/libElastos.CoreLibrary.so $SDK_LIBS_PATH
+    cp $XDK_BUILD_PATH/Prebuilt/Linux/usr/lib/libcrypto.so $SDK_LIBS_PATH
 }
 
 function pd ()
