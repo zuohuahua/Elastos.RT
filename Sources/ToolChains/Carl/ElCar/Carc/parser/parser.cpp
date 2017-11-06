@@ -51,6 +51,7 @@ static const char *s_pszSourcePath = "";
 static const char *s_pszFactoryUrl = "";
 static char *s_pszCurrentPath = (char *)"";
 static char *s_pszCarFullName = (char *)"";
+static char *s_pszRuntimeFileName = (char *)"";
 ClassAttrib s_DefaultThreadModel = ClassAttrib_freethreaded;
 bool s_bLenientNaming = false;
 bool s_bInKernel = false;
@@ -2024,6 +2025,21 @@ int GenerateEnums(CLSModule *pModule)
     return 0;
 }
 
+char* GetRuntimeModuleName()
+{
+    if (*s_pszRuntimeFileName != '\0') {
+        return s_pszRuntimeFileName;
+    }
+    char* platform = getenv("XDK_TARGET_PLATFORM");
+    s_pszRuntimeFileName = "Elastos.Runtime.eco";
+
+    if (!_stricmp(platform, "android")) {
+        s_pszRuntimeFileName = "libElastos.Runtime.so";
+    }
+
+    return s_pszRuntimeFileName;
+}
+
 int ExtendCLS(CLSModule *pModule, BOOL bNoElastos)
 {
     int j, n, k, x=0;
@@ -2041,7 +2057,7 @@ int ExtendCLS(CLSModule *pModule, BOOL bNoElastos)
                 !(pDesc->mAttribs & ClassAttrib_t_generic) &&
                 !(pDesc->mAttribs & ClassAttrib_t_external)) {
             if (!bNoElastos) {
-                if ((CLS_NoError == LoadCLSFromDll("Elastos.Runtime.eco", &pModuleTmp))
+                if ((CLS_NoError == LoadCLSFromDll(GetRuntimeModuleName(), &pModuleTmp))
                     || (LoadCLS("ElastosCore.cls", &pModule) == CLS_NoError)) {
                     int nIndex = SelectInterfaceDirEntry("ICallbackSink", NULL, pModuleTmp);
                     if (nIndex >= 0) InterfaceCopy(pModuleTmp, nIndex, pModule, FALSE);
@@ -2208,7 +2224,7 @@ int ImportLibrary(const char *pszName)
 
     // skip Elastos.Runtime.eco
     //
-    if (!_stricmp(pszName, "Elastos.Runtime.eco")) return Ret_Continue;
+    if (!_stricmp(pszName, GetRuntimeModuleName())) return Ret_Continue;
 
     // check same entry
     //
@@ -6396,7 +6412,7 @@ int LoadSystemLibrary(BOOL bNoElastos)
     // Load Elastos.Runtime.eco.
     //
     if (!bNoElastos) {
-        if ((LoadCLSFromDll("Elastos.Runtime.eco", &pModule) == CLS_NoError)
+        if ((LoadCLSFromDll(GetRuntimeModuleName(), &pModule) == CLS_NoError)
             || (LoadCLS("ElastosCore.cls", &pModule) == CLS_NoError)) {
             AddCLSLibrary(pModule);
         }
@@ -6412,6 +6428,9 @@ int LoadSystemLibrary(BOOL bNoElastos)
 
 int GenerateModuleName(const char *pszModuleName)
 {
+    char* platform = getenv("XDK_TARGET_PLATFORM");
+    char* suffix = ".eco";
+
     s_pModule->mName = new char[strlen(pszModuleName) + 1];
     if (!s_pModule->mName) goto OutOfMemoryError;
     strcpy(s_pModule->mName, pszModuleName);
@@ -6430,8 +6449,13 @@ int GenerateModuleName(const char *pszModuleName)
         *s_pModule->mUunm = 0;
     }
 
+    if (!_stricmp(platform, "android")) {
+        suffix = ".so";
+        strcat(s_pModule->mUunm, "lib");
+    }
+
     strcat(s_pModule->mUunm, pszModuleName);
-    strcat(s_pModule->mUunm, ".eco");
+    strcat(s_pModule->mUunm, suffix);
     return Ret_Continue;
 
 OutOfMemoryError:
@@ -6493,7 +6517,7 @@ int P_CAR(const char *pszModuleName, BOOL bNested)
                     //if g_szCurrentToken is "Elastos:System:Elastos.Runtime.eco",
                     //we delete prefix "Elastos:System:" in order to
                     //make function IsElastosUunm in locmod.cpp work correctly.
-                    pszUunm = "Elastos.Runtime.eco";
+                    pszUunm = GetRuntimeModuleName();
                 }
 
                 nUunmlen = strlen(pszUunm);

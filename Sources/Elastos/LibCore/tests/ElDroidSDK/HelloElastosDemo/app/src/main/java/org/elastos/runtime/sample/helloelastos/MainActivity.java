@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import org.elastos.elastosrtsdk.HelloCarDemo;
+//import org.elastos.elastosrtsdk.HelloCarDemo;
 
 public class MainActivity extends Activity {
 
@@ -15,8 +15,10 @@ public class MainActivity extends Activity {
 
         //Show the string that comes from a Elastos car objects[CHelloDemo]
         TextView textLabel = (TextView)findViewById(R.id.label);
-        HelloCarDemo helloCarObj = new HelloCarDemo();
-        String helloString = helloCarObj.hello();
+//        HelloCarDemo helloCarObj = new HelloCarDemo();
+//        String helloString = helloCarObj.hello();
+        TestUtils tu = new TestUtils();
+        String helloString = tu.getHelloCarString();
         textLabel.setText(helloString);
     }
 }

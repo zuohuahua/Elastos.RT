@@ -242,7 +242,6 @@ ECode CGZIPInputStream::ParseGzipHeader(
         if (hcrc) {
             IChecksum::Probe(crc)->Update(header, 0, 2);
         }
-
         Int32 length = Memory::PeekInt16(scratch, 0, ByteOrder_LITTLE_ENDIAN) & 0xffff;
         Int32 result, max;
         while (length > 0) {

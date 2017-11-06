@@ -23,6 +23,11 @@ INCLUDESTEMP := $(INCLUDES);
 INCLUDES = $(MAKEDIR)/../inc;
 INCLUDES += $(MAKEDIR)/../../Library/inc/elasys;
 INCLUDES += ../../Library/syscar;
+ifeq "$(XDK_TARGET_PLATFORM)" "android"
+INCLUDES += ../../Library/syscar/so;
+else
+INCLUDES += ../../Library/syscar/eco;
+endif
 INCLUDES += $(INCLUDESTEMP);
 
 SOURCES = carapi.cpp

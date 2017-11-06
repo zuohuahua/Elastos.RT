@@ -44,3 +44,10 @@ Install the ssl library(64bit) on Ubuntu
 ```
 $ sudo apt-get install libssl-dev
 ```
+
+## How to fix building error: make[6]: fromdos: Command not found
+
+Install the tofrodos library on Ubuntu
+```
+$ sudo apt-get install tofrodos
+```

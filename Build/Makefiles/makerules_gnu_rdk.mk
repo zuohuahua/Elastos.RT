@@ -108,6 +108,13 @@ ifeq "$(TARGET_TYPE)" "eco"
 		$(MV) __section.cpp __section0.cpp; \
 	fi
 endif
+ifeq "$(TARGET_TYPE)" "so"
+	perl $(XDK_TOOLS)/res_trans.pl __$*.def "def" "$(SOURCES)"
+	if [ -e "__section.cpp" ]; then \
+		$(CXX) $(CPP_FLAGS) $(C_FLAGS) -o __section.o __section.cpp; \
+		$(MV) __section.cpp __section0.cpp; \
+	fi
+endif
 	$(CC) $(C_DEFINES) -c -fno-builtin -o $*.def __$*_exp.c
 #	$(CC) $(C_DEFINES) -fPIC -c -fno-builtin -o $*.def __$*_exp.c
 	touch $*.exp
@@ -137,6 +144,13 @@ ifeq "$(TARGET_TYPE)" "eco"
 		$(MV) __section.cpp __section0.cpp; \
 	fi
 endif
+ifeq "$(TARGET_TYPE)" "so"
+	perl $(XDK_TOOLS)/res_trans.pl __$*.def "def" "$(SOURCES)"
+	if [ -e "__section.cpp" ]; then \
+		$(CXX) $(CPP_FLAGS) $(C_FLAGS) -o __section.o __section.cpp; \
+		$(MV) __section.cpp __section0.cpp; \
+	fi
+endif
 	$(CC) $(C_DEFINES) -c -fno-builtin -o $*.def __$*_exp.c
 	touch $*.exp
 endif
@@ -153,6 +167,24 @@ ifeq "$(XDK_TARGET_FORMAT)" "elf"
 endif
 
 ifeq "$(TARGET_TYPE)" "eco"
+	@echo Compiling $*.rc ...
+	echo 1 ClassInfo $*.cls > $*.rc
+	if [ -d $(MAKEDIR)/$*.rc ]; then \
+         cat $(MAKEDIR)/$*.rc >> $*.rc; \
+    fi
+
+	$(CC) $(C_DEFINES) -E -P -x c -Wall -o __$*.rc $*.rc
+	fromdos __$*.rc
+	perl $(XDK_TOOLS)/version.pl "__Elastos_CAR" "`pwd`" "$(XDK_TARGETS)" "$<" "$(XDK_RUNTIME_PLATFORM)"
+	perl $(XDK_TOOLS)/cls_trans.pl __$*.rc 'NA'
+	perl $(XDK_TOOLS)/res_trans.pl __$*.rc "rc"
+	if [ -e "__section.cpp" ]; then \
+		$(CXX) $(CPP_FLAGS) $(C_FLAGS) -o __section.o __section.cpp; \
+		$(MV) __section.cpp __section0.cpp; \
+	fi
+	$(CC) $(C_FLAGS) -o $@ __$*.cpp
+endif
+ifeq "$(TARGET_TYPE)" "so"
 	@echo Compiling $*.rc ...
 	echo 1 ClassInfo $*.cls > $*.rc
 	if [ -d $(MAKEDIR)/$*.rc ]; then \
@@ -288,7 +320,7 @@ endif
 endif
 # endif (ELF PE)
 	touch $@
-
+ifeq "$(XDK_TARGET_PLATFORM)" "linux"
 $(TARGET_NAME).so: $(OBJECTS) $(filter-out -l%,$(LIBRARIES)) $(ELASTOS_LIBS) $(MAKEDIR)/sources
 	@echo Linking $@ ...
 	$(LD) $(LINK_FLAGS) $(TARGET_MACHINE_WORD_SIZE_FLAGS) -shared -fpic -o  $(XDK_TARGETS)/$@ \
@@ -302,9 +334,14 @@ ifneq "$(EXPORT_LIBRARY)" ""
 	touch $(XDK_USER_LIB)/$@
 endif
 endif
+endif
 
+ifeq "$(XDK_TARGET_PLATFORM)" "android"
+$(TARGET_NAME).so: $(RESOURCES_OBJECTS) $(OBJECTS) $(filter-out -l%,$(LIBRARIES)) $(ELASTOS_LIBS) $(MAKEDIR)/sources
+else
 $(TARGET_NAME).eco: $(RESOURCES_OBJECTS) $(OBJECTS) $(filter-out -l%,$(LIBRARIES)) $(ELASTOS_LIBS) $(MAKEDIR)/sources
-	@echo Linking $@ ...
+endif
+	@echo Linking $(TARGET_PREFIX)$(TARGET_NAME).$(DEPEND_OBJ_TYPE) ...
 # else PE(for win32 .zener. linux)
 ifneq "$(filter %.car,$(SOURCES))" ""
 ifneq "$(TARGET_NAME).car" "$(filter %.car,$(SOURCES))"
@@ -330,10 +367,10 @@ ifneq "$(EXPORT_ALL_SYMBOLS)" ""
 		$(RESSECTION) $(DLL_ENTRY_OBJECT_FILE) $(PASS2LD)--end-group $(DLL_CRT_END)
 else
 	$(LD) $(DLL_FLAGS) $(DLLTOOL_FLAGS) $(DLL_CRT_BEGIN) $(LINK_FLAGS) $(PASS2LD)-Map $(PASS2LD)$(TARGET_NAME).map $(SEARCH_LIB) \
-		-o $(TARGET_DBG_INFO_PATH)/$@ \
+		-o $(TARGET_DBG_INFO_PATH)/$(TARGET_PREFIX)$(TARGET_NAME).$(DEPEND_OBJ_TYPE) \
 		$(PASS2LD)--start-group $(OBJECTS:exp=def) $(PASS2LD)--whole-archive $(ELASTOS_LIBS) $(PASS2LD)--no-whole-archive $(LIBRARIES) \
 		$(RESSECTION) $(DLL_ENTRY_OBJECT_FILE) $(PASS2LD)--end-group $(DLL_CRT_END)
-	$(STRIP) --strip-all -o $(XDK_TARGETS)/$@ $(TARGET_DBG_INFO_PATH)/$@
+	$(STRIP) --strip-all -o $(XDK_TARGETS)/$(TARGET_PREFIX)$(TARGET_NAME).$(DEPEND_OBJ_TYPE) $(TARGET_DBG_INFO_PATH)/$(TARGET_PREFIX)$(TARGET_NAME).$(DEPEND_OBJ_TYPE)
 endif
 else
 	@echo $(LD) $(DLL_FLAGS) $(DLLTOOL_FLAGS) $(DLL_CRT_BEGIN) $(LINK_FLAGS) $(PASS2LD)-Map $(PASS2LD)$(TARGET_NAME).map $(SEARCH_LIB) -o  $(XDK_TARGETS)/$@ \

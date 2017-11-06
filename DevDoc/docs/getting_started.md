@@ -58,14 +58,26 @@ sudo apt-get install bison g++-multilib git gperf libxml2-utils make zlib1g-dev 
 
 ### Build CAR Compiler(optional)
 
-1. enter the build environment
+1. enter the build environment:
+
+##### Ubuntu_32bit
 ```
-$ source ~/Elastos.RT/Setup/Ubuntu_SetEnv_tools.sh
+$ source ~/Elastos.RT/Setup/SetEnv.sh devtools_32
+or
+$ source ~/Elastos.RT/Setup/SetEnv.sh
+then according to the list of current to select digital:3
+```
+##### Ubuntu_64bit
+```
+$ source ~/Elastos.RT/Setup/SetEnv.sh devtools_64
+or
+$ source ~/Elastos.RT/Setup/SetEnv.sh
+then according to the list of current to select digital:4
 ```
 
 2. build CAR tools
+build release version of carc
 ```
-#build release version of carc
 ~/Elastos.RT/Sources$ rls
 ~/Elastos.RT/Sources$ emake
 ~/Elastos.RT/Sources$ pd @
@@ -80,8 +92,13 @@ CInfoReader  Cls2C  carc  carcode  dbg_info  libz.so  lubc  lube  package
 4. use your new CAR tools
 copy your build result to ~/Elastos.RT/Build/Tools
 from ~/Elastos.RT/Targets/rdk/x86.gnu.linux.devtools.rls/bin
+##### Ubuntu_32bit
 ```
 cp CInfoReader Cls2C carc carcode lubc lube libz.so ~/Elastos.RT/Build/Tools/
+```
+##### Ubuntu_64bit
+```
+cp CInfoReader Cls2C carc carcode lubc lube libz.so ~/Elastos.RT/Build/Tools_64/
 ```
 
 5. release version or debug version
@@ -89,12 +106,39 @@ cp CInfoReader Cls2C carc carcode lubc lube libz.so ~/Elastos.RT/Build/Tools/
  rls    #It is an alias of  --> chv rls
  dbg    #It is an alias of  --> chv dbg
 ```
+### Build Android
+1. enter the build environment:
+```
+$ source ~/Elastos.RT/Setup/SetEnv.sh arm_android
+or
+$ source ~/Elastos.RT/Setup/SetEnv.sh
+then according to the list of current to select digital:2
+```
+2. emake
+```
+~/Elastos.RT/Sources$ emake
+```
+### Build Linux
+1. enter the build environment:
+```
+$ source ~/Elastos.RT/Setup/SetEnv.sh linux
+or
+$ source ~/Elastos.RT/Setup/SetEnv.sh
+then according to the list of current to select digital:1
+```
+2. emake
+```
+~/Elastos.RT/Sources$ emake
+```
+
+***The build environment of the following specific modules is on linux as an example and that will be directly added parameters to the command.***
+
 
 ### Build Runtime
 
 1. enter the build environment
 ```
-$ source ~/Elastos.RT/Setup/Ubuntu_SetEnv_RT.sh
+$ source ~/Elastos.RT/Setup/SetEnv.sh linux
 ```
 
 2. build Runtime
@@ -113,7 +157,7 @@ cd ~/Elastos.RT/Sources/Elastos/Runtime
 
 1. enter the build environment(optional)
 ```
-$ source ~/Elastos.RT/Setup/Ubuntu_SetEnv_RT.sh
+$ source ~/Elastos.RT/Setup/SetEnv.sh linux
 ```
 
 2. build LibCore
@@ -133,7 +177,7 @@ cd ~/Elastos.RT/Sources/Elastos/LibCore
 
 1. enter the build environment(optional)
 ```
-$ source ~/Elastos.RT/Setup/Ubuntu_SetEnv_RT.sh
+$ source ~/Elastos.RT/Setup/SetEnv.sh linux
 ```
 
 2. build Elastos.HelloCar.eco
@@ -181,7 +225,7 @@ CAnimalHelper::CanFly : Kitty can not fly!
 
 1. enter the build environment(optional)
 ```
-$ source ~/Elastos.RT/Setup/Ubuntu_SetEnv_RT.sh
+$ source ~/Elastos.RT/Setup/SetEnv.sh linux
 ```
 
 2. build Math test case
@@ -203,5 +247,3 @@ cd ~/Elastos.RT/Sources/Elastos/LibCore/tests/libcore/math
 ~/Elastos.RT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin$ cd dbg_info
 ~/Elastos.RT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin/dbg_info$ ./testMath
 ```
-
-

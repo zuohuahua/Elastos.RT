@@ -196,7 +196,7 @@ int LoadCLSFromDll(const char *pszName, CLSModule **ppDest)
 {
     FILE *pFile  = NULL;
 
-    if( pszName == NULL ){
+    if(pszName == NULL ){
 #ifdef _linux
         return LoadResourceFromELF(pszName, ppDest);
 #else
@@ -245,8 +245,16 @@ int Cls2DllName(const char *szName, char *szResult)
 {
     strcpy(szResult, szName);
     int i = strlen(szResult);
-    if(!_stricmp(szResult + i - 4, ".cls")){
-        strcpy(szResult + i - 4, ".eco");
+    if(!_stricmp(szResult + i - 4, ".cls")) {
+        char* platform = getenv("XDK_TARGET_PLATFORM");
+
+        if (!_stricmp(platform, "android")) {
+            strcpy(szResult + i - 3, ".so");
+        }
+        else {
+            strcpy(szResult + i - 4, ".eco");
+        }
+
         return 0;
     }
     return 1;
@@ -292,6 +300,8 @@ int LoadCLS(const char *pszName, CLSModule **ppModule)
     if (!_stricmp(szResult + n - 4, ".cls")) {
         _Return (LoadCLSFromFile(szResult, ppModule));
     } else if (!_stricmp(szResult + n - 4, ".eco")) {
+        _Return (LoadCLSFromDll(szResult, ppModule));
+    } else if (!_stricmp(szResult + n - 3, ".so")) {
         _Return (LoadCLSFromDll(szResult, ppModule));
     }
 

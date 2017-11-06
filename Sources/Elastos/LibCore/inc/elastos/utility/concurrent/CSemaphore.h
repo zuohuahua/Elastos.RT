@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CONCURRENT_ELASTOS_UTILITY_CSEMAPHORE_H__
 
 #include "_Elastos_Utility_Concurrent_CSemaphore.h"
-#include "locks/AbstractQueuedSynchronizer.h"
+#include "AbstractQueuedSynchronizer.h"
 #include "Object.h"
 
 using Elastos::IO::ISerializable;

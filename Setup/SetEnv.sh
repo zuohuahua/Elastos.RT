@@ -1,4 +1,53 @@
-if [ "$1" == '-h' ]; then
+#!/bin/bash
+
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+setupArg=$1
+
+#The arg is NULL, give user a choice.
+if [ "$1" == "" ]; then
+    PS3='Please enter your choice: '
+    options=("linux" "arm_android" "devtools_32" "devtools_64" "quit")
+    select opt in "${options[@]}"
+    do
+        case $opt in
+            "linux")
+                setupArg="linux"
+                break;;
+            "arm_android")
+                setupArg="arm_android"
+                break;;
+            "devtools_32")
+                setupArg="devtools_32"
+                break;;
+            "devtools_64")
+                setupArg="devtools_64"
+                break;;
+            "quit")
+                return;;
+            *) echo "Invalid option";;
+        esac
+    done
+fi
+
+case $setupArg in
+    "linux" | '1')
+        setupArg="linux"
+        export _ELASTOS64=YES;;
+    "arm_android" | '2')
+        setupArg="arm_android";;
+    "devtools_32" | '3')
+        setupArg="gcc_devtools"
+        export _ELASTOS64=;;
+    "devtools_64" | '4')
+        setupArg="gcc_devtools"
+        export _ELASTOS64=YES;;
+    *)
+        echo "Invalid option"
+        return;;
+esac
+
+
+if [ "$setupArg" == '-h' ]; then
     echo Usage
     echo
     echo
@@ -13,13 +62,13 @@ else
     ################################################################################
     # Set DevKit path
 
-    if [ ! $OS_PATH ]; then        
+    if [ ! $OS_PATH ]; then
         export OS_PATH=$PATH:
     else
         export PATH=$OS_PATH:
     fi
 
-    if [ "$1" == "sdk" ]; then
+    if [ "$setupArg" == "sdk" ]; then
         export XDK_BUILD_ENV=sdk
         shift
     else
@@ -28,8 +77,8 @@ else
 
     export XDK_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 
-    if [[ ! -f $XDK_ROOT/Setup/Config/$1.sh ]]; then
-        echo "Error: $XDK_SETUP_PATH/Config/$1.sh is not exist."
+    if [[ ! -f $XDK_ROOT/Setup/Config/$setupArg.sh ]]; then
+        echo "Error: $XDK_SETUP_PATH/Config/$setupArg.sh is not exist."
         unset XDK_BUILD_ENV XDK_ROOT
         return
     fi
@@ -45,7 +94,7 @@ else
 
     ################################################################################
     # Set user defined environment variables if the user config file exist
-        source $XDK_SETUP_PATH/Config/$1.sh
+        source $XDK_SETUP_PATH/Config/$setupArg.sh
 
         # Set command and build-tool lookup path
         if [[ ! "$_ELASTOS64" == "" ]]; then

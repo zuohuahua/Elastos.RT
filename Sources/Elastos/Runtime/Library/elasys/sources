@@ -19,7 +19,11 @@ TARGET_TYPE= lib
 
 C_DEFINES= -D_CAR_RUNTIME
 
-INCLUDES+= ../syscar;
+ifeq "$(XDK_TARGET_PLATFORM)" "android"
+INCLUDES+= ../syscar/so;
+else
+INCLUDES+= ../syscar/eco;
+endif
 
 SOURCES = sysiids.cpp
 SOURCES += kclsinfo.cpp

@@ -81,7 +81,8 @@ int CheckFileType(char *psName)
 
     uLen = strlen(psName);
     if (!_stricmp(psName+uLen-4, ".eco") || !_stricmp(psName+uLen-4, ".ecx")
-        || !_stricmp(psName+uLen-4, ".dll") || !_stricmp(psName+uLen-4, ".exe")) {
+        || !_stricmp(psName+uLen-4, ".dll") || !_stricmp(psName+uLen-4, ".exe")
+        || !_stricmp(psName+uLen-3, ".so")) {
         return 0;
     }
 

@@ -14,7 +14,12 @@
 ;; limitations under the License.
 ;;=========================================================================
 
+#if defined(_android)
+LIBRARY Elastos.Runtime.so
+#else
 LIBRARY Elastos.Runtime.eco
+#endif
+
 #if defined(_GNUC)
 DESCRIPTION "Elastos Execution Engine"
 #define PRIVATE

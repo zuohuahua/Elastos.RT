@@ -108,7 +108,11 @@ using namespace Elastos;
 
 #ifndef __UUNM_Elastos_CoreLibrary_DEFINED__
 #define __UUNM_Elastos_CoreLibrary_DEFINED__
+#if defined(_android)
+#define c_pElastos_CoreLibraryUunm "libElastos.CoreLibrary.so"
+#else
 #define c_pElastos_CoreLibraryUunm "Elastos.CoreLibrary.eco"
+#endif // _android
 #endif // __UUNM_Elastos_CoreLibrary_DEFINED__
 
 #ifndef __SAME_CLASS_NAME_OF_JNI__

@@ -14,8 +14,13 @@
 # limitations under the License.
 #=========================================================================
 
-TARGET_NAME= Elastos.Runtime
-TARGET_TYPE= eco
+ifeq "$(XDK_TARGET_PLATFORM)" "android"
+TARGET_NAME = Elastos.Runtime
+TARGET_TYPE = so
+else
+TARGET_NAME = Elastos.Runtime
+TARGET_TYPE = eco
+endif
 
 SPECIAL_TARGET= cpfile
 

@@ -759,7 +759,7 @@ String ICUUtil::GetCurrencyCode(
     if (U_FAILURE(status)) {
         return nullStr;
     }
-    
+
     ScopedResourceBundle currency(ures_getByKey(currencyMap.get(), locale.string(), NULL, &status));
     if (U_FAILURE(status)) {
         return String(NULL);

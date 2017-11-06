@@ -14,23 +14,10 @@
 // limitations under the License.
 //=========================================================================
 
-module
-{
-    importlib("Elastos.CoreLibrary.eco");
+#ifndef __ELALLOC_H__
+#define __ELALLOC_H__
 
-    namespace Elastos {
-    namespace HelloCarDemo {
+#include <malloc.h>
+#include <new>
 
-    interface IHelloCar {
-        Hello(
-            [out] String* name);
-    }
-
-    class CHelloCar {
-
-        interface IHelloCar;
-    }
-
-    } // HelloCarDemo
-    } // Elastos
-}
+#endif //__ELALLOC_H__
