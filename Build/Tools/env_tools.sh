@@ -362,6 +362,10 @@ function eldrop ()
 
 function dropsdk ()
 {
+    if [ ! -d "$XDK_TARGETS" ]; then
+        return
+    fi
+
     SDK_INCLUED_PATH=$ELASTOS_SDK_PATH/include
     SDK_LIBS_PATH=$ELASTOS_SDK_PATH/libs
     if [ -d "$ELASTOS_SDK_PATH" ]; then
@@ -385,6 +389,54 @@ function dropsdk ()
     cp $XDK_TARGETS/libElastos.Runtime.so $SDK_LIBS_PATH
     cp $XDK_TARGETS/libElastos.CoreLibrary.so $SDK_LIBS_PATH
     cp $XDK_BUILD_PATH/Prebuilt/Linux/usr/lib/libcrypto.so $SDK_LIBS_PATH
+}
+
+function exporteco ()
+{
+    if [ ! -d "$XDK_TARGETS" ]; then
+        return
+    fi
+
+    if [ ! "$XDK_TARGET_PLATFORM" == "android" ]; then
+        echo "Now, only support [android]."
+        return
+    fi
+
+    EXPORT_ECO_PATH=$XDK_ROOT/Export
+    # echo "The generated files at the path:[$EXPORT_ECO_PATH]"
+    if [ ! -d "$EXPORT_ECO_PATH" ]; then
+        mkdir -p "$EXPORT_ECO_PATH"
+    fi
+
+    #-maxdepth 1 -name "*.so"
+    filelist=`find $XDK_TARGETS -maxdepth 1 -name "*.so"`
+    for soFile in $filelist
+        do
+        if [ ${soFile##*/} != "libElastos.Runtime.so" -a ${soFile##*/} != "libElastos.CoreLibrary.so" ]; then
+            #Get libElastos.xxx.so from ../../libElastos.xxx.so
+            fileFullName=${soFile##*/}
+            #Get libElastos.xxx from libElastos.xxx.so
+            fileName=${fileFullName%.*}
+            #Get Elastos.xxx from libElastos.xxx
+            fileName=${fileName:3}
+            filePath=$EXPORT_ECO_PATH/$fileName
+            echo "Export the [$fileFullName], generated files at the: [$filePath]"
+            if [ -d "$filePath" ]; then
+                rm -rf "$filePath"
+            fi
+            mkdir -p "$filePath"
+
+            local CUR_DIR=$PWD
+            cd $filePath
+            #1. Generate header files.
+            lube -C $soFile -f -T header2 -T headercpp
+            cd $CUR_DIR
+
+            #2. Copy so and lib file to the path.
+            cp $XDK_USER_OBJ/$XDK_BUILD_KIND/lib/$fileName.lib $filePath
+            cp $XDK_TARGETS/lib$fileName.so $filePath
+        fi
+    done
 }
 
 function pd ()
@@ -632,6 +684,11 @@ function emake ()
                     local HOURS=`echo $ELAPSED_TIME/3600 | bc`
                     local MINUTES=`echo $ELAPSED_TIME/60%60 | bc`
                     local SECONDS=`echo $ELAPSED_TIME%60 | bc`
+
+                    #Dorp SDK
+                    dropsdk
+                    #Export library's header files, except Runtime.eco and CoreLibrary.eco
+                    exporteco
                     echo "Build finished, elapsed time: $HOURS Hours, $MINUTES Minutes, $SECONDS Seconds."
                 fi
                 unset XDK_MAKE XDK_MAKEFILE XDK_EMAKE_DIR BUILD_VERBOSE TEST_COVERAGE
