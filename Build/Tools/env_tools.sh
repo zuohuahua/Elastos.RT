@@ -389,6 +389,14 @@ function dropsdk ()
     cp $XDK_TARGETS/libElastos.Runtime.so $SDK_LIBS_PATH
     cp $XDK_TARGETS/libElastos.CoreLibrary.so $SDK_LIBS_PATH
     cp $XDK_BUILD_PATH/Prebuilt/Linux/usr/lib/libcrypto.so $SDK_LIBS_PATH
+
+    #Other users need CoreLibrary's header files.
+    local CUR_DIR=$PWD
+    cd $SDK_INCLUED_PATH
+    #1. Generate header files.
+    lube -C $XDK_TARGETS/libElastos.CoreLibrary.so -f -T header2 -T headercpp
+    rm -f Elastos.CoreLibrary.cpp
+    cd $CUR_DIR
 }
 
 function exporteco ()
@@ -430,6 +438,7 @@ function exporteco ()
             cd $filePath
             #1. Generate header files.
             lube -C $soFile -f -T header2 -T headercpp
+            rm -f *lastos.CoreLibrary*
             cd $CUR_DIR
 
             #2. Copy so and lib file to the path.
@@ -684,11 +693,6 @@ function emake ()
                     local HOURS=`echo $ELAPSED_TIME/3600 | bc`
                     local MINUTES=`echo $ELAPSED_TIME/60%60 | bc`
                     local SECONDS=`echo $ELAPSED_TIME%60 | bc`
-
-                    #Dorp SDK
-                    dropsdk
-                    #Export library's header files, except Runtime.eco and CoreLibrary.eco
-                    exporteco
                     echo "Build finished, elapsed time: $HOURS Hours, $MINUTES Minutes, $SECONDS Seconds."
                 fi
                 unset XDK_MAKE XDK_MAKEFILE XDK_EMAKE_DIR BUILD_VERBOSE TEST_COVERAGE

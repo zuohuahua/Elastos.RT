@@ -10,6 +10,8 @@ endif
 CAR_FLAGS += -n -u
 LUBE_FLAGS += -n -u
 
+EXPORT_ECO = 1
+
 INCLUDES += $(MAKEDIR)/../../inc
 INCLUDES += $(MAKEDIR)/../../inc/elastos/hellocardemo
 

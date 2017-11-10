@@ -381,6 +381,18 @@ else
 		$(RESSECTION) $(DLL_ENTRY_OBJECT_FILE) $(PASS2LD)--end-group $(DLL_CRT_END)
 endif
 
+ifneq "$(EXPORT_ECO)" ""
+	if [ -f $(XDK_TARGETS)/$(TARGET_PREFIX)$(TARGET_NAME).$(DEPEND_OBJ_TYPE) ]; then \
+		$(MKDIR) $(XDK_ROOT)/Export/$(TARGET_NAME); \
+		cd $(XDK_ROOT)/Export/$(TARGET_NAME); \
+		lube -C $(XDK_TARGETS)/$(TARGET_PREFIX)$(TARGET_NAME).$(DEPEND_OBJ_TYPE) -f -T header2 -T headercpp; \
+		#Delete CoreLibrary's exported header files. \
+		rm -f *lastos.CoreLibrary*; \
+        #cp $(XDK_USER_OBJ)/$(XDK_BUILD_KIND)/lib/$(TARGET_NAME).lib .; \
+        cp $(XDK_TARGETS)/lib$(TARGET_NAME).so .; \
+	fi
+endif
+
 ifneq "$(APPPACK)" ""
 	if [ ! -d  $(XDK_TARGETS)/$(TARGET_NAME) ]; then $(MKDIR) $(XDK_TARGETS)/$(TARGET_NAME); fi
 	if [ ! -d  $(TARGET_PACK_PATH)/$(APP_DIR_NAME) ]; then $(MKDIR) $(TARGET_PACK_PATH)/$(APP_DIR_NAME); fi
