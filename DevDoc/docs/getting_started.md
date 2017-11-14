@@ -51,7 +51,7 @@ sudo ln -s libcrypto.so.1.0.0 libcrypto.so
 On Ubuntu this should obtain the necessary pre-reqs:
 ```
 sudo apt-get install texinfo libglib2.0-dev autoconf libtool libsdl-dev build-essential tofrodos zlib1g-dev:amd64 zlib1g-dev
-sudo apt-get install bison g++-multilib git gperf libxml2-utils make zlib1g-dev zip
+sudo apt-get install bison g++-multilib git gperf libxml2-utils make zlib1g-dev zip libsqlite3-dev libicu-dev libssl-dev
 ```
 
 ## Build Elastos.RT
@@ -133,43 +133,6 @@ then according to the list of current to select digital:1
 
 ***The build environment of the following specific modules is on linux as an example and that will be directly added parameters to the command.***
 
-
-### Build Runtime
-
-1. enter the build environment
-```
-$ source ~/Elastos.RT/Setup/SetEnv.sh linux
-```
-
-2. build Runtime
-```
-cd ~/Elastos.RT/Sources/Elastos/Runtime
-~/Elastos.RT/Sources/Elastos/Runtime$ emake
-```
-
-3. build result
-```
-~/Elastos.RT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin/Elastos.Runtime.eco
-~/myfile/projects/Elastos.RT/Targets/obj/rdk/x86.gnu.linux.devtools.dbg/lib/Elastos.Runtime.lib
-```
-
-### Build LibCore
-
-1. enter the build environment(optional)
-```
-$ source ~/Elastos.RT/Setup/SetEnv.sh linux
-```
-
-2. build LibCore
-```
-cd ~/Elastos.RT/Sources/Elastos/LibCore
-~/Elastos.RT/Sources/Elastos/LibCore$ emake
-```
-
-3. build result
-```
-~/Elastos.RT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin/Elastos.CoreLibrary.eco
-```
 
 ### Build Test cases
 
