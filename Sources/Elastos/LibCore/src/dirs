@@ -15,4 +15,7 @@
 #=========================================================================
 
 DIRS = corelibrary
-#DIRS += Lib
+
+ifneq "$(XDK_TARGET_PLATFORM)" "android"
+    DIRS += Lib
+endif
