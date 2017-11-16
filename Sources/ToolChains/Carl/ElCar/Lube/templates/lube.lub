@@ -19,6 +19,7 @@ $
 $TEMPLATE "public/public.lub"
 $TEMPLATE "header/header.lub"
 $TEMPLATE "header/header2.lub"
+$TEMPLATE "header/header3.lub"
 $;;TEMPLATE "header/serverh.lub"
 $TEMPLATE "headercpp/headercpp.lub"
 $TEMPLATE "background/background.lub"

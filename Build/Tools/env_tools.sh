@@ -382,7 +382,6 @@ function dropsdk ()
     cp -r $XDK_USER_OBJ/$XDK_BUILD_KIND/inc/* $SDK_INCLUED_PATH
 
     #cp lib files to libs path
-    cp $XDK_USER_OBJ/$XDK_BUILD_KIND/lib/Elastos.CoreLibrary.UUIDs.lib $SDK_LIBS_PATH
     cp $XDK_USER_OBJ/$XDK_BUILD_KIND/lib/Elastos.Runtime.lib $SDK_LIBS_PATH
 
     #cp libraries files to libs path
@@ -394,8 +393,7 @@ function dropsdk ()
     local CUR_DIR=$PWD
     cd $SDK_INCLUED_PATH
     #1. Generate header files.
-    lube -C $XDK_TARGETS/libElastos.CoreLibrary.so -f -T header2 -T headercpp
-    rm -f Elastos.CoreLibrary.cpp
+    lube -C $XDK_TARGETS/libElastos.CoreLibrary.so -f -T header3
     cd $CUR_DIR
 }
 
@@ -410,7 +408,7 @@ function exporteco ()
         return
     fi
 
-    EXPORT_ECO_PATH=$XDK_ROOT/Export
+    EXPORT_ECO_PATH=$ELASTOS_EXPORT_PATH
     # echo "The generated files at the path:[$EXPORT_ECO_PATH]"
     if [ ! -d "$EXPORT_ECO_PATH" ]; then
         mkdir -p "$EXPORT_ECO_PATH"
@@ -437,7 +435,7 @@ function exporteco ()
             local CUR_DIR=$PWD
             cd $filePath
             #1. Generate header files.
-            lube -C $soFile -f -T header2 -T headercpp
+            lube -C $soFile -f -T header3
             rm -f *lastos.CoreLibrary*
             cd $CUR_DIR
 

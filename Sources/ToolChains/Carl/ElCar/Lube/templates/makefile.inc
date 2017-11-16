@@ -77,9 +77,12 @@ lube.lbo :  $(MAKEDIR)/background/backcpp.lub       \
             $(MAKEDIR)/header/decluuid.lub          \
             $(MAKEDIR)/header/header.lub            \
             $(MAKEDIR)/header/header2.lub           \
+            $(MAKEDIR)/header/header3.lub           \
             $(MAKEDIR)/header/clienth.lub           \
+            $(MAKEDIR)/header/clienth3.lub          \
             $(MAKEDIR)/header/serverh.lub           \
             $(MAKEDIR)/header/genericcallback.lub \
+            $(MAKEDIR)/header/baseh3.lub            \
             $(MAKEDIR)/headercpp/headercpp.lub     \
             $(MAKEDIR)/headercpp/basecpp.lub       \
             $(MAKEDIR)/public/cls2abrg.lub          \

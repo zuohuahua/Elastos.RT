@@ -19,7 +19,6 @@ SOURCES = Elastos.HelloCarDemo.car
 SOURCES += CHelloCar.cpp
 
 LIBRARIES = $(XDK_USER_LIB)/Elastos.Runtime.lib
-LIBRARIES += $(XDK_USER_LIB)/Elastos.CoreLibrary.UUIDs.lib
 
 ifeq "$(XDK_TARGET_PLATFORM)" "android"
 LIBRARIES += $(XDK_TARGETS)/libElastos.Runtime.so

@@ -299,7 +299,8 @@ ifneq "$(IMPORTHS)" ""
 ifeq "$(XDK_TARGET_PLATFORM)" "android"
 $(IMPORTHS):
 	@echo Generating H files from $(@:.h=.so)
-	$(LUBE)  -C$(@:.h=.so) -f -T header2 -T headercpp
+	#$(LUBE)  -C$(@:.h=.so) -f -T header2 -T headercpp
+	$(LUBE)  -C$(@:.h=.so) -f -T header3
 else
 $(IMPORTHS):
 	@echo Generating H files from $(@:.h=.eco)

@@ -383,12 +383,13 @@ endif
 
 ifneq "$(EXPORT_ECO)" ""
 	if [ -f $(XDK_TARGETS)/$(TARGET_PREFIX)$(TARGET_NAME).$(DEPEND_OBJ_TYPE) ]; then \
-		$(MKDIR) $(XDK_ROOT)/Export/$(TARGET_NAME); \
-		cd $(XDK_ROOT)/Export/$(TARGET_NAME); \
-		lube -C $(XDK_TARGETS)/$(TARGET_PREFIX)$(TARGET_NAME).$(DEPEND_OBJ_TYPE) -f -T header2 -T headercpp; \
+		$(MKDIR) $(ELASTOS_EXPORT_PATH)/$(TARGET_NAME); \
+		cd $(ELASTOS_EXPORT_PATH)/$(TARGET_NAME); \
+		rm -f *; \
+		lube -C $(XDK_TARGETS)/$(TARGET_PREFIX)$(TARGET_NAME).$(DEPEND_OBJ_TYPE) -f -T header3; \
+		#lube -C $(XDK_TARGETS)/$(TARGET_PREFIX)$(TARGET_NAME).$(DEPEND_OBJ_TYPE) -f -T header2 -T headercpp; \
 		#Delete CoreLibrary's exported header files. \
 		rm -f *lastos.CoreLibrary*; \
-        #cp $(XDK_USER_OBJ)/$(XDK_BUILD_KIND)/lib/$(TARGET_NAME).lib .; \
         cp $(XDK_TARGETS)/lib$(TARGET_NAME).so .; \
 	fi
 endif
