@@ -156,13 +156,13 @@ else
             # Finally add Ubuntu System to the path, so we could use system tools
             PATH_LIST=${PATH//\:/ }
             for line in $PATH_LIST; do
-                if [ ! `echo $line | grep \/android\/` ]; then
+                #if [ ! `echo $line | grep \/android\/` ]; then
                     if [ -z "$PATH_FILTEROUT_ANDROID" ]; then
                        PATH_FILTEROUT_ANDROID="$line"
                     else
                        PATH_FILTEROUT_ANDROID="$PATH_FILTEROUT_ANDROID:$line"
                     fi
-                fi
+                #fi
             done
 
             export PATH=$PATH_FILTEROUT_ANDROID

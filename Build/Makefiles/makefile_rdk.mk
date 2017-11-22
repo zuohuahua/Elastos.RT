@@ -76,10 +76,7 @@ endif
 endif
 ifndef PREBUILD_PATH
 ifeq "$(XDK_TARGET_PLATFORM)" "android"
-      PREBUILD_PATH = $(XDK_BUILD_PATH)/Prebuilt/Linux
-ifndef PREBUILD_INC
-      PREBUILD_INC = $(PREBUILD_PATH)/usr/include
-endif
+      PREBUILD_PATH = $(XDK_ROOT)/ToolChains/$(XDK_TARGET_PLATFORM)/Ndk/sysroot
 ifndef PREBUILD_LIB
       PREBUILD_LIB = $(PREBUILD_PATH)/usr/lib
 endif
@@ -156,8 +153,10 @@ INCLUDES = .; $(XDK_USER_INC); $(XDK_INC_PATH); \
           $(MAKEDIR);
 endif
 ifeq "$(XDK_TARGET_PLATFORM)" "android"
-INCLUDES = .; $(PREBUILD_INC); $(PREBUILD_INC)/libcxx/include;$(XDK_USER_INC); \
-          $(XDK_INC_PATH); $(MAKEDIR); $(PREBUILD_INC)/c++/4.8; $(PREBUILD_INC)/c++/4.8/arm-linux-androideabi;
+INCLUDES = .; $(XDK_USER_INC); $(XDK_COMPILER_PATH)/include; $(XDK_INC_PATH); \
+          $(MAKEDIR); $(XDK_COMPILER_PATH)/include/c++/4.8; $(XDK_COMPILER_PATH)/include/c++/4.8/arm-linux-androideabi; \
+          $(THIRDPART_DEPENDED)/include/icu/icu4c/source/common; $(THIRDPART_DEPENDED)/include/icu/icu4c/source/i18n; \
+          $(THIRDPART_DEPENDED)/include/chromium_org/third_party/sqlite/amalgamation;
 endif
 SYSTEM_INCLUDES := $(INCLUDES)
 

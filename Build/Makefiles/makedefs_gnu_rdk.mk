@@ -104,7 +104,7 @@ ifeq "$(XDK_TARGET_PLATFORM)" "android"
     DLLTOOL_FLAGS := -Wl,-soname,$(strip $(DLLTOOL_FLAGS:-D=))
   endif
   DLLTOOL_FLAGS := -Wl,-soname,$(TARGET_PREFIX)$(TARGET_NAME).$(DEPEND_OBJ_TYPE) -lstdc++ $(LIBC_FLAGS) -nostdlib -L$(PREBUILD_LIB) \
-                   $(DLLTOOL_FLAGS)
+                   -L$(THIRDPART_DEPENDED)/lib $(DLLTOOL_FLAGS)
 else
   ifneq "$(DLLTOOL_FLAGS)" ""
     DLLTOOL_FLAGS := -Wl,-soname,/usr/com.elastos.runtime/elastos/$(strip $(DLLTOOL_FLAGS:-D=))
