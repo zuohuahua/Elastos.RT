@@ -153,8 +153,7 @@ INCLUDES = .; $(XDK_USER_INC); $(XDK_INC_PATH); \
           $(MAKEDIR);
 endif
 ifeq "$(XDK_TARGET_PLATFORM)" "android"
-INCLUDES = .; $(XDK_USER_INC); $(XDK_COMPILER_PATH)/include; $(XDK_INC_PATH); \
-          $(MAKEDIR); $(XDK_COMPILER_PATH)/include/c++/4.8; $(XDK_COMPILER_PATH)/include/c++/4.8/arm-linux-androideabi; \
+INCLUDES = .; $(XDK_USER_INC); $(XDK_INC_PATH); $(MAKEDIR);  \
           $(THIRDPART_DEPENDED)/include/icu/icu4c/source/common; $(THIRDPART_DEPENDED)/include/icu/icu4c/source/i18n; \
           $(THIRDPART_DEPENDED)/include/chromium_org/third_party/sqlite/amalgamation;
 endif

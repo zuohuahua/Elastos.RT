@@ -505,7 +505,9 @@ ECode CPosix::Elastos_getaddrinfo(
     errno = 0;
     Int32 rc = -1;
 #ifdef _android
-    rc = android_getaddrinfofornet(node, NULL, &hints, netId, 0, &addressList);
+    assert(0 && "TODO: There is an error?");
+    // rc = android_getaddrinfofornet(node, NULL, &hints, netId, 0, &addressList);
+    rc = getaddrinfo(node, NULL, &hints, &addressList);
 #else
     assert(0 && "TODO: Need to implement it.");
 #endif

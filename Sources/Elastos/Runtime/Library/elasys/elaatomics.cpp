@@ -15,9 +15,14 @@
 //=========================================================================
 
 #include <elaatomics.h>
+
 #ifdef _android
-// #include <cutils/atomic.h>
+#ifdef __cplusplus
+#include <atomic>
+using namespace std;
+#else
 #include <stdatomic.h>
+#endif
 #endif
 
 int atomic_cmpxchg(int old, int _new, volatile int *ptr)
