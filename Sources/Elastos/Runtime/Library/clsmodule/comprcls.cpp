@@ -17,7 +17,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <zlib.h>
+#ifndef _mac
 #include <malloc.h>
+#endif
 
 #include <clsbase.h>
 

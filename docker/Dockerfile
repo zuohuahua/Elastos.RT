@@ -43,6 +43,7 @@ RUN set -ex                                                                     
         libssl-dev:i386 \
         gdbserver \
         bash-completion \
+        cmake \
      && rm -rf /var/lib/apt/list/*
 
 USER hostuser

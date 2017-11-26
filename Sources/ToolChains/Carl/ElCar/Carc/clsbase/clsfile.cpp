@@ -16,17 +16,19 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#ifndef _mac
 #include <malloc.h>
 #ifdef _linux
 #include <sys/io.h>
 #else
 #include <io.h>
 #endif
+#endif
 #include <fcntl.h>
 
 #include "clsbase.h"
 
-#ifdef _linux
+#ifndef _win32
 #define _alloca alloca
 
 #define _MAX_PATH 256

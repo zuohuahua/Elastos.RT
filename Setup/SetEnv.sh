@@ -6,7 +6,7 @@ setupArg=$1
 #The arg is NULL, give user a choice.
 if [ "$1" == "" ]; then
     PS3='Please enter your choice: '
-    options=("linux" "arm_android" "devtools_32" "devtools_64" "quit")
+    options=("linux" "arm_android" "host_devtools" "devtools_64" "quit")
     select opt in "${options[@]}"
     do
         case $opt in
@@ -16,8 +16,8 @@ if [ "$1" == "" ]; then
             "arm_android")
                 setupArg="arm_android"
                 break;;
-            "devtools_32")
-                setupArg="devtools_32"
+            "host_devtools")
+                setupArg="host_devtools"
                 break;;
             "devtools_64")
                 setupArg="devtools_64"
@@ -35,10 +35,10 @@ case $setupArg in
         export _ELASTOS64=YES;;
     "arm_android" | '2')
         setupArg="arm_android";;
-    "devtools_32" | '3')
-        setupArg="gcc_devtools"
-        export _ELASTOS64=;;
-    "devtools_64" | '4')
+    "host_devtools" | '3')
+        setupArg="host_devtools"
+        export _ELASTOS64=YES;;
+    "devtools_64" | '3')
         setupArg="gcc_devtools"
         export _ELASTOS64=YES;;
     *)
@@ -97,10 +97,11 @@ else
         source $XDK_SETUP_PATH/Config/$setupArg.sh
 
         # Set command and build-tool lookup path
-        if [[ ! "$_ELASTOS64" == "" ]]; then
-            export XDK_TOOLS=$XDK_BUILD_PATH/Tools_64
-        else
+        if [ "$XDK_BUILD_TOOL" == "cmake" ]; then
             export XDK_TOOLS=$XDK_BUILD_PATH/Tools
+            export PATH=$XDK_TOOLS/$XDK_TARGET_PLATFORM:$PATH
+        else
+            export XDK_TOOLS=$XDK_BUILD_PATH/Tools_64
         fi
 
         #export XDK_COMMANDES=$XDK_ROOT/Commandes

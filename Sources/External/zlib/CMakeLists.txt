@@ -171,6 +171,8 @@ endif()
 # Example binaries
 #============================================================================
 
+if(NOT DEFINED ENV{XDK_ROOT})
+
 add_executable(example example.c)
 target_link_libraries(example zlib)
 add_test(example example)
@@ -187,4 +189,6 @@ if(HAVE_OFF64_T)
     add_executable(minigzip64 minigzip.c)
     target_link_libraries(minigzip64 zlib)
     set_target_properties(minigzip64 PROPERTIES COMPILE_FLAGS "-D_FILE_OFFSET_BITS=64")
+endif()
+
 endif()

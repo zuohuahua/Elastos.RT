@@ -17,12 +17,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifndef _mac
 #include <malloc.h>
+#endif
 #include <assert.h>
 
 #include "clsbase.h"
 
-#ifdef _linux
+#ifndef _win32
 #define _alloca alloca
 #endif
 

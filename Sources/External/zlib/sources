@@ -19,7 +19,6 @@ ifeq "$(XDK_TARGET_PLATFORM)" "win32"
 endif
 
 EXPORT_HEADERS+=zlib.h
-EXPORT_HEADERS+=zconf.h
 
 ifeq "$(XDK_TARGET_PLATFORM)" "win32"
 SOURCES += zlib.def

@@ -622,12 +622,15 @@ function emake ()
         fi
         if [ ! "$XDK_SOURCE_PATH" == "$PWD" ]; then
             export XDK_EMAKE_DIR=/${PWD/$XDK_SOURCE_PATH\//}
+            if [ "$XDK_EMAKE_DIR" == "/$PWD" ]; then
+                XDK_CHECK_ERROR=1
+            fi
         fi
 
         # Judge whether continue the building process or not
         if [ ! $XDK_CHECK_ERROR == "" ]; then
                 unset XDK_EMAKE_DIR
-                echo "Error: Can\'t build here. Please go to the project relative directory."
+                echo "Error: Can't build here. Please go to the project relative directory."
         else
             # Set verbose mode if -v is specified
             if [ "$1" == "/v" ]; then
@@ -649,11 +652,13 @@ function emake ()
             if [ "$BUILD_VERBOSE" == "" ]; then
                 export XDK_MAKE='make -s'
             else
-                export XDK_MAKE='make'
+                export XDK_MAKE='make VERBOSE=1'
             fi
 
-            export XDK_MAKEFILE=$XDK_BUILD_PATH/Makefiles/makefile_$XDK_BUILD_ENV.mk
+            export XDK_COMMON_CMAKE=$XDK_BUILD_PATH/CMake/common.cmake
 
+            local MIRROR_ROOT_DIR=$XDK_USER_OBJ/$XDK_BUILD_KIND/mirror
+            local MIRROR_DIR=$MIRROR_ROOT_DIR$XDK_EMAKE_DIR
             if [ ! "${1%.car}" == "$1" ]; then
                 carc -i -c ${1%.car}.cls $1
                 if [ "$?" == "0" ]; then
@@ -681,12 +686,26 @@ function emake ()
                         rm -f ${2%.car}.cls
                     fi
                 fi
+            elif [ "$1" == "clobber" ]; then
+                echo "Clobber..."
+                rm -rf $XDK_USER_OBJ/$XDK_BUILD_KIND
+                rm -rf $XDK_TARGETS_PATH/$XDK_BUILD_ENV/$XDK_BUILD_KIND
+            elif [ "$1" == "gen" ]; then
+                echo "Re-generating makefiles..."
+                mkdir -p $MIRROR_ROOT_DIR 1>/dev/null
+                (cd $MIRROR_ROOT_DIR && cmake -G"Unix Makefiles" $XDK_SOURCE_PATH)
             else
-                if [ "$CLOSE_EMAKE_TIMES" == "1" ]; then
-                    $XDK_MAKE -f$XDK_MAKEFILE $1 $2 $3 $4 $5 $6
+                if [ ! -d "$MIRROR_DIR/CMakeFiles" ]; then
+                    echo 'Generating makefiles...'
+                    echo 'You could re-generate the makefiles by typing "emake gen"'
+                    mkdir -p $MIRROR_ROOT_DIR 1>/dev/null
+                    (cd $MIRROR_ROOT_DIR && cmake -G"Unix Makefiles" $XDK_SOURCE_PATH)
+                fi
+                if [ "$DISABLE_EMAKE_TIMES" == "1" ]; then
+                    (mkdir -p $MIRROR_DIR 1>/dev/null && cd $MIRROR_DIR && $XDK_MAKE $1 $2 $3 $4 $5 $6)
                 else
                     local START_TIME=`date +%s`
-                    $XDK_MAKE -f$XDK_MAKEFILE $1 $2 $3 $4 $5 $6
+                    (mkdir -p $MIRROR_DIR 1>/dev/null && cd $MIRROR_DIR && $XDK_MAKE $1 $2 $3 $4 $5 $6)
                     local ELAPSED_TIME=$(( `date +%s`-$START_TIME ))
                     local HOURS=`echo $ELAPSED_TIME/3600 | bc`
                     local MINUTES=`echo $ELAPSED_TIME/60%60 | bc`
