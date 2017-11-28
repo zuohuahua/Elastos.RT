@@ -6,7 +6,7 @@ setupArg=$1
 #The arg is NULL, give user a choice.
 if [ "$1" == "" ]; then
     PS3='Please enter your choice: '
-    options=("linux" "arm_android" "host_devtools" "devtools_64" "quit")
+    options=("linux" "arm_android" "devtools_32" "host_devtools" "devtools_64" "quit")
     select opt in "${options[@]}"
     do
         case $opt in
@@ -15,6 +15,9 @@ if [ "$1" == "" ]; then
                 break;;
             "arm_android")
                 setupArg="arm_android"
+                break;;
+            "devtools_32")
+                setupArg="devtools_32"
                 break;;
             "host_devtools")
                 setupArg="host_devtools"
@@ -35,10 +38,13 @@ case $setupArg in
         export _ELASTOS64=YES;;
     "arm_android" | '2')
         setupArg="arm_android";;
-    "host_devtools" | '3')
+    "devtools_32" | '3')
+        setupArg="gcc_devtools"
+        export _ELASTOS64=;;
+    "host_devtools" | '4')
         setupArg="host_devtools"
         export _ELASTOS64=YES;;
-    "devtools_64" | '3')
+    "devtools_64" | '5')
         setupArg="gcc_devtools"
         export _ELASTOS64=YES;;
     *)
@@ -102,6 +108,10 @@ else
             export PATH=$XDK_TOOLS/$XDK_TARGET_PLATFORM:$PATH
         else
             export XDK_TOOLS=$XDK_BUILD_PATH/Tools_64
+        fi
+
+        if [[ "$_ELASTOS64" == "" ]]; then
+            export XDK_TOOLS=$XDK_BUILD_PATH/Tools_32
         fi
 
         #export XDK_COMMANDES=$XDK_ROOT/Commandes
