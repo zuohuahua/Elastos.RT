@@ -15,7 +15,10 @@
 //=========================================================================
 
 #include <stdio.h>
+#include <stdlib.h>
+#ifndef _mac
 #include <malloc.h>
+#endif
 #include <clsbase.h>
 
 #define COM_NULL 0

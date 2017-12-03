@@ -14,12 +14,14 @@
 // limitations under the License.
 //=========================================================================
 
+#ifndef _mac
 #include <malloc.h>
+#endif
 #include <stdlib.h>
 #include <lube.h>
 #include "clsbase.h"
 
-#ifdef _linux
+#ifndef _win32
 #define _alloca alloca
 #endif
 

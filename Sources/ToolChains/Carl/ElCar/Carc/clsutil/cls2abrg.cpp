@@ -18,7 +18,9 @@
 #include <stdlib.h>
 #include <ctype.h>
 //#include <wtypes.h>
+#ifndef _mac
 #include <malloc.h>
+#endif
 #include <assert.h>
 
 typedef unsigned char  byte;
@@ -26,7 +28,7 @@ typedef unsigned char  byte;
 #include <clsutil.h>
 #include <abrgcls.h>
 
-#ifdef _linux
+#ifndef _win32
 #define _alloca alloca
 #endif
 
@@ -201,7 +203,7 @@ void Abrg2Comment(FILE * pFile,
     }
 }
 
-#ifdef _linux
+#ifndef _win32
 static void _strupr(char* str)
 {
     int i = 0;

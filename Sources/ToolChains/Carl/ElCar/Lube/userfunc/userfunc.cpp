@@ -19,15 +19,19 @@
 #include <unistd.h>
 #include <lube.h>
 #include <clsutil.h>
+#ifndef _mac
 #include <malloc.h>
+#endif
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <dirent.h>
+#ifndef _mac
 #ifdef _linux
 #include <sys/io.h>
 #else
 #include <io.h>
+#endif
 #endif
 #include <ctype.h>
 
@@ -35,7 +39,7 @@
 #define HTIME_GT_DLLTIME -2
 #define HTIME_LT_DLLTIME 2
 
-#ifdef _linux
+#ifndef _win32
 #define _MAX_PATH 256
 
 #define _strdup strdup
@@ -236,7 +240,7 @@ IMPL_USERFUNC(ErrorMessage)(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
     return LUBE_FAIL;
 }
 
-#ifdef _linux
+#ifndef _win32
 static void _strupr(char* str)
 {
     int i = 0;

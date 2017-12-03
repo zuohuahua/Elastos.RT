@@ -14,10 +14,12 @@
 // limitations under the License.
 //=========================================================================
 
+#ifndef _mac
 #ifdef _linux
 #include <sys/io.h>
 #else
 #include <io.h>
+#endif
 #endif
 //typedef unsigned char byte;
 #include <lube.h>

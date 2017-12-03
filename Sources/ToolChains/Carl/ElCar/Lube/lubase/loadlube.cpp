@@ -15,6 +15,7 @@
 //=========================================================================
 
 #include <stdlib.h>
+#ifndef _mac
 #ifdef _linux
 #include <sys/io.h>
 #else
@@ -23,6 +24,7 @@
 #endif
 #include <malloc.h>
 #include <elf.h>
+#endif
 
 #include "lube.h"
 
@@ -34,7 +36,7 @@
     #define Elf32_64_Shdr   Elf32_Shdr
 #endif
 
-#ifdef _linux
+#ifndef _win32
 #define _MAX_PATH 256
 #endif
 
@@ -170,6 +172,7 @@ typedef struct ModuleRscStruct {
 	const char      uClsinfo[0];
 } ModuleRscStruct;
 
+#ifndef _mac
 int LoadLubeFromELF(const char *pszName, PLUBEHEADER *ppLube)
 {
     Elf32_64_Ehdr   ehdr;
@@ -287,6 +290,7 @@ reterr:
         free(pStringTable);
     return nRet;
 }
+#endif
 
 int LoadLubeFromFile(const char *pszName, PLUBEHEADER *ppLube)
 {
@@ -301,7 +305,7 @@ int LoadLubeFromFile(const char *pszName, PLUBEHEADER *ppLube)
         return LUBE_FAIL;
     }
 
-#ifdef _linux
+#ifndef _win32
     fseek(pFile, 0, SEEK_END);
     nSize = ftell(pFile);
     rewind(pFile);
@@ -334,8 +338,10 @@ int LoadLube(const char *pszName, PLUBEHEADER *ppLube)
     if (!pszName) {
 #ifdef _linux
     	return LoadLubeFromELF(NULL, ppLube);
-#else
+#elif _win32
     	return LoadLubeFromDll(NULL, ppLube);
+#else
+        return LUBE_FAIL;
 #endif
     }
 
@@ -350,12 +356,18 @@ int LoadLube(const char *pszName, PLUBEHEADER *ppLube)
     else if (!_stricmp(pszName + n - 4, ".eco")) {
 #ifdef _linux
         return LoadLubeFromELF(szResult, ppLube);
+#elif _win32
+    	return LoadLubeFromDll(NULL, ppLube);
 #else
-        return LoadLubeFromDll(szResult, ppLube);
+        return LUBE_FAIL;
 #endif
     }
     else if (!_stricmp(pszName + n - 3, ".so")) {
+#ifdef _linux
         return LoadLubeFromELF(szResult, ppLube);
+#else
+        return LUBE_FAIL;
+#endif
     }
     return LUBE_FAIL;
 }

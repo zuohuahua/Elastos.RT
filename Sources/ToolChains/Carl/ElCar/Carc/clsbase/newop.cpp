@@ -15,7 +15,9 @@
 //=========================================================================
 
 #include <stdio.h>
+#ifndef _mac
 #include <malloc.h>
+#endif
 #include <assert.h>
 
 #include <clsbase.h>

@@ -15,16 +15,18 @@
 //=========================================================================
 
 #include <ctype.h>
+#ifndef _mac
 #ifdef _linux
 #include <sys/io.h>
 #else
 #include <io.h>
 #endif
+#endif
 #include <unistd.h>
 
 #include "clsbase.h"
 
-#ifdef _linux
+#ifndef _win32
 #define _access access
 #endif
 

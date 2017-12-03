@@ -17,16 +17,18 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <assert.h>
+#ifndef _mac
 #ifdef _linux
 #include <sys/io.h>
 #else
 #include <io.h>
 #endif
+#endif
 #include "carc.h"
 #include "clsutil.h"
 #include "StringBuilder.h"
 
-#ifdef _linux
+#ifndef _win32
 #define _stricmp strcasecmp
 #define _MAX_PATH 256
 #endif

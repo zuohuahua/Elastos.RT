@@ -201,8 +201,11 @@ int LoadCLSFromDll(const char *pszName, CLSModule **ppDest)
     if(pszName == NULL ){
 #ifdef _linux
         return LoadResourceFromELF(pszName, ppDest);
-#else
+#elif defined(_win32)
         return LoadResourceFromPE(pszName, ppDest);
+#else
+        ExtraMessage("Do not support load Elastos meta data from shared object file.", pszName);
+        _ReturnError(CLSError_OpenFile);
 #endif
     }
     else {
@@ -236,9 +239,12 @@ int LoadCLSFromDll(const char *pszName, CLSModule **ppDest)
         fclose(pFile);
 
 #ifdef _linux
-            return LoadResourceFromELF(szResult, ppDest);
+        return LoadResourceFromELF(szResult, ppDest);
+#elif defined(_win32)
+        return LoadResourceFromPE(pszName, ppDest);
 #else
-            return LoadResourceFromPE(szResult, ppDest);
+        ExtraMessage("Do not support load Elastos meta data from shared object file.", pszName);
+        _ReturnError(CLSError_OpenFile);
 #endif
     }
 }

@@ -22,7 +22,7 @@
 #include <chgpath.h>
 #include <unistd.h>
 
-#ifdef _linux
+#ifndef _win32
 #define _MAX_PATH 256
 #endif
 
