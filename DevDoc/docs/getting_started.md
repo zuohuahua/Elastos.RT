@@ -26,7 +26,7 @@ $ cd ~/Elastos.RT/docker
 ```
 NOTE: Please do NOT store any important files outside of the `Elastos.RT` folder as the docker container will be removed after you exit the building environment. And only the changes in the `Elastos.RT` folder will be retained as it has defined as a VOLUME in the Dockerfile.
 
-### Ubuntu_32bit
+#### Ubuntu_32bit
 
 On Ubuntu this should obtain the necessary pre-reqs:
 ```
@@ -46,7 +46,7 @@ sudo ln -s libcrypto.so.1.0.0 libcrypto.so
 
 ```
 
-### Ubuntu_64bit
+#### Ubuntu_64bit
 
 On Ubuntu this should obtain the necessary pre-reqs:
 ```
@@ -107,6 +107,11 @@ cp CInfoReader Cls2C carc carcode lubc lube libz.so ~/Elastos.RT/Build/Tools_64/
  dbg    #It is an alias of  --> chv dbg
 ```
 ### Build Android
+
+* Download NDK and execute script to generate NDK toolchain:
+
+***The compiling of android-version RT needs to install NDK toolchain, you can refer to TooLChains/android/Readme.md,then you can  contiune it.***
+
 1. enter the build environment:
 ```
 $ source ~/Elastos.RT/Setup/SetEnv.sh arm_android
@@ -161,7 +166,7 @@ cd ~/Elastos.RT/Sources/Elastos/LibCore/tests/HelloCar
 ~/Elastos.RT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin$ ll HelloCar
 ```
 
-5. Run HelloCar
+5. run HelloCar
 ```
 # Run the executable inside the dbg_info directory if you want to debug it with debug symbols
 # We have already "export LD_LIBRARY_PATH=.". So, it will load the *.eco files inside the current directory
@@ -203,7 +208,7 @@ cd ~/Elastos.RT/Sources/Elastos/LibCore/tests/libcore/math
 ~/Elastos.RT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin$ ll testMath
 ```
 
-4. Run testMath
+4. run testMath
 ```
 # Run the executable inside the dbg_info directory if you want to debug it with debug symbols
 # We have already "export LD_LIBRARY_PATH=.". So, it will load the *.eco files inside the current directory
