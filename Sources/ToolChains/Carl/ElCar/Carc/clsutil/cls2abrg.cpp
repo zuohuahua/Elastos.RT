@@ -18,7 +18,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 //#include <wtypes.h>
-#ifndef _mac
+#ifndef _apple
 #include <malloc.h>
 #endif
 #include <assert.h>

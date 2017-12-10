@@ -15,7 +15,7 @@
 //=========================================================================
 
 #include <stdio.h>
-#ifndef _mac
+#ifndef _apple
 #include <malloc.h>
 #endif
 #include <assert.h>

@@ -16,7 +16,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#ifndef _mac
+#ifndef _apple
 #include <malloc.h>
 #ifdef _linux
 #include <sys/io.h>
@@ -193,19 +193,37 @@ int LoadResourceFromPE(const char *pszName, CLSModule **ppDest)
 }
 #endif
 
+#ifdef _cmake
+
+int LoadResourceFromCLS(const char *pszName, CLSModule **ppDest)
+{
+    if (pszName == NULL) {
+        char path[256];
+        strcpy(path, getenv("XDK_TOOLS"));
+        strcat(path, "/systypes.cls");
+        LoadCLSFromFile(path, ppDest);
+        _ReturnOK (CLS_NoError);
+    }
+    ExtraMessage(pszName, "Only support load systypes.cls for now.");
+    _ReturnError (CLSError_LoadResource);
+}
+
+#endif
+
 
 int LoadCLSFromDll(const char *pszName, CLSModule **ppDest)
 {
     FILE *pFile  = NULL;
 
     if(pszName == NULL ){
-#ifdef _linux
+#if defined(_cmake)
+        return LoadResourceFromCLS(pszName, ppDest);
+#elif defined(_linux)
         return LoadResourceFromELF(pszName, ppDest);
 #elif defined(_win32)
         return LoadResourceFromPE(pszName, ppDest);
 #else
-        ExtraMessage("Do not support load Elastos meta data from shared object file.", pszName);
-        _ReturnError(CLSError_OpenFile);
+    #error Not supported platform!
 #endif
     }
     else {

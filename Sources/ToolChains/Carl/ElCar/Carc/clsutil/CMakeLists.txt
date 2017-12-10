@@ -6,7 +6,7 @@ set(SOURCES
     rabin.cpp
 )
 
-if($ENV{XDK_TARGET_PLATFORM} STREQUAL "win32")
+if("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "win32")
 list(APPEND SOURCES
     chgpath.cpp
 )

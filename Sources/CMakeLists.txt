@@ -1,11 +1,18 @@
 
 cmake_minimum_required(VERSION 2.8)
 
+project(ElastosRuntime)
+
 include($ENV{XDK_COMMON_CMAKE})
 
-xdk_add_subdirectories(
-    Elastos/Runtime/Library/inc
-#    External/zlib
-    Elastos/Runtime/Library/clsmodule
-    ToolChains
-)
+if("$ENV{XDK_TARGET_PRODUCT}" STREQUAL "devtools")
+    xdk_add_subdirectories(
+        Elastos/Runtime/Library/inc
+        Elastos/Runtime/Library/clsmodule
+        ToolChains
+    )
+else()
+    xdk_add_subdirectories(
+        Elastos
+    )
+endif()

@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#ifndef _mac
+#ifndef _apple
 #include <malloc.h>
 #endif
 #include <stdlib.h>

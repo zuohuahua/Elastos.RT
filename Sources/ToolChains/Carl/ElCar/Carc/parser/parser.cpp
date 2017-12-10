@@ -17,7 +17,7 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <assert.h>
-#ifndef _mac
+#ifndef _apple
 #ifdef _linux
 #include <sys/io.h>
 #else

@@ -156,7 +156,7 @@ typedef const InterfaceID&  RInterfaceID;
 
 _ELASTOS_NAMESPACE_END
 
-#if defined(_linux) || defined(_mips) && defined(_GNUC)
+#if defined(_linux) || defined(_mips) && defined(_GNUC) || defined(_apple)
 #define __cdecl
 #define __stdcall
 #endif

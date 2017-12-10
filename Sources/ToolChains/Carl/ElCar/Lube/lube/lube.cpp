@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#ifndef _mac
+#ifndef _apple
 #ifdef _linux
 #include <sys/io.h>
 #else

@@ -15,7 +15,7 @@
 //=========================================================================
 
 #include <stdlib.h>
-#ifndef _mac
+#ifndef _apple
 #ifdef _linux
 #include <sys/io.h>
 #else
@@ -172,7 +172,7 @@ typedef struct ModuleRscStruct {
 	const char      uClsinfo[0];
 } ModuleRscStruct;
 
-#ifndef _mac
+#ifdef _linux
 int LoadLubeFromELF(const char *pszName, PLUBEHEADER *ppLube)
 {
     Elf32_64_Ehdr   ehdr;
@@ -317,7 +317,7 @@ int LoadLubeFromFile(const char *pszName, PLUBEHEADER *ppLube)
         fprintf(stderr, "[ERROR] lube (0x0305 : Out of memory.\n");
         goto ErrorExit;
     }
-    if (fread(pLube, nSize, 1, pFile) != nSize) {
+    if (fread(pLube, 1, nSize, pFile) != nSize) {
         fprintf(stderr, "[ERROR] lube (0x0304 : Can't open file %s.\n", pszName);
         return LUBE_FAIL;
     }
@@ -330,18 +330,34 @@ ErrorExit:
     return nRet;
 }
 
+#ifdef _cmake
+int LoadLubeFromCLS(const char *pszName, PLUBEHEADER *ppLube)
+{
+    if (pszName == NULL) {
+        char path[256];
+        strcpy(path, getenv("XDK_TOOLS"));
+        strcat(path, "/lube.lbo");
+        return LoadLubeFromFile(path, ppLube);
+    }
+    fprintf(stderr, "[ERROR] lube (0x0306 : Only support load lube.lbo for now.\n", pszName);
+    return LUBE_FAIL;
+}
+#endif
+
 int LoadLube(const char *pszName, PLUBEHEADER *ppLube)
 {
     int n;
     char szResult[_MAX_PATH];
 
     if (!pszName) {
-#ifdef _linux
+#if defined(_cmake)
+        return LoadLubeFromCLS(NULL, ppLube);
+#elif defined(_linux)
     	return LoadLubeFromELF(NULL, ppLube);
-#elif _win32
+#elif defined(_win32)
     	return LoadLubeFromDll(NULL, ppLube);
 #else
-        return LUBE_FAIL;
+    #error Not supported platform!
 #endif
     }
 
@@ -354,11 +370,12 @@ int LoadLube(const char *pszName, PLUBEHEADER *ppLube)
         return LoadLubeFromFile(szResult, ppLube);
     }
     else if (!_stricmp(pszName + n - 4, ".eco")) {
-#ifdef _linux
+#if defined(_linux)
         return LoadLubeFromELF(szResult, ppLube);
-#elif _win32
-    	return LoadLubeFromDll(NULL, ppLube);
+#elif defined(_win32)
+        return LoadLubeFromDll(szResult, ppLube);
 #else
+        fprintf(stderr, "Do not support load Elastos meta data from shared object file %s.\n", pszName);
         return LUBE_FAIL;
 #endif
     }
@@ -366,6 +383,7 @@ int LoadLube(const char *pszName, PLUBEHEADER *ppLube)
 #ifdef _linux
         return LoadLubeFromELF(szResult, ppLube);
 #else
+        fprintf(stderr, "Do not support load Elastos meta data from shared object file %s.\n", pszName);
         return LUBE_FAIL;
 #endif
     }

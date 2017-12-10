@@ -6,7 +6,7 @@ setupArg=$1
 #The arg is NULL, give user a choice.
 if [ "$1" == "" ]; then
     PS3='Please enter your choice: '
-    options=("linux" "arm_android" "devtools_32" "host_devtools" "devtools_64" "quit")
+    options=("linux" "arm_android" "devtools_32" "host_devtools" "devtools_64" "ios_simulator64" "ios_device" "quit")
     select opt in "${options[@]}"
     do
         case $opt in
@@ -24,6 +24,12 @@ if [ "$1" == "" ]; then
                 break;;
             "devtools_64")
                 setupArg="devtools_64"
+                break;;
+            "ios_simulator64")
+                setupArg="ios_simulator64"
+                break;;
+            "ios_device")
+                setupArg="ios_device"
                 break;;
             "quit")
                 return;;
@@ -46,6 +52,12 @@ case $setupArg in
         export _ELASTOS64=YES;;
     "devtools_64" | '5')
         setupArg="gcc_devtools"
+        export _ELASTOS64=YES;;
+    "ios_simulator64" | '6')
+        setupArg="ios_simulator"
+        export _ELASTOS64=YES;;
+    "ios_device" | '7')
+        setupArg="ios_device"
         export _ELASTOS64=YES;;
     *)
         echo "Invalid option"
@@ -105,7 +117,8 @@ else
         # Set command and build-tool lookup path
         if [ "$XDK_BUILD_TOOL" == "cmake" ]; then
             export XDK_TOOLS=$XDK_BUILD_PATH/Tools
-            export PATH=$XDK_TOOLS/$XDK_TARGET_PLATFORM:$PATH
+            [[ $OSTYPE == *linux* ]] && export PATH=$XDK_TOOLS/linux:$PATH
+            [[ $OSTYPE == *darwin* ]] && export PATH=$XDK_TOOLS/mac:$PATH
         else
             export XDK_TOOLS=$XDK_BUILD_PATH/Tools_64
         fi

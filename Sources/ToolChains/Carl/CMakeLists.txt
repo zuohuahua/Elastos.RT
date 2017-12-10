@@ -5,7 +5,7 @@ xdk_add_subdirectories(
     Cls2C
 )
 
-if(NOT $ENV{XDK_TARGET_PLATFORM} STREQUAL "mac")
+if(NOT "$ENV{XDK_TARGET_PLATFORM}" STREQUAL "mac")
 xdk_add_subdirectories(
     CInfoReader
 )

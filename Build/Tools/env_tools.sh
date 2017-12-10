@@ -656,6 +656,9 @@ function emake ()
             fi
 
             export XDK_COMMON_CMAKE=$XDK_BUILD_PATH/CMake/common.cmake
+            if [ -f $XDK_BUILD_PATH/CMake/$XDK_TARGET_PLATFORM.cmake ]; then
+                CMAKE_ARGS="$CMAKE_ARGS -DCMAKE_TOOLCHAIN_FILE=$XDK_BUILD_PATH/CMake/$XDK_TARGET_PLATFORM.cmake"
+            fi
 
             local MIRROR_ROOT_DIR=$XDK_USER_OBJ/$XDK_BUILD_KIND/mirror
             local MIRROR_DIR=$MIRROR_ROOT_DIR$XDK_EMAKE_DIR
@@ -693,19 +696,27 @@ function emake ()
             elif [ "$1" == "gen" ]; then
                 echo "Re-generating makefiles..."
                 mkdir -p $MIRROR_ROOT_DIR 1>/dev/null
-                (cd $MIRROR_ROOT_DIR && cmake -G"Unix Makefiles" $XDK_SOURCE_PATH)
+                (cd $MIRROR_ROOT_DIR && cmake -G"Unix Makefiles" $CMAKE_ARGS $XDK_SOURCE_PATH)
             else
                 if [ ! -d "$MIRROR_DIR/CMakeFiles" ]; then
                     echo 'Generating makefiles...'
                     echo 'You could re-generate the makefiles by typing "emake gen"'
                     mkdir -p $MIRROR_ROOT_DIR 1>/dev/null
-                    (cd $MIRROR_ROOT_DIR && cmake -G"Unix Makefiles" $XDK_SOURCE_PATH)
+                    (cd $MIRROR_ROOT_DIR && cmake -G"Unix Makefiles" $CMAKE_ARGS $XDK_SOURCE_PATH)
                 fi
+
+                # prepare target directories
+                mkdir -p $MIRROR_DIR 1>/dev/null
+                mkdir -p $XDK_TARGETS 1>/dev/null
+                mkdir -p $XDK_USER_INC 1>/dev/null
+                mkdir -p $XDK_USER_LIB 1>/dev/null
+                mkdir -p $XDK_USER_OBJ 1>/dev/null
+
                 if [ "$DISABLE_EMAKE_TIMES" == "1" ]; then
-                    (mkdir -p $MIRROR_DIR 1>/dev/null && cd $MIRROR_DIR && $XDK_MAKE $1 $2 $3 $4 $5 $6)
+                    (cd $MIRROR_DIR && $XDK_MAKE $1 $2 $3 $4 $5 $6)
                 else
                     local START_TIME=`date +%s`
-                    (mkdir -p $MIRROR_DIR 1>/dev/null && cd $MIRROR_DIR && $XDK_MAKE $1 $2 $3 $4 $5 $6)
+                    (cd $MIRROR_DIR && $XDK_MAKE $1 $2 $3 $4 $5 $6)
                     local ELAPSED_TIME=$(( `date +%s`-$START_TIME ))
                     local HOURS=`echo $ELAPSED_TIME/3600 | bc`
                     local MINUTES=`echo $ELAPSED_TIME/60%60 | bc`

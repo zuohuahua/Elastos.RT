@@ -16,7 +16,7 @@ set(SOURCES
     implibs.cpp
 )
 
-if(NOT $ENV{XDK_TARGET_PLATFORM} STREQUAL "mac")
+if(NOT APPLE)
 list(APPEND SOURCES
     elfreader.cpp
 )

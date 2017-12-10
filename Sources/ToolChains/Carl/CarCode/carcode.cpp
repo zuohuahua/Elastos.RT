@@ -16,7 +16,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#ifndef _mac
+#ifndef _apple
 #include <malloc.h>
 #endif
 #include <clsbase.h>
