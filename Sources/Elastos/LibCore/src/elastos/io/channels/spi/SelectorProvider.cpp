@@ -58,7 +58,7 @@ ECode SelectorProvider::LoadProviderByJar(
     /* [out] */ ISelectorProvider** provider)
 {
     VALIDATE_NOT_NULL(provider)
-    
+
     #if 0
     AutoPtr<IServiceLoader> sl = ServiceLoader::Load(EIID_ISelectorProvider);
     if (sl) {
@@ -74,7 +74,7 @@ ECode SelectorProvider::LoadProviderByJar(
         }
     }
     #endif
-    
+
     *provider = NULL;
     return NOERROR;
 }

@@ -36,13 +36,14 @@ ECode CBitSetHelper::ValueOf(
  * sequence of bits. This method does not alter the {@code LongBuffer}.
  * @hide 1.7
  */
+#if 0
 ECode CBitSetHelper::ValueOf(
     /* [in] */ IInt64Buffer* int64Arr,
     /* [out] */ IBitSet** bs)
 {
     return CBitSet::ValueOf(int64Arr, bs);
 }
-
+#endif
 /**
  * Equivalent to {@code BitSet.valueOf(ByteBuffer.wrap(bytes))}.
  * @hide 1.7
@@ -59,12 +60,14 @@ ECode CBitSetHelper::ValueOf(
  * sequence of bits. This method does not alter the {@code ByteBuffer}.
  * @hide 1.7
  */
+#if 0
 ECode CBitSetHelper::ValueOf(
     /* [in] */ IByteBuffer* byteArr,
     /* [out] */ IBitSet** bs)
 {
     return CBitSet::ValueOf(byteArr, bs);
 }
+#endif
 
 } // namespace Utility
 } // namespace Elastos

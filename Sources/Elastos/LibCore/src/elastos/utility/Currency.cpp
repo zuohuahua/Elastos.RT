@@ -46,7 +46,7 @@ Currency::Currency()
 {
 }
 
-ECode Currency::constructor(
+Currency::constructor(
     /* [in] */ const String& currencyCode)
 {
     mCurrencyCode = currencyCode;

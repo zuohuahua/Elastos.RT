@@ -40,8 +40,6 @@ using Elastos::Core::EIID_ICloneable;
 using Elastos::Core::CString;
 using Elastos::Core::ICharSequence;
 using Elastos::IO::EIID_ISerializable;
-using Elastos::IO::IObjectStreamField;
-using Elastos::IO::IObjectOutputStream;
 using Libcore::ICU::ICUUtil;
 
 namespace Elastos {

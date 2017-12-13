@@ -17,12 +17,13 @@
 #include "CBitSet.h"
 #include "ElaMath.h"
 #include "StringBuilder.h"
-#include "ByteBuffer.h"
+//#include "ByteBuffer.h"
 
 using Elastos::Core::StringBuilder;
 using Elastos::Core::EIID_ICloneable;
-using Elastos::IO::IBuffer;
-using Elastos::IO::ByteBuffer;
+//using Elastos::IO::IBuffer;
+//using Elastos::IO::ByteBuffer;
+//using Elastos::IO::IByteBuffer;
 using Elastos::IO::EIID_ISerializable;
 
 namespace Elastos {
@@ -864,6 +865,7 @@ ECode CBitSet::ValueOf(
  * sequence of bits. This method does not alter the {@code LongBuffer}.
  * @hide 1.7
  */
+#if 0
 ECode CBitSet::ValueOf(
     /* [in] */ IInt64Buffer* int64Arr,
     /* [out] */ IBitSet** bs)
@@ -884,6 +886,7 @@ ECode CBitSet::ValueOf(
     }
     return ValueOf(int64s, bs);
 }
+#endif
 
 /**
  * Equivalent to {@code BitSet.valueOf(ByteBuffer.wrap(bytes))}.
@@ -894,9 +897,10 @@ ECode CBitSet::ValueOf(
     /* [out] */ IBitSet** bs)
 {
     VALIDATE_NOT_NULL(bs);
-    AutoPtr<IByteBuffer> byteBuffer;
-    ByteBuffer::Wrap(byteArr, (IByteBuffer**)&byteBuffer);
-    return ValueOf(byteBuffer, bs);
+//    AutoPtr<IByteBuffer> byteBuffer;
+//    ByteBuffer::Wrap(byteArr, (IByteBuffer**)&byteBuffer);
+//    return ValueOf(byteBuffer, bs);
+    return NOERROR;
 }
 
 /**
@@ -904,6 +908,7 @@ ECode CBitSet::ValueOf(
  * sequence of bits. This method does not alter the {@code ByteBuffer}.
  * @hide 1.7
  */
+#if 0
 ECode CBitSet::ValueOf(
     /* [in] */ IByteBuffer* byteArr,
     /* [out] */ IBitSet** bs)
@@ -937,6 +942,7 @@ ECode CBitSet::ValueOf(
 
    return CBitSet::ValueOf(longs, bs);
 }
+#endif
 
 /**
  * Returns a new {@code long[]} containing a little-endian representation of the bits of

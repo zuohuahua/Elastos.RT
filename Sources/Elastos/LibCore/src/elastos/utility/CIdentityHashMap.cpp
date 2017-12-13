@@ -14,12 +14,11 @@
 // limitations under the License.
 //=========================================================================
 
-#include "Elastos.CoreLibrary.IO.h"
+//#include "Elastos.CoreLibrary.IO.h"
 #include "CIdentityHashMap.h"
-#include "CSystem.h"
+//#include "CSystem.h"
 
 using Elastos::Core::ISystem;
-using Elastos::Core::CSystem;
 using Elastos::Core::EIID_ICloneable;
 using Elastos::IO::EIID_ISerializable;
 

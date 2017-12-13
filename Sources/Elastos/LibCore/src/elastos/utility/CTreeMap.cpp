@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "Elastos.CoreLibrary.IO.h"
+//#include "Elastos.CoreLibrary.IO.h"
 #include "CTreeMap.h"
 #include "Collections.h"
 #include "ElaMath.h"
@@ -26,10 +26,10 @@ using Elastos::Core::IComparator;
 using Elastos::Core::EIID_IComparator;
 using Elastos::IO::EIID_ISerializable;
 using Elastos::Core::EIID_ICloneable;
-using Elastos::IO::IObjectOutputStreamPutField;
-using Elastos::IO::IObjectInputStreamGetField;
-using Elastos::IO::IOutputStream;
-using Elastos::IO::IInputStream;
+// using Elastos::IO::IObjectOutputStreamPutField;
+// using Elastos::IO::IObjectInputStreamGetField;
+// using Elastos::IO::IOutputStream;
+// using Elastos::IO::IInputStream;
 
 namespace Elastos {
 namespace Utility {
@@ -1111,6 +1111,7 @@ Int32 CTreeMap::Count(
     return count;
 }
 
+#if 0
 ECode CTreeMap::WriteObject(
     /* [in] */ IObjectOutputStream* stream)
 {
@@ -1162,6 +1163,7 @@ ECode CTreeMap::ReadObject(
     }
     return NOERROR;
 }
+#endif
 
 ECode CTreeMap::ContainsValue(
     /* [in] */ IInterface* value,

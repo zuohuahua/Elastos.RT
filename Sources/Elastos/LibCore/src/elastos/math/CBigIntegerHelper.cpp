@@ -32,6 +32,7 @@ ECode CBigIntegerHelper::ValueOf(
     return CBigInteger::ValueOf(value, result);
 }
 
+#if 0
 ECode CBigIntegerHelper::ProbablePrime(
     /* [in] */ Int32 bitLength,
     /* [in] */ IRandom* random,
@@ -40,6 +41,7 @@ ECode CBigIntegerHelper::ProbablePrime(
     VALIDATE_NOT_NULL(result);
     return CBigInteger::ProbablePrime(bitLength, random, result);
 }
+#endif
 
 ECode CBigIntegerHelper::GetMINUSOne(
     /* [out] */ IBigInteger** result)

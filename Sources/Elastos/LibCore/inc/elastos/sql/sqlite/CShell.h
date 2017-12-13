@@ -19,10 +19,8 @@
 
 #include "Elastos.CoreLibrary.IO.h"
 #include "_Elastos_Sql_SQLite_CShell.h"
-// #include "CDatabase.h"
-#include "Object.h"
+#include "CDatabase.h"
 
-using Elastos::Core::Object;
 using Elastos::IO::IPrintWriter;
 using Elastos::IO::IPrintStream;
 
@@ -80,7 +78,7 @@ public:
         /* [in] */ const String& str);
 
 public:
-    // AutoPtr<CDatabase> mDb;
+    AutoPtr<CDatabase> mDb;
     Boolean mEcho;
     Int32 mCount;
     Int32 mMode;

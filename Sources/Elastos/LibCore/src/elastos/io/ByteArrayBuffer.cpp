@@ -16,7 +16,7 @@
 
 #include "Elastos.CoreLibrary.Libcore.h"
 #include "ByteArrayBuffer.h"
-// #include "Memory.h"
+#include "Memory.h"
 #include "ByteBufferAsCharBuffer.h"
 #include "ByteBufferAsDoubleBuffer.h"
 #include "ByteBufferAsFloatBuffer.h"
@@ -28,7 +28,7 @@
 #include "logging/Logger.h"
 
 using Libcore::IO::ISizeOf;
-// using Libcore::IO::Memory;
+using Libcore::IO::Memory;
 using Elastos::Utility::Logging::Logger;
 
 namespace Elastos {
@@ -246,11 +246,9 @@ ECode ByteArrayBuffer::GetChar(
         // throw new BufferUnderflowException();
         return E_BUFFER_UNDERFLOW_EXCEPTION;
     }
-    #if 0
     Char32 result = (Char32) Memory::PeekInt32(mBackingArray, mArrayOffset + mPosition, mOrder);
     mPosition = newPosition;
     *value = result;
-    #endif
     return NOERROR;
 }
 
@@ -262,9 +260,7 @@ ECode ByteArrayBuffer::GetChar(
     *value = '\0';
 
     FAIL_RETURN(CheckIndex(index, ISizeOf::CHAR));
-    #if 0
     *value = (Char32) Memory::PeekInt32(mBackingArray, mArrayOffset + index, mOrder);
-    #endif
     return NOERROR;
 }
 
@@ -321,11 +317,9 @@ ECode ByteArrayBuffer::GetInt32(
         // throw new BufferUnderflowException();
         return E_BUFFER_UNDERFLOW_EXCEPTION;
     }
-    #if 0
     Int32 result = Memory::PeekInt32(mBackingArray, mArrayOffset + mPosition, mOrder);
     mPosition = newPosition;
     *value = result;
-    #endif
     return NOERROR;
 }
 
@@ -336,9 +330,7 @@ ECode ByteArrayBuffer::GetInt32(
     VALIDATE_NOT_NULL(value)
 
     FAIL_RETURN(CheckIndex(index, ISizeOf::INT32));
-    #if 0
     *value = Memory::PeekInt32(mBackingArray, mArrayOffset + index, mOrder);
-    #endif
     return NOERROR;
 }
 
@@ -352,11 +344,9 @@ ECode ByteArrayBuffer::GetInt64(
         // throw new BufferUnderflowException();
         return E_BUFFER_UNDERFLOW_EXCEPTION;
     }
-    #if 0
     Int64 result = Memory::PeekInt64(mBackingArray, mArrayOffset + mPosition, mOrder);
     mPosition = newPosition;
     *value = result;
-    #endif
     return NOERROR;
 }
 
@@ -367,9 +357,7 @@ ECode ByteArrayBuffer::GetInt64(
     VALIDATE_NOT_NULL(value)
 
     FAIL_RETURN(CheckIndex(index, ISizeOf::INT64));
-    #if 0
     *value = Memory::PeekInt64(mBackingArray, mArrayOffset + index, mOrder);
-    #endif
     return NOERROR;
 }
 
@@ -383,11 +371,9 @@ ECode ByteArrayBuffer::GetInt16(
         // throw new BufferUnderflowException();
         return E_BUFFER_UNDERFLOW_EXCEPTION;
     }
-    #if 0
     Int16 result = Memory::PeekInt16(mBackingArray, mArrayOffset + mPosition, mOrder);
     mPosition = newPosition;
     *value = result;
-    #endif
     return NOERROR;
 }
 
@@ -398,9 +384,7 @@ ECode ByteArrayBuffer::GetInt16(
     VALIDATE_NOT_NULL(value)
 
     FAIL_RETURN(CheckIndex(index, ISizeOf::INT16));
-    #if 0
     *value = Memory::PeekInt16(mBackingArray, mArrayOffset + index, mOrder);
-    #endif
     return NOERROR;
 }
 
@@ -470,9 +454,7 @@ ECode ByteArrayBuffer::PutChar(
         // throw new BufferOverflowException();
         return E_BUFFER_OVERFLOW_EXCEPTION;
     }
-    #if 0
     Memory::PokeInt32(mBackingArray, mArrayOffset + mPosition, (Int32) value, mOrder);
-    #endif
     mPosition = newPosition;
     return NOERROR;
 }
@@ -486,9 +468,7 @@ ECode ByteArrayBuffer::PutChar(
         return E_READ_ONLY_BUFFER_EXCEPTION;
     }
     FAIL_RETURN(CheckIndex(index, ISizeOf::CHAR));
-    #if 0
     Memory::PokeInt32(mBackingArray, mArrayOffset + index, (Int32) value, mOrder);
-    #endif
     return NOERROR;
 }
 
@@ -534,9 +514,7 @@ ECode ByteArrayBuffer::PutInt16(
         // throw new BufferOverflowException();
         return E_BUFFER_OVERFLOW_EXCEPTION;
     }
-    #if 0
     Memory::PokeInt16(mBackingArray, mArrayOffset + mPosition, value, mOrder);
-    #endif
     mPosition = newPosition;
     return NOERROR;
 }
@@ -550,9 +528,7 @@ ECode ByteArrayBuffer::PutInt16(
         return E_READ_ONLY_BUFFER_EXCEPTION;
     }
     FAIL_RETURN(CheckIndex(index, ISizeOf::INT16));
-    #if 0
     Memory::PokeInt16(mBackingArray, mArrayOffset + index, value, mOrder);
-    #endif
     return NOERROR;
 }
 
@@ -568,9 +544,7 @@ ECode ByteArrayBuffer::PutInt32(
         // throw new BufferOverflowException();
         return E_BUFFER_OVERFLOW_EXCEPTION;
     }
-    #if 0
     Memory::PokeInt32(mBackingArray, mArrayOffset + mPosition, value, mOrder);
-    #endif
     mPosition = newPosition;
     return NOERROR;
 }
@@ -584,9 +558,7 @@ ECode ByteArrayBuffer::PutInt32(
         return E_READ_ONLY_BUFFER_EXCEPTION;
     }
     FAIL_RETURN(CheckIndex(index, ISizeOf::INT32));
-    #if 0
     Memory::PokeInt32(mBackingArray, mArrayOffset + index, value, mOrder);
-    #endif
     return NOERROR;
 }
 
@@ -602,9 +574,7 @@ ECode ByteArrayBuffer::PutInt64(
         // throw new BufferOverflowException();
         return E_BUFFER_OVERFLOW_EXCEPTION;
     }
-    #if 0
     Memory::PokeInt64(mBackingArray, mArrayOffset + mPosition, value, mOrder);
-    #endif
     mPosition = newPosition;
     return NOERROR;
 }
@@ -618,9 +588,7 @@ ECode ByteArrayBuffer::PutInt64(
         return E_READ_ONLY_BUFFER_EXCEPTION;
     }
     FAIL_RETURN(CheckIndex(index, ISizeOf::INT64));
-    #if 0
     Memory::PokeInt64(mBackingArray, mArrayOffset + index, value, mOrder);
-    #endif
     return NOERROR;
 }
 
@@ -697,9 +665,7 @@ ECode ByteArrayBuffer::GetChars(
 {
     Int32 byteCount = 0;
     FAIL_RETURN(CheckGetBounds(ISizeOf::CHAR, dst->GetLength(), dstOffset, charCount, &byteCount));
-    #if 0
     Memory::UnsafeBulkGet((Byte*)dst->GetPayload(), 0, byteCount, mBackingArray, mArrayOffset + mPosition, ISizeOf::CHAR, CByteOrderHelper::_IsNeedsSwap(mOrder));
-    #endif
     mPosition += byteCount;
     return NOERROR;
 }
@@ -711,9 +677,7 @@ ECode ByteArrayBuffer::GetDoubles(
 {
     Int32 byteCount = 0;
     FAIL_RETURN(CheckGetBounds(ISizeOf::DOUBLE, dst->GetLength(), dstOffset, doubleCount, &byteCount));
-    #if 0
     Memory::UnsafeBulkGet((Byte*)dst->GetPayload(), dstOffset, byteCount, mBackingArray, mArrayOffset + mPosition, ISizeOf::DOUBLE, CByteOrderHelper::_IsNeedsSwap(mOrder));
-    #endif
     mPosition += byteCount;
     return NOERROR;
 }
@@ -725,9 +689,7 @@ ECode ByteArrayBuffer::GetFloats(
 {
     Int32 byteCount = 0;
     FAIL_RETURN(CheckGetBounds(ISizeOf::FLOAT, dst->GetLength(), dstOffset, floatCount, &byteCount));
-    #if 0
     Memory::UnsafeBulkGet((Byte*)dst->GetPayload(), dstOffset, byteCount, mBackingArray, mArrayOffset + mPosition, ISizeOf::FLOAT, CByteOrderHelper::_IsNeedsSwap(mOrder));
-    #endif
     mPosition += byteCount;
     return NOERROR;
 }
@@ -739,9 +701,7 @@ ECode ByteArrayBuffer::GetInt32s(
 {
     Int32 byteCount = 0;
     FAIL_RETURN(CheckGetBounds(ISizeOf::INT32, dst->GetLength(), dstOffset, intCount, &byteCount));
-    #if 0
     Memory::UnsafeBulkGet((Byte*)dst->GetPayload(), dstOffset, byteCount, mBackingArray, mArrayOffset + mPosition, ISizeOf::INT32, CByteOrderHelper::_IsNeedsSwap(mOrder));
-    #endif
     mPosition += byteCount;
     return NOERROR;
 }
@@ -753,9 +713,7 @@ ECode ByteArrayBuffer::GetInt64s(
 {
     Int32 byteCount = 0;
     FAIL_RETURN(CheckGetBounds(ISizeOf::INT64, dst->GetLength(), dstOffset, longCount, &byteCount));
-    #if 0
     Memory::UnsafeBulkGet((Byte*)dst->GetPayload(), dstOffset, byteCount, mBackingArray, mArrayOffset + mPosition, ISizeOf::INT64, CByteOrderHelper::_IsNeedsSwap(mOrder));
-    #endif
     mPosition += byteCount;
     return NOERROR;
 }
@@ -767,9 +725,7 @@ ECode ByteArrayBuffer::GetInt16s(
 {
     Int32 byteCount = 0;
     FAIL_RETURN(CheckGetBounds(ISizeOf::INT16, dst->GetLength(), dstOffset, shortCount, &byteCount));
-    #if 0
     Memory::UnsafeBulkGet((Byte*)dst->GetPayload(), dstOffset, byteCount, mBackingArray, mArrayOffset + mPosition, ISizeOf::INT16, CByteOrderHelper::_IsNeedsSwap(mOrder));
-    #endif
     mPosition += byteCount;
     return NOERROR;
 }
@@ -781,9 +737,7 @@ ECode ByteArrayBuffer::PutChars(
 {
     Int32 byteCount = 0;
     FAIL_RETURN(CheckPutBounds(ISizeOf::CHAR, src->GetLength(), srcOffset, charCount, &byteCount));
-    #if 0
     Memory::UnsafeBulkPut(mBackingArray, mArrayOffset + mPosition, byteCount, (Byte*)src->GetPayload(), srcOffset, ISizeOf::CHAR, CByteOrderHelper::_IsNeedsSwap(mOrder));
-    #endif
     mPosition += byteCount;
     return NOERROR;
 }
@@ -795,9 +749,7 @@ ECode ByteArrayBuffer::PutDoubles(
 {
     Int32 byteCount = 0;
     FAIL_RETURN(CheckPutBounds(ISizeOf::DOUBLE, src->GetLength(), srcOffset, doubleCount, &byteCount));
-    #if 0
     Memory::UnsafeBulkPut(mBackingArray, mArrayOffset + mPosition, byteCount, (Byte*)src->GetPayload(), srcOffset, ISizeOf::DOUBLE, CByteOrderHelper::_IsNeedsSwap(mOrder));
-    #endif
     mPosition += byteCount;
     return NOERROR;
 }
@@ -809,9 +761,7 @@ ECode ByteArrayBuffer::PutFloats(
 {
     Int32 byteCount = 0;
     FAIL_RETURN(CheckPutBounds(ISizeOf::FLOAT, src->GetLength(), srcOffset, floatCount, &byteCount));
-    #if 0
     Memory::UnsafeBulkPut(mBackingArray, mArrayOffset + mPosition, byteCount, (Byte*)src->GetPayload(), srcOffset, ISizeOf::FLOAT, CByteOrderHelper::_IsNeedsSwap(mOrder));
-    #endif
     mPosition += byteCount;
     return NOERROR;
 }
@@ -823,9 +773,7 @@ ECode ByteArrayBuffer::PutInt32s(
 {
     Int32 byteCount = 0;
     FAIL_RETURN(CheckPutBounds(ISizeOf::INT32, src->GetLength(), srcOffset, intCount, &byteCount));
-    #if 0
     Memory::UnsafeBulkPut(mBackingArray, mArrayOffset + mPosition, byteCount, (Byte*)src->GetPayload(), srcOffset, ISizeOf::INT32, CByteOrderHelper::_IsNeedsSwap(mOrder));
-    #endif
     mPosition += byteCount;
     return NOERROR;
 }
@@ -837,9 +785,7 @@ ECode ByteArrayBuffer::PutInt64s(
 {
     Int32 byteCount = 0;
     FAIL_RETURN(CheckPutBounds(ISizeOf::INT64, src->GetLength(), srcOffset, longCount, &byteCount));
-    #if 0
     Memory::UnsafeBulkPut(mBackingArray, mArrayOffset + mPosition, byteCount, (Byte*)src->GetPayload(), srcOffset, ISizeOf::INT64, CByteOrderHelper::_IsNeedsSwap(mOrder));
-    #endif
     mPosition += byteCount;
     return NOERROR;
 }
@@ -851,9 +797,7 @@ ECode ByteArrayBuffer::PutInt16s(
 {
     Int32 byteCount = 0;
     FAIL_RETURN(CheckPutBounds(ISizeOf::INT16, src->GetLength(), srcOffset, shortCount, &byteCount));
-    #if 0
     Memory::UnsafeBulkPut(mBackingArray, mArrayOffset + mPosition, byteCount, (Byte*)src->GetPayload(), srcOffset, ISizeOf::INT16, CByteOrderHelper::_IsNeedsSwap(mOrder));
-    #endif
     mPosition += byteCount;
     return NOERROR;
 }

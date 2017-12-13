@@ -492,8 +492,7 @@ ECode PlainSocketImpl::SocksBind()
         AutoPtr<ArrayOf<Byte> > replyBytes = ArrayOf<Byte>::Alloc(4);
         Int32 replyip = 0;
         reply->GetIP(&replyip);
-        assert(0 && "TODO");
-        // Memory::PokeInt32(replyBytes, 0, replyip, Elastos::IO::ByteOrder_BIG_ENDIAN);
+        Memory::PokeInt32(replyBytes, 0, replyip, Elastos::IO::ByteOrder_BIG_ENDIAN);
         AutoPtr<IInetAddressHelper> helper;
         CInetAddressHelper::AcquireSingleton((IInetAddressHelper**)&helper);
         helper->GetByAddress(replyBytes, (IInetAddress**)&mAddress);
