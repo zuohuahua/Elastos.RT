@@ -19,9 +19,11 @@
 
 #include <elastos/core/Runnable.h>
 #include <elastos/core/NativeThread.h>
+#include <elastos/utility/etl/List.h>
 
 // using Elastos::Utility::IList;
 using Elastos::Core::Runnable;
+using Elastos::Utility::Etl::List;
 
 namespace Elastos {
 namespace Core {
@@ -1023,6 +1025,8 @@ private:
     /** Callbacks to run on interruption. */
     //RT-TODO
     // AutoPtr<IList> mInterruptActions;
+    List< AutoPtr<IInterface> > mInterruptActions;
+    Object mInterruptActionsLock;
 
     /**
      * Holds the handler for uncaught exceptions in this Thread,

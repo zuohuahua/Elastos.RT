@@ -22,8 +22,8 @@
 #include "IntegralToString.h"
 #include "RealToString.h"
 #include "CString.h"
-//#include "CPatternHelper.h"
-//#include "CSplitter.h"
+#include "CPatternHelper.h"
+#include "CSplitter.h"
 #include "ElaMath.h"
 #include "StringBuilder.h"
 //#include "CFormatter.h"
@@ -37,12 +37,12 @@ using Elastos::Core::StringBuilder;
 //using Elastos::Utility::IFormatter;
 //using Elastos::Utility::CFormatter;
 //using Elastos::Utility::CLocale;
-//using Elastos::Utility::Regex::IPatternHelper;
-//using Elastos::Utility::Regex::CPatternHelper;
-//using Elastos::Utility::Regex::ISplitter;
-//using Elastos::Utility::Regex::CSplitter;
-//using Elastos::Utility::Regex::IPattern;
-//using Elastos::Utility::Regex::IMatcher;
+using Elastos::Utility::Regex::IPatternHelper;
+using Elastos::Utility::Regex::CPatternHelper;
+using Elastos::Utility::Regex::ISplitter;
+using Elastos::Utility::Regex::CSplitter;
+using Elastos::Utility::Regex::IPattern;
+using Elastos::Utility::Regex::IMatcher;
 
 namespace Elastos {
 namespace Core {
@@ -520,8 +520,7 @@ ECode StringUtils::Split(
 {
     VALIDATE_NOT_NULL(array);
     *array = NULL;
-return NOERROR;
-/*
+
     AutoPtr<ISplitter> splitter;
     CSplitter::AcquireSingleton((ISplitter**)&splitter);
     splitter->FastSplit(regularExpression, input, limit, array);
@@ -537,7 +536,6 @@ return NOERROR;
         FAIL_RETURN(CString::New(input, (ICharSequence**)&seq));
         return pattern->Split(seq, limit, array);
     }
-*/
 }
 
 ECode StringUtils::ReplaceFirst(
@@ -548,9 +546,7 @@ ECode StringUtils::ReplaceFirst(
 {
     VALIDATE_NOT_NULL(result);
     *result = String(NULL);
-return NOERROR;
 
-/*
     AutoPtr<IPatternHelper> helper;
     FAIL_RETURN(CPatternHelper::AcquireSingleton((IPatternHelper**)&helper));
     AutoPtr<IPattern> pattern;
@@ -559,7 +555,6 @@ return NOERROR;
     AutoPtr<IMatcher> matcher;
     FAIL_RETURN(pattern->Matcher(input, (IMatcher**)&matcher));
     return matcher->ReplaceFirst(replacement, result);
-*/
 }
 
 ECode StringUtils::ReplaceAll(
@@ -571,9 +566,6 @@ ECode StringUtils::ReplaceAll(
     VALIDATE_NOT_NULL(result);
     *result = String(NULL);
 
-     return NOERROR;
-
-/*
     AutoPtr<IPatternHelper> helper;
     FAIL_RETURN(CPatternHelper::AcquireSingleton((IPatternHelper**)&helper));
     AutoPtr<IPattern> pattern;
@@ -582,7 +574,6 @@ ECode StringUtils::ReplaceAll(
     AutoPtr<IMatcher> matcher;
     FAIL_RETURN(pattern->Matcher(input, (IMatcher**)&matcher));
     return matcher->ReplaceAll(replacement, result);
-*/
 }
 
 ECode StringUtils::Matches(
@@ -591,14 +582,9 @@ ECode StringUtils::Matches(
     /*[out] */ Boolean* result)
 {
     VALIDATE_NOT_NULL(result);
-
-    return NOERROR;
-
-/*
     AutoPtr<IPatternHelper> helper;
     FAIL_RETURN(CPatternHelper::AcquireSingleton((IPatternHelper**)&helper));
     return helper->Matches(regularExpression, input, result);
-*/
 }
 
 ECode StringUtils::Split(

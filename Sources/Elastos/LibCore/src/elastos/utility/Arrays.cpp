@@ -24,7 +24,7 @@
 #include "CDouble.h"
 #include "CString.h"
 #include "CArrayList.h"
-#include <cutils/log.h>
+// #include <cutils/log.h>
 
 using Elastos::Core::IByte;
 using Elastos::Core::CByte;
@@ -53,13 +53,13 @@ ECode Arrays::CheckBinarySearchBounds(
     /* [in] */ Int32 length)
 {
     if (startIndex > endIndex) {
-        ALOGE("Arrays::CheckBinarySearchBounds: E_ILLEGAL_ARGUMENT_EXCEPTION: len: %d, start: %d, end: %d",
-            length, startIndex, endIndex);
+        // ALOGE("Arrays::CheckBinarySearchBounds: E_ILLEGAL_ARGUMENT_EXCEPTION: len: %d, start: %d, end: %d",
+        //     length, startIndex, endIndex);
         return E_ILLEGAL_ARGUMENT_EXCEPTION;
     }
     if (startIndex < 0 || endIndex > length) {
-        ALOGE("Arrays::CheckBinarySearchBounds: E_INDEX_OUT_OF_BOUNDS_EXCEPTION: len: %d, start: %d, end: %d",
-            length, startIndex, endIndex);
+        // ALOGE("Arrays::CheckBinarySearchBounds: E_INDEX_OUT_OF_BOUNDS_EXCEPTION: len: %d, start: %d, end: %d",
+        //     length, startIndex, endIndex);
         return E_INDEX_OUT_OF_BOUNDS_EXCEPTION;
     }
     return NOERROR;
@@ -71,13 +71,13 @@ ECode Arrays::CheckStartAndEnd(
     /* [in] */ Int32 end)
 {
     if (start < 0 || end > len) {
-        ALOGE("Arrays::CheckStartAndEnd: E_ARRAY_INDEX_OUT_OF_BOUNDS_EXCEPTION: len: %d, start: %d, end: %d",
-            len, start, end);
+        // ALOGE("Arrays::CheckStartAndEnd: E_ARRAY_INDEX_OUT_OF_BOUNDS_EXCEPTION: len: %d, start: %d, end: %d",
+        //     len, start, end);
         return E_ARRAY_INDEX_OUT_OF_BOUNDS_EXCEPTION;
     }
     if (start > end) {
-        ALOGE("Arrays::CheckStartAndEnd: E_ILLEGAL_ARGUMENT_EXCEPTION: len: %d, start: %d, end: %d",
-            len, start, end);
+        // ALOGE("Arrays::CheckStartAndEnd: E_ILLEGAL_ARGUMENT_EXCEPTION: len: %d, start: %d, end: %d",
+        //     len, start, end);
         return E_ILLEGAL_ARGUMENT_EXCEPTION;
     }
     return NOERROR;
@@ -89,8 +89,8 @@ ECode Arrays::CheckOffsetAndCount(
     /* [in] */ Int32 count)
 {
     if ((offset | count) < 0 || offset > arrayLength || arrayLength - offset < count) {
-        ALOGE("Arrays::CheckOffsetAndCount: E_INDEX_OUT_OF_BOUNDS_EXCEPTION: arrayLength: %d, offset: %d, count: %d",
-            arrayLength, offset, count);
+        // ALOGE("Arrays::CheckOffsetAndCount: E_INDEX_OUT_OF_BOUNDS_EXCEPTION: arrayLength: %d, offset: %d, count: %d",
+        //     arrayLength, offset, count);
         return E_INDEX_OUT_OF_BOUNDS_EXCEPTION;
     }
     return NOERROR;
@@ -476,8 +476,8 @@ ECode Arrays::BinarySearch(
 
     ECode ec = CheckBinarySearchBounds(startIndex, endIndex, array->GetLength());
     if (FAILED(ec)) {
-        ALOGE("Arrays::BinarySearch: error %08x, startIndex: %d, endIndex: %d, array length: %d",
-            ec, startIndex, endIndex, array->GetLength());
+        // ALOGE("Arrays::BinarySearch: error %08x, startIndex: %d, endIndex: %d, array length: %d",
+        //     ec, startIndex, endIndex, array->GetLength());
         return ec;
     }
 

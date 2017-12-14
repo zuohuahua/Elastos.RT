@@ -86,7 +86,6 @@ Thread::Thread()
 #if defined(_DEBUG)
     mIsConstructed = FALSE;
 #endif
-    //RT-TODO CArrayList::New((IList**)&mInterruptActions);
 }
 
 Thread::~Thread()
@@ -469,15 +468,13 @@ ECode Thread::Interrupt()
     // will see that this thread is in the interrupted state.
     NativeInterrupt();
 
-    //RT-TODO
-    // AutoLock lock(mInterruptActions);
-    // Int32 size;
-    // mInterruptActions->GetSize(&size);
-    // for (Int32 i = size - 1; i >= 0; i--) {
-    //     AutoPtr<IInterface> item;
-    //     mInterruptActions->Get(i, (IInterface**)&item);
-    //     IRunnable::Probe(item)->Run();
-    // }
+    AutoLock lock(mInterruptActionsLock);
+
+    List< AutoPtr<IInterface> >::ReverseIterator it = mInterruptActions.RBegin();
+    for (; it != mInterruptActions.REnd(); ++it) {
+        AutoPtr<IInterface> item = *it;
+        IRunnable::Probe(item)->Run();
+    }
 
     return NOERROR;
 }
@@ -1127,9 +1124,8 @@ ECode Thread::PushInterruptAction(
     /* [in] */ IRunnable* interruptAction)
 {
     {
-        //RT-TODO
-        // AutoLock syncLock(mInterruptActions);
-        // mInterruptActions->Add(interruptAction);
+        AutoLock lock(mInterruptActionsLock);
+        mInterruptActions.PushBack(IInterface::Probe(interruptAction));
     }
 
     Boolean isflag = FALSE;
@@ -1142,16 +1138,13 @@ ECode Thread::PushInterruptAction(
 ECode Thread::PopInterruptAction(
     /* [in] */ IRunnable* interruptAction)
 {
-    //RT-TODO
-    // AutoLock syncLock(mInterruptActions);
-    // Int32 size = 0;
-    // mInterruptActions->GetSize(&size);
-    // AutoPtr<IInterface> removed;
-    // mInterruptActions->Remove(size - 1, (IInterface**)&removed);
-    // if (interruptAction != IRunnable::Probe(removed)) {
-    //     //ALOGE("Expected %s but was %s", TO_CSTR(interruptAction), TO_CSTR(removed));
-    //     return E_ILLEGAL_ARGUMENT_EXCEPTION;
-    // }
+    AutoLock lock(mInterruptActionsLock);
+    AutoPtr<IInterface> removed = mInterruptActions.GetBack();
+    mInterruptActions.PopBack();
+    if (interruptAction != IRunnable::Probe(removed)) {
+        //ALOGE("Expected %s but was %s", TO_CSTR(interruptAction), TO_CSTR(removed));
+        return E_ILLEGAL_ARGUMENT_EXCEPTION;
+    }
 
     return NOERROR;
 }

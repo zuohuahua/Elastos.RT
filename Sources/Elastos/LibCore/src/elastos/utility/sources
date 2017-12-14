@@ -117,5 +117,5 @@ SOURCES += utility.cpp
 #ELASTOS_LIBS += jar/jar.lib
 #ELASTOS_LIBS += logging/logging.lib
 #ELASTOS_LIBS += prefs/prefs.lib
-#ELASTOS_LIBS += regex/regex.lib
+ELASTOS_LIBS += regex/regex.lib
 #ELASTOS_LIBS += zip/zip.lib

@@ -86,6 +86,11 @@ module
     merge("utility/ICollections.car");
     merge("utility/IEnumMap.car");
 
+    merge("utility/regex/IMatchResult.car");
+    merge("utility/regex/IMatcher.car");
+    merge("utility/regex/ISplitter.car");
+    merge("utility/regex/IPattern.car");
+
     interface Elastos.Core.IAppendable;
     interface Elastos.Core.IComparable;
     interface Elastos.Core.ICloneable;
@@ -889,6 +894,48 @@ module
 //    }
 
     } // namespace Utility
+    } // namespace Elastos
+
+
+    namespace Elastos {
+    namespace Utility {
+    namespace Regex {
+
+    /**
+     * The result of applying a {@code Pattern} to a given input. See {@link Pattern} for
+     * example uses.
+     */
+    class CMatcher {
+        /**
+         * Creates a matcher for a given combination of pattern and input. Both
+         * elements can be changed later on.
+         *
+         * @param pattern
+         *            the pattern to use.
+         * @param input
+         *            the input to use.
+         */
+        constructor(
+            [in] IPattern* pattern,
+            [in] Elastos.Core.ICharSequence* inputSeq);
+
+        interface IMatcher;
+    }
+
+    singleton class CMatcherHelper {
+        interface IMatcherHelper;
+    }
+
+    singleton class CSplitter {
+        interface ISplitter;
+    }
+
+    singleton class CPatternHelper {
+        interface IPatternHelper;
+    }
+
+    } // namespace Regex
+    } // namesapce Utility
     } // namespace Elastos
 
 }

@@ -17,6 +17,6 @@
 #DIRS += concurrent
 #DIRS += jar
 #DIRS += logging
-#DIRS += regex
+DIRS += regex
 #DIRS += zip
 #DIRS += prefs
