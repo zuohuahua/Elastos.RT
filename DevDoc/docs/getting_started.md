@@ -51,7 +51,7 @@ sudo ln -s libcrypto.so.1.0.0 libcrypto.so
 On Ubuntu this should obtain the necessary pre-reqs:
 ```
 sudo apt-get install texinfo libglib2.0-dev autoconf libtool libsdl-dev build-essential tofrodos zlib1g-dev:amd64 zlib1g-dev
-sudo apt-get install bison g++-multilib git gperf libxml2-utils make zlib1g-dev zip libsqlite3-dev libicu-dev libssl-dev
+sudo apt-get install bison g++-multilib git gperf libxml2-utils make zlib1g-dev:i386 zip libsqlite3-dev libicu-dev libssl-dev
 ```
 
 ## Build Elastos.RT
