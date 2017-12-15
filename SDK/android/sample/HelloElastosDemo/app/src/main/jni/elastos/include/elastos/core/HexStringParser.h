@@ -148,7 +148,7 @@ private:
     static const String HEX_PATTERN;// = "[\\x00-\\x20]*([+-]?)" + HEX_SIGNIFICANT
             //+ BINARY_EXPONENT + FLOAT_TYPE_SUFFIX + "[\\x00-\\x20]*";
 
-    static AutoPtr<IPattern> PATTERN;// = Pattern.compile(HEX_PATTERN);
+   static AutoPtr<IPattern> PATTERN;// = Pattern.compile(HEX_PATTERN);
 
 private:
     Int32 EXPONENT_WIDTH;

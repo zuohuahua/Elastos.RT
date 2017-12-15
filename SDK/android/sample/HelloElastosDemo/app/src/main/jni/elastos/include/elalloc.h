@@ -17,7 +17,9 @@
 #ifndef __ELALLOC_H__
 #define __ELALLOC_H__
 
+#ifndef _apple
 #include <malloc.h>
+#endif
 #include <new>
 
 #endif //__ELALLOC_H__

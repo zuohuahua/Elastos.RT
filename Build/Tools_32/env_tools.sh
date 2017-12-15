@@ -388,6 +388,8 @@ function dropsdk ()
     cp $XDK_TARGETS/libElastos.Runtime.so $SDK_LIBS_PATH
     cp $XDK_TARGETS/libElastos.CoreLibrary.so $SDK_LIBS_PATH
     cp $THIRDPART_DEPENDED/lib/libcrypto.so $SDK_LIBS_PATH
+    cp $THIRDPART_DEPENDED/lib/libicuuc.so $SDK_LIBS_PATH
+    cp $THIRDPART_DEPENDED/lib/libstlport.so $SDK_LIBS_PATH
 
     #Other users need CoreLibrary's header files.
     local CUR_DIR=$PWD

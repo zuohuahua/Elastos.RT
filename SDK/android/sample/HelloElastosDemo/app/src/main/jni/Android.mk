@@ -25,6 +25,18 @@ LOCAL_MODULE    := crypto
 LOCAL_SRC_FILES := $(LOCAL_PATH)/elastos/libs/libcrypto.so
 include $(PREBUILT_SHARED_LIBRARY)
 
+#Elastos.CoreLibrary depend libicuuc.so
+include $(CLEAR_VARS)
+LOCAL_MODULE    := icuuc
+LOCAL_SRC_FILES := $(LOCAL_PATH)/elastos/libs/libicuuc.so
+include $(PREBUILT_SHARED_LIBRARY)
+
+#Elastos.CoreLibrary depend libstlport.so
+include $(CLEAR_VARS)
+LOCAL_MODULE    := stlport
+LOCAL_SRC_FILES := $(LOCAL_PATH)/elastos/libs/libstlport.so
+include $(PREBUILT_SHARED_LIBRARY)
+
 ### shared library
 include $(CLEAR_VARS)
 LOCAL_SRC_FILES := elastos_testthirdlib.cpp
