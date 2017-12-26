@@ -1,15 +1,6 @@
 
 
 set(SOURCES
-# ifeq "$(XDK_TARGET_CPU)" "arm"
-# ifneq "$(XDK_COMPILER)" "gnu"
-# SOURCES = invoke_ievc.asm
-# else
-# SOURCES = invoke_gnuc.S
-# endif
-# else
-# SOURCES = invoke.cpp
-# endif
     CClsModule.cpp
     CObjInfoList.cpp
     CEntryList.cpp
@@ -38,6 +29,13 @@ set(SOURCES
     CVariableOfCppVector.cpp
     CTypeAliasInfo.cpp
 )
+
+
+# if("$ENV{XDK_TARGET_CPU}" STREQUAL "arm")
+#     list(APPEND SOURCES invoke_gnuc.S)
+# else()
+    list(APPEND SOURCES invoke.cpp)
+# endif()
 
 add_definitions(-D_CAR_RUNTIME)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../inc)

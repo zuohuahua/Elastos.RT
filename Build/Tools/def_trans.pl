@@ -1,4 +1,4 @@
-# trans .def to .sym or .vs
+# trans .def to .sym .exp or .vs
 
 $R_filename=$ARGV[0];
 $TARGET_MAME=$R_filename;
@@ -52,6 +52,27 @@ foreach $line(@array_file){
     $line=~s/^LIBRARY/#LIBRARY/;
     $line=~s/^DESCRIPTION/#DESCRIPTION/;
     $line=~s/^(\s*\w+)/$1\ # /;
+    print $line;
+}
+close(W_FILE);
+
+
+################################################################################
+#EXP
+open(R_FILE, $R_filename) || die "ERROR:can not open file $R_filename\n";
+@array_file = <R_FILE>;
+close(R_FILE);
+
+$W_filename="$TARGET_MAME.exp";
+open(W_FILE, ">$W_filename") || die "ERROR:can not open file $W_filename\n";
+select W_FILE;
+
+foreach $line(@array_file){
+    $line=~s/\;\;/#/;
+    $line=~s/^EXPORT/#EXPORT/;
+    $line=~s/^LIBRARY/#LIBRARY/;
+    $line=~s/^DESCRIPTION/#DESCRIPTION/;
+    $line=~s/^\s*(\w+).*/_$1/;
     print $line;
 }
 close(W_FILE);

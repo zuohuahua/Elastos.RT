@@ -24,6 +24,11 @@ int invoke(void* func, int* param, int size)
 {
     ASM("break 0;");
 }
+#elif _apple
+int invoke(void* func, int* param, int size)
+{
+    __builtin_trap();
+}
 #elif _MSC_VER
 __declspec(naked)
 int invoke(void* func, int* param, int size)

@@ -18,7 +18,7 @@
 
 _ELASTOS_NAMESPACE_USING
 
-EXTERN_C CARAPI DllGetClassObject(
+EXTERN_C ECO_PUBLIC CARAPI DllGetClassObject(
     REMuid rclsid, REIID riid, IInterface **ppObj)
 {
     return E_CLASS_NOT_AVAILABLE;

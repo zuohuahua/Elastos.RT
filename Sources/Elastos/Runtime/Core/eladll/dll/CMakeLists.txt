@@ -4,8 +4,8 @@ add_definitions(-D_USE_MY_DLLMAIN_)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../inc)
 
-xdk_compile_def(elastos.def)
-add_library(Elastos.Runtime SHARED)
+xdk_compile_def(GENERATED_FILE elastos.def)
+add_library(Elastos.Runtime SHARED ${GENERATED_FILE})
 
 target_link_libraries(Elastos.Runtime
     lib4ela
@@ -15,4 +15,5 @@ target_link_libraries(Elastos.Runtime
     reflection
     clsinfo
     marshalcomm
+    z
 )

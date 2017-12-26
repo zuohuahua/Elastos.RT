@@ -1,22 +1,27 @@
 
+set(XDK_DEFINITIONS)
+
 if(DEFINED ENV{XDK_TARGET_PRODUCT})
-    add_definitions(-D_$ENV{XDK_TARGET_PRODUCT})
+    list(APPEND XDK_DEFINITIONS -D_$ENV{XDK_TARGET_PRODUCT})
 endif()
 if(DEFINED ENV{XDK_TARGET_BOARD})
-    add_definitions(-D_$ENV{XDK_TARGET_BOARD})
+    list(APPEND XDK_DEFINITIONS -D_$ENV{XDK_TARGET_BOARD})
 endif()
 if(DEFINED ENV{_ELASTOS64})
-    add_definitions(-D_ELASTOS64)
+    list(APPEND XDK_DEFINITIONS -D_ELASTOS64)
 else()
-    add_definitions(-D_ELASTOS32)
+    list(APPEND XDK_DEFINITIONS -D_ELASTOS32)
 endif()
-add_definitions(-DELASTOS -D_GNUC -D_$ENV{XDK_TARGET_CPU} -D_$ENV{XDK_TARGET_PLATFORM})
+    list(APPEND XDK_DEFINITIONS -DELASTOS -D_GNUC -D_$ENV{XDK_TARGET_CPU} -D_$ENV{XDK_TARGET_PLATFORM})
 
 if(APPLE)
-    add_definitions(-D_apple)
+    list(APPEND XDK_DEFINITIONS -D_apple)
 endif()
 
-add_definitions(-D_cmake)
+list(APPEND XDK_DEFINITIONS -D_cmake)
+
+
+add_definitions(${XDK_DEFINITIONS})
 
 macro(xdk_export_headers target_name)
     string(REPLACE "$ENV{XDK_SOURCE_PATH}/" "" XDK_RELATIVE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
@@ -88,16 +93,29 @@ macro(xdk_compile_car target_name car_file)
     add_custom_target(${target_name} ALL DEPENDS ${car_filename}.cls)
 endmacro()
 
-# TODO: Add macro definiations from C FLAGS to perprocessor
-macro(xdk_compile_def def_file)
+macro(xdk_compile_def GENERATED_FILE def_file)
+    get_filename_component(def_filename ${def_file} NAME_WE)
     string(REPLACE "$ENV{XDK_SOURCE_PATH}/" "" XDK_RELATIVE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+    set(${GENERATED_FILE}
+       "${CMAKE_CURRENT_BINARY_DIR}/__${def_filename}_exp.c"
+        # "${CMAKE_CURRENT_BINARY_DIR}/__dllmain.cpp"
+    )
     add_custom_command(
         OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/__${def_file}"
-        COMMAND "${CMAKE_C_COMPILER}" "${CMAKE_C_FLAGS}" -E -P -x c -o __${def_file} ${CMAKE_CURRENT_SOURCE_DIR}/${def_file}
+               "${CMAKE_CURRENT_BINARY_DIR}/__${def_filename}.sym"
+               "${CMAKE_CURRENT_BINARY_DIR}/__${def_filename}.exp"
+               "${CMAKE_CURRENT_BINARY_DIR}/__${def_filename}.vs"
+               "${CMAKE_CURRENT_BINARY_DIR}/__${def_filename}_exp.c"
+               "${CMAKE_CURRENT_BINARY_DIR}/__dllmain.cpp"
+               "${CMAKE_CURRENT_BINARY_DIR}/__section.cpp"
+        COMMAND "${CMAKE_C_COMPILER}" "${CMAKE_C_FLAGS}" -E -P -x c ${XDK_DEFINITIONS} -o __${def_file} ${CMAKE_CURRENT_SOURCE_DIR}/${def_file}
+        COMMAND perl "$ENV{XDK_TOOLS}/def_trans.pl" __${def_file}
+        COMMAND perl "$ENV{XDK_TOOLS}/res_trans.pl" __${def_file} "def" ${def_file}
         DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/${def_file}"
         COMMENT "Preprocessing ${XDK_RELATIVE_DIR}/${def_file}"
     )
     add_custom_target(${def_file} ALL DEPENDS __${def_file})
+    set(CMAKE_SHARED_LINKER_FLAGS "-exported_symbols_list __${def_filename}.exp")
 endmacro()
 
 include_directories($ENV{XDK_USER_INC})
@@ -112,6 +130,9 @@ if(APPLE)
 else()
     set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")
 endif()
+
+# Suppress warning: empty struct has size 0 in C, size 1 in C++ [-Wextern-c-compat]
+SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wno-extern-c-compat" )
 
 if($ENV{XDK_VERSION} STREQUAL "rls")
     set(CMAKE_BUILD_TYPE Release)
