@@ -12,8 +12,8 @@ ENV LANG=C.UTF-8
 RUN set -ex                                                                         && \
                                                                                        \
     echo 'Creating non-root user and group from host'                               && \
-    groupadd -g $HOST_USER_GID hostuser                                             && \
-    useradd -lm -p $HOST_USER_PASSWD -u $HOST_USER_UID -g $HOST_USER_GID hostuser   && \
+    groupadd -f -g $HOST_USER_GID hostuser                                          && \
+    useradd -lmo -p $HOST_USER_PASSWD -u $HOST_USER_UID -g $HOST_USER_GID hostuser  && \
     usermod -aG sudo hostuser                                                       && \
     echo 'docker' > /etc/debian_chroot                                              && \
     dpkg --add-architecture i386                                                    && \
