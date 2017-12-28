@@ -68,6 +68,7 @@
 // Macros and constants for FAMILY_RUNTIME error codes
 //==========================================================================
 #define RUNTIME_ERROR(c)                 MAKE_ECODE(SEVERITY_ERROR, FAMILY_RUNTIME, c)
+#define RUNTIME_SUCCESS(c)               MAKE_SUCCESS(FAMILY_RUNTIME, c)
 
 #define E_DOES_NOT_EXIST                 RUNTIME_ERROR(0x01) // 0x80010000
 #define E_INVALID_OPERATION              RUNTIME_ERROR(0x02) // 0x80020000
@@ -140,5 +141,10 @@
 #define E_CONNECT_CANNOTCONNECT          RUNTIME_ERROR(0x2B) // 0x802B0000
 //// must use a derived interface to connect
 #define E_CONNECT_OVERRIDDEN             RUNTIME_ERROR(0x2C) // 0x802C0000
+#define E_THREAD_ABORTED				 RUNTIME_ERROR(0x2D) // 0x802D0000
+
+
+#define S_ALREADY_EXISTS                 RUNTIME_SUCCESS(0x04)   // 0x01040000
+
 
 #endif // __ELAERROR_H__

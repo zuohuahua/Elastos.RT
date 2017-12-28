@@ -1,0 +1,5 @@
+ifeq "$(XDK_TARGET_PLATFORM)" "win32"
+SPECIAL_TARGET=copy_prebuilt
+else
+SPECIAL_TARGET=build_src
+endif
