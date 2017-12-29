@@ -19,7 +19,8 @@ ifeq "$(XDK_TARGET_PLATFORM)" "android"
   DIRS = Elastos
 endif
 ifeq "$(XDK_TARGET_PLATFORM)" "linux"
-  DIRS = Elastos
+  DIRS = External/libuv
+  DIRS += Elastos
 endif
 else
   DIRS = Elastos/Runtime/Library/inc

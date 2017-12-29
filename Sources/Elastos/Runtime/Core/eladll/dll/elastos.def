@@ -102,8 +102,8 @@ EXPORTS
     ECLSID_CClassObject                             @501    NONAME  DATA
     EIID_METADATA_INFO                              @502    NONAME  DATA
     EIID_IObject                                    @503    NONAME  DATA
-;;    EIID_IAspect                                    @504    NONAME  DATA
-;;    EIID_CALLBACK_CONNECTOR                         @505    NONAME  DATA
+    EIID_IAspect                                    @504    NONAME  DATA
+    EIID_CALLBACK_CONNECTOR                         @505    NONAME  DATA
     EIID_IProxy                                     @506    NONAME  DATA
     EIID_ICustomMarshal                             @507    NONAME  DATA
     EIID_IClassObject                               @508    NONAME  DATA

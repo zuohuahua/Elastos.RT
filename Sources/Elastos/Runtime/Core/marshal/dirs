@@ -18,3 +18,9 @@ ifeq "$(XDK_TARGET_PLATFORM)" "android"
 #	DIRS += android_linux
 #	DIRS += linux_rpc
 endif
+
+ifeq "$(XDK_TARGET_PLATFORM)" "linux"
+ifeq "$(XDK_TARGET_CPU_ARCH)" "32"
+  DIRS += others_rpc
+endif
+endif

@@ -178,6 +178,30 @@ ECode UnregisterModuleInfo(
     return E_DOES_NOT_EXIST;
 }
 
+ELAPI ECO_PUBLIC LookupInterfaceInfo(
+    /* [in] */ REMuid ritfid,
+    /* [out] */ CIInterfaceInfo** interfaceInfo)
+{
+    assert(interfaceInfo != NULL);
+
+    pthread_mutex_lock(&s_moduleInfoLock);
+    CIModuleInfoNode* curNode = s_pModuleInfoList;
+    while (curNode != NULL) {
+        CIModuleInfo* modInfo = curNode->mModInfo;
+        for (Int32 m = 0; m < modInfo->mInterfaceNum; m++) {
+            if (modInfo->mInterfaces[m].mIID == ritfid) {
+                *interfaceInfo = &(modInfo->mInterfaces[m]);
+                pthread_mutex_unlock(&s_moduleInfoLock);
+                return NOERROR;
+            }
+        }
+        curNode = curNode->mNext;
+    }
+    pthread_mutex_unlock(&s_moduleInfoLock);
+
+    return E_DOES_NOT_EXIST;
+}
+
 ECode LookupClassInfo(
     /* [in] */ REMuid rclsid,
     /* [out] */ CIClassInfo **ppClassInfo)
@@ -252,6 +276,35 @@ void *GetUnalignedPtr(void *pPtr)
 
     return u.p;
 #endif
+}
+
+ELAPI ECO_PUBLIC RegisterModuleInfo(
+    /* [in] */ const String& moduleName)
+{
+    typedef ECode (STDCALL *CarDllGetClassObject_t)(
+            REMuid clsid, REIID riid, IInterface** clsObj);
+
+    char path[260];
+    strcpy(path, moduleName.string());
+#ifdef _DEBUG
+    void* module = dlopen(path, RTLD_NOW);
+#else
+    void* module = dlopen(path, RTLD_LAZY);
+#endif
+
+    strcpy(path, "DllGetClassObject");
+    CarDllGetClassObject_t func = (CarDllGetClassObject_t)dlsym(module, path);
+
+    CIModuleInfo* modInfo;
+    func(ECLSID_ClassInfo, EIID_IInterface, (IInterface**)&modInfo);
+
+    ECode ec = RegisterModuleInfo(modInfo);
+    if (FAILED(ec)) {
+#if defined(_DEBUG) || defined(_MARSHAL_DEBUG)
+        //ALOGD("Failed to RegisterModuleInfo in %s", moduleName.string());
+#endif
+    }
+    return ec;
 }
 
 ECode AcquireClassInfo(

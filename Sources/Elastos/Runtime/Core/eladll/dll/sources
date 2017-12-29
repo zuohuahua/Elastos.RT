@@ -65,10 +65,15 @@ LIBRARIES += -lm -ldl -llog -lz
 LIBRARIES += $(XDK_USER_LIB)/crt0.lib
 else
 ifeq "$(XDK_TARGET_PLATFORM)" "linux"
-#ELASTOS_LIBS += ../../marshal/others_rpc/marshal.lib
-#LIBRARIES += -lm -lc -ldl -lpthread -lstdc++ -ldbus-1 -lz -lrt
+ifeq "$(XDK_TARGET_CPU_ARCH)" "32"
+ELASTOS_LIBS += ../../marshal/others_rpc/marshal.lib
+LIBRARIES += -lm -lc -ldl -lpthread -lstdc++ -lz -lrt
+LIBRARIES += $(PREBUILD_LIB)/libuv.so
+LIBRARIES += $(XDK_USER_LIB)/crt0.lib
+else
 ELASTOS_LIBS += ../../marshal/marshalcomm.lib
 LIBRARIES += -lm -lc -ldl -lpthread -lstdc++ -lz -lrt
+endif
 else
 ELASTOS_LIBS += ../../marshal/others/marshal.lib
 LIBRARIES += -lm -lc -ldl -lpthread -lstdc++ -ldbus-1 -lz -lrt
