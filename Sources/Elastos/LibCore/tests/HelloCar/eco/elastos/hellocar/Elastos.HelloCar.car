@@ -16,7 +16,7 @@
 
 module
 {
-    importlib("Elastos.CoreLibrary.eco");       // import 依赖库
+    importlib("Elastos.CoreLibrary");       // import 依赖库
 
     merge("IAnimal.car");                       // 合并 CAR　文件
     merge("IDog.car");                          // 合并 CAR　文件

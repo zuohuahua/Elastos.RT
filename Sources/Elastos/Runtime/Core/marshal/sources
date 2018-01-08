@@ -14,7 +14,6 @@
 # limitations under the License.
 #=========================================================================
 
-ifeq "$(XDK_TARGET_CPU_ARCH)" "64"
 TARGET_NAME = marshalcomm
 TARGET_TYPE = lib
 
@@ -27,4 +26,3 @@ SOURCES = metainfos.cpp
 #ELASTOS_LIBS += linux_rpc/marshal_rpc.lib
 
 INCLUDES += $(MAKEDIR)/../../Library/inc/elasys
-endif

@@ -2219,10 +2219,21 @@ int P_Import()
     return Ret_Continue;
 }
 
-int ImportLibrary(const char *pszName)
+int ImportLibrary(const char *_pszName)
 {
     int n;
     CLSModule *pModule;
+
+    char pszName[c_nMaxTokenSize + 1] = {0};
+    if (!_stricmp(getenv("XDK_TARGET_PLATFORM"), "android")) {
+        strcat(pszName, "lib");
+        strcat(pszName, _pszName);
+        strcat(pszName, ".so");
+    }
+    else {
+        strcat(pszName, _pszName);
+        strcat(pszName, ".eco");
+    }
 
     // skip Elastos.Runtime.eco
     //

@@ -90,9 +90,6 @@ endif
 endif
 endif
 endif
-ifndef PREBUILD_INC
-    PREBUILD_INC = $(PREBUILD_PATH)/usr/include
-endif
 ifndef PREBUILD_LIB
     PREBUILD_LIB = $(PREBUILD_PATH)/usr/lib
 endif

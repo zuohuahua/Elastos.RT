@@ -16,7 +16,7 @@
 
 module
 {
-    importlib("libElastos.CoreLibrary.so");
+    importlib("Elastos.CoreLibrary");
 
     namespace Elastos {
     namespace HelloCarDemo {
