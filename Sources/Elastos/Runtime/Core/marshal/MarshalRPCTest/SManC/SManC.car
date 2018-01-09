@@ -1,0 +1,26 @@
+
+module {
+    importlib("Elastos.CoreLibrary.eco");
+
+    interface ISManC {
+        AddService(
+                [in] String name,
+                [in] IInterface *service);
+
+        AddServiceEx(
+                [in] String name,
+                [in] IInterface *service,
+                [in] Boolean allowIsolated);
+
+        GetService(
+                [in] String name,
+                [out] IInterface **service);
+    }
+
+    class CSManC {
+        constructor();
+
+        interface ISManC;
+    }
+}
+

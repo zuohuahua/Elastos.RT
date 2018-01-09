@@ -1,0 +1,15 @@
+
+module {
+    importlib("Elastos.CoreLibrary.eco");
+    
+    interface ISManS {
+        test();
+    }
+
+    class CSManS {
+        constructor([in] Int32 port);
+
+        interface ISManS;
+    }
+}
+

@@ -21,6 +21,10 @@ ifeq "$(XDK_TARGET_PLATFORM)" "android"
 	#DIRS += elapi
 endif
 
+ifeq "$(XDK_TARGET_PLATFORM)" "linux"
+	DIRS += elapi
+endif
+
 DIRS += marshal
 
 DIRS += libusr

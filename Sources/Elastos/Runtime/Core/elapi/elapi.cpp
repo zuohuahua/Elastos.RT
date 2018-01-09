@@ -30,9 +30,15 @@ EXTERN_C const InterfaceID EIID_IProxy;
 // ElAPI functions
 //
 
-
+#ifdef _android
 #include <marshal_ipc.h>
+#endif
+
+#ifdef _linux
+#include <marshal.h>
+#else
 #include <marshal_rpc.h>
+#endif
 
 ELAPI _CObject_MarshalInterface(
     /* [in] */ IInterface* object,
@@ -56,6 +62,7 @@ ELAPI _CObject_MarshalInterface(
     }
 
     if (type == MarshalType_IPC) {
+#ifdef _android
         Elastos::IPC::InterfacePack* itfPack = (Elastos::IPC::InterfacePack*)calloc(sizeof(Elastos::IPC::InterfacePack), 1);
         if (itfPack == NULL) {
             return E_OUT_OF_MEMORY;
@@ -70,8 +77,30 @@ ELAPI _CObject_MarshalInterface(
         *size = sizeof(Elastos::IPC::InterfacePack);
         *package = itfPack;
         return NOERROR;
+#else
+        return E_NOT_IMPLEMENTED;
+#endif
     }
     else if (type == MarshalType_RPC) {
+#ifdef _linux
+        InterfacePack* itfPack = (InterfacePack*)calloc(sizeof(InterfacePack), 1);
+        if (itfPack == NULL) {
+            return E_OUT_OF_MEMORY;
+        }
+
+#ifdef _ELASTOS64
+        assert(0 && "We are now only support RPC marshaling for 32-bits machine.");
+#else
+        ECode ec = StdMarshalInterface(object, itfPack);
+        if (FAILED(ec)) {
+            free(itfPack);
+            return ec;
+        }
+        *size = sizeof(InterfacePack);
+        *package = itfPack;
+#endif
+
+#else
         Elastos::RPC::InterfacePack* itfPack = (Elastos::RPC::InterfacePack*)calloc(sizeof(Elastos::RPC::InterfacePack), 1);
         if (itfPack == NULL) {
             return E_OUT_OF_MEMORY;
@@ -85,6 +114,7 @@ ELAPI _CObject_MarshalInterface(
 
         *size = sizeof(Elastos::RPC::InterfacePack);
         *package = itfPack;
+#endif
         return NOERROR;
     }
 
@@ -114,6 +144,7 @@ ELAPI _CObject_UnmarshalInterface(
     }
 
     if (type == MarshalType_IPC) {
+#ifdef _android
         ECode ec = StdUnmarshalInterface(flag, (Elastos::IPC::InterfacePack*)package, object);
         if (FAILED(ec)) {
             return ec;
@@ -121,16 +152,34 @@ ELAPI _CObject_UnmarshalInterface(
 
         *size = sizeof(Elastos::IPC::InterfacePack);
         return NOERROR;
+#else
+        return E_NOT_IMPLEMENTED;
+#endif
     }
     else if (type == MarshalType_RPC) {
+#ifdef _linux
+
+#ifdef _ELASTOS64
+        assert(0 && "We are now only support RPC marshaling for 32-bits machine.");
+#else
+        ECode ec = StdUnmarshalInterface(flag, (InterfacePack*)package, object);
+        if (FAILED(ec)) {
+            return ec;
+        }
+#endif
+
+        *size = sizeof(InterfacePack);
+#else
         ECode ec = StdUnmarshalInterface(flag, (Elastos::RPC::InterfacePack*)package, object);
         if (FAILED(ec)) {
             return ec;
         }
 
         *size = sizeof(Elastos::RPC::InterfacePack);
+#endif
         return NOERROR;
     }
 
     return E_INVALID_ARGUMENT;
 }
+

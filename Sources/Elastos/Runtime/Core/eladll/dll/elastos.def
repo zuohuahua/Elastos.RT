@@ -57,8 +57,8 @@ EXPORTS
 
     ;; Marshaling APIs
     ;;
-;;    _CObject_MarshalInterface                       @175    NONAME
-;;    _CObject_UnmarshalInterface                     @176    NONAME
+    _CObject_MarshalInterface                       @175    NONAME
+    _CObject_UnmarshalInterface                     @176    NONAME
 
     LookupInterfaceInfo                             @180    NONAME
     RegisterModuleInfo                              @181    NONAME

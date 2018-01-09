@@ -65,6 +65,7 @@ LIBRARIES += -lm -ldl -llog -lz
 LIBRARIES += $(XDK_USER_LIB)/crt0.lib
 else
 ifeq "$(XDK_TARGET_PLATFORM)" "linux"
+ELASTOS_LIBS += ../../elapi/elapi.lib
 ifeq "$(XDK_TARGET_CPU_ARCH)" "32"
 ELASTOS_LIBS += ../../marshal/others_rpc/marshal.lib
 LIBRARIES += -lm -lc -ldl -lpthread -lstdc++ -lz -lrt
