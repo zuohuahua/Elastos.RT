@@ -65,14 +65,14 @@ sudo apt-get install bison g++-multilib git gperf libxml2-utils make zlib1g-dev:
 $ source ~/Elastos.RT/Setup/SetEnv.sh devtools_32
 or
 $ source ~/Elastos.RT/Setup/SetEnv.sh
-then according to the list of current to select digital:3
+then choose the index number of _devtools_32_ item from the numbered list
 ```
 ##### Ubuntu_64bit
 ```
 $ source ~/Elastos.RT/Setup/SetEnv.sh devtools_64
 or
 $ source ~/Elastos.RT/Setup/SetEnv.sh
-then according to the list of current to select digital:4
+then choose the index number of _devtools_64_ item from the numbered list
 ```
 
 2. build CAR tools
@@ -117,7 +117,7 @@ cp CInfoReader Cls2C carc carcode lubc lube libz.so ~/Elastos.RT/Build/Tools_64/
 $ source ~/Elastos.RT/Setup/SetEnv.sh arm_android
 or
 $ source ~/Elastos.RT/Setup/SetEnv.sh
-then according to the list of current to select digital:2
+then choose the index number of _arm_android_ item from the numbered list
 ```
 2. emake
 ```
@@ -129,7 +129,7 @@ then according to the list of current to select digital:2
 $ source ~/Elastos.RT/Setup/SetEnv.sh linux
 or
 $ source ~/Elastos.RT/Setup/SetEnv.sh
-then according to the list of current to select digital:1
+then choose the index number of index number of _linux_ item from the numbered list
 ```
 2. emake
 ```
