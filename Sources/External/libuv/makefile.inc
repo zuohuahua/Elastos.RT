@@ -1,7 +1,7 @@
 build_src:
 	"$(MAKEDIR)"/autogen.sh
 	CFLAGS="$(shell echo $(C_FLAGS) | sed -e 's@-c@@g')" \
-	LDFLAGS="$(shell echo $(DLL_FLAGS) -L$(PREBUILD_LIB) | sed -e 's@-shared\|,-fpic@@g' -e 's@@-Wl,-fPIC@@g' -e 's@-Wl,--retain-symbols[^ ]*@@g' -e 's@-Wl,--version-script[^ ]*@@g' -e 's@--nostdlib@@g')" \
+	LDFLAGS="$(shell echo $(DLL_FLAGS) -L$(XDK_TARGETS) | sed -e 's@-shared\|,-fpic@@g' -e 's@@-Wl,-fPIC@@g' -e 's@-Wl,--retain-symbols[^ ]*@@g' -e 's@-Wl,--version-script[^ ]*@@g' -e 's@--nostdlib@@g')" \
 	CC="$(CC)" \
 	"$(MAKEDIR)"/configure \
         --host=$(patsubst %-,%,$(CROSS_COMPILE)) \
@@ -16,10 +16,9 @@ ifeq "$(XDK_TARGET_PLATFORM)" "android"
 	-ln -s $(PREBUILD_LIB)/crtend_so.o
 endif
 	make
-	make DESTDIR="$(PREBUILD_PATH)" install
-	$(CPDIR) $(PREBUILD_PATH)/usr/local/include $(PREBUILD_PATH)/usr
-	$(CPDIR) $(PREBUILD_PATH)/usr/local/lib $(PREBUILD_PATH)/usr
-	$(RMDIR) $(PREBUILD_PATH)/usr/local
+	make DESTDIR="$(XDK_TARGETS)" install
+	$(CPDIR) $(XDK_TARGETS)/usr/local/lib/* $(XDK_TARGETS)
+	$(RMDIR) $(XDK_TARGETS)/usr
 	if test "$(XDK_TARGET_PLATFORM)" = "linux" && \
 	 test "$(XDK_TARGET_CPU)" = "x86"; then \
 	  sudo make install; \

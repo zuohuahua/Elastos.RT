@@ -75,23 +75,12 @@ ifeq "$(XDK_TARGET_PLATFORM)" "android"
 endif
 endif
 ifndef PREBUILD_PATH
-ifeq "$(XDK_TARGET_PLATFORM)" "linux"
-ifndef XDK_TARGET_PRODUCT
-    PREBUILD_PATH = $(XDK_BUILD_PATH)/Prebuilt/Linux_$(XDK_TARGET_CPU)
-else
-    PREBUILD_PATH = $(XDK_BUILD_PATH)/Prebuilt/Linux_$(XDK_TARGET_CPU)_$(XDK_TARGET_PRODUCT)
-endif
-else
 ifeq "$(XDK_TARGET_PLATFORM)" "android"
       PREBUILD_PATH = $(XDK_ROOT)/ToolChains/$(XDK_TARGET_PLATFORM)/Ndk/sysroot
 ifndef PREBUILD_LIB
       PREBUILD_LIB = $(PREBUILD_PATH)/usr/lib
 endif
 endif
-endif
-endif
-ifndef PREBUILD_LIB
-    PREBUILD_LIB = $(PREBUILD_PATH)/usr/lib
 endif
 endif
 

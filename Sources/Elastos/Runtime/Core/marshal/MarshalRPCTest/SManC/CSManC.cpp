@@ -14,7 +14,7 @@ CAR_OBJECT_IMPL(CSManC)
 CAR_INTERFACE_IMPL(CSManC, Object, ISManC);
 
 
-#define ELASTOS_SMANS_IP "192.168.8.56" // It's your SMan IP.
+#define ELASTOS_SMANS_IP "192.168.0.103" // It's your SMan IP.
 #define ELASTOS_SMANS_PORT 2345
 
 

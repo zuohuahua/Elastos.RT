@@ -31,7 +31,7 @@ ECode CSManS::GetService(
     pIp->m_clsid = ip->m_clsid;
     pIp->m_uIndex = ip->m_uIndex;
 
-    strcpy(pIp->m_stubConnName, ip->m_stubConnName);         
+    strcpy(pIp->m_stubConnName, ip->m_stubConnName);
 
     return NOERROR;
 }

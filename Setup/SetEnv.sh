@@ -6,7 +6,7 @@ setupArg=$1
 #The arg is NULL, give user a choice.
 if [ "$1" == "" ]; then
     PS3='Please enter your choice: '
-    options=("linux" "arm_android" "devtools_32" "host_devtools" "devtools_64" "ios_simulator64" "ios_device" "quit")
+    options=("linux" "arm_android" "devtools_32" "host_devtools" "devtools_64" "ios_simulator64" "ios_device" "linux_32" "quit")
     select opt in "${options[@]}"
     do
         case $opt in
@@ -30,6 +30,9 @@ if [ "$1" == "" ]; then
                 break;;
             "ios_device")
                 setupArg="ios_device"
+                break;;
+            "linux_32")
+                setupArg="linux_32"
                 break;;
             "quit")
                 return;;
@@ -59,6 +62,9 @@ case $setupArg in
     "ios_device" | '7')
         setupArg="ios_device"
         export _ELASTOS64=YES;;
+    "linux_32" | '8')
+        setupArg="linux"
+        export _ELASTOS64=;;
     *)
         echo "Invalid option"
         return;;

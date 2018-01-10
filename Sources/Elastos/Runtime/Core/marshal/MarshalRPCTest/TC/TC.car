@@ -1,6 +1,6 @@
 
 module {
-    importlib("Elastos.CoreLibrary.eco");
+    importlib("Elastos.CoreLibrary");
 
     interface ITC {
         Get([out] Int32 *i);
@@ -17,6 +17,6 @@ module {
 
         interface ITC;
     }
-    
+
 }
 

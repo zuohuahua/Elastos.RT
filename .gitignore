@@ -2,4 +2,3 @@ Targets/obj/
 Targets/rdk/
 ToolChains/android/Ndk
 ToolChains/android/Thirdlibrary
-Build/Prebuilt
