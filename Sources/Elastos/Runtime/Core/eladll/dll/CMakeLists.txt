@@ -11,6 +11,7 @@ target_link_libraries(Elastos.Runtime
     lib4ela
     eltypes
     elasys
+    elapi
     carapi
     reflection
     clsinfo

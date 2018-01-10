@@ -34,10 +34,8 @@ EXTERN_C const InterfaceID EIID_IProxy;
 #include <marshal_ipc.h>
 #endif
 
-#ifdef _linux
+#ifndef _apple
 #include <marshal.h>
-#else
-#include <marshal_rpc.h>
 #endif
 
 ELAPI _CObject_MarshalInterface(
@@ -82,15 +80,17 @@ ELAPI _CObject_MarshalInterface(
 #endif
     }
     else if (type == MarshalType_RPC) {
-#ifdef _linux
+#ifdef _apple
+        assert(0 && "RPC is not supported on ios.");
+#else
+#ifdef _ELASTOS64
+        assert(0 && "64-bit cpu architecture does not support RPC.");
+#else
         InterfacePack* itfPack = (InterfacePack*)calloc(sizeof(InterfacePack), 1);
         if (itfPack == NULL) {
             return E_OUT_OF_MEMORY;
         }
 
-#ifdef _ELASTOS64
-        assert(0 && "We are now only support RPC marshaling for 32-bits machine.");
-#else
         ECode ec = StdMarshalInterface(object, itfPack);
         if (FAILED(ec)) {
             free(itfPack);
@@ -99,21 +99,6 @@ ELAPI _CObject_MarshalInterface(
         *size = sizeof(InterfacePack);
         *package = itfPack;
 #endif
-
-#else
-        Elastos::RPC::InterfacePack* itfPack = (Elastos::RPC::InterfacePack*)calloc(sizeof(Elastos::RPC::InterfacePack), 1);
-        if (itfPack == NULL) {
-            return E_OUT_OF_MEMORY;
-        }
-
-        ECode ec = StdMarshalInterface(object, itfPack);
-        if (FAILED(ec)) {
-            free(itfPack);
-            return ec;
-        }
-
-        *size = sizeof(Elastos::RPC::InterfacePack);
-        *package = itfPack;
 #endif
         return NOERROR;
     }
@@ -157,25 +142,19 @@ ELAPI _CObject_UnmarshalInterface(
 #endif
     }
     else if (type == MarshalType_RPC) {
-#ifdef _linux
-
+#ifdef _apple
+        assert(0 && "RPC is not supported on ios.");
+#else
 #ifdef _ELASTOS64
-        assert(0 && "We are now only support RPC marshaling for 32-bits machine.");
+        assert(0 && "64-bit cpu architecture does not support RPC.");
 #else
         ECode ec = StdUnmarshalInterface(flag, (InterfacePack*)package, object);
         if (FAILED(ec)) {
             return ec;
         }
-#endif
 
         *size = sizeof(InterfacePack);
-#else
-        ECode ec = StdUnmarshalInterface(flag, (Elastos::RPC::InterfacePack*)package, object);
-        if (FAILED(ec)) {
-            return ec;
-        }
-
-        *size = sizeof(Elastos::RPC::InterfacePack);
+#endif
 #endif
         return NOERROR;
     }
