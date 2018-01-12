@@ -700,7 +700,6 @@ function emake ()
             else
                 if [ ! -d "$MIRROR_DIR/CMakeFiles" ]; then
                     echo 'Generating makefiles...'
-                    echo 'You could re-generate the makefiles by typing "emake gen"'
                     mkdir -p $MIRROR_ROOT_DIR 1>/dev/null
                     (cd $MIRROR_ROOT_DIR && cmake -G"Unix Makefiles" $CMAKE_ARGS $XDK_SOURCE_PATH)
                 fi
@@ -724,6 +723,10 @@ function emake ()
                     echo "Build finished, elapsed time: $HOURS Hours, $MINUTES Minutes, $SECONDS Seconds."
                 fi
                 unset XDK_MAKE XDK_MAKEFILE XDK_EMAKE_DIR BUILD_VERBOSE TEST_COVERAGE
+            fi
+            if [ "$1" == "clean" ]; then
+                echo "Cleaning mirror direcotory..."
+                rm -rf $MIRROR_DIR 1>/dev/null
             fi
         fi
     fi

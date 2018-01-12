@@ -1,8 +1,8 @@
 
 add_custom_command(
+    COMMENT "Compiling lube.lub..."
     OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/lube.lbo"
            "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/lube.lbo"
-    COMMAND ${CMAKE_COMMAND} -E echo "Compiling lube.lbo..."
     COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/lubc -I${CMAKE_CURRENT_SOURCE_DIR} -o lube.lbo ${CMAKE_CURRENT_SOURCE_DIR}/lube.lub
     COMMAND ${CMAKE_COMMAND} -E copy lube.lbo "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/lube.lbo"
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}

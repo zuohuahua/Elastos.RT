@@ -362,13 +362,13 @@ Double StrictMath::Tanh(
 Double StrictMath::ToRadians(
     /* [in] */ Double angdeg)
 {
-    return angdeg / 180.0d * PI;
+    return angdeg / 180.0 * PI;
 }
 
 Double StrictMath::ToDegrees(
     /* [in] */ Double angrad)
 {
-    return angrad * 180.0d / PI;
+    return angrad * 180.0 / PI;
 }
 
 Double StrictMath::Ulp(

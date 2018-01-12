@@ -130,8 +130,8 @@ String RealToString::Convert(Double inputNumber)
     }
 
     StringBuilder dst(26);
-    if ((inputNumber >= 1e7D) || (inputNumber <= -1e7D)
-            || ((inputNumber > -1e-3D) && (inputNumber < 1e-3D))) {
+    if ((inputNumber >= 1e7) || (inputNumber <= -1e7)
+            || ((inputNumber > -1e-3) && (inputNumber < 1e-3))) {
         FreeFormatExponential(dst, positive);
     } else {
         FreeFormat(dst, positive);

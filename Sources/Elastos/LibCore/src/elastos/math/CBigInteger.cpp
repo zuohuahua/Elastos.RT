@@ -289,7 +289,7 @@ AutoPtr<BigInt> CBigInteger::GetBigInt()
         SetBigInt(bigInt);
         return bigInt;
     }
-    return NOERROR;
+    return NULL;
 }
 
 void CBigInteger::SetJavaRepresentation(

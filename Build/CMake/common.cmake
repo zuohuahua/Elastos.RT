@@ -27,13 +27,13 @@ macro(xdk_export_headers target_name)
     string(REPLACE "$ENV{XDK_SOURCE_PATH}/" "" XDK_RELATIVE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
     foreach(item ${ARGN})
         add_custom_command(
+            COMMENT "Exporting ${XDK_RELATIVE_DIR}/${item}"
             OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/${item}"
                     "$ENV{XDK_USER_INC}/${item}"
             COMMAND ${CMAKE_COMMAND} -E make_directory "$ENV{XDK_USER_INC}"
             COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/${item}" "${CMAKE_CURRENT_BINARY_DIR}/${item}"
             COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/${item}" "$ENV{XDK_USER_INC}/${item}"
             DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/${item}"
-            COMMENT "Exporting ${XDK_RELATIVE_DIR}/${item}"
         )
     endforeach()
 
@@ -49,20 +49,20 @@ endmacro()
 macro(xdk_combine_static_libraries new_archive)
     if(APPLE)
         add_custom_command(
+            COMMENT "Packing ${CMAKE_STATIC_LIBRARY_PREFIX}${new_archive}${CMAKE_STATIC_LIBRARY_SUFFIX}"
             OUTPUT ${CMAKE_STATIC_LIBRARY_PREFIX}${new_archive}${CMAKE_STATIC_LIBRARY_SUFFIX}
             COMMAND libtool -static -o ${CMAKE_STATIC_LIBRARY_PREFIX}${new_archive}${CMAKE_STATIC_LIBRARY_SUFFIX} ${ARGN}
             WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
             DEPENDS ${ARGN}
-            COMMENT "Packing ${CMAKE_STATIC_LIBRARY_PREFIX}${new_archive}${CMAKE_STATIC_LIBRARY_SUFFIX}"
         )
     else()
         add_custom_command(
+            COMMENT "Packing ${CMAKE_STATIC_LIBRARY_PREFIX}${new_archive}${CMAKE_STATIC_LIBRARY_SUFFIX}"
             OUTPUT ${CMAKE_STATIC_LIBRARY_PREFIX}${new_archive}${CMAKE_STATIC_LIBRARY_SUFFIX}
             COMMAND $ENV{XDK_BUILD_PATH}/CMake/create_ar_script.sh ${new_archive}.ar ${CMAKE_STATIC_LIBRARY_PREFIX}${new_archive}${CMAKE_STATIC_LIBRARY_SUFFIX} ${ARGN}
             COMMAND ${CMAKE_AR} -M < ${new_archive}.ar
             WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
             DEPENDS ${ARGN}
-            COMMENT "Packing ${CMAKE_STATIC_LIBRARY_PREFIX}${new_archive}${CMAKE_STATIC_LIBRARY_SUFFIX}"
         )
     endif()
     add_custom_target(combined_${new_archive} ALL DEPENDS ${CMAKE_STATIC_LIBRARY_PREFIX}${new_archive}${CMAKE_STATIC_LIBRARY_SUFFIX})
@@ -75,10 +75,16 @@ macro(xdk_combine_static_libraries new_archive)
             )
 endmacro()
 
+function(xdk_get_filename_without_ext name_we filename)
+    string(REGEX MATCH "^(.*)\\.[^.]*$" dummy ${filename})
+    set(${name_we} ${CMAKE_MATCH_1} PARENT_SCOPE)
+endfunction()
+
 macro(xdk_compile_car target_name car_file)
-    get_filename_component(car_filename ${car_file} NAME_WE)
+    xdk_get_filename_without_ext(car_filename ${car_file})
     string(REPLACE "$ENV{XDK_SOURCE_PATH}/" "" XDK_RELATIVE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
     add_custom_command(
+        COMMENT "Compiling ${XDK_RELATIVE_DIR}/${car_file}"
         OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/${car_filename}.cls"
                "${CMAKE_CURRENT_BINARY_DIR}/${car_filename}Ex.cls"
                "${CMAKE_CURRENT_BINARY_DIR}/${car_filename}.d"
@@ -88,19 +94,19 @@ macro(xdk_compile_car target_name car_file)
         COMMAND carc -I${CMAKE_CURRENT_SOURCE_DIR} ${CAR_FLAGS} -d ${car_file} >${car_filename}.d
         COMMAND ${CMAKE_COMMAND} -E echo >>${car_filename}.d
         DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/${car_file}"
-        COMMENT "Compiling ${XDK_RELATIVE_DIR}/${car_file}"
     )
     add_custom_target(${target_name} ALL DEPENDS ${car_filename}.cls)
 endmacro()
 
 macro(xdk_compile_def GENERATED_FILE def_file)
-    get_filename_component(def_filename ${def_file} NAME_WE)
+    xdk_get_filename_without_ext(def_filename ${def_file})
     string(REPLACE "$ENV{XDK_SOURCE_PATH}/" "" XDK_RELATIVE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
     set(${GENERATED_FILE}
        "${CMAKE_CURRENT_BINARY_DIR}/__${def_filename}_exp.c"
         # "${CMAKE_CURRENT_BINARY_DIR}/__dllmain.cpp"
     )
     add_custom_command(
+        COMMENT "Preprocessing ${XDK_RELATIVE_DIR}/${def_file}"
         OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/__${def_file}"
                "${CMAKE_CURRENT_BINARY_DIR}/__${def_filename}.sym"
                "${CMAKE_CURRENT_BINARY_DIR}/__${def_filename}.exp"
@@ -112,7 +118,6 @@ macro(xdk_compile_def GENERATED_FILE def_file)
         COMMAND perl "$ENV{XDK_TOOLS}/def_trans.pl" __${def_file}
         COMMAND perl "$ENV{XDK_TOOLS}/res_trans.pl" __${def_file} "def" ${def_file}
         DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/${def_file}"
-        COMMENT "Preprocessing ${XDK_RELATIVE_DIR}/${def_file}"
     )
     add_custom_target(${def_file} ALL DEPENDS __${def_file})
     set(CMAKE_SHARED_LINKER_FLAGS "-exported_symbols_list __${def_filename}.exp")

@@ -1,0 +1,3 @@
+[submodule "Sources/ThirdParty/openssl"]
+	path = Sources/ThirdParty/openssl
+	url = https://github.com/openssl/openssl.git

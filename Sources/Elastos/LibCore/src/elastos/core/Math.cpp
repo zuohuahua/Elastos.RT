@@ -366,7 +366,7 @@ Double Math::Min(
         return DOUBLE_NAN;
     }
     /* min(+0.0,-0.0) == -0.0 */
-    /* 0X8000000000000000L == Double.doubleToRawLongBits(-0.0d) */
+    /* 0X8000000000000000L == Double.doubleToRawLongBits(-0.0) */
     if (DoubleToRawInt64Bits(d1) == (Int64)0X8000000000000000LL) {
         return -0.0;
     }
@@ -1137,7 +1137,7 @@ Int32 Math::Compare(
     if (double2 > double1) {
         return -1;
     }
-    if (double1 == double2 && 0.0d != double1) {
+    if (double1 == double2 && 0.0 != double1) {
         return 0;
     }
 

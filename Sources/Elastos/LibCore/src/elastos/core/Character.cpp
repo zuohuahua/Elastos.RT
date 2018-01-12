@@ -1331,9 +1331,6 @@ Byte Character::GetDirectionality(
     }
 
     Byte directionality = GetDirectionalityImpl((Int32)c);
-    if (directionality == -1) {
-        return -1;
-    }
     return DIRECTIONALITY[directionality];
 }
 
@@ -1366,7 +1363,7 @@ Boolean Character::IsIdentifierIgnorable(
     /* [in] */ Char32 c)
 {
     if (c < 0x600) {
-        return (c >= 0 && c <= 8) || (c >= 0xe && c <= 0x1b) ||
+        return (c <= 8) || (c >= 0xe && c <= 0x1b) ||
                 (c >= 0x7f && c <= 0x9f) || (c == 0xad);
     }
     return IsIdentifierIgnorableImpl((Int32)c);
@@ -1375,7 +1372,7 @@ Boolean Character::IsIdentifierIgnorable(
 Boolean Character::IsISOControl(
     /* [in] */ Char32 c)
 {
-    return (c >= 0 && c <= 0x1f) || (c >= 0x7f && c <= 0x9f);
+    return (c <= 0x1f) || (c >= 0x7f && c <= 0x9f);
 }
 
 Boolean Character::IsCarIdentifierPart(
@@ -1394,7 +1391,7 @@ Boolean Character::IsCarIdentifierPart(
             || type == CURRENCY_SYMBOL || type == CONNECTOR_PUNCTUATION
             || (type >= DECIMAL_DIGIT_NUMBER && type <= LETTER_NUMBER)
             || type == COMBINING_SPACING_MARK || type == NON_SPACING_MARK
-            || (c >= 0 && c <= 8) || (c >= 0xe && c <= 0x1b)
+            || (c <= 8) || (c >= 0xe && c <= 0x1b)
             || (c >= 0x7f && c <= 0x9f) || type == FORMAT;
     // END android-changed
 }
@@ -1651,6 +1648,8 @@ Int32 Character::GetNumericValueImpl(
         return -1;
     } else if (result < 0 || Math::Floor(result + 0.5) != result) {
         return -2;
+    } else {
+        return (Int32)result;
     }
 #endif
 }

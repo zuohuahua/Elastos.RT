@@ -19,8 +19,9 @@
 
 #include <eltypes.h>
 
-#ifndef _PTRDIFF_T_
+#if !defined(_PTRDIFF_T_) && !defined(_PTRDIFF_T)
 #define _PTRDIFF_T_
+#define _PTRDIFF_T
 typedef int ptrdiff_t;
 #endif
 

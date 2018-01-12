@@ -13,6 +13,7 @@ if("$ENV{XDK_TARGET_PRODUCT}" STREQUAL "devtools")
     )
 else()
     xdk_add_subdirectories(
+        ThirdParty
         Elastos
     )
 endif()

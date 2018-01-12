@@ -652,6 +652,8 @@ static void SetThreadName(
         // LOGW("Unable to set the name of current thread to '%s': %s\n",
         //     buf, strerror(err));
     }
+#elif defined(HAVE_APPLE_PTHREAD_SETNAME_NP)
+    pthread_setname_np(s);
 #elif defined(HAVE_PRCTL)
     prctl(PR_SET_NAME, (unsigned long) s, 0, 0, 0);
 #else
