@@ -277,6 +277,86 @@ ECode CRemoteParcel::ReadValue(PVoid pValue, Int32 type)
             }
             break;
 
+        case Type_ArrayOf:
+            {
+                Int32 tag = *(Int32*)m_elemPtr;
+                m_elemPtr++;
+                if (tag != MSH_NULL) {
+                    CarQuintet q = *(CarQuintet*)m_elemPtr;
+                    m_elemPtr = (UInt32 *)((Byte *)m_elemPtr + sizeof(CarQuintet));
+                    Int32 size = q.mSize;
+                    PCarQuintet qq = _ArrayOf_Alloc(size, q.mFlags);
+                    if (qq == NULL) {
+                        *(PCARQUINTET*)pValue = NULL;
+                        break;
+                    }
+                    _CarQuintet_AddRef(qq);
+                    *(PCARQUINTET*)pValue = qq;
+                    if (size != 0) {
+                        if (CarQuintetFlag_Type_IObject
+                            != (q.mFlags & CarQuintetFlag_TypeMask)) {
+                            if (CarQuintetFlag_Type_String
+                                == (q.mFlags & CarQuintetFlag_TypeMask)) {
+                                assert(0 && "ArrayOf<String> is not supported.");
+                            }
+                            else {
+                                memcpy(qq->mBuf, m_elemPtr, size);
+                                m_elemPtr = (UInt32 *)((Byte *)m_elemPtr + MSH_ALIGN_4(qq->mSize));
+                            }
+                        }
+                        else {
+                            IInterface** pBuf = (IInterface**)qq->mBuf;
+                            size = size / sizeof(IInterface *);
+                            for (int i = 0; i < size; i++) {
+                                tag = *(Int32*)m_elemPtr;
+                                if (tag != MSH_NULL) {
+                                    InterfacePack ipack;
+                                    CIClassInfo* classInfo = NULL;
+                                    IParcelable* parcelable = NULL;
+                                    ClassID classId;
+                                    InterfaceID iid;
+                                    ECode ec;
+
+                                    ipack = *(InterfacePack*)m_elemPtr;
+                                    m_elemPtr = (UInt32 *)((Byte *)m_elemPtr + sizeof(InterfacePack));
+                                    if (IsParcelable(&ipack, &classInfo)) {
+                                        classId.mClsid = ipack.m_clsid;
+                                        classId.mUunm = classInfo->mUunm;
+
+                                        ec = _CObject_CreateInstance(classId, RGM_SAME_DOMAIN,
+                                                EIID_IParcelable, (IInterface**)&parcelable);
+                                        if (FAILED(ec)) return ec;
+
+                                        parcelable->ReadFromParcel(this);
+                                        iid = classInfo->mInterfaces[ipack.m_uIndex]->mIID;
+                                        *((IInterface**)pBuf + i) = parcelable->Probe(iid);
+                                    }
+                                    else {
+                                        ec = StdUnmarshalInterface(
+                                                UnmarshalFlag_Noncoexisting,
+                                                &ipack,
+                                                (IInterface**)&pBuf[i]);
+                                        if (FAILED(ec)) {
+                                            MARSHAL_DBGOUT(MSHDBG_ERROR, printf(
+                                                    "MshProc: unmsh interface, ec = %x\n", ec));
+                                            return ec;
+                                        }
+                                    }
+                                }
+                                else {
+                                    pBuf[i] = NULL;
+                                    m_elemPtr++;
+                                }
+                            }
+                        }
+                    }
+                }
+                else {
+                    *(UInt32*)pValue = (UInt32)NULL;
+                }
+            }
+            break;
+
         case Type_InterfacePtr:
             if (*m_elemPtr != MSH_NULL) {
                 assert(MSH_NOT_NULL == *m_elemPtr);
@@ -448,11 +528,16 @@ ECode CRemoteParcel::WriteValue(PVoid pValue, Int32 type, Int32 size)
                             & CarQuintetFlag_TypeMask)) {
                     // copy the storaged data
                     //
-                    memcpy(m_elemPtr, ((PCARQUINTET)pValue)->mBuf,
+                    if (CarQuintetFlag_Type_String == (((PCARQUINTET)pValue)->mFlags
+                            & CarQuintetFlag_TypeMask)) {
+                        assert(0 && "ArrayOf<String> is not supported");
+                    } else {
+                        memcpy(m_elemPtr, ((PCARQUINTET)pValue)->mBuf,
                             ((PCARQUINTET)pValue)->mSize);
 
-                    m_elemPtr = (UInt32 *)((Byte *)m_elemPtr +
-                            MSH_ALIGN_4(((PCARQUINTET)pValue)->mSize));
+                        m_elemPtr = (UInt32 *)((Byte *)m_elemPtr +
+                                MSH_ALIGN_4(((PCARQUINTET)pValue)->mSize));
+                    }
                 }
                 else {
                     Int32 used = ((PCARQUINTET)pValue)->mUsed
@@ -597,7 +682,9 @@ ECode CRemoteParcel::ReadInterfacePtr(
 ECode CRemoteParcel::ReadArrayOf(
     /* [out] */ Handle32 *ppArray)
 {
-    return E_NOT_IMPLEMENTED;
+    assert(ppArray != NULL);
+
+    return ReadValue((PVoid)ppArray, Type_ArrayOf);
 }
 
 ECode CRemoteParcel::ReadArrayOfString(

@@ -38,6 +38,11 @@ ifeq "$(XDK_TARGET_PLATFORM)" "android"
 	SOURCES += elastos.rc
 endif
 
+ifeq "$(XDK_TARGET_PLATFORM)" "linux"
+	SOURCES += dllmain.cpp
+	SOURCES += dllinit.cpp
+endif
+
 ELASTOS_LIBS += ../../libusr/lib4car/lib4ela/lib4ela.lib
 ELASTOS_LIBS += ../../../Library/eltypes/eltypes.lib
 ELASTOS_LIBS += ../../../Library/elasys/elasys.lib

@@ -10,6 +10,36 @@ module {
         Increment();
 
         Decrement();
+
+        GetString(
+            [out] String* str);
+
+        SetString(
+            [in] String str);
+
+        GetBoolean(
+            [out] Boolean* b);
+
+        SetBoolean(
+            [in] Boolean b);
+
+        GetInt64(
+            [out] Int64* i);
+
+        SetInt64(
+            [in] Int64 i);
+
+        GetDouble(
+            [out] Double* d);
+
+        SetDouble(
+            [in] Double d);
+
+        GetArrayOf(
+            [out, callee] ArrayOf<Int32>* array);
+
+        SetArrayOf(
+            [in] ArrayOf<Int32> array);
     }
 
     class CTC {

@@ -27,6 +27,7 @@ extern void UninitTLS();
 extern ECode InitMIL();
 extern void UninitMIL();
 
+#ifdef _android
 namespace Elastos {
 namespace IPC {
 extern ECode InitROT();
@@ -47,6 +48,15 @@ extern void UninitProxyEntry();
 } // namespace RPC
 } // namespace Elastos
 
+#elif _linux
+#ifndef _ELASTOS64
+extern ECode InitROT();
+extern void UninitROT();
+extern void InitProxyEntry();
+extern void UninitProxyEntry();
+#endif
+#endif
+
 extern pthread_mutex_t g_LocModListLock;
 
 #define EXIT_IFFAILED(func)  do { \
@@ -66,11 +76,18 @@ Boolean AttachElastosDll()
     InitTLS();
     InitMIL();
 
+#ifdef _android
     Elastos::IPC::InitROT();
     Elastos::IPC::InitProxyEntry();
 
     Elastos::RPC::InitROT_RPC();
     Elastos::RPC::InitProxyEntry();
+#elif _linux
+#ifndef _ELASTOS64
+    InitROT();
+    InitProxyEntry();
+#endif
+#endif
 
     pthread_mutexattr_init(&recursiveAttr);
     pthread_mutexattr_settype(&recursiveAttr, PTHREAD_MUTEX_RECURSIVE);
@@ -89,11 +106,18 @@ void DetachElastosDll()
 {
     pthread_mutex_destroy(&g_LocModListLock);
 
+#ifdef _android
     Elastos::RPC::UninitProxyEntry();
     Elastos::RPC::UninitROT_RPC();
 
     Elastos::IPC::UninitProxyEntry();
     Elastos::IPC::UninitROT();
+#elif _linux
+#ifndef _ELASTOS64
+    UninitProxyEntry();
+    UninitROT();
+#endif
+#endif
 
     UninitMIL();
     UninitTLS();

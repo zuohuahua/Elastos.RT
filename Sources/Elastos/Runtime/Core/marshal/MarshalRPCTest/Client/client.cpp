@@ -12,6 +12,9 @@ int main(int argc, char *argv[])
 {
     ECode ec;
     ISManC *ismc;
+    String str;
+    ArrayOf<Int32>* array = ArrayOf<Int32>::Alloc(2);
+    AutoPtr<ArrayOf<Int32>> ret;
 
 
     ec = CSManC::New(&ismc);
@@ -44,11 +47,76 @@ int main(int argc, char *argv[])
 
     printf("%d\n", i);
 
+    ec = itc->GetString(&str);
+    if (FAILED(ec))
+        goto out2;
+
+    printf("GetString %s\n", str.string());
+
+    ec = itc->SetString(String("client test"));
+    if (FAILED(ec))
+        goto out2;
+
+    ec = itc->GetString(&str);
+    if (FAILED(ec))
+        goto out2;
+
+    printf("GetString %s\n", str.string());
+
+
+    ec = itc->SetBoolean(true);
+    if (FAILED(ec))
+        goto out2;
+
+    Boolean b;
+    ec = itc->GetBoolean(&b);
+    if (FAILED(ec))
+        goto out2;
+
+    printf("GetBoolean %d\n", b);
+
+    ec = itc->SetInt64(87899090);
+    if (FAILED(ec))
+        goto out2;
+
+    Int64 i64;
+    ec = itc->GetInt64(&i64);
+    if (FAILED(ec))
+        goto out2;
+
+    printf("GetInt64 %lld\n", i64);
+
+    ec = itc->SetDouble(1.90598);
+    if (FAILED(ec))
+        goto out2;
+
+    Double d;
+    ec = itc->GetDouble(&d);
+    if (FAILED(ec))
+        goto out2;
+
+    printf("GetDouble %lf\n", d);
+
+
+    array->Set(0, 11);
+    array->Set(1, 22);
+    ec = itc->SetArrayOf(*array);
+    if (FAILED(ec))
+        goto out2;
+
+    ec = itc->GetArrayOf((ArrayOf<Int32>**)&ret);
+    if (FAILED(ec))
+        goto out2;
+
+    printf("GetArrayOf %d %d\n", (*ret)[0], (*ret)[1]);
+
     sleep(10);
 
 out2:
     if (ismc != NULL)
         ismc->Release();
+    if (array != NULL)
+        ArrayOf<Int32>::Free(array);
 
 out1:
     return 0;

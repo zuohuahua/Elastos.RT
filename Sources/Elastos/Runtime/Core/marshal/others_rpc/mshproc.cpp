@@ -51,8 +51,6 @@ ECode Proxy_ProcessMsh_BufferSize(
                     uSize = sizeof(String);
                     break;
 
-                case BT_TYPE_STRINGBUF:
-                case BT_TYPE_BUFFEROF:
                 case BT_TYPE_ARRAYOF:{
                     if (*puArgs) {
                         uSize = sizeof(CarQuintet) + \
@@ -408,7 +406,17 @@ ECode Proxy_ProcessUnmsh_Out(
                         break;
 
                     case BT_TYPE_ARRAYOF:
-                        pParcel->ReadArrayOf((Handle32*)*puArgs);
+                        if (!BT_IS_CALLEE(pParams[n])) {
+                            PCARQUINTET p;
+                            pParcel->ReadArrayOf((Handle32*)&p);
+                            PCARQUINTET qArg = (PCARQUINTET)*puArgs;
+                            qArg->mUsed = p->mUsed;
+                            memcpy(qArg->mBuf, p->mBuf, p->mSize);
+                            _CarQuintet_Release(p);
+                        }
+                        else {
+                            pParcel->ReadArrayOf((Handle32*)*puArgs);
+                        }
                         break;
 
                     case BT_TYPE_PINTERFACE:
@@ -472,6 +480,7 @@ ECode Stub_ProcessUnmsh_In(
     const CIBaseType *pParams;
     Int32 pointValue, size;
     ECode ec;
+    String str;
 
     if (puOutBuffer) {
         puOutBuffer = (UInt32 *)((MarshalHeader *)puOutBuffer + 1);
@@ -525,29 +534,20 @@ ECode Stub_ProcessUnmsh_In(
                         break;
 
                     case BT_TYPE_ARRAYOF:
-                        pParcel->ReadInt32(&size);
-                        *puArgs = (UInt32)(byte *)puOutBuffer;
-                        ((PCARQUINTET)*puArgs)->mReserve = 0;
-                        ((PCARQUINTET)*puArgs)->mSize = size;
-                        ((PCARQUINTET)*puArgs)->mFlags =
-                                            CarQuintetFlag_Type_Unknown;
-                        ((PCARQUINTET)*puArgs)->mBuf = \
-                            (byte *)puOutBuffer + sizeof(CarQuintet);
-                        if ((BT_TYPE(pParams[n]) == BT_TYPE_STRINGBUF)) {
-                            ((PCARQUINTET)*puArgs)->mUsed = sizeof(Char8);
-                            *(Char8 *)(((PCARQUINTET)*puArgs)->mBuf) = 0;
-                        }
-                        else if (BT_TYPE(pParams[n]) == BT_TYPE_ARRAYOF) {
-                            ((PCARQUINTET)*puArgs)->mUsed =
-                                    ((PCARQUINTET)*puArgs)->mSize;
+                        if (!BT_IS_CALLEE(pParams[n])) {
+                            Int32 size;
+                            pParcel->ReadInt32(&size);
+                            *puOutBuffer = (UInt32)malloc(sizeof(CarQuintet));
+                            *(PCARQUINTET*)puArgs = (PCARQUINTET)*puOutBuffer;
+                            ((PCARQUINTET)*puArgs)->mSize = size;
+                            ((PCARQUINTET)*puArgs)->mBuf = malloc(size);
                         }
                         else {
-                            ((PCARQUINTET)*puArgs)->mUsed = 0;
+                            *puOutBuffer = 0;
+                            *puArgs = (UInt32)puOutBuffer;
                         }
+                        puOutBuffer++;
 
-                        puOutBuffer = (UInt32 *)((Byte *)puOutBuffer
-                                + MSH_ALIGN_4(sizeof(CarQuintet)
-                                + ((PCARQUINTET)*puArgs)->mSize));
                         break;
 
                     case BT_TYPE_PINTERFACE:
@@ -612,7 +612,8 @@ ECode Stub_ProcessUnmsh_In(
                     break;
 
                 case BT_TYPE_STRING:
-                    pParcel->ReadString((String*)puArgs);
+                    pParcel->ReadString(&str);
+                    *(String**)puArgs = new String(str);
                     puArgs++;
                     break;
 
@@ -690,10 +691,50 @@ ECode Stub_ProcessMsh_Out(
                         break;
 
                     case BT_TYPE_ARRAYOF:
-                        pParcel->WriteArrayOf((Handle32)puOutBuffer);
-                        puOutBuffer = (UInt32 *)((Byte *)puOutBuffer +
-                            MSH_ALIGN_4(sizeof(CarQuintet)
-                            + ((PCARQUINTET)((Byte *)puOutBuffer))->mSize));
+                        {
+                            pParcel->WriteArrayOf((Handle32)*puOutBuffer);
+                            PCARQUINTET p = (PCARQUINTET)*puOutBuffer;
+                            if (p != NULL) {
+                                if (!BT_IS_CALLEE(pParams[n])) {
+                                    if (CarQuintetFlag_Type_IObject == (p->mFlags
+                                            & CarQuintetFlag_TypeMask)) {
+                                        int used = ((PCARQUINTET)*puArgs)->mUsed
+                                                    / sizeof(IInterface *);
+                                        int *buf = (int*)((PCARQUINTET)*puArgs)->mBuf;
+                                        for (int i = 0; i < used; i++) {
+                                            if (buf[i]) {
+                                                ((IInterface *)buf[i])->Release();
+                                                buf[i] = 0;
+                                            }
+                                        }
+                                    }
+                                    else if (CarQuintetFlag_Type_String == (p->mFlags
+                                            & CarQuintetFlag_TypeMask)) {
+                                        int size = ((PCARQUINTET)*puArgs)->mSize
+                                                    / sizeof(String);
+                                        String *buf = (String*)((PCARQUINTET)*puArgs)->mBuf;
+                                        for (int i = 0; i < size; i++) {
+                                            if (!buf[i].IsNull()) {
+                                                buf[i] = NULL;
+                                            }
+                                        }
+                                    }
+                                    free(p->mBuf);
+                                    free(p);
+                                }
+                                else {
+                                    if (CarQuintetFlag_Type_IObject == (p->mFlags
+                                            & CarQuintetFlag_TypeMask)) {
+                                        ((ArrayOf<IInterface*>*)p)->Release();
+                                    }
+                                    else if (CarQuintetFlag_Type_String == (p->mFlags
+                                                & CarQuintetFlag_TypeMask)) {
+                                        ((ArrayOf<String>*)p)->Release();
+                                    }
+                                }
+                            }
+                            puOutBuffer++;
+                        }
                         break;
 
                     case BT_TYPE_PEMUID:
@@ -787,9 +828,23 @@ ECode Stub_ProcessMsh_Out(
                             for (int i = 0; i < used; i++) {
                                 if (pBuf[i]) {
                                     ((IInterface *)pBuf[i])->Release();
+                                    pBuf[i] = 0;
                                 }
                             }
                         }
+                        else if (CarQuintetFlag_Type_String
+                            == (((PCARQUINTET)*puArgs)->mFlags
+                                    & CarQuintetFlag_TypeMask)) {
+                            int size = ((PCARQUINTET)*puArgs)->mSize
+                                        / sizeof(String);
+                            String *pBuf = (String*)((PCARQUINTET)*puArgs)->mBuf;
+                            for (int i = 0; i < size; i++) {
+                                if (!pBuf[i].IsNull()) {
+                                    pBuf[i] = NULL;
+                                }
+                            }
+                        }
+                        _CarQuintet_Release((PCARQUINTET)*puArgs);
                     }
                     *puArgs++;
                     break;

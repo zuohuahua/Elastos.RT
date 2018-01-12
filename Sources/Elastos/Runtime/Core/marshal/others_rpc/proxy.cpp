@@ -193,7 +193,6 @@ DECL_NAKED void ProxyContinue()
 }
 #endif
 
-__attribute__((constructor))
 void InitProxyEntry()
 {
     s_proxyEntryAddress =
@@ -233,7 +232,6 @@ void InitProxyEntry()
     }
 }
 
-__attribute__((destructor))
 void UninitProxyEntry()
 {
      if (0 != s_proxyEntryAddress) {
