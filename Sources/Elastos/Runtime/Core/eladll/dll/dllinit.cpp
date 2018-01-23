@@ -30,23 +30,27 @@ extern void UninitMIL();
 #ifdef _android
 namespace Elastos {
 namespace IPC {
-extern ECode InitROT();
-extern void UninitROT();
+// extern ECode InitROT();
+// extern void UninitROT();
 
-extern void InitProxyEntry();
-extern void UninitProxyEntry();
+// extern void InitProxyEntry();
+// extern void UninitProxyEntry();
 } // namespace IPC
 } // namespace Elastos
 
 namespace Elastos {
 namespace RPC {
-extern ECode InitROT_RPC();
-extern void UninitROT_RPC();
+// extern ECode InitROT_RPC();
+// extern void UninitROT_RPC();
 
-extern void InitProxyEntry();
-extern void UninitProxyEntry();
+// extern void InitProxyEntry();
+// extern void UninitProxyEntry();
 } // namespace RPC
 } // namespace Elastos
+extern ECode InitROT();
+extern void UninitROT();
+extern void InitProxyEntry();
+extern void UninitProxyEntry();
 
 #elif _linux
 #ifndef _ELASTOS64
@@ -77,11 +81,13 @@ Boolean AttachElastosDll()
     InitMIL();
 
 #ifdef _android
-    Elastos::IPC::InitROT();
-    Elastos::IPC::InitProxyEntry();
+    // Elastos::IPC::InitROT();
+    // Elastos::IPC::InitProxyEntry();
 
-    Elastos::RPC::InitROT_RPC();
-    Elastos::RPC::InitProxyEntry();
+    // Elastos::RPC::InitROT_RPC();
+    // Elastos::RPC::InitProxyEntry();
+    InitROT();
+    InitProxyEntry();
 #elif _linux
 #ifndef _ELASTOS64
     InitROT();
@@ -107,11 +113,13 @@ void DetachElastosDll()
     pthread_mutex_destroy(&g_LocModListLock);
 
 #ifdef _android
-    Elastos::RPC::UninitProxyEntry();
-    Elastos::RPC::UninitROT_RPC();
+    // Elastos::RPC::UninitProxyEntry();
+    // Elastos::RPC::UninitROT_RPC();
 
-    Elastos::IPC::UninitProxyEntry();
-    Elastos::IPC::UninitROT();
+    // Elastos::IPC::UninitProxyEntry();
+    // Elastos::IPC::UninitROT();
+    UninitProxyEntry();
+    UninitROT();
 #elif _linux
 #ifndef _ELASTOS64
     UninitProxyEntry();

@@ -57,16 +57,16 @@ EXTERN_C void ProxyEntryFunc(void);
 
 #ifdef _GNUC
 #    if defined(_arm)
-#       define DECL_SYS_PROXY_ENTRY()
+#       define DECL_SYS_PROXY_ENTRY()              \
             __asm__(                               \
-            ".text;"                            \
-            ".align 4;"                         \
-            ".globl ProxyEntryFunc;"           \
-            "ProxyEntryFunc:"                  \
-            "stmdb  sp!, {r0 - r3};"            \
-             "mov    r1, #0xff;"                 \
-            "ldr    pc, [r0, #4];"              \
-            "nop;"                              \
+            ".text;"                               \
+            ".align 4;"                            \
+            ".globl ProxyEntryFunc;"               \
+            "ProxyEntryFunc:"                      \
+            "push {r0 - r3};"                      \
+            "push {lr};"                           \
+            "mov  r1, #0xff;"                      \
+            "ldr  pc, [r0, #4];"                   \
         )
         DECL_SYS_PROXY_ENTRY();
 #    elif defined(_x86)
@@ -144,14 +144,17 @@ EXTERN_C ECode GlobalProxyEntry(UInt32 *puArgs)
     __asm__(                            \
         ".text;"                        \
         ".align 4;"                     \
-        ".globl __ProxyEntry;"         \
-        "__ProxyEntry:"                \
-        "stmdb  sp!, {r1, lr};"         \
+        ".globl __ProxyEntry;"          \
+        "__ProxyEntry:"                 \
+        "push   {r1};"                  \
         "add    r0, sp, #4;"            \
-        "bl     GlobalProxyEntry;"     \
-        "ldr    lr, [sp, #4];"          \
-        "add    sp, sp, #24;"           \
-        "mov    pc, lr;"                \
+        "bl     GlobalProxyEntry;"      \
+        "add    sp, sp, #4;"            \
+        "pop    {lr};"                  \
+        "pop    {r1};"                  \
+        "pop    {r1 - r3};"             \
+        "push   {lr};"                  \
+        "pop    {pc};"                  \
     )
 
 DECL_PROXY_ENTRY();
@@ -216,7 +219,7 @@ void InitProxyEntry()
     char * p = (char *)s_proxyEntryAddress;
     for (Int32 n = 0; n < PROXY_ENTRY_NUM; n++) {
         memcpy(p, (void *)&ProxyEntryFunc, PROXY_ENTRY_SIZE);
-        p[4] = n;
+        p[8] = n;
         p += PROXY_ENTRY_SIZE;
     }
 #else
@@ -509,7 +512,7 @@ ECode CInterfaceProxy::ProxyEntry(UInt32 *puArgs)
 UseSocketExit:
         if (p) free(p);
         goto ProxyExit;
-        
+
 #else
 
         // initialiset the errors

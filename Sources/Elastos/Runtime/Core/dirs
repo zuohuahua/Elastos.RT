@@ -18,7 +18,7 @@ DIRS = reflection
 
 #NOTE: if marshal function used, it should be reimplemented.
 ifeq "$(XDK_TARGET_PLATFORM)" "android"
-	#DIRS += elapi
+	DIRS += elapi
 endif
 
 ifeq "$(XDK_TARGET_PLATFORM)" "linux"

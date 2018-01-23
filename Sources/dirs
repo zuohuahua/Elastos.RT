@@ -16,16 +16,17 @@
 
 ifneq "$(XDK_TARGET_PRODUCT)" "devtools"
 ifeq "$(XDK_TARGET_PLATFORM)" "android"
-  DIRS = Elastos
+    DIRS = External/libuv
+    DIRS += Elastos
 endif
 ifeq "$(XDK_TARGET_PLATFORM)" "linux"
-  DIRS = External/libuv
-  DIRS += Elastos
+    DIRS = External/libuv
+    DIRS += Elastos
 endif
 else
-  DIRS = Elastos/Runtime/Library/inc
-  DIRS += External/zlib
-  DIRS += Elastos/Runtime/Library/clsmodule
-  DIRS += ToolChains
-  #DIRS += Elastos
+    DIRS = Elastos/Runtime/Library/inc
+    DIRS += External/zlib
+    DIRS += Elastos/Runtime/Library/clsmodule
+    DIRS += ToolChains
+    #DIRS += Elastos
 endif

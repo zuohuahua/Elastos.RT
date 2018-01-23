@@ -1,5 +1,9 @@
 ifeq "$(XDK_TARGET_PLATFORM)" "win32"
 SPECIAL_TARGET=copy_prebuilt
 else
+ifeq "$(XDK_TARGET_PLATFORM)" "android"
+#SPECIAL_TARGET=android_build_src
+else
 SPECIAL_TARGET=build_src
+endif
 endif

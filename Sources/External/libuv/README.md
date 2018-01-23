@@ -113,6 +113,13 @@ Run:
 Note for UNIX users: compile your project with `-D_LARGEFILE_SOURCE` and
 `-D_FILE_OFFSET_BITS=64`. GYP builds take care of that automatically.
 
+### Elastos
+
+Run:
+
+    $ source ./elastos-android-configure gyp
+    $ make -C out
+
 ### Running tests
 
 Run:

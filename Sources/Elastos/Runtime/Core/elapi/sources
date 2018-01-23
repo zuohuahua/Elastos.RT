@@ -23,8 +23,9 @@ INCLUDES += $(MAKEDIR)/../inc;
 INCLUDES += $(MAKEDIR)/../../Library/inc/elasys;
 INCLUDES += $(MAKEDIR)/../marshal/
 ifeq "$(XDK_TARGET_PLATFORM)" "android"
-INCLUDES += $(MAKEDIR)/../marshal/android_linux;
+#INCLUDES += $(MAKEDIR)/../marshal/android_linux;
 INCLUDES += $(MAKEDIR)/../marshal/linux_rpc;
+INCLUDES += $(MAKEDIR)/../marshal/others_rpc;
 else
 ifeq "$(XDK_TARGET_PLATFORM)" "linux"
 INCLUDES += $(MAKEDIR)/../marshal/others_rpc;

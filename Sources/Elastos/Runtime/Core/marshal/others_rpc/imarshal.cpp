@@ -24,7 +24,7 @@ ECode StdMarshalInterface(
     pthread_mutex_lock(&g_marshalLock);
     ec = FindExportObject(pObj, &ex);
     if (SUCCEEDED(ec)) {
-        strcpy(pInterfacePack->m_stubConnName, 
+        strcpy(pInterfacePack->m_stubConnName,
                 ((CObjectStub*)ex.m_pIStub)->m_connName);
         ex.m_pIStub->GetClassID(&pInterfacePack->m_clsid);
         ec = ex.m_pIStub->GetInterfaceIndex(pObj, &pInterfacePack->m_uIndex);
@@ -37,8 +37,8 @@ ECode StdMarshalInterface(
         pv = (IProxy*)pObj->Probe(EIID_IProxy);
         if (pv) {
             pthread_mutex_unlock(&g_marshalLock);
-            strcpy(pInterfacePack->m_stubConnName, 
-                    ((CObjectProxy*)pv)->m_stubConnName);        
+            strcpy(pInterfacePack->m_stubConnName,
+                    ((CObjectProxy*)pv)->m_stubConnName);
             ASSERT_PROXY(pv);
             pv->GetClassID(&pInterfacePack->m_clsid);
             ec = pv->GetInterfaceIndex(pObj, &(pInterfacePack->m_uIndex));
@@ -47,8 +47,8 @@ ECode StdMarshalInterface(
             ec = CObjectStub::S_CreateObject(pObj, &pIStub);
             pthread_mutex_unlock(&g_marshalLock);
             if (SUCCEEDED(ec)) {
-                strcpy(pInterfacePack->m_stubConnName, 
-                        ((CObjectStub*)pIStub)->m_connName);         
+                strcpy(pInterfacePack->m_stubConnName,
+                        ((CObjectStub*)pIStub)->m_connName);
                 pIStub->GetClassID(&pInterfacePack->m_clsid);
                 ec = pIStub->GetInterfaceIndex(pObj, &pInterfacePack->m_uIndex);
                 if (ec == E_NO_INTERFACE) {

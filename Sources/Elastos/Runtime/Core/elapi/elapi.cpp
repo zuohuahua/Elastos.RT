@@ -31,7 +31,7 @@ EXTERN_C const InterfaceID EIID_IProxy;
 //
 
 #ifdef _android
-#include <marshal_ipc.h>
+// #include <marshal_ipc.h>
 #endif
 
 #ifndef _apple
@@ -77,19 +77,20 @@ ELAPI _CObject_MarshalInterface(
 
     if (type == MarshalType_IPC) {
 #ifdef _android
-        Elastos::IPC::InterfacePack* itfPack = (Elastos::IPC::InterfacePack*)calloc(sizeof(Elastos::IPC::InterfacePack), 1);
-        if (itfPack == NULL) {
-            return E_OUT_OF_MEMORY;
-        }
+        assert(0 && "TODO: Need Binder");
+        // Elastos::IPC::InterfacePack* itfPack = (Elastos::IPC::InterfacePack*)calloc(sizeof(Elastos::IPC::InterfacePack), 1);
+        // if (itfPack == NULL) {
+        //     return E_OUT_OF_MEMORY;
+        // }
 
-        ECode ec = StdMarshalInterface(object, itfPack);
-        if (FAILED(ec)) {
-            free(itfPack);
-            return ec;
-        }
+        // ECode ec = StdMarshalInterface(object, itfPack);
+        // if (FAILED(ec)) {
+        //     free(itfPack);
+        //     return ec;
+        // }
 
-        *size = sizeof(Elastos::IPC::InterfacePack);
-        *package = itfPack;
+        // *size = sizeof(Elastos::IPC::InterfacePack);
+        // *package = itfPack;
         return NOERROR;
 #else
         return E_NOT_IMPLEMENTED;
@@ -146,12 +147,13 @@ ELAPI _CObject_UnmarshalInterface(
 
     if (type == MarshalType_IPC) {
 #ifdef _android
-        ECode ec = StdUnmarshalInterface(flag, (Elastos::IPC::InterfacePack*)package, object);
-        if (FAILED(ec)) {
-            return ec;
-        }
+        assert(0 && "TODO: Need Binder");
+        // ECode ec = StdUnmarshalInterface(flag, (Elastos::IPC::InterfacePack*)package, object);
+        // if (FAILED(ec)) {
+        //     return ec;
+        // }
 
-        *size = sizeof(Elastos::IPC::InterfacePack);
+        // *size = sizeof(Elastos::IPC::InterfacePack);
         return NOERROR;
 #else
         return E_NOT_IMPLEMENTED;

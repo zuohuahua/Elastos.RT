@@ -369,10 +369,7 @@ function dropsdk ()
     SDK_INCLUED_PATH=$ELASTOS_SDK_PATH/include
     SDK_LIBS_PATH=$ELASTOS_SDK_PATH/libs
     if [ -d "$ELASTOS_SDK_PATH" ]; then
-        rm -rf $ELASTOS_SDK_PATH
-        # mkdir -p "$ELASTOS_SDK_PATH"
-        # mkdir "$SDK_INCLUED_PATH"
-        # mkdir "$SDK_LIBS_PATH"
+        rm -rf $ELASTOS_SDK_PATH/include $ELASTOS_SDK_PATH/libs
     fi
     mkdir -p "$ELASTOS_SDK_PATH"
     mkdir "$SDK_INCLUED_PATH"

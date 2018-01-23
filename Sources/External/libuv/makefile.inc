@@ -24,6 +24,10 @@ endif
 	  sudo make install; \
 	fi
 
+android_build_src:
+	$(shell echo source) $(MAKEDIR)/elastos-android-configure $(MAKEDIR)/gyp_uv.py -Dtarget_arch=arm -DOS=android && \
+	make -C $(MAKEDIR) -C $(MAKEDIR)/out
+
 copy_prebuilt:
 	$(CP) $(PREBUILD_LIB)\$(XDK_VERSION)\libuv.dll $(XDK_TARGETS)
 
