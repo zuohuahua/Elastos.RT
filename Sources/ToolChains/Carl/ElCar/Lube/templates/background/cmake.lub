@@ -15,33 +15,29 @@ $;; limitations under the License.
 $;;=========================================================================
 $
 $INPUT module
+$OUTPUT "${name}.cmake"
 $
+set(SOURCES
+$   WITH all classes DO
+$      IF type is not "sink" and type is not "clsobj"
+    _${fullname}.cpp
+$      END IF
+$      IF attrib is "hasctor" and lubeoption is not "UseCustomClassObject"
+    ${fullname}ClassObject.cpp
+$      END IF
+$   END DO ;; all classes
+$   WITH all classes DO
+$      IF type is "sink"
+    ${name}.cpp
+$      END IF
+$   END DO
+$IF module.type is not "library"
+    _${name}pub.cpp
+    _${name}abrg.cpp
 $IF module.attrib is "hasSinkObject"
-$TEMPLATE "callbacksinkh.lub"
-$TEMPLATE "callbacksinkcpp.lub"
+    _CCallbackSink_.cpp
 $END IF
-$WITH all classes DO
-$   IF type is "clsobj"
-$     IF lubeoption is not "UseCustomClassObject"
-$       TEMPLATE "clsobjh.lub"
-$       TEMPLATE "clsobjcpp.lub"
-$     END IF
-$   ELSE
-$     IF type is "sink"
-$       TEMPLATE "sinkh.lub"
-$       TEMPLATE "sinkcpp.lub"
-$     ELSE
-$       IF attrib is not "naked"
-$         TEMPLATE "backh.lub"
-$         TEMPLATE "backcpp.lub"
-$       ELSE
-$         TEMPLATE "nakedbackh.lub"
-$         TEMPLATE "nakedbackcpp.lub"
-$       END IF
-$     END IF
-$   END IF
-$END DO ;; all classes
+$END IF
+)
 $
-$TEMPLATE "background/modpub.lub"
-$TEMPLATE "background/makefile.lub"
-$TEMPLATE "background/cmake.lub"
+$END OUTPUT

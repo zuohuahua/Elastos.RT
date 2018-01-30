@@ -88,6 +88,8 @@ macro(xdk_compile_car target_name car_file)
         OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/${car_filename}.cls"
                "${CMAKE_CURRENT_BINARY_DIR}/${car_filename}Ex.cls"
                "${CMAKE_CURRENT_BINARY_DIR}/${car_filename}.d"
+               "${CMAKE_CURRENT_BINARY_DIR}/${car_filename}.mk"
+               "${CMAKE_CURRENT_BINARY_DIR}/${car_filename}.cmake"
         COMMAND carc -I${CMAKE_CURRENT_SOURCE_DIR} ${CAR_FLAGS} -a -c ${car_filename}.cls -E ${car_filename}Ex.cls ${car_file}
         COMMAND ${CMAKE_COMMAND} -E echo Generating H, CPP files from ${car_filename}.cls ...
         COMMAND lube ${LUBE_FLAGS} -C${car_filename}Ex.cls -f -T header -T cls2abrg -T background ${LUBE_TS}

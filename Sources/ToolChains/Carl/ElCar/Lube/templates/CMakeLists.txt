@@ -35,6 +35,7 @@ add_custom_command(
         ${CMAKE_CURRENT_SOURCE_DIR}/background/superh.lub
         ${CMAKE_CURRENT_SOURCE_DIR}/background/genericnew.lub
         ${CMAKE_CURRENT_SOURCE_DIR}/background/makefile.lub
+        ${CMAKE_CURRENT_SOURCE_DIR}/background/cmake.lub
         ${CMAKE_CURRENT_SOURCE_DIR}/carusage/carusage.lub
         ${CMAKE_CURRENT_SOURCE_DIR}/carusage/methodusage.lub
         ${CMAKE_CURRENT_SOURCE_DIR}/carusage/interfaceusage.lub

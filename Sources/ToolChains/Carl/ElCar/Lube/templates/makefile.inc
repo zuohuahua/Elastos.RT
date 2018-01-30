@@ -42,6 +42,7 @@ lube.lbo :  $(MAKEDIR)/background/backcpp.lub       \
             $(MAKEDIR)/background/superh.lub        \
             $(MAKEDIR)/background/genericnew.lub  \
             $(MAKEDIR)/background/makefile.lub    \
+            $(MAKEDIR)/background/cmake.lub    \
 	        $(MAKEDIR)/carusage/carusage.lub        \
             $(MAKEDIR)/carusage/methodusage.lub     \
             $(MAKEDIR)/carusage/interfaceusage.lub  \
