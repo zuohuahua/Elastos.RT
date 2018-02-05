@@ -1,5 +1,4 @@
 
-#add_definitions(-DHAVE_ANDROID_PTHREAD_SETNAME_NP)
 add_definitions(-DHAVE_APPLE_PTHREAD_SETNAME_NP)
 
 add_definitions(-DHAVE_GETTID
@@ -13,8 +12,6 @@ xdk_add_subdirectories(
     corelibrary
     libcore
     elastos
+    Lib
 )
 
-# ifneq "$(XDK_TARGET_PLATFORM)" "android"
-#     DIRS += Lib
-# endif

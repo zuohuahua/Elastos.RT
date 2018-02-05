@@ -17,7 +17,7 @@ $
 $INPUT module
 $OUTPUT "${name}.cmake"
 $
-set(SOURCES
+set(GENERATED_SOURCES
 $   WITH all classes DO
 $      IF type is not "sink" and type is not "clsobj"
     _${fullname}.cpp

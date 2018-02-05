@@ -204,8 +204,7 @@ int LoadResourceFromCLS(const char *pszName, CLSModule **ppDest)
         LoadCLSFromFile(path, ppDest);
         _ReturnOK (CLS_NoError);
     }
-    ExtraMessage(pszName, "Only support load systypes.cls for now.");
-    _ReturnError (CLSError_LoadResource);
+    return LoadCLS(pszName, ppDest);
 }
 
 #endif
@@ -256,7 +255,9 @@ int LoadCLSFromDll(const char *pszName, CLSModule **ppDest)
 
         fclose(pFile);
 
-#ifdef _linux
+#if defined(_cmake)
+        return LoadResourceFromCLS(pszName, ppDest);
+#elif defined(_linux)
         return LoadResourceFromELF(szResult, ppDest);
 #elif defined(_win32)
         return LoadResourceFromPE(pszName, ppDest);

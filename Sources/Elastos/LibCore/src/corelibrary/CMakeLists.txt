@@ -7,7 +7,7 @@ xdk_compile_car(elastos_core_library_car Elastos.CoreLibrary.car)
 # include("${CMAKE_CURRENT_BINARY_DIR}/Elastos.CoreLibrary.cmake")
 
 set(SOURCES
-    ${SOURCES}
+    ${GENERATED_SOURCES}
     AsynchronousCloseMonitor.cpp
 #    Atomic.cpp
     Symbols.cpp

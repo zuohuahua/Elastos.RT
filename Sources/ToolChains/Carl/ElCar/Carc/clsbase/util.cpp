@@ -28,6 +28,7 @@
 
 #ifndef _win32
 #define _access access
+#define _stricmp strcasecmp
 #endif
 
 void GetNakedFileName(const char *pszSource, char *pszDest)
@@ -86,6 +87,16 @@ int SearchFileFromPath(
         if (n > 0) {
             if (!IS_PATH_SEPARATOR(pszResult[n - 1])) pszResult[n++] = '/';
             strcpy(pszResult + n, pszFile);
+
+#if defined(_cmake)
+            // With cmake building environment, we only store CAR class metadata in a separate file.
+            n += strlen(pszFile);
+            if (!_stricmp(pszResult + n - 4, ".eco")) {
+                strcpy(pszResult + n - 4, ".cls");
+            } else if (!_stricmp(pszResult + n - 3, ".so")) {
+                strcpy(pszResult + n - 3, ".cls");
+            }
+#endif
             if (0 == _access(pszResult, 0)) _ReturnOK (CLS_NoError);
         }
 

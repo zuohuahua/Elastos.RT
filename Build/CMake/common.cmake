@@ -90,7 +90,9 @@ macro(xdk_compile_car target_name car_file)
                "${CMAKE_CURRENT_BINARY_DIR}/${car_filename}.d"
                "${CMAKE_CURRENT_BINARY_DIR}/${car_filename}.mk"
                "${CMAKE_CURRENT_BINARY_DIR}/${car_filename}.cmake"
+               "$ENV{XDK_TARGETS}/${car_filename}.cls"
         COMMAND carc -I${CMAKE_CURRENT_SOURCE_DIR} ${CAR_FLAGS} -a -c ${car_filename}.cls -E ${car_filename}Ex.cls ${car_file}
+        COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/${car_filename}.cls" "$ENV{XDK_TARGETS}/${car_filename}.cls"
         COMMAND ${CMAKE_COMMAND} -E echo Generating H, CPP files from ${car_filename}.cls ...
         COMMAND lube ${LUBE_FLAGS} -C${car_filename}Ex.cls -f -T header -T cls2abrg -T background ${LUBE_TS}
         COMMAND carc -I${CMAKE_CURRENT_SOURCE_DIR} ${CAR_FLAGS} -d ${car_file} >${car_filename}.d
@@ -123,6 +125,17 @@ macro(xdk_compile_def GENERATED_FILE def_file)
     )
     add_custom_target(${def_file} ALL DEPENDS __${def_file})
     set(CMAKE_SHARED_LINKER_FLAGS "-exported_symbols_list __${def_filename}.exp")
+endmacro()
+
+macro(xdk_gen_headers_from_cls target_name cls_file)
+    xdk_get_filename_without_ext(cls_filename ${cls_file})
+    add_custom_command(
+        COMMENT "Generating header files from ${cls_filename}"
+        OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/${cls_filename}.cpp"
+        COMMAND lube  -C${cls_file} -f -T header2 -T headercpp
+        DEPENDS "$ENV{XDK_TARGETS}/${cls_file}"
+    )
+    add_custom_target(${target_name} ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${cls_filename}.cpp)
 endmacro()
 
 include_directories($ENV{XDK_USER_INC})
