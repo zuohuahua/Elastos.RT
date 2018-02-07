@@ -9,7 +9,15 @@ To clone the repository
 in your environment:
 ```shell
 $ cd ~
-$ git clone https://github.com/elastos/Elastos.RT
+$ git clone --recurse-submodules https://github.com/elastos/Elastos.RT
+```
+
+We use `--recurse-submodules` here because we need to download the submodules as well.
+If you forgot to use the argument, you could download the submodules later by typing:
+
+```shell
+$ git submodule init
+$ git submodule update
 ```
 
 ## Preparing the build environment
@@ -18,6 +26,10 @@ $ git clone https://github.com/elastos/Elastos.RT
 
 If you have `docker` and `docker-compose` installed in your machine, you could use a dockerized build environment.
 
+You should follow the official instructions to install Docker and Docker Compose.
+Install Docker: https://docs.docker.com/install/
+Install Docker Compose: https://docs.docker.com/compose/install/
+
 To build the docker image and enter the dockerized build environment:
 ```
 $ cd ~/Elastos.RT/docker
@@ -25,6 +37,8 @@ $ cd ~/Elastos.RT/docker
 ~/Elastos.RT/docker$ docker-compose run --rm build-env
 ```
 NOTE: Please do NOT store any important files outside of the `Elastos.RT` folder as the docker container will be removed after you exit the building environment. And only the changes in the `Elastos.RT` folder will be retained as it has defined as a VOLUME in the Dockerfile.
+
+Type `exit` if you want to exit the docker build environment. And type `docker-compose run --rm build-env` if you want to re-enter it.
 
 #### Ubuntu_32bit
 

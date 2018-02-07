@@ -30,9 +30,9 @@ macro(xdk_export_headers target_name)
             COMMENT "Exporting ${XDK_RELATIVE_DIR}/${item}"
             OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/${item}"
                     "$ENV{XDK_USER_INC}/${item}"
-            COMMAND ${CMAKE_COMMAND} -E make_directory "$ENV{XDK_USER_INC}"
             COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/${item}" "${CMAKE_CURRENT_BINARY_DIR}/${item}"
             COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/${item}" "$ENV{XDK_USER_INC}/${item}"
+            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
             DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/${item}"
         )
     endforeach()
@@ -83,6 +83,12 @@ endfunction()
 macro(xdk_compile_car target_name car_file)
     xdk_get_filename_without_ext(car_filename ${car_file})
     string(REPLACE "$ENV{XDK_SOURCE_PATH}/" "" XDK_RELATIVE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+    if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${car_filename}.cmake)
+        set(COMPARE_CMAKE_FILES_OR_PROMPT ${CMAKE_COMMAND} -E compare_files ${CMAKE_CURRENT_BINARY_DIR}/${car_filename}.cmake ${CMAKE_CURRENT_SOURCE_DIR}/${car_filename}.cmake)
+        include(${CMAKE_CURRENT_SOURCE_DIR}/${car_filename}.cmake)
+    else()
+        set(COMPARE_CMAKE_FILES_OR_PROMPT ${CMAKE_COMMAND} -E echo You could copy this cmake file to the source directory in order to compile the generated files. ${CMAKE_CURRENT_BINARY_DIR}/${car_filename}.cmake)
+    endif()
     add_custom_command(
         COMMENT "Compiling ${XDK_RELATIVE_DIR}/${car_file}"
         OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/${car_filename}.cls"
@@ -91,12 +97,15 @@ macro(xdk_compile_car target_name car_file)
                "${CMAKE_CURRENT_BINARY_DIR}/${car_filename}.mk"
                "${CMAKE_CURRENT_BINARY_DIR}/${car_filename}.cmake"
                "$ENV{XDK_TARGETS}/${car_filename}.cls"
+               ${GENERATED_SOURCES}
         COMMAND carc -I${CMAKE_CURRENT_SOURCE_DIR} ${CAR_FLAGS} -a -c ${car_filename}.cls -E ${car_filename}Ex.cls ${car_file}
         COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/${car_filename}.cls" "$ENV{XDK_TARGETS}/${car_filename}.cls"
         COMMAND ${CMAKE_COMMAND} -E echo Generating H, CPP files from ${car_filename}.cls ...
         COMMAND lube ${LUBE_FLAGS} -C${car_filename}Ex.cls -f -T header -T cls2abrg -T background ${LUBE_TS}
         COMMAND carc -I${CMAKE_CURRENT_SOURCE_DIR} ${CAR_FLAGS} -d ${car_file} >${car_filename}.d
         COMMAND ${CMAKE_COMMAND} -E echo >>${car_filename}.d
+        COMMAND ${COMPARE_CMAKE_FILES_OR_PROMPT}
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
         DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/${car_file}"
     )
     add_custom_target(${target_name} ALL DEPENDS ${car_filename}.cls)
@@ -121,6 +130,7 @@ macro(xdk_compile_def GENERATED_FILE def_file)
         COMMAND "${CMAKE_C_COMPILER}" "${CMAKE_C_FLAGS}" -E -P -x c ${XDK_DEFINITIONS} -o __${def_file} ${CMAKE_CURRENT_SOURCE_DIR}/${def_file}
         COMMAND perl "$ENV{XDK_TOOLS}/def_trans.pl" __${def_file}
         COMMAND perl "$ENV{XDK_TOOLS}/res_trans.pl" __${def_file} "def" ${def_file}
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
         DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/${def_file}"
     )
     add_custom_target(${def_file} ALL DEPENDS __${def_file})
@@ -133,6 +143,7 @@ macro(xdk_gen_headers_from_cls target_name cls_file)
         COMMENT "Generating header files from ${cls_filename}"
         OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/${cls_filename}.cpp"
         COMMAND lube  -C${cls_file} -f -T header2 -T headercpp
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
         DEPENDS "$ENV{XDK_TARGETS}/${cls_file}"
     )
     add_custom_target(${target_name} ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${cls_filename}.cpp)

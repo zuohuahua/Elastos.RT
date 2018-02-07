@@ -2482,7 +2482,7 @@ Collections::_SynchronizedSet::_SynchronizedSet(
 Collections::_SynchronizedSet::_SynchronizedSet(
     /* [in] */ ISet* set,
     /* [in] */ Object* lock)
-    : _SynchronizedCollection(ICollection::Probe(set), mLock)
+    : _SynchronizedCollection(ICollection::Probe(set), lock)
 {
 }
 

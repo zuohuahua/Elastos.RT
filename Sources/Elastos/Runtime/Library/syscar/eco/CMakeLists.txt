@@ -10,19 +10,15 @@ add_custom_command(
     COMMENT "Copying ElastosCore.* to system..."
     OUTPUT "$ENV{XDK_USER_INC}/ElastosCore.h"
            "$ENV{XDK_USER_INC}/_ElastosCore.h"
-           "$ENV{XDK_TARGETS}/ElastosCore.cls"
     COMMAND ${CMAKE_COMMAND} -E copy ElastosCore.h $ENV{XDK_USER_INC}
     COMMAND ${CMAKE_COMMAND} -E copy _ElastosCore.h $ENV{XDK_USER_INC}
-    COMMAND ${CMAKE_COMMAND} -E copy ElastosCore.cls $ENV{XDK_TARGETS}
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     DEPENDS elastos_core_car
             ${CMAKE_CURRENT_BINARY_DIR}/ElastosCore.h
             ${CMAKE_CURRENT_BINARY_DIR}/_ElastosCore.h
-            ${CMAKE_CURRENT_BINARY_DIR}/ElastosCore.cls
 )
 
 add_custom_target(copy_elastos_core_headers ALL DEPENDS
                       $ENV{XDK_USER_INC}/ElastosCore.h
-                      $ENV{XDK_USER_INC}/_ElastosCore.h
-                      $ENV{XDK_TARGETS}/ElastosCore.cls)
+                      $ENV{XDK_USER_INC}/_ElastosCore.h)
 

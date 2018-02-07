@@ -2856,6 +2856,39 @@ IMPL_USERFUNC(GenerateModuleImplementation)(PLUBECTX pCtx, PSTATEDESC pDesc, PVO
     assert(NULL != pCtx->m_pModule && pvArg == pCtx->m_pModule);
     CLSModule* module = pCtx->m_pModule;
 
+    char* pPath;
+    for (int i = 0; i < module->mDefinedInterfaceCount; i++) {
+        InterfaceDirEntry* itfDir = module->mInterfaceDirs[module->mDefinedInterfaceIndexes[i]];
+        if (itfDir->mFileIndex == 0) {
+            pPath = (char*)malloc(strlen(module->mName) + 4);
+            strcpy(pPath, "_");
+            strcat(pPath, module->mName);
+            strcat(pPath, ".h");
+        } else {
+            pPath = (char*)malloc(strlen(module->mFileDirs[itfDir->mFileIndex]->mPath) + 3);
+            strcpy(pPath, module->mFileDirs[itfDir->mFileIndex]->mPath);
+            strcat(pPath, ".h");
+        }
+
+        if (access(pPath, 0) == 0) {
+            printf("module: %s exist, delete\n", pPath);
+            remove(pPath);
+        }
+
+        if (itfDir->mFileIndex != 0) {
+            char *pPath2 = (char*)malloc(strlen(pPath) + 2);
+            strcpy(pPath2, "_");
+            strcat(pPath2, pPath);
+
+            if (access(pPath2, 0) == 0) {
+                printf("module: %s exist, delete\n", pPath2);
+                remove(pPath2);
+            }
+            free(pPath2);
+        }
+        free(pPath);
+    }
+
     //handle interfaces
     for (int i = 0; i < module->mDefinedInterfaceCount; i++) {
         InterfaceDirEntry* itfDir = module->mInterfaceDirs[module->mDefinedInterfaceIndexes[i]];

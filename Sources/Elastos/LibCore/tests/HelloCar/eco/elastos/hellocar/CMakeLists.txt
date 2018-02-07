@@ -4,8 +4,6 @@ set(LUBE_FLAGS -n -u)
 
 xdk_compile_car(elastos_hello_car Elastos.HelloCar.car)
 
-# include("${CMAKE_CURRENT_BINARY_DIR}/Elastos.HelloCar.cmake")
-
 set(SOURCES
     ${GENERATED_SOURCES}
     Elastos.HelloCar.car
