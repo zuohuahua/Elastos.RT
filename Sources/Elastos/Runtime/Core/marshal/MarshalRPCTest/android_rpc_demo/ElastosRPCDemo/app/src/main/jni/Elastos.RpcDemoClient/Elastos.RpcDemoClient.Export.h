@@ -35,12 +35,22 @@ const _ELASTOS ClassID ECLSID_CRpcDemoClientClassObject = {
 }
 #endif // __CLSID_Elastos_RpcDemoClient_CRpcDemoClientClassObject_DEFINED__
 
+#ifndef __EIID_Elastos_RpcDemoClient_ICarrierNodeListener_DEFINED__
+#define __EIID_Elastos_RpcDemoClient_ICarrierNodeListener_DEFINED__
+namespace Elastos {
+namespace RpcDemoClient {
+const _ELASTOS InterfaceID EIID_ICarrierNodeListener = \
+    {0x0B8E8158,0x8312,0x7A44,{0x9F,0x79,0x99,0x55,0xC1,0x22,0xB3,0x67}};
+}
+}
+#endif // __IID_Elastos_RpcDemoClient_ICarrierNodeListener_DEFINED__
+
 #ifndef __EIID_Elastos_RpcDemoClient_IRpcDemoClient_DEFINED__
 #define __EIID_Elastos_RpcDemoClient_IRpcDemoClient_DEFINED__
 namespace Elastos {
 namespace RpcDemoClient {
 const _ELASTOS InterfaceID EIID_IRpcDemoClient = \
-    {0x26333C30,0x86D2,0x2619,{0x1A,0xA0,0x80,0x21,0xA3,0xCF,0x8F,0xF6}};
+    {0x9ADA6C25,0x86D2,0x2619,{0x1A,0xA0,0x80,0x21,0xA3,0xCF,0x8F,0xF6}};
 }
 }
 #endif // __IID_Elastos_RpcDemoClient_IRpcDemoClient_DEFINED__
@@ -50,10 +60,14 @@ const _ELASTOS InterfaceID EIID_IRpcDemoClient = \
 namespace Elastos {
 namespace RpcDemoClient {
 const _ELASTOS InterfaceID EIID_ICRpcDemoClientClassObject = \
-    {0xFF1D8E38,0x8312,0x330D,{0x4C,0x34,0x40,0x01,0x43,0x46,0x1F,0x3D}};
+    {0xFA947125,0x8312,0x330D,{0x4C,0x34,0x40,0x01,0x43,0x46,0x1F,0x3D}};
 }
 }
 #endif // __IID_Elastos_RpcDemoClient_ICRpcDemoClientClassObject_DEFINED__
+namespace Elastos {
+namespace RpcDemoClient {
+}
+}
 namespace Elastos {
 namespace RpcDemoClient {
 }

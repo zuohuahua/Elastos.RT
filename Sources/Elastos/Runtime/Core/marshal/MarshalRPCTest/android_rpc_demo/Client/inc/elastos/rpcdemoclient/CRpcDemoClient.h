@@ -4,6 +4,7 @@
 
 #include "_Elastos_RpcDemoClient_CRpcDemoClient.h"
 #include <elastos/core/Object.h>
+#include "CarrierProxy.h"
 #include "SManC.h"
 #include "SManS.h"
 
@@ -21,34 +22,39 @@ public:
 
     CRpcDemoClient();
 
-    CARAPI constructor(
-        /* [in] */ const String& ip,
-        /* [in] */ Boolean isServer);
-
-    CARAPI constructor(
-        /* [in] */ const String& ip,
-        /* [in] */ Int32 port,
-        /* [in] */ Boolean isServer);
+    CARAPI constructor();
 
     CARAPI Connect(
+        /* [in] */ const String& ip,
+        /* [in] */ Boolean isServer,
         /* [out] */ Boolean* succeed);
 
-    CARAPI Chat(
-        /* [in] */ const String& text);
+    CARAPI GetAddress(
+        /* [in] */ Boolean isSelf,
+        /* [out] */ String* address);
 
-    CARAPI SetTag(
-        /* [in] */ const String& tag);
+    CARAPI AddFriend(
+        /* [in] */ const String& address,
+        /* [in] */ const String& hello);
 
-    CARAPI GetTag(
-        /* [out] */ String* tag);
+    CARAPI SendMsg(
+        /* [in] */ const String& msg);
+
+    CARAPI SendMsg(
+        /* [in] */ const String& userid,
+        /* [in] */ const String& msg);
+
+    CARAPI GetUserId(
+        /* [out] */ String* userid);
+
+    CARAPI SetCarrierNodeListener(
+        /* [in] */ ICarrierNodeListener* listener);
 
 private:
     AutoPtr<SManS> mSelfServer;
     AutoPtr<SManC> mLocalClient;
     Boolean mIamServer;
-    String mIP;
-    Int32 mPort;
-    String mTag;
+    AutoPtr<CarrierProxy> mCarrierProxy;
 };
 
 }

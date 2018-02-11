@@ -1,6 +1,5 @@
 
 #include "CRpcDemoClient.h"
-#include "log.h"
 
 static const Int32 ELASTOS_DEFAULT_PORT = 2345;
 static const String ELASTOS_RPC_DEMO_SERVICE("Elastos.Droid.Rpc.Demo.Service");
@@ -13,46 +12,40 @@ CAR_INTERFACE_IMPL(CRpcDemoClient, Object, IRpcDemoClient);
 
 CRpcDemoClient::CRpcDemoClient()
     : mIamServer(FALSE)
-    , mPort(0)
-{}
-
-ECode CRpcDemoClient::constructor(
-    /* [in] */ const String& ip,
-    /* [in] */ Boolean isServer)
 {
-    return constructor(ip, ELASTOS_DEFAULT_PORT, isServer);
+    mCarrierProxy = new CarrierProxy();
 }
 
-ECode CRpcDemoClient::constructor(
-    /* [in] */ const String& ip,
-    /* [in] */ Int32 port,
-    /* [in] */ Boolean isServer)
+ECode CRpcDemoClient::constructor()
 {
-    mIP = ip;
-    mPort = port;
-    mIamServer = isServer;
-    if (port <= 0) {
-        mPort = ELASTOS_DEFAULT_PORT;
-    }
-
     return NOERROR;
 }
 
 ECode CRpcDemoClient::Connect(
+    /* [in] */ const String& ip,
+    /* [in] */ Boolean isServer,
     /* [out] */ Boolean* succeed)
 {
     *succeed = FALSE;
 
+    mIamServer = isServer;
+    Int32 port = ELASTOS_DEFAULT_PORT;
+
     //server needs to be registered to itself
-    mLocalClient = new SManC();
+    if (mLocalClient == NULL) {
+        mLocalClient = new SManC();
+    }
+
     if (mIamServer) {
         //Self server, it will accept the other client to connect it.
         //Connect a local server
-        mSelfServer = new SManS(mPort);
+        if (mSelfServer == NULL) {
+            mSelfServer = new SManS(port);
+        }
         assert(mSelfServer != NULL);
 
         //marshal itself
-        if (mLocalClient->Connect(mIP, mPort)) {
+        if (mLocalClient->Connect(ip, port)) {
             *succeed = TRUE;
             return mLocalClient->AddService(ELASTOS_RPC_DEMO_SERVICE, IRpcDemoClient::Probe(this));
         }
@@ -60,43 +53,76 @@ ECode CRpcDemoClient::Connect(
         return NOERROR;
     }
 
-
     //Connect the remote server
-    *succeed = mLocalClient->Connect(mIP, mPort);
+    *succeed = mLocalClient->Connect(ip, port);
 
     return NOERROR;
 }
 
-ECode CRpcDemoClient::Chat(
-    /* [in] */ const String& text)
+ECode CRpcDemoClient::GetAddress(
+    /* [in] */ Boolean isSelf,
+    /* [out] */ String* address)
 {
-    return NOERROR;
-}
-
-ECode CRpcDemoClient::SetTag(
-    /* [in] */ const String& tag)
-{
-    LOGD("[%s]===================line=[%d], tag=[%s]\n", __FUNCTION__, __LINE__, tag.string());
-    if (mIamServer) {
-        mTag = tag;
-        return NOERROR;
-    }
-    AutoPtr<IInterface> obj;
-    mLocalClient->GetService(ELASTOS_RPC_DEMO_SERVICE, (IInterface**)&obj);
-    return IRpcDemoClient::Probe(obj)->SetTag(tag);
-}
-
-ECode CRpcDemoClient::GetTag(
-    /* [out] */ String* tag)
-{
-    if (mIamServer) {
-        *tag = mTag;
+    assert(mCarrierProxy != NULL);
+    if (isSelf || mIamServer) {
+        *address = mCarrierProxy->GetAddress();
         return NOERROR;
     }
 
     AutoPtr<IInterface> obj;
     mLocalClient->GetService(ELASTOS_RPC_DEMO_SERVICE, (IInterface**)&obj);
-    return IRpcDemoClient::Probe(obj)->GetTag(tag);
+    return IRpcDemoClient::Probe(obj)->GetAddress(FALSE, address);
+}
+
+ECode CRpcDemoClient::AddFriend(
+    /* [in] */ const String& address,
+    /* [in] */ const String& hello)
+{
+    mCarrierProxy->AddFriend(address, hello);
+    return NOERROR;
+}
+
+ECode CRpcDemoClient::SendMsg(
+    /* [in] */ const String& msg)
+{
+    String userid;
+    if (mIamServer) {
+        userid = CarrierProxy::sAnotherUserID;
+    }
+    else {
+        GetUserId(&userid);
+    }
+    mCarrierProxy->SendMsg(msg, userid);
+    return NOERROR;
+}
+
+ECode CRpcDemoClient::SendMsg(
+    /* [in] */ const String& userid,
+    /* [in] */ const String& msg)
+{
+    mCarrierProxy->SendMsg(msg, userid);
+    return NOERROR;
+}
+
+ECode CRpcDemoClient::GetUserId(
+    /* [out] */ String* userid)
+{
+    assert(mCarrierProxy != NULL);
+    if (mIamServer) {
+        *userid = mCarrierProxy->GetUserId();
+        return NOERROR;
+    }
+
+    AutoPtr<IInterface> obj;
+    mLocalClient->GetService(ELASTOS_RPC_DEMO_SERVICE, (IInterface**)&obj);
+    return IRpcDemoClient::Probe(obj)->GetUserId(userid);
+}
+
+ECode CRpcDemoClient::SetCarrierNodeListener(
+    /* [in] */ ICarrierNodeListener* listener)
+{
+    assert(mCarrierProxy != NULL);
+    return mCarrierProxy->SetCarrierNodeListener(listener);
 }
 
 }

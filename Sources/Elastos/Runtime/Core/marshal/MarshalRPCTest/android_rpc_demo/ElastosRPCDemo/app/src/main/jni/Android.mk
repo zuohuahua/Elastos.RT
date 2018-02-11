@@ -19,6 +19,24 @@ LOCAL_MODULE    := Elastos.RpcDemoClient
 LOCAL_SRC_FILES := $(LOCAL_PATH)/Elastos.RpcDemoClient/libElastos.RpcDemoClient.so
 include $(PREBUILT_SHARED_LIBRARY)
 
+#Carrier
+include $(CLEAR_VARS)
+LOCAL_MODULE    := elacarrier
+LOCAL_SRC_FILES := $(LOCAL_PATH)/Elastos.RpcDemoClient/libelacarrier.so
+include $(PREBUILT_SHARED_LIBRARY)
+
+#Carrier
+include $(CLEAR_VARS)
+LOCAL_MODULE    := elacommon
+LOCAL_SRC_FILES := $(LOCAL_PATH)/Elastos.RpcDemoClient/libelacommon.so
+include $(PREBUILT_SHARED_LIBRARY)
+
+#Carrier
+include $(CLEAR_VARS)
+LOCAL_MODULE    := elasession
+LOCAL_SRC_FILES := $(LOCAL_PATH)/Elastos.RpcDemoClient/libelasession.so
+include $(PREBUILT_SHARED_LIBRARY)
+
 #Elastos.CoreLibrary depend libcrypto.so
 include $(CLEAR_VARS)
 LOCAL_MODULE    := crypto

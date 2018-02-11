@@ -13,18 +13,20 @@ LUBE_FLAGS += -n -u
 
 INCLUDES += $(MAKEDIR)/../../../inc
 INCLUDES += $(MAKEDIR)/../../../inc/elastos/rpcdemoclient
+INCLUDES += $(MAKEDIR)/Carriers/include
 
 SOURCES = Elastos.RpcDemoClient.car
 SOURCES += CRpcDemoClient.cpp
 SOURCES += SManS.cpp
 SOURCES += SManC.cpp
 SOURCES += sock.cpp
+SOURCES += CarrierProxy.cpp
 
 ifeq "$(XDK_TARGET_PLATFORM)" "android"
 LIBRARIES = $(XDK_USER_LIB)/Elastos.Runtime.lib
 LIBRARIES += $(XDK_TARGETS)/libElastos.Runtime.so
 LIBRARIES += $(XDK_TARGETS)/libElastos.CoreLibrary.so
-LIBRARIES += -lstdc++ -luv -llog
+LIBRARIES += -lstdc++ -luv -llog -lelacarrier -lelacommon
 else
 CPP_FLAGS += -g
 LIBRARIES = $(XDK_USER_LIB)/Elastos.Runtime.lib

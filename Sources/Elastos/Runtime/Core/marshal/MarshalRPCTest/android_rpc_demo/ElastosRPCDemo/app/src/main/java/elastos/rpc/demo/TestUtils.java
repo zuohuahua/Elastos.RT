@@ -1,27 +1,73 @@
 package elastos.rpc.demo;
 
+import android.util.Log;
+
 public class TestUtils {
 
     static {
-        System.loadLibrary("Elastos.Runtime");
-        System.loadLibrary("Elastos.CoreLibrary");
-        System.loadLibrary("Elastos.RpcDemoClient");
-        System.loadLibrary("eladroidrpc");
+//        System.loadLibrary("log");
+//        System.loadLibrary("elacommon");
+//        System.loadLibrary("elasession");
+//        System.loadLibrary("elacarrier");
+//        System.loadLibrary("Elastos.Runtime");
+//        System.loadLibrary("Elastos.CoreLibrary");
+//        System.loadLibrary("Elastos.RpcDemoClient");
+//        System.loadLibrary("eladroidrpc");
+    }
+
+    private static native void nativeSendMsg(String msg);
+    public static void SendMsg(String msg) {
+        Log.d("TestUtils", "SendMsg==============================");
+        nativeSendMsg(msg);
     }
 
     private static native boolean nativeConnect(String ip, boolean isServer);
-    private static native String nativeGetTag();
-    private static native boolean nativeSetTag(String tag);
-
     public static boolean Connect(String ip, boolean isServer) {
         return nativeConnect(ip, isServer);
     }
 
-    public static String GetTag() {
-        return nativeGetTag();
+    private static native String nativeGetAddress(boolean isSelf);
+    public static String GetAddress(boolean isSelf) {
+        return nativeGetAddress(isSelf);
+    }
+    public static String GetAddress() {
+        return GetAddress(false);
     }
 
-    public static boolean SetTag(String tag) {
-        return nativeSetTag(tag);
+    private static native String nativeGetFriendUserId();
+    public static String GetFriendUserId() {
+        return nativeGetFriendUserId();
+    }
+
+    private static native void nativeAddFriend(String address, String hello);
+    public static void AddFriend(String address, String hello) {
+        nativeAddFriend(address, hello);
+    }
+
+    public class ElaConnectionStatus {
+        public static final int Disconnected = 0;
+        public static final int Connected = 1;
+    };
+
+    public interface CarrierNodeListener {
+        void OnConnectionStatus(
+            /* [in] */ int status);
+
+        void OnReady();
+
+        void OnFriendConnection(
+        /* [in] */ String friendid,
+        /* [in] */ int status);
+
+        void OnFriendRequest(
+        /* [in] */ String userid,
+        /* [in] */ String hello);
+
+        void OnFreindAdded(
+        /* [in] */ String userid);
+
+        void OnFriendMessage(
+        /* [in] */ String from,
+        /* [in] */ String msg);
     }
 }

@@ -8,7 +8,51 @@ ELAPI _Impl_CheckClsId(PInterface pServerObj, const _ELASTOS ClassID* pClassid, 
 
 namespace Elastos {
 namespace RpcDemoClient {
-CAR_INTERFACE("26333C30-86D2-2619-1AA0-8021A3CF8FF6")
+CAR_INTERFACE("0B8E8158-8312-7A44-9F79-9955C122B367")
+ICarrierNodeListener : public IInterface
+{
+    virtual CARAPI_(PInterface) Probe(
+        /* [in] */ _ELASTOS REIID riid) = 0;
+
+    static CARAPI_(ICarrierNodeListener*) Probe(PInterface pObj)
+    {
+        if (pObj == NULL) return NULL;
+        return (ICarrierNodeListener*)pObj->Probe(EIID_ICarrierNodeListener);
+    }
+
+    static CARAPI_(ICarrierNodeListener*) Probe(IObject* pObj)
+    {
+        if (pObj == NULL) return NULL;
+        return (ICarrierNodeListener*)pObj->Probe(EIID_ICarrierNodeListener);
+    }
+
+    virtual CARAPI OnConnectionStatus(
+        /* [in] */ Elastos::RpcDemoClient::ElaConnectionStatus status) = 0;
+
+    virtual CARAPI OnReady() = 0;
+
+    virtual CARAPI OnFriendConnection(
+        /* [in] */ const _ELASTOS String& friendid,
+        /* [in] */ Elastos::RpcDemoClient::ElaConnectionStatus status) = 0;
+
+    virtual CARAPI OnFriendRequest(
+        /* [in] */ const _ELASTOS String& userid,
+        /* [in] */ const _ELASTOS String& hello) = 0;
+
+    virtual CARAPI OnFreindAdded(
+        /* [in] */ const _ELASTOS String& userid) = 0;
+
+    virtual CARAPI OnFriendMessage(
+        /* [in] */ const _ELASTOS String& from,
+        /* [in] */ const _ELASTOS String& msg) = 0;
+
+};
+}
+}
+
+namespace Elastos {
+namespace RpcDemoClient {
+CAR_INTERFACE("9ADA6C25-86D2-2619-1AA0-8021A3CF8FF6")
 IRpcDemoClient : public IInterface
 {
     virtual CARAPI_(PInterface) Probe(
@@ -27,16 +71,30 @@ IRpcDemoClient : public IInterface
     }
 
     virtual CARAPI Connect(
+        /* [in] */ const _ELASTOS String& ip,
+        /* [in] */ _ELASTOS Boolean isServer,
         /* [out] */ _ELASTOS Boolean * succeed) = 0;
 
-    virtual CARAPI Chat(
-        /* [in] */ const _ELASTOS String& text) = 0;
+    virtual CARAPI GetAddress(
+        /* [in] */ _ELASTOS Boolean isSelf,
+        /* [out] */ _ELASTOS String * address) = 0;
 
-    virtual CARAPI SetTag(
-        /* [in] */ const _ELASTOS String& text) = 0;
+    virtual CARAPI AddFriend(
+        /* [in] */ const _ELASTOS String& address,
+        /* [in] */ const _ELASTOS String& hello) = 0;
 
-    virtual CARAPI GetTag(
-        /* [out] */ _ELASTOS String * text) = 0;
+    virtual CARAPI SendMsg(
+        /* [in] */ const _ELASTOS String& msg) = 0;
+
+    virtual CARAPI SendMsg(
+        /* [in] */ const _ELASTOS String& userid,
+        /* [in] */ const _ELASTOS String& msg) = 0;
+
+    virtual CARAPI GetUserId(
+        /* [out] */ _ELASTOS String * userid) = 0;
+
+    virtual CARAPI SetCarrierNodeListener(
+        /* [in] */ Elastos::RpcDemoClient::ICarrierNodeListener * listener) = 0;
 
 };
 }
@@ -44,7 +102,7 @@ IRpcDemoClient : public IInterface
 
 namespace Elastos {
 namespace RpcDemoClient {
-CAR_INTERFACE("FF1D8E38-8312-330D-4C34-400143461F3D")
+CAR_INTERFACE("FA947125-8312-330D-4C34-400143461F3D")
 ICRpcDemoClientClassObject : public IClassObject
 {
     virtual CARAPI_(PInterface) Probe(
@@ -62,15 +120,7 @@ ICRpcDemoClientClassObject : public IClassObject
         return (ICRpcDemoClientClassObject*)pObj->Probe(EIID_ICRpcDemoClientClassObject);
     }
 
-    virtual CARAPI CreateObjectWithIpIsServer(
-        /* [in] */ const _ELASTOS String& ip,
-        /* [in] */ _ELASTOS Boolean isServer,
-        /* [out] */ IInterface ** newObj) = 0;
-
-    virtual CARAPI CreateObjectWithIpPortIsServer(
-        /* [in] */ const _ELASTOS String& ip,
-        /* [in] */ _ELASTOS Int32 port,
-        /* [in] */ _ELASTOS Boolean isServer,
+    virtual CARAPI CreateObjectWithDefaultCtor(
         /* [out] */ IInterface ** newObj) = 0;
 
 };
@@ -82,197 +132,28 @@ namespace RpcDemoClient {
 class CRpcDemoClient
 {
 public:
-    static _ELASTOS ECode _New(
-        /* [in] */ const _ELASTOS String& ip,
-        /* [in] */ _ELASTOS Boolean isServer,
-        /* [out] */ IInterface** __object)
+    static _ELASTOS ECode New(
+        /* [out] */ Elastos::RpcDemoClient::IRpcDemoClient** __object)
     {
-        _ELASTOS ECode ec;
-        ICRpcDemoClientClassObject* pClassObject;
-        PInterface pObject = NULL;
-
-        ec = _CObject_AcquireClassFactory(ECLSID_CRpcDemoClient, RGM_SAME_DOMAIN,
-                EIID_ICRpcDemoClientClassObject, (IInterface**)&pClassObject);
-        if (FAILED(ec)) return ec;
-
-        ec = pClassObject->CreateObjectWithIpIsServer(ip, isServer, &pObject);
-
-        *__object = pObject;
-
-        pClassObject->Release();
-
-        return ec;
-    }
-
-    static _ELASTOS ECode _New(
-        /* [in] */ const _ELASTOS String& ip,
-        /* [in] */ _ELASTOS Int32 port,
-        /* [in] */ _ELASTOS Boolean isServer,
-        /* [out] */ IInterface** __object)
-    {
-        _ELASTOS ECode ec;
-        ICRpcDemoClientClassObject* pClassObject;
-        PInterface pObject = NULL;
-
-        ec = _CObject_AcquireClassFactory(ECLSID_CRpcDemoClient, RGM_SAME_DOMAIN,
-                EIID_ICRpcDemoClientClassObject, (IInterface**)&pClassObject);
-        if (FAILED(ec)) return ec;
-
-        ec = pClassObject->CreateObjectWithIpPortIsServer(ip, port, isServer, &pObject);
-
-        *__object = pObject;
-
-        pClassObject->Release();
-
-        return ec;
+        return _CObject_CreateInstance(ECLSID_CRpcDemoClient, RGM_SAME_DOMAIN, Elastos::RpcDemoClient::EIID_IRpcDemoClient, (PInterface*)__object);
     }
 
     static _ELASTOS ECode New(
-        /* [in] */ const _ELASTOS String& ip,
-        /* [in] */ _ELASTOS Boolean isServer,
-        /* [out] */ Elastos::RpcDemoClient::IRpcDemoClient** __IRpcDemoClient)
+        /* [out] */ IObject** __object)
     {
-        IInterface* __pNewObj = NULL;
-
-        _ELASTOS ECode ec = _New(ip, isServer, &__pNewObj);
-        if (FAILED(ec)) return ec;
-
-        *__IRpcDemoClient = (Elastos::RpcDemoClient::IRpcDemoClient*)__pNewObj->Probe(Elastos::RpcDemoClient::EIID_IRpcDemoClient);
-        if (*__IRpcDemoClient) __pNewObj->AddRef();
-        else ec = E_NO_INTERFACE;
-        __pNewObj->Release();
-
-        return ec;
+        return _CObject_CreateInstance(ECLSID_CRpcDemoClient, RGM_SAME_DOMAIN, EIID_IObject, (PInterface*)__object);
     }
 
     static _ELASTOS ECode New(
-        /* [in] */ const _ELASTOS String& ip,
-        /* [in] */ _ELASTOS Boolean isServer,
-        /* [out] */ IObject** __IObject)
+        /* [out] */ Elastos::Core::ISynchronize** __object)
     {
-        IInterface* __pNewObj = NULL;
-
-        _ELASTOS ECode ec = _New(ip, isServer, &__pNewObj);
-        if (FAILED(ec)) return ec;
-
-        *__IObject = (IObject*)__pNewObj->Probe(EIID_IObject);
-        if (*__IObject) __pNewObj->AddRef();
-        else ec = E_NO_INTERFACE;
-        __pNewObj->Release();
-
-        return ec;
+        return _CObject_CreateInstance(ECLSID_CRpcDemoClient, RGM_SAME_DOMAIN, Elastos::Core::EIID_ISynchronize, (PInterface*)__object);
     }
 
     static _ELASTOS ECode New(
-        /* [in] */ const _ELASTOS String& ip,
-        /* [in] */ _ELASTOS Boolean isServer,
-        /* [out] */ Elastos::Core::ISynchronize** __ISynchronize)
+        /* [out] */ IWeakReferenceSource** __object)
     {
-        IInterface* __pNewObj = NULL;
-
-        _ELASTOS ECode ec = _New(ip, isServer, &__pNewObj);
-        if (FAILED(ec)) return ec;
-
-        *__ISynchronize = (Elastos::Core::ISynchronize*)__pNewObj->Probe(Elastos::Core::EIID_ISynchronize);
-        if (*__ISynchronize) __pNewObj->AddRef();
-        else ec = E_NO_INTERFACE;
-        __pNewObj->Release();
-
-        return ec;
-    }
-
-    static _ELASTOS ECode New(
-        /* [in] */ const _ELASTOS String& ip,
-        /* [in] */ _ELASTOS Boolean isServer,
-        /* [out] */ IWeakReferenceSource** __IWeakReferenceSource)
-    {
-        IInterface* __pNewObj = NULL;
-
-        _ELASTOS ECode ec = _New(ip, isServer, &__pNewObj);
-        if (FAILED(ec)) return ec;
-
-        *__IWeakReferenceSource = (IWeakReferenceSource*)__pNewObj->Probe(EIID_IWeakReferenceSource);
-        if (*__IWeakReferenceSource) __pNewObj->AddRef();
-        else ec = E_NO_INTERFACE;
-        __pNewObj->Release();
-
-        return ec;
-    }
-
-    static _ELASTOS ECode New(
-        /* [in] */ const _ELASTOS String& ip,
-        /* [in] */ _ELASTOS Int32 port,
-        /* [in] */ _ELASTOS Boolean isServer,
-        /* [out] */ Elastos::RpcDemoClient::IRpcDemoClient** __IRpcDemoClient)
-    {
-        IInterface* __pNewObj = NULL;
-
-        _ELASTOS ECode ec = _New(ip, port, isServer, &__pNewObj);
-        if (FAILED(ec)) return ec;
-
-        *__IRpcDemoClient = (Elastos::RpcDemoClient::IRpcDemoClient*)__pNewObj->Probe(Elastos::RpcDemoClient::EIID_IRpcDemoClient);
-        if (*__IRpcDemoClient) __pNewObj->AddRef();
-        else ec = E_NO_INTERFACE;
-        __pNewObj->Release();
-
-        return ec;
-    }
-
-    static _ELASTOS ECode New(
-        /* [in] */ const _ELASTOS String& ip,
-        /* [in] */ _ELASTOS Int32 port,
-        /* [in] */ _ELASTOS Boolean isServer,
-        /* [out] */ IObject** __IObject)
-    {
-        IInterface* __pNewObj = NULL;
-
-        _ELASTOS ECode ec = _New(ip, port, isServer, &__pNewObj);
-        if (FAILED(ec)) return ec;
-
-        *__IObject = (IObject*)__pNewObj->Probe(EIID_IObject);
-        if (*__IObject) __pNewObj->AddRef();
-        else ec = E_NO_INTERFACE;
-        __pNewObj->Release();
-
-        return ec;
-    }
-
-    static _ELASTOS ECode New(
-        /* [in] */ const _ELASTOS String& ip,
-        /* [in] */ _ELASTOS Int32 port,
-        /* [in] */ _ELASTOS Boolean isServer,
-        /* [out] */ Elastos::Core::ISynchronize** __ISynchronize)
-    {
-        IInterface* __pNewObj = NULL;
-
-        _ELASTOS ECode ec = _New(ip, port, isServer, &__pNewObj);
-        if (FAILED(ec)) return ec;
-
-        *__ISynchronize = (Elastos::Core::ISynchronize*)__pNewObj->Probe(Elastos::Core::EIID_ISynchronize);
-        if (*__ISynchronize) __pNewObj->AddRef();
-        else ec = E_NO_INTERFACE;
-        __pNewObj->Release();
-
-        return ec;
-    }
-
-    static _ELASTOS ECode New(
-        /* [in] */ const _ELASTOS String& ip,
-        /* [in] */ _ELASTOS Int32 port,
-        /* [in] */ _ELASTOS Boolean isServer,
-        /* [out] */ IWeakReferenceSource** __IWeakReferenceSource)
-    {
-        IInterface* __pNewObj = NULL;
-
-        _ELASTOS ECode ec = _New(ip, port, isServer, &__pNewObj);
-        if (FAILED(ec)) return ec;
-
-        *__IWeakReferenceSource = (IWeakReferenceSource*)__pNewObj->Probe(EIID_IWeakReferenceSource);
-        if (*__IWeakReferenceSource) __pNewObj->AddRef();
-        else ec = E_NO_INTERFACE;
-        __pNewObj->Release();
-
-        return ec;
+        return _CObject_CreateInstance(ECLSID_CRpcDemoClient, RGM_SAME_DOMAIN, EIID_IWeakReferenceSource, (PInterface*)__object);
     }
 
 };

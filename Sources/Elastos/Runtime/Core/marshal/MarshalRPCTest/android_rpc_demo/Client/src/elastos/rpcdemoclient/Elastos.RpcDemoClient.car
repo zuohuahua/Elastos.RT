@@ -21,29 +21,63 @@ module
     namespace Elastos {
     namespace RpcDemoClient {
 
+    enum ElaConnectionStatus {
+        ElaConnectionStatus_Connected,
+        ElaConnectionStatus_Disconnected,
+    }
+
+    interface ICarrierNodeListener {
+        OnConnectionStatus(
+            [in] ElaConnectionStatus status);
+
+        OnReady();
+
+        OnFriendConnection(
+            [in] String friendid,
+            [in] ElaConnectionStatus status);
+
+        OnFriendRequest(
+            [in] String userid,
+            [in] String hello);
+
+        OnFreindAdded(
+            [in] String userid);
+
+        OnFriendMessage(
+            [in] String from,
+            [in] String msg);
+    }
+
     interface IRpcDemoClient {
         Connect(
+            [in] String ip,
+            [in] Boolean isServer,
             [out] Boolean* succeed);
 
-        Chat(
-            [in] String text);
+        GetAddress(
+            [in] Boolean isSelf,
+            [out] String* address);
 
-        SetTag(
-            [in] String text);
+        AddFriend(
+            [in] String address,
+            [in] String hello);
 
-        GetTag(
-            [out] String* text);
+        SendMsg(
+            [in] String msg);
+
+        SendMsg(
+            [in] String userid,
+            [in] String msg);
+
+        GetUserId(
+            [out] String* userid);
+
+        SetCarrierNodeListener(
+            [in] ICarrierNodeListener* listener);
     }
 
     class CRpcDemoClient {
-        constructor(
-            [in] String ip,
-            [in] Boolean isServer);
-
-        constructor(
-            [in] String ip,
-            [in] Int32 port,
-            [in] Boolean isServer);
+        constructor();
 
         interface IRpcDemoClient;
     }
