@@ -1,6 +1,6 @@
 [submodule "Sources/ThirdParty/openssl"]
 	path = Sources/ThirdParty/openssl
 	url = https://github.com/openssl/openssl.git
-[submodule "Sources/ThirdParty/icu"]
-	path = Sources/ThirdParty/icu
-	url = https://github.com/unicode-org/icu.git
+[submodule "Sources/ThirdParty/icu4c"]
+	path = Sources/ThirdParty/icu4c
+	url = https://github.com/sillsdev/icu4c.git
