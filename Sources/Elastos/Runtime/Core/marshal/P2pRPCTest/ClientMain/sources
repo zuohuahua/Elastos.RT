@@ -1,0 +1,19 @@
+TARGET_NAME = ClientMain
+TARGET_TYPE = exe
+
+CAR_FLAGS += -n -u
+LUBE_FLAGS += -n -u
+
+IMPORTS += TC.eco
+IMPORTS += Client.eco
+
+SOURCES += client.cpp
+SOURCES += TC.cpp
+SOURCES += Client.cpp
+
+CPP_FLAGS += -g
+
+LIBRARIES += $(XDK_USER_LIB)/Elastos.Runtime.lib
+LIBRARIES += $(XDK_TARGETS)/Elastos.Runtime.eco
+LIBRARIES += $(XDK_TARGETS)/Elastos.CoreLibrary.eco
+LIBRARIES += -lc -lpthread -lstdc++

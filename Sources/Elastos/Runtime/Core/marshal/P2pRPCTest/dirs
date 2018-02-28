@@ -1,0 +1,5 @@
+DIRS += TC
+DIRS += Service
+DIRS += Client
+DIRS += Server
+DIRS += ClientMain
