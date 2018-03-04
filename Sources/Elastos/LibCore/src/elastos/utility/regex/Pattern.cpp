@@ -225,9 +225,9 @@ ECode Pattern::CompileImpl(
 
     flags |= UREGEX_ERROR_ON_UNKNOWN_ESCAPES;
 
-    UErrorCode status = U_ZERO_ERROR;
-    UParseError error;
-    error.offset = -1;
+    //UErrorCode status = U_ZERO_ERROR;
+    //UParseError error;
+    //error.offset = -1;
 
     //UnicodeString regexString(temp.unicodeString());
     //UText *pUText = utext_openUTF8(NULL, regex.string(), regex.GetLength(), &status);

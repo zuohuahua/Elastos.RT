@@ -10,6 +10,8 @@ while read I; do
        && "${I%%=*}" != "XDK_ROOT"
        && "${I%%=*}" != "_ELASTOS64"
        && "${I%%=*}" != "LANG"
+       && "${I%%=*}" != "LC_ALL"
+       && "${I%%=*}" != "LC_CTYPE"
        ]]; then
         unset ${I%%=*} &>/dev/null || true
     fi

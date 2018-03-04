@@ -44,7 +44,8 @@ RUN set -ex                                                                     
         gdbserver \
         bash-completion \
         cmake \
-     && rm -rf /var/lib/apt/list/*
+     && rm -rf /var/lib/apt/list/*                                                  && \
+     echo 'hostuser        ALL=(ALL:ALL) NOPASSWD: ALL' > /etc/sudoers
 
 USER hostuser
 

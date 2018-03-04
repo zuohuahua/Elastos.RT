@@ -17,7 +17,7 @@
 #include "CHttpDate.h"
 #include "CSimpleDateFormat.h"
 #include "CLocale.h"
-#include "elastos/utility/Locale.h"
+#include "elastos/utility/ElaLocale.h"
 #include "TimeZone.h"
 
 using Elastos::Utility::CLocale;
