@@ -8,6 +8,7 @@
 
 #include <ela_carrier.h>
 #include <ela_session.h>
+#include "carrier.h"
 
 using Elastos::Core::IComparable;
 using Elastos::Core::EIID_IComparable;
@@ -23,14 +24,6 @@ typedef struct InterfacePack
     Char8               m_stubConnName[256];// dbus unique connection name of stub
 } InterfacePack;
 
-enum {
-    ADD_SERVICE = 0,
-    GET_SERVICE,
-    REMOVE_SERVICE,
-    ADD_SERVICE_REPLY,
-    GET_SERVICE_REPLY,
-    REMOVE_SERVICE_REPLY
-};
 
 CarClass(CService)
     , public Object
@@ -51,18 +44,21 @@ public:
 
     ~CService();
 
-    static ECode HandleGetService(
+    ECode HandleMessage(
+        /* [in] */ const DataPack& data);
+
+    ECode HandleGetService(
         /* [in] */ const char *from,
         /* [in] */ const String& name);
 
-    static ECode GetService(
+    ECode GetService(
         /* [in] */ const String& name,
         /* [out] */ InterfacePack* ip);
 
 private:
     // TODO: Add your private member variables here.
     static HashMap<String, InterfacePack*> sServices;
-    static ElaCarrier* sElaCarrier;
+    ElaCarrier* mElaCarrier;
 };
 
 

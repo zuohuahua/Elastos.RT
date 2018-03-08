@@ -1,5 +1,10 @@
 TARGET_NAME = TC
-TARGET_TYPE = eco
+ifeq "$(XDK_TARGET_PLATFORM)" "android"
+TARGET_TYPE = so
+EXPORT_ECO = 1
+else
+TARGET_TYPE= eco
+endif
 
 CAR_FLAGS += -n -u
 LUBE_FLAGS += -n -u
@@ -7,9 +12,13 @@ LUBE_FLAGS += -n -u
 SOURCES = TC.car
 SOURCES += CTC.cpp
 
+LIBRARIES += -lpthread -lstdc++
 LIBRARIES = $(XDK_USER_LIB)/Elastos.Runtime.lib
+
+ifeq "$(XDK_TARGET_PLATFORM)" "android"
+LIBRARIES += $(XDK_TARGETS)/libElastos.Runtime.so
+LIBRARIES += $(XDK_TARGETS)/libElastos.CoreLibrary.so
+else
 LIBRARIES += $(XDK_TARGETS)/Elastos.Runtime.eco
 LIBRARIES += $(XDK_TARGETS)/Elastos.CoreLibrary.eco
-LIBRARIES += $(XDK_USER_LIB)/crt0.lib
-
-LIBRARIES += -lpthread -lstdc++
+endif

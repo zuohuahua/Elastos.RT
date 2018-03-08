@@ -1,4 +1,4 @@
-TARGET_NAME= Client
+TARGET_NAME= ClientRpc
 ifeq "$(XDK_TARGET_PLATFORM)" "android"
 TARGET_TYPE = so
 else
@@ -11,10 +11,8 @@ LUBE_FLAGS += -n -u
 # TODO: You need to Add your include path.
 INCLUDES += $(MAKEDIR)/../Carrier
 
-SOURCES = Client.car
+SOURCES = ClientRpc.car
 SOURCES += CClient.cpp
-SOURCES += $(MAKEDIR)/../Carrier/Base64.cpp
-SOURCES += $(MAKEDIR)/../Carrier/Carrier.cpp
 
 LIBRARIES = $(XDK_USER_LIB)/Elastos.Runtime.lib
 LIBRARIES += -lstdc++
@@ -22,12 +20,10 @@ LIBRARIES += -lstdc++
 ifeq "$(XDK_TARGET_PLATFORM)" "android"
 LIBRARIES += $(XDK_TARGETS)/libElastos.Runtime.so
 LIBRARIES += $(XDK_TARGETS)/libElastos.CoreLibrary.so
+LIBRARIES += -llog
 else
 LIBRARIES += $(XDK_TARGETS)/Elastos.Runtime.eco
 LIBRARIES += $(XDK_TARGETS)/Elastos.CoreLibrary.eco
-LIBRARIES += $(XDK_TARGETS)/libelacarrier.so
-LIBRARIES += $(XDK_TARGETS)/libelasession.so
-LIBRARIES += $(XDK_TARGETS)/libelacommon.so
 LIBRARIES += -lpthread
 endif
 

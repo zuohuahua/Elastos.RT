@@ -1,5 +1,9 @@
 DIRS += TC
+DIRS += Carrier
 DIRS += Service
-DIRS += Client
+DIRS += ClientRpc
+
+ifeq "$(XDK_TARGET_PLATFORM)" "linux"
 DIRS += Server
 DIRS += ClientMain
+endif

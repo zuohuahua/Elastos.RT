@@ -8,6 +8,7 @@
 #include <ela_carrier.h>
 #include <ela_session.h>
 #include <pthread.h>
+#include "carrier.h"
 
 using Elastos::Core::IComparable;
 using Elastos::Core::EIID_IComparable;
@@ -21,11 +22,6 @@ typedef struct InterfacePack
     Char8               m_stubConnName[256];// dbus unique connection name of stub
 } InterfacePack;
 
-typedef struct DataPack
-{
-    Int32       m_len;
-    void*       m_data;
-} DataPack;
 
 CarClass(CClient)
     , public Object
@@ -39,7 +35,6 @@ public:
 
     CClient()
         : mCarrier(NULL)
-        , mCarrierThread(0)
     {}
 
     ~CClient();
@@ -49,10 +44,6 @@ public:
         /* [out] */ IInterface ** ppService);
 
     CARAPI constructor();
-
-    ECode IsFriend(
-        /* [in] */ const String& uid,
-        /* [out] */ Boolean* isFriend);
 
     ECode AddFriend(
         /* [in] */ const String& address);
@@ -66,15 +57,8 @@ public:
         /* [in] */ const String& name,
         /* [out] */ InterfacePack* ip);
 
-public:
-    ElaCarrier* mCarrier;
-    static pthread_cond_t sCv;
-    static pthread_mutex_t sMutex;
-    static ElaConnectionStatus sStatus;
-    static ElaConnectionStatus sFriendStatus;
-
 private:
-    pthread_t mCarrierThread;
+    ElaCarrier* mCarrier;
 };
 
 
