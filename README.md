@@ -6,11 +6,8 @@ Guest Runtime as an App Engine.
 
 ElastosRT is the core library which make C++ program with meta-data.
 
-ElastosRT is targeted for Ubuntu and iOS.
+ElastosRT is targeted for Ubuntu, Android and iOS.
 
-## Usage
-
-TODO
 
 ## Build
 
@@ -18,10 +15,3 @@ TODO
 - [Build for iOS](DevDoc/docs/build_ios.md)
 - [Issues](DevDoc/docs/build_tips.md)
 
-## Debug
-
-TODO
-
-## Test
-
-TODO
