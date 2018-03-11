@@ -71,6 +71,7 @@ EXPORTS
     carrier_wait                                    @195    NONAME
     carrier_read                                    @196    NONAME
     carrier_destroy                                 @197    NONAME
+    carrier_data_handled                            @198    NONAME
 
     ;;============================================================
     ;; CAR data-type APIs, using ordinal 200-499

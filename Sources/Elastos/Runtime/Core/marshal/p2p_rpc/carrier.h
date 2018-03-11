@@ -17,6 +17,7 @@ enum {
     GET_SERVICE_REPLY,
     REMOVE_SERVICE_REPLY,
     ADD_FRIEND_SUCCEEDED,
+    SELF_ONLINE,
     FRIEND_ONLINE,
     METHOD_GET_CLASS_INFO,
     METHOD_INVOKE,
@@ -51,13 +52,22 @@ ELAPI_(int) ECO_PUBLIC carrier_send(
     ElaCarrier* carrier,
     const char* to,
     int type,
-    Byte* msg,
+    void* msg,
     size_t len);
 
 ELAPI_(int) ECO_PUBLIC carrier_wait(
     int time);
 
 ELAPI_(int) ECO_PUBLIC carrier_read(
-    DataPack* data);
+    DataPack* data,
+    Boolean clearData = TRUE);
 
 ELAPI_(void) ECO_PUBLIC carrier_destroy();
+
+ELAPI_(void) ECO_PUBLIC carrier_data_handled();
+
+int carrier_receive(
+    const char* from,
+    int* type,
+    void** buf,
+    int* len);

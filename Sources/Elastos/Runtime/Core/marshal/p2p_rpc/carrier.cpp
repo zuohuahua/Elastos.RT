@@ -23,6 +23,41 @@ void free_data()
     }
 }
 
+void notify(
+    const char* from,
+    int type,
+    void* msg,
+    int len)
+{
+    pthread_mutex_lock(&gMutex);
+
+    free_data();
+    gData = new DataPack();
+    if (!gData) {
+        pthread_mutex_unlock(&gMutex);
+        return;
+    }
+
+    int _bufLen = len + 4;
+    gData->data = ArrayOf<Byte>::Alloc(_bufLen);
+    if (!gData->data) {
+        pthread_mutex_unlock(&gMutex);
+        return;
+    }
+
+    gData->from = from;
+    void* p = gData->data->GetPayload();
+    memcpy(p, &type, 4);
+    p += 4;
+    if (msg != NULL) {
+        memcpy(p, msg, len);
+    }
+
+    pthread_cond_broadcast(&gCv);
+
+    pthread_mutex_unlock(&gMutex);
+}
+
 void FriendRequest(
     ElaCarrier *w,
     const char *userid,
@@ -45,27 +80,7 @@ void FriendAdded(
     const ElaFriendInfo *info,
     void *context)
 {
-    pthread_mutex_lock(&gMutex);
-
-    free_data();
-    gData = new DataPack();
-    if (!gData) {
-        pthread_mutex_unlock(&gMutex);
-        return;
-    }
-    gData->data = ArrayOf<Byte>::Alloc(4);
-    if (!gData->data) {
-        pthread_mutex_unlock(&gMutex);
-        return;
-    }
-
-    gData->from = info->user_info.userid;
-    Int32 type = ADD_FRIEND_SUCCEEDED;
-    memcpy(gData->data->GetPayload(), &type, 4);
-
-    pthread_cond_signal(&gCv);
-
-    pthread_mutex_unlock(&gMutex);
+    notify(info->user_info.userid, ADD_FRIEND_SUCCEEDED, NULL, 0);
 }
 
 bool FriendsList(
@@ -85,31 +100,9 @@ void FriendConnectionStatus(
     gFriendsStatus.Put((PVoid)friendid, (ElaConnectionStatus*)&status);
     switch (status) {
     case ElaConnectionStatus_Connected:
-    {
-        pthread_mutex_lock(&gMutex);
-
-        free_data();
-        gData = new DataPack();
-        if (!gData) {
-            pthread_mutex_unlock(&gMutex);
-            return;
-        }
-        gData->data = ArrayOf<Byte>::Alloc(4);
-        if (!gData->data) {
-            pthread_mutex_unlock(&gMutex);
-            return;
-        }
-
-        gData->from = friendid;
-        Int32 type = FRIEND_ONLINE;
-        memcpy(gData->data->GetPayload(), &type, 4);
-
-        pthread_cond_signal(&gCv);
-
-        pthread_mutex_unlock(&gMutex);
         RPC_LOG("Friend[%s] connection changed to be online\n", friendid);
+        notify(friendid, FRIEND_ONLINE, NULL, 0);
         break;
-    }
     case ElaConnectionStatus_Disconnected:
         RPC_LOG("Friend[%s] connection changed to be offline.\n", friendid);
         break;
@@ -127,8 +120,8 @@ void ConnectionStatus(
     gStatus = status;
     switch (status) {
         case ElaConnectionStatus_Connected:
-            pthread_cond_signal(&gCv);
             RPC_LOG("Connected to carrier network.\n");
+            notify("", SELF_ONLINE, NULL, 0);
             break;
 
         case ElaConnectionStatus_Disconnected:
@@ -148,11 +141,13 @@ void MessageReceived(
     void *context)
 {
     pthread_mutex_lock(&gMutex);
+
     RPC_LOG("Receive message: user[%s] msg[%s] len[%d].\n", from, msg, len);
 
     free_data();
     gData = new DataPack();
     if (!gData) {
+        RPC_LOG("Receive message new DataPack failed.\n");
         pthread_mutex_unlock(&gMutex);
         return;
     }
@@ -161,10 +156,12 @@ void MessageReceived(
     String inData(msg, len);
     ECode ec = Decode(inData.GetBytes(), &gData->data);
     if (FAILED(ec)) {
+        RPC_LOG("Receive message Base64 decode failed.\n");
+        pthread_mutex_unlock(&gMutex);
         return;
     }
 
-    pthread_cond_signal(&gCv);
+    pthread_cond_broadcast(&gCv);
 
     pthread_mutex_unlock(&gMutex);
 }
@@ -233,30 +230,28 @@ ELAPI_(int) ECO_PUBLIC carrier_connect(
         return 0;
     }
 
+    if (strlen(location) == 0) {
+        return -1;
+    }
+
     int ret = pthread_create(&gCarrierThread, NULL, carrierThread, (void*)location);
     if (ret != 0) {
         RPC_LOG("Create thread failed\n");
         return -1;
     }
 
-    if (gStatus != ElaConnectionStatus_Connected) {
-        pthread_mutex_lock(&gMutex);
-        timeval now;
-        timespec waitTime;
-        gettimeofday(&now, NULL);
-        waitTime.tv_sec = now.tv_sec + 30;
-        waitTime.tv_nsec = now.tv_usec * 1000;
-        while(gStatus != ElaConnectionStatus_Connected) {
-            int ret = pthread_cond_timedwait(&gCv, &gMutex, &waitTime);
-            if (ret != 0) {
-                break;
-            }
-        }
-        pthread_mutex_unlock(&gMutex);
-
+    RPC_LOG("carrier_connect waitting for online\n");
+    int type;
+    void* buf;
+    int len;
+    ret = carrier_receive(NULL, &type, &buf, &len);
+    if (ret != 0) {
+        RPC_LOG("carrier_connect waitting for online failed: %d\n", ret);
+        return -1;
     }
 
-    if (gStatus == ElaConnectionStatus_Connected) {
+    if (type == SELF_ONLINE) {
+        RPC_LOG("carrier_connect is online\n");
         *carrier = gCarrier;
         return 0;
     }
@@ -296,9 +291,13 @@ ELAPI_(int) ECO_PUBLIC carrier_send(
     ElaCarrier* carrier,
     const char* to,
     int type,
-    Byte* msg,
+    void* msg,
     size_t len)
 {
+    if (carrier == NULL && gCarrier == NULL) {
+        return -1;
+    }
+
     size_t msgLen = len + 4;
     ArrayOf<Byte>* data = ArrayOf<Byte>::Alloc(msgLen);
     if (data == NULL) {
@@ -308,8 +307,10 @@ ELAPI_(int) ECO_PUBLIC carrier_send(
     void* p = data->GetPayload();
     memcpy(p, &type, 4);
     p += 4;
-    memcpy(p, msg, len);
-    p += len;
+    if (msg != NULL) {
+        memcpy(p, msg, len);
+        p += len;
+    }
 
     String outData;
     ECode ec = Encode(data, &outData);
@@ -318,7 +319,7 @@ ELAPI_(int) ECO_PUBLIC carrier_send(
         return ec;
     }
 
-    int rc = ela_send_friend_message(carrier, to, outData.string(), outData.GetLength());
+    int rc = ela_send_friend_message(carrier == NULL ? gCarrier : carrier, to, outData.string(), outData.GetLength());
     if (rc == 0)
         RPC_LOG("Send message success to[%s] msg[%s] len[%d].\n", to, outData.string(), outData.GetLength());
     else
@@ -346,6 +347,7 @@ ELAPI_(int) ECO_PUBLIC carrier_wait(
         }
         
         if (ret != 0) {
+            RPC_LOG("carrier_wait error: %d\n", ret);
             break;
         }
     }
@@ -355,15 +357,18 @@ ELAPI_(int) ECO_PUBLIC carrier_wait(
 }
 
 ELAPI_(int) ECO_PUBLIC carrier_read(
-    DataPack* outData)
+    DataPack* outData,
+    Boolean clearData)
 {
     if (outData == NULL) {
+        RPC_LOG("carrier_read invalid parameter\n");
         return -1;
     }
 
     pthread_mutex_lock(&gMutex);
     if (gData == NULL) {
         pthread_mutex_unlock(&gMutex);
+        RPC_LOG("carrier_read data is null\n");
         return -1;
     }
 
@@ -371,7 +376,10 @@ ELAPI_(int) ECO_PUBLIC carrier_read(
     ArrayOf<Byte>* data = gData->data->Clone();
     outData->data = data;
 
-    free_data();
+    if (clearData) {
+        free_data();
+    }
+
     pthread_mutex_unlock(&gMutex);
     return 0;
 }
@@ -389,4 +397,51 @@ ELAPI_(void) ECO_PUBLIC carrier_destroy()
     }
 
     free_data();
+}
+
+ELAPI_(void) ECO_PUBLIC carrier_data_handled()
+{
+    free_data();
+}
+
+int carrier_receive(
+    const char* from,
+    int* type,
+    void** buf,
+    int* len)
+{
+    int ret = carrier_wait(-1);
+    if (ret != 0) {
+        return ret;
+    }
+
+    DataPack data;
+    ret = carrier_read(&data);
+    if (ret != 0) {
+        return ret;
+    }
+
+    if (from != NULL && strcmp(from, data.from)) {
+        RPC_LOG("carrier_receive receive msg not from target\n");
+        return -1;
+    }
+
+    void* p = data.data->GetPayload();
+    int _len = data.data->GetLength();
+    int _type = *(size_t *)p;
+    p += 4;
+    _len -= 4;
+
+    void* _base = malloc(_len);
+    if (_base == NULL) {
+        ArrayOf<Byte>::Free(data.data);
+        return -1;
+    }
+    memcpy(_base, p, _len);
+    *type = _type;
+    *buf = _base;
+    *len = _len;
+    ArrayOf<Byte>::Free(data.data);
+
+    return 0;
 }

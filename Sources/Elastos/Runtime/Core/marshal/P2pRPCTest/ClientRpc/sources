@@ -1,6 +1,7 @@
 TARGET_NAME= ClientRpc
 ifeq "$(XDK_TARGET_PLATFORM)" "android"
 TARGET_TYPE = so
+EXPORT_ECO = 1
 else
 TARGET_TYPE= eco
 endif
@@ -9,7 +10,7 @@ CAR_FLAGS += -n -u
 LUBE_FLAGS += -n -u
 
 # TODO: You need to Add your include path.
-INCLUDES += $(MAKEDIR)/../Carrier
+INCLUDES += $(MAKEDIR)/../../p2p_rpc/carrierinc
 
 SOURCES = ClientRpc.car
 SOURCES += CClient.cpp

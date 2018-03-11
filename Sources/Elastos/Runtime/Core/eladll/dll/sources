@@ -71,10 +71,7 @@ ELASTOS_LIBS += ../../marshal/p2p_rpc/marshal.lib
 LIBRARIES += -lm -ldl -llog -lz
 LIBRARIES += -luv
 LIBRARIES += $(XDK_USER_LIB)/crt0.lib
-
-LIBRARIES += $(MAKEDIR)/../../marshal/p2p_rpc/carrierso/libelacarrier.so
-LIBRARIES += $(MAKEDIR)/../../marshal/p2p_rpc/carrierso/libelasession.so
-LIBRARIES += $(MAKEDIR)/../../marshal/p2p_rpc/carrierso/libelacommon.so
+LIBRARIES += -lelacarrier -lelacommon
 else
 ifeq "$(XDK_TARGET_PLATFORM)" "linux"
 ELASTOS_LIBS += ../../elapi/elapi.lib

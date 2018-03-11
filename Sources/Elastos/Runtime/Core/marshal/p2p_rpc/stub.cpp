@@ -693,7 +693,7 @@ DBusHandlerResult CObjectStub::S_HandleMessage(
 
 #else
 
-ECode CObjectStub::HandleGetClassInfo(uv_tcp_t *tcp, void const *base, int len)
+ECode CObjectStub::HandleGetClassInfo(const char *uid, void const *base, int len)
 {
     EMuid clsid;
     CIModuleInfo *pSrcModInfo;
@@ -708,7 +708,7 @@ ECode CObjectStub::HandleGetClassInfo(uv_tcp_t *tcp, void const *base, int len)
     pDestModInfo = (CIModuleInfo *)calloc(1, pSrcModInfo->mTotalSize);
     FlatModuleInfo(pSrcModInfo, pDestModInfo);
 
-    if (sock_send_msg(tcp,
+    if (carrier_send(mCarrier, uid,
                 METHOD_GET_CLASS_INFO_REPLY,
                 pDestModInfo,
                 pDestModInfo->mTotalSize))
@@ -719,13 +719,14 @@ ECode CObjectStub::HandleGetClassInfo(uv_tcp_t *tcp, void const *base, int len)
     return NOERROR;
 }
 
-ECode CObjectStub::HandleInvoke(uv_tcp_t *tcp, void const *base, int len)
+ECode CObjectStub::HandleInvoke(const char *uid, void const *base, int len)
 {
     void *pOutBuffer;
     Int32 outSize;
     CRemoteParcel *pParcel = NULL;
     ECode ec;
 
+    RPC_LOG("Call Invoke.\n");
     MARSHAL_DBGOUT(MSHDBG_NORMAL, printf("Call Invoke.\n"));
 
     ec = this->Invoke((void *)base, len, &pParcel);
@@ -747,14 +748,14 @@ ECode CObjectStub::HandleInvoke(uv_tcp_t *tcp, void const *base, int len)
             memcpy(p, pOutBuffer, outSize);
 
 
-            if (sock_send_msg(tcp, METHOD_INVOKE_REPLY, out_buf, out_size))
+            if (carrier_send(mCarrier, uid, METHOD_INVOKE_REPLY, out_buf, out_size))
                 MARSHAL_DBGOUT(MSHDBG_ERROR,
                         printf("Socket-sending failed.\n"));
 
 
         }
     } else {
-	    if (sock_send_msg(tcp, METHOD_INVOKE_REPLY, &_ec, sizeof _ec))
+	    if (carrier_send(mCarrier, uid, METHOD_INVOKE_REPLY, &_ec, sizeof _ec))
 		    MARSHAL_DBGOUT(MSHDBG_ERROR,
 				    printf("Socket-sending failed.\n"));
     }
@@ -765,7 +766,7 @@ ECode CObjectStub::HandleInvoke(uv_tcp_t *tcp, void const *base, int len)
     return NOERROR;
 }
 
-ECode CObjectStub::HandleRelease(uv_tcp_t *tcp, void const *base, int len)
+ECode CObjectStub::HandleRelease(const char *uid, void const *base, int len)
 {
     MARSHAL_DBGOUT(MSHDBG_NORMAL, printf("Stub Release.\n"));
 
@@ -775,234 +776,91 @@ ECode CObjectStub::HandleRelease(uv_tcp_t *tcp, void const *base, int len)
     //        reference count to control when to make the stub quit.
     //this->m_bRequestToQuit = TRUE;
 
-    if (this->Release() == 0 && m_loop != NULL)
-        uv_stop(m_loop);
+    if (this->Release() == 0)
+       mExitLoop = TRUE;
 
     return NOERROR;
 }
 
-void CObjectStub::S_TCPReadAllocCB(uv_handle_t *handle,
-        size_t suggestedSize,
-        uv_buf_t *buf)
+#endif
+
+void* CObjectStub::S_ServiceRoutine(void *arg)
 {
-    buf->base = (char *)malloc(suggestedSize);
-    if (buf->base == NULL)
-        abort();
-    buf->len = suggestedSize;
-}
 
-struct _BD {
-    uv_buf_t buf;
-    void *data;
-};
+#if defined(__USE_REMOTE_SOCKET)
+    RPC_LOG("start S_ServiceRoutine\n");
 
-void CObjectStub::S_TCPReadCB(uv_stream_t *stream,
-        ssize_t count,
-        uv_buf_t const *buf)
-{
-    ECode ec = NOERROR;
-    uv_tcp_t *tcp;
-    struct _BD *bd;
-    CObjectStub *pThis;
-    uint32_t len;
-    size_t _len_;
-    size_t _len;
-    char *_base, *p;
+    CObjectStub *pThis = (CObjectStub *)arg;
+    pThis->mExitLoop = FALSE;
 
-    tcp = (uv_tcp_t *)stream;
-    bd = (struct _BD *)tcp->data;
-    pThis = (CObjectStub *)bd->data;
-    if (count < 0) {
-        uv_close((uv_handle_t *)tcp, NULL);
-        goto out;
+    int ret = carrier_connect("", &pThis->mCarrier);
+    if (ret) {
+        RPC_LOG("S_ServiceRoutine carrier_connect failed\n");
+        return 0;
     }
-    if (count == 0)
-        goto out;
+    pThis->AddRef();
 
-    if (bd->buf.base == NULL)
-        len = *(uint32_t *)buf->base;
-    else
-        len = *(uint32_t *)bd->buf.base;
+    char connName[256];
+    ela_get_userid(pThis->mCarrier, connName, 256);
 
-    _len_ = bd->buf.len + count;
-    _len = _len_ < len ? _len_ : len;
+    pThis->m_connName = connName;
+    sem_post(&pThis->m_sem);
 
-    _base = (char *)malloc(_len);
-    if (_base == NULL)
-        abort();
+    ECode ec;
+    while(!pThis->mExitLoop) {
+        ret = carrier_wait(-1);
+        if (ret != 0) {
+            continue;
+        }
 
-    p = _base;
-    if (bd->buf.base != NULL) {
-        memcpy(p, bd->buf.base, bd->buf.len);
-        p += bd->buf.len;
-        free(bd->buf.base);
-    }
-    memcpy(p, buf->base, _len - bd->buf.len);
+        DataPack data;
+        ret = carrier_read(&data, FALSE);
+        if (ret != 0) {
+            continue;
+        }
 
-    if (_len < len) {
-        bd->buf.base = _base;
-        bd->buf.len = _len;
-    } else {
-        int type;
-        size_t __len;
-        char *__base;
+        void* p = data.data->GetPayload();
+        int _len = data.data->GetLength();
+        int _type = *(size_t *)p;
+        p += 4;
+        _len -= 4;
 
-        p = (char *)_base;
-        p += sizeof(int32_t);
-        _len -= sizeof(int32_t);
-        type = *(int32_t *)p;
-        p += sizeof(int32_t);
-        _len -= sizeof(int32_t);
-        switch (type) {
+        RPC_LOG("S_ServiceRoutine receive type:%d\n", _type);
+
+        switch (_type) {
         case METHOD_GET_CLASS_INFO:
-            ec = pThis->HandleGetClassInfo(tcp, p, _len);
+            carrier_data_handled();
+            ec = pThis->HandleGetClassInfo(data.from, p, _len);
             break;
         case METHOD_INVOKE:
-            ec = pThis->HandleInvoke(tcp, p, _len);
+            carrier_data_handled();
+            ec = pThis->HandleInvoke(data.from, p, _len);
             break;
         case METHOD_RELEASE:
-            ec = pThis->HandleRelease(tcp, p, _len);
+            carrier_data_handled();
+            ec = pThis->HandleRelease(data.from, p, _len);
             break;
         default:
             ec = NOERROR;
             break;
         }
-        if (FAILED(ec))
-            abort();
+        ArrayOf<Byte>::Free(data.data);
 
-        __len = _len_ - len;
-        if (__len == 0) {
-            bd->buf.base = NULL;
-            bd->buf.len = 0;
-            goto out;
+        if (FAILED(ec)) {
+            break;
         }
-        __base = (char *)malloc(__len);
-        if (__base == NULL)
-            abort();
-
-        memcpy(__base, buf->base + len - bd->buf.len, __len);
-
-        bd->buf.base = __base;
-        bd->buf.len = __len;
     }
 
-out:
-    free(buf->base);
-    if (count < 0)
-        free(bd->buf.base);
-}
-
-void CObjectStub::S_ListenCB(uv_stream_t *server, int status)
-{
-    uv_tcp_t *tcp;
-    CObjectStub *pThis;
-    uv_tcp_t *_tcp;
-    struct _BD *bd;
-
-    tcp = (uv_tcp_t *)server;
-    pThis = (CObjectStub *)tcp->data;
-    if (status != 0)
-        return;
-    _tcp = (uv_tcp_t *)malloc(sizeof(uv_tcp_t));
-    if (_tcp == NULL)
-        abort();
-    if (uv_tcp_init(tcp->loop, _tcp))
-        goto out1;
-
-    bd = (struct _BD *)malloc(sizeof(struct _BD));
-    if (bd == NULL)
-        goto out2;
-    bd->buf.base = NULL;
-    bd->buf.len = 0;
-    _tcp->data = bd;
-
-    if (uv_accept(server, (uv_stream_t *)_tcp))
-        goto out3;
-    pThis->AddRef();
-    bd->data = pThis;
-    if (uv_read_start((uv_stream_t *)_tcp, &S_TCPReadAllocCB, &S_TCPReadCB)) {
-        pThis->Release();
-out3:
-        free(bd);
-out2:
-        uv_close((uv_handle_t *)_tcp, NULL);
-        uv_run(tcp->loop, UV_RUN_NOWAIT);
-out1:
-        free(_tcp);
-    }
-}
-
-#endif
-
-void CObjectStub::S_ServiceRoutine(void *arg)
-{
-
-#if defined(__USE_REMOTE_SOCKET)
-
-    CObjectStub *pThis = (CObjectStub *)arg;
-    uv_loop_t *loop;
-    int err;
-    uv_tcp_t tcp;
-    struct sockaddr_in addr;
-    char ip[16];
-    int port;
-    struct sockaddr addr2;
-    int addr2len = sizeof(struct sockaddr_in);
-    char connName[32];
-    ECode ec;
-
-    loop = (uv_loop_t *)malloc(sizeof(uv_loop_t));
-    if (loop == NULL)
-        abort();
-    if (uv_loop_init(loop))
-        goto out1;
-    if ((err = uv_tcp_init(loop, &tcp)))
-        goto out2;
-    if ((err = uv_tcp_nodelay(&tcp, 1)))
-        goto out3;
-    if ((err = uv_tcp_keepalive(&tcp, 1, 1)))
-        goto out3;
-    if ((err = uv_tcp_simultaneous_accepts(&tcp, 1)))
-        goto out3;
-    if ((err = uv_ip4_addr("0.0.0.0", 0, &addr)))
-        goto out3;
-    if ((err = uv_tcp_bind(&tcp, (struct sockaddr *)&addr, 0)))
-        goto out3;
-    pThis->AddRef();
-    tcp.data = pThis;
-    if ((err = uv_listen((uv_stream_t *)&tcp, 128, &S_ListenCB))) {
-        pThis->Release();
-        goto out3;
-    }
-    if (sock_get_inet_addr(ip, sizeof(ip)))
-        goto out3;
-    pThis->m_loop = loop;
-    memset(&addr2, -1, sizeof addr2);
-    addr2len = sizeof addr2;
-    if (uv_tcp_getsockname(&tcp, &addr2, &addr2len))
-	goto out3;
-    port = ntohs(((struct sockaddr_in *)&addr2)->sin_port);
-    pThis->m_port = port;
-    sprintf(connName, "%s:%d", ip, port);
-    pThis->m_connName = connName;
-    sem_post(&pThis->m_sem);
-    uv_run(loop, UV_RUN_DEFAULT);
-    pThis->m_loop = NULL;
     ec = UnregisterExportObject(pThis->m_connName);
     if (FAILED(ec))
         MARSHAL_DBGOUT(MSHDBG_ERROR, printf(
                     "Release stub: "
                     "unregister export object failed, ec(%x)\n", ec));
-out3:
-    uv_close((uv_handle_t *)&tcp, NULL);
-    uv_run(loop, UV_RUN_NOWAIT);
-out2:
-    err = uv_loop_close(loop);
-out1:
-    free(loop);
     pThis->Release();
-    if (err)
-        abort();
+
+    RPC_LOG("end S_ServiceRoutine\n");
+
+    return 0;
 
 #else
 
@@ -1091,7 +949,7 @@ ECode CObjectStub::StartIPCService()
 
 #endif
 
-    if (uv_thread_create(&m_serviceThread, &S_ServiceRoutine, this)) {
+    if (pthread_create(&m_serviceThread, NULL, &S_ServiceRoutine, this)) {
 
 #if defined(__USE_REMOTE_SOCKET)
 

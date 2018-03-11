@@ -2,7 +2,6 @@
 #define __USE_REMOTE_SOCKET
 
 #if defined(__USE_REMOTE_SOCKET)
-#include "sock.h"
 #include "prxstub.h"
 #endif
 
@@ -19,17 +18,7 @@ ECode LookupClassInfo(
     /* [out] */ CIClassInfo **ppClassInfo);
 
 ECode GetRemoteClassInfo(
-
-#if !defined(__USE_REMOTE_SOCKET)
-
     /* [in] */ const char* connectionName,
-
-#else
-
-    /* [in] */ uv_tcp_t *tcp,
-
-#endif
-
     /* [in] */ REMuid clsId,
     /* [out] */ CIClassInfo ** ppClassInfo);
 
@@ -914,22 +903,15 @@ Boolean CRemoteParcel::IsParcelable(
     if (FAILED(ec)) {
 
 #if defined(__USE_REMOTE_SOCKET)
-
-        char ip[32];
-        int port;
-
-        sscanf(pInterfacePack->m_stubConnName, "%s:%d", ip, &port);
-
-        uv_tcp_t *tcp;
-
-        if (sock_connect(&tcp, ip, port))
+        ElaCarrier* carrier;
+        int ret = carrier_connect("", &carrier);
+        if (ret != 0) {
             return FALSE;
+        }
 
-        ec = GetRemoteClassInfo(tcp,
+        ec = GetRemoteClassInfo(pInterfacePack->m_stubConnName,
                                 pInterfacePack->m_clsid,
                                 ppClassInfo);
-        sock_close(tcp);
-
 #else
 
         ec = GetRemoteClassInfo(pInterfacePack->m_stubConnName,

@@ -5,7 +5,7 @@
 #define __USE_REMOTE_SOCKET
 
 #if defined(__USE_REMOTE_SOCKET)
-# include <uv.h>
+# include "carrier.h"
 #else
 # include <dbus/dbus.h>
 #endif
@@ -22,9 +22,6 @@ _ELASTOS_NAMESPACE_USING
 #define GET_LENGTH(a) ((a) & 0x3f)
 #define GET_IN_INTERFACE_MARK(a) ((a) & 0x80)
 
-#if defined(__USE_REMOTE_SOCKET)
-#include "carrier.h"
-#endif
 
 class CObjectProxy;
 
@@ -137,11 +134,8 @@ public:
 public:
 
 #if defined(__USE_REMOTE_SOCKET)
-
-    String              m_stubIP;
-    int                 m_stubPort;
-
-    uv_tcp_t           *m_tcp;
+    String              m_stubId;
+    ElaCarrier          *mCarrier;
 
 #endif
 
@@ -253,7 +247,7 @@ private:
             /* [out] */ CRemoteParcel **ppParcel);
 #endif
 
-    static void S_ServiceRoutine(
+    static void* S_ServiceRoutine(
             /* [in] */ void *arg);
 
 #if !defined(__USE_REMOTE_SOCKET)
@@ -265,21 +259,11 @@ private:
 
 #if defined(__USE_REMOTE_SOCKET)
 
-    ECode HandleGetClassInfo(uv_tcp_t *tcp, void const *base, int len);
+    ECode HandleGetClassInfo(const char *uid, void const *base, int len);
 
-    ECode HandleInvoke(uv_tcp_t *tcp, void const *base, int len);
+    ECode HandleInvoke(const char *uid, void const *base, int len);
 
-    ECode HandleRelease(uv_tcp_t *tcp, void const *base, int len);
-
-    static void S_TCPReadAllocCB(uv_handle_t *handle,
-            size_t suggestedSize,
-            uv_buf_t *buf);
-
-    static void S_TCPReadCB(uv_stream_t *stream,
-            ssize_t count,
-            uv_buf_t const *buf);
-
-    static void S_ListenCB(uv_stream_t *server, int status);
+    ECode HandleRelease(const char *uid, void const *base, int len);
 
 #endif
 
@@ -287,9 +271,8 @@ private:
 
 #if defined(__USE_REMOTE_SOCKET)
 
-    int                 m_port;
-
-    uv_loop_t          *m_loop;
+    ElaCarrier          *mCarrier;
+    Boolean             mExitLoop;
 
 #endif
 
@@ -298,7 +281,7 @@ public:
     CIClassInfo         *m_pInfo;
     Int32               m_cInterfaces;
     CInterfaceStub      *m_pInterfaces; // size_is(m_cInterfaces)
-    uv_thread_t         m_serviceThread;
+    pthread_t           m_serviceThread;
     sem_t               m_sem;
     Boolean             m_bRequestToQuit;
 

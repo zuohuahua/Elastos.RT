@@ -1,18 +1,19 @@
 
 module
 {
-	importlib("Elastos.CoreLibrary");
+    importlib("Elastos.CoreLibrary");
 
-	interface IService {
-		AddService(
-			[in] String name,
-			[in] IInterface *servic);
+    interface IService {
+        AddService(
+            [in] String name,
+            [in] IInterface *servic);
 
-		Start();
-	}
+        Start();
+    }
 
-	class CService {
-		constructor();
-		interface IService;
-	}
+    class CService {
+        constructor(
+            [in] String location);
+        interface IService;
+    }
 }

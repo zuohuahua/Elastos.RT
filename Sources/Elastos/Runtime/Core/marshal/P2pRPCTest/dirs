@@ -1,5 +1,4 @@
 DIRS += TC
-DIRS += Carrier
 DIRS += Service
 DIRS += ClientRpc
 

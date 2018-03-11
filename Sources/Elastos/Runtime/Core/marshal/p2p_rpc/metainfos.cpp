@@ -2,7 +2,6 @@
 #define __USE_REMOTE_SOCKET
 
 #if defined(__USE_REMOTE_SOCKET)
-#include "sock.h"
 #include "prxstub.h"
 #endif
 
@@ -344,17 +343,7 @@ ECode AcquireClassInfo(
 }
 
 ECode GetRemoteClassInfo(
-
-#if !defined(__USE_REMOTE_SOCKET)
-
     /* [in] */ const char* connectionName,
-
-#else
-
-    /* [in] */ uv_tcp_t *tcp,
-
-#endif
-
     /* [in] */ REMuid clsId,
     /* [out] */ CIClassInfo ** ppClassInfo)
 {
@@ -443,10 +432,10 @@ ECode GetRemoteClassInfo(
     void *buf = NULL;
     int len;
 
-    if (sock_send_msg(tcp, METHOD_GET_CLASS_INFO, NULL, 0))
+    if (carrier_send(NULL, connectionName, METHOD_GET_CLASS_INFO, NULL, 0))
         goto Exit;
 
-    if (sock_recv_msg(tcp, &type, &buf, &len))
+    if (carrier_receive(connectionName, &type, &buf, &len))
         goto Exit;
 
     if (type != METHOD_GET_CLASS_INFO_REPLY)

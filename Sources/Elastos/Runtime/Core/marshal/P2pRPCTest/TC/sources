@@ -12,7 +12,7 @@ LUBE_FLAGS += -n -u
 SOURCES = TC.car
 SOURCES += CTC.cpp
 
-LIBRARIES += -lpthread -lstdc++
+LIBRARIES += -lstdc++
 LIBRARIES = $(XDK_USER_LIB)/Elastos.Runtime.lib
 
 ifeq "$(XDK_TARGET_PLATFORM)" "android"

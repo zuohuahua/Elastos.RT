@@ -12,7 +12,6 @@ using Elastos::Core::EIID_IComparable;
 CarClass(CTC)
     , public Object
     , public ITC
-    , public ITC2
 {
 public:
     CAR_OBJECT_DECL()
@@ -25,64 +24,12 @@ public:
     CARAPI Set(
         /* [in] */ Int32 i);
 
-    CARAPI Increment();
-
-    CARAPI Decrement();
-
-    CARAPI GetString(
-        /* [out] */ String* str);
-
-    CARAPI SetString(
-        /* [in] */ const String& str);
-
-    CARAPI GetBoolean(
-        /* [out] */ Boolean* b);
-
-    CARAPI SetBoolean(
-        /* [in] */ Boolean b);
-
-    CARAPI GetInt64(
-        /* [out] */ Int64* i);
-
-    CARAPI SetInt64(
-        /* [in] */ Int64 i);
-
-    CARAPI GetDouble(
-        /* [out] */ Double* d);
-
-    CARAPI SetDouble(
-        /* [in] */ Double d);
-
-    CARAPI GetArrayOf(
-        /* [out, callee] */ ArrayOf<Int32>** array);
-
-    CARAPI SetArrayOf(
-        /* [in] */ const ArrayOf<Int32>& array);
-
-    CARAPI GetArrayOfInterface(
-        /* [out, callee] */ ArrayOf<ITC2*>** array);
-
-    CARAPI GetArrayOfString(
-        /* [out, callee] */ ArrayOf<String>** array);
-
-    CARAPI GetEx(
-        /* [out] */ Int32 * pI);
-
-    CARAPI SetEx(
-        /* [in] */ Int32 i);
-
     CARAPI constructor(
         /* [in] */ Int32 i);
 
 private:
     // TODO: Add your private member variables here.
     Int32 m_i;
-    String m_str;
-    Int64 m_i64;
-    Boolean m_b;
-    Double m_d;
-    ArrayOf<Int32>* mArray;
-    Int32 m_i2;
 };
 
 

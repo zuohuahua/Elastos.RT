@@ -1,13 +1,11 @@
 
 #include "CClient.h"
-#include "Carrier.h"
 #include <pthread.h>
 #include <sys/time.h>
 #include <stdlib.h>
-#include "Base64.h"
 
-#define SERVER_ADDRESS "6in5GLjxmfmsMWZB1ttFCAGXwmJi3orTVWPogmv44ZvXsyuQwRR6"
-#define SERVER_UID "3bx3rqkQ6RpNjqi51GaD1DqsVXU5jGxtv27c3CsH7chN"
+#define SERVER_ADDRESS "WRHtHgJ998ZAqWXsg4JQXkRZGtsuo8vkZjsmovkLTmoSgKSHSgSE"
+#define SERVER_UID "EPKCVQT86BxwAtgaJVzaziWLEW5QY69PAnTUeW8UJMgW"
 
 CAR_OBJECT_IMPL(CClient)
 
@@ -130,24 +128,25 @@ ECode CClient::GetService(
 
     ElaConnectionStatus status = carrier_get_friend_status(SERVER_UID);
     if (status != ElaConnectionStatus_Connected) {
-        RPC_LOG("Watting for friend online\n");
+        RPC_LOG("Waitting for friend online\n");
 
         int ret = carrier_wait(30);
         if (ret != 0) {
-            RPC_LOG("Watting for friend online failed %d\n", ret);
+            RPC_LOG("Waitting for friend online failed %d\n", ret);
             return E_FAIL;
         }
 
         DataPack data;
         ret = carrier_read(&data);
         if (ret != 0) {
-            RPC_LOG("Watting for friend online read data failed %d\n", ret);
+            RPC_LOG("Waitting for friend online read data failed %d\n", ret);
             return E_FAIL;
         }
 
         void* p = data.data->GetPayload();
         int type = *(size_t *)p;
         ArrayOf<Byte>::Free(data.data);
+        RPC_LOG("Waitting for friend online data type %d\n", type);
         if (type == FRIEND_ONLINE && !strcmp(data.from.string(), SERVER_UID)) {
             ec = NOERROR;
         } else {
@@ -168,9 +167,12 @@ ECode CClient::GetService(
     return ec;
 }
 
-ECode CClient::constructor()
+ECode CClient::constructor(
+    /* [in] */ const String& location)
 {
-    return carrier_connect("/home/zuo/work/Client", &mCarrier);
+    RPC_LOG("Client location: %s\n", location.string());
+
+    return carrier_connect(location.string(), &mCarrier);
 }
 
 

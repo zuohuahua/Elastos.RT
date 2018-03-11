@@ -43,7 +43,8 @@ public:
         /* [in] */ const String& name,
         /* [out] */ IInterface ** ppService);
 
-    CARAPI constructor();
+    CARAPI constructor(
+        /* [in] */ const String& location);
 
     ECode AddFriend(
         /* [in] */ const String& address);

@@ -40,12 +40,10 @@ public:
 
     CARAPI Start();
 
-    CARAPI constructor();
+    CARAPI constructor(
+        /* [in] */ const String& location);
 
     ~CService();
-
-    ECode HandleMessage(
-        /* [in] */ const DataPack& data);
 
     ECode HandleGetService(
         /* [in] */ const char *from,

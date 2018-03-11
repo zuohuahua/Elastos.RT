@@ -2,65 +2,16 @@
 module {
     importlib("Elastos.CoreLibrary");
 
-    interface ITC2 {
-        GetEx(
-            [out] Int32 *i);
-
-        SetEx(
-            [in] Int32 i);
-    }
-
     interface ITC {
         Get([out] Int32 *i);
 
         Set([in] Int32 i);
-
-        Increment();
-
-        Decrement();
-
-        GetString(
-            [out] String* str);
-
-        SetString(
-            [in] String str);
-
-        GetBoolean(
-            [out] Boolean* b);
-
-        SetBoolean(
-            [in] Boolean b);
-
-        GetInt64(
-            [out] Int64* i);
-
-        SetInt64(
-            [in] Int64 i);
-
-        GetDouble(
-            [out] Double* d);
-
-        SetDouble(
-            [in] Double d);
-
-        GetArrayOf(
-            [out, callee] ArrayOf<Int32>* array);
-
-        SetArrayOf(
-            [in] ArrayOf<Int32> array);
-
-        GetArrayOfInterface(
-            [out, callee] ArrayOf<ITC2*>* array);
-
-        //GetArrayOfString(
-        //    [out, callee] ArrayOf<String>* array);
     }
 
     class CTC {
         constructor([in] Int32 i);
 
         interface ITC;
-        interface ITC2;
     }
 
 }

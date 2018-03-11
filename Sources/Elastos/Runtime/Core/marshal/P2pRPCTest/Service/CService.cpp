@@ -8,38 +8,6 @@ CAR_OBJECT_IMPL(CService)
 CAR_INTERFACE_IMPL(CService, Object, IService);
 
 
-// void MessageReceived(
-//     ElaCarrier *w,
-//     const char *from,
-//     const char *msg,
-//     size_t len,
-//     void *context)
-// {
-//     printf("Receive message: user[%s] msg[%s] len[%d].\n", from, msg, len);
-//     if (len <= 0) return;
-
-//     String inData(msg, len);
-//     ArrayOf<Byte>* outData;
-//     ECode ec = Decode(inData.GetBytes(), &outData);
-//     if (FAILED(ec)) {
-//         return;
-//     }
-
-//     void* p = outData->GetPayload();
-//     int type = *(size_t *)p;
-//     printf("Service receive type: %d\n", type);
-//     p += 4;
-
-//     if (type == GET_SERVICE) {
-//         String name((char*)p, outData->GetLength() - 4);
-//         printf("Service receive name: %s\n", name.string());
-//         CService::HandleGetService(from, name);
-//     }
-
-//     ArrayOf<Byte>::Free(outData);
-//     printf("MessageReceived end\n");
-// }
-
 CService::~CService()
 {
     if (mElaCarrier != NULL) {
@@ -55,23 +23,6 @@ CService::~CService()
         }
         it++;
     }
-}
-
-ECode CService::HandleMessage(
-    /* [in] */ const DataPack& data)
-{
-    void* p = data.data->GetPayload();
-    int type = *(size_t *)p;
-    RPC_LOG("Service receive type: %d\n", type);
-    p += 4;
-
-    if (type == GET_SERVICE) {
-        String name((char*)p, data.data->GetLength() - 4);
-        RPC_LOG("Service receive name: %s\n", name.string());
-        HandleGetService(data.from, name);
-    }
-
-    return NOERROR;
 }
 
 ECode CService::HandleGetService(
@@ -142,30 +93,53 @@ ECode CService::AddService(
 
 ECode CService::Start()
 {
-    if (mElaCarrier != NULL) return NOERROR;
+    if (mElaCarrier == NULL) return NOERROR;
 
-    int ret = carrier_connect("/home/zuo/work/Service", &mElaCarrier);
-    if (ret != 0) {
-        return ret;
-    }
-
+    int ret;
     while(true) {
         ret = carrier_wait(-1);
-        if (ret != 0) break;
+        if (ret != 0) {
+            RPC_LOG("CService wait error: %d\n", ret);
+            break;
+        }
 
         DataPack data;
-        ret = carrier_read(&data);
-        if (ret != 0) break;
+        ret = carrier_read(&data, FALSE);
+        if (ret != 0) {
+            RPC_LOG("CService read data error: %d\n", ret);
+            break;
+        }
 
-        HandleMessage(data);
+        void* p = data.data->GetPayload();
+        int type = *(size_t *)p;
+        RPC_LOG("Service receive type: %d\n", type);
+        p += 4;
+
+        if (type == GET_SERVICE) {
+            carrier_data_handled();
+            String name((char*)p, data.data->GetLength() - 4);
+            RPC_LOG("Service receive name: %s\n", name.string());
+            HandleGetService(data.from, name);
+        }
+        else if (type == FRIEND_ONLINE) {
+            carrier_data_handled();
+        }
+
         ArrayOf<Byte>::Free(data.data);
     }
 
     return NOERROR;
 }
 
-ECode CService::constructor()
+ECode CService::constructor(
+    /* [in] */ const String& location)
 {
+    RPC_LOG("Service location: %s\n", location.string());
+
+    int ret = carrier_connect(location.string(), &mElaCarrier);
+    if (ret != 0) {
+        return ret;
+    }
     return NOERROR;
 }
 

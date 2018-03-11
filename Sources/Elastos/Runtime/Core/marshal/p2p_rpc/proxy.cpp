@@ -8,12 +8,6 @@
 #include "prxstub.h"
 #include "rot.h"
 
-#if defined(__USE_REMOTE_SOCKET)
-
-#include "sock.h"
-
-#endif
-
 EXTERN_C const InterfaceID EIID_IProxy;
 
 ECode LookupClassInfo(
@@ -21,17 +15,7 @@ ECode LookupClassInfo(
     /* [out] */ CIClassInfo **ppClassInfo);
 
 ECode GetRemoteClassInfo(
-
-#if !defined(__USE_REMOTE_SOCKET)
-
     /* [in] */ const char* connectionName,
-
-#else
-
-    /* [in] */ uv_tcp_t *tcp,
-
-#endif
-
     /* [in] */ REMuid clsId,
     /* [out] */ CIClassInfo ** ppClassInfo);
 
@@ -483,13 +467,13 @@ ECode CInterfaceProxy::ProxyEntry(UInt32 *puArgs)
         int type, len;
         char *p = NULL;
 
-        if (sock_send_msg(pThis->m_pOwner->m_tcp,
+        if (carrier_send(NULL, pThis->m_pOwner->m_stubId,
                           METHOD_INVOKE, pInBuffer, size)) {
             ec = E_FAIL; // TODO: sould set an appropriate error code
             goto UseSocketExit;
         }
 
-        if (sock_recv_msg(pThis->m_pOwner->m_tcp, &type, (void **)&p, &len)) {
+        if (carrier_receive(pThis->m_pOwner->m_stubId, &type, (void **)&p, &len)) {
             ec = E_FAIL; // TODO: sould set an appropriate error code
             goto UseSocketExit;
         }
@@ -663,12 +647,6 @@ CObjectProxy::~CObjectProxy()
         delete [] m_pInterfaces;
     }
 
-#if defined(__USE_REMOTE_SOCKET)
-
-    sock_close(m_tcp);
-
-#endif
-
 }
 
 static const EMuid ECLSID_XOR_CallbackSink = \
@@ -762,13 +740,14 @@ PInterface CObjectProxy::RemoteProbe(REIID riid)
     };
     struct ProbeReplyData *pReplyData;
 
-    if (sock_send_msg(this->m_tcp,
+    if (carrier_send(this->mCarrier,
+                      this->m_stubId,
                       METHOD_INVOKE,
                       &requestData,
                       sizeof(struct ProbeRequestData))) {
         return NULL;
     }
-    if (sock_recv_msg(this->m_tcp,
+    if (carrier_receive(this->m_stubId,
                       &type,
                       (void **)&pReplyData,
                       &len)) {
@@ -831,7 +810,7 @@ UInt32 CObjectProxy::Release(void)
 
 #if defined(__USE_REMOTE_SOCKET)
 
-        if (sock_send_msg(m_tcp, METHOD_RELEASE, NULL, 0))
+        if (carrier_send(NULL, m_stubId, METHOD_RELEASE, NULL, 0))
             goto Exit;
 
 #else
@@ -1031,15 +1010,9 @@ ECode CObjectProxy::S_CreateObject(
 
 #if defined(__USE_REMOTE_SOCKET)
 
-    char ip[32];
-    int port;
+    pProxy->m_stubId = stubConnName;
 
-    sscanf(stubConnName, "%[^:]:%d", ip, &port);
-
-    pProxy->m_stubIP = ip;
-    pProxy->m_stubPort = port;
-
-    if (sock_connect(&pProxy->m_tcp, ip, port)) {
+    if (carrier_connect("", &pProxy->mCarrier)) {
         ec = E_FAIL;
         goto ErrorExit;
     }
@@ -1048,7 +1021,7 @@ ECode CObjectProxy::S_CreateObject(
 
     ec = LookupClassInfo(rclsid, &(pProxy->m_pInfo));
     if (FAILED(ec)) {
-        ec = GetRemoteClassInfo(pProxy->m_tcp,
+        ec = GetRemoteClassInfo(pProxy->m_stubId,
                                  rclsid,
                                  &pProxy->m_pInfo);
         if (FAILED(ec)) goto ErrorExit;
@@ -1097,13 +1070,6 @@ ECode CObjectProxy::S_CreateObject(
     return NOERROR;
 
 ErrorExit:
-
-#if defined(__USE_REMOTE_SOCKET)
-
-    if (pProxy->m_tcp != 0)
-        sock_close(pProxy->m_tcp);
-
-#endif
 
     delete pProxy;
     return ec;

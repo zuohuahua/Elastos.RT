@@ -9,7 +9,8 @@ module
     }
 
     class CClient {
-        constructor();
+        constructor(
+            [in] String location);
         interface IClient;
     }
 }
