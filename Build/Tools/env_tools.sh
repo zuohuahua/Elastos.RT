@@ -655,9 +655,11 @@ function emake ()
                 export XDK_MAKE='make VERBOSE=1'
             fi
 
-            export XDK_COMMON_CMAKE=$XDK_BUILD_PATH/CMake/common.cmake
-            if [ -f $XDK_BUILD_PATH/CMake/$XDK_TARGET_PLATFORM.cmake ]; then
-                CMAKE_ARGS="$CMAKE_ARGS -DCMAKE_TOOLCHAIN_FILE=$XDK_BUILD_PATH/CMake/$XDK_TARGET_PLATFORM.cmake"
+            export XDK_CMAKE_DIR=$XDK_BUILD_PATH/CMake
+            export XDK_DEFINITIONS_CMAKE=$XDK_CMAKE_DIR/definitions.cmake
+            export XDK_COMMON_CMAKE=$XDK_CMAKE_DIR/common.cmake
+            if [ -f $XDK_CMAKE_DIR/$XDK_TARGET_PLATFORM.cmake ]; then
+                CMAKE_ARGS="$CMAKE_ARGS -DCMAKE_TOOLCHAIN_FILE=$XDK_CMAKE_DIR/$XDK_TARGET_PLATFORM.cmake"
             fi
 
             local MIRROR_ROOT_DIR=$XDK_USER_OBJ/$XDK_BUILD_KIND/mirror
