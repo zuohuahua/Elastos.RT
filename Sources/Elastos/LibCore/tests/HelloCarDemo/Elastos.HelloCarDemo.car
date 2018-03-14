@@ -14,20 +14,18 @@
 // limitations under the License.
 //=========================================================================
 
-#ifndef __ETL_DEF_H__
-#define __ETL_DEF_H__
+module
+{
+    importlib("Elastos.CoreLibrary");
 
-#include <eltypes.h>
+    interface IHelloCar {
+        Hello(
+            [out] String* name);
+    }
 
-#if !defined(_PTRDIFF_T_) && !defined(_PTRDIFF_T)
-#define _PTRDIFF_T_
-#define _PTRDIFF_T
-typedef int ptrdiff_t;
-#endif
+    class CHelloCar {
 
-#define _ETL_NO_COLON           Elastos::Utility::Etl
-#define _ETL                    Elastos::Utility::Etl::
-#define _ETL_NAMESPACE_BEGIN    namespace Elastos { namespace Utility { namespace Etl {
-#define _ETL_NAMESPACE_END      } } }
+        interface IHelloCar;
+    }
 
-#endif //__ETL_DEF_H__
+}

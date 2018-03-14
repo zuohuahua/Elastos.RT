@@ -9,16 +9,12 @@ using namespace Elastos;
 #endif // !_NO_INCLIST
 
 
-namespace Elastos {
-namespace HelloCarDemo {
 interface IHelloCar;
 EXTERN const _ELASTOS InterfaceID EIID_IHelloCar;
 interface ICHelloCarClassObject;
 EXTERN const _ELASTOS InterfaceID EIID_ICHelloCarClassObject;
 EXTERN const _ELASTOS ClassID ECLSID_CHelloCar;
 EXTERN const _ELASTOS ClassID ECLSID_CHelloCarClassObject;
-}
-}
 
 
 

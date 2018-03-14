@@ -387,6 +387,9 @@ function dropsdk ()
     cp $THIRDPART_DEPENDED/lib/libcrypto.so $SDK_LIBS_PATH
     cp $THIRDPART_DEPENDED/lib/libicuuc.so $SDK_LIBS_PATH
     cp $THIRDPART_DEPENDED/lib/libstlport.so $SDK_LIBS_PATH
+    cp $THIRDPART_DEPENDED/lib/libelacarrier.so $SDK_LIBS_PATH
+    cp $THIRDPART_DEPENDED/lib/libelasession.so $SDK_LIBS_PATH
+    cp $THIRDPART_DEPENDED/lib/libelacommon.so $SDK_LIBS_PATH
 
     #Other users need CoreLibrary's header files.
     local CUR_DIR=$PWD

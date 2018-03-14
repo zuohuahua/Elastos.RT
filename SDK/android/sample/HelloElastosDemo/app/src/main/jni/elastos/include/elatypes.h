@@ -73,6 +73,7 @@ typedef void * PVoid;
 
 typedef signed char Int8;
 typedef unsigned char UInt8;
+typedef char Char8;
 typedef UInt8 Byte;
 typedef unsigned short Char16;
 typedef unsigned int Char32;

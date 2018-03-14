@@ -6,9 +6,7 @@
 ELAPI _Impl_AcquireCallbackHandler(PInterface pServerObj, _ELASTOS REIID iid, PInterface *ppHandler);
 ELAPI _Impl_CheckClsId(PInterface pServerObj, const _ELASTOS ClassID* pClassid, PInterface *ppServerObj);
 
-namespace Elastos {
-namespace HelloCarDemo {
-CAR_INTERFACE("4D682453-0452-2F14-1924-FAE1A0A40C1B")
+CAR_INTERFACE("0A7A0F11-8452-AFBE-CC90-F51FA1EF2B4B")
 IHelloCar : public IInterface
 {
     virtual CARAPI_(PInterface) Probe(
@@ -30,12 +28,8 @@ IHelloCar : public IInterface
         /* [out] */ _ELASTOS String * name) = 0;
 
 };
-}
-}
 
-namespace Elastos {
-namespace HelloCarDemo {
-CAR_INTERFACE("5DAD6B1B-1312-EFA1-2B33-64CDBCA46D63")
+CAR_INTERFACE("5A7F5610-1312-EFA1-2B33-64CDBCA46D63")
 ICHelloCarClassObject : public IClassObject
 {
     virtual CARAPI_(PInterface) Probe(
@@ -57,18 +51,14 @@ ICHelloCarClassObject : public IClassObject
         /* [out] */ IInterface ** newObj) = 0;
 
 };
-}
-}
 
-namespace Elastos {
-namespace HelloCarDemo {
 class CHelloCar
 {
 public:
     static _ELASTOS ECode New(
-        /* [out] */ Elastos::HelloCarDemo::IHelloCar** __object)
+        /* [out] */ IHelloCar** __object)
     {
-        return _CObject_CreateInstance(ECLSID_CHelloCar, RGM_SAME_DOMAIN, Elastos::HelloCarDemo::EIID_IHelloCar, (PInterface*)__object);
+        return _CObject_CreateInstance(ECLSID_CHelloCar, RGM_SAME_DOMAIN, EIID_IHelloCar, (PInterface*)__object);
     }
 
     static _ELASTOS ECode New(
@@ -90,7 +80,5 @@ public:
     }
 
 };
-}
-}
 
 #endif // ___Elastos_HelloCarDemo_h__

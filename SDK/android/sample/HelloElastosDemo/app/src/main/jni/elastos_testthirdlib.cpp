@@ -4,9 +4,6 @@
 //For Elastos
 #include "Elastos.HelloCarDemo.Export.h"
 
-using Elastos::HelloCarDemo::CHelloCar;
-using Elastos::HelloCarDemo::IHelloCar;
-
 #define JNIREG_CLASS "org/elastos/runtime/sample/helloelastos/TestUtils"
 
 static jstring JNICALL nativeGetTestString(JNIEnv *env, jobject jobj)

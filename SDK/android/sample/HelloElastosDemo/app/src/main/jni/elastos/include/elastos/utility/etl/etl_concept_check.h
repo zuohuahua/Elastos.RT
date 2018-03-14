@@ -150,7 +150,7 @@ template <typename T>
 struct AssignableConcept
 {
     void Constraints() {
-        mA = mA;                        // require assignment operator
+        mA = mB;                        // require assignment operator
         ConstConstraints(mA);
     }
 
@@ -159,6 +159,7 @@ struct AssignableConcept
     }
 
     T mA;
+    T mB;
 };
 
 template <typename T>
@@ -187,7 +188,7 @@ struct SGIAssignableConcept
 {
     void Constraints() {
         T b(mA);
-        mA = mA;                        // require assignment operator
+        mA = mB;                        // require assignment operator
         ConstConstraints(mA);
         __sink_unused_warning(b);
     }
@@ -199,6 +200,7 @@ struct SGIAssignableConcept
     }
 
     T mA;
+    T mB;
 };
 
 template <typename From, typename To>

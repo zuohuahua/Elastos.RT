@@ -397,8 +397,8 @@ ELAPI_(void) NativeDetachCurrentThread();
 /*
  * Get the "main" or "system" thread group.
  */
-ELAPI_(AutoPtr<IThreadGroup>) NativeGetMainThreadGroup();
-ELAPI_(AutoPtr<IThreadGroup>) NativeGetSystemThreadGroup();
+AutoPtr<IThreadGroup> NativeGetMainThreadGroup();
+AutoPtr<IThreadGroup> NativeGetSystemThreadGroup();
 
 /*
  * Given a VMThread object, return the associated Thread*.

@@ -37,6 +37,18 @@ LOCAL_MODULE    := stlport
 LOCAL_SRC_FILES := $(LOCAL_PATH)/elastos/libs/libstlport.so
 include $(PREBUILT_SHARED_LIBRARY)
 
+#Elastos.Runtime depend libelacarrier.so
+include $(CLEAR_VARS)
+LOCAL_MODULE    := elacarrier
+LOCAL_SRC_FILES := $(LOCAL_PATH)/elastos/libs/libelacarrier.so
+include $(PREBUILT_SHARED_LIBRARY)
+
+#Elastos.Runtime depend libelacommon.so
+include $(CLEAR_VARS)
+LOCAL_MODULE    := elacommon
+LOCAL_SRC_FILES := $(LOCAL_PATH)/elastos/libs/libelacommon.so
+include $(PREBUILT_SHARED_LIBRARY)
+
 ### shared library
 include $(CLEAR_VARS)
 LOCAL_SRC_FILES := elastos_testthirdlib.cpp

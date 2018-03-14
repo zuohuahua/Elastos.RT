@@ -182,6 +182,10 @@ public:
     pthread_mutex_t mMutex;
 };
 
+#ifdef _apple
+#define PTHREAD_MUTEX_ERRORCHECK_NP PTHREAD_MUTEX_ERRORCHECK
+#endif
+
 inline Mutex::Mutex()
 {
     pthread_mutexattr_t attr;
