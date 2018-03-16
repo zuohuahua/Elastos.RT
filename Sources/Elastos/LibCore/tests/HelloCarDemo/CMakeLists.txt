@@ -10,9 +10,6 @@ set(SOURCES
     CHelloCar.cpp
 )
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../inc)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../inc/elastos/hellocardemo)
-
 add_library(Elastos.HelloCarDemo SHARED ${SOURCES})
 add_dependencies(Elastos.HelloCarDemo elastos_hello_car_demo)
 
@@ -22,3 +19,6 @@ target_link_libraries(Elastos.HelloCarDemo
     Elastos.CoreLibrary
 )
 
+xdk_add_subdirectories(
+    ios
+)
