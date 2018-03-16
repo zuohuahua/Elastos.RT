@@ -34,6 +34,7 @@
 #ifdef _CAR_RUNTIME
 #define _NO_INCLIST
 #endif
+#include <elstring.h>
 #include <_ElastosCore.h>
 #include <carapi.h>
 

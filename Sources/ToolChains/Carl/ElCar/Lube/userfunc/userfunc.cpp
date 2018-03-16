@@ -2815,6 +2815,13 @@ void OutputInterface(InterfaceDirEntry* pItfDir, CLSModule* pModule)
     fprintf(pFile, "        return (%s*)pObj->Probe(EIID_%s);\n", pItfDir->mName, pItfDir->mName);
     fprintf(pFile, "    }\n");
     fprintf(pFile, "\n");
+    if (!(pItfDir->mDesc->mAttribs & InterfaceAttrib_local)) {
+        fprintf(pFile, "    static CARAPI_(%s*) QueryInterface(const Elastos::String& uid)\n", pItfDir->mName);
+        fprintf(pFile, "    {\n");
+        fprintf(pFile, "        return NULL;\n");
+        fprintf(pFile, "    }\n");
+        fprintf(pFile, "\n");
+    }
 
     for (int i = 0; i < pItfDir->mDesc->mMethodCount; i++) {
         MethodDescriptor* pMethod = pItfDir->mDesc->mMethods[i];
