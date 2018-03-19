@@ -1,10 +1,5 @@
 #import "CppInterface.h"
 
-@interface CppInterface ()
-{
-}
-@end
-
 #include <_Elastos.HelloCarDemo.h>
 
 @implementation CppInterface
@@ -22,6 +17,7 @@
             return nullptr;
         }
         printf("Hello %s\n", name.string());
+        _greeting = [NSString stringWithFormat:@"Hello iOS!\nHello %s!", name.string()];
     }
     return self;
 }

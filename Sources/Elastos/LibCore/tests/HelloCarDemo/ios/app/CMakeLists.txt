@@ -7,8 +7,6 @@ set(DEVELOPMENT_PROJECT_NAME "hellocarapp")                 # <== Set to your pr
 set(DEVELOPMENT_TEAM_ID "AAAAA11111")                       # <== Set to your team ID from Apple
 set(APP_NAME "HelloCarApp")                                 # <== Set To your app's name
 set(APP_BUNDLE_IDENTIFIER "org.elastos.hellocarapp")        # <== Set to your app's bundle identifier
-set(FRAMEWORK_NAME "HelloCar")                              # <== Set to your framework's name
-set(FRAMEWORK_BUNDLE_IDENTIFIER "org.elastos.hellocar")     # <== Set to your framework's bundle identifier (cannot be the same as app bundle identifier)
 set(CODE_SIGN_IDENTITY "iPhone Developer")                  # <== Set to your preferred code sign identity, to see list:
                                                             # /usr/bin/env xcrun security find-identity -v -p codesigning
 set(DEPLOYMENT_TARGET 8.0)                                  # <== Set your deployment target version of iOS
@@ -63,34 +61,10 @@ add_executable(
 # To disable bitcode:
 set_target_properties(${APP_NAME} PROPERTIES XCODE_ATTRIBUTE_ENABLE_BITCODE "NO")
 
-# To link a statically linked Framework from the filesystem:
-# Note: dynamic frameworks require copying to the app bundle. Statically linked are copied into the executable itself.
-# target_link_libraries(${APP_NAME}
-  # ${PROJECT_SOURCE_DIR}/Torch.framework
-# )
-
-
-# Include the same headers for the statically linked framework:
-# Include headers to they're available as #import <Header/Header.h> from a framework
-# target_include_directories(${APP_NAME}
-  # PUBLIC ${PROJECT_SOURCE_DIR}/Torch.framework/Headers
-# )
-
-
-# Static Link a library archive into the executable
-# target_link_libraries(${APP_NAME}
-#   ${PROJECT_SOURCE_DIR}/framework/lib/libtorch.a
-# )
-
-
-# Include a source directory outside a framework
-# target_include_directories(${APP_NAME}
-#   PUBLIC ${PROJECT_SOURCE_DIR}/framework/include
-# )
-
-# Build the C++ dynamically linked framework
-add_subdirectory(cppframework)
-add_dependencies(${APP_NAME} ${FRAMEWORK_NAME})
+target_include_directories(${APP_NAME} PUBLIC
+    "$ENV{XDK_USER_INC}"
+    "${CMAKE_CURRENT_BINARY_DIR}/../.."
+)
 
 # Locate system libraries on iOS
 find_library(UIKIT UIKit)
@@ -106,20 +80,17 @@ target_link_libraries(${APP_NAME} ${MOBILECORESERVICES})
 target_link_libraries(${APP_NAME} ${CFNETWORK})
 target_link_libraries(${APP_NAME} ${SYSTEMCONFIGURATION})
 
+set(CMAKE_SHARED_LIBRARY_RUNTIME_C_FLAG "-Wl,-rpath,")
+set(CMAKE_SHARED_LIBRARY_RUNTIME_C_FLAG_SEP ":")
 
 add_library( Elastos.Runtime SHARED IMPORTED GLOBAL )
-set_target_properties( Elastos.Runtime PROPERTIES IMPORTED_LOCATION $ENV{XDK_USER_LIB}/libElastos.Runtime.dylib )
+set_target_properties( Elastos.Runtime PROPERTIES IMPORTED_LOCATION $ENV{XDK_USER_LIB}/Elastos.Runtime.eco )
 target_link_libraries(${APP_NAME} Elastos.Runtime)
 
-add_library( Elastos.Runtime_static STATIC IMPORTED GLOBAL )
-set_target_properties( Elastos.Runtime_static PROPERTIES IMPORTED_LOCATION ${CMAKE_BINARY_DIR}/../../../../../../Runtime/Core/eladll/lib/libElastos.Runtime_static.a )
-target_link_libraries(${APP_NAME} Elastos.Runtime_static)
+target_link_libraries(${APP_NAME}
+                    ${CMAKE_BINARY_DIR}/../../../../../../Runtime/Core/eladll/lib/libElastos.Runtime_static.a
+                    ${CMAKE_BINARY_DIR}/../../libElastos.HelloCarDemo.UUIDs.a)
 
-
-# Link the framework to the app
-set_target_properties(${APP_NAME} PROPERTIES
-                      XCODE_ATTRIBUTE_OTHER_LDFLAGS "${XCODE_ATTRIBUTE_OTHER_LDFLAGS} -framework ${FRAMEWORK_NAME}"
-)
 
 # Turn on ARC
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fobjc-arc")
@@ -140,15 +111,6 @@ set_target_properties(${APP_NAME} PROPERTIES
                       XCODE_ATTRIBUTE_INSTALL_PATH "$(LOCAL_APPS_DIR)"
                       XCODE_ATTRIBUTE_ENABLE_TESTABILITY YES
                       XCODE_ATTRIBUTE_GCC_SYMBOLS_PRIVATE_EXTERN YES
-)
-
-# Include framework headers, needed to make "Build" Xcode action work.
-# "Archive" works fine just relying on default search paths as it has different
-# build product output directory.
-target_include_directories(${APP_NAME} PUBLIC
-    "${PROJECT_BINARY_DIR}/cppframework/\${CONFIGURATION}\${EFFECTIVE_PLATFORM_NAME}/${FRAMEWORK_NAME}.framework"
-    "$ENV{XDK_USER_INC}"
-    "${CMAKE_CURRENT_BINARY_DIR}/../.."
 )
 
 # Set the app's linker search path to the default location on iOS
@@ -194,15 +156,11 @@ add_custom_command(
     ${APP_NAME}
     POST_BUILD COMMAND /bin/sh -c
     \"COMMAND_DONE=0 \;
-    if ${CMAKE_COMMAND} -E copy_directory
-        ${PROJECT_BINARY_DIR}/cppframework/\${CONFIGURATION}\${EFFECTIVE_PLATFORM_NAME}/
-        ${PROJECT_BINARY_DIR}/\${CONFIGURATION}\${EFFECTIVE_PLATFORM_NAME}/${APP_NAME}.app/Frameworks
-        \&\>/dev/null \; then
-        COMMAND_DONE=1 \;
-    fi \;
-    if ${CMAKE_COMMAND} -E copy_directory
-        \${BUILT_PRODUCTS_DIR}/${FRAMEWORK_NAME}.framework
-        \${BUILT_PRODUCTS_DIR}/${APP_NAME}.app/Frameworks/${FRAMEWORK_NAME}.framework
+    if ${CMAKE_COMMAND} -E copy
+        $ENV{XDK_USER_LIB}/Elastos.Runtime.eco
+        $ENV{XDK_USER_LIB}/Elastos.CoreLibrary.eco
+        $ENV{XDK_USER_LIB}/Elastos.HelloCarDemo.eco
+        \${BUILT_PRODUCTS_DIR}/${APP_NAME}.app/Frameworks/
         \&\>/dev/null \; then
         COMMAND_DONE=1 \;
     fi \;
@@ -219,13 +177,19 @@ add_custom_command(
     POST_BUILD COMMAND /bin/sh -c
     \"COMMAND_DONE=0 \;
     if codesign --force --verbose
-        ${PROJECT_BINARY_DIR}/\${CONFIGURATION}\${EFFECTIVE_PLATFORM_NAME}/${APP_NAME}.app/Frameworks/${FRAMEWORK_NAME}.framework
+        \${BUILT_PRODUCTS_DIR}/${APP_NAME}.app/Frameworks/Elastos.Runtime.eco
         --sign ${CODE_SIGN_IDENTITY}
         \&\>/dev/null \; then
         COMMAND_DONE=1 \;
     fi \;
     if codesign --force --verbose
-        \${BUILT_PRODUCTS_DIR}/${APP_NAME}.app/Frameworks/${FRAMEWORK_NAME}.framework
+        \${BUILT_PRODUCTS_DIR}/${APP_NAME}.app/Frameworks/Elastos.CoreLibrary.eco
+        --sign ${CODE_SIGN_IDENTITY}
+        \&\>/dev/null \; then
+        COMMAND_DONE=1 \;
+    fi \;
+    if codesign --force --verbose
+        \${BUILT_PRODUCTS_DIR}/${APP_NAME}.app/Frameworks/Elastos.HelloCarDemo.eco
         --sign ${CODE_SIGN_IDENTITY}
         \&\>/dev/null \; then
         COMMAND_DONE=1 \;

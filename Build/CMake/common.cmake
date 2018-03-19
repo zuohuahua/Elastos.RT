@@ -136,6 +136,16 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY $ENV{XDK_USER_OBJ}/$ENV{XDK_BUILD_KIND}/lib )
 
 if(APPLE)
     set(CMAKE_SHARED_LINKER_FLAGS "-Wl,-undefined,error")
+    set(CMAKE_SHARED_LIBRARY_RUNTIME_C_FLAG "-Wl,-rpath,")
+    set(CMAKE_SHARED_LIBRARY_RUNTIME_C_FLAG_SEP ":")
+    set(CMAKE_SHARED_LIBRARY_PREFIX "")
+    set(CMAKE_SHARED_LIBRARY_SUFFIX ".eco")
+
+    set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
+    set(CMAKE_INSTALL_RPATH "@executable_path/Frameworks;@loader_path/Frameworks")
+    set(CMAKE_BUILD_WITH_INSTALL_NAME_DIR TRUE)
+    set(CMAKE_INSTALL_NAME_DIR "@rpath")
+
 else()
     set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")
 endif()

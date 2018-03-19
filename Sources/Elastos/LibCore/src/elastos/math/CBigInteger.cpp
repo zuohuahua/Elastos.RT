@@ -351,21 +351,33 @@ ECode CBigInteger::ValueOf(
         if (value != -1) {
             return CBigInteger::New(-1, -value, result);
         }
+        if (MINUS_ONE == NULL) {
+            MINUS_ONE = CreateBigInteger(-1, 1);
+        }
         *result = MINUS_ONE;
         REFCOUNT_ADD(*result);
         return NOERROR;
     }
     else if (value == 0) {
+        if (ZERO == NULL) {
+            ZERO = CreateBigInteger(0, 0);
+        }
         *result = ZERO;
         REFCOUNT_ADD(*result);
         return NOERROR;
     }
     else if (value == 1) {
+        if (ONE == NULL) {
+            ONE = CreateBigInteger(1, 1);
+        }
         *result = ONE;
         REFCOUNT_ADD(*result);
         return NOERROR;
     }
     else if (value == 10) {
+        if (TEN == NULL) {
+            TEN = CreateBigInteger(1, 10);
+        }
         *result = TEN;
         REFCOUNT_ADD(*result);
         return NOERROR;

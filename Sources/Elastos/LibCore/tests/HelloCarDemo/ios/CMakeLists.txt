@@ -1,6 +1,11 @@
 
 xdk_gen_headers_from_cls(hello_car_demo_headers Elastos.HelloCarDemo.cls)
 
+set(SOURCES
+    ${CMAKE_CURRENT_BINARY_DIR}/Elastos.HelloCarDemo.cpp
+)
+
+add_library(Elastos.HelloCarDemo.UUIDs STATIC ${SOURCES})
 
 set (APP_NAME HelloCarApp)
 set (APP_SUBDIR app)
@@ -17,9 +22,10 @@ add_custom_command(
     COMMAND cmake -DCMAKE_TOOLCHAIN_FILE=${APP_SOURCE_DIR}/ios.cmake -DIOS_PLATFORM=${IOS_PLATFORM} -H${APP_SOURCE_DIR} -B${APP_BUILD_DIR} -GXcode
     COMMAND cmake --build ${APP_BUILD_DIR} --config ${CMAKE_BUILD_TYPE}
     WORKING_DIRECTORY ${APP_BINARY_DIR}
+    DEPENDS Elastos.Runtime
+            Elastos.CoreLibrary
+            Elastos.HelloCarDemo
+            Elastos.HelloCarDemo.UUIDs
 )
 
 add_custom_target(build_ios_hellocardemo ALL DEPENDS ${APP_OUTPUT})
-
-add_dependencies(build_ios_hellocardemo hello_car_demo_headers)
-

@@ -36,7 +36,7 @@ Multiplication::StaticInitializer::StaticInitializer()
         AutoPtr<IBigInteger> fivePowTemp, tenPowTemp;
         (*sBigFivePows)[i - 1]->Multiply((*sBigFivePows)[1], (IBigInteger**)&fivePowTemp);
         sBigFivePows->Set(i, fivePowTemp);
-        (*sBigTenPows)[i - 1]->Multiply(CBigInteger::TEN, (IBigInteger**)&tenPowTemp);
+        (*sBigTenPows)[i - 1]->Multiply((*sBigTenPows)[1], (IBigInteger**)&tenPowTemp);
         sBigTenPows->Set(i, tenPowTemp);
     }
 }
