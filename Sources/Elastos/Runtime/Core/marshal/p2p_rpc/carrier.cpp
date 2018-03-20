@@ -2,6 +2,23 @@
 #include "carrier.h"
 #include "Base64.h"
 #include <../../reflection/hashtable.h>
+#include <unistd.h>
+
+static struct {
+    ElaSession *ws;
+    int stream;
+    char remote_sdp[2048];
+    size_t sdp_len;
+} session_ctx;
+
+
+enum {
+    SESSION_REQUEST = 20,
+    SESSION_INITIALIZED,
+    SESSION_REQUEST_COMPLETED,
+    SESSION_TRANSPORT_READY,
+    SESSION_CONNECTED,
+};
 
 pthread_cond_t gCv = PTHREAD_COND_INITIALIZER;
 pthread_mutex_t gMutex = PTHREAD_MUTEX_INITIALIZER;
@@ -14,7 +31,7 @@ DataPack* gData = NULL;
 
 HashTable<ElaConnectionStatus, Type_String> gFriendsStatus;
 
-void free_data() 
+static void free_data() 
 {
     if (gData != NULL) {
         ArrayOf<Byte>::Free(gData->data);
@@ -23,7 +40,7 @@ void free_data()
     }
 }
 
-void notify(
+static void notify(
     const char* from,
     int type,
     void* msg,
@@ -45,7 +62,7 @@ void notify(
         return;
     }
 
-    gData->from = from;
+    // gData->from = from;
     void* p = gData->data->GetPayload();
     memcpy(p, &type, 4);
     p += 4;
@@ -58,7 +75,7 @@ void notify(
     pthread_mutex_unlock(&gMutex);
 }
 
-void FriendRequest(
+static void FriendRequest(
     ElaCarrier *w,
     const char *userid,
     const ElaUserInfo *info,
@@ -75,7 +92,7 @@ void FriendRequest(
         RPC_LOG("Accept friend request failed(0x%x).\n", ela_get_error());
 }
 
-void FriendAdded(
+static void FriendAdded(
     ElaCarrier *w, 
     const ElaFriendInfo *info,
     void *context)
@@ -83,7 +100,7 @@ void FriendAdded(
     notify(info->user_info.userid, ADD_FRIEND_SUCCEEDED, NULL, 0);
 }
 
-bool FriendsList(
+static bool FriendsList(
     ElaCarrier *w,
     const ElaFriendInfo *friend_info,
     void *context)
@@ -91,7 +108,7 @@ bool FriendsList(
     return true;
 }
 
-void FriendConnectionStatus(
+static void FriendConnectionStatus(
     ElaCarrier *w,
     const char *friendid,
     ElaConnectionStatus status,
@@ -112,7 +129,7 @@ void FriendConnectionStatus(
     }
 }
 
-void ConnectionStatus(
+static void ConnectionStatus(
     ElaCarrier *w,
     ElaConnectionStatus status,
     void *context)
@@ -133,16 +150,78 @@ void ConnectionStatus(
     }
 }
 
-void MessageReceived(
+static void MessageReceived(
     ElaCarrier *w,
     const char *from,
     const char *msg,
     size_t len,
     void *context)
 {
-    pthread_mutex_lock(&gMutex);
-
     RPC_LOG("Receive message: user[%s] msg[%s] len[%d].\n", from, msg, len);
+}
+
+static void SessionRequestCallback(
+    ElaCarrier *w,
+    const char *from,
+    const char *sdp,
+    size_t len,
+    void *context)
+{
+    strncpy(session_ctx.remote_sdp, sdp, len);
+    session_ctx.remote_sdp[len] = 0;
+    session_ctx.sdp_len = len;
+
+    RPC_LOG("Session request from[%s] with SDP:\n%s.\n", from, session_ctx.remote_sdp);
+    RPC_LOG("Reply use following commands:\n");
+    RPC_LOG("  sreply refuse [reason]\n");
+    RPC_LOG("OR:\n");
+    RPC_LOG("  1. snew %s\n", from);
+    RPC_LOG("  2. sadd [plain] [reliable] [multiplexing] [portforwarding]\n");
+    RPC_LOG("  3. sreply ok\n");
+
+    notify("", SESSION_REQUEST, (void*)from, strlen(from));
+}
+
+static void StreamStateChanged(
+    ElaSession *ws,
+    int stream,
+    ElaStreamState state,
+    void *context)
+{
+    const char *state_name[] = {
+        "raw",
+        "initialized",
+        "transport_ready",
+        "connecting",
+        "connected",
+        "deactivated",
+        "closed",
+        "failed"
+    };
+
+    RPC_LOG("Stream [%d] state changed to: %s\n", stream, state_name[state]);
+
+    if (state == ElaStreamState_initialized) {
+        notify("", SESSION_INITIALIZED, NULL, 0);
+    }
+    else if (state == ElaStreamState_connected) {
+        notify("", SESSION_CONNECTED, NULL, 0);
+    }
+    else if (state == ElaStreamState_transport_ready) {
+        notify("", SESSION_TRANSPORT_READY, NULL, 0);
+    }
+}
+
+static void StreamReceiveData(
+    ElaSession *ws,
+    int stream,
+    const void *data,
+    size_t len,
+    void *context)
+{
+    RPC_LOG("Stream %d received data len: %d\n", stream, len);
+
+    pthread_mutex_lock(&gMutex);
 
     free_data();
     gData = new DataPack();
@@ -151,19 +230,44 @@ void MessageReceived(
         pthread_mutex_unlock(&gMutex);
         return;
     }
-    gData->from = from;
+    // gData->from = from;
+    gData->stream = stream;
 
-    String inData(msg, len);
-    ECode ec = Decode(inData.GetBytes(), &gData->data);
-    if (FAILED(ec)) {
-        RPC_LOG("Receive message Base64 decode failed.\n");
+    ArrayOf<Byte>* buf = ArrayOf<Byte>::Alloc(len);
+    if (!data) {
         pthread_mutex_unlock(&gMutex);
         return;
     }
 
+    memcpy(buf->GetPayload(), data, len);
+    gData->data = buf;
+
     pthread_cond_broadcast(&gCv);
 
     pthread_mutex_unlock(&gMutex);
+
+    return;
+}
+
+static void SessionRequestComplete(
+    ElaSession *ws,
+    int status,
+    const char *reason,
+    const char *sdp,
+    size_t len,
+    void *context)
+{
+    RPC_LOG("Session complete, status: %d, reason: %s\n", status,
+           reason ? reason : "null");
+
+    if (status != 0)
+        return;
+
+    strncpy(session_ctx.remote_sdp, sdp, len);
+    session_ctx.remote_sdp[len] = 0;
+    session_ctx.sdp_len = len;
+
+    notify("", SESSION_REQUEST_COMPLETED, NULL, 0);
 }
 
 void* carrierThread(void* argc)
@@ -200,6 +304,12 @@ void* carrierThread(void* argc)
     }
 
 
+    int ret = ela_session_init(gCarrier, SessionRequestCallback, NULL);
+    if (ret != 0) {
+        RPC_LOG("Error init session: 0x%x\n", ela_get_error());
+        return 0;
+    }
+
     char buf[ELA_MAX_ADDRESS_LEN+1];
     RPC_LOG("Carrier node identities:\n");
     RPC_LOG("   Node ID: %s\n", ela_get_nodeid(gCarrier, buf, sizeof(buf)));
@@ -211,6 +321,7 @@ void* carrierThread(void* argc)
     if (rc != 0) {
         RPC_LOG("Error start carrier loop: 0x%x\n", ela_get_error());
         ela_kill(gCarrier);
+        gCarrier = NULL;
         return 0;
     }
 
@@ -288,13 +399,11 @@ ELAPI_(ElaConnectionStatus) ECO_PUBLIC carrier_get_friend_status(
 }
 
 ELAPI_(int) ECO_PUBLIC carrier_send(
-    ElaCarrier* carrier,
-    const char* to,
     int type,
     void* msg,
     size_t len)
 {
-    if (carrier == NULL && gCarrier == NULL) {
+    if (gCarrier == NULL) {
         return -1;
     }
 
@@ -312,20 +421,19 @@ ELAPI_(int) ECO_PUBLIC carrier_send(
         p += len;
     }
 
-    String outData;
-    ECode ec = Encode(data, &outData);
+
+    int rc =  ela_stream_write(session_ctx.ws, session_ctx.stream, 
+                                data->GetPayload(), msgLen);
     ArrayOf<Byte>::Free(data);
-    if (FAILED(ec)) {
-        return ec;
+    if (rc > 0) {
+        RPC_LOG("Send message success stream[%d] len[%d].\n",
+                                session_ctx.stream, msgLen);
+        return 0;
     }
-
-    int rc = ela_send_friend_message(carrier == NULL ? gCarrier : carrier, to, outData.string(), outData.GetLength());
-    if (rc == 0)
-        RPC_LOG("Send message success to[%s] msg[%s] len[%d].\n", to, outData.string(), outData.GetLength());
-    else
+    else {
         RPC_LOG("Send message failed(0x%x).\n", ela_get_error());
-
-    return rc;
+        return rc;
+    }
 }
 
 ELAPI_(int) ECO_PUBLIC carrier_wait(
@@ -372,7 +480,7 @@ ELAPI_(int) ECO_PUBLIC carrier_read(
         return -1;
     }
 
-    outData->from = gData->from;
+    // outData->from = gData->from;
     ArrayOf<Byte>* data = gData->data->Clone();
     outData->data = data;
 
@@ -387,6 +495,7 @@ ELAPI_(int) ECO_PUBLIC carrier_read(
 ELAPI_(void) ECO_PUBLIC carrier_destroy()
 {
     if (gCarrier != NULL) {
+        ela_session_cleanup(gCarrier);
         ela_kill(gCarrier);
         gCarrier = NULL;
     }
@@ -421,7 +530,7 @@ int carrier_receive(
         return ret;
     }
 
-    if (from != NULL && strcmp(from, data.from)) {
+    if (from != NULL && data.from != NULL && strcmp(from, data.from)) {
         RPC_LOG("carrier_receive receive msg not from target\n");
         return -1;
     }
@@ -439,9 +548,214 @@ int carrier_receive(
     }
     memcpy(_base, p, _len);
     *type = _type;
-    *buf = _base;
-    *len = _len;
+    if (buf != NULL) {
+        *buf = _base;
+        *len = _len;
+    }
+    
     ArrayOf<Byte>::Free(data.data);
 
     return 0;
+}
+
+int carrier_wait_message(
+    int type,
+    const char* from,
+    void** buf,
+    int* len)
+{
+    int _type;
+    int ret;
+    while(true) {
+        ret = carrier_receive(NULL, &_type, buf, len);
+        if (ret != 0) {
+            return ret;
+        }
+
+        if (type == _type) {
+            break;
+        }
+    }
+
+    return 0;
+}
+
+int session_new(
+    ElaCarrier* carrier,
+    const char* uid)
+{
+    RPC_LOG("Session new \n");
+    session_ctx.ws = ela_session_new(carrier, uid);
+    if (!session_ctx.ws) {
+        RPC_LOG("Create session failed.\n");
+        return -1;
+    } else {
+        RPC_LOG("Create session successfully.\n");
+    }
+
+    ElaStreamCallbacks callbacks;
+
+    memset(&callbacks, 0, sizeof(callbacks));
+    callbacks.state_changed = StreamStateChanged;
+    callbacks.stream_data = StreamReceiveData;
+
+    session_ctx.stream = ela_session_add_stream(session_ctx.ws, ElaStreamType_text,
+                ELA_STREAM_RELIABLE | ELA_STREAM_MULTIPLEXING, &callbacks, NULL);
+    if (session_ctx.stream < 0) {
+        ela_session_close(session_ctx.ws);
+        session_ctx.ws = NULL;
+        RPC_LOG("Add stream failed.\n");
+        return -1;
+    }
+    else {
+        RPC_LOG("Add stream successfully and stream id %d.\n", session_ctx.stream);
+    }
+
+    int ret = carrier_wait_message(SESSION_INITIALIZED, NULL, NULL, NULL);
+    if (ret != 0) {
+        RPC_LOG("Carrier session connect wait stream init failed\n");
+    }
+
+    return ret;
+}
+
+// for receiver
+int session_connect(
+    ElaCarrier* carrier,
+    const char* uid)
+{
+    if (session_ctx.ws != NULL) {
+        return 0;
+    }
+
+    int ret = session_new(carrier, uid);
+    if (ret != 0) {
+        return ret;
+    }
+
+    ret = ela_session_reply_request(session_ctx.ws, 0, NULL);
+    if (ret < 0) {
+        RPC_LOG("Session response invite failed:%x.\n", ela_get_error());
+        goto exit;
+    }
+    else {
+        RPC_LOG("Session response invite successuflly.\n");
+    }
+
+
+    ret = carrier_wait_message(SESSION_TRANSPORT_READY, NULL, NULL, NULL);
+    if (ret != 0) {
+        RPC_LOG("Carrier session connect wait session connected failed\n");
+        goto exit;
+    }
+
+    ret = ela_session_start(session_ctx.ws, session_ctx.remote_sdp, session_ctx.sdp_len);
+    RPC_LOG("Session start %s 0x%x.\n", ret == 0 ? "success" : "failed", ela_get_error());
+    if (ret != 0) {
+        goto exit;
+    }
+
+    ret = carrier_wait_message(SESSION_CONNECTED, NULL, NULL, NULL);
+    if (ret != 0) {
+        RPC_LOG("Carrier session connect wait session connected failed\n");
+        goto exit;
+    }
+
+exit:
+    if (ret != 0) {
+        carrier_session_destroy();
+    }
+    return ret;
+}
+
+//for sender
+ELAPI_(int) ECO_PUBLIC carrier_session_connect(
+    ElaCarrier* carrier,
+    const char* uid)
+{
+    if (session_ctx.ws != NULL) {
+        return 0;
+    }
+
+    int ret = session_new(carrier, uid);
+    if (ret != 0) {
+        return ret;
+    }
+
+    if (carrier_get_friend_status(uid) != ElaConnectionStatus_Connected) {
+        ret = carrier_wait_message(FRIEND_ONLINE, uid, NULL, NULL);
+        if (ret != 0) {
+            RPC_LOG("Carrier session connect wait friend online failed\n");
+            goto exit;
+        }
+    }
+
+    ret = ela_session_request(session_ctx.ws,
+                             SessionRequestComplete, NULL);
+    if (ret < 0) {
+        RPC_LOG("session request failed.\n");
+    }
+    else {
+        RPC_LOG("session request successfully.\n");
+    }
+
+    ret = carrier_wait_message(SESSION_REQUEST_COMPLETED, NULL, NULL, NULL);
+    if (ret != 0) {
+        RPC_LOG("Carrier session connect wait request compeleted failed\n");
+        goto exit;
+    }
+
+    ret = ela_session_start(session_ctx.ws, session_ctx.remote_sdp, session_ctx.sdp_len);
+    RPC_LOG("Session start %s.\n", ret == 0 ? "success" : "failed");
+    if (ret != 0) {
+        goto exit;
+    }
+
+    ret = carrier_wait_message(SESSION_CONNECTED, NULL, NULL, NULL);
+    if (ret != 0) {
+        RPC_LOG("Carrier session connect wait session connected failed\n");
+        goto exit;
+    }
+
+    sleep(1);
+
+exit:
+    if (ret != 0) {
+        carrier_session_destroy();
+    }
+    return ret;
+}
+
+
+ELAPI_(int) ECO_PUBLIC carrier_session_wait(
+    ElaCarrier* carrier)
+{
+    void* buf;
+    int len;
+
+    int ret = carrier_wait_message(SESSION_REQUEST, NULL, &buf, &len);
+    if (ret != 0) {
+        RPC_LOG("Carrier wait session request failed\n");
+        return ret;
+    }
+
+    char uid[len + 1];
+    memcpy(uid, buf, len);
+    free(buf);
+    uid[len] = '\0';
+    ret = session_connect(carrier, uid);
+    if (ret != 0) {
+        RPC_LOG("Carrier session connect failed.\n");
+        return ret;
+    }
+
+    return 0;
+}
+
+ELAPI_(void) ECO_PUBLIC carrier_session_destroy()
+{
+    if (session_ctx.ws != NULL) {
+        ela_session_close(session_ctx.ws);
+        session_ctx.ws = NULL;
+    }
 }

@@ -5,7 +5,7 @@
 #define __USE_REMOTE_SOCKET
 
 #if defined(__USE_REMOTE_SOCKET)
-# include <carrier.h>
+# include <uv.h>
 #else
 # include <dbus/dbus.h>
 #endif
@@ -21,6 +21,19 @@ _ELASTOS_NAMESPACE_USING
 
 #define GET_LENGTH(a) ((a) & 0x3f)
 #define GET_IN_INTERFACE_MARK(a) ((a) & 0x80)
+
+#if defined(__USE_REMOTE_SOCKET)
+
+enum {
+    METHOD_GET_CLASS_INFO,
+    METHOD_INVOKE,
+    METHOD_RELEASE,
+    METHOD_GET_CLASS_INFO_REPLY,
+    METHOD_INVOKE_REPLY,
+    METHOD_RELEASE_REPLY
+};
+
+#endif
 
 class CObjectProxy;
 

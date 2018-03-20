@@ -432,7 +432,7 @@ ECode GetRemoteClassInfo(
     void *buf = NULL;
     int len;
 
-    if (carrier_send(NULL, connectionName, METHOD_GET_CLASS_INFO, NULL, 0))
+    if (carrier_send(METHOD_GET_CLASS_INFO, NULL, 0))
         goto Exit;
 
     if (carrier_receive(connectionName, &type, &buf, &len))

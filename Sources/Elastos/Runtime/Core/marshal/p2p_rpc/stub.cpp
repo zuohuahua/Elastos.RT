@@ -708,8 +708,7 @@ ECode CObjectStub::HandleGetClassInfo(const char *uid, void const *base, int len
     pDestModInfo = (CIModuleInfo *)calloc(1, pSrcModInfo->mTotalSize);
     FlatModuleInfo(pSrcModInfo, pDestModInfo);
 
-    if (carrier_send(mCarrier, uid,
-                METHOD_GET_CLASS_INFO_REPLY,
+    if (carrier_send(METHOD_GET_CLASS_INFO_REPLY,
                 pDestModInfo,
                 pDestModInfo->mTotalSize))
         MARSHAL_DBGOUT(MSHDBG_ERROR, printf("Socket-sending failed.\n"));
@@ -748,14 +747,14 @@ ECode CObjectStub::HandleInvoke(const char *uid, void const *base, int len)
             memcpy(p, pOutBuffer, outSize);
 
 
-            if (carrier_send(mCarrier, uid, METHOD_INVOKE_REPLY, out_buf, out_size))
+            if (carrier_send(METHOD_INVOKE_REPLY, out_buf, out_size))
                 MARSHAL_DBGOUT(MSHDBG_ERROR,
                         printf("Socket-sending failed.\n"));
 
 
         }
     } else {
-	    if (carrier_send(mCarrier, uid, METHOD_INVOKE_REPLY, &_ec, sizeof _ec))
+	    if (carrier_send(METHOD_INVOKE_REPLY, &_ec, sizeof _ec))
 		    MARSHAL_DBGOUT(MSHDBG_ERROR,
 				    printf("Socket-sending failed.\n"));
     }

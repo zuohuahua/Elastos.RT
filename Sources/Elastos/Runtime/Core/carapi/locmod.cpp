@@ -96,7 +96,7 @@ ECode AcquireClassObjectFromLocalModule(
     if (NULL == module) {
         ec = E_FILE_NOT_FOUND;
 #ifdef _android
-    __android_log_print(ANDROID_LOG_INFO, "<%s, %d> dlopen '%s' failed.\n", __FILE__, __LINE__, uunm);
+    __android_log_print(ANDROID_LOG_INFO, "AcquireClassObjectFromLocalModule", "<%s, %d> dlopen '%s' failed.\n", __FILE__, __LINE__, uunm);
 #endif
         //ALOGE("error: %s\n", dlerror());
         goto ErrorExit;

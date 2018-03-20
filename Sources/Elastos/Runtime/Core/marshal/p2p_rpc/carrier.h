@@ -1,5 +1,6 @@
 
 #include "ela_carrier.h"
+#include "ela_session.h"
 #include <elastos.h>
 
 #ifdef _android
@@ -29,6 +30,7 @@ enum {
 
 typedef struct _DataPack{
     String from;
+    int stream;
     ArrayOf<Byte>* data;
 } DataPack;
 
@@ -49,8 +51,6 @@ ELAPI_(ElaConnectionStatus) ECO_PUBLIC carrier_get_friend_status(
     const char* uid);
 
 ELAPI_(int) ECO_PUBLIC carrier_send(
-    ElaCarrier* carrier,
-    const char* to,
     int type,
     void* msg,
     size_t len);
@@ -71,3 +71,12 @@ int carrier_receive(
     int* type,
     void** buf,
     int* len);
+
+ELAPI_(int) ECO_PUBLIC carrier_session_connect(
+    ElaCarrier* carrier,
+    const char* uid);
+
+ELAPI_(int) ECO_PUBLIC carrier_session_wait(
+    ElaCarrier* carrier);
+
+ELAPI_(void) ECO_PUBLIC carrier_session_destroy();

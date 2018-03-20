@@ -55,7 +55,7 @@ ECode CService::HandleGetService(
     } else
         _len = 4;
 
-    carrier_send(mElaCarrier, from, GET_SERVICE_REPLY, data->GetPayload(), _len);
+    carrier_send(GET_SERVICE_REPLY, data->GetPayload(), _len);
 
     ArrayOf<Byte>::Free(data);
 }
@@ -95,7 +95,11 @@ ECode CService::Start()
 {
     if (mElaCarrier == NULL) return NOERROR;
 
-    int ret;
+    int ret = carrier_session_wait(mElaCarrier);
+    if (ret != 0) {
+        return E_FAIL;
+    }
+    
     while(true) {
         ret = carrier_wait(-1);
         if (ret != 0) {
@@ -140,6 +144,8 @@ ECode CService::constructor(
     if (ret != 0) {
         return ret;
     }
+
+
     return NOERROR;
 }
 

@@ -62,7 +62,7 @@ ECode CClient::SendMessage(
     /* [in] */ const String& msg)
 {
     printf("Send message to %s content: %s\n", to.string(), msg.string());
-    int ret = carrier_send(mCarrier, to.string(), type, msg.GetBytes()->GetPayload(), msg.GetByteLength());
+    int ret = carrier_send(type, msg.GetBytes()->GetPayload(), msg.GetByteLength());
     if (ret != 0) {
         RPC_LOG("Send message failed %d\n", ret);
         return E_FAIL;
@@ -126,33 +126,9 @@ ECode CClient::GetService(
         if (FAILED(ec)) return ec;
     }
 
-    ElaConnectionStatus status = carrier_get_friend_status(SERVER_UID);
-    if (status != ElaConnectionStatus_Connected) {
-        RPC_LOG("Waitting for friend online\n");
-
-        int ret = carrier_wait(30);
-        if (ret != 0) {
-            RPC_LOG("Waitting for friend online failed %d\n", ret);
-            return E_FAIL;
-        }
-
-        DataPack data;
-        ret = carrier_read(&data);
-        if (ret != 0) {
-            RPC_LOG("Waitting for friend online read data failed %d\n", ret);
-            return E_FAIL;
-        }
-
-        void* p = data.data->GetPayload();
-        int type = *(size_t *)p;
-        ArrayOf<Byte>::Free(data.data);
-        RPC_LOG("Waitting for friend online data type %d\n", type);
-        if (type == FRIEND_ONLINE && !strcmp(data.from.string(), SERVER_UID)) {
-            ec = NOERROR;
-        } else {
-            ec = E_FAIL;
-        }
-        if (FAILED(ec)) return ec;
+    int ret = carrier_session_connect(mCarrier, SERVER_UID);
+    if (ret != 0) {
+        return E_FAIL;
     }
 
 

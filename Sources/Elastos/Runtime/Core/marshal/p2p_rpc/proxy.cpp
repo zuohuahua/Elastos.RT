@@ -467,8 +467,7 @@ ECode CInterfaceProxy::ProxyEntry(UInt32 *puArgs)
         int type, len;
         char *p = NULL;
 
-        if (carrier_send(NULL, pThis->m_pOwner->m_stubId,
-                          METHOD_INVOKE, pInBuffer, size)) {
+        if (carrier_send(METHOD_INVOKE, pInBuffer, size)) {
             ec = E_FAIL; // TODO: sould set an appropriate error code
             goto UseSocketExit;
         }
@@ -740,9 +739,7 @@ PInterface CObjectProxy::RemoteProbe(REIID riid)
     };
     struct ProbeReplyData *pReplyData;
 
-    if (carrier_send(this->mCarrier,
-                      this->m_stubId,
-                      METHOD_INVOKE,
+    if (carrier_send(METHOD_INVOKE,
                       &requestData,
                       sizeof(struct ProbeRequestData))) {
         return NULL;
@@ -810,7 +807,7 @@ UInt32 CObjectProxy::Release(void)
 
 #if defined(__USE_REMOTE_SOCKET)
 
-        if (carrier_send(NULL, m_stubId, METHOD_RELEASE, NULL, 0))
+        if (carrier_send(METHOD_RELEASE, NULL, 0))
             goto Exit;
 
 #else

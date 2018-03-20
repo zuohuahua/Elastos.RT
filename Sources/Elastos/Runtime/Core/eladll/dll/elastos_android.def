@@ -63,15 +63,18 @@ EXPORTS
     LookupInterfaceInfo                             @180    NONAME
     RegisterModuleInfo                              @181    NONAME
 
-    carrier_connect                                 @190    NONAME
-    carrier_add_friend                              @191    NONAME
-    carrier_is_friend                               @192    NONAME
-    carrier_get_friend_status                       @193    NONAME
-    carrier_send                                    @194    NONAME
-    carrier_wait                                    @195    NONAME
-    carrier_read                                    @196    NONAME
-    carrier_destroy                                 @197    NONAME
-    carrier_data_handled                            @198    NONAME
+    carrier_connect                                 @185    NONAME
+    carrier_add_friend                              @186    NONAME
+    carrier_is_friend                               @187    NONAME
+    carrier_get_friend_status                       @188    NONAME
+    carrier_send                                    @189    NONAME
+    carrier_wait                                    @190    NONAME
+    carrier_read                                    @191    NONAME
+    carrier_destroy                                 @192    NONAME
+    carrier_data_handled                            @193    NONAME
+    carrier_session_connect                         @194    NONAME
+    carrier_session_wait                            @195    NONAME
+    carrier_session_destroy                         @196    NONAME
 
     ;;============================================================
     ;; CAR data-type APIs, using ordinal 200-499
