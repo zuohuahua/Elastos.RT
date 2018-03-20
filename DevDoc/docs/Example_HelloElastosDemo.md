@@ -12,7 +12,10 @@ EXPORT_ECO = 1
 
 ### 2.Compile android-version RT
 
-* it can refer to Elastos.RT/DevDoc/docs/getting_started.md
+```
+$ source SetEnv.sh arm_android
+$ emake
+```
 
 ### 3.Generate header files and libs files of elastos
 

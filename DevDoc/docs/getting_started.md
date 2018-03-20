@@ -22,51 +22,55 @@ $ git submodule update
 
 ## Preparing the build environment
 
-### Use dockerized build environment
+Please select the appropriate compilation environment as needed:
 
-If you have `docker` and `docker-compose` installed in your machine, you could use a dockerized build environment.
+* ### Use dockerized build environment
 
-You should follow the official instructions to install Docker and Docker Compose.
-Install Docker: https://docs.docker.com/install/
-Install Docker Compose: https://docs.docker.com/compose/install/
+  If you have `docker` and `docker-compose` installed in your machine, you could use a dockerized build environment.
 
-To build the docker image and enter the dockerized build environment:
-```
-$ cd ~/Elastos.RT/docker
-~/Elastos.RT/docker$ docker-compose build --build-arg HOST_USER_UID=`id -u` --build-arg HOST_USER_GID=`id -g` build-env
-~/Elastos.RT/docker$ docker-compose run --rm build-env
-```
-NOTE: Please do NOT store any important files outside of the `Elastos.RT` folder as the docker container will be removed after you exit the building environment. And only the changes in the `Elastos.RT` folder will be retained as it has defined as a VOLUME in the Dockerfile.
+  You should follow the official instructions to install Docker and Docker Compose.
+  
+  Install Docker: https://docs.docker.com/install/
+  
+  Install Docker Compose: https://docs.docker.com/compose/install/
 
-Type `exit` if you want to exit the docker build environment. And type `docker-compose run --rm build-env` if you want to re-enter it.
+  To build the docker image and enter the dockerized build environment:
+  ```
+  $ cd ~/Elastos.RT/docker
+  ~/Elastos.RT/docker$ docker-compose build --build-arg HOST_USER_UID=`id -u` --build-arg HOST_USER_GID=`id -g` build-env
+  ~/Elastos.RT/docker$ docker-compose run --rm build-env
+  ```
+  NOTE: Please do NOT store any important files outside of the `Elastos.RT` folder as the docker container will be removed after you exit the building environment. And only the changes in the `Elastos.RT` folder will be retained as it has defined as a VOLUME in the Dockerfile.
 
-#### Ubuntu_32bit
+  Type `exit` if you want to exit the docker build environment. And type `docker-compose run --rm build-env` if you want to re-enter it.
 
-On Ubuntu this should obtain the necessary pre-reqs:
-```
-sudo dpkg --add-architecture i386
-sudo apt-get update
-sudo apt-get install texinfo libglib2.0-dev autoconf libtool libsdl-dev build-essential tofrodos bison g++-multilib git gperf
-sudo apt-get install libxml2-utils make bc zip zlib1g-dev zlib1g-dev:i386 libicu-dev libicu-dev:i386 libssl-dev libssl-dev:i386
-```
-or
-copy the libs under folder Build/Prebuilt/Linux/usr/lib to /lib/i386-linux-gnu/
-```
-sudo cp ~/Elastos.RT/Build/Prebuilt/Linux/usr/lib/lib* /lib/i386-linux-gnu/
+* ### Ubuntu_32bit
 
-cd /lib/i386-linux-gnu/
-sudo ln -s libicuuc.so.52 libicuuc.so
-sudo ln -s libcrypto.so.1.0.0 libcrypto.so
+  On Ubuntu this should obtain the necessary pre-reqs:
+  ```
+  sudo dpkg --add-architecture i386
+  sudo apt-get update
+  sudo apt-get install texinfo libglib2.0-dev autoconf libtool libsdl-dev build-essential tofrodos bison g++-multilib git gperf
+  sudo apt-get install libxml2-utils make bc zip zlib1g-dev zlib1g-dev:i386 libicu-dev libicu-dev:i386 libssl-dev libssl-dev:i386
+  ```
+  or
+  copy the libs under folder Build/Prebuilt/Linux/usr/lib to /lib/i386-linux-gnu/
+  ```
+  sudo cp ~/Elastos.RT/Build/Prebuilt/Linux/usr/lib/lib* /lib/i386-linux-gnu/
 
-```
+  cd /lib/i386-linux-gnu/
+  sudo ln -s libicuuc.so.52 libicuuc.so
+  sudo ln -s libcrypto.so.1.0.0 libcrypto.so
 
-#### Ubuntu_64bit
+  ```
 
-On Ubuntu this should obtain the necessary pre-reqs:
-```
-sudo apt-get install texinfo libglib2.0-dev autoconf libtool libsdl-dev build-essential tofrodos zlib1g-dev:amd64 zlib1g-dev
-sudo apt-get install bison g++-multilib git gperf libxml2-utils make zlib1g-dev:i386 zip libsqlite3-dev libicu-dev libssl-dev
-```
+* ### Ubuntu_64bit
+
+  On Ubuntu this should obtain the necessary pre-reqs:
+  ```
+  sudo apt-get install texinfo libglib2.0-dev autoconf libtool libsdl-dev build-essential tofrodos zlib1g-dev:amd64 zlib1g-dev
+  sudo apt-get install bison g++-multilib git gperf libxml2-utils make zlib1g-dev:i386 zip libsqlite3-dev libicu-dev libssl-dev
+  ```
 
 ## Build Elastos.RT
 
@@ -74,20 +78,20 @@ sudo apt-get install bison g++-multilib git gperf libxml2-utils make zlib1g-dev:
 
 1. enter the build environment:
 
-##### Ubuntu_32bit
-```
-$ source ~/Elastos.RT/Setup/SetEnv.sh devtools_32
-or
-$ source ~/Elastos.RT/Setup/SetEnv.sh
-then choose the index number of _devtools_32_ item from the numbered list
-```
-##### Ubuntu_64bit
-```
-$ source ~/Elastos.RT/Setup/SetEnv.sh devtools_64
-or
-$ source ~/Elastos.RT/Setup/SetEnv.sh
-then choose the index number of _devtools_64_ item from the numbered list
-```
+* ##### Ubuntu_32bit
+  ```
+  $ source ~/Elastos.RT/Setup/SetEnv.sh devtools_32
+  or
+  $ source ~/Elastos.RT/Setup/SetEnv.sh
+  then choose the index number of _devtools_32_ item from the numbered list
+  ```
+* ##### Ubuntu_64bit
+  ```
+  $ source ~/Elastos.RT/Setup/SetEnv.sh devtools_64
+  or
+  $ source ~/Elastos.RT/Setup/SetEnv.sh
+  then choose the index number of _devtools_64_ item from the numbered list
+  ```
 
 2. build CAR tools
 build release version of carc
@@ -106,14 +110,14 @@ CInfoReader  Cls2C  carc  carcode  dbg_info  libz.so  lubc  lube  package
 4. use your new CAR tools
 copy your build result to ~/Elastos.RT/Build/Tools
 from ~/Elastos.RT/Targets/rdk/x86.gnu.linux.devtools.rls/bin
-##### Ubuntu_32bit
-```
-cp CInfoReader Cls2C carc carcode lubc lube libz.so ~/Elastos.RT/Build/Tools/
-```
-##### Ubuntu_64bit
-```
-cp CInfoReader Cls2C carc carcode lubc lube libz.so ~/Elastos.RT/Build/Tools_64/
-```
+* ##### Ubuntu_32bit
+  ```
+  cp CInfoReader Cls2C carc carcode lubc lube libz.so ~/Elastos.RT/Build/Tools/
+  ```
+* ##### Ubuntu_64bit
+  ```
+  cp CInfoReader Cls2C carc carcode lubc lube libz.so ~/Elastos.RT/Build/Tools_64/
+  ```
 
 5. release version or debug version
 ```
@@ -124,7 +128,7 @@ cp CInfoReader Cls2C carc carcode lubc lube libz.so ~/Elastos.RT/Build/Tools_64/
 
 * Download NDK and execute script to generate NDK toolchain:
 
-***The compiling of android-version RT needs to install NDK toolchain, you can refer to TooLChains/android/Readme.md,then you can  contiune it.***
+***The compiling of android-version RT needs to install NDK toolchain, you can refer to [Install NDK](https://github.com/elastos/Elastos.RT/blob/master/ToolChains/android/Readme.md),then you can  contiune it.***
 
 1. enter the build environment:
 ```
