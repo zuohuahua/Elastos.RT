@@ -20,6 +20,7 @@ $
 TARGET_NAME= ${name}
 ifeq "$$(XDK_TARGET_PLATFORM)" "android"
 TARGET_TYPE = so
+EXPORT_ECO = 1
 else
 TARGET_TYPE= $^
 $IF type is "library"
