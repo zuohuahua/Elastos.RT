@@ -33,7 +33,7 @@ Xcode->Preferences->Components, install iOS 11.1 Simulator
 
 ```
 $ cd Elastos.RT
-$ souce Setup/SetEnv.sh
+$ source Setup/SetEnv.sh
 ```
 
 select ios_simulator64 or ios_device 
