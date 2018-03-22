@@ -72,58 +72,40 @@ Please select the appropriate compilation environment as needed:
   sudo apt-get install bison g++-multilib git gperf libxml2-utils make zlib1g-dev:i386 zip libsqlite3-dev libicu-dev libssl-dev
   ```
 
+* ### IOS
+ 
+  1.Install homebrew（https://brew.sh/）
+
+  ```
+  $ /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  ```
+
+  2.Install cmake
+
+  ```
+  $ brew install cmake
+  ```
+
+  3.Install Xcode and Check Xcode path
+
+  Please search Xcode in AppStore and install it.
+  
+  ```
+  $ /usr/bin/xcode-select -print-path
+  ```
+
+  if the result is not “/Applications/Xcode.app/Contents/Developer”，then 
+  ```
+  $ sudo xcode-select --switch /Applications/Xcode.app
+  ```
+
+  4.Install simulator in Xcode
+
+  Xcode->Preferences->Components, install iOS 11.1 Simulator
+
+
 ## Build Elastos.RT
 
-### Build CAR Compiler(optional)
-
-1. enter the build environment:
-
-* ##### Ubuntu_32bit
-  ```
-  $ source ~/Elastos.RT/Setup/SetEnv.sh devtools_32
-  or
-  $ source ~/Elastos.RT/Setup/SetEnv.sh
-  then choose the index number of _devtools_32_ item from the numbered list
-  ```
-* ##### Ubuntu_64bit
-  ```
-  $ source ~/Elastos.RT/Setup/SetEnv.sh devtools_64
-  or
-  $ source ~/Elastos.RT/Setup/SetEnv.sh
-  then choose the index number of _devtools_64_ item from the numbered list
-  ```
-
-2. build CAR tools
-build release version of carc
-```
-~/Elastos.RT/Sources$ rls
-~/Elastos.RT/Sources$ emake
-~/Elastos.RT/Sources$ pd @
-```
-
-3. build result
-```
-~/Elastos.RT/Targets/rdk/x86.gnu.linux.devtools.rls/bin$ ls
-CInfoReader  Cls2C  carc  carcode  dbg_info  libz.so  lubc  lube  package
-```
-
-4. use your new CAR tools
-copy your build result to ~/Elastos.RT/Build/Tools
-from ~/Elastos.RT/Targets/rdk/x86.gnu.linux.devtools.rls/bin
-* ##### Ubuntu_32bit
-  ```
-  cp CInfoReader Cls2C carc carcode lubc lube libz.so ~/Elastos.RT/Build/Tools/
-  ```
-* ##### Ubuntu_64bit
-  ```
-  cp CInfoReader Cls2C carc carcode lubc lube libz.so ~/Elastos.RT/Build/Tools_64/
-  ```
-
-5. release version or debug version
-```
- rls    #It is an alias of  --> chv rls
- dbg    #It is an alias of  --> chv dbg
-```
 ### Build Android
 
 * Download NDK and execute script to generate NDK toolchain:
@@ -137,11 +119,14 @@ or
 $ source ~/Elastos.RT/Setup/SetEnv.sh
 then choose the index number of _arm_android_ item from the numbered list
 ```
+
 2. emake
 ```
 ~/Elastos.RT/Sources$ emake
 ```
+
 ### Build Linux
+
 1. enter the build environment:
 ```
 $ source ~/Elastos.RT/Setup/SetEnv.sh linux
@@ -149,87 +134,24 @@ or
 $ source ~/Elastos.RT/Setup/SetEnv.sh
 then choose the index number of index number of _linux_ item from the numbered list
 ```
+
 2. emake
 ```
 ~/Elastos.RT/Sources$ emake
 ```
 
-***The build environment of the following specific modules is on linux as an example and that will be directly added parameters to the command.***
+### Build IOS
 
-
-### Build Test cases
-
-#### HelloCar
-
-1. enter the build environment(optional)
+1. enter the build environment:
 ```
-$ source ~/Elastos.RT/Setup/SetEnv.sh linux
-```
+$ source ~/Elastos.RT/Setup/SetEnv.sh ios_simulator64 (or ios_device)
 
-2. build Elastos.HelloCar.eco
-```
-cd ~/Elastos.RT/Sources/Elastos/LibCore/tests/HelloCar/eco
-~/Elastos.RT/Sources/Elastos/LibCore/tests/HelloCar/eco$ emake
+or
+$ source ~/Elastos.RT/Setup/SetEnv.sh
+then choose the index number of index number of _linux_ item from the numbered list
 ```
 
-3. build HelloCar
+2. emake
 ```
-cd ~/Elastos.RT/Sources/Elastos/LibCore/tests/HelloCar
-~/Elastos.RT/Sources/Elastos/LibCore/tests/HelloCar$ emake
-```
-
-4. build result
-```
-~/Elastos.RT/Sources/Elastos/LibCore/tests/HelloCar$ pd @
-~/Elastos.RT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin$ ll HelloCar
-```
-
-5. run HelloCar
-```
-# Run the executable inside the dbg_info directory if you want to debug it with debug symbols
-# We have already "export LD_LIBRARY_PATH=.". So, it will load the *.eco files inside the current directory
-~/Elastos.RT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin$ cd dbg_info
-~/Elastos.RT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin/dbg_info$ ./HelloCar
-==================================
-=========== Hello Car ============
-==================================
-Though cat has nine lives, but it can not fly!
-Kitty can not fly!
-
-FILE: Animal.cpp, LINE: 51, INFO: > Animal::constructor(2, HuaHua)
-
-HuaHua : wang! wang!
-HuaHua can not fly!
-
-Though cat has nine lives, but it can not fly!
-CAnimalHelper::CanFly : Kitty can not fly!
-
-=========== Exit Hello Car ============
-```
-
-#### Math
-
-1. enter the build environment(optional)
-```
-$ source ~/Elastos.RT/Setup/SetEnv.sh linux
-```
-
-2. build Math test case
-```
-cd ~/Elastos.RT/Sources/Elastos/LibCore/tests/libcore/math
-~/Elastos.RT/Sources/Elastos/LibCore/tests/libcore/math$ emake
-```
-
-3. build result
-```
-~/Elastos.RT/Sources/Elastos/LibCore/tests/libcore/math$ pd @
-~/Elastos.RT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin$ ll testMath
-```
-
-4. run testMath
-```
-# Run the executable inside the dbg_info directory if you want to debug it with debug symbols
-# We have already "export LD_LIBRARY_PATH=.". So, it will load the *.eco files inside the current directory
-~/Elastos.RT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin$ cd dbg_info
-~/Elastos.RT/Targets/rdk/x86.gnu.linux.devtools.dbg/bin/dbg_info$ ./testMath
+~/Elastos.RT/Sources$ emake
 ```
