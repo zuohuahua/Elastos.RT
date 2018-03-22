@@ -26,7 +26,7 @@ In general, you will not use it. It will be used that When you need to modify th
   $ source ~/Elastos.RT/Setup/SetEnv.sh host_devtools
   or
   $ source ~/Elastos.RT/Setup/SetEnv.sh
-  then choose the index number of host_devtools item from the numbered list
+  then choose the index number of "host_devtools" item from the numbered list
   ```
 
 2. build CAR tools

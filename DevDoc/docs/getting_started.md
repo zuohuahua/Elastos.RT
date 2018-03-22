@@ -100,6 +100,8 @@ Please select the appropriate compilation environment as needed:
   ```
 
   4.Install simulator in Xcode
+  
+  If you want to use "ios_device" to compile and run , please ignore this step.
 
   Xcode->Preferences->Components, install iOS 11.1 Simulator
 
@@ -117,7 +119,7 @@ Please select the appropriate compilation environment as needed:
 $ source ~/Elastos.RT/Setup/SetEnv.sh arm_android
 or
 $ source ~/Elastos.RT/Setup/SetEnv.sh
-then choose the index number of _arm_android_ item from the numbered list
+then choose the index number of "arm_android" item from the numbered list
 ```
 
 2. emake
@@ -132,7 +134,7 @@ then choose the index number of _arm_android_ item from the numbered list
 $ source ~/Elastos.RT/Setup/SetEnv.sh linux
 or
 $ source ~/Elastos.RT/Setup/SetEnv.sh
-then choose the index number of index number of _linux_ item from the numbered list
+then choose the index number of "linux" item from the numbered list
 ```
 
 2. emake
@@ -143,15 +145,27 @@ then choose the index number of index number of _linux_ item from the numbered l
 ### Build IOS
 
 1. enter the build environment:
-```
-$ source ~/Elastos.RT/Setup/SetEnv.sh ios_simulator64 (or ios_device)
 
+* ios_simulator64 : Simulator version
+```
+$ source ~/Elastos.RT/Setup/SetEnv.sh ios_simulator64
 or
 $ source ~/Elastos.RT/Setup/SetEnv.sh
-then choose the index number of index number of _linux_ item from the numbered list
+then choose the index number of "ios_simulator64" item from the numbered list
+```
+
+* ios_device : Real machine version
+```
+$ source ~/Elastos.RT/Setup/SetEnv.sh ios_device
+or
+$ source ~/Elastos.RT/Setup/SetEnv.sh
+then choose the index number of "ios_device" item from the numbered list
 ```
 
 2. emake
 ```
 ~/Elastos.RT/Sources$ emake
 ```
+
+note: 
+No matter which IOS version is compiled, you should register Apple developer ID before compiling; but before compiling ios_device version, you also should set DEVELOPMENT_TEAM_ID and you may need to modify APP_BUNDLE_IDENTIFIER in CMakeLists.txt

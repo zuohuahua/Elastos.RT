@@ -12,6 +12,8 @@ ElastosRT is targeted for Ubuntu, Android and iOS.
 ## Build
 
 - [Getting Started](DevDoc/docs/getting_started.md)
-- [Build for iOS](DevDoc/docs/build_ios.md)
+- [Build for android app](DevDoc/docs/Example_HelloElastosDemo.md)
+- [Build for CAR tools](DevDoc/docs/How_to_build_CAR_tools_such_as_carc.md)
+- [Build for test case](DevDoc/docs/How_to_run_test_on_ubuntu.md)
 - [Issues](DevDoc/docs/build_tips.md)
 
