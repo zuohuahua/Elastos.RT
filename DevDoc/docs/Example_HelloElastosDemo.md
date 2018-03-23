@@ -19,19 +19,19 @@ dropsdk
 
 * integrate elastos library
 
-copy the contents gerenated in step 2 to SDK/android/sample/HelloElastosDemo/app/src/main/jni/elastos/
+copy the contents gerenated in step 2 to Sources/Sample/HelloCarDemo/Android/HelloElastosDemo/app/src/main/jni/elastos/
 
 ```
-Elastos.RT/SDK/android/elastos$cp -rf * ../sample/HelloElastosDemo/app/src/main/jni/elastos/
+Elastos.RT/SDK/android/elastos$cp -rf * ../../../Sources/Sample/HelloCarDemo/Android/HelloElastosDemo/app/src/main/jni/elastos/
 ```
 
 * integrate third-party library 
 
 
-copy the contents gerenated under Elastos.RT/Export/android/Elastos.HelloCarDemo to SDK/android/sample/HelloElastosDemo/app/src/main/jni/Elastos.HelloCarDemo/
+copy the contents gerenated under Elastos.RT/Export/android/Elastos.HelloCarDemo to Sources/Sample/HelloCarDemo/Android/HelloElastosDemo/app/src/main/jni/Elastos.HelloCarDemo/
 
 
 ```
 Elastos.RT/Export/android/Elastos.HelloCarDemo$ 
-cp *  ../../../SDK/android/sample/HelloElastosDemo/app/src/main/jni/Elastos.HelloCarDemo/
+cp *  ../../../Sources/Sample/HelloCarDemo/Android/HelloElastosDemo/app/src/main/jni/Elastos.HelloCarDemo/
 ```

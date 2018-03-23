@@ -15,5 +15,6 @@ else()
     xdk_add_subdirectories(
         ThirdParty
         Elastos
+        Sample
     )
 endif()
