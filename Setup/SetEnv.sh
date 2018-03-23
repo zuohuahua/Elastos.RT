@@ -160,29 +160,6 @@ else
                 export XDK_VERSION=dbg
             fi
 
-            unset DEBUG_INFO
-
-            if [ ! "$XDK_VERSION" == "rls" ]; then
-                export DEBUG_INFO=1
-            fi
-
-            # Set target object environment variables
-            if [ -z "$XDK_TARGET_PRODUCT" ]; then
-                export XDK_BUILD_KIND=${XDK_TARGET_CPU}_$XDK_TARGET_CPU_ARCH.$XDK_COMPILER.$XDK_TARGET_PLATFORM.$XDK_VERSION
-            else
-                export XDK_BUILD_KIND=${XDK_TARGET_CPU}_$XDK_TARGET_CPU_ARCH.$XDK_COMPILER.$XDK_TARGET_PLATFORM.$XDK_TARGET_PRODUCT.$XDK_VERSION
-            fi
-            export XDK_USER_OBJ=$XDK_TARGETS_PATH/obj/$XDK_BUILD_ENV
-            export XDK_USER_INC=$XDK_USER_OBJ/$XDK_BUILD_KIND/inc
-            export XDK_USER_LIB=$XDK_USER_OBJ/$XDK_BUILD_KIND/lib
-            export XDK_TARGETS=$XDK_TARGETS_PATH/$XDK_BUILD_ENV/$XDK_BUILD_KIND/bin
-            export TARGET_PACK_PATH=$XDK_TARGETS/package
-
-            if [ "$XDK_BUILD_ENV" == "sdk" ]; then
-                export XDK_INC_PATH=$XDK_BUILD_PATH/Prebuilt/RDK/$XDK_BUILD_KIND/inc
-                export XDK_LIB_PATH=$XDK_BUILD_PATH/Prebuilt/RDK/$XDK_BUILD_KIND/lib
-            fi
-
             # Finally add Ubuntu System to the path, so we could use system tools
             PATH_LIST=${PATH//\:/ }
             for line in $PATH_LIST; do
@@ -201,11 +178,7 @@ else
             unset PATH_LIST
             unset PATH_FILTEROUT_ANDROID
 
-            if [ "$XDK_BUILD_ENV" == "sdk" ]; then
-                export PATH=$PATH:$XDK_LIB_PATH:$XDK_TARGETS
-            else
-                export PATH=$PATH:$XDK_TARGETS
-            fi
+            chv $XDK_VERSION
 
             cd $XDK_SOURCE_PATH
 
@@ -218,7 +191,10 @@ else
                 PS1_COLOR='\[\e[0;33m\]' # Yellow
             fi
 
-            TITLE='$XDK_TARGET_PLATFORM-${XDK_TARGET_CPU}_$XDK_TARGET_CPU_ARCH.$XDK_COMPILER-${XDK_TARGET_PRODUCT:+$XDK_TARGET_PRODUCT-}$XDK_VERSION'
+            TITLE='$XDK_TARGET_PLATFORM-${XDK_TARGET_CPU}_$XDK_TARGET_CPU_ARCH.$XDK_COMPILER-'
+            TITLE+='${XDK_TARGET_PRODUCT:+$XDK_TARGET_PRODUCT-}'
+            TITLE+='${XDK_BUILD_TOOL:+$XDK_BUILD_TOOL.}'
+            TITLE+='$XDK_VERSION'
 
             export PS1="\[\e]0;$TITLE \w\a\]\n\${debian_chroot:+(\$debian_chroot) }${PS1_COLOR}\${XDK_TARGET_CPU}_\$XDK_TARGET_CPU_ARCH.\$XDK_VERSION \w${PS1_RESET}\n$ "
 
