@@ -8,5 +8,6 @@ fi
 export XDK_COMPILER=gnu
 #export XDK_TARGET_BOARD=pc
 #export XDK_TARGET_PRODUCT=devtools
+export THIRDPART_DEPENDED=$XDK_ROOT/ToolChains/$XDK_TARGET_PLATFORM/Thirdlibrary
 export XDK_TARGET_FORMAT=elf
-export LD_LIBRARY_PATH=.
+export LD_LIBRARY_PATH=.:$THIRDPART_DEPENDED/lib

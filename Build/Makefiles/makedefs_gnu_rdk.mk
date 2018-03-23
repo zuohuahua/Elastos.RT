@@ -121,7 +121,7 @@ else
 #                   $(DLLTOOL_FLAGS)
   DLLTOOL_FLAGS := -D $(TARGET_PREFIX)$(TARGET_NAME).$(DEPEND_OBJ_TYPE)  \
                    -Wl,-soname,$(TARGET_PREFIX)$(TARGET_NAME).$(DEPEND_OBJ_TYPE) \
-                   $(DLLTOOL_FLAGS)
+                   -L$(THIRDPART_DEPENDED)/lib $(DLLTOOL_FLAGS)
 endif
 
 ##########################################################################

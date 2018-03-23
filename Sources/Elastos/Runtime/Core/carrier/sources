@@ -1,0 +1,11 @@
+
+TARGET_NAME= elcarrierapi
+TARGET_TYPE= lib
+
+C_DEFINES= -D_CAR_RUNTIME
+
+INCLUDES += $(MAKEDIR)/../inc
+INCLUDES += $(MAKEDIR)/../reflection
+INCLUDES += $(MAKEDIR)/carrierinc
+
+SOURCES = elcarrierapi.cpp

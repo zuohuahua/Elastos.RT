@@ -75,6 +75,7 @@ EXPORTS
     carrier_session_connect                         @194    NONAME
     carrier_session_wait                            @195    NONAME
     carrier_session_destroy                         @196    NONAME
+    _CCarrier_GetInstance                           @197    NONAME
 
     ;;============================================================
     ;; CAR data-type APIs, using ordinal 200-499
@@ -175,3 +176,6 @@ EXPORTS
 
     gElEmptyStringBuf                               @700    NONAME  DATA
     gElEmptyString                                  @701    NONAME  DATA
+    EIID_ICarrier                                   @702    NONAME  DATA
+    EIID_ICarrierListener                           @703    NONAME  DATA
+    EIID_IFriend                                    @704    NONAME  DATA

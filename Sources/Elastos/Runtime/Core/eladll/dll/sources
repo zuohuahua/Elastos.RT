@@ -63,6 +63,7 @@ LIBRARIES += -lpthread
 LIBRARIES += $(XDK_LIB_PATH)/dbus-1.lib
 else
 ifeq "$(XDK_TARGET_PLATFORM)" "android"
+ELASTOS_LIBS += ../../carrier/elcarrierapi.lib
 ELASTOS_LIBS += ../../elapi/elapi.lib
 ELASTOS_LIBS += ../../marshal/p2p_rpc/marshal.lib
 #ELASTOS_LIBS += ../../marshal/android_linux/marshal.lib
@@ -74,6 +75,7 @@ LIBRARIES += $(XDK_USER_LIB)/crt0.lib
 LIBRARIES += -lelacarrier -lelacommon -lelasession
 else
 ifeq "$(XDK_TARGET_PLATFORM)" "linux"
+ELASTOS_LIBS += ../../carrier/elcarrierapi.lib
 ELASTOS_LIBS += ../../elapi/elapi.lib
 ifeq "$(XDK_TARGET_CPU_ARCH)" "32"
 ELASTOS_LIBS += ../../marshal/others_rpc/marshal.lib
@@ -83,6 +85,7 @@ LIBRARIES += $(XDK_USER_LIB)/crt0.lib
 else
 ELASTOS_LIBS += ../../marshal/marshalcomm.lib
 LIBRARIES += -lm -lc -ldl -lpthread -lstdc++ -lz -lrt
+LIBRARIES += -lelacarrier -lelacommon -lelasession
 endif
 else
 ELASTOS_LIBS += ../../marshal/others/marshal.lib

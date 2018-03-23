@@ -123,5 +123,8 @@ ELAPI ECO_PUBLIC _CObject_UnmarshalInterface(
     /* [out] */ IInterface **ppObj,
     /* [out] */ _ELASTOS Int32 *pSize);
 
+ELAPI ECO_PUBLIC _CCarrier_GetInstance(
+    /* [out] */ ICarrier** carrier);
+
 #endif // __ELAPI_H__
 /** @} */
