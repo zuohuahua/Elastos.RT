@@ -1109,7 +1109,7 @@ cd /data/debug
 
 <span id="example"></span>
 ## 范例
-范例 __HelloCar__ 说明了如何编写带有继承结构的CAR类以及如何编写单例类(代码路径为ElastosRDK5_0/Sources/Elastos/LibCore/tests/HelloCar):
+范例 __HelloCar__ 说明了如何编写带有继承结构的CAR类以及如何编写单例类(代码路径为Elastos.RT/Sources/Sample/HelloCar):
 
     + HelloCar
         + eco

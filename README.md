@@ -17,3 +17,7 @@ ElastosRT is targeted for Ubuntu, Android and iOS.
 - [Build for test case](DevDoc/docs/How_to_run_test_on_ubuntu.md)
 - [Issues](DevDoc/docs/build_tips.md)
 
+If you want to learn more, please refer to the following:
+
+- [Elastos_Development_Guide](DevDoc/References/Elastos_Development_Guide.md)
+- [Elastos_64bit_Upgrade_Guide](DevDoc/References/Elastos_64bit_Upgrade_Guide.md)
