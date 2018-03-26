@@ -5,7 +5,7 @@
 #include "Elastos.CoreLibrary.h"
 #include <elastos.h>
 #include <elautoptr.h>
-#include <elastos/Mutex.h>
+#include "elastos/core/Mutex.h"
 #include <elastos/ThreadBase.h>
 
 using namespace Elastos;

@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "Memory.h"
-#include "coredef.h"
+#include "libcore/io/Memory.h"
+#include "elastos/coredef.h"
 #include <byteswap.h>
 
 using Elastos::IO::ByteOrder_BIG_ENDIAN;

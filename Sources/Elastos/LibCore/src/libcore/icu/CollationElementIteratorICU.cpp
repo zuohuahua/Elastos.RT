@@ -15,8 +15,8 @@
 //=========================================================================
 
 #include "Elastos.CoreLibrary.Text.h"
-#include "CollationElementIteratorICU.h"
-#include "NativeCollation.h"
+#include "libcore/icu/CollationElementIteratorICU.h"
+#include "libcore/icu/NativeCollation.h"
 
 namespace Libcore {
 namespace ICU {

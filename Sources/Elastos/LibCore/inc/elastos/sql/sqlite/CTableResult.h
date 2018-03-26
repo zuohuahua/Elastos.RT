@@ -18,7 +18,7 @@
 #define __ELASTOS_SQL_SQLITE_CTABLERESULT_H__
 
 #include "_Elastos_Sql_SQLite_CTableResult.h"
-#include "TableResult.h"
+#include "elastos/sql/sqlite/TableResult.h"
 #include <elstring.h>
 
 namespace Elastos {

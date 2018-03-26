@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CCloseGuardHelper.h"
-#include "CCloseGuard.h"
+#include "elastos/core/CCloseGuardHelper.h"
+#include "elastos/core/CCloseGuard.h"
 
 namespace Elastos {
 namespace Core {

@@ -2,9 +2,9 @@
 #ifndef __MYTHREAD_H__
 #define __MYTHREAD_H__
 
-#include <elastos/Thread.h>
+#include "elastos/core/Thread.h"
 #include <elrefbase.h>
-#include <elastos/Mutex.h>
+#include "elastos/core/Mutex.h"
 
 
 class MyThread

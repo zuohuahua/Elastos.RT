@@ -16,8 +16,8 @@
 
 #include "Elastos.CoreLibrary.IO.h"
 #include "Elastos.CoreLibrary.Net.h"
-#include "SocketTagger.h"
-#include "AutoLock.h"
+#include "libcore/io/SocketTagger.h"
+#include "elastos/core/AutoLock.h"
 
 using Elastos::IO::IFileDescriptor;
 

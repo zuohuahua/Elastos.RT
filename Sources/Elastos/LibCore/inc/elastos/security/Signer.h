@@ -18,7 +18,7 @@
 #define __ELASTOS_SECURITY_SECURERANDOMSPI_H__
 
 #include "Elastos.CoreLibrary.Security.h"
-#include "Identity.h"
+#include "elastos/security/Identity.h"
 
 using Elastos::IO::ISerializable;
 

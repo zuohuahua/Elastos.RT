@@ -21,7 +21,7 @@
 #include <Elastos.CoreLibrary.Core.h>
 #include <Elastos.CoreLibrary.Security.h>
 #include <Elastos.CoreLibrary.Utility.h>
-#include <elastos/core/Object.h>
+#include "elastos/core/Object.h"
 #include "elastos/security/KeyPairGenerator.h"
 
 using Elastos::Security::IKeyPair;

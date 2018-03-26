@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "StrictMath.h"
-#include "ElaMath.h"
+#include "elastos/core/StrictMath.h"
+#include "elastos/core/Math.h"
 #ifndef ANDROID
 #include <math.h>
 #else

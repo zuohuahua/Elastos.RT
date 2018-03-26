@@ -18,7 +18,7 @@
 #define __ELASTOS_SECURITY_CKEYSTOREPRIVATEKEYENTRY_H__
 
 #include "_Elastos_Security_CKeyStorePrivateKeyEntry.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 namespace Elastos {
 namespace Security {

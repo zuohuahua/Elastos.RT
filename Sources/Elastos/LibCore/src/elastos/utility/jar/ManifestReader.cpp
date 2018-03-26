@@ -14,11 +14,11 @@
 // limitations under the License.
 //=========================================================================
 
-#include "ManifestReader.h"
-#include "CString.h"
-#include "CName.h"
-#include "CByteArrayOutputStream.h"
-#include "CAttributes.h"
+#include "elastos/utility/jar/ManifestReader.h"
+#include "elastos/core/CString.h"
+#include "elastos/utility/jar/CName.h"
+#include "elastos/io/CByteArrayOutputStream.h"
+#include "elastos/utility/jar/CAttributes.h"
 #include <cutils/log.h>
 
 using Elastos::Core::CString;

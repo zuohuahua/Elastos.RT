@@ -14,10 +14,10 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CFileHandler.h"
-#include "CFtpHandler.h"
-#include "CFileURLConnection.h"
-#include "CFtpURLInputStream.h"
+#include "libcore/net/url/CFileHandler.h"
+#include "libcore/net/url/CFtpHandler.h"
+#include "libcore/net/url/CFileURLConnection.h"
+#include "libcore/net/url/CFtpURLInputStream.h"
 
 namespace Libcore {
 namespace Net {

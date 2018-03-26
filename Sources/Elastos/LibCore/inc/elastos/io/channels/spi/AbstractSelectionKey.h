@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_IO_CHANNELS_SPI_ABSTRACTSELECTIONKEY_H__
 #define __ELASTOS_IO_CHANNELS_SPI_ABSTRACTSELECTIONKEY_H__
 
-#include "SelectionKey.h"
+#include "elastos/io/channels/SelectionKey.h"
 
 using Elastos::IO::Channels::SelectionKey;
 

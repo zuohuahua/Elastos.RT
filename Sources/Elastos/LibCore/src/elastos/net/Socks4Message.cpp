@@ -15,10 +15,10 @@
 //=========================================================================
 
 
-#include "Socks4Message.h"
-#include "ElaMath.h"
-#include "StringBuilder.h"
-#include "StringBuilder.h"
+#include "elastos/net/Socks4Message.h"
+#include "elastos/core/Math.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/core/StringBuilder.h"
 
 using Elastos::Core::StringBuilder;
 using Elastos::Core::StringUtils;

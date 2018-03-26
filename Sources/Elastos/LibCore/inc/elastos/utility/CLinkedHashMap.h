@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CLINKEDHASHMAP_H__
 
 #include "_Elastos_Utility_CLinkedHashMap.h"
-#include "LinkedHashMap.h"
+#include "elastos/utility/LinkedHashMap.h"
 
 namespace Elastos {
 namespace Utility {

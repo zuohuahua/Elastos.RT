@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_SECURITY_CALGORITHMPARAMETERSHELPER_H__
 #define __ELASTOS_SECURITY_CALGORITHMPARAMETERSHELPER_H__
 
-#include <elastos/core/Singleton.h>
+#include "elastos/core/Singleton.h"
 #include "_Elastos_Security_CAlgorithmParametersHelper.h"
 
 using Elastos::Security::IProvider;

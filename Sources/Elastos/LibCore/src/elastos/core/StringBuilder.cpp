@@ -14,9 +14,9 @@
 // limitations under the License.
 //=========================================================================
 
-#include "StringBuilder.h"
-#include "StringBuffer.h"
-#include "CString.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/core/StringBuffer.h"
+#include "elastos/core/CString.h"
 
 
 namespace Elastos {

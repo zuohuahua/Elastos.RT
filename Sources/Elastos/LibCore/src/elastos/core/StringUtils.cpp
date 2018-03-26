@@ -14,20 +14,20 @@
 // limitations under the License.
 //=========================================================================
 
-#include "coredef.h"
-#include "StringUtils.h"
-#include "Character.h"
-#include "StringToIntegral.h"
-#include "StringToReal.h"
-#include "IntegralToString.h"
-#include "RealToString.h"
-#include "CString.h"
-#include "CPatternHelper.h"
-#include "CSplitter.h"
-#include "ElaMath.h"
-#include "StringBuilder.h"
-//#include "CFormatter.h"
-//#include "CLocale.h"
+#include "elastos/coredef.h"
+#include "elastos/core/StringUtils.h"
+#include "elastos/core/Character.h"
+#include "elastos/core/StringToIntegral.h"
+#include "elastos/core/StringToReal.h"
+#include "elastos/core/IntegralToString.h"
+#include "elastos/core/RealToString.h"
+#include "elastos/core/CString.h"
+#include "elastos/utility/regex/CPatternHelper.h"
+#include "elastos/utility/regex/CSplitter.h"
+#include "elastos/core/Math.h"
+#include "elastos/core/StringBuilder.h"
+//#include "elastos/utility/CFormatter.h"
+//#include "elastos/utility/CLocale.h"
 
 using Elastos::Core::ICharSequence;
 using Elastos::Core::CString;

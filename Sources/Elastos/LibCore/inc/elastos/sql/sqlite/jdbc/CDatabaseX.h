@@ -18,7 +18,7 @@
 #define __ELASTOS_SQL_SQLITE_JDBC_CDATABASEX_H__
 
 #include "_Elastos_Sql_SQLite_JDBC_CDatabaseX.h"
-#include "Database.h"
+#include "elastos/sql/sqlite/Database.h"
 
 using Elastos::Sql::SQLite::Database;
 

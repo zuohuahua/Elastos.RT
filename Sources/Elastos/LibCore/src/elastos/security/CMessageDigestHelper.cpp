@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CMessageDigestHelper.h"
-#include "MessageDigest.h"
+#include "elastos/security/CMessageDigestHelper.h"
+#include "elastos/security/MessageDigest.h"
 
 namespace Elastos {
 namespace Security {

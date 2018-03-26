@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "security/cert/CertPathBuilder.h"
-#include "security/CSecurity.h"
+#include "elastos/security/cert/CertPathBuilder.h"
+#include "elastos/security/CSecurity.h"
 
 using Elastos::Security::ISecurity;
 using Elastos::Security::CSecurity;

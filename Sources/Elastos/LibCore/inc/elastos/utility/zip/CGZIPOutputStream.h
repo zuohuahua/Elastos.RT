@@ -18,8 +18,8 @@
 #define __ELASTOS_UTILITY_ZIP_ELASTOS_UTILITY_CGZIPOUTPUTSTREAM_H__
 
 #include "_Elastos_Utility_Zip_CGZIPOutputStream.h"
-#include "DeflaterOutputStream.h"
-#include "CCRC32.h"
+#include "elastos/utility/zip/DeflaterOutputStream.h"
+#include "elastos/utility/zip/CCRC32.h"
 
 namespace Elastos {
 namespace Utility {

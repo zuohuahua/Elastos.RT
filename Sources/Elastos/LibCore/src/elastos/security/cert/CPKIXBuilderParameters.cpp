@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CPKIXBuilderParameters.h"
-#include "StringBuilder.h"
+#include "elastos/security/cert/CPKIXBuilderParameters.h"
+#include "elastos/core/StringBuilder.h"
 
 using Elastos::Core::StringBuilder;
 

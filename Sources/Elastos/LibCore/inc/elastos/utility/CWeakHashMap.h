@@ -18,8 +18,8 @@
 #define __ELASTOS_UTILITY_CWEAKHASHMAP_H__
 
 #include "_Elastos_Utility_CWeakHashMap.h"
-#include "AbstractMap.h"
-#include "MapEntry.h"
+#include "elastos/utility/AbstractMap.h"
+#include "elastos/utility/MapEntry.h"
 
 namespace Elastos {
 namespace Utility {

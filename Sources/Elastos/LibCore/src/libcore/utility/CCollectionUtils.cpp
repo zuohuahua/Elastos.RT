@@ -14,9 +14,9 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CCollectionUtils.h"
-#include "CCollectionUtils.h"
-#include "Collections.h"
+#include "libcore/utility/CCollectionUtils.h"
+#include "libcore/utility/CCollectionUtils.h"
+#include "elastos/utility/Collections.h"
 
 using Elastos::Utility::Collections;
 using Elastos::Utility::EIID_IIterator;

@@ -16,8 +16,8 @@
 
 #include "Elastos.CoreLibrary.IO.h"
 #include "Elastos.CoreLibrary.Utility.h"
-#include "ReentrantLock.h"
-#include "Thread.h"
+#include "elastos/utility/concurrent/locks/ReentrantLock.h"
+#include "elastos/core/Thread.h"
 
 using Elastos::Core::Thread;
 using Elastos::IO::EIID_ISerializable;

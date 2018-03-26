@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_ZIP_ELASTOS_UTILITY_CZIPENTRY_H__
 
 #include "_Elastos_Utility_Zip_CZipEntry.h"
-#include "ZipEntry.h"
+#include "elastos/utility/zip/ZipEntry.h"
 
 namespace Elastos {
 namespace Utility {

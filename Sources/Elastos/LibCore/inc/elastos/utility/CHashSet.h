@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CHASHSET_H__
 
 #include "_Elastos_Utility_CHashSet.h"
-#include "HashSet.h"
+#include "elastos/utility/HashSet.h"
 
 namespace Elastos {
 namespace Utility {

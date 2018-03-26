@@ -1,5 +1,5 @@
-#include <elastos/Logger.h>
-#include <elastos/Slogger.h>
+#include "elastos/utility/logging/Logger.h"
+#include "elastos/utility/logging/Slogger.h"
 
 #include <stdio.h>
 #include <sys/stat.h>

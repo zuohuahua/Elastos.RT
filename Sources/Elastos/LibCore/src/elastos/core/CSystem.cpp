@@ -14,19 +14,19 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CSystem.h"
-#include "StringBuilder.h"
-#include "CString.h"
-#include "CHashMap.h"
-#include "CProperties.h"
-#include "ICUUtil.h"
-#include "CSelectorProviderHelper.h"
-#include "CFileDescriptor.h"
-#include "CFileInputStream.h"
-#include "CFileOutputStream.h"
-#include "CBufferedInputStream.h"
-#include "CPrintStream.h"
-#include "droid/system/Os.h"
+#include "elastos/core/CSystem.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/core/CString.h"
+#include "elastos/utility/CHashMap.h"
+#include "elastos/utility/CProperties.h"
+#include "libcore/icu/ICUUtil.h"
+#include "elastos/io/channels/spi/CSelectorProviderHelper.h"
+#include "elastos/io/CFileDescriptor.h"
+#include "elastos/io/CFileInputStream.h"
+#include "elastos/io/CFileOutputStream.h"
+#include "elastos/io/CBufferedInputStream.h"
+#include "elastos/io/CPrintStream.h"
+#include "elastos/core/Os.h"
 
 #include <stdlib.h>
 #include <unistd.h>

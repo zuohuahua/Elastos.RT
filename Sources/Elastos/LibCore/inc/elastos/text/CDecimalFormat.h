@@ -18,7 +18,7 @@
 #define __ELASTOS_TEXT_CDECIMALFORMAT_H__
 
 #include "_Elastos_Text_CDecimalFormat.h"
-#include "DecimalFormat.h"
+#include "elastos/text/DecimalFormat.h"
 
 using Elastos::Utility::ILocale;
 using Elastos::Text::IFieldPosition;

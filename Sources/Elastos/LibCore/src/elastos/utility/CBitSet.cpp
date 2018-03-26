@@ -14,10 +14,10 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CBitSet.h"
-#include "ElaMath.h"
-#include "StringBuilder.h"
-//#include "ByteBuffer.h"
+#include "elastos/utility/CBitSet.h"
+#include "elastos/core/Math.h"
+#include "elastos/core/StringBuilder.h"
+//#include "elastos/io/ByteBuffer.h"
 
 using Elastos::Core::StringBuilder;
 using Elastos::Core::EIID_ICloneable;

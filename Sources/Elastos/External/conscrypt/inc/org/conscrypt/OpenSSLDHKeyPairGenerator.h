@@ -17,9 +17,9 @@
 #ifndef __ORG_CONSCRYPT_OPENSSLDHKEYPAIRGENERATOR_H__
 #define __ORG_CONSCRYPT_OPENSSLDHKEYPAIRGENERATOR_H__
 
-#include <elastos/coredef.h>
+#include "elastos/coredef.h"
 #include <Elastos.CoreLibrary.Security.h>
-#include <elastos/security/KeyPairGeneratorSpi.h>
+#include "elastos/security/KeyPairGeneratorSpi.h"
 #include "_Org.Conscrypt.h"
 
 using Elastos::Math::IBigInteger;

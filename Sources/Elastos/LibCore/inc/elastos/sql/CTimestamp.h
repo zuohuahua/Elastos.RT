@@ -18,7 +18,7 @@
 #define __ELASTOS_SQL_CTIMESTAMP_H__
 
 #include "_Elastos_Sql_CTimestamp.h"
-#include "Date.h"
+#include "elastos/utility/Date.h"
 
 using Elastos::Utility::Date;
 

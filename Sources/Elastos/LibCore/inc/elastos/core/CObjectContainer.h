@@ -20,7 +20,7 @@
 #include "_Elastos_Core_CObjectContainer.h"
 #include <elastos.h>
 #include "container.h"
-#include "CObjectEnumerator.h"
+#include "elastos/core/CObjectEnumerator.h"
 
 namespace Elastos{
 namespace Core{

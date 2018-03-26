@@ -17,7 +17,7 @@
 #ifndef __LIBCORE_ICU_CDATEINTERVALFORMAT_H__
 #define __LIBCORE_ICU_CDATEINTERVALFORMAT_H__
 
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 #include "_Libcore_ICU_CDateIntervalFormat.h"
 
 using Elastos::Core::Singleton;

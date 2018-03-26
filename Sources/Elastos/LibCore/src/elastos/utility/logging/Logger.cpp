@@ -19,7 +19,7 @@
 #else
 #include <android/log.h>
 #endif
-#include <elastos/utility/logging/Logger.h>
+#include "elastos/utility/logging/Logger.h"
 #include <errno.h>
 
 namespace Elastos {

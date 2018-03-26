@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "AlgorithmParameterGeneratorSpi.h"
+#include "elastos/security/AlgorithmParameterGeneratorSpi.h"
 
 namespace Elastos {
 namespace Security {

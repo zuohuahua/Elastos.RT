@@ -18,7 +18,7 @@
 #define __ELASTOS_NET_CURLDCODER_H__
 
 #include "_Elastos_Net_CURLDecoder.h"
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 
 using Elastos::Core::Singleton;
 

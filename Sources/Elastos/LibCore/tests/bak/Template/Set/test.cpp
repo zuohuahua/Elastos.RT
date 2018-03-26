@@ -2,8 +2,8 @@
 #define __USE_MALLOC
 
 #include <elastos.h>
-#include <elastos/Algorithm.h>
-#include <elastos/Set.h>
+#include "elastos/utility/etl/Algorithm.h"
+#include "elastos/utility/etl/Set.h"
 #include <stdio.h>
 
 using namespace Elastos;

@@ -15,17 +15,17 @@
 //=========================================================================
 
 #include "Elastos.CoreLibrary.IO.h"
-#include "CConcurrentHashMap.h"
-#include "LockSupport.h"
-#include "ElaMath.h"
-#include "StringBuilder.h"
-#include "CBoolean.h"
-#include "CAtomicInteger32.h"
-#include "Arrays.h"
+#include "elastos/utility/concurrent/CConcurrentHashMap.h"
+#include "elastos/utility/concurrent/locks/LockSupport.h"
+#include "elastos/core/Math.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/core/CBoolean.h"
+#include "elastos/utility/concurrent/atomic/CAtomicInteger32.h"
+#include "elastos/utility/Arrays.h"
 #include "corelibrary/Atomic.h"
 #include "elastos/core/CArrayOf.h"
-#include <elastos/core/AutoLock.h>
-#include <elastos/core/Thread.h>
+#include "elastos/core/AutoLock.h"
+#include "elastos/core/Thread.h"
 
 using Elastos::Core::AutoLock;
 using Elastos::Core::IBoolean;

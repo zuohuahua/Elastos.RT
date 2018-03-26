@@ -18,7 +18,7 @@
 #define __ELASTOS_TEXT_CDATEFORMATSYMBOLS_H__
 
 #include "_Elastos_Text_CDateFormatSymbols.h"
-#include "DateFormatSymbols.h"
+#include "elastos/text/DateFormatSymbols.h"
 
 using Elastos::Utility::ILocale;
 

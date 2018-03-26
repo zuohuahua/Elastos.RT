@@ -19,7 +19,7 @@
 
 #include "Elastos.CoreLibrary.Net.h"
 #include "elastos/core/Object.h"
-#include <elastos/utility/etl/HashMap.h>
+#include "elastos/utility/etl/HashMap.h"
 
 using Elastos::Core::Object;
 using Elastos::IO::IInputStream;

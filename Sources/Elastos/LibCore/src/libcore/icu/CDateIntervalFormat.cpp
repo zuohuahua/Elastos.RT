@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CDateIntervalFormat.h"
-#include "DateIntervalFormat.h"
+#include "libcore/icu/CDateIntervalFormat.h"
+#include "libcore/icu/DateIntervalFormat.h"
 
 namespace Libcore {
 namespace ICU {

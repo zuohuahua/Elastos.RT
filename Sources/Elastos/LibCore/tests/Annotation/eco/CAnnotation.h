@@ -18,7 +18,7 @@
 #define __CANNOTATION_H__
 
 #include "_CAnnotation.h"
-#include <elastos/core/Object.h>
+#include "elastos/core/Object.h"
 
 using Elastos::Core::Object;
 

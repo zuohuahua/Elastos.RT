@@ -14,10 +14,10 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CCollationKeyICU.h"
-#include "CLocaleData.h"
-#include "CAlphabeticIndex.h"
-#include "CTransliterator.h"
+#include "libcore/icu/CCollationKeyICU.h"
+#include "libcore/icu/CLocaleData.h"
+#include "libcore/icu/CAlphabeticIndex.h"
+#include "libcore/icu/CTransliterator.h"
 
 namespace Libcore {
 namespace ICU {

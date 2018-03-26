@@ -18,7 +18,7 @@
 #define __ORG_CONSCRYPT_CSSLPARAMETERSIMPLHELPER_H__
 
 #include "_Org_Conscrypt_CSSLParametersImplHelper.h"
-#include <elastos/core/Singleton.h>
+#include "elastos/core/Singleton.h"
 
 using Elastosx::Net::Ssl::IX509TrustManager;
 

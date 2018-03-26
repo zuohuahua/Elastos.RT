@@ -14,17 +14,17 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CMatcher.h"
-#include "Pattern.h"
-#include "MatchResultImpl.h"
+#include "elastos/utility/regex/CMatcher.h"
+#include "elastos/utility/regex/Pattern.h"
+#include "elastos/utility/regex/MatchResultImpl.h"
 #include "eldebugdef.h"
-#include "CString.h"
-#include "StringBuilder.h"
+#include "elastos/core/CString.h"
+#include "elastos/core/StringBuilder.h"
 #include "unicode/parseerr.h"
 #include "unicode/regex.h"
-#include "AutoLock.h"
+#include "elastos/core/AutoLock.h"
 
-#include <elastos/core/AutoLock.h>
+#include "elastos/core/AutoLock.h"
 using Elastos::Core::AutoLock;
 using Elastos::Core::CString;
 using Elastos::Core::StringBuilder;

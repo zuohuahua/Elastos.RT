@@ -18,10 +18,10 @@
 #define __ELASTOS_UTILITY_CIDENTITYHASHMAP_H__
 
 #include "_Elastos_Utility_CIdentityHashMap.h"
-#include "AbstractMap.h"
-#include "MapEntry.h"
-#include "AbstractSet.h"
-#include "AbstractCollection.h"
+#include "elastos/utility/AbstractMap.h"
+#include "elastos/utility/MapEntry.h"
+#include "elastos/utility/AbstractSet.h"
+#include "elastos/utility/AbstractCollection.h"
 
 //using Elastos::IO::IObjectInputStream;
 //using Elastos::IO::IObjectOutputStream;

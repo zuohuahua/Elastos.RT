@@ -18,8 +18,8 @@
 #define __ELASTOS_UTILITY_ZIP_ELASTOS_UTILITY_CDEFLATER_H__
 
 #include "_Elastos_Utility_Zip_CDeflater.h"
-#include "NativeZipStream.h"
-#include "Object.h"
+#include "elastos/utility/zip/NativeZipStream.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::ICloseGuard;
 

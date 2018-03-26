@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_IO_CHARSETICU_H__
 #define __ELASTOS_IO_CHARSETICU_H__
 
-#include "Charset.h"
+#include "elastos/io/charset/Charset.h"
 
 namespace Elastos {
 namespace IO {

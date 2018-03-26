@@ -18,7 +18,7 @@
 #define __ELASTOS_TEXT_CNORMALIZERHELPER_H__
 
 #include "_Elastos_Text_CNormalizerHelper.h"
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 
 using Elastos::Core::ICharSequence;
 using Elastos::Core::Singleton;

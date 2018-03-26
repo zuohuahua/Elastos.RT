@@ -18,7 +18,7 @@
 #define __ELASTOS_SECURITY_POLICYSPI_H__
 
 #include "Elastos.CoreLibrary.Security.h"
-#include "PermissionCollection.h"
+#include "elastos/security/PermissionCollection.h"
 
 namespace Elastos {
 namespace Security {

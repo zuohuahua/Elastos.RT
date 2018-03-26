@@ -18,7 +18,7 @@
 #define __ELASTOS_CORE_CFLOAT_H__
 
 #include "_Elastos_Core_CFloat.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::INumber;
 using Elastos::Core::IComparable;

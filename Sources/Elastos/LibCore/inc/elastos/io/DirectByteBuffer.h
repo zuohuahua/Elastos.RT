@@ -17,8 +17,8 @@
 #ifndef __ELASTOS_IO_DIRECTBYTEBUFFER_H__
 #define __ELASTOS_IO_DIRECTBYTEBUFFER_H__
 
-#include "MappedByteBuffer.h"
-#include "MemoryBlock.h"
+#include "elastos/io/MappedByteBuffer.h"
+#include "elastos/io/MemoryBlock.h"
 
 namespace Elastos {
 namespace IO {

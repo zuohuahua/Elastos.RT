@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CMGF1ParameterSpec.h"
+#include "elastos/security/spec/CMGF1ParameterSpec.h"
 
 namespace Elastos {
 namespace Security {

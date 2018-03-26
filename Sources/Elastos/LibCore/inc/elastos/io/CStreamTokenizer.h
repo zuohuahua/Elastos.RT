@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CSTREAMTOKENIZER_H__
 
 #include "_Elastos_IO_CStreamTokenizer.h"
-#include "StreamTokenizer.h"
+#include "elastos/io/StreamTokenizer.h"
 
 namespace Elastos {
 namespace IO {

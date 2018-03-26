@@ -17,10 +17,10 @@
 #ifndef __ELASTOS_IO_SERVERSOCKETCHANNELIMPL_H__
 #define __ELASTOS_IO_SERVERSOCKETCHANNELIMPL_H__
 
-#include "ServerSocketChannel.h"
-#include "SocketChannelImpl.h"
-#include "SelectorProvider.h"
-#include "ServerSocket.h"
+#include "elastos/io/channels/ServerSocketChannel.h"
+#include "elastos/io/SocketChannelImpl.h"
+#include "elastos/io/channels/spi/SelectorProvider.h"
+#include "elastos/net/ServerSocket.h"
 
 using Elastos::IO::Channels::IServerSocketChannel;
 using Elastos::IO::Channels::ServerSocketChannel;

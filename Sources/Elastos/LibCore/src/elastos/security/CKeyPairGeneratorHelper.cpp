@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CKeyPairGeneratorHelper.h"
-#include "KeyPairGenerator.h"
+#include "elastos/security/CKeyPairGeneratorHelper.h"
+#include "elastos/security/KeyPairGenerator.h"
 
 namespace Elastos {
 namespace Security {

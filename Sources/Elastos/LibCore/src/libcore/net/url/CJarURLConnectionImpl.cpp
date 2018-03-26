@@ -14,14 +14,14 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CJarURLConnectionImpl.h"
-#include "AutoLock.h"
-#include "UriCodec.h"
-#include "CJarFile.h"
-#include "CFile.h"
-#include "CFileOutputStream.h"
+#include "libcore/net/url/CJarURLConnectionImpl.h"
+#include "elastos/core/AutoLock.h"
+#include "libcore/net/UriCodec.h"
+#include "elastos/utility/jar/CJarFile.h"
+#include "elastos/io/CFile.h"
+#include "elastos/io/CFileOutputStream.h"
 
-#include <elastos/core/AutoLock.h>
+#include "elastos/core/AutoLock.h"
 using Elastos::Core::AutoLock;
 using Elastos::Core::AutoLock;
 using Elastos::IO::IFile;

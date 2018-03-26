@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_IO_PUSHBACKREADER_H__
 #define __ELASTOS_IO_PUSHBACKREADER_H__
 
-#include "FilterReader.h"
+#include "elastos/io/FilterReader.h"
 
 namespace Elastos {
 namespace IO {

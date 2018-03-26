@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "X509CRLEntry.h"
-#include <elastos/utility/Arrays.h>
+#include "elastos/security/cert/X509CRLEntry.h"
+#include "elastos/utility/Arrays.h"
 #include "org/apache/harmony/security/asn1/CASN1OctetString.h"
 #include "org/apache/harmony/security/x509/CReasonCode.h"
 

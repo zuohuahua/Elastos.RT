@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CTIMER_H__
 
 #include "_Elastos_Utility_CTimer.h"
-#include "Timer.h"
+#include "elastos/utility/Timer.h"
 
 namespace Elastos {
 namespace Utility {

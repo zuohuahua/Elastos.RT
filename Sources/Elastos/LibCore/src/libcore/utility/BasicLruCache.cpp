@@ -14,11 +14,11 @@
 // limitations under the License.
 //=========================================================================
 
-#include "BasicLruCache.h"
-#include "CLinkedHashMap.h"
-#include <elastos/core/AutoLock.h>
+#include "libcore/utility/BasicLruCache.h"
+#include "elastos/utility/CLinkedHashMap.h"
+#include "elastos/core/AutoLock.h"
 
-#include <elastos/core/AutoLock.h>
+#include "elastos/core/AutoLock.h"
 using Elastos::Core::AutoLock;
 using Elastos::Utility::CLinkedHashMap;
 using Elastos::Utility::IMapEntry;

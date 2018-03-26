@@ -18,7 +18,7 @@
 #define __LIBCORE_IO_CIOUTILS_H__
 
 #include "_Libcore_IO_CIoUtils.h"
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 
 using Elastos::Core::Singleton;
 using Elastos::IO::ICloseable;

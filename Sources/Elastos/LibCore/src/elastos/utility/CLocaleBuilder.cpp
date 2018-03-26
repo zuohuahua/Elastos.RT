@@ -14,14 +14,14 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CLocaleBuilder.h"
-#include "CTreeSet.h"
-#include "CTreeMap.h"
-#include "CLocale.h"
-#include "StringUtils.h"
-#include "CString.h"
-#include "CChar32.h"
-#include "CoreUtils.h"
+#include "elastos/utility/CLocaleBuilder.h"
+#include "elastos/utility/CTreeSet.h"
+#include "elastos/utility/CTreeMap.h"
+#include "elastos/utility/CLocale.h"
+#include "elastos/core/StringUtils.h"
+#include "elastos/core/CString.h"
+#include "elastos/core/CChar32.h"
+#include "elastos/core/CoreUtils.h"
 #include <cutils/log.h>
 
 using Elastos::Core::CString;

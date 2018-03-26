@@ -17,10 +17,10 @@
 #ifndef __ELASTOS_UTILITY_CONCURRENT_ELASTOS_UTILITY_THREADPOOLEXECUTOR_H__
 #define __ELASTOS_UTILITY_CONCURRENT_ELASTOS_UTILITY_THREADPOOLEXECUTOR_H__
 
-#include "AbstractExecutorService.h"
-#include "AbstractQueuedSynchronizer.h"
-#include <elastos/utility/etl/HashSet.h>
-//#include <Condition.h>
+#include "elastos/utility/concurrent/AbstractExecutorService.h"
+#include "elastos/utility/concurrent/locks/AbstractQueuedSynchronizer.h"
+#include "elastos/utility/etl/HashSet.h"
+//#include "elastos/core/Condition.h"
 
 using Elastos::Core::IThrowable;
 using Elastos::Core::IRunnable;

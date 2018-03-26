@@ -14,9 +14,9 @@
 // limitations under the License.
 //=========================================================================
 
-#include "FileHandler.h"
-#include "CURL.h"
-#include "CFileURLConnection.h"
+#include "libcore/net/url/FileHandler.h"
+#include "elastos/net/CURL.h"
+#include "libcore/net/url/CFileURLConnection.h"
 
 using Elastos::Net::CURL;
 

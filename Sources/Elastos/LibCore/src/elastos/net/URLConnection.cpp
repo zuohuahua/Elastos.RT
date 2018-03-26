@@ -15,17 +15,17 @@
 //=========================================================================
 
 #include "Elastos.CoreLibrary.IO.h"
-#include "URLConnection.h"
-#include "DefaultFileNameMap.h"
-#include "CDateHelper.h"
-#include "CSystem.h"
-#include "Character.h"
-#include "StringBuffer.h"
-#include "StringUtils.h"
-#include "Collections.h"
-#include "AutoLock.h"
+#include "elastos/net/URLConnection.h"
+#include "elastos/net/DefaultFileNameMap.h"
+#include "elastos/utility/CDateHelper.h"
+#include "elastos/core/CSystem.h"
+#include "elastos/core/Character.h"
+#include "elastos/core/StringBuffer.h"
+#include "elastos/core/StringUtils.h"
+#include "elastos/utility/Collections.h"
+#include "elastos/core/AutoLock.h"
 
-#include <elastos/core/AutoLock.h>
+#include "elastos/core/AutoLock.h"
 using Elastos::Core::AutoLock;
 using Elastos::Core::StringBuffer;
 using Elastos::Core::StringUtils;

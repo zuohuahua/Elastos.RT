@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 #include <elautoptr.h>
-#include <elastos/coredef.h>
+#include "elastos/coredef.h"
 #include <Elastos.CoreLibrary.Utility.h>
 #include <Elastos.CoreLibrary.Core.h>
-#include <elastos/core/Object.h>
+#include "elastos/core/Object.h"
 #include "elastos/utility/AbstractMap.h"
 
 using namespace Elastos;

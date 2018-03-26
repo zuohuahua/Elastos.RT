@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CBitSetHelper.h"
-#include "CBitSet.h"
+#include "elastos/utility/CBitSetHelper.h"
+#include "elastos/utility/CBitSet.h"
 
 namespace Elastos {
 namespace Utility {

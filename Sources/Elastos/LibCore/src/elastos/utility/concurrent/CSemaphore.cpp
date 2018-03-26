@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CSemaphore.h"
+#include "elastos/utility/concurrent/CSemaphore.h"
 #include <cutils/log.h>
 
 using Elastos::IO::EIID_ISerializable;

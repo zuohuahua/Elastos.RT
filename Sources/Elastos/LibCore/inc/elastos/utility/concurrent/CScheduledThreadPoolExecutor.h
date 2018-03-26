@@ -18,9 +18,9 @@
 #define __ELASTOS_UTILITY_CONCURRENT_ELASTOS_UTILITY_CSCHEDULEDTHREADPOOLEXECUTOR_H__
 
 #include "_Elastos_Utility_Concurrent_CScheduledThreadPoolExecutor.h"
-#include "ThreadPoolExecutor.h"
-#include "AbstractQueue.h"
-#include "FutureTask.h"
+#include "elastos/utility/concurrent/ThreadPoolExecutor.h"
+#include "elastos/utility/AbstractQueue.h"
+#include "elastos/utility/concurrent/FutureTask.h"
 
 using Elastos::Utility::Concurrent::Locks::IReentrantLock;
 using Elastos::Utility::Concurrent::Locks::ICondition;

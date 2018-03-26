@@ -18,7 +18,7 @@
 #define __ORG_CONSCRYPT_CPLATFORM_H__
 
 #include "_Org_Conscrypt_CPlatform.h"
-#include <elastos/core/Singleton.h>
+#include "elastos/core/Singleton.h"
 
 using Elastos::IO::IFileDescriptor;
 using Elastos::Net::ISocket;

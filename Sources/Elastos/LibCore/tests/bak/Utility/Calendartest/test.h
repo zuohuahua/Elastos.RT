@@ -4,7 +4,7 @@
 #include "Elastos.CoreLibrary.h"
 #include <elautoptr.h>
 #include "Elastos.CoreLibrary.h"
-#include <elastos/ElaMath.h>
+#include "elastos/core/Math.h"
 
 using namespace Elastos;
 using namespace Elastos::Utility;

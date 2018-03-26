@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CLOCALE_H__
 
 #include "_Elastos_Utility_CLocale.h"
-#include <elastos/utility/ElaLocale.h>
+#include "elastos/utility/Locale.h"
 
 namespace Elastos {
 namespace Utility {

@@ -108,7 +108,7 @@ $END IF;; hasvirtual
 $END IF;; not UseNakedMode
 
 $IF attrib is "singleton"
-#include <spinlock.h>
+#include "elspinlock.h"
 
 static ${name} *_s_p${name}_ObjPtr_ = NULL;
 static SpinLock _s_${name}_spinlockObj_;

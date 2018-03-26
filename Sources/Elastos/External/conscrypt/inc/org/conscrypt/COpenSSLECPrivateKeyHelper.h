@@ -18,7 +18,7 @@
 #define __ORG_CONSCRYPT_COPENSSLECPRIVATEKEYHELPER_H__
 
 #include "_Org_Conscrypt_COpenSSLECPrivateKeyHelper.h"
-#include <elastos/core/Singleton.h>
+#include "elastos/core/Singleton.h"
 
 using Elastos::Security::Interfaces::IECPrivateKey;
 

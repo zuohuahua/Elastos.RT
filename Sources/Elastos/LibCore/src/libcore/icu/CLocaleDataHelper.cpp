@@ -15,8 +15,8 @@
 //=========================================================================
 
 #include "Elastos.CoreLibrary.Utility.h"
-#include "CLocaleDataHelper.h"
-#include "LocaleData.h"
+#include "libcore/icu/CLocaleDataHelper.h"
+#include "libcore/icu/LocaleData.h"
 
 namespace Libcore {
 namespace ICU {

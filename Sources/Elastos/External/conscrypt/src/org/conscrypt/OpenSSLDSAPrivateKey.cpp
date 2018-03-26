@@ -16,8 +16,8 @@
 
 #include "org/conscrypt/OpenSSLDSAPrivateKey.h"
 #include "org/conscrypt/NativeCrypto.h"
-#include <elastos/core/AutoLock.h>
-#include <elastos/core/StringBuilder.h>
+#include "elastos/core/AutoLock.h"
+#include "elastos/core/StringBuilder.h"
 
 using Elastos::IO::EIID_ISerializable;
 using Elastos::IO::IObjectInput;

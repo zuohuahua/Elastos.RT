@@ -14,9 +14,9 @@
 // limitations under the License.
 //=========================================================================
 
-#include "NetworkEventDispatcher.h"
-#include "concurrent/CCopyOnWriteArrayList.h"
-#include "logging/Logger.h"
+#include "libcore/net/event/NetworkEventDispatcher.h"
+#include "elastos/utility/concurrent/CCopyOnWriteArrayList.h"
+#include "elastos/utility/logging/Logger.h"
 
 using Elastos::Utility::IIterator;
 using Elastos::Utility::IIterable;

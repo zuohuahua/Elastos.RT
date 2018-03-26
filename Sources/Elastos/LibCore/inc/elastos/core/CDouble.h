@@ -18,7 +18,7 @@
 #define __ELASTOS_CORE_CDOUBLE_H__
 
 #include "_Elastos_Core_CDouble.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::INumber;
 using Elastos::Core::IComparable;

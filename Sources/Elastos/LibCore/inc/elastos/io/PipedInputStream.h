@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_IO_PIPEDINPUTSTREAM_H__
 #define __ELASTOS_IO_PIPEDINPUTSTREAM_H__
 
-#include "InputStream.h"
+#include "elastos/io/InputStream.h"
 
 using Elastos::Core::IThread;
 

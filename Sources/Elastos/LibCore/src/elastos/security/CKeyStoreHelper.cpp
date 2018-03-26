@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CKeyStoreHelper.h"
-#include "KeyStore.h"
+#include "elastos/security/CKeyStoreHelper.h"
+#include "elastos/security/KeyStore.h"
 
 namespace Elastos {
 namespace Security {

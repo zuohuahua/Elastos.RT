@@ -3,7 +3,7 @@
 #define __CSMANS_H__
 
 #include "_CSManS.h"
-#include <elastos/core/Object.h>
+#include "elastos/core/Object.h"
 
 #ifndef __USE_MALLOC
 #define __USE_MALLOC
@@ -16,7 +16,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <clsinfo.h>
-#include <elastos/utility/etl/HashMap.h>
+#include "elastos/utility/etl/HashMap.h"
 #include <elautoptr.h>
 
 #define MAX_SERVICE_NUMBER 32

@@ -19,7 +19,7 @@
 
 #include "Elastos.CoreLibrary.Libcore.h"
 #include "Elastos.CoreLibrary.Text.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::IComparator;
 using Elastos::Core::ICloneable;

@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <Elastos.CoreLibrary.h>
 #include <elrefbase.h>
-#include <elastos/Mutex.h>
+#include "elastos/core/Mutex.h"
 
 using namespace Elastos;
 using namespace Elastos::Core;

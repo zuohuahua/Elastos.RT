@@ -18,7 +18,7 @@
 #define __ELASTOS_NET_CPLAINSERVERSOCKETIMPL_H__
 
 #include "_Elastos_Net_CPlainServerSocketImpl.h"
-#include "PlainServerSocketImpl.h"
+#include "elastos/net/PlainServerSocketImpl.h"
 
 namespace Elastos {
 namespace Net {

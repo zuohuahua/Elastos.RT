@@ -18,8 +18,8 @@
 #define __ELASTOS_UTILITY_CONCURRENT_TIMEUNIT_H__
 
 #include "Elastos.CoreLibrary.Utility.Concurrent.h"
-#include "Object.h"
-#include "ElaMath.h"
+#include "elastos/core/Object.h"
+#include "elastos/core/Math.h"
 
 using Elastos::Core::ISynchronize;
 using Elastos::Core::IThread;

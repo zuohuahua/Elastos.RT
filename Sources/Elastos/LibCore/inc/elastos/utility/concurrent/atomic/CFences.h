@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CONCURRENT_ATOMIC_ELASTOS_UTILITY_CFENCES_H__
 
 #include "_Elastos_Utility_Concurrent_Atomic_CFences.h"
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 
 using Elastos::Core::Singleton;
 

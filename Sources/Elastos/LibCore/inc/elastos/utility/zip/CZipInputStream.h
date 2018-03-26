@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_ZIP_ELASTOS_UTILITY_CZIPINPUTSTREAM_H__
 
 #include "_Elastos_Utility_Zip_CZipInputStream.h"
-#include "ZipInputStream.h"
+#include "elastos/utility/zip/ZipInputStream.h"
 
 namespace Elastos {
 namespace Utility {

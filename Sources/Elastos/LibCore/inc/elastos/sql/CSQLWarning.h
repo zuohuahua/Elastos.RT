@@ -18,7 +18,7 @@
 #define __ELASTOS_SQL_CSQLWARNING_H__
 
 #include "_Elastos_Sql_CSQLWarning.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::Object;
 

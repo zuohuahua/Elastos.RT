@@ -17,8 +17,8 @@
 #ifndef __LIBCORE_IO_CDROPBOX_H__
 #define __LIBCORE_IO_CDROPBOX_H__
 
-#include "core/Object.h"
-#include "Singleton.h"
+#include "elastos/core/Object.h"
+#include "elastos/core/Singleton.h"
 #include "_Libcore_IO_CDropBox.h"
 
 using Elastos::Core::Object;

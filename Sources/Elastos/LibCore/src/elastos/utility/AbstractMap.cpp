@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "AbstractMap.h"
-#include "StringBuilder.h"
+#include "elastos/utility/AbstractMap.h"
+#include "elastos/core/StringBuilder.h"
 
 using Elastos::Core::StringBuilder;
 using Elastos::IO::EIID_ISerializable;

@@ -14,13 +14,13 @@
 // limitations under the License.
 //=========================================================================
 
-#include "ThreadPoolExecutor.h"
-#include "CAtomicInteger32.h"
-#include "Executors.h"
-#include "TimeUnit.h"
-#include "Thread.h"
-#include "CArrayList.h"
-#include "AutoLock.h"
+#include "elastos/utility/concurrent/ThreadPoolExecutor.h"
+#include "elastos/utility/concurrent/atomic/CAtomicInteger32.h"
+#include "elastos/utility/concurrent/Executors.h"
+#include "elastos/utility/concurrent/TimeUnit.h"
+#include "elastos/core/Thread.h"
+#include "elastos/utility/CArrayList.h"
+#include "elastos/core/AutoLock.h"
 
 using Elastos::Core::EIID_IRunnable;
 using Elastos::Core::Thread;

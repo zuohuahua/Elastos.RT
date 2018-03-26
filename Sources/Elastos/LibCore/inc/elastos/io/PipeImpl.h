@@ -17,9 +17,9 @@
 #ifndef __ELASTOS_IO_PIPEIMPL_H__
 #define __ELASTOS_IO_PIPEIMPL_H__
 
-#include "Pipe.h"
-#include "SinkChannel.h"
-#include "SourceChannel.h"
+#include "elastos/io/channels/Pipe.h"
+#include "elastos/io/channels/SinkChannel.h"
+#include "elastos/io/channels/SourceChannel.h"
 
 using Elastos::IO::IFileDescriptorChannel;
 using Elastos::IO::Channels::ISocketChannel;

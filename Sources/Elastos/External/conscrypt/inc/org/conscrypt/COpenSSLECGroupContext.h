@@ -20,7 +20,7 @@
 #include "_Org_Conscrypt_COpenSSLECGroupContext.h"
 #include <Elastos.CoreLibrary.Core.h>
 #include <Elastos.CoreLibrary.Security.h>
-#include <elastos/core/Object.h>
+#include "elastos/core/Object.h"
 
 using Elastos::Math::IBigInteger;
 using Elastos::Security::Spec::IECParameterSpec;

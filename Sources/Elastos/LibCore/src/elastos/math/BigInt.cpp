@@ -14,9 +14,9 @@
 // limitations under the License.
 //=========================================================================
 
-#include <BigInt.h>
-#include <NativeBN.h>
-#include "Character.h"
+#include "elastos/math/BigInt.h"
+#include "elastos/math/NativeBN.h"
+#include "elastos/core/Character.h"
 
 using Elastos::Core::Character;
 

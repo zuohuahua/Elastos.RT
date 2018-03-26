@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_ZIP_ELASTOS_UTILITY_CDEFLATERINPUTSTREAM_H__
 
 #include "_Elastos_Utility_Zip_CDeflaterInputStream.h"
-#include "DeflaterInputStream.h"
+#include "elastos/utility/zip/DeflaterInputStream.h"
 
 namespace Elastos {
 namespace Utility {

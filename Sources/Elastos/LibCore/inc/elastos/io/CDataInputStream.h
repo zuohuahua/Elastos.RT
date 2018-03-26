@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CDATAINPUTSTREAM_H__
 
 #include "_Elastos_IO_CDataInputStream.h"
-#include "DataInputStream.h"
+#include "elastos/io/DataInputStream.h"
 
 namespace Elastos {
 namespace IO {

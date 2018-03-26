@@ -15,8 +15,8 @@
 //=========================================================================
 
 #include "Elastos.CoreLibrary.IO.h"
-#include "SocketImpl.h"
-#include "StringUtils.h"
+#include "elastos/net/SocketImpl.h"
+#include "elastos/core/StringUtils.h"
 
 using Elastos::Core::StringUtils;
 

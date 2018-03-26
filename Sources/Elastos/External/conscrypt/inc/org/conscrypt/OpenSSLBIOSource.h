@@ -17,9 +17,9 @@
 #ifndef __ORG_CONSCRYPT_OPENSSLBIOSOURCE_H__
 #define __ORG_CONSCRYPT_OPENSSLBIOSOURCE_H__
 
-#include <elastos/coredef.h>
+#include "elastos/coredef.h"
 #include <Elastos.CoreLibrary.IO.h>
-#include <elastos/core/Object.h>
+#include "elastos/core/Object.h"
 #include "elastos/io/InputStream.h"
 #include "_Org.Conscrypt.h"
 

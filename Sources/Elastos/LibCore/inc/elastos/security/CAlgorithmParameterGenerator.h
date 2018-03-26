@@ -18,7 +18,7 @@
 #define __ELASTOS_SECURITY_CALGORITHMPARAMETERGENERATOR_H__
 
 #include "_Elastos_Security_CAlgorithmParameterGenerator.h"
-#include "AlgorithmParameterGeneratorSpi.h"
+#include "elastos/security/AlgorithmParameterGeneratorSpi.h"
 
 using Elastos::Core::Object;
 using Elastos::Security::Spec::IAlgorithmParameterSpec;

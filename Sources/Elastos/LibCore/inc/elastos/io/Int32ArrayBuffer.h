@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_IO_INT32ARRAYBUFFER_H__
 #define __ELASTOS_IO_INT32ARRAYBUFFER_H__
 
-#include "Int32Buffer.h"
+#include "elastos/io/Int32Buffer.h"
 
 namespace Elastos {
 namespace IO {

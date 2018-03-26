@@ -18,8 +18,8 @@
 #define __ELASTOS_NET_CNETWORKINTERFACEHELPER_H__
 
 #include "_Elastos_Net_CNetworkInterfaceHelper.h"
-#include "Singleton.h"
-#include "NetworkInterface.h"
+#include "elastos/core/Singleton.h"
+#include "elastos/net/NetworkInterface.h"
 
 using Elastos::Core::Singleton;
 using Elastos::Utility::IEnumeration;

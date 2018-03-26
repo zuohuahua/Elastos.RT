@@ -14,10 +14,10 @@
 // limitations under the License.
 //=========================================================================
 
-#include "DeflaterOutputStream.h"
-#include "CStreams.h"
-#include "CDeflater.h"
-#include "Arrays.h"
+#include "elastos/utility/zip/DeflaterOutputStream.h"
+#include "libcore/io/CStreams.h"
+#include "elastos/utility/zip/CDeflater.h"
+#include "elastos/utility/Arrays.h"
 
 using Libcore::IO::IStreams;
 using Libcore::IO::CStreams;

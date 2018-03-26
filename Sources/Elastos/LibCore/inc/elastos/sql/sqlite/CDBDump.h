@@ -18,7 +18,7 @@
 #define __ELASTOS_SQL_SQLITE_CDBDUMP_H__
 
 #include "_Elastos_Sql_SQLite_CDBDump.h"
-#include "CShell.h"
+#include "elastos/sql/sqlite/CShell.h"
 
 namespace Elastos {
 namespace Sql {

@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_SECURITY_CSIGNATUREHELPER_H__
 #define __ELASTOS_SECURITY_CSIGNATUREHELPER_H__
 
-#include <elastos/core/Singleton.h>
+#include "elastos/core/Singleton.h"
 #include "_Elastos_Security_CSignatureHelper.h"
 
 using Elastos::Security::IProvider;

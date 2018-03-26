@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "UrlUtils.h"
+#include "libcore/net/url/UrlUtils.h"
 
 namespace Libcore {
 namespace Net {

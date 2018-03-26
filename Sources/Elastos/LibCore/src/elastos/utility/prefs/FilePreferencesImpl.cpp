@@ -14,11 +14,11 @@
 // limitations under the License.
 //=========================================================================
 
-#include "FilePreferencesImpl.h"
-#include "CHashSet.h"
-#include "XMLParser.h"
-#include "CFile.h"
-#include "CString.h"
+#include "elastos/utility/prefs/FilePreferencesImpl.h"
+#include "elastos/utility/CHashSet.h"
+#include "elastos/utility/prefs/XMLParser.h"
+#include "elastos/io/CFile.h"
+#include "elastos/core/CString.h"
 
 using Elastos::Core::ICharSequence;
 using Elastos::Core::CString;

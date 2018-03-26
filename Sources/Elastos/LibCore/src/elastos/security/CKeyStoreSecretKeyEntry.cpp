@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CKeyStoreSecretKeyEntry.h"
-#include "StringBuilder.h"
+#include "elastos/security/CKeyStoreSecretKeyEntry.h"
+#include "elastos/core/StringBuilder.h"
 
 using Elastos::Core::StringBuilder;
 

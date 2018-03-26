@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_IO_STRINGBUFFERINPUTSTREAM_H__
 #define __ELASTOS_IO_STRINGBUFFERINPUTSTREAM_H__
 
-#include "InputStream.h"
+#include "elastos/io/InputStream.h"
 
 namespace Elastos {
 namespace IO {

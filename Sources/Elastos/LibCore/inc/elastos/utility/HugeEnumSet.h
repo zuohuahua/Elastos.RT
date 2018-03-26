@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_UTILITY_HUGEENUMSET__H_
 #define __ELASTOS_UTILITY_HUGEENUMSET__H_
 
-#include "EnumSet.h"
+#include "elastos/utility/EnumSet.h"
 
 namespace Elastos {
 namespace Utility {

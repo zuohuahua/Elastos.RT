@@ -18,7 +18,7 @@
 #define __ELASTOS_TEXT_CRULEBASEBREAKITERATOR_H__
 
 #include "_Elastos_Text_CRuleBasedBreakIterator.h"
-#include "RuleBasedBreakIterator.h"
+#include "elastos/text/RuleBasedBreakIterator.h"
 
 namespace Elastos {
 namespace Text {

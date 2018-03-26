@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_UTILITY_VECTOR_H__
 #define __ELASTOS_UTILITY_VECTOR_H__
 
-#include "AbstractList.h"
+#include "elastos/utility/AbstractList.h"
 
 using Elastos::Core::ICloneable;
 using Elastos::Utility::AbstractList;

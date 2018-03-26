@@ -14,9 +14,9 @@
 // limitations under the License.
 //=========================================================================
 
-#include "Observable.h"
-#include "CArrayList.h"
-#include "AutoLock.h"
+#include "elastos/utility/Observable.h"
+#include "elastos/utility/CArrayList.h"
+#include "elastos/core/AutoLock.h"
 
 namespace Elastos {
 namespace Utility {

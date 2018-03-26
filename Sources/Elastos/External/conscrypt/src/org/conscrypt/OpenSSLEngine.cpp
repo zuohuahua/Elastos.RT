@@ -18,7 +18,7 @@
 #include "org/conscrypt/COpenSSLEngine.h"
 #include "org/conscrypt/OpenSSLKey.h"
 #include "org/conscrypt/NativeCrypto.h"
-#include <elastos/core/AutoLock.h>
+#include "elastos/core/AutoLock.h"
 
 namespace Org {
 namespace Conscrypt {

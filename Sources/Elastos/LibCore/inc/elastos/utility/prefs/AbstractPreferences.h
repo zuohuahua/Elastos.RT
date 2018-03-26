@@ -17,9 +17,9 @@
 #ifndef __ELASTOS_UTILITY_PREFS_ABSTRACTPREFERENCES_H__
 #define __ELASTOS_UTILITY_PREFS_ABSTRACTPREFERENCES_H__
 
-#include "Preferences.h"
-#include "NodeChangeEvent.h"
-#include <elastos/utility/etl/HashMap.h>
+#include "elastos/utility/prefs/Preferences.h"
+#include "elastos/utility/prefs/NodeChangeEvent.h"
+#include "elastos/utility/etl/HashMap.h"
 
 using Elastos::Utility::Etl::HashMap;
 

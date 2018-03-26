@@ -14,14 +14,14 @@
 // limitations under the License.
 //=========================================================================
 
-#include "coredef.h"
-#include "NativeThread.h"
-#include "Thread.h"
-#include "ThreadGroup.h"
-#include "CThreadGroup.h"
-#include "Globals.h"
-#include "CThread.h"
-#include "Os.h"
+#include "elastos/coredef.h"
+#include "elastos/core/NativeThread.h"
+#include "elastos/core/Thread.h"
+#include "elastos/core/ThreadGroup.h"
+#include "elastos/core/CThreadGroup.h"
+#include "elastos/core/Globals.h"
+#include "elastos/core/CThread.h"
+#include "elastos/core/Os.h"
 #include <sys/resource.h>
 #include <sys/time.h>
 #include <unistd.h>

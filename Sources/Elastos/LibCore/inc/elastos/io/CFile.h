@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CFILE_H__
 
 #include "_Elastos_IO_CFile.h"
-#include "File.h"
+#include "elastos/io/File.h"
 
 namespace Elastos {
 namespace IO {

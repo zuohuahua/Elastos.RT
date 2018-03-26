@@ -18,7 +18,7 @@
 #define __LIBCORE_NET_CMIMEUTILS_H__
 
 #include "_Libcore_Net_CMimeUtils.h"
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 
 using Elastos::Core::Singleton;
 

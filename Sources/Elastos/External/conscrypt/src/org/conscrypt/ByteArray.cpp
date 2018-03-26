@@ -15,7 +15,7 @@
 //=========================================================================
 
 #include "org/conscrypt/ByteArray.h"
-#include <elastos/utility/Arrays.h>
+#include "elastos/utility/Arrays.h"
 
 using Elastos::Utility::Arrays;
 

@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_IO_INPUTSTREAMREADER_H__
 #define __ELASTOS_IO_INPUTSTREAMREADER_H__
 
-#include "Reader.h"
+#include "elastos/io/Reader.h"
 
 using Elastos::IO::Charset::ICharset;
 using Elastos::IO::Charset::ICharsetDecoder;

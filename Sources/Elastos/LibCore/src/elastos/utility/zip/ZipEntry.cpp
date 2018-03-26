@@ -14,14 +14,14 @@
 // limitations under the License.
 //=========================================================================
 
-#include "ZipEntry.h"
-#include "CGregorianCalendar.h"
-#include "CDate.h"
-#include "CStreams.h"
-#include "HeapBufferIterator.h"
-#include "CZipEntry.h"
-#include "ZipFile.h"
-#include "Arrays.h"
+#include "elastos/utility/zip/ZipEntry.h"
+#include "elastos/utility/CGregorianCalendar.h"
+#include "elastos/utility/CDate.h"
+#include "libcore/io/CStreams.h"
+#include "libcore/io/HeapBufferIterator.h"
+#include "elastos/utility/zip/CZipEntry.h"
+#include "elastos/utility/zip/ZipFile.h"
+#include "elastos/utility/Arrays.h"
 #include <cutils/log.h>
 
 using Libcore::IO::IStreams;

@@ -18,7 +18,7 @@
 #define __ELASTOS_SECURITY_CCODESOURCE_H__
 
 #include "_Elastos_Security_CCodeSource.h"
-#include "Permission.h"
+#include "elastos/security/Permission.h"
 
 using Elastos::IO::ISerializable;
 using Elastos::Net::IURL;

@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_IO_CHARSEQUENCEADAPTER_H__
 #define __ELASTOS_IO_CHARSEQUENCEADAPTER_H__
 
-#include "CharBuffer.h"
+#include "elastos/io/CharBuffer.h"
 
 namespace Elastos {
 namespace IO {

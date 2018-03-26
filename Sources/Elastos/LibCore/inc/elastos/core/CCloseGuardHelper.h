@@ -18,7 +18,7 @@
 #define __ELASTOS_CORE_CCLOSEGUARDHELPER_H__
 
 #include "_Elastos_Core_CCloseGuardHelper.h"
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 
 namespace Elastos {
 namespace Core {

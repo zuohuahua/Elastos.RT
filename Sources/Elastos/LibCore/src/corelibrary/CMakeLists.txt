@@ -14,10 +14,6 @@ set(SOURCES
 add_definitions(-DELASTOS_CORELIBRARY)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../inc)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../inc/corelibrary)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../inc/elastos)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../inc/elastos/core)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../inc/elastos/math)
 
 add_library(Elastos.CoreLibrary SHARED ${SOURCES})
 add_dependencies(Elastos.CoreLibrary elastos_core_library_car)

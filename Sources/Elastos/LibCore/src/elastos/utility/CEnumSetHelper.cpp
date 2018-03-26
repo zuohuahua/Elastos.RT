@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CEnumSetHelper.h"
-#include "EnumSet.h"
+#include "elastos/utility/CEnumSetHelper.h"
+#include "elastos/utility/EnumSet.h"
 
 namespace Elastos{
 namespace Utility{

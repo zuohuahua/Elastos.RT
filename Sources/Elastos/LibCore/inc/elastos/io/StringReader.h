@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_IO_STRINGREADER_H__
 #define __ELASTOS_IO_STRINGREADER_H__
 
-#include "Reader.h"
+#include "elastos/io/Reader.h"
 
 namespace Elastos {
 namespace IO {

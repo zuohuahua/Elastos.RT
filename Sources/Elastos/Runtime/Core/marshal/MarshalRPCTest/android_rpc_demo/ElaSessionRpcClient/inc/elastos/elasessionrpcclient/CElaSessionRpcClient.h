@@ -3,7 +3,7 @@
 #define __ELASTOS_ELASESSIONRPCCLIENT_CELASESSIONRPCCLIENT_H__
 
 #include "_Elastos_ElaSessionRpcClient_CElaSessionRpcClient.h"
-#include <elastos/core/Object.h>
+#include "elastos/core/Object.h"
 #include "CarrierProxy.h"
 
 namespace Elastos {

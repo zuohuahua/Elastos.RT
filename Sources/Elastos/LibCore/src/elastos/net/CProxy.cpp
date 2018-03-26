@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CProxy.h"
-#include "StringBuilder.h"
+#include "elastos/net/CProxy.h"
+#include "elastos/core/StringBuilder.h"
 
 using Elastos::Core::StringBuilder;
 

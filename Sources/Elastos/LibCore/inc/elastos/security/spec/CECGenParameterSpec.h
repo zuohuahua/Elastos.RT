@@ -18,7 +18,7 @@
 #define __ELASTOS_SECURITY_SPEC_CECGENPARAMETERSPEC_H__
 
 #include "_Elastos_Security_Spec_CECGenParameterSpec.h"
-#include "core/Object.h"
+#include "elastos/core/Object.h"
 
 namespace Elastos {
 namespace Security {

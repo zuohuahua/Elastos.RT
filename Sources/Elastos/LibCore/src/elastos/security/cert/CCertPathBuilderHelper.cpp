@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CCertPathBuilderHelper.h"
-#include "CertPathBuilder.h"
+#include "elastos/security/cert/CCertPathBuilderHelper.h"
+#include "elastos/security/cert/CertPathBuilder.h"
 
 namespace Elastos {
 namespace Security {

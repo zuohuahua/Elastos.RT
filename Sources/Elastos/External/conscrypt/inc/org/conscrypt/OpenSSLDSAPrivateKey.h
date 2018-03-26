@@ -17,11 +17,11 @@
 #ifndef __ORG_CONSCRYPT_OPENSSLDSAPRIVATEKEY_H__
 #define __ORG_CONSCRYPT_OPENSSLDSAPRIVATEKEY_H__
 
-#include <elastos/coredef.h>
+#include "elastos/coredef.h"
 #include <Elastos.CoreLibrary.Extensions.h>
 #include <Elastos.CoreLibrary.IO.h>
 #include <Elastos.CoreLibrary.Security.h>
-#include <elastos/core/Object.h>
+#include "elastos/core/Object.h"
 #include "_Org.Conscrypt.h"
 #include "org/conscrypt/OpenSSLDSAParams.h"
 #include "org/conscrypt/OpenSSLKey.h"

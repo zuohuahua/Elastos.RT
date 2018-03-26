@@ -19,7 +19,7 @@
 
 #include "_Elastos_Security_CGuardedObject.h"
 #include "Elastos.CoreLibrary.IO.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::IO::IObjectOutputStream;
 using Elastos::IO::ISerializable;

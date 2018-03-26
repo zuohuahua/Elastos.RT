@@ -6,7 +6,7 @@
 #include <elastos.h>
 #include <elautoptr.h>
 #include <elquintet.h>
-#include <elastos/StringUtils.h>
+#include "elastos/core/StringUtils.h"
 
 using namespace Elastos;
 using namespace Elastos::Core;

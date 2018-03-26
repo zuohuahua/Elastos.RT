@@ -18,7 +18,7 @@
 #define __ELASTOS_DROID_SYSTEM_CSTRUCTADDRINFO_H__
 
 #include "Elastos.CoreLibrary.Net.h"
-#include "core/Object.h"
+#include "elastos/core/Object.h"
 #include "_Elastos_Droid_System_CStructAddrinfo.h"
 
 using Elastos::Net::IInetAddress;

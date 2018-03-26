@@ -18,7 +18,7 @@
 #define __ELASTOS_SECURITY_CSECURERANDOM_H__
 
 #include "_Elastos_Security_CSecureRandom.h"
-#include "Random.h"
+#include "elastos/utility/Random.h"
 
 using Elastos::Utility::Random;
 using Org::Apache::Harmony::Security::Fortress::IEngine;

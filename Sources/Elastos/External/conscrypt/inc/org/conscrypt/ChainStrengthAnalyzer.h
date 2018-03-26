@@ -17,7 +17,7 @@
 #ifndef __ORG_CONSCRYPT_CHAINSTRENGTHANALYZER_H__
 #define __ORG_CONSCRYPT_CHAINSTRENGTHANALYZER_H__
 
-#include <elastos/coredef.h>
+#include "elastos/coredef.h"
 #include <Elastos.CoreLibrary.Core.h>
 #include <Elastos.CoreLibrary.Security.h>
 

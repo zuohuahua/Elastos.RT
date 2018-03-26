@@ -23,10 +23,10 @@
 #include "NativeCrypto.h"
 #include "CryptoUpcalls.h"
 #include "elastos/core/StringUtils.h"
-#include <elastos/core/CoreUtils.h>
-#include <elastos/core/UniquePtr.h>
-#include <elastos/utility/etl/List.h>
-#include <elastos/utility/logging/Logger.h>
+#include "elastos/core/CoreUtils.h"
+#include "elastos/core/UniquePtr.h"
+#include "elastos/utility/etl/List.h"
+#include "elastos/utility/logging/Logger.h"
 
 #include <arpa/inet.h>
 
@@ -45,7 +45,7 @@
 /* If we're compiled unbundled from Android system image, we use the
  * CompatibilityCloseMonitor
  */
-#include "AsynchronousCloseMonitor.h"
+#include "corelibrary/AsynchronousCloseMonitor.h"
 #endif
 
 using Elastos::Core::StringUtils;

@@ -14,17 +14,17 @@
 // limitations under the License.
 //=========================================================================
 
-#include "TimeZone.h"
-#include "CSimpleTimeZone.h"
-#include "CZoneInfoDB.h"
-#include "StringUtils.h"
-#include "CString.h"
-#include "Pattern.h"
-#include "CLocaleHelper.h"
-#include "AutoLock.h"
-#include "TimeZoneGetter.h"
-#include "IoUtils.h"
-#include "TimeZoneNames.h"
+#include "elastos/utility/TimeZone.h"
+#include "elastos/utility/CSimpleTimeZone.h"
+#include "libcore/utility/CZoneInfoDB.h"
+#include "elastos/core/StringUtils.h"
+#include "elastos/core/CString.h"
+#include "elastos/utility/regex/Pattern.h"
+#include "elastos/utility/CLocaleHelper.h"
+#include "elastos/core/AutoLock.h"
+#include "elastos/utility/TimeZoneGetter.h"
+#include "libcore/io/IoUtils.h"
+#include "libcore/icu/TimeZoneNames.h"
 
 using Elastos::IO::EIID_ISerializable;
 using Elastos::Core::IArrayOf;

@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CSELECTORPROVIDERIMPL_H__
 
 #include "_Elastos_IO_CSelectorProviderImpl.h"
-#include "SelectorProviderImpl.h"
+#include "elastos/io/SelectorProviderImpl.h"
 
 namespace Elastos {
 namespace IO {

@@ -3,7 +3,7 @@
 #define __ELASTOS_PRCDEMOCLIENT_CRPCDEMOCLIENT_H__
 
 #include "_Elastos_RpcDemoClient_CRpcDemoClient.h"
-#include <elastos/core/Object.h>
+#include "elastos/core/Object.h"
 #include "CarrierProxy.h"
 #include "SManC.h"
 #include "SManS.h"

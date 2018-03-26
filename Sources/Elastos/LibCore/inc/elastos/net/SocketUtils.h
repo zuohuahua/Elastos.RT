@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_NET_SOCKETUTILS_H__
 #define __ELASTOS_NET_SOCKETUTILS_H__
 
-#include "Socket.h"
+#include "elastos/net/Socket.h"
 
 namespace Elastos {
 namespace Net {

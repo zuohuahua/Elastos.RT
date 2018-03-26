@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "ProxySelector.h"
-#include "ProxySelectorImpl.h"
+#include "elastos/net/ProxySelector.h"
+#include "elastos/net/ProxySelectorImpl.h"
 
 namespace Elastos {
 namespace Net {

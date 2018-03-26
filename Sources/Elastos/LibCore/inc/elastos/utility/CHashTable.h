@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CHASHTABLE_H__
 
 #include "_Elastos_Utility_CHashTable.h"
-#include "HashTable.h"
+#include "elastos/utility/HashTable.h"
 
 namespace Elastos {
 namespace Utility {

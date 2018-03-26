@@ -32,10 +32,6 @@ USING_ELASTOS_LIBCORE_IO := $(USING_ELASTOS_LIBCORE_IO)
 ################
 
 INCLUDES += $(MAKEDIR)/../../inc
-INCLUDES += $(MAKEDIR)/../../inc/corelibrary
-INCLUDES += $(MAKEDIR)/../../inc/elastos
-INCLUDES += $(MAKEDIR)/../../inc/elastos/core
-INCLUDES += $(MAKEDIR)/../../inc/elastos/math
 
 VPATH := $(MAKEDIR)/../elastos/core
 

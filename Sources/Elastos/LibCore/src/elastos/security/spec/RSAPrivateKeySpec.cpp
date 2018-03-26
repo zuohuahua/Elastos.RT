@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "RSAPrivateKeySpec.h"
+#include "elastos/security/spec/RSAPrivateKeySpec.h"
 
 namespace Elastos {
 namespace Security {

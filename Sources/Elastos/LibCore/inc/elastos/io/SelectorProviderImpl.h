@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_IO_SELECTORPROVIDERIMPL_H__
 #define __ELASTOS_IO_SELECTORPROVIDERIMPL_H__
 
-#include "SelectorProvider.h"
+#include "elastos/io/channels/spi/SelectorProvider.h"
 
 using Elastos::IO::Channels::IDatagramChannel;
 using Elastos::IO::Channels::IPipe;

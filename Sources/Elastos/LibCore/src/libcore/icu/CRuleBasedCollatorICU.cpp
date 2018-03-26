@@ -14,11 +14,11 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CRuleBasedCollatorICU.h"
-#include "NativeCollation.h"
-#include "CCollationKeyICU.h"
-#include "CollationElementIteratorICU.h"
-#include <elastos/core/StringBuilder.h>
+#include "libcore/icu/CRuleBasedCollatorICU.h"
+#include "libcore/icu/NativeCollation.h"
+#include "libcore/icu/CCollationKeyICU.h"
+#include "libcore/icu/CollationElementIteratorICU.h"
+#include "elastos/core/StringBuilder.h"
 
 using Elastos::Core::StringBuilder;
 using Elastos::Core::EIID_ICloneable;

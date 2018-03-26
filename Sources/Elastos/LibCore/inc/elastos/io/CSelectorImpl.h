@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CSELECTORIMPL_H__
 
 #include "_Elastos_IO_CSelectorImpl.h"
-#include "SelectorImpl.h"
+#include "elastos/io/SelectorImpl.h"
 
 namespace Elastos {
 namespace IO {

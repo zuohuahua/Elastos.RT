@@ -14,10 +14,10 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CSignedObject.h"
-#include "CByteArrayInputStream.h"
-#include "CByteArrayOutputStream.h"
-#include "CObjectOutputStream.h"
+#include "elastos/security/CSignedObject.h"
+#include "elastos/io/CByteArrayInputStream.h"
+#include "elastos/io/CByteArrayOutputStream.h"
+#include "elastos/io/CObjectOutputStream.h"
 
 using Elastos::IO::CByteArrayInputStream;
 using Elastos::IO::CByteArrayOutputStream;

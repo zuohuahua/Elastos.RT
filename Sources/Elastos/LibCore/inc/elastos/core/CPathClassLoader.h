@@ -18,7 +18,7 @@
 #define __ELASTOS_CORE_CPATHCLASSLOADER_H__
 
 #include "_Elastos_Core_CPathClassLoader.h"
-#include "ClassLoader.h"
+#include "elastos/core/ClassLoader.h"
 
 using Elastos::Core::IClassLoader;
 

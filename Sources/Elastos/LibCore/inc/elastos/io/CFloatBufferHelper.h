@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CFLOATBUFFERHELPER_H__
 
 #include "_Elastos_IO_CFloatBufferHelper.h"
-#include <elastos/core/Singleton.h>
+#include "elastos/core/Singleton.h"
 
 namespace Elastos {
 namespace IO {

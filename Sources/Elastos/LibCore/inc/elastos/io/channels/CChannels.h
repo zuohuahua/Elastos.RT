@@ -18,10 +18,10 @@
 #define __ELASTOS_IO_CHANNELS_ELASTOS_IO_CCHANNELS_H__
 
 #include "_Elastos_IO_Channels_CChannels.h"
-#include "Singleton.h"
-#include "AbstractInterruptibleChannel.h"
-#include "InputStream.h"
-#include "OutputStream.h"
+#include "elastos/core/Singleton.h"
+#include "elastos/io/channels/spi/AbstractInterruptibleChannel.h"
+#include "elastos/io/InputStream.h"
+#include "elastos/io/OutputStream.h"
 
 using Elastos::Core::Singleton;
 using Elastos::IO::Charset::ICharsetEncoder;

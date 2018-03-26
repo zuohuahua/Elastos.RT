@@ -14,20 +14,20 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CNativeDecimalFormat.h"
-#include "CAttributedString.h"
-#include "ElStringByteSink.h"
+#include "libcore/icu/CNativeDecimalFormat.h"
+#include "elastos/text/CAttributedString.h"
+#include "libcore/icu/ElStringByteSink.h"
 #include <unicode/decimfmt.h>
 #include <unicode/unum.h>
 #include <unicode/fmtable.h>
-#include "AutoLock.h"
-#include "CLocaleData.h"
-#include "CDouble.h"
-#include "CInteger64.h"
-#include "CBigDecimalHelper.h"
-#include "CBigDecimal.h"
-#include "CNumberFormatField.h"
-#include "DecimalFormatSymbols.h"
+#include "elastos/core/AutoLock.h"
+#include "libcore/icu/CLocaleData.h"
+#include "elastos/core/CDouble.h"
+#include "elastos/core/CInteger64.h"
+#include "elastos/math/CBigDecimalHelper.h"
+#include "elastos/math/CBigDecimal.h"
+#include "elastos/text/CNumberFormatField.h"
+#include "elastos/text/DecimalFormatSymbols.h"
 
 using Elastos::Core::EIID_INumber;
 using Elastos::Core::EIID_IDouble;

@@ -18,7 +18,7 @@
 #define __ELASTOS_NET_CINETADDRESSHELPER_H__
 
 #include "_Elastos_Net_CInetAddressHelper.h"
-#include "InetAddress.h"
+#include "elastos/net/InetAddress.h"
 #include "elastos/core/Singleton.h"
 
 using Elastos::Core::Singleton;

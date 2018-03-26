@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_UTILITY_ABSTRACTQUEUE_H__
 #define __ELASTOS_UTILITY_ABSTRACTQUEUE_H__
 
-#include "AbstractCollection.h"
+#include "elastos/utility/AbstractCollection.h"
 
 namespace Elastos {
 namespace Utility {

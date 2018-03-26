@@ -14,10 +14,10 @@
 // limitations under the License.
 //=========================================================================
 
-#include "coredef.h"
+#include "elastos/coredef.h"
 #include "Elastos.CoreLibrary.h"
-#include "NativeIDN.h"
-#include "ElStringByteSink.h"
+#include "libcore/icu/NativeIDN.h"
+#include "libcore/icu/ElStringByteSink.h"
 #include <unicode/uidna.h>
 #include <unicode/unistr.h>
 

@@ -14,10 +14,10 @@
 // limitations under the License.
 //=========================================================================
 
-#include "ThreadGroup.h"
-#include "Thread.h"
+#include "elastos/core/ThreadGroup.h"
+#include "elastos/core/Thread.h"
 
-#include <elastos/core/AutoLock.h>
+#include "elastos/core/AutoLock.h"
 using Elastos::Core::AutoLock;
 
 namespace Elastos {

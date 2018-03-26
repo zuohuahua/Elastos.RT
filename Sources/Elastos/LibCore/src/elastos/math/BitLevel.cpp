@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "BitLevel.h"
-#include "ElaMath.h"
+#include "elastos/math/BitLevel.h"
+#include "elastos/core/Math.h"
 #include <assert.h>
 
 namespace Elastos {

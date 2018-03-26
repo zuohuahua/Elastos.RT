@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CCertStoreHelper.h"
-#include "CertStore.h"
+#include "elastos/security/cert/CCertStoreHelper.h"
+#include "elastos/security/cert/CertStore.h"
 
 namespace Elastos {
 namespace Security {

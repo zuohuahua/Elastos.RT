@@ -15,19 +15,19 @@
 //=========================================================================
 
 #include "Elastos.CoreLibrary.Security.h"
-#include "Executors.h"
-#include "Thread.h"
-#include "StringBuilder.h"
-#include "StringUtils.h"
-#include "CThread.h"
-#include "CAtomicInteger32.h"
-#include "CForkJoinPool.h"
-#include "CLinkedBlockingQueue.h"
-#include "CThreadPoolExecutor.h"
-#include "TimeUnit.h"
-#include "CScheduledThreadPoolExecutor.h"
-#include "CLibcore.h"
-#include <elastos/droid/system/OsConstants.h>
+#include "elastos/utility/concurrent/Executors.h"
+#include "elastos/core/Thread.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/core/StringUtils.h"
+#include "elastos/core/CThread.h"
+#include "elastos/utility/concurrent/atomic/CAtomicInteger32.h"
+#include "elastos/utility/concurrent/CForkJoinPool.h"
+#include "elastos/utility/concurrent/CLinkedBlockingQueue.h"
+#include "elastos/utility/concurrent/CThreadPoolExecutor.h"
+#include "elastos/utility/concurrent/TimeUnit.h"
+#include "elastos/utility/concurrent/CScheduledThreadPoolExecutor.h"
+#include "libcore/io/CLibcore.h"
+#include "elastos/droid/system/OsConstants.h"
 
 using Elastos::Core::StringBuilder;
 using Elastos::Core::StringUtils;

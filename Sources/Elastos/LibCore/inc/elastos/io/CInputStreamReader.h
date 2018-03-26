@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CINPUTSTREAMREADER_H__
 
 #include "_Elastos_IO_CInputStreamReader.h"
-#include "InputStreamReader.h"
+#include "elastos/io/InputStreamReader.h"
 
 namespace Elastos {
 namespace IO {

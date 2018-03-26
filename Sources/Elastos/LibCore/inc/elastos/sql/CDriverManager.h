@@ -18,8 +18,8 @@
 #define __ELASTOS_SQL_CDRIVERMANAGER_H__
 
 #include "_Elastos_Sql_CDriverManager.h"
-#include "Singleton.h"
-#include <elastos/utility/etl/List.h>
+#include "elastos/core/Singleton.h"
+#include "elastos/utility/etl/List.h"
 
 using Elastos::Core::IClassLoader;
 using Elastos::Core::Singleton;

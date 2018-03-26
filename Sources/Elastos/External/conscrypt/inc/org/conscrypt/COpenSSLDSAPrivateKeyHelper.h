@@ -18,7 +18,7 @@
 #define __ORG_CONSCRYPT_COPENSSLDSAPRIVATEKEYHELPER_H__
 
 #include "_Org_Conscrypt_COpenSSLDSAPrivateKeyHelper.h"
-#include <elastos/core/Singleton.h>
+#include "elastos/core/Singleton.h"
 
 using Elastos::Security::Interfaces::IDSAPrivateKey;
 

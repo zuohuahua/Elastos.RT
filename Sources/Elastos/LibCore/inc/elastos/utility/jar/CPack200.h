@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_JAR_ELASTOS_UTILITY_CPACK200_H__
 
 #include "_Elastos_Utility_Jar_CPack200.h"
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 
 using Elastos::Core::Singleton;
 using Elastos::Utility::Jar::IPacker;

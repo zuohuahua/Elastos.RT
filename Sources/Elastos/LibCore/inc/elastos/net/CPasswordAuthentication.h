@@ -18,7 +18,7 @@
 #define __ELASTOS_NET_CPASSWORDAUTHENTICATION_H__
 
 #include "_Elastos_Net_CPasswordAuthentication.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::Object;
 

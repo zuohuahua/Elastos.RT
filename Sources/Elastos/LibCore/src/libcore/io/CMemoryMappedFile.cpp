@@ -14,13 +14,13 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CMemoryMappedFile.h"
-#include "CLibcore.h"
-#include "droid/system/OsConstants.h"
-#include "io/CByteOrderHelper.h"
-#include "NioBufferIterator.h"
-#include "CLibcore.h"
-#include "AutoLock.h"
+#include "libcore/io/CMemoryMappedFile.h"
+#include "libcore/io/CLibcore.h"
+#include "elastos/droid/system/OsConstants.h"
+#include "elastos/io/CByteOrderHelper.h"
+#include "libcore/io/NioBufferIterator.h"
+#include "libcore/io/CLibcore.h"
+#include "elastos/core/AutoLock.h"
 
 using Elastos::IO::CByteOrderHelper;
 using Elastos::IO::IByteOrderHelper;

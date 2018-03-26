@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CUUID_H__
 
 #include "_Elastos_Utility_CUUID.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::IComparable;
 using Elastos::IO::ISerializable;

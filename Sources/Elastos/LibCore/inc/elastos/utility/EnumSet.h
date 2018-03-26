@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_UTILITY_ENUMSET_H__
 #define __ELASTOS_UTILITY_ENUMSET_H__
 
-#include "AbstractSet.h"
+#include "elastos/utility/AbstractSet.h"
 
 using Elastos::IO::ISerializable;
 using Elastos::Core::ICloneable;

@@ -20,7 +20,7 @@
 #include "OpenSSLX509CertPath.h"
 #include "NativeCrypto.h"
 #include "OpenSSLX509Certificate.h"
-#include <elastos/utility/Arrays.h>
+#include "elastos/utility/Arrays.h"
 
 using Elastos::IO::IPushbackInputStream;
 using Elastos::IO::CPushbackInputStream;

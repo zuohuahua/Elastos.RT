@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CFILTEROUTPUTSTREAM_H__
 
 #include "_Elastos_IO_CFilterOutputStream.h"
-#include "FilterOutputStream.h"
+#include "elastos/io/FilterOutputStream.h"
 
 namespace Elastos {
 namespace IO {

@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CPolicyQualifierInfo.h"
-#include "StringBuilder.h"
+#include "elastos/security/cert/CPolicyQualifierInfo.h"
+#include "elastos/core/StringBuilder.h"
 #include "org/apache/harmony/security/asn1/CObjectIdentifier.h"
 #include "org/apache/harmony/security/x509/CPolicyQualifierInfoHelper.h"
 

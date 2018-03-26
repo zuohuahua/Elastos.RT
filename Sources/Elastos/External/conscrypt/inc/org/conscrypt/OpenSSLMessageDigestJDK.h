@@ -18,7 +18,7 @@
 #define __ORG_CONSCRYPT_OPENSSLMESSAGEDIGESTJDK_H__
 
 #include "Org.Conscrypt.h"
-#include <elastos/core/Object.h>
+#include "elastos/core/Object.h"
 #include "elastos/security/MessageDigestSpi.h"
 
 using Elastos::Core::Object;

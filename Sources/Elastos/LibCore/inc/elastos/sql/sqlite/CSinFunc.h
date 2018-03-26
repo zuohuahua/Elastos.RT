@@ -18,7 +18,7 @@
 #define __ELASTOS_SQL_SQLITE_CSINFUNC_H__
 
 #include "_Elastos_Sql_SQLite_CSinFunc.h"
-#include <elastos/core/Object.h>
+#include "elastos/core/Object.h"
 
 
 namespace Elastos {

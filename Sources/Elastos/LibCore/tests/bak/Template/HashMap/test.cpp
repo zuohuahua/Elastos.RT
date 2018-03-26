@@ -2,7 +2,7 @@
 #define __USE_MALLOC
 
 #include <elastos.h>
-#include <elastos/HashMap.h>
+#include "elastos/utility/etl/HashMap.h"
 #include <stdio.h>
 #include <elautoptr.h>
 #include <elrefbase.h>

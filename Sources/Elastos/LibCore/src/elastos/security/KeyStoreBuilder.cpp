@@ -14,12 +14,12 @@
 // limitations under the License.
 //=========================================================================
 
-#include "KeyStoreBuilder.h"
-#include "CIoUtils.h"
-#include "CFileInputStream.h"
-#include "KeyStore.h"
-#include "KeyStoreSpi.h"
-#include "CKeyStoreHelper.h"
+#include "elastos/security/KeyStoreBuilder.h"
+#include "libcore/io/CIoUtils.h"
+#include "elastos/io/CFileInputStream.h"
+#include "elastos/security/KeyStore.h"
+#include "elastos/security/KeyStoreSpi.h"
+#include "elastos/security/CKeyStoreHelper.h"
 
 using Elastos::IO::IIoUtils;
 using Elastos::IO::IFileInputStream;

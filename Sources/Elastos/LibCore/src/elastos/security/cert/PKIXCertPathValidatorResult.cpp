@@ -14,10 +14,10 @@
 // limitations under the License.
 //=========================================================================
 
-#include "PKIXCertPathValidatorResult.h"
-#include "StringBuilder.h"
-#include "CPKIXCertPathValidatorResult.h"
-#include "CPKIXCertPathBuilderResult.h"
+#include "elastos/security/cert/PKIXCertPathValidatorResult.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/security/cert/CPKIXCertPathValidatorResult.h"
+#include "elastos/security/cert/CPKIXCertPathBuilderResult.h"
 
 using Elastos::Core::EIID_ICloneable;
 using Elastos::Core::StringBuilder;

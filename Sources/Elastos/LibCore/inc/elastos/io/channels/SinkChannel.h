@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_IO_CHANNELS_SINKCHANNEL_H__
 #define __ELASTOS_IO_CHANNELS_SINKCHANNEL_H__
 
-#include "AbstractSelectableChannel.h"
+#include "elastos/io/channels/spi/AbstractSelectableChannel.h"
 
 using Elastos::IO::Channels::Spi::ISelectorProvider;
 using Elastos::IO::Channels::Spi::AbstractSelectableChannel;

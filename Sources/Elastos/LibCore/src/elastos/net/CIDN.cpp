@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CIDN.h"
+#include "elastos/net/CIDN.h"
 #include <unicode/ucat.h>
 #include <unicode/uidna.h>
 

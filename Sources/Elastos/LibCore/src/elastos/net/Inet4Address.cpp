@@ -14,9 +14,9 @@
 // limitations under the License.
 //=========================================================================
 
-#include "Inet4Address.h"
-#include "CInet4Address.h"
-#include "droid/system/OsConstants.h"
+#include "elastos/net/Inet4Address.h"
+#include "elastos/net/CInet4Address.h"
+#include "elastos/droid/system/OsConstants.h"
 
 using Elastos::Droid::System::OsConstants;
 

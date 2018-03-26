@@ -17,9 +17,9 @@
 #include "elastos/net/Inet6Address.h"
 #include "elastos/net/CInet6Address.h"
 #include "elastos/net/NetworkInterface.h"
-#include "droid/system/OsConstants.h"
-#include <elastos/core/StringBuilder.h>
-#include <elastos/utility/Arrays.h>
+#include "elastos/droid/system/OsConstants.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/utility/Arrays.h"
 
 using Elastos::Core::StringBuilder;
 using Elastos::Droid::System::OsConstants;

@@ -17,7 +17,7 @@
 #ifndef __ORG_CONSCRYPT_PLATFORM_H__
 #define __ORG_CONSCRYPT_PLATFORM_H__
 
-#include <elastos/coredef.h>
+#include "elastos/coredef.h"
 #include <Elastos.CoreLibrary.Extensions.h>
 #include <Elastos.CoreLibrary.Net.h>
 #include <Elastos.CoreLibrary.Security.h>

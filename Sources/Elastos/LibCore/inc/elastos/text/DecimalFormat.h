@@ -18,7 +18,7 @@
 #define __ELASTOS_TEXT_DECIMALFORMAT__
 
 #include "Elastos.CoreLibrary.Libcore.h"
-#include "NumberFormat.h"
+#include "elastos/text/NumberFormat.h"
 
 using Libcore::ICU::INativeDecimalFormat;
 using Elastos::Text::IAttributedCharacterIterator;;

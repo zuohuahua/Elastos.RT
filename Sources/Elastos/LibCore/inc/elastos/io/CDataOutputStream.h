@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CDATAOUTPUTSTREAM_H__
 
 #include "_Elastos_IO_CDataOutputStream.h"
-#include "DataOutputStream.h"
+#include "elastos/io/DataOutputStream.h"
 
 namespace Elastos {
 namespace IO {

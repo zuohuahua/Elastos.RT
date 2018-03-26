@@ -14,11 +14,11 @@
 // limitations under the License.
 //=========================================================================
 
-#include "InflaterInputStream.h"
-#include "CStreams.h"
-#include "CZipFile.h"
-#include "CInflater.h"
-#include "Arrays.h"
+#include "elastos/utility/zip/InflaterInputStream.h"
+#include "libcore/io/CStreams.h"
+#include "elastos/utility/zip/CZipFile.h"
+#include "elastos/utility/zip/CInflater.h"
+#include "elastos/utility/Arrays.h"
 
 using Elastos::IO::EIID_IInputStream;
 using Libcore::IO::IStreams;

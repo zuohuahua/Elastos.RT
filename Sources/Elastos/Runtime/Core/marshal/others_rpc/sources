@@ -18,7 +18,6 @@ SOURCES += sock.cpp
 CPP_FLAGS += -g
 
 INCLUDES += $(MAKEDIR)/../../../Library/inc/elasys
-INCLUDES += $(PREBUILD_INC)
 ifneq "$(XDK_TARGET_PRODUCT)" "anyka"
 #INCLUDES += /usr/include/dbus-1.0
 #INCLUDES += /usr/lib/i386-linux-gnu/dbus-1.0/include

@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_ZIP_CCHECKEDOUTPUTSTREAM_H__
 
 #include "_Elastos_Utility_Zip_CCheckedOutputStream.h"
-#include "FilterOutputStream.h"
+#include "elastos/io/FilterOutputStream.h"
 
 using Elastos::IO::IOutputStream;
 using Elastos::IO::FilterOutputStream;

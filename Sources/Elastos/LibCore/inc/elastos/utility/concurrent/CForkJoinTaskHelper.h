@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CONCURRENT_ELASTOS_UTILITY_CFORKJOINTASKHELPER_H__
 
 #include "_Elastos_Utility_Concurrent_CForkJoinTaskHelper.h"
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 
 using Elastos::Core::IRunnable;
 using Elastos::Core::Singleton;

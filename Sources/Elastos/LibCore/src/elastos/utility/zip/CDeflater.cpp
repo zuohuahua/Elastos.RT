@@ -14,10 +14,10 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CDeflater.h"
-#include "Arrays.h"
-#include "CCloseGuardHelper.h"
-#include "AutoLock.h"
+#include "elastos/utility/zip/CDeflater.h"
+#include "elastos/utility/Arrays.h"
+#include "elastos/core/CCloseGuardHelper.h"
+#include "elastos/core/AutoLock.h"
 
 using Elastos::Core::ICloseGuardHelper;
 using Elastos::Core::CCloseGuardHelper;

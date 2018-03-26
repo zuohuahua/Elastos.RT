@@ -15,8 +15,8 @@
 //=========================================================================
 
 //#include "Elastos.CoreLibrary.IO.h"
-#include "CIdentityHashMap.h"
-//#include "CSystem.h"
+#include "elastos/utility/CIdentityHashMap.h"
+//#include "elastos/core/CSystem.h"
 
 using Elastos::Core::ISystem;
 using Elastos::Core::EIID_ICloneable;

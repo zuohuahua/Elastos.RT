@@ -17,8 +17,8 @@
 #ifndef __ELASTOS_IO_CHARSET_ELASTOS_IO_CHARSET_CHARSETENCODERICU_H__
 #define __ELASTOS_IO_CHARSET_ELASTOS_IO_CHARSET_CHARSETENCODERICU_H__
 
-#include "CharsetEncoder.h"
-#include <elastos/utility/etl/HashMap.h>
+#include "elastos/io/charset/CharsetEncoder.h"
+#include "elastos/utility/etl/HashMap.h"
 
 using Elastos::Utility::Etl::HashMap;
 

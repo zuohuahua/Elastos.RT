@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CHANNELS_ELASTOS_IO_CDATAGRAMCHANNELHELPER_H__
 
 #include "_Elastos_IO_Channels_Elastos_IO_CDatagramChannelHelper.h"
-#include <elastos/core/Singleton.h>
+#include "elastos/core/Singleton.h"
 
 namespace Elastos {
 namespace IO {

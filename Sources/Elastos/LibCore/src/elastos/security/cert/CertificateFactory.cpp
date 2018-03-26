@@ -15,9 +15,9 @@
 //=========================================================================
 
 #include "Elastos.CoreLibrary.Utility.h"
-#include "CSecurity.h"
-#include "cert/CertificateFactory.h"
-#include "utility/logging/Logger.h"
+#include "elastos/security/CSecurity.h"
+#include "elastos/security/cert/CertificateFactory.h"
+#include "elastos/utility/logging/Logger.h"
 #include "org/apache/harmony/security/fortress/CEngine.h"
 
 using Elastos::Core::ICharSequence;

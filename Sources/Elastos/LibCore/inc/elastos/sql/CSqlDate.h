@@ -18,7 +18,7 @@
 #define __ELASTOS_SQL_CSQL_CDATE_H__
 
 #include "_Elastos_Sql_CSqlDate.h"
-#include "Date.h"
+#include "elastos/utility/Date.h"
 
 using Elastos::Utility::Date;
 

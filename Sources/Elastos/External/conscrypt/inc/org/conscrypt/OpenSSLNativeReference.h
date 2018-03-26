@@ -18,7 +18,7 @@
 #define __ORG_CONSCRYPT_OPENSSLNATIVEREFERENCE_H__
 
 #include "_Org.Conscrypt.h"
-#include <elastos/core/Object.h>
+#include "elastos/core/Object.h"
 
 namespace Org {
 namespace Conscrypt {

@@ -15,13 +15,13 @@
 //=========================================================================
 
 #include "Elastos.CoreLibrary.Security.h"
-#include "CJarEntry.h"
-#include "JarVerifier.h"
-#include "CJarFile.h"
-#include "CLinkedList.h"
-// #include "CCodeSigner.h"
+#include "elastos/utility/jar/CJarEntry.h"
+#include "elastos/utility/jar/JarVerifier.h"
+#include "elastos/utility/jar/CJarFile.h"
+#include "elastos/utility/CLinkedList.h"
+// #include "elastos/security/CCodeSigner.h"
 // #include "CCertificateFactory.h"
-// #include "CCertificateFactoryHelper.h"
+// #include "elastos/security/cert/CCertificateFactoryHelper.h"
 // #include <cutils/log.h>
 
 

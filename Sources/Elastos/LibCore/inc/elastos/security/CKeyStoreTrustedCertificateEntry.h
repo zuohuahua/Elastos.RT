@@ -18,7 +18,7 @@
 #define __ELASTOS_SECURITY_CKEYSTORETRUSTEDCERTIFICATEENTRY_H__
 
 #include "_Elastos_Security_CKeyStoreTrustedCertificateEntry.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 namespace Elastos {
 namespace Security {

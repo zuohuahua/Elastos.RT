@@ -17,8 +17,8 @@
 #ifndef __ELASTOS_IO_CHANNELS_SELECTIONKEYIMPL_H__
 #define __ELASTOS_IO_CHANNELS_SELECTIONKEYIMPL_H__
 
-#include "AbstractSelectionKey.h"
-#include "AbstractSelectableChannel.h"
+#include "elastos/io/channels/spi/AbstractSelectionKey.h"
+#include "elastos/io/channels/spi/AbstractSelectableChannel.h"
 
 using Elastos::Core::IRunnable;
 using Elastos::IO::Channels::ISelector;

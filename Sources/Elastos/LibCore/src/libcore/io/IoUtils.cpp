@@ -15,15 +15,15 @@
 //=========================================================================
 
 #include "Elastos.CoreLibrary.Net.h"
-#include "IoUtils.h"
-#include "CFileDescriptor.h"
-#include "CFile.h"
-// #include "CRandomAccessFile.h"
-#include "CLibcore.h"
-#include "IoBridge.h"
-#include "StringBuilder.h"
-#include "CRandom.h"
-#include "CSystem.h"
+#include "libcore/io/IoUtils.h"
+#include "elastos/io/CFileDescriptor.h"
+#include "elastos/io/CFile.h"
+// #include "elastos/io/CRandomAccessFile.h"
+#include "libcore/io/CLibcore.h"
+#include "libcore/io/IoBridge.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/utility/CRandom.h"
+#include "elastos/core/CSystem.h"
 #include <fcntl.h>
 
 using Elastos::Utility::CRandom;

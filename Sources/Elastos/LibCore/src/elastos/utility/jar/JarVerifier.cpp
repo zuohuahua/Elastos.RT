@@ -14,15 +14,15 @@
 // limitations under the License.
 //=========================================================================
 
-#include "JarVerifier.h"
-#include "core/AutoLock.h"
-#include "CAttributes.h"
-#include "CName.h"
-#include "ManifestReader.h"
-#include "io/CByteArrayInputStream.h"
-#include "io/CBase64.h"
-#include "security/CMessageDigestHelper.h"
-#include "utility/etl/List.h"
+#include "elastos/utility/jar/JarVerifier.h"
+#include "elastos/core/AutoLock.h"
+#include "elastos/utility/jar/CAttributes.h"
+#include "elastos/utility/jar/CName.h"
+#include "elastos/utility/jar/ManifestReader.h"
+#include "elastos/io/CByteArrayInputStream.h"
+#include "libcore/io/CBase64.h"
+#include "elastos/security/CMessageDigestHelper.h"
+#include "elastos/utility/etl/List.h"
 #include "org/apache/harmony/security/utils/CJarUtils.h"
 #include <cutils/log.h>
 

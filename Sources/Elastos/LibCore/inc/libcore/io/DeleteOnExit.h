@@ -18,8 +18,8 @@
 #define __LIBCORE_IO_DELETEONEXIT_H__
 
 #include "Elastos.CoreLibrary.Libcore.h"
-#include "Thread.h"
-#include "utility/CArrayList.h"
+#include "elastos/core/Thread.h"
+#include "elastos/utility/CArrayList.h"
 
 using Elastos::Core::Thread;
 using Elastos::Utility::IArrayList;

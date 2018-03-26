@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CLINENUMBERREADER_H__
 
 #include "_Elastos_IO_CLineNumberReader.h"
-#include "LineNumberReader.h"
+#include "elastos/io/LineNumberReader.h"
 
 namespace Elastos {
 namespace IO {

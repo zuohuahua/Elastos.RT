@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CDropBox.h"
-#include "CBase64.h"
+#include "libcore/io/CDropBox.h"
+#include "libcore/io/CBase64.h"
 
 namespace Libcore {
 namespace IO {

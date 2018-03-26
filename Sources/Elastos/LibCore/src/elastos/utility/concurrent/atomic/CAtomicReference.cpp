@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CAtomicReference.h"
+#include "elastos/utility/concurrent/atomic/CAtomicReference.h"
 
 namespace Elastos {
 namespace Utility {

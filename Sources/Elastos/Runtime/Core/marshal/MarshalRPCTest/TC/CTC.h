@@ -3,7 +3,7 @@
 #define __CTC_H__
 
 #include "_CTC.h"
-#include <elastos/core/Object.h>
+#include "elastos/core/Object.h"
 
 using Elastos::Core::IComparable;
 using Elastos::Core::EIID_IComparable;

@@ -14,15 +14,15 @@
 // limitations under the License.
 //=========================================================================
 
-#include "LocaleData.h"
-#include "CLocaleData.h"
-#include "CLocale.h"
-#include "ICUUtil.h"
-#include "StringUtils.h"
-#include "AutoLock.h"
-#include "Logger.h"
+#include "libcore/icu/LocaleData.h"
+#include "libcore/icu/CLocaleData.h"
+#include "elastos/utility/CLocale.h"
+#include "libcore/icu/ICUUtil.h"
+#include "elastos/core/StringUtils.h"
+#include "elastos/core/AutoLock.h"
+#include "elastos/utility/logging/Logger.h"
 
-#include <elastos/core/AutoLock.h>
+#include "elastos/core/AutoLock.h"
 using Elastos::Core::AutoLock;
 using Elastos::Core::StringUtils;
 using Elastos::Utility::CLocale;

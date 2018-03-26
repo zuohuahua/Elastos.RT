@@ -14,10 +14,10 @@
 // limitations under the License.
 //=========================================================================
 
-#include "IntegralToString.h"
-#include "Character.h"
-#include "StringBuilder.h"
-#include "ElaMath.h"
+#include "elastos/core/IntegralToString.h"
+#include "elastos/core/Character.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/core/Math.h"
 #include <stdlib.h>
 
 namespace Elastos {

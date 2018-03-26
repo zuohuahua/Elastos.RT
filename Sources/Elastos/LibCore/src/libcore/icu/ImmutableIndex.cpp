@@ -14,13 +14,13 @@
 // limitations under the License.
 //=========================================================================
 
-#include "ImmutableIndex.h"
+#include "libcore/icu/ImmutableIndex.h"
 #include <unicode/alphaindex.h>
 #include <unicode/uniset.h>
-#include "AutoLock.h"
-#include "ElStringByteSink.h"
+#include "elastos/core/AutoLock.h"
+#include "libcore/icu/ElStringByteSink.h"
 
-#include <elastos/core/AutoLock.h>
+#include "elastos/core/AutoLock.h"
 using Elastos::Core::AutoLock;
 
 namespace Libcore {

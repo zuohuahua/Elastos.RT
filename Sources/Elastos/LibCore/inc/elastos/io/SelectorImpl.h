@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_SELECTORIMPL_H__
 
 #include "Elastos.CoreLibrary.Utility.h"
-#include "AbstractSelector.h"
+#include "elastos/io/channels/spi/AbstractSelector.h"
 
 using Elastos::Core::IRunnable;
 using Elastos::Utility::ISet;

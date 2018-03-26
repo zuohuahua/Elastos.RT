@@ -14,16 +14,16 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CURL.h"
-#include "CURI.h"
-#include "Thread.h"
-#include "CSystem.h"
-#include "StringUtils.h"
-#include "AutoLock.h"
-#include "CJarHandler.h"
-#include "CFileHandler.h"
-#include "CFtpHandler.h"
-#include "UrlUtils.h"
+#include "elastos/net/CURL.h"
+#include "elastos/net/CURI.h"
+#include "elastos/core/Thread.h"
+#include "elastos/core/CSystem.h"
+#include "elastos/core/StringUtils.h"
+#include "elastos/core/AutoLock.h"
+#include "libcore/net/url/CJarHandler.h"
+#include "libcore/net/url/CFileHandler.h"
+#include "libcore/net/url/CFtpHandler.h"
+#include "libcore/net/url/UrlUtils.h"
 
 using Elastos::IO::EIID_ISerializable;
 using Elastos::Core::EIID_IComparable;

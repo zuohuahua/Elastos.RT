@@ -14,9 +14,9 @@
 // limitations under the License.
 //=========================================================================
 
-#include "DualPivotQuicksort.h"
-#include "Arrays.h"
-#include "ElaMath.h"
+#include "elastos/utility/DualPivotQuicksort.h"
+#include "elastos/utility/Arrays.h"
+#include "elastos/core/Math.h"
 
 namespace Elastos {
 namespace Utility {

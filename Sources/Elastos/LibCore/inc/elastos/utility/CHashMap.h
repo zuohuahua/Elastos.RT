@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CHASHMAP_H__
 
 #include "_Elastos_Utility_CHashMap.h"
-#include "HashMap.h"
+#include "elastos/utility/HashMap.h"
 
 namespace Elastos {
 namespace Utility {

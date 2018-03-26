@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "LinkedHashMap.h"
-#include "CLinkedHashMap.h"
+#include "elastos/utility/LinkedHashMap.h"
+#include "elastos/utility/CLinkedHashMap.h"
 
 namespace Elastos {
 namespace Utility {

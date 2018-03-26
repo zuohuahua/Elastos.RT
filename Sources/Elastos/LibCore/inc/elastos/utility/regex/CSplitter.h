@@ -18,8 +18,8 @@
 #define __ELASTOS_UTILITY_REGEX_REGEX_SPLITTER_H__
 
 #include "_Elastos_Utility_Regex_CSplitter.h"
-#include "Singleton.h"
-#include <elastos/utility/etl/List.h>
+#include "elastos/core/Singleton.h"
+#include "elastos/utility/etl/List.h"
 
 using Elastos::Core::Singleton;
 using Elastos::Utility::Etl::List;

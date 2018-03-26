@@ -14,9 +14,9 @@
 // limitations under the License.
 //=========================================================================
 
-#include "Transliterator.h"
+#include "libcore/icu/Transliterator.h"
 #include <unicode/uniset.h>
-#include <ElStringByteSink.h>
+#include "libcore/icu/ElStringByteSink.h"
 #include <unicode/strenum.h>
 #include <unicode/translit.h>
 

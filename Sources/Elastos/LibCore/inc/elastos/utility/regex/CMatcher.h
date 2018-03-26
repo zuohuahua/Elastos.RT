@@ -18,8 +18,8 @@
 #define __ELASTOS_UTILITY_REGEX_REGEX_CMATCHER_H__
 
 #include "_Elastos_Utility_Regex_CMatcher.h"
-#include "Object.h"
-#include "StringBuffer.h"
+#include "elastos/core/Object.h"
+#include "elastos/core/StringBuffer.h"
 #include <unicode/regex.h>
 
 using Elastos::Core::ICharSequence;

@@ -6,8 +6,8 @@
 #include <elastos.h>
 #include <elautoptr.h>
 #include <elquintet.h>
-#include <elastos/StringUtils.h>
-#include <elastos/Mutex.h>
+#include "elastos/core/StringUtils.h"
+#include "elastos/core/Mutex.h"
 
 using namespace Elastos;
 

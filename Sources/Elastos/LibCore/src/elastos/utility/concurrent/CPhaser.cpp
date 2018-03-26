@@ -14,17 +14,17 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CPhaser.h"
-#include "LockSupport.h"
-#include "StringBuilder.h"
-#include "ElaMath.h"
-#include "CSystem.h"
-#include "Thread.h"
-#include "CAtomicReference.h"
-#include "CForkJoinPool.h"
-#include "CLibcore.h"
-#include <elastos/droid/system/OsConstants.h>
-#include <elastos/core/AutoLock.h>
+#include "elastos/utility/concurrent/CPhaser.h"
+#include "elastos/utility/concurrent/locks/LockSupport.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/core/Math.h"
+#include "elastos/core/CSystem.h"
+#include "elastos/core/Thread.h"
+#include "elastos/utility/concurrent/atomic/CAtomicReference.h"
+#include "elastos/utility/concurrent/CForkJoinPool.h"
+#include "libcore/io/CLibcore.h"
+#include "elastos/droid/system/OsConstants.h"
+#include "elastos/core/AutoLock.h"
 
 using Elastos::Core::AutoLock;
 using Elastos::Core::Thread;

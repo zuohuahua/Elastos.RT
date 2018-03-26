@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CLinkedList.h"
-#include "CArrayList.h"
+#include "elastos/utility/CLinkedList.h"
+#include "elastos/utility/CArrayList.h"
 
 using Elastos::Core::EIID_ICloneable;
 // using Elastos::IO::IObjectInput;

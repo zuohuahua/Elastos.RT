@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CAtomicInteger64Array.h"
-#include "StringBuilder.h"
+#include "elastos/utility/concurrent/atomic/CAtomicInteger64Array.h"
+#include "elastos/core/StringBuilder.h"
 
 using Elastos::Core::StringBuilder;
 using Elastos::IO::EIID_ISerializable;

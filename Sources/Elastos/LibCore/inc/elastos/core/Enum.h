@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_CORE_ENUM_H__
 #define __ELASTOS_CORE_ENUM_H__
 
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::IO::ISerializable;
 using Elastos::Core::IComparable;

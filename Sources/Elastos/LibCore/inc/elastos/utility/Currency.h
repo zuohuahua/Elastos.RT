@@ -18,10 +18,10 @@
 #define __ELASTOS_UTILITY_CURRENCY_H__
 
 #include "Elastos.CoreLibrary.Utility.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 #define HASH_FOR_UTILITY
-#include <elastos/corehash.h>
-#include <elastos/utility/etl/HashMap.h>
+#include "elastos/corehash.h"
+#include "elastos/utility/etl/HashMap.h"
 
 using Elastos::Core::Object;
 using Elastos::IO::ISerializable;

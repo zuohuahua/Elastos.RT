@@ -14,12 +14,12 @@
 // limitations under the License.
 //=========================================================================
 
-#include "ClassLoader.h"
-#include "CPathClassLoader.h"
-#include "Globals.h"
-#include "StringUtils.h"
-#include "StringBuilder.h"
-// #include "io/CFile.h"
+#include "elastos/core/ClassLoader.h"
+#include "elastos/core/CPathClassLoader.h"
+#include "elastos/core/Globals.h"
+#include "elastos/core/StringUtils.h"
+#include "elastos/core/StringBuilder.h"
+// #include "elastos/io/CFile.h"
 
 // using Elastos::IO::CFile;
 // using Elastos::IO::IFile;

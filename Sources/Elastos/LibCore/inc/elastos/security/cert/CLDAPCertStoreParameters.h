@@ -18,7 +18,7 @@
 #define __ELASTOS_SECURITY_CERT_CLDAPCERTSTOREPARAMETERS_H__
 
 #include "_Elastos_Security_Cert_CLDAPCertStoreParameters.h"
-#include "core/Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::ICloneable;
 

@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CPRINTSTREAM_H__
 
 #include "_Elastos_IO_CPrintStream.h"
-#include "PrintStream.h"
+#include "elastos/io/PrintStream.h"
 
 namespace Elastos {
 namespace IO {

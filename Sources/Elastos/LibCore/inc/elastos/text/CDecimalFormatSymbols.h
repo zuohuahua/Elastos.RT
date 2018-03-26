@@ -18,7 +18,7 @@
 #define __ELASTOS_TEXT_CDECIMALFORMATSYMBOLS_H__
 
 #include "_Elastos_Text_CDecimalFormatSymbols.h"
-#include "DecimalFormatSymbols.h"
+#include "elastos/text/DecimalFormatSymbols.h"
 
 namespace Elastos {
 namespace Text {

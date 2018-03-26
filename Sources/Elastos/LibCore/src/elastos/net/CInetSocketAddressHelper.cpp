@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CInetSocketAddressHelper.h"
-#include "CInetSocketAddress.h"
+#include "elastos/net/CInetSocketAddressHelper.h"
+#include "elastos/net/CInetSocketAddress.h"
 
 namespace Elastos {
 namespace Net {

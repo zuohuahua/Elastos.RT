@@ -3,13 +3,13 @@
 #define __CSMANC_H__
 
 #include "_CSManC.h"
-#include <elastos/core/Object.h>
+#include "elastos/core/Object.h"
 
 #ifndef __USE_MALLOC
 #define __USE_MALLOC
 #endif
 
-#include <elastos/utility/etl/HashMap.h>
+#include "elastos/utility/etl/HashMap.h"
 #include <elautoptr.h>
 
 

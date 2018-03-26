@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CBITSETHELPER_H__
 
 #include "_Elastos_Utility_CBitSetHelper.h"
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 
 using Elastos::Core::Singleton;
 //using Elastos::IO::IInt64Buffer;

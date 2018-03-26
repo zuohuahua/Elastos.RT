@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CCertPathValidatorHelper.h"
-#include "CertPathValidator.h"
+#include "elastos/security/cert/CCertPathValidatorHelper.h"
+#include "elastos/security/cert/CertPathValidator.h"
 
 namespace Elastos {
 namespace Security {

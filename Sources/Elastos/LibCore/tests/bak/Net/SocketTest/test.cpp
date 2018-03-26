@@ -1,6 +1,6 @@
 #include "test.h"
-#include <elastos/StringUtils.h>
-#include <elastos/Thread.h>
+#include "elastos/core/StringUtils.h"
+#include "elastos/core/Thread.h"
 #include <time.h>
 
 static Int64 GetCurrentTimeMillis()

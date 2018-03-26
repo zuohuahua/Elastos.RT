@@ -19,8 +19,8 @@
 
 #include "Elastos.CoreLibrary.Libcore.h"
 #include "_Elastos_Utility_CFormatter.h"
-#include "StringBuilder.h"
-#include <elastos/core/Object.h>
+#include "elastos/core/StringBuilder.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::Object;
 using Elastos::Core::IAppendable;

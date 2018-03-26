@@ -15,8 +15,8 @@
 //=========================================================================
 
 //#include "Elastos.CoreLibrary.IO.h"
-#include "CHashSet.h"
-#include "CHashMap.h"
+#include "elastos/utility/CHashSet.h"
+#include "elastos/utility/CHashMap.h"
 
 using Elastos::Core::EIID_ICloneable;
 // using Elastos::IO::IInputStream;

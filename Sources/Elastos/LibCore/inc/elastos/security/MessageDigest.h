@@ -18,7 +18,7 @@
 #define __ELASTOS_SECURITY_MESSAGEDIGEST_H__
 
 #include "Elastos.CoreLibrary.Security.h"
-#include "MessageDigestSpi.h"
+#include "elastos/security/MessageDigestSpi.h"
 
 using Elastos::Core::ICloneable;
 using Elastos::IO::IByteBuffer;

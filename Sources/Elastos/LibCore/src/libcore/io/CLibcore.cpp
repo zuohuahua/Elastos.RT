@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CLibcore.h"
-#include "CPosix.h"
+#include "libcore/io/CLibcore.h"
+#include "libcore/io/CPosix.h"
 
 namespace Libcore {
 namespace IO {

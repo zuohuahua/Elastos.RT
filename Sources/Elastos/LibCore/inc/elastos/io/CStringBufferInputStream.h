@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CSTRINGBUFFERINPUTSTREAM_H__
 
 #include "_Elastos_IO_CStringBufferInputStream.h"
-#include "StringBufferInputStream.h"
+#include "elastos/io/StringBufferInputStream.h"
 
 namespace Elastos {
 namespace IO {

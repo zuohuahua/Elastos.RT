@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "InetUnixAddress.h"
-#include "OsConstants.h"
+#include "elastos/net/InetUnixAddress.h"
+#include "elastos/droid/system/OsConstants.h"
 
 using Elastos::Droid::System::OsConstants;
 

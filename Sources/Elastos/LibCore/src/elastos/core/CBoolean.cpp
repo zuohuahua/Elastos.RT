@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CBoolean.h"
-#include "StringUtils.h"
+#include "elastos/core/CBoolean.h"
+#include "elastos/core/StringUtils.h"
 
 using Elastos::IO::EIID_ISerializable;
 

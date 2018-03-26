@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#ifndef __ELASTOS_SPINLOCK_H__
-#define __ELASTOS_SPINLOCK_H__
+#ifndef __ELASTOS_ELSPINLOCK_H__
+#define __ELASTOS_ELSPINLOCK_H__
 
 #include <elatypes.h>
 #include <elaatomics.h>
@@ -57,4 +57,4 @@ CAR_INLINE _ELASTOS Boolean SpinLock::TryLock()
 
 _ELASTOS_NAMESPACE_END
 
-#endif //__ELASTOS_SPINLOCK_H__
+#endif //__ELASTOS_ELSPINLOCK_H__

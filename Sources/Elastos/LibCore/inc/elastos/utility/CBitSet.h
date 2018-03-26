@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CBITSET_H__
 
 #include "_Elastos_Utility_CBitSet.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::ICloneable;
 using Elastos::Core::Object;

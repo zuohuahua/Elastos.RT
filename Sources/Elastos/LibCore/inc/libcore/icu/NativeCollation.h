@@ -18,9 +18,9 @@
 #define __LIBCORE_ICU_NATIVECOLLATION_H__
 
 #include <unicode/unistr.h>
-#include "coredef.h"
-#include <elastos/utility/etl/HashMap.h>
-#include "Mutex.h"
+#include "elastos/coredef.h"
+#include "elastos/utility/etl/HashMap.h"
+#include "elastos/core/Mutex.h"
 #include "Elastos.CoreLibrary.h"
 
 using Elastos::Core::Mutex;

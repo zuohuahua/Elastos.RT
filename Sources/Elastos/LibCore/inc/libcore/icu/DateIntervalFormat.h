@@ -18,8 +18,8 @@
 #define __LIBCORE_ICU_DATEINTERVALFORMAT_H__
 
 #include "Elastos.CoreLibrary.h"
-#include "Object.h"
-#include "utility/BasicLruCache.h"
+#include "elastos/core/Object.h"
+#include "libcore/utility/BasicLruCache.h"
 
 using Libcore::Utility::BasicLruCache;
 using Elastos::Utility::ILocale;

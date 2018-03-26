@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CRSAMultiPrimePrivateCrtKeySpec.h"
+#include "elastos/security/spec/CRSAMultiPrimePrivateCrtKeySpec.h"
 
 namespace Elastos {
 namespace Security {

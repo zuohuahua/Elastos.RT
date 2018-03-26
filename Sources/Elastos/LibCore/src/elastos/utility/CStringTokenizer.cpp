@@ -14,9 +14,9 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CStringTokenizer.h"
-#include "CString.h"
-#include "StringUtils.h"
+#include "elastos/utility/CStringTokenizer.h"
+#include "elastos/core/CString.h"
+#include "elastos/core/StringUtils.h"
 
 using Elastos::Core::ICharSequence;
 using Elastos::Core::CString;

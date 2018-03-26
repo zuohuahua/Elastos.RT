@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "Primality.h"
-#include "BigInt.h"
+#include "elastos/math/Primality.h"
+#include "elastos/math/BigInt.h"
 
 namespace Elastos {
 namespace Math {

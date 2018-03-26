@@ -18,7 +18,7 @@
 #define __LIBCORE_IO_MEMORY_H__
 
 #include "Elastos.CoreLibrary.h"
-#include "io/MappedByteBuffer.h"
+#include "elastos/io/MappedByteBuffer.h"
 
 using Elastos::IO::ByteOrder;
 using Elastos::IO::MappedByteBuffer;

@@ -14,22 +14,22 @@
 // limitations under the License.
 //=========================================================================
 
-#include "ZipFile.h"
-#include "CInflater.h"
-#include "ElaMath.h"
-#include "CDataInputStream.h"
-#include "CBufferedInputStream.h"
-// #include "CRandomAccessFile.h"
-#include "CFile.h"
-#include "CZipEntry.h"
-#include "StringBuilder.h"
-#include "CStreams.h"
-#include "IoUtils.h"
-#include "CLinkedHashMap.h"
-#include "CString.h"
-#include "HeapBufferIterator.h"
-#include "CCloseGuardHelper.h"
-#include <elastos/core/AutoLock.h>
+#include "elastos/utility/zip/ZipFile.h"
+#include "elastos/utility/zip/CInflater.h"
+#include "elastos/core/Math.h"
+#include "elastos/io/CDataInputStream.h"
+#include "elastos/io/CBufferedInputStream.h"
+// #include "elastos/io/CRandomAccessFile.h"
+#include "elastos/io/CFile.h"
+#include "elastos/utility/zip/CZipEntry.h"
+#include "elastos/core/StringBuilder.h"
+#include "libcore/io/CStreams.h"
+#include "libcore/io/IoUtils.h"
+#include "elastos/utility/CLinkedHashMap.h"
+#include "elastos/core/CString.h"
+#include "libcore/io/HeapBufferIterator.h"
+#include "elastos/core/CCloseGuardHelper.h"
+#include "elastos/core/AutoLock.h"
 #include <cutils/log.h>
 
 using Elastos::Core::AutoLock;
@@ -331,7 +331,7 @@ ECode ZipFile::constructor(
     else {
         mFileToDeleteOnClose = NULL;
     }
-    
+
     #if 0
     FAIL_RETURN(CRandomAccessFile::New(file, String("r"), (IRandomAccessFile**)&mRaf));
     #endif

@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CPUSHBACKINPUTSTREAM_H__
 
 #include "_Elastos_IO_CPushbackInputStream.h"
-#include "PushbackInputStream.h"
+#include "elastos/io/PushbackInputStream.h"
 
 namespace Elastos {
 namespace IO {

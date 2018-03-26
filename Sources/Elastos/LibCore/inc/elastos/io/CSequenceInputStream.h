@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CSEQUENCEINPUTSTREAM_H__
 
 #include "_Elastos_IO_CSequenceInputStream.h"
-#include "SequenceInputStream.h"
+#include "elastos/io/SequenceInputStream.h"
 
 namespace Elastos {
 namespace IO {

@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CSTRINGWRITER_H__
 
 #include "_Elastos_IO_CStringWriter.h"
-#include "StringWriter.h"
+#include "elastos/io/StringWriter.h"
 
 namespace Elastos {
 namespace IO {

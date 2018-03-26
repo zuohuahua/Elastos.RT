@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CNativeIDNHelper.h"
-#include "NativeIDN.h"
+#include "libcore/icu/CNativeIDNHelper.h"
+#include "libcore/icu/NativeIDN.h"
 
 namespace Libcore {
 namespace ICU {

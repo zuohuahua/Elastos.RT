@@ -19,12 +19,11 @@ set(SOURCES
 add_definitions(-DELASTOS_CORELIBRARY)
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/../../corelibrary)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../../inc/elastos)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../../inc/elastos/core)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../../inc/elastos/math)
-# include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../../inc/org)
-# include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../../inc/org/android_prebuilt)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../../inc)
+
 
 add_library(elastos.math STATIC ${SOURCES})
+add_dependencies(elastos.math elastos_core_library_car)
+
 
 

@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_SECURITY_AUTHPROVIDER_H__
 #define __ELASTOS_SECURITY_AUTHPROVIDER_H__
 
-#include "Provider.h"
+#include "elastos/security/Provider.h"
 
 namespace Elastos {
 namespace Security {

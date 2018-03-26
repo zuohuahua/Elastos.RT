@@ -18,7 +18,7 @@
 #define __ELASTOS_SECURITY_CERT_CERTIFICATEFACTORYSPI_H__
 
 #include "Elastos.CoreLibrary.Security.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::Object;
 using Elastos::Core::ICloneable;

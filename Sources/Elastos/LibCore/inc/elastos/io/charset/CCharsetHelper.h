@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CHARSET_ELASTOS_IO_CCHARSETHELPER_H__
 
 #include "_Elastos_IO_Charset_CCharsetHelper.h"
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 
 using Elastos::Core::Singleton;
 using Elastos::Utility::ISortedMap;

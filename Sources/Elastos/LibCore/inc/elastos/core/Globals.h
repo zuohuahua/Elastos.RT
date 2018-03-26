@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_CORE_GLOBALS_H__
 #define __ELASTOS_CORE_GLOBALS_H__
 
-#include "NativeThread.h"
+#include "elastos/core/NativeThread.h"
 #include <elastos.h>
 #include <pthread.h>
 

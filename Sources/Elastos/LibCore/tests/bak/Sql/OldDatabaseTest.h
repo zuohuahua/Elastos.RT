@@ -20,8 +20,8 @@
 #include <Elastos.Sql.h>
 #include <Elastos.CoreLibrary.h>
 #include <stdio.h>
-#include <elastos/Mutex.h>
-#include <elastos/ElaMath.h>
+#include "elastos/core/Mutex.h"
+#include "elastos/core/Math.h"
 #include <unistd.h>
 
 using namespace Elastos;

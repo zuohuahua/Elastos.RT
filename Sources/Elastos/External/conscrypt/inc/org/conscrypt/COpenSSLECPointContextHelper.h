@@ -18,7 +18,7 @@
 #define __ORG_CONSCRYPT_COPENSSLECPOINTCONTEXTHELPER_H__
 
 #include "_Org_Conscrypt_COpenSSLECPointContextHelper.h"
-#include <elastos/core/Singleton.h>
+#include "elastos/core/Singleton.h"
 
 using Elastos::Security::Spec::IECPoint;
 

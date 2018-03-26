@@ -18,7 +18,7 @@
 #define __ELASTOS_SECURITY_CSECURERANDOMHELPER_H__
 
 #include "_Elastos_Security_CSecureRandomHelper.h"
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 
 namespace Elastos {
 namespace Security {

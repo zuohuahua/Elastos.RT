@@ -15,11 +15,11 @@
 //=========================================================================
 
 #include "Elastos.CoreLibrary.IO.h"
-#include "CInflater.h"
-#include "ElaMath.h"
-#include "Arrays.h"
-#include "CCloseGuardHelper.h"
-#include "AutoLock.h"
+#include "elastos/utility/zip/CInflater.h"
+#include "elastos/core/Math.h"
+#include "elastos/utility/Arrays.h"
+#include "elastos/core/CCloseGuardHelper.h"
+#include "elastos/core/AutoLock.h"
 #include <unistd.h>
 #include <errno.h>
 

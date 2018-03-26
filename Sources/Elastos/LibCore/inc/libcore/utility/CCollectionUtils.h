@@ -19,7 +19,7 @@
 
 #include "Elastos.CoreLibrary.Utility.h"
 #include "_Libcore_Utility_CCollectionUtils.h"
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 
 using Elastos::Core::IComparator;
 using Elastos::Core::Singleton;

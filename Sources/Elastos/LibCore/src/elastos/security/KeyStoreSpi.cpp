@@ -14,11 +14,11 @@
 // limitations under the License.
 //=========================================================================
 
-#include "KeyStoreSpi.h"
-#include "CSecurity.h"
-#include "CKeyStoreSecretKeyEntry.h"
-#include "CKeyStorePrivateKeyEntry.h"
-#include "CKeyStoreTrustedCertificateEntry.h"
+#include "elastos/security/KeyStoreSpi.h"
+#include "elastos/security/CSecurity.h"
+#include "elastos/security/CKeyStoreSecretKeyEntry.h"
+#include "elastos/security/CKeyStorePrivateKeyEntry.h"
+#include "elastos/security/CKeyStoreTrustedCertificateEntry.h"
 #include "Elastos.CoreLibrary.Extensions.h"
 
 namespace Elastos {

@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CWeakHashMap.h"
-#include "CArrayList.h"
+#include "elastos/utility/CWeakHashMap.h"
+#include "elastos/utility/CArrayList.h"
 
 namespace Elastos {
 namespace Utility {

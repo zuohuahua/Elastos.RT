@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CONCURRENT_ELASTOS_UTILITY_CPHASER_H__
 
 #include "_Elastos_Utility_Concurrent_CPhaser.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::IThread;
 using Elastos::Core::Object;

@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CPermissionsHash.h"
-#include "CHashTable.h"
+#include "elastos/security/CPermissionsHash.h"
+#include "elastos/utility/CHashTable.h"
 
 using Elastos::Utility::CHashTable;
 

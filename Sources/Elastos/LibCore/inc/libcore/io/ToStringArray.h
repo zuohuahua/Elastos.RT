@@ -17,8 +17,8 @@
 #ifndef __LIBCORE_IO_TOSTRINGARRAY_H__
 #define __LIBCORE_IO_TOSTRINGARRAY_H__
 
-#include <coredef.h>
-#include <elastos/utility/etl/Vector.h>
+#include "elastos/coredef.h"
+#include "elastos/utility/etl/Vector.h"
 
 using Elastos::AutoPtr;
 using Elastos::String;

@@ -17,7 +17,7 @@
 #ifndef __LIBCORE_IO_CLIBCORE_H__
 #define __LIBCORE_IO_CLIBCORE_H__
 
-#include "core/Singleton.h"
+#include "elastos/core/Singleton.h"
 #include "_Libcore_IO_CLibcore.h"
 
 using Elastos::Core::Singleton;

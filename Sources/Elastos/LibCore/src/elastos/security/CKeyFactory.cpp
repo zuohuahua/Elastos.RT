@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CKeyFactory.h"
-#include "CSecurity.h"
+#include "elastos/security/CKeyFactory.h"
+#include "elastos/security/CSecurity.h"
 #include "org/apache/harmony/security/fortress/CEngine.h"
 
 using Org::Apache::Harmony::Security::Fortress::CEngine;

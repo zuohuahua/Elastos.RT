@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_PREFS_FILEPREFERENCESIMPL_H__
 
 #include "Elastos.CoreLibrary.IO.h"
-#include "AbstractPreferences.h"
+#include "elastos/utility/prefs/AbstractPreferences.h"
 
 using Elastos::IO::IFile;
 using Elastos::IO::IFilenameFilter;

@@ -18,7 +18,7 @@
 #define __LIBCORE_NET_URL_LIBCORE_NET_URI_FTPHANDLER_H__
 
 #include "Elastos.CoreLibrary.Libcore.h"
-#include "URLConnection.h"
+#include "elastos/net/URLConnection.h"
 
 using Elastos::Net::IURLConnection;
 using Elastos::Net::IURL;

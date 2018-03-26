@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "EventObject.h"
-#include "StringUtils.h"
+#include "elastos/utility/EventObject.h"
+#include "elastos/core/StringUtils.h"
 
 using Elastos::Core::StringUtils;
 using Elastos::IO::EIID_ISerializable;

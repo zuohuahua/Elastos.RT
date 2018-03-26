@@ -17,9 +17,9 @@
 #ifndef __ELASTOS_SQL_SQLITE_JDBC_CJDBCRESULTSET_H__
 #define __ELASTOS_SQL_SQLITE_JDBC_CJDBCRESULTSET_H__
 
-#include <elastos/core/Object.h>
+#include "elastos/core/Object.h"
 #include "_Elastos_Sql_SQLite_JDBC_CJDBCResultSet.h"
-#include "CTableResult.h"
+#include "elastos/sql/sqlite/CTableResult.h"
 
 using Elastos::IO::IInputStream;
 using Elastos::IO::IReader;

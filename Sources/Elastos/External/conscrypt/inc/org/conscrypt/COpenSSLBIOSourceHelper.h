@@ -18,7 +18,7 @@
 #define __ORG_CONSCRYPT_COPENSSLBIOSOURCEHELPER_H__
 
 #include "_Org_Conscrypt_COpenSSLBIOSourceHelper.h"
-#include <elastos/core/Singleton.h>
+#include "elastos/core/Singleton.h"
 
 using Elastos::IO::IByteBuffer;
 

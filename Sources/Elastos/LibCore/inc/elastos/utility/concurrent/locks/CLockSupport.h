@@ -18,8 +18,8 @@
 #define __ELASTOS_UTILITY_CONCURRENT_LOCKS_ELASTOS_UTILITY_CLOCKSUPPORT_H__
 
 #include "_Elastos_Utility_Concurrent_Locks_CLockSupport.h"
-#include "LockSupport.h"
-#include "Singleton.h"
+#include "elastos/utility/concurrent/locks/LockSupport.h"
+#include "elastos/core/Singleton.h"
 
 using Elastos::Core::Singleton;
 

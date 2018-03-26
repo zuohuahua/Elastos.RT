@@ -14,10 +14,10 @@
 // limitations under the License.
 //=========================================================================
 
-#include "X509CRL.h"
-#include "CCertificateFactoryHelper.h"
-#include "CByteArrayInputStream.h"
-#include "Arrays.h"
+#include "elastos/security/cert/X509CRL.h"
+#include "elastos/security/cert/CCertificateFactoryHelper.h"
+#include "elastos/io/CByteArrayInputStream.h"
+#include "elastos/utility/Arrays.h"
 
 using Elastos::IO::IInputStream;
 using Elastos::IO::CByteArrayInputStream;

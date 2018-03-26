@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CNativeConverterHelper.h"
-#include "NativeConverter.h"
+#include "libcore/icu/CNativeConverterHelper.h"
+#include "libcore/icu/NativeConverter.h"
 
 namespace Libcore {
 namespace ICU {

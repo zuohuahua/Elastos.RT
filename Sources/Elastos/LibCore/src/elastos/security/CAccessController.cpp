@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CAccessController.h"
-#include "CAccessControlContext.h"
+#include "elastos/security/CAccessController.h"
+#include "elastos/security/CAccessControlContext.h"
 
 namespace Elastos {
 namespace Security {

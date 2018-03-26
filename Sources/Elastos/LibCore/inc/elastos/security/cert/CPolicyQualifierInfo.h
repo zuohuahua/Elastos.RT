@@ -18,7 +18,7 @@
 #define __ELASTOS_SECURITY_CERT_CPOLICYQUALIFIERINFO_H__
 
 #include "_Elastos_Security_Cert_CPolicyQualifierInfo.h"
-#include "core/Object.h"
+#include "elastos/core/Object.h"
 
 namespace Elastos {
 namespace Security {

@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CName.h"
-#include "CManifest.h"
+#include "elastos/utility/jar/CName.h"
+#include "elastos/utility/jar/CManifest.h"
 
 namespace Elastos {
 namespace Utility {

@@ -19,7 +19,7 @@
 
 #include "elastos/core/Object.h"
 #include "elastos/core/StringBuffer.h"
-#include "AttributedCharacterIteratorAttribute.h"
+#include "elastos/text/AttributedCharacterIteratorAttribute.h"
 
 using Elastos::Core::EIID_ICloneable;
 using Elastos::Text::IAttributedCharacterIterator;;

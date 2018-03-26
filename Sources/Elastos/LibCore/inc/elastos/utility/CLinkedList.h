@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CLINKEDLIST_H__
 
 #include "_Elastos_Utility_CLinkedList.h"
-#include "AbstractSequentialList.h"
+#include "elastos/utility/AbstractSequentialList.h"
 
 using Elastos::Core::ICloneable;
 //using Elastos::IO::IObjectInputStream;

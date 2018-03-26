@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CSocketTaggerHelper.h"
-#include "SocketTagger.h"
+#include "libcore/io/CSocketTaggerHelper.h"
+#include "libcore/io/SocketTagger.h"
 
 namespace Libcore {
 namespace IO {

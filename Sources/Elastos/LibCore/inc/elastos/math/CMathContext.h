@@ -18,7 +18,7 @@
 #define __ELASTOS_MATH_CMATHCONTEXT_H__
 
 #include "_Elastos_Math_CMathContext.h"
-#include <elastos/core/Object.h>
+#include "elastos/core/Object.h"
 
 using Elastos::Core::Object;
 

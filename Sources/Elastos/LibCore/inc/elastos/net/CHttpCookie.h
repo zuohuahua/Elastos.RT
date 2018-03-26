@@ -18,10 +18,10 @@
 #define __ELASTOS_NET_CHTTPCOOKIE_H__
 
 #include "_Elastos_Net_CHttpCookie.h"
-#include "InetAddress.h"
-#include "StringBuilder.h"
-#include <elastos/utility/etl/List.h>
-#include <elastos/utility/etl/HashSet.h>
+#include "elastos/net/InetAddress.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/utility/etl/List.h"
+#include "elastos/utility/etl/HashSet.h"
 
 using Elastos::Core::Object;
 using Elastos::Core::ICloneable;

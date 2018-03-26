@@ -14,21 +14,21 @@
 // limitations under the License.
 //=========================================================================
 
-#include "ElStringByteSink.h"
-#include "ICUUtil.h"
-#include "CLocale.h"
-#include "logging/Logger.h"
-#include "StringBuilder.h"
-#include <UniquePtr.h>
-#include "CBasicLruCache.h"
-#include "AutoLock.h"
-#include "utility/Collections.h"
-#include "Set.h"
-#include "CHashMap.h"
-#include "CHashSet.h"
-#include "StringUtils.h"
-#include "CString.h"
-#include "Collections.h"
+#include "libcore/icu/ElStringByteSink.h"
+#include "libcore/icu/ICUUtil.h"
+#include "elastos/utility/CLocale.h"
+#include "elastos/utility/logging/Logger.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/core/UniquePtr.h"
+#include "libcore/utility/CBasicLruCache.h"
+#include "elastos/core/AutoLock.h"
+#include "elastos/utility/Collections.h"
+#include "elastos/utility/etl/Set.h"
+#include "elastos/utility/CHashMap.h"
+#include "elastos/utility/CHashSet.h"
+#include "elastos/core/StringUtils.h"
+#include "elastos/core/CString.h"
+#include "elastos/utility/Collections.h"
 //#include <ustrenum.h>
 
 #include <unicode/ucat.h>
@@ -58,7 +58,7 @@
 #include <unicode/ulocdata.h>
 #include <unicode/ucurr.h>
 
-#include <elastos/core/AutoLock.h>
+#include "elastos/core/AutoLock.h"
 using Elastos::Core::AutoLock;
 using Libcore::Utility::CBasicLruCache;
 using Elastos::Core::StringUtils;

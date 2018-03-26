@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "AbstractCollection.h"
-#include "StringBuilder.h"
+#include "elastos/utility/AbstractCollection.h"
+#include "elastos/core/StringBuilder.h"
 
 using Elastos::Core::StringBuilder;
 

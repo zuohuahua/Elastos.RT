@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CSecureRandomHelper.h"
-#include "CSecureRandom.h"
+#include "elastos/security/CSecureRandomHelper.h"
+#include "elastos/security/CSecureRandom.h"
 
 namespace Elastos {
 namespace Security {

@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CTimeZoneNames.h"
-#include "TimeZoneNames.h"
+#include "libcore/icu/CTimeZoneNames.h"
+#include "libcore/icu/TimeZoneNames.h"
 
 namespace Libcore {
 namespace ICU {

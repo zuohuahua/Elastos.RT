@@ -17,8 +17,8 @@
 #ifndef __ELASTOS_SECURITY_SIGNATURE_H__
 #define __ELASTOS_SECURITY_SIGNATURE_H__
 
-#include "coredef.h"
-#include "SignatureSpi.h"
+#include "elastos/coredef.h"
+#include "elastos/security/SignatureSpi.h"
 
 // using Elastos::Security::Cert::ICertificate;
 using Org::Apache::Harmony::Security::Fortress::IEngine;

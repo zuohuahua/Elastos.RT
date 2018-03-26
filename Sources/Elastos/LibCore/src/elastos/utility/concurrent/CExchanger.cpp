@@ -14,12 +14,12 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CExchanger.h"
-#include "LockSupport.h"
-#include "Thread.h"
-#include "ElaMath.h"
-#include "CAtomicInteger32.h"
-#include "AutoLock.h"
+#include "elastos/utility/concurrent/CExchanger.h"
+#include "elastos/utility/concurrent/locks/LockSupport.h"
+#include "elastos/core/Thread.h"
+#include "elastos/core/Math.h"
+#include "elastos/utility/concurrent/atomic/CAtomicInteger32.h"
+#include "elastos/core/AutoLock.h"
 
 using Elastos::Core::Thread;
 using Elastos::Core::Math;

@@ -17,9 +17,9 @@
 #ifndef __ELASTOS_IO_CFILEPERMISSION_H__
 #define __ELASTOS_IO_CFILEPERMISSION_H__
 
-#include "Object.h"
+#include "elastos/core/Object.h"
 #include "_Elastos_IO_CFilePermission.h"
-// #include "Permission.h"
+// #include "elastos/security/Permission.h"
 
 using Elastos::Core::Object;
 using Elastos::Security::IGuard;

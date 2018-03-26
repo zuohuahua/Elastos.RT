@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CDATAINPUTSTREAMHELPER_H__
 
 #include "_Elastos_IO_CDataInputStreamHelper.h"
-#include <elastos/core/Singleton.h>
+#include "elastos/core/Singleton.h"
 
 namespace Elastos {
 namespace IO {

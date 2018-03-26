@@ -14,10 +14,10 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CGregorianCalendar.h"
-#include "TimeZone.h"
-#include "CSystem.h"
-#include <ElaMath.h>
+#include "elastos/utility/CGregorianCalendar.h"
+#include "elastos/utility/TimeZone.h"
+#include "elastos/core/CSystem.h"
+#include "elastos/core/Math.h"
 //#include <cutils/log.h>
 
 using Elastos::Core::Math;

@@ -15,9 +15,9 @@
 //=========================================================================
 
 #include "stdlib.h"
-#include "coredef.h"
-#include "Globals.h"
-#include "NativeThread.h"
+#include "elastos/coredef.h"
+#include "elastos/core/Globals.h"
+#include "elastos/core/NativeThread.h"
 
 namespace Elastos {
 namespace Core {

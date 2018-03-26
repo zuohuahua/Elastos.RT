@@ -14,9 +14,9 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CCheckedInputStream.h"
-#include "ElaMath.h"
-#include "CStreams.h"
+#include "elastos/utility/zip/CCheckedInputStream.h"
+#include "elastos/core/Math.h"
+#include "libcore/io/CStreams.h"
 
 using Elastos::Core::Math;
 using Elastos::IO::EIID_IInputStream;

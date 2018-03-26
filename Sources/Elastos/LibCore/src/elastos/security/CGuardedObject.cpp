@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CGuardedObject.h"
+#include "elastos/security/CGuardedObject.h"
 
 using Elastos::IO::EIID_ISerializable;
 

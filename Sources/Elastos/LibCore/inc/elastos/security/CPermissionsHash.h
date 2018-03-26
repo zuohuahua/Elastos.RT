@@ -19,7 +19,7 @@
 
 #include "_Elastos_Security_CPermissionsHash.h"
 #include "Elastos.CoreLibrary.Utility.h"
-#include "PermissionCollection.h"
+#include "elastos/security/PermissionCollection.h"
 
 using Elastos::IO::ISerializable;
 using Elastos::Utility::IHashTable;

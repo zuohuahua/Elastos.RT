@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_SECURITY_CERT_X509CRL_H__
 #define __ELASTOS_SECURITY_CERT_X509CRL_H__
 
-#include "CRL.h"
+#include "elastos/security/cert/CRL.h"
 
 using Elastos::Security::IPublicKey;
 using Elastosx::Security::Auth::X500::IX500Principal;

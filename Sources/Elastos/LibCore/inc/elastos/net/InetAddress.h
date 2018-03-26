@@ -18,7 +18,7 @@
 #define __ELASTOS_NET_INETADDRESS_H__
 
 #include "Elastos.CoreLibrary.Net.h"
-#include "AddressCache.h"
+#include "elastos/net/AddressCache.h"
 #include "elastos/core/Thread.h"
 
 using Elastos::Core::Thread;

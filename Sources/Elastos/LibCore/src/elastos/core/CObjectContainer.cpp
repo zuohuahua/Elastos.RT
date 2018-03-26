@@ -15,7 +15,7 @@
 //=========================================================================
 
 #include <cmdef.h>
-#include <CObjectContainer.h>
+#include "elastos/core/CObjectContainer.h"
 #include <elatypes.h>
 #include <elapi.h>
 

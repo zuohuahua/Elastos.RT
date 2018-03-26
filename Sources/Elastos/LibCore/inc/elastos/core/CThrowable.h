@@ -19,7 +19,7 @@
 
 #include "Elastos.CoreLibrary.Utility.h"
 #include "_Elastos_Core_CThrowable.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 //using Elastos::IO::IPrintStream;
 //using Elastos::IO::IPrintWriter;

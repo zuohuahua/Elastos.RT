@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_UTILITY_PREFS_NODECHANGEEVENT_H__
 #define __ELASTOS_UTILITY_PREFS_NODECHANGEEVENT_H__
 
-#include "EventObject.h"
+#include "elastos/utility/EventObject.h"
 
 using Elastos::IO::IObjectOutputStream;
 using Elastos::IO::IObjectInputStream;

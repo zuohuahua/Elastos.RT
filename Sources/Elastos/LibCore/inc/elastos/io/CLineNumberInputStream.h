@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CLINENUMBERINPUTSTREAM_H__
 
 #include "_Elastos_IO_CLineNumberInputStream.h"
-#include "LineNumberInputStream.h"
+#include "elastos/io/LineNumberInputStream.h"
 
 namespace Elastos {
 namespace IO {

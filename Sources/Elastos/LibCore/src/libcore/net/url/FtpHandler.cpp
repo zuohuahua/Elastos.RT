@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "FtpHandler.h"
+#include "libcore/net/url/FtpHandler.h"
 
 using Elastos::Net::IURLConnection;
 using Elastos::Net::IURL;

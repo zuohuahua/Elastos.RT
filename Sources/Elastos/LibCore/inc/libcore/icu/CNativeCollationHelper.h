@@ -18,7 +18,7 @@
 #define __LIBCORE_ICU_ICU_CNATIVECOLLATIONHELPER_H__
 
 #include "_Libcore_ICU_CNativeCollationHelper.h"
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 
 using Elastos::Core::Singleton;
 using Elastos::Utility::ILocale;

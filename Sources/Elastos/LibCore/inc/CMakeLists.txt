@@ -11,7 +11,7 @@ set(EXPORT_HEADERS
     elastos/core/Singleton.h
     elastos/core/Thread.h
     elastos/core/Runnable.h
-    elastos/core/ElaMath.h
+    elastos/core/Math.h
     elastos/core/StrictMath.h
     elastos/core/Character.h
     elastos/core/CaseMapper.h

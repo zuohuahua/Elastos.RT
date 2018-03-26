@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CInteger32.h"
-#include "IntegralToString.h"
+#include "elastos/core/CInteger32.h"
+#include "elastos/core/IntegralToString.h"
 
 using Elastos::IO::EIID_ISerializable;
 using Elastos::Core::IntegralToString;

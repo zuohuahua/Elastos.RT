@@ -18,8 +18,8 @@
 #define __ELASTOS_SQL_SQLITE_ELASTOS_SQL_SQLLITE_CBLOBW_H__
 
 #include "_Elastos_Sql_SQLite_CBlobW.h"
-#include "CBlob.h"
-#include <OutputStream.h>
+#include "elastos/sql/sqlite/CBlob.h"
+#include "elastos/io/OutputStream.h"
 
 using Elastos::IO::OutputStream;
 

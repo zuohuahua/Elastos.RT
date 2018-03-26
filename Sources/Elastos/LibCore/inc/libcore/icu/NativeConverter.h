@@ -17,7 +17,7 @@
 #ifndef __LIBCORE_ICU_NATIVECONVERTER_H__
 #define __LIBCORE_ICU_NATIVECONVERTER_H__
 
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::IO::Charset::ICharset;
 using Elastos::IO::Charset::ICharsetDecoder;

@@ -18,8 +18,8 @@
 #define __ELASTOS_UTILITY_CONCURRENT_ELASTOS_UTILITY_CCONCURRENTSKIPLISTMAP_H__
 
 #include "_Elastos_Utility_Concurrent_CConcurrentSkipListMap.h"
-#include "AbstractMap.h"
-#include "Object.h"
+#include "elastos/utility/AbstractMap.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::IComparable;
 using Elastos::Core::IComparator;

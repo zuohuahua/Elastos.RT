@@ -14,12 +14,12 @@
 // limitations under the License.
 //=========================================================================
 
-#include "StringBuffer.h"
-#include "StringBuilder.h"
-#include "Character.h"
-#include "CString.h"
+#include "elastos/core/StringBuffer.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/core/Character.h"
+#include "elastos/core/CString.h"
 #include <stdio.h>
-#include "AutoLock.h"
+#include "elastos/core/AutoLock.h"
 
 #define DEFAULT_STEP 16
 

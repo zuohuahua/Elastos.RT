@@ -17,9 +17,9 @@
 #ifndef __ELASTOS_IO_FILECHANNELIMPL_H__
 #define __ELASTOS_IO_FILECHANNELIMPL_H__
 
-#include "FileLock.h"
-#include "FileChannel.h"
-#include "IoVec.h"
+#include "elastos/io/channels/FileLock.h"
+#include "elastos/io/channels/FileChannel.h"
+#include "elastos/io/IoVec.h"
 
 using Elastos::Core::IComparator;
 using Elastos::IO::Channels::FileChannel;

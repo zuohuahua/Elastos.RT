@@ -14,9 +14,9 @@
 // limitations under the License.
 //=========================================================================
 
-#include "NetworkUtilities.h"
-#include "net/CInetUnixAddress.h"
-#include "net/InetAddress.h"
+#include "libcore/io/NetworkUtilities.h"
+#include "elastos/net/CInetUnixAddress.h"
+#include "elastos/net/InetAddress.h"
 #include <arpa/inet.h>
 #include <fcntl.h>
 #include <stdio.h>

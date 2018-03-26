@@ -17,7 +17,7 @@
 #ifndef __LIBCORE_UTILITY_COFFSETINTERVALHELPER_H__
 #define __LIBCORE_UTILITY_COFFSETINTERVALHELPER_H__
 
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 #include "_Libcore_Utility_COffsetIntervalHelper.h"
 
 using Elastos::Core::Singleton;

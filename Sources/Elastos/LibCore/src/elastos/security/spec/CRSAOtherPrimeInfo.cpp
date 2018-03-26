@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CRSAOtherPrimeInfo.h"
+#include "elastos/security/spec/CRSAOtherPrimeInfo.h"
 
 namespace Elastos {
 namespace Security {

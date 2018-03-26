@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CReentrantLock.h"
+#include "elastos/utility/concurrent/locks/CReentrantLock.h"
 
 namespace Elastos {
 namespace Utility {

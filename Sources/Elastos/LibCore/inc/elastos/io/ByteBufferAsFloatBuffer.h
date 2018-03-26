@@ -17,8 +17,8 @@
 #ifndef __ELASTOS_IO_BYTEBUFFERASFLOATBUFFER_H__
 #define __ELASTOS_IO_BYTEBUFFERASFLOATBUFFER_H__
 
-#include "FloatBuffer.h"
-#include "ByteBuffer.h"
+#include "elastos/io/FloatBuffer.h"
+#include "elastos/io/ByteBuffer.h"
 
 namespace Elastos {
 namespace IO {

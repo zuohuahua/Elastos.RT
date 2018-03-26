@@ -18,7 +18,7 @@
 #define __ELASTOS_SECURITY_SPEC_CMGF1PARAMETERSPEC_H__
 
 #include "_Elastos_Security_Spec_CMGF1ParameterSpec.h"
-#include "core/Object.h"
+#include "elastos/core/Object.h"
 
 namespace Elastos {
 namespace Security {

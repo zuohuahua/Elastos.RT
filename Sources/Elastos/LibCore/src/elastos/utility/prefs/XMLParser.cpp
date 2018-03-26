@@ -15,23 +15,23 @@
 //=========================================================================
 
 #include "Elastos.CoreLibrary.Extensions.h"
-#include "XMLParser.h"
-#include "AutoLock.h"
-#include "COutputStreamWriter.h"
-#include "CBufferedWriter.h"
-#include "StringUtils.h"
-#include "StringBuilder.h"
-#include "CStringTokenizer.h"
-#include "AbstractPreferences.h"
-#include "CArrayList.h"
-#include "CProperties.h"
-#include "CFile.h"
-#include "CFileOutputStream.h"
-#include "CFileInputStream.h"
-#include "CInputStreamReader.h"
-#include "NodeSet.h"
+#include "elastos/utility/prefs/XMLParser.h"
+#include "elastos/core/AutoLock.h"
+#include "elastos/io/COutputStreamWriter.h"
+#include "elastos/io/CBufferedWriter.h"
+#include "elastos/core/StringUtils.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/utility/CStringTokenizer.h"
+#include "elastos/utility/prefs/AbstractPreferences.h"
+#include "elastos/utility/CArrayList.h"
+#include "elastos/utility/CProperties.h"
+#include "elastos/io/CFile.h"
+#include "elastos/io/CFileOutputStream.h"
+#include "elastos/io/CFileInputStream.h"
+#include "elastos/io/CInputStreamReader.h"
+#include "elastos/utility/prefs/NodeSet.h"
 
-#include <elastos/core/AutoLock.h>
+#include "elastos/core/AutoLock.h"
 using Elastos::Core::AutoLock;
 using Elastos::Core::AutoLock;
 using Elastos::Core::StringUtils;

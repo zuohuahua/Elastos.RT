@@ -32,7 +32,7 @@
  */
 
 #include <string.h>
-#include "cbigint.h"
+#include "elastos/core/cbigint.h"
 
 #if defined(__linux__) || defined(FREEBSD) || defined(ZOS) || defined(MACOSX) || defined(AIX)
 #define USE_LL

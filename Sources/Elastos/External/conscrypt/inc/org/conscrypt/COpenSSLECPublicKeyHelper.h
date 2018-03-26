@@ -18,7 +18,7 @@
 #define __ORG_CONSCRYPT_COPENSSLECPUBLICKEYHELPER_H__
 
 #include "_Org_Conscrypt_COpenSSLECPublicKeyHelper.h"
-#include <elastos/core/Singleton.h>
+#include "elastos/core/Singleton.h"
 
 using Elastos::Security::Interfaces::IECPublicKey;
 

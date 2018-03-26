@@ -19,8 +19,8 @@
 
 #include "Elastos.CoreLibrary.Apache.h"
 #include "_Elastos_Security_CSecurity.h"
-#include "Object.h"
-#include "Singleton.h"
+#include "elastos/core/Object.h"
+#include "elastos/core/Singleton.h"
 
 using Elastos::Core::Object;
 using Elastos::Core::Singleton;

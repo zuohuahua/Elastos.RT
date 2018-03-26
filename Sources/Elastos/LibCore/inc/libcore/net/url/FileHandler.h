@@ -18,7 +18,7 @@
 #define __LIBCORE_NET_URL_LIBCORE_NET_URI_FILEHANDLER_H__
 
 #include "Elastos.CoreLibrary.Libcore.h"
-#include "URLStreamHandler.h"
+#include "elastos/net/URLStreamHandler.h"
 
 using Elastos::Net::IURLConnection;
 using Elastos::Net::IURL;

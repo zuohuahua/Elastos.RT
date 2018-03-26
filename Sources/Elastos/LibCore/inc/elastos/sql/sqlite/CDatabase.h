@@ -18,7 +18,7 @@
 #define __ELASTOS_SQL_SQLITE_CDATABASE_H__
 
 #include "_Elastos_Sql_SQLite_CDatabase.h"
-#include "Database.h"
+#include "elastos/sql/sqlite/Database.h"
 
 namespace Elastos {
 namespace Sql {

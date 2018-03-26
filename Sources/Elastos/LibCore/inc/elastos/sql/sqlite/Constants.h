@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_SQL_SQLITE_CONSTANTS_H__
 #define __ELASTOS_SQL_SQLITE_CONSTANTS_H__
 
-#include <elastos/core/Object.h>
+#include "elastos/core/Object.h"
 
 namespace Elastos {
 namespace Sql {

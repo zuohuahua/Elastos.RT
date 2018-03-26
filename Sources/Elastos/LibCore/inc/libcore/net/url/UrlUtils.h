@@ -17,7 +17,7 @@
 #ifndef __LIBCORE_NET_URL_LIBCORE_NET_URI_URLUTILS_H__
 #define __LIBCORE_NET_URL_LIBCORE_NET_URI_URLUTILS_H__
 
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 namespace Libcore {
 namespace Net {

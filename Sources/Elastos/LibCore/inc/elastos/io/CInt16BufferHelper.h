@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CINT16BUFFERHELPER_H__
 
 #include "_Elastos_IO_CInt16BufferHelper.h"
-#include <elastos/core/Singleton.h>
+#include "elastos/core/Singleton.h"
 
 namespace Elastos {
 namespace IO {

@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_NET_PROXYSELECTORIMPL_H__
 #define __ELASTOS_NET_PROXYSELECTORIMPL_H__
 
-#include "ProxySelector.h"
+#include "elastos/net/ProxySelector.h"
 
 using Elastos::Utility::IList;
 

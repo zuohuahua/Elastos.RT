@@ -15,16 +15,16 @@
 //=========================================================================
 
 #include "Elastos.CoreLibrary.Net.h"
-#include "ServiceLoader.h"
-#include "io/CInputStreamReader.h"
-#include "io/CBufferedReader.h"
-#include "core/ClassLoader.h"
-#include "core/CString.h"
-#include "core/Character.h"
-#include "utility/CHashSet.h"
-#include "utility/Collections.h"
-#include "core/Thread.h"
-#include "core/CSystem.h"
+#include "elastos/utility/ServiceLoader.h"
+#include "elastos/io/CInputStreamReader.h"
+#include "elastos/io/CBufferedReader.h"
+#include "elastos/core/ClassLoader.h"
+#include "elastos/core/CString.h"
+#include "elastos/core/Character.h"
+#include "elastos/utility/CHashSet.h"
+#include "elastos/utility/Collections.h"
+#include "elastos/core/Thread.h"
+#include "elastos/core/CSystem.h"
 
 using Elastos::Core::ClassLoader;
 using Elastos::Core::CString;

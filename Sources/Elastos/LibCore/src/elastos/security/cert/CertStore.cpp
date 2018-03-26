@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "security/cert/CertStore.h"
-#include "security/CSecurity.h"
+#include "elastos/security/cert/CertStore.h"
+#include "elastos/security/CSecurity.h"
 
 using Elastos::Security::CSecurity;
 using Elastos::Security::ISecurity;

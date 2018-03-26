@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CECPublicKeySpec.h"
-#include "CECPoint.h"
+#include "elastos/security/spec/CECPublicKeySpec.h"
+#include "elastos/security/spec/CECPoint.h"
 
 namespace Elastos {
 namespace Security {

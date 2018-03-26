@@ -18,7 +18,7 @@
 #define __ELASTOS_NET_CPLAINDATAGRAMSOCKETIMPL_H__
 
 #include "_Elastos_Net_CPlainDatagramSocketImpl.h"
-#include "DatagramSocketImpl.h"
+#include "elastos/net/DatagramSocketImpl.h"
 
 using Elastos::Core::ICloseGuard;
 using Elastos::IO::IFileDescriptor;

@@ -3,7 +3,7 @@
 #define __ELASTOS_ELASESSIONRPCCLIENT__CORRIERPROXY_H__
 
 #include "_Elastos.ElaSessionRpcClient.h"
-#include <elastos/core/Object.h>
+#include "elastos/core/Object.h"
 #include <unistd.h>
 #include <ela_carrier.h>
 #include <ela_session.h>

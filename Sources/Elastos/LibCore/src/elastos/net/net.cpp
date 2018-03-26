@@ -14,15 +14,15 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CInet4Address.h"
-#include "CInet6Address.h"
-#include "CInetUnixAddress.h"
-#include "CDatagramSocket.h"
-#include "CPlainServerSocketImpl.h"
-#include "CPlainSocketImpl.h"
-#include "CSocks4Message.h"
-#include "CServerSocket.h"
-#include "CSocket.h"
+#include "elastos/net/CInet4Address.h"
+#include "elastos/net/CInet6Address.h"
+#include "elastos/net/CInetUnixAddress.h"
+#include "elastos/net/CDatagramSocket.h"
+#include "elastos/net/CPlainServerSocketImpl.h"
+#include "elastos/net/CPlainSocketImpl.h"
+#include "elastos/net/CSocks4Message.h"
+#include "elastos/net/CServerSocket.h"
+#include "elastos/net/CSocket.h"
 #include "elastos/net/CURI.h"
 
 namespace Elastos {

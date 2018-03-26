@@ -14,10 +14,10 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CURLEncoder.h"
-#include "charset/CCharsetHelper.h"
-#include "charset/StandardCharsets.h"
-#include "Character.h"
+#include "elastos/net/CURLEncoder.h"
+#include "elastos/io/charset/CCharsetHelper.h"
+#include "elastos/io/charset/StandardCharsets.h"
+#include "elastos/core/Character.h"
 
 using Elastos::IO::Charset::StandardCharsets;
 using Elastos::IO::Charset::ICharsetHelper;

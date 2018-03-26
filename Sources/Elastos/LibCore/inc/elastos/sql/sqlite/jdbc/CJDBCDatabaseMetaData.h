@@ -18,13 +18,13 @@
 #define __ELASTOS_SQL_SQLITE_JDBC_CJDBCDATABASEMETADATA_H__
 
 #include "_Elastos_Sql_SQLite_JDBC_CJDBCDatabaseMetaData.h"
-#include "CJDBCConnection.h"
-#include "CJDBCDriver.h"
-#include "CJDBCStatement.h"
-#include "CShell.h"
-#include "CTableResult.h"
-#include "CJDBCResultSet.h"
-#include "CTableResultX.h"
+#include "elastos/sql/sqlite/jdbc/CJDBCConnection.h"
+#include "elastos/sql/sqlite/CJDBCDriver.h"
+#include "elastos/sql/sqlite/jdbc/CJDBCStatement.h"
+#include "elastos/sql/sqlite/CShell.h"
+#include "elastos/sql/sqlite/CTableResult.h"
+#include "elastos/sql/sqlite/jdbc/CJDBCResultSet.h"
+#include "elastos/sql/sqlite/jdbc/CTableResultX.h"
 
 using Elastos::Sql::IResultSet;
 

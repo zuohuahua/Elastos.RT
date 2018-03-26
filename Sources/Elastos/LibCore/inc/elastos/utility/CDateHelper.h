@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CDATEHELPER_H__
 
 #include "_Elastos_Utility_CDateHelper.h"
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 
 using Elastos::Core::Singleton;
 

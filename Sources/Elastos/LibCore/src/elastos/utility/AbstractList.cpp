@@ -14,12 +14,12 @@
 // limitations under the License.
 //=========================================================================
 
-#include "AbstractList.h"
-#include "CSimpleListIterator.h"
-#include "CFullListIterator.h"
-#include "CSubAbstractListIterator.h"
-#include "CSubAbstractList.h"
-#include "CRandomAccessSubList.h"
+#include "elastos/utility/AbstractList.h"
+#include "elastos/utility/CSimpleListIterator.h"
+#include "elastos/utility/CFullListIterator.h"
+#include "elastos/utility/CSubAbstractListIterator.h"
+#include "elastos/utility/CSubAbstractList.h"
+#include "elastos/utility/CRandomAccessSubList.h"
 
 using Elastos::Utility::IList;
 

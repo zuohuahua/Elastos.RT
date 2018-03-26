@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CChar32.h"
-#include "IntegralToString.h"
+#include "elastos/core/CChar32.h"
+#include "elastos/core/IntegralToString.h"
 
 using Elastos::IO::EIID_ISerializable;
 

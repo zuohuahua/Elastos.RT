@@ -21,7 +21,7 @@
 #include "org/conscrypt/COpenSSLSocketFactoryImpl.h"
 #include "org/conscrypt/CServerSessionContext.h"
 #include "org/conscrypt/CSSLParametersImpl.h"
-#include <elastos/core/AutoLock.h>
+#include "elastos/core/AutoLock.h"
 
 namespace Org {
 namespace Conscrypt {

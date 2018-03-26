@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CCurrencyHelper.h"
-#include "Currency.h"
+#include "elastos/utility/CCurrencyHelper.h"
+#include "elastos/utility/Currency.h"
 
 namespace Elastos{
 namespace Utility{

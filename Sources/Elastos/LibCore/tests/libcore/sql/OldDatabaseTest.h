@@ -30,14 +30,14 @@
  * limitations under the License.
  */
 #include <elastos.h>
-#include <elastos/core/Object.h>
- #include <elastos/core/StringUtils.h>
+#include "elastos/core/Object.h"
+ #include "elastos/core/StringUtils.h"
 #include "_Elastos.CoreLibrary.IO.h"
 #include "_Elastos.CoreLibrary.Libcore.h"
 #include "_Elastos.CoreLibrary.Sql.h"
 #include <stdio.h>
-//#include <elastos/Mutex.h>
-#include <elastos/core/ElaMath.h>
+//#include "elastos/core/Mutex.h"
+#include "elastos/core/Math.h"
 // #include "elastos/sql/CDriverManager.h"
 #include <unistd.h>
 

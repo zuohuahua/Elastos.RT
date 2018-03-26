@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_COBSERVABLE_H__
 
 #include "_Elastos_Utility_CObservable.h"
-#include "Observable.h"
+#include "elastos/utility/Observable.h"
 
 namespace Elastos {
 namespace Utility {

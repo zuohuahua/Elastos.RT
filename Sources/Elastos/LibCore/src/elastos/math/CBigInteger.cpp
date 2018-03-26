@@ -15,17 +15,17 @@
 //=========================================================================
 
 //#include "Elastos.CoreLibrary.Utility.h"
-#include "CBigInteger.h"
-#include "Conversion.h"
-#include "BitLevel.h"
-#include "Logical.h"
-#include "Primality.h"
-#include "ElaMath.h"
-#include "Character.h"
-#include "StringUtils.h"
-#include "AutoLock.h"
+#include "elastos/math/CBigInteger.h"
+#include "elastos/math/Conversion.h"
+#include "elastos/math/BitLevel.h"
+#include "elastos/math/Logical.h"
+#include "elastos/math/Primality.h"
+#include "elastos/core/Math.h"
+#include "elastos/core/Character.h"
+#include "elastos/core/StringUtils.h"
+#include "elastos/core/AutoLock.h"
 
-#include <elastos/core/AutoLock.h>
+#include "elastos/core/AutoLock.h"
 using Elastos::Core::AutoLock;
 using Elastos::Core::Math;
 using Elastos::Core::Character;

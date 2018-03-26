@@ -14,9 +14,9 @@
 // limitations under the License.
 //=========================================================================
 
-#include "URLDecoder.h"
-#include "UriCodec.h"
-#include "charset/CCharsetHelper.h"
+#include "elastos/net/URLDecoder.h"
+#include "libcore/net/UriCodec.h"
+#include "elastos/io/charset/CCharsetHelper.h"
 
 namespace Elastos {
 namespace Net {

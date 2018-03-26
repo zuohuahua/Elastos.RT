@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CNativePluralRulesHelper.h"
-#include "CNativePluralRules.h"
+#include "libcore/icu/CNativePluralRulesHelper.h"
+#include "libcore/icu/CNativePluralRules.h"
 
 namespace Libcore {
 namespace ICU {

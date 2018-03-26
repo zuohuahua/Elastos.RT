@@ -18,10 +18,10 @@
 #define __LIBCORE_ICU_IO_LOCALEDATA_H__
 
 #include "Elastos.CoreLibrary.Libcore.h"
-#include <Object.h>
-#include <elastos/utility/etl/HashMap.h>
-#include <Mutex.h>
-#include "CInteger32.h"
+#include "elastos/core/Object.h"
+#include "elastos/utility/etl/HashMap.h"
+#include "elastos/core/Mutex.h"
+#include "elastos/core/CInteger32.h"
 
 using Elastos::Core::Object;
 using Elastos::Core::Mutex;

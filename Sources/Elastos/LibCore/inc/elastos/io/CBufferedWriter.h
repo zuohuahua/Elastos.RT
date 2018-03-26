@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CBUFFEREDWRITER_H__
 
 #include "_Elastos_IO_CBufferedWriter.h"
-#include "BufferedWriter.h"
+#include "elastos/io/BufferedWriter.h"
 
 namespace Elastos {
 namespace IO {

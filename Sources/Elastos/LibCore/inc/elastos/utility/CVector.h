@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CVECTOR_H__
 
 #include "_Elastos_Utility_CVector.h"
-#include "Vector.h"
+#include "elastos/utility/Vector.h"
 
 
 namespace Elastos {

@@ -18,7 +18,7 @@
 #define __ELASTOS_SQL_SQLITE_JDBC_CJDBCSTATEMENT_H__
 
 #include "_Elastos_Sql_SQLite_JDBC_CJDBCStatement.h"
-#include "JDBCStatement.h"
+#include "elastos/sql/sqlite/jdbc/JDBCStatement.h"
 
 namespace Elastos {
 namespace Sql {

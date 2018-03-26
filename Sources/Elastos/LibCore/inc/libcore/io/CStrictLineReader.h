@@ -18,8 +18,8 @@
 #define __LIBCORE_IO_CSTRICTLINEREADER_H__
 
 #include "_Libcore_IO_CStrictLineReader.h"
-#include "Object.h"
-#include "ByteArrayOutputStream.h"
+#include "elastos/core/Object.h"
+#include "elastos/io/ByteArrayOutputStream.h"
 
 using Elastos::IO::ICloseable;
 using Elastos::IO::IInputStream;

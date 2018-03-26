@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CAtomicInteger32.h"
+#include "elastos/utility/concurrent/atomic/CAtomicInteger32.h"
 
 using Elastos::IO::EIID_ISerializable;
 

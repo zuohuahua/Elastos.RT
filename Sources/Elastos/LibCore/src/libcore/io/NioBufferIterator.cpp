@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "NioBufferIterator.h"
-#include "io/Memory.h"
+#include "libcore/io/NioBufferIterator.h"
+#include "libcore/io/Memory.h"
 
 namespace Libcore {
 namespace IO {

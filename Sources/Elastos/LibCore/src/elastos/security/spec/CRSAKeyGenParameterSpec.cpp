@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CRSAKeyGenParameterSpec.h"
+#include "elastos/security/spec/CRSAKeyGenParameterSpec.h"
 #include "elastos/math/CBigInteger.h"
 
 using Elastos::Math::CBigInteger;

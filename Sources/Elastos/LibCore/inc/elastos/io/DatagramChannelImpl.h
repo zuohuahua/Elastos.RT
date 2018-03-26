@@ -17,8 +17,8 @@
 #ifndef __ELASTOS_IO_DATAGRAMCHANNELIMPL_H__
 #define __ELASTOS_IO_DATAGRAMCHANNELIMPL_H__
 
-#include "DatagramChannel.h"
-#include "DatagramSocket.h"
+#include "elastos/io/channels/DatagramChannel.h"
+#include "elastos/net/DatagramSocket.h"
 
 using Elastos::IO::Channels::DatagramChannel;
 using Elastos::IO::IFileDescriptorChannel;

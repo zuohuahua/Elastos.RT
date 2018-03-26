@@ -18,9 +18,9 @@
 #define __ELASTOS_UTILITY_CONCURRENT_ELASTOS_UTILITY_CCONCURRENTHASHMAP_H__
 
 #include "_Elastos_Utility_Concurrent_CConcurrentHashMap.h"
-#include "AbstractMap.h"
-#include "ReentrantLock.h"
-#include "Object.h"
+#include "elastos/utility/AbstractMap.h"
+#include "elastos/utility/concurrent/locks/ReentrantLock.h"
+#include "elastos/core/Object.h"
 
 using Elastos::IO::ISerializable;
 using Elastos::IO::IObjectOutputStream;

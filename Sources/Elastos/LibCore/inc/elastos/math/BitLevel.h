@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_MATH_BITLEVEL_H__
 #define __ELASTOS_MATH_BITLEVEL_H__
 
-#include <CBigInteger.h>
+#include "elastos/math/CBigInteger.h"
 #include <elastos.h>
 
 namespace Elastos {

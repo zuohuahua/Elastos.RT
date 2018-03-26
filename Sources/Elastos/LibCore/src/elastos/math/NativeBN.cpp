@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "NativeBN.h"
-#include <elastos/core/UniquePtr.h>
+#include "elastos/math/NativeBN.h"
+#include "elastos/core/UniquePtr.h"
 #include <openssl/bn.h>
 #include <openssl/crypto.h>
 #include <openssl/err.h>

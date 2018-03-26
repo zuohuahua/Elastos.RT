@@ -18,7 +18,7 @@
 #define __ELASTOS_TEXT_RULEBASEDBREAKITERATOR_H__
 
 
-#include "BreakIterator.h"
+#include "elastos/text/BreakIterator.h"
 
 using Elastos::Text::ICharacterIterator;
 

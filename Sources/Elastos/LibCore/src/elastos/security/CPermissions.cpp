@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CPermissions.h"
+#include "elastos/security/CPermissions.h"
 
 namespace Elastos {
 namespace Security {

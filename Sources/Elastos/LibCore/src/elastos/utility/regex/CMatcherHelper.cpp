@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CMatcherHelper.h"
-#include "CMatcher.h"
+#include "elastos/utility/regex/CMatcherHelper.h"
+#include "elastos/utility/regex/CMatcher.h"
 
 namespace Elastos {
 namespace Utility {

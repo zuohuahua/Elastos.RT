@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CSocketHelper.h"
-#include "Socket.h"
+#include "elastos/net/CSocketHelper.h"
+#include "elastos/net/Socket.h"
 
 namespace Elastos {
 namespace Net {

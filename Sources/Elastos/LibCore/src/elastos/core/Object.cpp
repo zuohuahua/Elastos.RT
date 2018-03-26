@@ -14,9 +14,9 @@
 // limitations under the License.
 //=========================================================================
 
-#include "Object.h"
-#include "Thread.h"
-#include "ClassLoader.h"
+#include "elastos/core/Object.h"
+#include "elastos/core/Thread.h"
+#include "elastos/core/ClassLoader.h"
 
 using Elastos::Core::Thread;
 using Elastos::Core::IThread;

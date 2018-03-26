@@ -18,12 +18,12 @@
 #define __ELASTOS_TEXT_MESSAGEFORMAT_H__
 
 #include "Elastos.CoreLibrary.Utility.h"
-#include "FormatBase.h"
-#include "NumberFormat.h"
-#include "DateFormat.h"
-#include "StringBuffer.h"
-#include <elastos/utility/etl/List.h>
-#include "Character.h"
+#include "elastos/text/FormatBase.h"
+#include "elastos/text/NumberFormat.h"
+#include "elastos/text/DateFormat.h"
+#include "elastos/core/StringBuffer.h"
+#include "elastos/utility/etl/List.h"
+#include "elastos/core/Character.h"
 
 using Elastos::Utility::Etl::List;
 using Elastos::Text::IAttributedCharacterIteratorAttribute;

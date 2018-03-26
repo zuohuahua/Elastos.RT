@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_NET_JARURLCONNECTION_H__
 #define __ELASTOS_NET_JARURLCONNECTION_H__
 
-#include "URLConnection.h"
+#include "elastos/net/URLConnection.h"
 
 using Elastos::Security::Cert::ICertificate;
 using Elastos::Utility::Jar::IJarEntry;

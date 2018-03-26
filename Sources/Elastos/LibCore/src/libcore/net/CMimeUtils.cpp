@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CMimeUtils.h"
-#include "MimeUtils.h"
+#include "libcore/net/CMimeUtils.h"
+#include "libcore/net/MimeUtils.h"
 
 namespace Libcore {
 namespace Net {

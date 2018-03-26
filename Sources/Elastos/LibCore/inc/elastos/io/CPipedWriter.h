@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CPIPEDWRITER_H__
 
 #include "_Elastos_IO_CPipedWriter.h"
-#include "PipedWriter.h"
+#include "elastos/io/PipedWriter.h"
 
 namespace Elastos {
 namespace IO {

@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "ProtectionDomain.h"
+#include "elastos/security/ProtectionDomain.h"
 
 namespace Elastos {
 namespace Security {

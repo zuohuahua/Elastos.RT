@@ -18,7 +18,7 @@
 #define __ELASTOS_TEXT_CDATEFORMATFIELDHELPER_H__
 
 #include "_Elastos_Text_CDateFormatFieldHelper.h"
-#include <elastos/core/Singleton.h>
+#include "elastos/core/Singleton.h"
 
 namespace Elastos {
 namespace Text {

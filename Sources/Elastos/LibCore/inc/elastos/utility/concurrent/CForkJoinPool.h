@@ -18,8 +18,8 @@
 #define __ELASTOS_UTILITY_CONCURRENT_ELASTOS_UTILITY_CFORKJOINPOOL_H__
 
 #include "_Elastos_Utility_Concurrent_CForkJoinPool.h"
-#include "AbstractExecutorService.h"
-#include "ForkJoinTask.h"
+#include "elastos/utility/concurrent/AbstractExecutorService.h"
+#include "elastos/utility/concurrent/ForkJoinTask.h"
 
 using Elastos::Core::IThread;
 using Elastos::Core::IThreadUncaughtExceptionHandler;

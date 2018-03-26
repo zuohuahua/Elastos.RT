@@ -15,19 +15,19 @@
 //=========================================================================
 
 #include "Elastos.CoreLibrary.Net.h"
-#include "ResourceBundle.h"
-#include "CArrayList.h"
-#include "CString.h"
-#include "Collections.h"
-#include "CWeakHashMap.h"
-#include "CLocale.h"
-#include "CFile.h"
-#include "CHashSet.h"
-#include "CHashTable.h"
-#include "StringBuilder.h"
-#include "StringUtils.h"
-#include "CSystem.h"
-#include "AutoLock.h"
+#include "elastos/utility/ResourceBundle.h"
+#include "elastos/utility/CArrayList.h"
+#include "elastos/core/CString.h"
+#include "elastos/utility/Collections.h"
+#include "elastos/utility/CWeakHashMap.h"
+#include "elastos/utility/CLocale.h"
+#include "elastos/io/CFile.h"
+#include "elastos/utility/CHashSet.h"
+#include "elastos/utility/CHashTable.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/core/StringUtils.h"
+#include "elastos/core/CSystem.h"
+#include "elastos/core/AutoLock.h"
 
 using Elastos::Core::CString;
 using Elastos::Core::ICharSequence;

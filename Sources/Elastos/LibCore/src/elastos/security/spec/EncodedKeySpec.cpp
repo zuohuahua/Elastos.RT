@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "EncodedKeySpec.h"
+#include "elastos/security/spec/EncodedKeySpec.h"
 
 namespace Elastos {
 namespace Security {

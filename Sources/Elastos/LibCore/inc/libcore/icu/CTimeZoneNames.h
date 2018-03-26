@@ -18,7 +18,7 @@
 #define __LIBCORE_ICU_CTIMEZONENAMES_H__
 
 #include "_Libcore_ICU_CTimeZoneNames.h"
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 
 using Elastos::Core::IArrayOf;
 using Elastos::Core::Singleton;

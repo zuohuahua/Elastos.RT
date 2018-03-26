@@ -17,11 +17,11 @@
 #ifndef __ELASTOS_IO_SOCKETCHANNELIMPL_H__
 #define __ELASTOS_IO_SOCKETCHANNELIMPL_H__
 
-#include "SocketChannel.h"
-#include "CFileDescriptor.h"
-#include "FilterOutputStream.h"
-#include "FilterInputStream.h"
-#include "Socket.h"
+#include "elastos/io/channels/SocketChannel.h"
+#include "elastos/io/CFileDescriptor.h"
+#include "elastos/io/FilterOutputStream.h"
+#include "elastos/io/FilterInputStream.h"
+#include "elastos/net/Socket.h"
 
 using Elastos::IO::Channels::SocketChannel;
 using Elastos::Net::IInetAddress;

@@ -17,7 +17,7 @@
 #ifndef __LIBCORE_ICU_CNATIVEPLURALRULESHELPER_H__
 #define __LIBCORE_ICU_CNATIVEPLURALRULESHELPER_H__
 
-#include <Singleton.h>
+#include "elastos/core/Singleton.h"
 #include "_Libcore_ICU_CNativePluralRulesHelper.h"
 
 using Elastos::Core::Singleton;

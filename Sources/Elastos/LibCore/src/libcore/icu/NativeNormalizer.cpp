@@ -14,10 +14,10 @@
 // limitations under the License.
 //=========================================================================
 
-#include <coredef.h>
+#include "elastos/coredef.h"
 #include "Elastos.CoreLibrary.Core.h"
-#include "NativeNormalizer.h"
-#include "ElStringByteSink.h"
+#include "libcore/icu/NativeNormalizer.h"
+#include "libcore/icu/ElStringByteSink.h"
 #include <unicode/normlzr.h>
 
 namespace Libcore {

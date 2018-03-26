@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CTrustAnchor.h"
-#include "StringBuilder.h"
+#include "elastos/security/cert/CTrustAnchor.h"
+#include "elastos/core/StringBuilder.h"
 #include "CX500Principal.h"
 
 using Elastos::Security::IPrincipal;

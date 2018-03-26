@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_IO_CHANNELS_ELASTOS_IO_CFILECHANNEL_H__
 #define __ELASTOS_IO_CHANNELS_ELASTOS_IO_CFILECHANNEL_H__
 
-#include "AbstractInterruptibleChannel.h"
+#include "elastos/io/channels/spi/AbstractInterruptibleChannel.h"
 
 using Elastos::IO::Channels::Spi::AbstractInterruptibleChannel;
 

@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_IO_CHARBUFFER_H__
 #define __ELASTOS_IO_CHARBUFFER_H__
 
-#include "Buffer.h"
+#include "elastos/io/Buffer.h"
 
 using Elastos::Core::IAppendable;
 using Elastos::Core::ICharSequence;

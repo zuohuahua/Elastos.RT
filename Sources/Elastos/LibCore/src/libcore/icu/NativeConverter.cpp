@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "NativeConverter.h"
-#include "charset/CCodingErrorAction.h"
+#include "libcore/icu/NativeConverter.h"
+#include "elastos/io/charset/CCodingErrorAction.h"
 
 #include <unicode/utypes.h>
 #include <unicode/ucnv.h>
@@ -23,9 +23,9 @@
 #include <unicode/ucnv_cb.h>
 #include <unicode/ustring.h>
 #include <ustrenum.h> // For UStringEnumeration.
-#include "CharsetICU.h"
-#include <elastos/utility/etl/Vector.h>
-#include <utils/UniquePtr.h>
+#include "elastos/io/charset/CharsetICU.h"
+#include "elastos/utility/etl/Vector.h"
+#include "elastos/core/UniquePtr.h"
 
 
 using Elastos::Utility::Etl::Vector;

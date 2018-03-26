@@ -17,7 +17,7 @@
 #ifndef __LIBCORE_ICU_ICU_ICUUTIL_H__
 #define __LIBCORE_ICU_ICU_ICUUTIL_H__
 
-#include "LocaleData.h"
+#include "libcore/icu/LocaleData.h"
 
 using Elastos::Utility::ILocale;
 using Libcore::Utility::IBasicLruCache;

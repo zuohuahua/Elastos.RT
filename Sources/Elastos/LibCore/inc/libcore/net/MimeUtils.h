@@ -18,8 +18,8 @@
 #define __LIBCORE_NET_MIMEUTILS_H__
 
 #include "Elastos.CoreLibrary.h"
-#include "coredef.h"
-#include <elastos/utility/etl/HashMap.h>
+#include "elastos/coredef.h"
+#include "elastos/utility/etl/HashMap.h"
 
 using Elastos::Utility::Etl::HashMap;
 using Elastos::IO::IInputStream;

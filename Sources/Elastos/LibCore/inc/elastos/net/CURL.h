@@ -19,7 +19,7 @@
 
 #include "_Elastos_Net_CURL.h"
 #include "elastos/core/Object.h"
-#include <elastos/utility/etl/HashMap.h>
+#include "elastos/utility/etl/HashMap.h"
 
 using Elastos::Core::Object;
 using Elastos::Core::IComparable;

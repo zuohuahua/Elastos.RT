@@ -14,14 +14,14 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CJarInputStream.h"
-#include "CByteArrayOutputStream.h"
-#include "CManifest.h"
-#include "CAttributes.h"
-#include "CString.h"
-#include "JarVerifier.h"
-#include "CJarFile.h"
-#include "CStreams.h"
+#include "elastos/utility/jar/CJarInputStream.h"
+#include "elastos/io/CByteArrayOutputStream.h"
+#include "elastos/utility/jar/CManifest.h"
+#include "elastos/utility/jar/CAttributes.h"
+#include "elastos/core/CString.h"
+#include "elastos/utility/jar/JarVerifier.h"
+#include "elastos/utility/jar/CJarFile.h"
+#include "libcore/io/CStreams.h"
 
 using Elastos::IO::IByteArrayOutputStream;
 using Elastos::IO::CByteArrayOutputStream;

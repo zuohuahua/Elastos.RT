@@ -18,7 +18,7 @@
 #define __LIBCORE_NET_HTTP_CHTTPDATEHELPER_H__
 
 #include "_Libcore_Net_Http_CHttpDate.h"
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 #include <pthread.h>
 
 using Elastos::Core::Singleton;

@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_SECURITY_BASICPERMISSION_H__
 #define __ELASTOS_SECURITY_BASICPERMISSION_H__
 
-#include "Permission.h"
+#include "elastos/security/Permission.h"
 
 namespace Elastos {
 namespace Security {

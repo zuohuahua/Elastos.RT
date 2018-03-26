@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CIoBridge.h"
-#include "IoBridge.h"
+#include "libcore/io/CIoBridge.h"
+#include "libcore/io/IoBridge.h"
 
 namespace Libcore {
 namespace IO {

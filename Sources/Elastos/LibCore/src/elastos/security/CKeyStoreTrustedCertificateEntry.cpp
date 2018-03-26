@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CKeyStoreTrustedCertificateEntry.h"
+#include "elastos/security/CKeyStoreTrustedCertificateEntry.h"
 
 namespace Elastos {
 namespace Security {

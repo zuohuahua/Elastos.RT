@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CCollationElementIteratorICUHelper.h"
-#include "CollationElementIteratorICU.h"
+#include "libcore/icu/CCollationElementIteratorICUHelper.h"
+#include "libcore/icu/CollationElementIteratorICU.h"
 
 namespace Libcore {
 namespace ICU {

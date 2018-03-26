@@ -19,7 +19,7 @@
 
 #include <elastos.h>
 #include <container.h>
-#include <elastos/Mutex.h>
+#include "elastos/core/Mutex.h"
 
 using Elastos::Core::Mutex;
 

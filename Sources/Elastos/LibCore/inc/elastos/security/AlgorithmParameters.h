@@ -18,7 +18,7 @@
 #define __ELASTOS_SECURITY_ALGORITHMPARAMETERS_H__
 
 #include "Elastos.CoreLibrary.Security.h"
-#include "AlgorithmParametersSpi.h"
+#include "elastos/security/AlgorithmParametersSpi.h"
 
 using Org::Apache::Harmony::Security::Fortress::IEngine;
 

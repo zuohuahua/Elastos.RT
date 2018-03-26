@@ -18,7 +18,7 @@
 #define __ELASTOS_SECURITY_CKEYPAIR_H__
 
 #include "_Elastos_Security_CKeyPair.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::IO::ISerializable;
 

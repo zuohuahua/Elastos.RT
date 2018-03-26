@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CCopyOnWriteArrayListHelper.h"
-#include "CopyOnWriteArrayList.h"
+#include "elastos/utility/concurrent/CCopyOnWriteArrayListHelper.h"
+#include "elastos/utility/concurrent/CopyOnWriteArrayList.h"
 
 namespace Elastos {
 namespace Utility {

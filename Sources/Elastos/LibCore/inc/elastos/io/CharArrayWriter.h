@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_IO_CHARARRAYWRITER_H__
 #define __ELASTOS_IO_CHARARRAYWRITER_H__
 
-#include "Writer.h"
+#include "elastos/io/Writer.h"
 
 namespace Elastos {
 namespace IO {

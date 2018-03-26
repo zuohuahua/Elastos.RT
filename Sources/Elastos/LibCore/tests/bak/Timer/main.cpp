@@ -1,6 +1,6 @@
 
 #include "MyTimerTask.h"
-#include <elastos/Thread.h>
+#include "elastos/core/Thread.h"
 #include <elautoptr.h>
 #include <stdio.h>
 

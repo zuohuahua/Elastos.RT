@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "DefaultFileNameMap.h"
-#include "CMimeUtils.h"
+#include "elastos/net/DefaultFileNameMap.h"
+#include "libcore/net/CMimeUtils.h"
 
 using Libcore::Net::IMimeUtils;
 using Libcore::Net::CMimeUtils;

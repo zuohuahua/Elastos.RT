@@ -18,7 +18,7 @@
 #define __LIBCORE_IO_NIOBUFFERITERATOR_H__
 
 #include "Elastos.CoreLibrary.Libcore.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::Object;
 

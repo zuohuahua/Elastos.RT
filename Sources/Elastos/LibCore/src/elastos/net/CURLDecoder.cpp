@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CURLDecoder.h"
-#include "URLDecoder.h"
+#include "elastos/net/CURLDecoder.h"
+#include "elastos/net/URLDecoder.h"
 
 namespace Elastos {
 namespace Net {

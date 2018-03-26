@@ -18,7 +18,7 @@
 #define __ELASTOS_SECURITY_CERT_PKIXPARAMETERS_H__
 
 #include "Elastos.CoreLibrary.Security.h"
-#include "core/Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Utility::ISet;
 using Elastos::Utility::IList;

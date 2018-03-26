@@ -16,8 +16,8 @@
 
 #include "Elastos.CoreLibrary.IO.h"
 #include "Elastos.CoreLibrary.Utility.h"
-#include "CReentrantReadWriteLock.h"
-#include "StringUtils.h"
+#include "elastos/utility/concurrent/locks/CReentrantReadWriteLock.h"
+#include "elastos/core/StringUtils.h"
 
 using Elastos::Core::StringUtils;
 using Elastos::IO::EIID_ISerializable;

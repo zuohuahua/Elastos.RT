@@ -14,10 +14,10 @@
 // limitations under the License.
 //=========================================================================
 
-#include "MessageDigest.h"
-#include "core/Object.h"
-#include "security/CSecurity.h"
-#include "utility/logging/Logger.h"
+#include "elastos/security/MessageDigest.h"
+#include "elastos/core/Object.h"
+#include "elastos/security/CSecurity.h"
+#include "elastos/utility/logging/Logger.h"
 #include "org/apache/harmony/security/fortress/CEngine.h"
 
 using Elastos::Core::EIID_ICloneable;

@@ -14,13 +14,13 @@
 // limitations under the License.
 //=========================================================================
 
-#include "ProxySelectorImpl.h"
-#include "CProxy.h"
-#include "CInetSocketAddress.h"
-#include "StringUtils.h"
-#include "StringBuilder.h"
-#include "Collections.h"
-#include "CSystem.h"
+#include "elastos/net/ProxySelectorImpl.h"
+#include "elastos/net/CProxy.h"
+#include "elastos/net/CInetSocketAddress.h"
+#include "elastos/core/StringUtils.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/utility/Collections.h"
+#include "elastos/core/CSystem.h"
 
 using Elastos::Core::ISystem;
 using Elastos::Core::CSystem;

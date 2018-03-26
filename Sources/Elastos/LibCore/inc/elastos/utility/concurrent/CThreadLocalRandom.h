@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CONCURRENT_ELASTOS_UTILITY_CTHREADLOCALRANDOM_H__
 
 #include "_Elastos_Utility_Concurrent_CThreadLocalRandom.h"
-#include "Random.h"
+#include "elastos/utility/Random.h"
 
 namespace Elastos {
 namespace Utility {

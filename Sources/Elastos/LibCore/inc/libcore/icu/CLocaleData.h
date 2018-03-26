@@ -18,7 +18,7 @@
 #define __LIBCORE_ICU_ICU_CLOCALEDATA_H__
 
 #include "_Libcore_ICU_CLocaleData.h"
-#include "LocaleData.h"
+#include "libcore/icu/LocaleData.h"
 
 using Elastos::Core::IInteger32;
 

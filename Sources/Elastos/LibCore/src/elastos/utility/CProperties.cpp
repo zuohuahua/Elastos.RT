@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CProperties.h"
+#include "elastos/utility/CProperties.h"
 
 namespace Elastos{
 namespace Utility{

@@ -15,8 +15,8 @@
 //=========================================================================
 
 #include "Elastos.CoreLibrary.Utility.h"
-#include "CForkJoinTaskHelper.h"
-#include "ForkJoinTask.h"
+#include "elastos/utility/concurrent/CForkJoinTaskHelper.h"
+#include "elastos/utility/concurrent/ForkJoinTask.h"
 
 using Elastos::Utility::Concurrent::ForkJoinTask;
 

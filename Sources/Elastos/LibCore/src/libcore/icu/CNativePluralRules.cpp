@@ -15,7 +15,7 @@
 //=========================================================================
 
 #include "Elastos.CoreLibrary.Utility.h"
-#include "CNativePluralRules.h"
+#include "libcore/icu/CNativePluralRules.h"
 #include <unicode/plurrule.h>
 
 namespace Libcore {

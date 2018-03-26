@@ -7,7 +7,7 @@
 #include <elautoptr.h>
 #include <elquintet.h>
 #include <cmdef.h>
-#include <elastos/List.h>
+#include "elastos/utility/etl/List.h"
 
 using namespace Elastos;
 using namespace Elastos::Core;

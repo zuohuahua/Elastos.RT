@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CEllipticCurve.h"
-#include <elastos/utility/Arrays.h>
+#include "elastos/security/spec/CEllipticCurve.h"
+#include "elastos/utility/Arrays.h"
 
 using Elastos::Core::IComparable;
 using Elastos::Utility::Arrays;

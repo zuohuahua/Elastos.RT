@@ -14,9 +14,9 @@
 // limitations under the License.
 //=========================================================================
 
-#include "InflaterOutputStream.h"
-#include "Arrays.h"
-#include "CInflater.h"
+#include "elastos/utility/zip/InflaterOutputStream.h"
+#include "elastos/utility/Arrays.h"
+#include "elastos/utility/zip/CInflater.h"
 
 namespace Elastos {
 namespace Utility {

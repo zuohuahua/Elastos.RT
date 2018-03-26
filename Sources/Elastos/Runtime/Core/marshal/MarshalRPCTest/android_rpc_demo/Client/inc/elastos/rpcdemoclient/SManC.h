@@ -2,13 +2,13 @@
 #ifndef __ELASTOS_PRCDEMOCLIENT_SMANC_H__
 #define __ELASTOS_PRCDEMOCLIENT_SMANC_H__
 
-#include <elastos/core/Object.h>
+#include "elastos/core/Object.h"
 
 #ifndef __USE_MALLOC
 #define __USE_MALLOC
 #endif
 
-#include <elastos/utility/etl/HashMap.h>
+#include "elastos/utility/etl/HashMap.h"
 
 using namespace Elastos;
 using Elastos::Utility::Etl::HashMap;

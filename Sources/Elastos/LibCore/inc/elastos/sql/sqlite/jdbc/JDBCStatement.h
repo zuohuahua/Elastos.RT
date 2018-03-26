@@ -18,8 +18,8 @@
 #define __ELASTOS_SQL_SQLITE_JDBC_JDBCSTATEMENT_H__
 
 #include "Elastos.CoreLibrary.Sql.h"
-#include <elastos/core/Object.h>
-#include <elastos/utility/etl/List.h>
+#include "elastos/core/Object.h"
+#include "elastos/utility/etl/List.h"
 
 using Elastos::Core::Object;
 using Elastos::Sql::IResultSet;

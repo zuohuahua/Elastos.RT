@@ -20,7 +20,7 @@
 #include "Elastos.CoreLibrary.IO.h"
 #include "Elastos.CoreLibrary.Libcore.h"
 #include "Elastos.CoreLibrary.Utility.h"
-#include "URLConnection.h"
+#include "elastos/net/URLConnection.h"
 
 using Elastos::Core::IComparator;
 using Elastos::Net::IURLConnection;

@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "LockSupport.h"
-#include <Thread.h>
+#include "elastos/utility/concurrent/locks/LockSupport.h"
+#include "elastos/core/Thread.h"
 
 using Elastos::Core::Thread;
 

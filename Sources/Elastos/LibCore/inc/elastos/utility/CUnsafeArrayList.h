@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CUNSAFEARRAYLIST_H__
 
 #include "_Elastos_Utility_CUnsafeArrayList.h"
-#include "UnsafeArrayList.h"
+#include "elastos/utility/UnsafeArrayList.h"
 
 namespace Elastos {
 namespace Utility {

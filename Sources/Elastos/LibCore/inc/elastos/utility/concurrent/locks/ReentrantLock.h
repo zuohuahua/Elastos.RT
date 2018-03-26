@@ -17,8 +17,8 @@
 #ifndef __ELASTOS_UTILITY_CONCURRENT_LOCKS_ELASTOS_UTILITY_REENTRANTLOCK_H__
 #define __ELASTOS_UTILITY_CONCURRENT_LOCKS_ELASTOS_UTILITY_REENTRANTLOCK_H__
 
-#include "AbstractQueuedSynchronizer.h"
-#include <elastos/core/Object.h>
+#include "elastos/utility/concurrent/locks/AbstractQueuedSynchronizer.h"
+#include "elastos/core/Object.h"
 
 using Elastos::IO::IObjectInputStream;
 

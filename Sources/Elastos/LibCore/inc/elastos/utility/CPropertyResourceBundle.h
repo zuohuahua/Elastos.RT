@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CPROPERTY_RESOURCE_BUNDLE_H__
 
 #include "_Elastos_Utility_CPropertyResourceBundle.h"
-#include "ResourceBundle.h"
+#include "elastos/utility/ResourceBundle.h"
 
 using Elastos::IO::IInputStream;
 using Elastos::IO::IReader;

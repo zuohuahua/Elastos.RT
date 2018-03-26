@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_TOSTRINGARRAY_S_H__
 
 #include <elquintet.h>
-#include <elastos/utility/etl/Vector.h>
+#include "elastos/utility/etl/Vector.h"
 
 using Elastos::Utility::Etl::Vector;
 

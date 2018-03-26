@@ -19,7 +19,7 @@
 
 #include "_Org_Conscrypt_CCryptoUpcalls.h"
 #include <Elastos.CoreLibrary.Security.h>
-#include <elastos/core/Singleton.h>
+#include "elastos/core/Singleton.h"
 
 using Elastos::Security::IProvider;
 using Elastos::Security::IPrivateKey;

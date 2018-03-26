@@ -18,7 +18,7 @@
 #define __ELASTOS_SECURITY_CUNRESOLVEDPERMISSION_H__
 
 #include "_Elastos_Security_CUnresolvedPermission.h"
-#include "Permission.h"
+#include "elastos/security/Permission.h"
 
 namespace Elastos {
 namespace Security {

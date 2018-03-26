@@ -18,7 +18,7 @@
 #define __LIBCORE_ICU_ALPHABETICINDEX_H__
 
 #include "Elastos.CoreLibrary.Libcore.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::Object;
 using Elastos::Utility::ILocale;

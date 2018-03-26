@@ -17,8 +17,8 @@
 #ifndef __ORG_CONSCRYPT_OPENSSLDIGESTCONTEXT_H__
 #define __ORG_CONSCRYPT_OPENSSLDIGESTCONTEXT_H__
 
-#include <elastos/coredef.h>
-#include <elastos/core/Object.h>
+#include "elastos/coredef.h"
+#include "elastos/core/Object.h"
 #include "org/conscrypt/OpenSSLNativeReference.h"
 #include "_Org.Conscrypt.h"
 

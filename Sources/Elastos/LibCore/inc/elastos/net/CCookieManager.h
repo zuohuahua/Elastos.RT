@@ -18,8 +18,8 @@
 #define __ELASTOS_NET_CCOOKIEMANAGER_H__
 
 #include "_Elastos_Net_CCookieManager.h"
-#include "CookieHandler.h"
-#include <elastos/utility/etl/List.h>
+#include "elastos/net/CookieHandler.h"
+#include "elastos/utility/etl/List.h"
 
 using Elastos::Core::ICharSequence;
 using Elastos::Utility::IMap;

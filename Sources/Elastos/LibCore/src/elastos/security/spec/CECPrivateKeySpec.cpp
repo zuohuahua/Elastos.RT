@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CECPrivateKeySpec.h"
+#include "elastos/security/spec/CECPrivateKeySpec.h"
 
 namespace Elastos {
 namespace Security {

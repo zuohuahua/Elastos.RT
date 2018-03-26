@@ -14,15 +14,15 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CookieStoreImpl.h"
-#include "CURI.h"
-#include "CHttpCookie.h"
-#include "CArrayList.h"
-#include "CHashMap.h"
-#include "Collections.h"
-#include "AutoLock.h"
+#include "elastos/net/CookieStoreImpl.h"
+#include "elastos/net/CURI.h"
+#include "elastos/net/CHttpCookie.h"
+#include "elastos/utility/CArrayList.h"
+#include "elastos/utility/CHashMap.h"
+#include "elastos/utility/Collections.h"
+#include "elastos/core/AutoLock.h"
 
-#include <elastos/core/AutoLock.h>
+#include "elastos/core/AutoLock.h"
 using Elastos::Core::AutoLock;
 using Elastos::Utility::IArrayList;
 using Elastos::Utility::CArrayList;

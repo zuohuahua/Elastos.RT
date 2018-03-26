@@ -19,7 +19,7 @@
 
 #include "Elastos.CoreLibrary.Libcore.h"
 #include "_Elastos_Text_CCollationElementIterator.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::Object;
 using Elastos::Text::ICharacterIterator;

@@ -18,7 +18,7 @@
 #define __ELASTOS_SECURITY_SPEC_CRSAKEYGENPARAMETERSPEC_H__
 
 #include "_Elastos_Security_Spec_CRSAKeyGenParameterSpec.h"
-#include "core/Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Math::IBigInteger;
 

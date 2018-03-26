@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CPKIXCertPathBuilderResult.h"
-#include "StringBuilder.h"
+#include "elastos/security/cert/CPKIXCertPathBuilderResult.h"
+#include "elastos/core/StringBuilder.h"
 
 using Elastos::Core::StringBuilder;
 

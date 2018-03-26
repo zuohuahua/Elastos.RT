@@ -18,7 +18,7 @@
 #define __ELASTOS_SECURITY_CERT_CPKIXBUILDERPARAMETERS_H__
 
 #include "_Elastos_Security_Cert_CPKIXBuilderParameters.h"
-#include "PKIXParameters.h"
+#include "elastos/security/cert/PKIXParameters.h"
 
 using Elastos::Utility::IDate;
 using Elastos::Security::IKeyStore;

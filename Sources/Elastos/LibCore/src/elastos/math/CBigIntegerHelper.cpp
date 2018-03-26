@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CBigIntegerHelper.h"
-#include "CBigInteger.h"
+#include "elastos/math/CBigIntegerHelper.h"
+#include "elastos/math/CBigInteger.h"
 
 namespace Elastos {
 namespace Math {

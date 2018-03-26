@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_TEXT_RULEBASEDCOLLATOR_H__
 #define __ELASTOS_TEXT_RULEBASEDCOLLATOR_H__
 
-#include "Collator.h"
+#include "elastos/text/Collator.h"
 
 using Libcore::ICU::ICollationElementIteratorICU;
 using Elastos::Text::ICharacterIterator;

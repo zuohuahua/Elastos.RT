@@ -14,9 +14,9 @@
 // limitations under the License.
 //=========================================================================
 
-#include "HeapBufferIterator.h"
-#include "io/Memory.h"
-#include "io/CByteOrderHelper.h"
+#include "libcore/io/HeapBufferIterator.h"
+#include "libcore/io/Memory.h"
+#include "elastos/io/CByteOrderHelper.h"
 
 // using Elastos::IO::Memory;
 using Elastos::IO::CByteOrderHelper;

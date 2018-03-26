@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CTimeUnitHelper.h"
-#include "TimeUnit.h"
+#include "elastos/utility/concurrent/CTimeUnitHelper.h"
+#include "elastos/utility/concurrent/TimeUnit.h"
 
 namespace Elastos {
 namespace Utility {

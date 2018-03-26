@@ -17,8 +17,8 @@
 #ifndef __ELASTOS_IO_BYTEBUFFERASINT16BUFFER_H__
 #define __ELASTOS_IO_BYTEBUFFERASINT16BUFFER_H__
 
-#include "Int16Buffer.h"
-#include "ByteBuffer.h"
+#include "elastos/io/Int16Buffer.h"
+#include "elastos/io/ByteBuffer.h"
 
 namespace Elastos {
 namespace IO {

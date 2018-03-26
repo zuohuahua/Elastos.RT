@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "PlainServerSocketImpl.h"
-#include "CBoolean.h"
+#include "elastos/net/PlainServerSocketImpl.h"
+#include "elastos/core/CBoolean.h"
 
 using Elastos::Core::IBoolean;
 using Elastos::Core::CBoolean;

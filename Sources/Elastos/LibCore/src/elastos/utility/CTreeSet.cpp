@@ -15,9 +15,9 @@
 //=========================================================================
 
 //#include "Elastos.CoreLibrary.IO.h"
-#include "CTreeSet.h"
-#include "CTreeMap.h"
-#include "CBoolean.h"
+#include "elastos/utility/CTreeSet.h"
+#include "elastos/utility/CTreeMap.h"
+#include "elastos/core/CBoolean.h"
 
 using Elastos::Core::IBoolean;
 using Elastos::Core::CBoolean;

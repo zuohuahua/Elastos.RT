@@ -19,7 +19,7 @@
 
 #include "_Org_Conscrypt_COpenSSLECGroupContextHelper.h"
 #include <Elastos.CoreLibrary.Security.h>
-#include <elastos/core/Singleton.h>
+#include "elastos/core/Singleton.h"
 
 using Elastos::Math::IBigInteger;
 using Elastos::Security::Spec::IECParameterSpec;

@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_SECURITY_KEYSTOREBUILDER_H__
 #define __ELASTOS_SECURITY_KEYSTOREBUILDER_H__
 
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::IO::IFile;
 

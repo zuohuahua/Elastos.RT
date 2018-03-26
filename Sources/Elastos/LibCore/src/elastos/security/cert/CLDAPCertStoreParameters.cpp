@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "security/cert/CLDAPCertStoreParameters.h"
-#include "core/StringBuilder.h"
+#include "elastos/security/cert/CLDAPCertStoreParameters.h"
+#include "elastos/core/StringBuilder.h"
 
 using Elastos::Core::EIID_ICloneable;
 using Elastos::Core::StringBuilder;

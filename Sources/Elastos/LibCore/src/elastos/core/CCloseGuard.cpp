@@ -14,9 +14,9 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CCloseGuard.h"
-#include "CThrowable.h"
-#include "StringBuilder.h"
+#include "elastos/core/CCloseGuard.h"
+#include "elastos/core/CThrowable.h"
+#include "elastos/core/StringBuilder.h"
 #include "elastos/utility/logging/Logger.h"
 
 using Elastos::Utility::Logging::Logger;

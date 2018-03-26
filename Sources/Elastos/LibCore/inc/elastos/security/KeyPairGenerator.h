@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_SECURITY_KEYPAIRGENERATOR_H__
 #define __ELASTOS_SECURITY_KEYPAIRGENERATOR_H__
 
-#include "KeyPairGeneratorSpi.h"
+#include "elastos/security/KeyPairGeneratorSpi.h"
 
 using Org::Apache::Harmony::Security::Fortress::IEngine;
 

@@ -18,8 +18,8 @@
 #define __ELASTOS_UTILITY_CONCURRENT_ELASTOS_UTILITY_CEXECUTORS_H__
 
 #include "_Elastos_Utility_Concurrent_CExecutors.h"
-#include "Executors.h"
-#include "Singleton.h"
+#include "elastos/utility/concurrent/Executors.h"
+#include "elastos/core/Singleton.h"
 
 using Elastos::Core::Singleton;
 

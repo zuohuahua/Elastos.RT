@@ -18,7 +18,7 @@
 #define __ELASTOS_SECURITY_CERT_CPKIXCERTPATHBUILDERRESULT_H__
 
 #include "_Elastos_Security_Cert_CPKIXCertPathBuilderResult.h"
-#include "PKIXCertPathValidatorResult.h"
+#include "elastos/security/cert/PKIXCertPathValidatorResult.h"
 
 using Elastos::Security::IPublicKey;
 

@@ -18,7 +18,7 @@
 #define __ELASTOS_TEXT_CMESSAGEFORMAT_H__
 
 #include "_Elastos_Text_CMessageFormat.h"
-#include "MessageFormat.h"
+#include "elastos/text/MessageFormat.h"
 
 using Elastos::Utility::ILocale;
 using Elastos::Text::IAttributedCharacterIterator;;

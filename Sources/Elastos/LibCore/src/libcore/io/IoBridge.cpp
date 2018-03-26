@@ -14,22 +14,22 @@
 // limitations under the License.
 //=========================================================================
 
-#include "IoBridge.h"
-#include "CLibcore.h"
-#include "droid/system/OsConstants.h"
-#include "CAsynchronousCloseMonitor.h"
-#include "net/CInetSocketAddress.h"
-#include "droid/system/CStructLinger.h"
-#include "droid/system/CStructPollfd.h"
-#include "droid/system/CStructTimeval.h"
-#include "core/ElaMath.h"
-#include "CInteger32.h"
-#include "CBoolean.h"
-#include "io/CIoUtils.h"
-#include "io/CFileDescriptor.h"
-#include "net/CInet6Address.h"
-#include "net/NetworkInterface.h"
-#include "CSystem.h"
+#include "libcore/io/IoBridge.h"
+#include "libcore/io/CLibcore.h"
+#include "elastos/droid/system/OsConstants.h"
+#include "libcore/io/CAsynchronousCloseMonitor.h"
+#include "elastos/net/CInetSocketAddress.h"
+#include "elastos/droid/system/CStructLinger.h"
+#include "elastos/droid/system/CStructPollfd.h"
+#include "elastos/droid/system/CStructTimeval.h"
+#include "elastos/core/Math.h"
+#include "elastos/core/CInteger32.h"
+#include "elastos/core/CBoolean.h"
+#include "libcore/io/CIoUtils.h"
+#include "elastos/io/CFileDescriptor.h"
+#include "elastos/net/CInet6Address.h"
+#include "elastos/net/NetworkInterface.h"
+#include "elastos/core/CSystem.h"
 
 using Elastos::Core::ISystem;
 using Elastos::Core::CSystem;

@@ -14,10 +14,10 @@
 // limitations under the License.
 //=========================================================================
 
-#include "SecureClassLoader.h"
-#include "CPermissions.h"
-#include "AutoLock.h"
-#include "CHashMap.h"
+#include "elastos/security/SecureClassLoader.h"
+#include "elastos/security/CPermissions.h"
+#include "elastos/core/AutoLock.h"
+#include "elastos/utility/CHashMap.h"
 
 using Elastos::Core::AutoLock;
 using Elastos::Utility::CHashMap;

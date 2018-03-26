@@ -14,10 +14,10 @@
 // limitations under the License.
 //=========================================================================
 
-#include "Authenticator.h"
-#include "AutoLock.h"
+#include "elastos/net/Authenticator.h"
+#include "elastos/core/AutoLock.h"
 
-#include <elastos/core/AutoLock.h>
+#include "elastos/core/AutoLock.h"
 using Elastos::Core::AutoLock;
 
 namespace Elastos {

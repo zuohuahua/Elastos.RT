@@ -14,12 +14,12 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CStrictLineReader.h"
-#include "charset/Charset.h"
-#include "StringUtils.h"
-#include "AutoLock.h"
+#include "libcore/io/CStrictLineReader.h"
+#include "elastos/io/charset/Charset.h"
+#include "elastos/core/StringUtils.h"
+#include "elastos/core/AutoLock.h"
 
-#include <elastos/core/AutoLock.h>
+#include "elastos/core/AutoLock.h"
 using Elastos::Core::AutoLock;
 using Elastos::Core::StringUtils;
 using Elastos::IO::Charset::Charset;

@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CDigestInputStream.h"
-#include "StringBuilder.h"
+#include "elastos/security/CDigestInputStream.h"
+#include "elastos/core/StringBuilder.h"
 
 using Elastos::Core::StringBuilder;
 

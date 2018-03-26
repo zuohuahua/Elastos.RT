@@ -18,7 +18,7 @@
 #define __ELASTOS_SECURITY_CACCESSCONTROLLER_H__
 
 #include "_Elastos_Security_CAccessController.h"
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 
 namespace Elastos {
 namespace Security {

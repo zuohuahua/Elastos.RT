@@ -18,7 +18,7 @@
 #define __LIBCORE_ICU_CCOLLATIONELEMENTITERATORICUHELPER_H__
 
 #include "_Libcore_ICU_CCollationElementIteratorICUHelper.h"
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 
 using Elastos::Core::Singleton;
 

@@ -14,13 +14,13 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CGZIPInputStream.h"
-#include "Memory.h"
-#include "CInflater.h"
-#include "Arrays.h"
-#include "CCRC32.h"
-#include "CStreams.h"
-#include "CPushbackInputStream.h"
+#include "elastos/utility/zip/CGZIPInputStream.h"
+#include "libcore/io/Memory.h"
+#include "elastos/utility/zip/CInflater.h"
+#include "elastos/utility/Arrays.h"
+#include "elastos/utility/zip/CCRC32.h"
+#include "libcore/io/CStreams.h"
+#include "elastos/io/CPushbackInputStream.h"
 #include <cutils/log.h>
 
 using Libcore::IO::Memory;

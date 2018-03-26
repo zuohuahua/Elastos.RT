@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CLOCALEBUILDER_H__
 
 #include "_Elastos_Utility_CLocaleBuilder.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::Object;
 

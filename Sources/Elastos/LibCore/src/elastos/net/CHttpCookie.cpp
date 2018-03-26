@@ -14,14 +14,14 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CHttpCookie.h"
-#include "http/CHttpDate.h"
-#include "Arrays.h"
-#include "CString.h"
-#include "Character.h"
-#include "StringUtils.h"
-#include "CSystem.h"
-#include "CArrayList.h"
+#include "elastos/net/CHttpCookie.h"
+#include "libcore/net/http/CHttpDate.h"
+#include "elastos/utility/Arrays.h"
+#include "elastos/core/CString.h"
+#include "elastos/core/Character.h"
+#include "elastos/core/StringUtils.h"
+#include "elastos/core/CSystem.h"
+#include "elastos/utility/CArrayList.h"
 
 using Elastos::Core::Character;
 using Elastos::Core::ISystem;

@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CNativeCollationHelper.h"
-#include "NativeCollation.h"
+#include "libcore/icu/CNativeCollationHelper.h"
+#include "libcore/icu/NativeCollation.h"
 
 namespace Libcore {
 namespace ICU {

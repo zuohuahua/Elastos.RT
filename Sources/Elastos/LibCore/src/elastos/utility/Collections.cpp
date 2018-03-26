@@ -15,14 +15,14 @@
 //=========================================================================
 
 //#include "Elastos.CoreLibrary.IO.h"
-#include "Collections.h"
-#include "CBoolean.h"
-#include "Arrays.h"
-#include "CArrayList.h"
-//#include "CRandom.h"
-#include "AutoLock.h"
+#include "elastos/utility/Collections.h"
+#include "elastos/core/CBoolean.h"
+#include "elastos/utility/Arrays.h"
+#include "elastos/utility/CArrayList.h"
+//#include "elastos/utility/CRandom.h"
+#include "elastos/core/AutoLock.h"
 
-#include <elastos/core/AutoLock.h>
+#include "elastos/core/AutoLock.h"
 using Elastos::Core::AutoLock;
 using Elastos::Core::IComparable;
 using Elastos::Core::IBoolean;

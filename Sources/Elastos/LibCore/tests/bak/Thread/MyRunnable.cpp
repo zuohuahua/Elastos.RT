@@ -1,5 +1,5 @@
 
-#include <elastos/Thread.h>
+#include "elastos/core/Thread.h"
 #include "MyRunnable.h"
 #include "stdio.h"
 

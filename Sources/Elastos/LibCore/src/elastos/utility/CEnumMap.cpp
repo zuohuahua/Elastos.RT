@@ -15,10 +15,10 @@
 //=========================================================================
 
 //#include "Elastos.CoreLibrary.IO.h"
-#include "CEnumMap.h"
-#include "Arrays.h"
-#include "Enum.h"
-#include "StringBuilder.h"
+#include "elastos/utility/CEnumMap.h"
+#include "elastos/utility/Arrays.h"
+#include "elastos/core/Enum.h"
+#include "elastos/core/StringBuilder.h"
 
 using Elastos::Core::EIID_ICloneable;
 using Elastos::Core::StringBuilder;

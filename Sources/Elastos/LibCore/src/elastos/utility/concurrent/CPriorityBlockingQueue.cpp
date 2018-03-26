@@ -15,13 +15,13 @@
 //=========================================================================
 
 #include "Elastos.CoreLibrary.IO.h"
-#include "CPriorityBlockingQueue.h"
-#include "ElaMath.h"
-#include "CReentrantLock.h"
-#include "Thread.h"
-#include "Arrays.h"
-#include "Thread.h"
-#include "CPriorityQueue.h"
+#include "elastos/utility/concurrent/CPriorityBlockingQueue.h"
+#include "elastos/core/Math.h"
+#include "elastos/utility/concurrent/locks/CReentrantLock.h"
+#include "elastos/core/Thread.h"
+#include "elastos/utility/Arrays.h"
+#include "elastos/core/Thread.h"
+#include "elastos/utility/CPriorityQueue.h"
 
 using Elastos::Core::Thread;
 using Elastos::IO::EIID_ISerializable;

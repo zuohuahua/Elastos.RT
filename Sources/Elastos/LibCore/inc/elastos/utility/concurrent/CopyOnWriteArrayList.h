@@ -18,8 +18,8 @@
 #define __ELASTOS_UTILITY_CONCURRENT_ELASTOS_UTILITY_COPYONWRITEARRAYLIST_H__
 
 #include "Elastos.CoreLibrary.Utility.Concurrent.h"
-#include "AbstractList.h"
-#include "Object.h"
+#include "elastos/utility/AbstractList.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::ICloneable;
 using Elastos::IO::IObjectOutputStream;

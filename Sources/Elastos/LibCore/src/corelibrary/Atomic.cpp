@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "Atomic.h"
+#include "corelibrary/Atomic.h"
 
 #ifndef _x86
 int QuasiAtomicCas64(int64_t oldvalue, int64_t newvalue,

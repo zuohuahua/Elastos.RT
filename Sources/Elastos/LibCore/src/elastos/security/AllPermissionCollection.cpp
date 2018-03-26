@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "AllPermissionCollection.h"
+#include "elastos/security/AllPermissionCollection.h"
 
 namespace Elastos {
 namespace Security {

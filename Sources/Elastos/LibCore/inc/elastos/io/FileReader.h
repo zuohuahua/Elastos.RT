@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_IO_FILEREADER_H__
 #define __ELASTOS_IO_FILEREADER_H__
 
-#include "InputStreamReader.h"
+#include "elastos/io/InputStreamReader.h"
 
 namespace Elastos {
 namespace IO {

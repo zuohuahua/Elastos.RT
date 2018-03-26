@@ -15,13 +15,13 @@
 //=========================================================================
 
 //#include "Elastos.CoreLibrary.IO.h"
-#include "CThrowable.h"
-#include "Collections.h"
-#include "EmptyArray.h"
-//#include "CSystem.h"
-#include "CoreUtils.h"
-#include "CArrayList.h"
-#include "Arrays.h"
+#include "elastos/core/CThrowable.h"
+#include "elastos/utility/Collections.h"
+#include "libcore/utility/EmptyArray.h"
+//#include "elastos/core/CSystem.h"
+#include "elastos/core/CoreUtils.h"
+#include "elastos/utility/CArrayList.h"
+#include "elastos/utility/Arrays.h"
 
 using Elastos::Utility::Arrays;
 using Elastos::Utility::Collections;

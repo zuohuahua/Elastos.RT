@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_TIMER_H__
 
 #include "Elastos.CoreLibrary.Utility.h"
-#include "Thread.h"
+#include "elastos/core/Thread.h"
 
 using Elastos::Core::Thread;
 using Elastos::Core::IClassLoader;

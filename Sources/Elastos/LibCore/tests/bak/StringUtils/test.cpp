@@ -3,8 +3,8 @@
 #include <stdio.h>
 #include <new>
 #include <Elastos.CoreLibrary.h>
-#include <elastos/StringUtils.h>
-#include <elastos/StringBuilder.h>
+#include "elastos/core/StringUtils.h"
+#include "elastos/core/StringBuilder.h"
 
 using namespace Elastos;
 using Elastos::Core::StringUtils;

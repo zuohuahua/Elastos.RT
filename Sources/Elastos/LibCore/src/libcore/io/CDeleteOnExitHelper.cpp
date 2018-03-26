@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CDeleteOnExitHelper.h"
-#include "DeleteOnExit.h"
+#include "libcore/io/CDeleteOnExitHelper.h"
+#include "libcore/io/DeleteOnExit.h"
 
 namespace Libcore {
 namespace IO {

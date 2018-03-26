@@ -18,7 +18,7 @@
 #define __ELASTOS_TEXT_CPARSEPOSITION_H__
 
 #include "_Elastos_Text_CParsePosition.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::Object;
 

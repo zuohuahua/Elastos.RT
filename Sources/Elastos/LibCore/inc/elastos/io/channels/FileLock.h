@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CHANNELS_FILELOCK_H__
 
 #include "Elastos.CoreLibrary.IO.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::Object;
 using Elastos::IO::ICloseable;

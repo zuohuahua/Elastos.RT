@@ -14,12 +14,12 @@
 // limitations under the License.
 //=========================================================================
 
-#include "Timer.h"
-#include "CSystem.h"
-#include "StringBuilder.h"
-#include "AutoLock.h"
+#include "elastos/utility/Timer.h"
+#include "elastos/core/CSystem.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/core/AutoLock.h"
 
-#include <elastos/core/AutoLock.h>
+#include "elastos/core/AutoLock.h"
 using Elastos::Core::AutoLock;
 using Elastos::Core::ISystem;
 using Elastos::Core::StringBuilder;

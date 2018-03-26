@@ -18,11 +18,11 @@
 #define __ELASTOS_UTILITY_CCOLLECTIONS_H__
 
 #include "Elastos.CoreLibrary.Utility.h"
-#include "AbstractList.h"
-#include "AbstractSet.h"
-#include "AbstractMap.h"
-#include "MapEntry.h"
-#include "AbstractQueue.h"
+#include "elastos/utility/AbstractList.h"
+#include "elastos/utility/AbstractSet.h"
+#include "elastos/utility/AbstractMap.h"
+#include "elastos/utility/MapEntry.h"
+#include "elastos/utility/AbstractQueue.h"
 
 //using Elastos::IO::IObjectOutputStream;
 //using Elastos::IO::IObjectInputStream;

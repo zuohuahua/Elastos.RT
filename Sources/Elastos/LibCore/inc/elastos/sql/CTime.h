@@ -18,7 +18,7 @@
 #define __ELASTOS_SQL_CTIME_H__
 
 #include "_Elastos_Sql_CTime.h"
-#include "Date.h"
+#include "elastos/utility/Date.h"
 
 using Elastos::Utility::Date;
 

@@ -14,14 +14,14 @@
 // limitations under the License.
 //=========================================================================
 
-#include "Signature.h"
-#include "CSecurity.h"
-#include "core/AutoLock.h"
-#include "core/StringBuilder.h"
-#include "utility/logging/Logger.h"
+#include "elastos/security/Signature.h"
+#include "elastos/security/CSecurity.h"
+#include "elastos/core/AutoLock.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/utility/logging/Logger.h"
 #include "org/apache/harmony/security/fortress/CEngine.h"
 
-#include <elastos/core/AutoLock.h>
+#include "elastos/core/AutoLock.h"
 using Elastos::Core::AutoLock;
 using Elastos::Core::ICharSequence;
 using Elastos::Core::StringBuilder;

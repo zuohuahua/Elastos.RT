@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CCHARARRAYWRITER_H__
 
 #include "_Elastos_IO_CCharArrayWriter.h"
-#include "CharArrayWriter.h"
+#include "elastos/io/CharArrayWriter.h"
 
 namespace Elastos {
 namespace IO {

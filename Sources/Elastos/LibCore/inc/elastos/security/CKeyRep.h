@@ -18,7 +18,7 @@
 #define __ELASTOS_SECURITY_CKEYREP_H__
 
 #include "_Elastos_Security_CKeyRep.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::IO::IObjectInputStream;
 using Elastos::IO::ISerializable;

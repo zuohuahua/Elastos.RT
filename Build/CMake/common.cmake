@@ -105,6 +105,7 @@ macro(xdk_compile_def GENERATED_FILE def_file)
                "${CMAKE_CURRENT_BINARY_DIR}/__${def_filename}_exp.c"
                "${CMAKE_CURRENT_BINARY_DIR}/__dllmain.cpp"
                "${CMAKE_CURRENT_BINARY_DIR}/__section.cpp"
+        COMMAND ${CMAKE_COMMAND} -E remove "${CMAKE_CURRENT_BINARY_DIR}/__section.cpp"
         COMMAND "${CMAKE_C_COMPILER}" "${CMAKE_C_FLAGS}" -E -P -x c ${XDK_DEFINITIONS} -o __${def_file} ${CMAKE_CURRENT_SOURCE_DIR}/${def_file}
         COMMAND perl "$ENV{XDK_TOOLS}/def_trans.pl" __${def_file}
         COMMAND perl "$ENV{XDK_TOOLS}/res_trans.pl" __${def_file} "def" ${def_file}

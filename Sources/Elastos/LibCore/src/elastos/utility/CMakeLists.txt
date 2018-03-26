@@ -12,22 +12,7 @@ xdk_add_subdirectories(
 add_definitions(-DELASTOS_CORELIBRARY)
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/../../corelibrary)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../../inc/)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../../inc/elastos)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../../inc/elastos/core)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../../inc/elastos/math)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../../inc/elastos/utility)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../../inc/elastos/utility/logging)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../../inc/elastos/utility/regex)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../../inc/elastos/io)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../../inc/elastos/io/charset)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../../inc/elastos/security)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../../inc/elastos/text)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../../inc/libcore/io)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../../inc/libcore/icu)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../../inc/libcore/utility)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../../inc/org)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../../inc/org/android_prebuilt)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../../inc)
 
 set(SOURCES
     AbstractCollection.cpp

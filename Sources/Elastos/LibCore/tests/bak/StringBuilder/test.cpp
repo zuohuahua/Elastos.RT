@@ -1,8 +1,8 @@
 #include <elastos.h>
 #include <eltypes.h>
 #include <stdio.h>
-#include <elastos/StringBuilder.h>
-//#include <elastos/IntegralToString.h>
+#include "elastos/core/StringBuilder.h"
+//#include "elastos/core/IntegralToString.h"
 
 using namespace Elastos;
 using namespace Elastos::Core;

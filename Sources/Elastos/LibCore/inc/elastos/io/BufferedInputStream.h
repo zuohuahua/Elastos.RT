@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_IO_BUFFEREDINPUTSTREAM_H__
 #define __ELASTOS_IO_BUFFEREDINPUTSTREAM_H__
 
-#include "FilterInputStream.h"
+#include "elastos/io/FilterInputStream.h"
 
 namespace Elastos {
 namespace IO {

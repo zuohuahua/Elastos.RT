@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CCodeSigner.h"
-#include "StringBuilder.h"
+#include "elastos/security/CCodeSigner.h"
+#include "elastos/core/StringBuilder.h"
 #include "Elastos.CoreLibrary.Utility.h"
 
 using Elastos::Core::StringBuilder;

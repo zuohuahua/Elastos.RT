@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "AtomicReference.h"
+#include "elastos/utility/concurrent/atomic/AtomicReference.h"
 
 using Elastos::IO::EIID_ISerializable;
 

@@ -17,9 +17,9 @@
 #ifndef __ORG_CONSCRYPT_OPENSSLBIOINPUTSTREAM_H__
 #define __ORG_CONSCRYPT_OPENSSLBIOINPUTSTREAM_H__
 
-#include <elastos/coredef.h>
+#include "elastos/coredef.h"
 #include <Elastos.CoreLibrary.IO.h>
-#include <elastos/io/FilterInputStream.h>
+#include "elastos/io/FilterInputStream.h"
 #include "_Org.Conscrypt.h"
 
 using Elastos::IO::FilterInputStream;

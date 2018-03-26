@@ -14,9 +14,9 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CSocketPermission.h"
-#include "InetAddress.h"
-#include "StringBuffer.h"
+#include "elastos/net/CSocketPermission.h"
+#include "elastos/net/InetAddress.h"
+#include "elastos/core/StringBuffer.h"
 
 using Elastos::IO::EIID_ISerializable;
 using Elastos::Core::StringBuffer;

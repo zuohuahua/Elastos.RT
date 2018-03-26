@@ -18,7 +18,7 @@
 #define __LIBCORE_UTILITY_CBASICLRUCACHE_H__
 
 #include "_Libcore_Utility_CBasicLruCache.h"
-#include "BasicLruCache.h"
+#include "libcore/utility/BasicLruCache.h"
 
 namespace Libcore {
 namespace Utility {

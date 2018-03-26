@@ -22,7 +22,7 @@ $OUTPUT "_${fullname}.h"
 
 ${GenerateDependHeaderForClass(class)}
 $IF attrib is "singleton"
-#include <spinlock.h>
+#include "elspinlock.h"
 $END IF
 
 ${ClassNamespaceBegin(class)}

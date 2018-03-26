@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_IO_FILEINPUTSTREAM_H__
 #define __ELASTOS_IO_FILEINPUTSTREAM_H__
 
-#include <elastos/io/InputStream.h>
+#include "elastos/io/InputStream.h"
 
 using Elastos::Core::ICloseGuard;
 using Elastos::IO::Channels::IFileChannel;

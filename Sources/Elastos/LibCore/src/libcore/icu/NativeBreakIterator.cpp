@@ -15,15 +15,15 @@
 //=========================================================================
 
 #include "Elastos.CoreLibrary.Utility.h"
-#include "NativeBreakIterator.h"
-#include "AutoLock.h"
-#include "CStringCharacterIterator.h"
-#include "StringBuilder.h"
-#include "ElStringByteSink.h"
+#include "libcore/icu/NativeBreakIterator.h"
+#include "elastos/core/AutoLock.h"
+#include "elastos/text/CStringCharacterIterator.h"
+#include "elastos/core/StringBuilder.h"
+#include "libcore/icu/ElStringByteSink.h"
 #include "unicode/brkiter.h"
 #include "unicode/ubrk.h"
 
-#include <elastos/core/AutoLock.h>
+#include "elastos/core/AutoLock.h"
 using Elastos::Core::AutoLock;
 using Elastos::Core::StringBuilder;
 using Libcore::ICU::EIID_INativeBreakIterator;

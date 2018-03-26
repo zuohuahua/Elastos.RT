@@ -2,7 +2,7 @@
 #define __USE_MALLOC
 
 #include <elastos.h>
-#include <elastos/Map.h>
+#include "elastos/utility/etl/Map.h"
 #include <stdio.h>
 
 using namespace Elastos;

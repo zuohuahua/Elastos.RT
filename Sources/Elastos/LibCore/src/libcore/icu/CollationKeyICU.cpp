@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CollationKeyICU.h"
-#include <ElaMath.h>
+#include "libcore/icu/CollationKeyICU.h"
+#include "elastos/core/Math.h"
 
 using Elastos::Text::EIID_ICollationKey;
 

@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CHUGEENUMSET_H__
 
 #include "_Elastos_Utility_CHugeEnumSet.h"
-#include "HugeEnumSet.h"
+#include "elastos/utility/HugeEnumSet.h"
 
 namespace Elastos {
 namespace Utility {

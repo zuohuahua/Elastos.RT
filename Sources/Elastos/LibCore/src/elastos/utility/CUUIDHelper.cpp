@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CUUIDHelper.h"
-#include "CUUID.h"
+#include "elastos/utility/CUUIDHelper.h"
+#include "elastos/utility/CUUID.h"
 
 namespace Elastos {
 namespace Utility {

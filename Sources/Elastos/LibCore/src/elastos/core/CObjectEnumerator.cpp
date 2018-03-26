@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CObjectEnumerator.h"
+#include "elastos/core/CObjectEnumerator.h"
 
 namespace Elastos{
 namespace Core{

@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CNativeNormalizerHelper.h"
-#include "NativeNormalizer.h"
+#include "libcore/icu/CNativeNormalizerHelper.h"
+#include "libcore/icu/NativeNormalizer.h"
 
 namespace Libcore {
 namespace ICU {

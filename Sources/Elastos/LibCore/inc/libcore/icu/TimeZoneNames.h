@@ -17,9 +17,9 @@
 #ifndef __LIBCORE_ICU_ELASTOS_UTILITY_TIMEZONENAMES_H__
 #define __LIBCORE_ICU_ELASTOS_UTILITY_TIMEZONENAMES_H__
 
-#include "Object.h"
-#include <elastos/utility/etl/HashMap.h>
-#include "BasicLruCache.h"
+#include "elastos/core/Object.h"
+#include "elastos/utility/etl/HashMap.h"
+#include "libcore/utility/BasicLruCache.h"
 
 using Elastos::Core::IArrayOf;
 using Elastos::Utility::Etl::HashMap;

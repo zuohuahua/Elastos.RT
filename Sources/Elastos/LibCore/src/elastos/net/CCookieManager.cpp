@@ -14,15 +14,15 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CCookieManager.h"
-#include "CookieStoreImpl.h"
-#include "CHttpCookie.h"
-#include "CCookiePolicyHelper.h"
-#include "Collections.h"
-#include "CString.h"
-#include "StringBuilder.h"
-#include "StringUtils.h"
-#include "ElaMath.h"
+#include "elastos/net/CCookieManager.h"
+#include "elastos/net/CookieStoreImpl.h"
+#include "elastos/net/CHttpCookie.h"
+#include "elastos/net/CCookiePolicyHelper.h"
+#include "elastos/utility/Collections.h"
+#include "elastos/core/CString.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/core/StringUtils.h"
+#include "elastos/core/Math.h"
 
 using Elastos::Core::CString;
 using Elastos::Core::StringUtils;

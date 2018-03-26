@@ -17,7 +17,7 @@
 #ifndef __LIBCORE_UTILITY_CZONEINFOHELPER_H__
 #define __LIBCORE_UTILITY_CZONEINFOHELPER_H__
 
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 #include "_Libcore_Utility_CZoneInfoHelper.h"
 
 using Elastos::Core::Singleton;

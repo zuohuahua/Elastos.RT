@@ -3,11 +3,11 @@
 
 #include <elastos.h>
 #include "Elastos.CoreLibrary.h"
-#include "elastos/StringBuilder.h"
-#include "elastos/StringBuffer.h"
-#include "elastos/StringUtils.h"
-#include "elastos/HashMap.h"
-#include "elastos/List.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/core/StringBuffer.h"
+#include "elastos/core/StringUtils.h"
+#include "elastos/utility/etl/HashMap.h"
+#include "elastos/utility/etl/List.h"
 
 using namespace Elastos;
 using namespace Org::Xml::Sax;

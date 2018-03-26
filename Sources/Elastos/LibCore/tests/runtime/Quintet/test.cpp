@@ -29,10 +29,10 @@
  *      ./testQuintet
  */
 
-#include <elastos/core/StringBuilder.h>
-#include <elastos/core/StringUtils.h>
-#include <elastos/utility/Arrays.h>
-#include <elastos/utility/etl/HashMap.h>
+#include "elastos/core/StringBuilder.h"
+#include "elastos/core/StringUtils.h"
+#include "elastos/utility/Arrays.h"
+#include "elastos/utility/etl/HashMap.h"
 //#include "elastos/droid/os/FileUtils.h"
 #include <Elastos.CoreLibrary.IO.h>
 #include <Elastos.CoreLibrary.Net.h>

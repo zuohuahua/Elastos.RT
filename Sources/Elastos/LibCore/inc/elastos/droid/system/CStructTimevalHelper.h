@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_DROID_SYSTEM_CSTRUCTTIMEVALHELPER_H__
 #define __ELASTOS_DROID_SYSTEM_CSTRUCTTIMEVALHELPER_H__
 
-#include "core/Singleton.h"
+#include "elastos/core/Singleton.h"
 #include "_Elastos_Droid_System_CStructTimevalHelper.h"
 
 

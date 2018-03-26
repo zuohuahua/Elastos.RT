@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CResponseCacheHelper.h"
-#include "ResponseCache.h"
+#include "elastos/net/CResponseCacheHelper.h"
+#include "elastos/net/ResponseCache.h"
 
 namespace Elastos {
 namespace Net {

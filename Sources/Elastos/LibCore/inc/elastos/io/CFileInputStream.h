@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CFILEINPUTSTREAM_H__
 
 #include "_Elastos_IO_CFileInputStream.h"
-#include "FileInputStream.h"
+#include "elastos/io/FileInputStream.h"
 
 namespace Elastos {
 namespace IO {

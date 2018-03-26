@@ -17,8 +17,8 @@
 #ifndef __ELASTOS_TEXT_CHOICEFORMAT_H__
 #define __ELASTOS_TEXT_CHOICEFORMAT_H__
 
-#include "NumberFormat.h"
-#include <elastos/utility/etl/List.h>
+#include "elastos/text/NumberFormat.h"
+#include "elastos/utility/etl/List.h"
 
 using Elastos::Utility::Etl::List;
 using Elastos::Core::IStringBuffer;

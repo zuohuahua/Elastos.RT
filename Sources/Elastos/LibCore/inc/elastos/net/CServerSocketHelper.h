@@ -18,7 +18,7 @@
 #define __ELASTOS_NET_CSERVERSOCKETHELPER_H__
 
 #include "_Elastos_Net_CServerSocketHelper.h"
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 
 using Elastos::Core::Singleton;
 

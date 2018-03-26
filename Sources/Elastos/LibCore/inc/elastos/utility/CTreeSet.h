@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CTREESET_H__
 
 #include "_Elastos_Utility_CTreeSet.h"
-#include "AbstractSet.h"
+#include "elastos/utility/AbstractSet.h"
 
 //using Elastos::IO::IObjectInputStream;
 //using Elastos::IO::IObjectOutputStream;

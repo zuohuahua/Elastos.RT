@@ -20,7 +20,7 @@
 #include "OpenSSLSecretKey.h"
 #include "NativeCrypto.h"
 #include "COpenSSLKey.h"
-#include <elastos/utility/Arrays.h>
+#include "elastos/utility/Arrays.h"
 
 using Elastosx::Crypto::EIID_ISecretKey;
 using Elastos::Security::EIID_IKey;

@@ -14,21 +14,21 @@
 // limitations under the License.
 //=========================================================================
 
-#include "Properties.h"
-#include "CInputStreamReader.h"
-#include "CBufferedReader.h"
-#include "COutputStreamWriter.h"
-#include "CPrintStream.h"
-#include "CCharsetHelper.h"
-#include "CString.h"
-#include "CDate.h"
-#include "CHashTable.h"
-#include "Collections.h"
-#include "CSystem.h"
-#include "StringBuilder.h"
-#include "StringUtils.h"
-#include "Character.h"
-#include "AutoLock.h"
+#include "elastos/utility/Properties.h"
+#include "elastos/io/CInputStreamReader.h"
+#include "elastos/io/CBufferedReader.h"
+#include "elastos/io/COutputStreamWriter.h"
+#include "elastos/io/CPrintStream.h"
+#include "elastos/io/charset/CCharsetHelper.h"
+#include "elastos/core/CString.h"
+#include "elastos/utility/CDate.h"
+#include "elastos/utility/CHashTable.h"
+#include "elastos/utility/Collections.h"
+#include "elastos/core/CSystem.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/core/StringUtils.h"
+#include "elastos/core/Character.h"
+#include "elastos/core/AutoLock.h"
 #include <cutils/log.h>
 
 using Elastos::Core::StringBuilder;

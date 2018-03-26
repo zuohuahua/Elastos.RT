@@ -18,7 +18,7 @@
 #define __ELASTOS_TEXT_CCOLLATIONELEMENTITERATORHELPER_H__
 
 #include "_Elastos_Text_CCollationElementIteratorHelper.h"
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 
 using Elastos::Core::Singleton;
 

@@ -15,13 +15,13 @@
 //=========================================================================
 
 //#include "Elastos.CoreLibrary.IO.h"
-#include "Vector.h"
-#include "Arrays.h"
-#include "Collections.h"
-#include "StringBuilder.h"
-#include "AutoLock.h"
+#include "elastos/utility/Vector.h"
+#include "elastos/utility/Arrays.h"
+#include "elastos/utility/Collections.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/core/AutoLock.h"
 
-#include <elastos/core/AutoLock.h>
+#include "elastos/core/AutoLock.h"
 using Elastos::Core::AutoLock;
 using Elastos::Core::EIID_ICloneable;
 using Elastos::Core::StringBuilder;

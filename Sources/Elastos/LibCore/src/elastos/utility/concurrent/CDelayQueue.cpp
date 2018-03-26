@@ -14,10 +14,10 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CDelayQueue.h"
-#include <ElaMath.h>
-#include "TimeUnit.h"
-#include "Thread.h"
+#include "elastos/utility/concurrent/CDelayQueue.h"
+#include "elastos/core/Math.h"
+#include "elastos/utility/concurrent/TimeUnit.h"
+#include "elastos/core/Thread.h"
 
 using Elastos::Core::Thread;
 using Elastos::Core::Math;

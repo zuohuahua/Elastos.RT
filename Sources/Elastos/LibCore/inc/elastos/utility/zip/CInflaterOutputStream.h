@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_ZIP_ELASTOS_UTILITY_CINFLATEROUTPUTSTREAM_H__
 
 #include "_Elastos_Utility_Zip_CInflaterOutputStream.h"
-#include "InflaterOutputStream.h"
+#include "elastos/utility/zip/InflaterOutputStream.h"
 
 namespace Elastos {
 namespace Utility {

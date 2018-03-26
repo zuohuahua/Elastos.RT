@@ -44,17 +44,17 @@ $END IF;; hascoalescence
 
 #include "_${fullname}.h"
 $IF attrib is "singleton"
-#include <elastos/core/Singleton.h>
+#include "elastos/core/Singleton.h"
 $ELSE ;; singleton
 $   WITH all interfaces DO
 $       IF interface is first
 $           IF name is "IThread"
-#include <elastos/core/Thread.h>
+#include "elastos/core/Thread.h"
 
 using Elastos::Core::Thread;
 using Elastos::Core::EIID_IRunnable;
 $           ELSE ;; IThread
-#include <elastos/core/Object.h>
+#include "elastos/core/Object.h"
 
 using Elastos::Core::IComparable;
 using Elastos::Core::EIID_IComparable;

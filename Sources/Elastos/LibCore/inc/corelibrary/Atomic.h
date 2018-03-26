@@ -17,7 +17,7 @@
 #ifndef _ELASTOS_CORELIBRARY_ATOMIC_H__
 #define _ELASTOS_CORELIBRARY_ATOMIC_H__
 
-#include "coredef.h"
+#include "elastos/coredef.h"
 #include <cutils/atomic.h>          /* use common Android atomic ops */
 #include <cutils/atomic-inline.h>   /* and some uncommon ones */
 

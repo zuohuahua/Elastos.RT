@@ -14,19 +14,19 @@
 // limitations under the License.
 //=========================================================================
 
-#include "DatagramSocket.h"
-#include "CInet4Address.h"
-#include "CDatagramPacket.h"
-#include "CInetSocketAddress.h"
-#include "CInteger32.h"
-#include "CBoolean.h"
-#include "CPlainDatagramSocketImpl.h"
-#include "AutoLock.h"
-#include "CLibcore.h"
-#include "IoBridge.h"
-#include "OsConstants.h"
+#include "elastos/net/DatagramSocket.h"
+#include "elastos/net/CInet4Address.h"
+#include "elastos/net/CDatagramPacket.h"
+#include "elastos/net/CInetSocketAddress.h"
+#include "elastos/core/CInteger32.h"
+#include "elastos/core/CBoolean.h"
+#include "elastos/net/CPlainDatagramSocketImpl.h"
+#include "elastos/core/AutoLock.h"
+#include "libcore/io/CLibcore.h"
+#include "libcore/io/IoBridge.h"
+#include "elastos/droid/system/OsConstants.h"
 
-#include <elastos/core/AutoLock.h>
+#include "elastos/core/AutoLock.h"
 using Elastos::Core::AutoLock;
 using Elastos::Core::IInteger32;
 using Elastos::Core::CInteger32;

@@ -15,11 +15,11 @@
 //=========================================================================
 
 #include "Elastos.CoreLibrary.Utility.h"
-#include "NativeCollation.h"
-#include "ElStringByteSink.h"
+#include "libcore/icu/NativeCollation.h"
+#include "libcore/icu/ElStringByteSink.h"
 #include <unicode/ucol.h>
 #include <unicode/ucoleitr.h>
-#include <utils/UniquePtr.h>
+#include "elastos/core/UniquePtr.h"
 
 namespace Libcore {
 namespace ICU {

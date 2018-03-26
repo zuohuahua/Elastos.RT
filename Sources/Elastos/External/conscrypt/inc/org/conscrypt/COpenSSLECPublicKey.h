@@ -21,7 +21,7 @@
 #include <Elastos.CoreLibrary.IO.h>
 #include <Elastos.CoreLibrary.Security.h>
 #include <Elastos.CoreLibrary.Extensions.h>
-#include <elastos/core/Object.h>
+#include "elastos/core/Object.h"
 #include "org/conscrypt/OpenSSLKey.h"
 
 using Elastos::IO::IObjectInputStream;

@@ -20,7 +20,7 @@
 // #include <eltypes.h>
 // #include <Elastos.Sql.h>
 // #include <stdio.h>
-// #include <elastos/Mutex.h>
+// #include "elastos/core/Mutex.h"
 
 // using namespace Elastos;
 // using namespace Elastos::Sql::SQLite;

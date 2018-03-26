@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CNIOUTILSHELPER_H__
 
 #include "_Elastos_IO_CNioUtils.h"
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 
 using Elastos::Core::Singleton;
 using Elastos::IO::Channels::IFileChannel;

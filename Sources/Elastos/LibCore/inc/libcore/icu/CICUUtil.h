@@ -18,7 +18,7 @@
 #define __LIBCORE_ICU_CICUUTIL_H__
 
 #include "Elastos.CoreLibrary.Utility.h"
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 #include "_Libcore_ICU_CICUUtil.h"
 
 using Elastos::Core::Singleton;

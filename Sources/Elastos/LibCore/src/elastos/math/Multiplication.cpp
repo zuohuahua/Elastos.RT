@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "Multiplication.h"
-#include "ElaMath.h"
+#include "elastos/math/Multiplication.h"
+#include "elastos/core/Math.h"
 
 namespace Elastos {
 namespace Math {

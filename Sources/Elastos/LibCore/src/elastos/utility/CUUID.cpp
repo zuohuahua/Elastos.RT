@@ -15,13 +15,13 @@
 //=========================================================================
 
 #include "Elastos.CoreLibrary.Security.h"
-#include "CUUID.h"
-#include "StringUtils.h"
-#include "StringBuilder.h"
-#include "Memory.h"
-#include "CMessageDigestHelper.h"
-#include "CSecureRandom.h"
-#include "AutoLock.h"
+#include "elastos/utility/CUUID.h"
+#include "elastos/core/StringUtils.h"
+#include "elastos/core/StringBuilder.h"
+#include "libcore/io/Memory.h"
+#include "elastos/security/CMessageDigestHelper.h"
+#include "elastos/security/CSecureRandom.h"
+#include "elastos/core/AutoLock.h"
 
 using Elastos::Core::AutoLock;
 using Elastos::Core::StringUtils;

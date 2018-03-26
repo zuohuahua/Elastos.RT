@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CPathClassLoader.h"
+#include "elastos/core/CPathClassLoader.h"
 
 namespace Elastos {
 namespace Core {

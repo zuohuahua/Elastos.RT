@@ -15,10 +15,10 @@
 //=========================================================================
 
 #include "Elastos.CoreLibrary.IO.h"
-#include "CopyOnWriteArrayList.h"
-#include "CCopyOnWriteArrayList.h"
-#include "Arrays.h"
-#include "AutoLock.h"
+#include "elastos/utility/concurrent/CopyOnWriteArrayList.h"
+#include "elastos/utility/concurrent/CCopyOnWriteArrayList.h"
+#include "elastos/utility/Arrays.h"
+#include "elastos/core/AutoLock.h"
 
 using Elastos::Core::EIID_ICloneable;
 using Elastos::Utility::Arrays;

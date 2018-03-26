@@ -14,17 +14,17 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CManifest.h"
-#include "ManifestReader.h"
-#include "CStreams.h"
-#include "CHashMap.h"
-#include "CString.h"
-#include "CAttributes.h"
-#include "CName.h"
-#include "CharBuffer.h"
-#include "ByteBuffer.h"
-//#include "CCoderResultHelper.h"
-//#include "CCharsets.h"
+#include "elastos/utility/jar/CManifest.h"
+#include "elastos/utility/jar/ManifestReader.h"
+#include "libcore/io/CStreams.h"
+#include "elastos/utility/CHashMap.h"
+#include "elastos/core/CString.h"
+#include "elastos/utility/jar/CAttributes.h"
+#include "elastos/utility/jar/CName.h"
+#include "elastos/io/CharBuffer.h"
+#include "elastos/io/ByteBuffer.h"
+//#include "elastos/io/charset/CCoderResultHelper.h"
+//#include "elastos/io/charset/CCharsets.h"
 
 using Elastos::IO::IBuffer;
 using Elastos::IO::ICharBuffer;

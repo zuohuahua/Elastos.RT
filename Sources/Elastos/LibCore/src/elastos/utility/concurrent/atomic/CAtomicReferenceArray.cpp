@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CAtomicReferenceArray.h"
-#include "StringBuilder.h"
+#include "elastos/utility/concurrent/atomic/CAtomicReferenceArray.h"
+#include "elastos/core/StringBuilder.h"
 
 using Elastos::Core::StringBuilder;
 using Elastos::IO::EIID_ISerializable;

@@ -14,15 +14,15 @@
 // limitations under the License.
 //=========================================================================
 
-#include "MimeUtils.h"
-#include "CFile.h"
-#include "CFileHelper.h"
-#include "CFileInputStream.h"
-#include "CBufferedReader.h"
-#include "CInputStreamReader.h"
-#include "StringBuilder.h"
-#include "CSystem.h"
-#include "Character.h"
+#include "libcore/net/MimeUtils.h"
+#include "elastos/io/CFile.h"
+#include "elastos/io/CFileHelper.h"
+#include "elastos/io/CFileInputStream.h"
+#include "elastos/io/CBufferedReader.h"
+#include "elastos/io/CInputStreamReader.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/core/CSystem.h"
+#include "elastos/core/Character.h"
 
 using Elastos::IO::IFile;
 using Elastos::IO::CFile;

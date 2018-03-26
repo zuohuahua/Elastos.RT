@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CONCURRENT_LOCKS_ELASTOS_UTILITY_CREENTRANTLOCK_H__
 
 #include "_Elastos_Utility_Concurrent_Locks_CReentrantLock.h"
-#include "ReentrantLock.h"
+#include "elastos/utility/concurrent/locks/ReentrantLock.h"
 
 namespace Elastos {
 namespace Utility {

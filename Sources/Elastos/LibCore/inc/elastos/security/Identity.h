@@ -18,7 +18,7 @@
 #define __ELASTOS_SECURITY_IDENTITY_H__
 
 #include "Elastos.CoreLibrary.Security.h"
-#include "core/Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::IO::ISerializable;
 using Elastos::Utility::IVector;

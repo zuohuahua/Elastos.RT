@@ -14,10 +14,10 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CLinkedBlockingQueue.h"
-#include "CAtomicInteger32.h"
-#include "CReentrantLock.h"
-#include "ElaMath.h"
+#include "elastos/utility/concurrent/CLinkedBlockingQueue.h"
+#include "elastos/utility/concurrent/atomic/CAtomicInteger32.h"
+#include "elastos/utility/concurrent/locks/CReentrantLock.h"
+#include "elastos/core/Math.h"
 
 using Elastos::IO::EIID_ISerializable;
 using Elastos::Utility::Concurrent::Atomic::CAtomicInteger32;

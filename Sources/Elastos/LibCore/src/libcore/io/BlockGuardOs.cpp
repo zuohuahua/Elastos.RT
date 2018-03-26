@@ -15,11 +15,11 @@
 //=========================================================================
 
 #include "Elastos.CoreLibrary.IO.h"
-#include "BlockGuardOs.h"
-#include "CLibcore.h"
-#include "BlockGuard.h"
-#include "droid/system/OsConstants.h"
-#include "SocketTagger.h"
+#include "libcore/io/BlockGuardOs.h"
+#include "libcore/io/CLibcore.h"
+#include "elastos/core/BlockGuard.h"
+#include "elastos/droid/system/OsConstants.h"
+#include "libcore/io/SocketTagger.h"
 
 using Elastos::Core::BlockGuard;
 using Elastos::Core::IBlockGuardPolicy;

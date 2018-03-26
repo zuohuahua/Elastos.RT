@@ -18,7 +18,7 @@
 #define __ELASTOS_NET_CSOCKETINPUTSTREAM_H__
 
 #include "_Elastos_Net_CPlainSocketInputStream.h"
-#include "InputStream.h"
+#include "elastos/io/InputStream.h"
 
 using Elastos::IO::InputStream;
 

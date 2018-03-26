@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_IO_FLOATARRAYBUFFER_H__
 #define __ELASTOS_IO_FLOATARRAYBUFFER_H__
 
-#include "FloatBuffer.h"
+#include "elastos/io/FloatBuffer.h"
 
 namespace Elastos {
 namespace IO {

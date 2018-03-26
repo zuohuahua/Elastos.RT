@@ -15,10 +15,10 @@
 //=========================================================================
 
 //#include "Elastos.CoreLibrary.IO.h"
-#include "ArrayList.h"
-#include "CArrayList.h"
-#include "CArrayListIterator.h"
-#include "StringBuilder.h"
+#include "elastos/utility/ArrayList.h"
+#include "elastos/utility/CArrayList.h"
+#include "elastos/utility/CArrayListIterator.h"
+#include "elastos/core/StringBuilder.h"
 
 using Elastos::Core::EIID_ICloneable;
 using Elastos::Core::StringBuilder;

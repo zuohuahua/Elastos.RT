@@ -18,7 +18,7 @@
 #include "org/conscrypt/COpenSSLECGroupContext.h"
 #include "org/conscrypt/OpenSSLECPointContext.h"
 #include "org/conscrypt/NativeCrypto.h"
-#include <elastos/utility/Arrays.h>
+#include "elastos/utility/Arrays.h"
 
 using Elastos::Core::IArrayOf;
 using Elastos::Core::IByte;

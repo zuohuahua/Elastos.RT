@@ -15,14 +15,14 @@
 //=========================================================================
 
 #include "Elastos.CoreLibrary.Utility.h"
-#include "AlphabeticIndex.h"
-#include "ElStringByteSink.h"
-#include "AutoLock.h"
-#include "ImmutableIndex.h"
+#include "libcore/icu/AlphabeticIndex.h"
+#include "libcore/icu/ElStringByteSink.h"
+#include "elastos/core/AutoLock.h"
+#include "libcore/icu/ImmutableIndex.h"
 #include <unicode/alphaindex.h>
 #include <unicode/uniset.h>
 
-#include <elastos/core/AutoLock.h>
+#include "elastos/core/AutoLock.h"
 using Elastos::Core::AutoLock;
 
 namespace Libcore {

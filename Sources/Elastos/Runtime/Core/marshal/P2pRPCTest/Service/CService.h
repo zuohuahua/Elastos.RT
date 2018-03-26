@@ -3,8 +3,8 @@
 #define __CSERVICE_H__
 
 #include "_CService.h"
-#include <elastos/core/Object.h>
-#include <elastos/utility/etl/HashMap.h>
+#include "elastos/core/Object.h"
+#include "elastos/utility/etl/HashMap.h"
 
 #include <ela_carrier.h>
 #include <ela_session.h>

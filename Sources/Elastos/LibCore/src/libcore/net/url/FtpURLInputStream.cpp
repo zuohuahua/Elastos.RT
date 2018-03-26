@@ -15,9 +15,9 @@
 //=========================================================================
 
 #include "Elastos.CoreLibrary.Net.h"
-#include "FtpURLInputStream.h"
-#include "IoUtils.h"
-#include "AutoLock.h"
+#include "libcore/net/url/FtpURLInputStream.h"
+#include "libcore/io/IoUtils.h"
+#include "elastos/core/AutoLock.h"
 
 using Elastos::Core::AutoLock;
 using Libcore::IO::IoUtils;

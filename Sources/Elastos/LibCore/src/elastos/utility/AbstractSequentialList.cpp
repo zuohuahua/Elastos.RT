@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "AbstractSequentialList.h"
+#include "elastos/utility/AbstractSequentialList.h"
 
 namespace Elastos {
 namespace Utility {

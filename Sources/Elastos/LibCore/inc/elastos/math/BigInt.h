@@ -17,8 +17,8 @@
 #ifndef __ELASTOS_MATH_BIGINT_H__
 #define __ELASTOS_MATH_BIGINT_H__
 
-#include <elastos/core/StringBuilder.h>
-#include <elastos/core/Object.h>
+#include "elastos/core/StringBuilder.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::Object;
 using Elastos::Core::StringBuilder;

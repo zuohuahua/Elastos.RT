@@ -14,11 +14,11 @@
 // limitations under the License.
 //=========================================================================
 
-#include "Thread.h"
-#include "ThreadGroup.h"
-#include "ElaMath.h"
-#include "AutoLock.h"
-// #include "CSystem.h"
+#include "elastos/core/Thread.h"
+#include "elastos/core/ThreadGroup.h"
+#include "elastos/core/Math.h"
+#include "elastos/core/AutoLock.h"
+// #include "elastos/core/CSystem.h"
 #include <sys/time.h>
 
 // #include "elastos/utility/CArrayList.h"

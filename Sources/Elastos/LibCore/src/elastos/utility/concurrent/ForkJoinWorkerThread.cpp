@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "ForkJoinWorkerThread.h"
-#include "CForkJoinPool.h"
+#include "elastos/utility/concurrent/ForkJoinWorkerThread.h"
+#include "elastos/utility/concurrent/CForkJoinPool.h"
 
 using Elastos::Utility::Concurrent::CForkJoinPool;
 

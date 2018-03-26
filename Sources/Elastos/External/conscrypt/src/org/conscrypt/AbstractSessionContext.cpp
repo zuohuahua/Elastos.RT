@@ -19,8 +19,8 @@
 #include "org/conscrypt/COpenSSLSessionImpl.h"
 #include "org/conscrypt/NativeCrypto.h"
 #include "org/conscrypt/OpenSSLX509Certificate.h"
-#include <elastos/core/AutoLock.h>
-#include <elastos/utility/Arrays.h>
+#include "elastos/core/AutoLock.h"
+#include "elastos/utility/Arrays.h"
 
 using Elastos::Core::CArrayOf;
 using Elastos::Core::CByte;

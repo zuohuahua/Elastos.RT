@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_IO_CHARARRAYBUFFER_H__
 #define __ELASTOS_IO_CHARARRAYBUFFER_H__
 
-#include "CharBuffer.h"
+#include "elastos/io/CharBuffer.h"
 
 namespace Elastos {
 namespace IO {

@@ -15,7 +15,7 @@
 //=========================================================================
 
 //#include "Elastos.CoreLibrary.IO.h"
-#include "CArrayDeque.h"
+#include "elastos/utility/CArrayDeque.h"
 
 using Elastos::Core::EIID_ICloneable;
 using Elastos::IO::EIID_ISerializable;

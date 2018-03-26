@@ -18,8 +18,8 @@
 #define __ELASTOS_SECURITY_SECURECLASSLOADER_H__
 
 #include "Elastos.CoreLibrary.Security.h"
-#include "ProtectionDomain.h"
-#include "ClassLoader.h"
+#include "elastos/security/ProtectionDomain.h"
+#include "elastos/core/ClassLoader.h"
 #include "Elastos.CoreLibrary.Utility.h"
 
 using Elastos::Core::ClassLoader;

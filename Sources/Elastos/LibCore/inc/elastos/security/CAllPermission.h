@@ -18,7 +18,7 @@
 #define __ELASTOS_SECURITY_CALLPERMISSION_H__
 
 #include "_Elastos_Security_CAllPermission.h"
-#include "Permission.h"
+#include "elastos/security/Permission.h"
 
 namespace Elastos {
 namespace Security {

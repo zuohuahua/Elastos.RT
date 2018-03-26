@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CDATE_H__
 
 #include "_Elastos_Utility_CDate.h"
-#include "Date.h"
+#include "elastos/utility/Date.h"
 
 namespace Elastos {
 namespace Utility {

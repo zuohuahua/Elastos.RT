@@ -17,7 +17,7 @@
 #ifndef __LIBCORE_ICU_CNATIVEIDNHELPER_H__
 #define __LIBCORE_ICU_CNATIVEIDNHELPER_H__
 
-#include <Singleton.h>
+#include "elastos/core/Singleton.h"
 #include "_Libcore_ICU_CNativeIDNHelper.h"
 
 using Elastos::Core::ICharSequence;

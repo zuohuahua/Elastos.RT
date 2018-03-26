@@ -19,7 +19,7 @@
 
 #include "_Elastos_Security_Cert_CCollectionCertStoreParameters.h"
 #include "Elastos.CoreLibrary.Utility.h"
-#include "core/Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Utility::ICollection;
 using Elastos::Core::ICloneable;

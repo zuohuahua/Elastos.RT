@@ -160,7 +160,6 @@ endif
 SYSTEM_INCLUDES := $(INCLUDES)
 
 #$(warning makefile_rdk)
-#$(warning PREBUILD_INC=$(PREBUILD_INC))
 #$(warning INCLUDES=$(INCLUDES))
 
 # default C_FLAGS

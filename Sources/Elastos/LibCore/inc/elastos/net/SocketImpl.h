@@ -18,7 +18,7 @@
 #define __ELASTOS_NET_SOCKETIMPL_H__
 
 #include "Elastos.CoreLibrary.Net.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::Object;
 using Elastos::IO::IFileDescriptor;

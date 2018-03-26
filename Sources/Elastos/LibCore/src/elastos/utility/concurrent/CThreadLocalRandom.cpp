@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CThreadLocalRandom.h"
-#include "ElaMath.h"
+#include "elastos/utility/concurrent/CThreadLocalRandom.h"
+#include "elastos/core/Math.h"
 
 namespace Elastos {
 namespace Utility {

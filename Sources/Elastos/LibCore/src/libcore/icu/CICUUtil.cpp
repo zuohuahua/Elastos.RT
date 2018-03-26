@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CICUUtil.h"
-#include "ICUUtil.h"
+#include "libcore/icu/CICUUtil.h"
+#include "libcore/icu/ICUUtil.h"
 
 namespace Libcore {
 namespace ICU {

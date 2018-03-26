@@ -17,7 +17,7 @@
 #ifndef __LIBCORE_ICU_CNATIVENORMALIZERHELPER_H__
 #define __LIBCORE_ICU_CNATIVENORMALIZERHELPER_H__
 
-#include <Singleton.h>
+#include "elastos/core/Singleton.h"
 #include "_Libcore_ICU_CNativeNormalizerHelper.h"
 
 using Elastos::Core::ICharSequence;

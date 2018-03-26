@@ -14,20 +14,20 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CPlainDatagramSocketImpl.h"
-#include "CFileDescriptor.h"
-#include "CBoolean.h"
-#include "CDatagramPacket.h"
-#include "CInteger32.h"
-#include "CInetAddressHelper.h"
-#include "CCloseGuardHelper.h"
-#include "AutoLock.h"
-#include "OsConstants.h"
-#include "CStructGroupReq.h"
-#include "CLibcore.h"
-#include "IoBridge.h"
+#include "elastos/net/CPlainDatagramSocketImpl.h"
+#include "elastos/io/CFileDescriptor.h"
+#include "elastos/core/CBoolean.h"
+#include "elastos/net/CDatagramPacket.h"
+#include "elastos/core/CInteger32.h"
+#include "elastos/net/CInetAddressHelper.h"
+#include "elastos/core/CCloseGuardHelper.h"
+#include "elastos/core/AutoLock.h"
+#include "elastos/droid/system/OsConstants.h"
+#include "elastos/droid/system/CStructGroupReq.h"
+#include "libcore/io/CLibcore.h"
+#include "libcore/io/IoBridge.h"
 
-#include <elastos/core/AutoLock.h>
+#include "elastos/core/AutoLock.h"
 using Elastos::Core::AutoLock;
 using Elastos::Core::IBoolean;
 using Elastos::Core::CBoolean;

@@ -14,10 +14,10 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CKeyRep.h"
-#include "CKeyFactory.h"
-#include "spec/CPKCS8EncodedKeySpec.h"
-#include "spec/CX509EncodedKeySpec.h"
+#include "elastos/security/CKeyRep.h"
+#include "elastos/security/CKeyFactory.h"
+#include "elastos/security/spec/CPKCS8EncodedKeySpec.h"
+#include "elastos/security/spec/CX509EncodedKeySpec.h"
 #include "CSecretKeySpec.h"
 #include "Elastos.CoreLibrary.IO.h"
 

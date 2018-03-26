@@ -884,10 +884,8 @@ C_DEFINES += -DELASTOS_CORELIBRARY
 
 include $(MAKEDIR)/../../sources.inc
 
-INCLUDES += $(PREBUILD_INC)/sys;
 INCLUDES += ../
-INCLUDES += $(MAKEDIR)/../../../inc/elastos;
-INCLUDES += $(MAKEDIR)/../../../inc/elastos/core;
+INCLUDES += $(MAKEDIR)/../../../inc
 
 SOURCES += Thread.cpp
 SOURCES += NativeThread.cpp
@@ -898,7 +896,7 @@ SOURCES += Singleton.cpp
 3.将子模块编译结果合并到模块eco中，在Elastos5/Sources/Elastos/LibCore/src/corelibrary/sources中添加如下两行：
 
 ```
-INCLUDES += $(MAKEDIR)/../../inc/elastos/core
+INCLUDES += $(MAKEDIR)/../../inc
 ...
 ELASTOS_LIBS += ../elastos/core/elastos.core.lib
 ```

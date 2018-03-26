@@ -19,7 +19,7 @@
 
 #include "_Elastos_Security_Cert_CTrustAnchor.h"
 #include "Elastos.CoreLibrary.Extensions.h"
-#include "core/Object.h"
+#include "elastos/core/Object.h"
 
 using Elastosx::Security::Auth::X500::IX500Principal;
 using Elastos::Security::IPublicKey;

@@ -17,8 +17,8 @@
 #ifndef __ELASTOS_UTILITY_PREFS_PREFERENCECHANGEEVENT_H__
 #define __ELASTOS_UTILITY_PREFS_PREFERENCECHANGEEVENT_H__
 
-#include "EventObject.h"
-#include "Preferences.h"
+#include "elastos/utility/EventObject.h"
+#include "elastos/utility/prefs/Preferences.h"
 
 using Elastos::IO::IObjectOutputStream;
 using Elastos::IO::IObjectInputStream;

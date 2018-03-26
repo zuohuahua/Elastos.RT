@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_IO_OBJECTSTREAMCONSTANTS_H__
 #define __ELASTOS_IO_OBJECTSTREAMCONSTANTS_H__
 
-#include "SerializablePermission.h"
+#include "elastos/io/SerializablePermission.h"
 
 namespace Elastos {
 namespace IO {

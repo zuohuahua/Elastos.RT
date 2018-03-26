@@ -18,7 +18,7 @@
 #define __LIBCORE_NET_URL_LIBCORE_NET_URI_JARHANDLER_H__
 
 #include "_Libcore_Net_Url_CJarHandler.h"
-#include "URLStreamHandler.h"
+#include "elastos/net/URLStreamHandler.h"
 
 using Elastos::Net::URLStreamHandler;
 using Elastos::Net::IURLConnection;

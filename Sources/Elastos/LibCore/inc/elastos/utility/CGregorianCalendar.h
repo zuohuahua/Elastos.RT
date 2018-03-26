@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CGREGORIANCALENDER_H__
 
 #include "_Elastos_Utility_CGregorianCalendar.h"
-#include "Calendar.h"
+#include "elastos/utility/Calendar.h"
 
 namespace Elastos {
 namespace Utility {

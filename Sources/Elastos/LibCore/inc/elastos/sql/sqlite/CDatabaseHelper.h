@@ -18,7 +18,7 @@
 #define __ELASTOS_SQL_SQLITE_CDATABASEHELPER_H__
 
 #include "_Elastos_Sql_SQLite_CDatabaseHelper.h"
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 
 using Elastos::Core::Singleton;
 

@@ -14,10 +14,10 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CExecutorCompletionService.h"
-#include "CLinkedBlockingQueue.h"
-// #include "CFutureTask.h"
-#include "AbstractExecutorService.h"
+#include "elastos/utility/concurrent/CExecutorCompletionService.h"
+#include "elastos/utility/concurrent/CLinkedBlockingQueue.h"
+// #include "elastos/utility/concurrent/CFutureTask.h"
+#include "elastos/utility/concurrent/AbstractExecutorService.h"
 
 namespace Elastos {
 namespace Utility {

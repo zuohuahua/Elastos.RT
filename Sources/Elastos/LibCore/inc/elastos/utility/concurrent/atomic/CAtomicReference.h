@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CONCURRENT_ATOMIC_ELASTOS_UTILITY_CATOMICREFERENCE_H__
 
 #include "_Elastos_Utility_Concurrent_Atomic_CAtomicReference.h"
-#include "AtomicReference.h"
+#include "elastos/utility/concurrent/atomic/AtomicReference.h"
 
 using Elastos::Utility::Concurrent::Atomic::AtomicReference;
 

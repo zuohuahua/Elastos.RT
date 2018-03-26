@@ -18,7 +18,7 @@
 #define __ELASTOS_TEXT_CSTRINGCHARACTERIERATOR_H__
 
 #include "_Elastos_Text_CStringCharacterIterator.h"
-#include "StringCharacterIterator.h"
+#include "elastos/text/StringCharacterIterator.h"
 
 namespace Elastos {
 namespace Text {

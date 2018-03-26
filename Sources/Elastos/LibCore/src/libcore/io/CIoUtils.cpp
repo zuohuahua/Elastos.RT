@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CIoUtils.h"
-#include "IoUtils.h"
+#include "libcore/io/CIoUtils.h"
+#include "libcore/io/IoUtils.h"
 
 namespace Libcore {
 namespace IO {

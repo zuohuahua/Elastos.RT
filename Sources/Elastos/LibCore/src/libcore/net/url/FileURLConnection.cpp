@@ -14,20 +14,20 @@
 // limitations under the License.
 //=========================================================================
 
-#include "ElaMath.h"
-#include "FileURLConnection.h"
-#include "UriCodec.h"
-#include "CFile.h"
-#include "CBufferedInputStream.h"
-#include "CFileInputStream.h"
-#include "CPrintStream.h"
-#include "CByteArrayInputStream.h"
-#include "CByteArrayOutputStream.h"
-#include "StringUtils.h"
-#include "CTreeMap.h"
-#include "CString.h"
-#include "Collections.h"
-#include "CFilePermission.h"
+#include "elastos/core/Math.h"
+#include "libcore/net/url/FileURLConnection.h"
+#include "libcore/net/UriCodec.h"
+#include "elastos/io/CFile.h"
+#include "elastos/io/CBufferedInputStream.h"
+#include "elastos/io/CFileInputStream.h"
+#include "elastos/io/CPrintStream.h"
+#include "elastos/io/CByteArrayInputStream.h"
+#include "elastos/io/CByteArrayOutputStream.h"
+#include "elastos/core/StringUtils.h"
+#include "elastos/utility/CTreeMap.h"
+#include "elastos/core/CString.h"
+#include "elastos/utility/Collections.h"
+#include "elastos/io/CFilePermission.h"
 
 using Elastos::Core::StringUtils;
 using Elastos::Core::ICharSequence;

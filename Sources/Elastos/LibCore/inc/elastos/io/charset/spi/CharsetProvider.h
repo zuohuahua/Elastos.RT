@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CHARSET_SPI_ELASTOS_IO_CHARSETPROVIDER_H__
 
 #include "Elastos.CoreLibrary.IO.h"
-#include <elastos/core/Object.h>
+#include "elastos/core/Object.h"
 
 using Elastos::Core::Object;
 

@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CJarOutputStream.h"
-#include "CZipEntry.h"
+#include "elastos/utility/jar/CJarOutputStream.h"
+#include "elastos/utility/zip/CZipEntry.h"
 
 using Elastos::IO::EIID_IOutputStream;
 using Elastos::Utility::Zip::CZipEntry;

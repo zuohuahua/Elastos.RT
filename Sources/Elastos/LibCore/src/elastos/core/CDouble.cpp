@@ -14,9 +14,9 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CDouble.h"
-#include "ElaMath.h"
-#include "RealToString.h"
+#include "elastos/core/CDouble.h"
+#include "elastos/core/Math.h"
+#include "elastos/core/RealToString.h"
 
 using Elastos::IO::EIID_ISerializable;
 using Elastos::Core::RealToString;

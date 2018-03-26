@@ -1,6 +1,6 @@
 
 #include "test.h"
-#include "elastos/StringBuilder.h"
+#include "elastos/core/StringBuilder.h"
 
 using Elastos::Utility::IIterator;
 using Elastos::Utility::ICollection;

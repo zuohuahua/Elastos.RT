@@ -17,7 +17,7 @@
 #ifndef __LIBCORE_UTILITY_EMPTY_ARRAY_H__
 #define __LIBCORE_UTILITY_EMPTY_ARRAY_H__
 
-#include <elastos/core/Object.h>
+#include "elastos/core/Object.h"
 
 using Elastos::Core::IThrowable;
 using Elastos::Core::IStackTraceElement;

@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CCHARBUFFERHELPER_H__
 
 #include "_Elastos_IO_CCharBufferHelper.h"
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 
 using Elastos::Core::ICharSequence;
 using Elastos::Core::Singleton;

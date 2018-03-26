@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CUriCodecHelper.h"
-#include "UriCodec.h"
+#include "libcore/net/CUriCodecHelper.h"
+#include "libcore/net/UriCodec.h"
 
 namespace Libcore {
 namespace Net {

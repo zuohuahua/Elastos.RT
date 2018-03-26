@@ -18,8 +18,8 @@
 #define __ELASTOS_SQL_SQLITE_DATABASE_H__
 
 #include "Elastos.CoreLibrary.Sql.h"
-#include "sqlitejni.h"
-#include "Object.h"
+#include "elastos/sql/sqlite/sqlitejni.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::Object;
 

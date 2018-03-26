@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CSTACK_H__
 
 #include "_Elastos_Utility_CPriorityQueue.h"
-#include "AbstractQueue.h"
+#include "elastos/utility/AbstractQueue.h"
 
 using Elastos::Core::IComparator;
 // using Elastos::IO::IObjectInputStream;

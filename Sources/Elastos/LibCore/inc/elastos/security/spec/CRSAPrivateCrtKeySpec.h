@@ -18,7 +18,7 @@
 #define __ELASTOS_SECURITY_SPEC_CRSAPRIVATECRTKEYSPEC_H__
 
 #include "_Elastos_Security_Spec_CRSAPrivateCrtKeySpec.h"
-#include "RSAPrivateKeySpec.h"
+#include "elastos/security/spec/RSAPrivateKeySpec.h"
 
 using Elastos::Math::IBigInteger;
 

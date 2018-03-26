@@ -18,8 +18,8 @@
 #define __LIBCORE_ICU_CNATIVEDECIMALFORMAT_H__
 
 #include "_Libcore_ICU_CNativeDecimalFormat.h"
-#include "Object.h"
-#include "StringBuffer.h"
+#include "elastos/core/Object.h"
+#include "elastos/core/StringBuffer.h"
 #include "elastos/utility/etl/Vector.h"
 
 using Elastos::Core::Object;

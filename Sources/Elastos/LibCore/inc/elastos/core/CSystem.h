@@ -18,7 +18,7 @@
 #define __ELASTOS_CORE_CSYSTEM_H__
 
 #include "_Elastos_Core_CSystem.h"
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 #include "elastos/utility/etl/HashMap.h"
 
 using Elastos::IO::IInputStream;

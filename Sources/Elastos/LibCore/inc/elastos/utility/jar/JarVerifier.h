@@ -17,8 +17,8 @@
 #ifndef __ELASTOS_UTILITY_JARVERIFIER_H__
 #define __ELASTOS_UTILITY_JARVERIFIER_H__
 
-#include "OutputStream.h"
-#include <elastos/utility/etl/HashMap.h>
+#include "elastos/io/OutputStream.h"
+#include "elastos/utility/etl/HashMap.h"
 
 using Elastos::Utility::Etl::HashMap;
 using Elastos::IO::IOutputStream;

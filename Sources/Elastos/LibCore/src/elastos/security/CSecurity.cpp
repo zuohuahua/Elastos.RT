@@ -14,14 +14,14 @@
 // limitations under the License.
 //=========================================================================
 
-#include "core/AutoLock.h"
-#include "core/CString.h"
-#include "security/CSecurity.h"
-#include "utility/CProperties.h"
-#include "utility/CHashMap.h"
-#include "utility/CHashSet.h"
-#include "utility/CArrayList.h"
-#include "utility/logging/Logger.h"
+#include "elastos/core/AutoLock.h"
+#include "elastos/core/CString.h"
+#include "elastos/security/CSecurity.h"
+#include "elastos/utility/CProperties.h"
+#include "elastos/utility/CHashMap.h"
+#include "elastos/utility/CHashSet.h"
+#include "elastos/utility/CArrayList.h"
+#include "elastos/utility/logging/Logger.h"
 #include "org/apache/harmony/security/fortress/CEngine.h"
 #include "org/apache/harmony/security/fortress/Services.h"
 

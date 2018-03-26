@@ -15,9 +15,9 @@
 //=========================================================================
 
 #include "Elastos.CoreLibrary.IO.h"
-#include "coredef.h"
-#include "SignatureSpi.h"
-#include "utility/logging/Logger.h"
+#include "elastos/coredef.h"
+#include "elastos/security/SignatureSpi.h"
+#include "elastos/utility/logging/Logger.h"
 
 using Elastos::IO::IBuffer;
 using Elastos::Utility::Logging::Logger;

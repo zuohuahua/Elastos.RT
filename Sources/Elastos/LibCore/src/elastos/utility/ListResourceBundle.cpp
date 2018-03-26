@@ -14,9 +14,9 @@
 // limitations under the License.
 //=========================================================================
 
-#include "ListResourceBundle.h"
-#include "CHashMap.h"
-#include "CString.h"
+#include "elastos/utility/ListResourceBundle.h"
+#include "elastos/utility/CHashMap.h"
+#include "elastos/core/CString.h"
 
 using Elastos::Core::ICharSequence;
 using Elastos::Core::CString;

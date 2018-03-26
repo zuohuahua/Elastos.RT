@@ -20,11 +20,11 @@
  * ~/libcore/luni/src/main/java/java/lang/RealToString.java
  */
 
-#include <RealToString.h>
-#include <IntegralToString.h>
-#include <StringBuilder.h>
-#include <ElaMath.h>
-#include <cbigint.h>
+#include "elastos/core/RealToString.h"
+#include "elastos/core/IntegralToString.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/core/Math.h"
+#include "elastos/core/cbigint.h"
 #include <stdio.h>
 
 #define INV_LOG_OF_TEN_BASE_2 (0.30102999566398114) /* Local */

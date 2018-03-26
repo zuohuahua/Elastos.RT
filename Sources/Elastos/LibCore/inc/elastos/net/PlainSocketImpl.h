@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_NET_PLAINSOCKETIMPL_H__
 #define __ELASTOS_NET_PLAINSOCKETIMPL_H__
 
-#include "SocketImpl.h"
+#include "elastos/net/SocketImpl.h"
 
 using Elastos::Core::ICloseGuard;
 

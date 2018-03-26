@@ -17,9 +17,9 @@
 #ifndef __LIBCORE_UTILITY_CZONEINFODB_H__
 #define __LIBCORE_UTILITY_CZONEINFODB_H__
 
-#include "Singleton.h"
-#include "Object.h"
-#include "BasicLruCache.h"
+#include "elastos/core/Singleton.h"
+#include "elastos/core/Object.h"
+#include "libcore/utility/BasicLruCache.h"
 #include "_Libcore_Utility_CZoneInfoDB.h"
 
 using Elastos::Core::Object;

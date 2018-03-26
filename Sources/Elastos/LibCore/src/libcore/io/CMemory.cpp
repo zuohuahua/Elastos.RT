@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CMemory.h"
-#include "Memory.h"
+#include "libcore/io/CMemory.h"
+#include "libcore/io/Memory.h"
 
 namespace Libcore {
 namespace IO {

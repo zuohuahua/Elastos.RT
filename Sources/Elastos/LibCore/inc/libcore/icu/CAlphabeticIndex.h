@@ -17,7 +17,7 @@
 #ifndef __LIBCORE_ICU_CALPHABETICINDEX_H__
 #define __LIBCORE_ICU_CALPHABETICINDEX_H__
 
-#include "AlphabeticIndex.h"
+#include "libcore/icu/AlphabeticIndex.h"
 #include "_Libcore_ICU_CAlphabeticIndex.h"
 
 namespace Libcore {

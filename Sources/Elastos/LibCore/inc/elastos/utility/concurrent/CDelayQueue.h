@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CONCURRENT_ELASTOS_UTILITY_CDELAYQUEUE_H__
 
 #include "_Elastos_Utility_Concurrent_CDelayQueue.h"
-#include "AbstractQueue.h"
+#include "elastos/utility/AbstractQueue.h"
 
 using Elastos::Core::IThread;
 using Elastos::Utility::Concurrent::Locks::IReentrantLock;

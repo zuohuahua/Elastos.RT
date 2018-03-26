@@ -15,12 +15,12 @@
 //=========================================================================
 
 //#include "Elastos.CoreLibrary.IO.h"
-#include "CFloat.h"
-#include "StringBuilder.h"
-#include "HashTable.h"
-#include "AutoLock.h"
+#include "elastos/core/CFloat.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/utility/HashTable.h"
+#include "elastos/core/AutoLock.h"
 
-#include <elastos/core/AutoLock.h>
+#include "elastos/core/AutoLock.h"
 using Elastos::Core::AutoLock;
 using Elastos::Core::IFloat;
 using Elastos::Core::CFloat;

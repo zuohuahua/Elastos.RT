@@ -18,9 +18,9 @@
 #define __ELASTOS_UTILITY_JAR_ELASTOS_UTILITY_CJARFILE_H__
 
 #include "_Elastos_Utility_Jar_CJarFile.h"
-#include "ZipFile.h"
-#include "JarVerifier.h"
-#include <elastos/utility/etl/HashMap.h>
+#include "elastos/utility/zip/ZipFile.h"
+#include "elastos/utility/jar/JarVerifier.h"
+#include "elastos/utility/etl/HashMap.h"
 
 using Elastos::Utility::Zip::ZipFile;
 using Elastos::Utility::Zip::IZipEntry;

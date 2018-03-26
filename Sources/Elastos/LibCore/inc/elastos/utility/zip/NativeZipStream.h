@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_UTILITY_ZIP_H__
 #define __ELASTOS_UTILITY_ZIP_H__
 
-#include "Object.h"
+#include "elastos/core/Object.h"
 #include "zlib.h"
 #include "zutil.h"// For DEF_WBITS and DEF_MEM_LEVEL.
 

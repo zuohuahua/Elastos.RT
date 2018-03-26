@@ -14,17 +14,17 @@
 // limitations under the License.
 //=========================================================================
 
-#include "AbstractPreferences.h"
-#include "CLinkedList.h"
-#include "CTreeSet.h"
-#include "CString.h"
-#include "CBase64.h"
-#include "AutoLock.h"
-#include "XMLParser.h"
-#include "EmptyArray.h"
-#include "StringUtils.h"
+#include "elastos/utility/prefs/AbstractPreferences.h"
+#include "elastos/utility/CLinkedList.h"
+#include "elastos/utility/CTreeSet.h"
+#include "elastos/core/CString.h"
+#include "libcore/io/CBase64.h"
+#include "elastos/core/AutoLock.h"
+#include "elastos/utility/prefs/XMLParser.h"
+#include "libcore/utility/EmptyArray.h"
+#include "elastos/core/StringUtils.h"
 
-#include <elastos/core/AutoLock.h>
+#include "elastos/core/AutoLock.h"
 using Elastos::Core::AutoLock;
 using Libcore::IO::CBase64;
 using Libcore::IO::IBase64;

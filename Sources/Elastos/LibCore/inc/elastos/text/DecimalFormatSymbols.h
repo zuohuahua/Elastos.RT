@@ -19,7 +19,7 @@
 
 #include "Elastos.CoreLibrary.Text.h"
 #include "Elastos.CoreLibrary.Utility.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::ICloneable;
 using Elastos::Core::Object;

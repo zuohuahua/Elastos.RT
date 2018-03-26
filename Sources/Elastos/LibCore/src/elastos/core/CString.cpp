@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CString.h"
-#include "StringBuilder.h"
+#include "elastos/core/CString.h"
+#include "elastos/core/StringBuilder.h"
 
 namespace Elastos {
 namespace Core {

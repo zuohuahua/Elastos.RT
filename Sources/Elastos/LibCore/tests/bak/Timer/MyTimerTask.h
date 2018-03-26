@@ -5,8 +5,8 @@
 #include <Elastos.CoreLibrary.h>
 #include <Elastos.CoreLibrary.h>
 #include <elrefbase.h>
-#include <elastos/Mutex.h>
-#include <elastos/TimerTask.h>
+#include "elastos/core/Mutex.h"
+#include "elastos/utility/TimerTask.h"
 
 
 class MyTimerTask : public TimerTask

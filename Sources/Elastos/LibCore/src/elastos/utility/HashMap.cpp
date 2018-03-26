@@ -15,8 +15,8 @@
 //=========================================================================
 
 //#include "Elastos.CoreLibrary.IO.h"
-#include "HashMap.h"
-#include "CFloat.h"
+#include "elastos/utility/HashMap.h"
+#include "elastos/core/CFloat.h"
 
 using Elastos::Core::EIID_ICloneable;
 using Elastos::Core::IFloat;

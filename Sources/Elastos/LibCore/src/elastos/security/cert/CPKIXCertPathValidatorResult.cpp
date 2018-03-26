@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CPKIXCertPathValidatorResult.h"
+#include "elastos/security/cert/CPKIXCertPathValidatorResult.h"
 
 namespace Elastos {
 namespace Security {

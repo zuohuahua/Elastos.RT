@@ -18,8 +18,8 @@
 #define __ELASTOS_NET_CNETPERMISSION_H__
 
 #include "_Elastos_Net_CNetPermission.h"
-//#include "security/BasicPermission.h"
-#include "Object.h"
+//#include "elastos/security/BasicPermission.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::Object;
 //using Elastos::Security::BasicPermission;

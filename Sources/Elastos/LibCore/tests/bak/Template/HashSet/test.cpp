@@ -2,7 +2,7 @@
 #define __USE_MALLOC
 
 #include <elastos.h>
-#include <elastos/HashSet.h>
+#include "elastos/utility/etl/HashSet.h"
 #include <stdio.h>
 
 using namespace Elastos;

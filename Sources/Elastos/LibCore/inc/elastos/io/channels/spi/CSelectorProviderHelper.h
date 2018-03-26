@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CHANNELS_SPI_ELASTOS_IO_CSELECTORPROVIDERHELPER_H__
 
 #include "_Elastos_IO_Channels_Spi_CSelectorProviderHelper.h"
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 
 using Elastos::Core::Singleton;
 

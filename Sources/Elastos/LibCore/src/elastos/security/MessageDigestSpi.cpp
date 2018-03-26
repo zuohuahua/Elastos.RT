@@ -15,8 +15,8 @@
 //=========================================================================
 
 #include "Elastos.CoreLibrary.IO.h"
-#include "MessageDigestSpi.h"
-#include <elastos/utility/logging/Logger.h>
+#include "elastos/security/MessageDigestSpi.h"
+#include "elastos/utility/logging/Logger.h"
 
 using Elastos::IO::IBuffer;
 using Elastos::Utility::Logging::Logger;

@@ -18,7 +18,7 @@
 #define __ELASTOS_NET_CSOCKET_H__
 
 #include "_Elastos_Net_CSocket.h"
-#include "Socket.h"
+#include "elastos/net/Socket.h"
 
 namespace Elastos {
 namespace Net {

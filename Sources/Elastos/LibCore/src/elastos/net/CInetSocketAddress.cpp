@@ -14,10 +14,10 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CInetSocketAddress.h"
-#include "CInet4Address.h"
-#include "InetAddress.h"
-#include "StringUtils.h"
+#include "elastos/net/CInetSocketAddress.h"
+#include "elastos/net/CInet4Address.h"
+#include "elastos/net/InetAddress.h"
+#include "elastos/core/StringUtils.h"
 
 using Elastos::Core::StringUtils;
 using Elastos::IO::EIID_ISerializable;

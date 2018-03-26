@@ -18,8 +18,8 @@
 #define __ELASTOS_UTILITY_CONCURRENT_LOCKS_ELASTOS_UTILITY_CREENTRANTREADWRITELOCK_H__
 
 #include "_Elastos_Utility_Concurrent_Locks_CReentrantReadWriteLock.h"
-#include "AbstractQueuedSynchronizer.h"
-#include "Thread.h"
+#include "elastos/utility/concurrent/locks/AbstractQueuedSynchronizer.h"
+#include "elastos/core/Thread.h"
 
 using Elastos::Core::IThread;
 using Elastos::Core::Thread;

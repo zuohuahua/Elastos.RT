@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_SERIALIZABLEPERMISSION_H__
 
 #include "Elastos.CoreLibrary.IO.h"
-#include "BasicPermission.h"
+#include "elastos/security/BasicPermission.h"
 
 using Elastos::Security::BasicPermission;
 

@@ -14,9 +14,9 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CFences.h"
+#include "elastos/utility/concurrent/atomic/CFences.h"
 
-#include <elastos/core/AutoLock.h>
+#include "elastos/core/AutoLock.h"
 using Elastos::Core::AutoLock;
 
 namespace Elastos {

@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CCURRENCYHELPER_H__
 
 #include "_Elastos_Utility_CCurrencyHelper.h"
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 
 using Elastos::Core::Singleton;
 using Elastos::Utility::ILocale;

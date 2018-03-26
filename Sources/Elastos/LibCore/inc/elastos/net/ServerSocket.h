@@ -17,8 +17,8 @@
 #ifndef __ELASTOS_NET_SERVERSOCKET_H__
 #define __ELASTOS_NET_SERVERSOCKET_H__
 
-#include "CSocket.h"
-#include "Object.h"
+#include "elastos/net/CSocket.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::Object;
 using Elastos::IO::ICloseable;

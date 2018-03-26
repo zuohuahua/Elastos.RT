@@ -17,7 +17,7 @@
 #ifndef __LIBCORE_IO_CPOSIX_H__
 #define __LIBCORE_IO_CPOSIX_H__
 
-#include "Object.h"
+#include "elastos/core/Object.h"
 #include "_Libcore_IO_CPosix.h"
 
 using Elastos::Core::Object;

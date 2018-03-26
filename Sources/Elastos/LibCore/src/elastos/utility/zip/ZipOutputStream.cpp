@@ -14,16 +14,16 @@
 // limitations under the License.
 //=========================================================================
 
-#include "ZipOutputStream.h"
-#include "CZipFile.h"
-#include "CByteArrayOutputStream.h"
-#include "CZipEntry.h"
-#include "CCRC32.h"
-#include "CDeflater.h"
-#include "CSystem.h"
-#include "Arrays.h"
-#include "EmptyArray.h"
-#include <elastos/utility/etl/Algorithm.h>
+#include "elastos/utility/zip/ZipOutputStream.h"
+#include "elastos/utility/zip/CZipFile.h"
+#include "elastos/io/CByteArrayOutputStream.h"
+#include "elastos/utility/zip/CZipEntry.h"
+#include "elastos/utility/zip/CCRC32.h"
+#include "elastos/utility/zip/CDeflater.h"
+#include "elastos/core/CSystem.h"
+#include "elastos/utility/Arrays.h"
+#include "libcore/utility/EmptyArray.h"
+#include "elastos/utility/etl/Algorithm.h"
 #include <cutils/log.h>
 
 using Elastos::Core::ISystem;

@@ -18,7 +18,7 @@
 #define __ELASTOS_NET_CSOCKETOUTPUTSTREAM_H__
 
 #include "_Elastos_Net_CPlainSocketOutputStream.h"
-#include "OutputStream.h"
+#include "elastos/io/OutputStream.h"
 
 using Elastos::IO::OutputStream;
 

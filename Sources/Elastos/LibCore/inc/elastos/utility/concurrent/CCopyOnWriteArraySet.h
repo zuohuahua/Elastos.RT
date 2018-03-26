@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CONCURRENT_ELASTOS_UTILITY_CCOPYONWRITEARRAYSET_H__
 
 #include "_Elastos_Utility_Concurrent_CCopyOnWriteArraySet.h"
-#include "AbstractSet.h"
+#include "elastos/utility/AbstractSet.h"
 
 namespace Elastos {
 namespace Utility {

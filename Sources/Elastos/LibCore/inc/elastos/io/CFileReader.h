@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CFILEREADER_H__
 
 #include "_Elastos_IO_CFileReader.h"
-#include "FileReader.h"
+#include "elastos/io/FileReader.h"
 
 namespace Elastos {
 namespace IO {

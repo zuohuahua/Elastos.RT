@@ -3,10 +3,10 @@
 #include <eltypes.h>
 #include <stdio.h>
 #include <Elastos.CoreLibrary.h>
-#include <elastos/IntegralToString.h>
-#include <elastos/RealToString.h>
-#include <elastos/StringUtils.h>
-#include <elastos/ElaMath.h>
+#include "elastos/core/IntegralToString.h"
+#include "elastos/core/RealToString.h"
+#include "elastos/core/StringUtils.h"
+#include "elastos/core/Math.h"
 #include <Elastos.CoreLibrary.h>
 #include <cmdef.h>
 

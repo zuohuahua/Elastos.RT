@@ -15,15 +15,15 @@
 //=========================================================================
 
 #include "Elastos.CoreLibrary.IO.h"
-#include "CSynchronousQueue.h"
-#include "Thread.h"
-#include "LockSupport.h"
-#include "CReentrantLock.h"
-#include "CSystem.h"
+#include "elastos/utility/concurrent/CSynchronousQueue.h"
+#include "elastos/core/Thread.h"
+#include "elastos/utility/concurrent/locks/LockSupport.h"
+#include "elastos/utility/concurrent/locks/CReentrantLock.h"
+#include "elastos/core/CSystem.h"
 #include <cutils/atomic.h>
 #include <cutils/atomic-inline.h>
-#include "CLibcore.h"
-#include <elastos/droid/system/OsConstants.h>
+#include "libcore/io/CLibcore.h"
+#include "elastos/droid/system/OsConstants.h"
 
 using Elastos::IO::EIID_ISerializable;
 using Elastos::Core::ISystem;

@@ -17,10 +17,10 @@
 #ifndef __ORG_CONSCRYPT_OPENSSLENGINE_H__
 #define __ORG_CONSCRYPT_OPENSSLENGINE_H__
 
-#include <elastos/coredef.h>
+#include "elastos/coredef.h"
 #include <Elastos.CoreLibrary.Security.h>
 #include <Elastos.CoreLibrary.Extensions.h>
-#include <elastos/core/Object.h>
+#include "elastos/core/Object.h"
 #include "_Org.Conscrypt.h"
 
 using Elastos::Security::IPrivateKey;

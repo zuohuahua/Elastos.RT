@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_SECURITY_CERT_CERTIFICATEFACTORY_H__
 #define __ELASTOS_SECURITY_CERT_CERTIFICATEFACTORY_H__
 
-#include "core/Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::Object;
 using Elastos::IO::IInputStream;

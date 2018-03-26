@@ -14,23 +14,23 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CForkJoinPool.h"
-#include "ForkJoinWorkerThread.h"
-#include "LockSupport.h"
-#include "ForkJoinTask.h"
-#include "TimeUnit.h"
-#include "Arrays.h"
-#include "CReentrantLock.h"
-#include "CArrayList.h"
-#include "Collections.h"
-#include "AutoLock.h"
-#include "CSystem.h"
-#include "StringUtils.h"
-#include "CountedCompleter.h"
-#include "CThreadLocalRandom.h"
-#include "CLibcore.h"
-#include <elastos/droid/system/OsConstants.h>
-#include <elastos/core/AutoLock.h>
+#include "elastos/utility/concurrent/CForkJoinPool.h"
+#include "elastos/utility/concurrent/ForkJoinWorkerThread.h"
+#include "elastos/utility/concurrent/locks/LockSupport.h"
+#include "elastos/utility/concurrent/ForkJoinTask.h"
+#include "elastos/utility/concurrent/TimeUnit.h"
+#include "elastos/utility/Arrays.h"
+#include "elastos/utility/concurrent/locks/CReentrantLock.h"
+#include "elastos/utility/CArrayList.h"
+#include "elastos/utility/Collections.h"
+#include "elastos/core/AutoLock.h"
+#include "elastos/core/CSystem.h"
+#include "elastos/core/StringUtils.h"
+#include "elastos/utility/concurrent/CountedCompleter.h"
+#include "elastos/utility/concurrent/CThreadLocalRandom.h"
+#include "libcore/io/CLibcore.h"
+#include "elastos/droid/system/OsConstants.h"
+#include "elastos/core/AutoLock.h"
 
 using Elastos::Core::AutoLock;
 using Elastos::Core::StringUtils;

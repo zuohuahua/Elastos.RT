@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_REGEX_REGEX_CMATCHERHELPER_H__
 
 #include "_Elastos_Utility_Regex_CMatcherHelper.h"
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 
 using Elastos::Core::Singleton;
 

@@ -18,7 +18,7 @@
 #define __ELASTOS_TEXT_CSIMPLEDATEFORMAT_H__
 
 #include "_Elastos_Text_CSimpleDateFormat.h"
-#include "SimpleDateFormat.h"
+#include "elastos/text/SimpleDateFormat.h"
 
 using Elastos::Utility::ILocale;
 using Elastos::Text::IFieldPosition;

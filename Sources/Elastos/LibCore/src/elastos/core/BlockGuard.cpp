@@ -14,10 +14,10 @@
 // limitations under the License.
 //=========================================================================
 
-#include "BlockGuard.h"
-#include "Thread.h"
-#include "StringUtils.h"
-#include "AutoLock.h"
+#include "elastos/core/BlockGuard.h"
+#include "elastos/core/Thread.h"
+#include "elastos/core/StringUtils.h"
+#include "elastos/core/AutoLock.h"
 
 using Elastos::Core::StringUtils;
 using Elastos::Core::Thread;

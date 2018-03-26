@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_TEXT_NUMBERFORMAT_H__
 #define __ELASTOS_TEXT_NUMBERFORMAT_H__
 
-#include "FormatBase.h"
+#include "elastos/text/FormatBase.h"
 
 using Elastos::Utility::ILocale;
 using Elastos::Text::IFieldPosition;

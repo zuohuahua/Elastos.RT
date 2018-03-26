@@ -18,7 +18,7 @@
 #define __ELASTOS_TEXT_CDATEFORMATFIELD_H__
 
 #include "_Elastos_Text_CDateFormatField.h"
-#include "DateFormat.h"
+#include "elastos/text/DateFormat.h"
 
 namespace Elastos {
 namespace Text {

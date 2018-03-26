@@ -14,9 +14,9 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CECFieldF2m.h"
+#include "elastos/security/spec/CECFieldF2m.h"
 #include "elastos/math/CBigIntegerHelper.h"
-#include <elastos/utility/Arrays.h>
+#include "elastos/utility/Arrays.h"
 
 using Elastos::Math::IBigIntegerHelper;
 using Elastos::Math::CBigIntegerHelper;

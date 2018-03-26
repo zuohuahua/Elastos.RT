@@ -18,7 +18,7 @@
 #define __ELASTOS_MATH_CBIGDECIMALHELPER_H__
 
 #include "_Elastos_Math_CBigDecimalHelper.h"
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 
 using Elastos::Core::Singleton;
 

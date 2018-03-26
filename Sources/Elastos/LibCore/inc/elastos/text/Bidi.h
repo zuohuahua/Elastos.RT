@@ -18,7 +18,7 @@
 #define __ELASTOS_TEXT_BIDI_H__
 
 #include "Elastos.CoreLibrary.Text.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::Object;
 using Elastos::Text::IAttributedCharacterIterator;;

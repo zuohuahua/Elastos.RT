@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CBYTEARRAYINPUTSTREAM_H__
 
 #include "_Elastos_IO_CByteArrayInputStream.h"
-#include "ByteArrayInputStream.h"
+#include "elastos/io/ByteArrayInputStream.h"
 
 namespace Elastos {
 namespace IO {

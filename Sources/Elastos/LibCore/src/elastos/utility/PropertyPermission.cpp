@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "PropertyPermission.h"
+#include "elastos/utility/PropertyPermission.h"
 
 namespace Elastos {
 namespace Utility {

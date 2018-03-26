@@ -18,7 +18,7 @@
 #define __ELASTOS_SECURITY_SPEC_CPKCS8ENCODEDKEYSPEC_H__
 
 #include "_Elastos_Security_Spec_CPKCS8EncodedKeySpec.h"
-#include "EncodedKeySpec.h"
+#include "elastos/security/spec/EncodedKeySpec.h"
 
 namespace Elastos {
 namespace Security {

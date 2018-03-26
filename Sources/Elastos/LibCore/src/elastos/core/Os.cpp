@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "Os.h"
-#include "NativeThread.h"
+#include "elastos/core/Os.h"
+#include "elastos/core/NativeThread.h"
 // #include <sys/time.h>
 #include <sys/resource.h>
 // #include <limits.h>

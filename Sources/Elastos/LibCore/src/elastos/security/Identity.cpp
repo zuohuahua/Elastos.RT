@@ -14,11 +14,11 @@
 // limitations under the License.
 //=========================================================================
 
-#include "Identity.h"
-#include "CVector.h"
-#include "Objects.h"
-#include "Arrays.h"
-#include "CoreUtils.h"
+#include "elastos/security/Identity.h"
+#include "elastos/utility/CVector.h"
+#include "elastos/utility/Objects.h"
+#include "elastos/utility/Arrays.h"
+#include "elastos/core/CoreUtils.h"
 
 using Elastos::Core::CoreUtils;
 using Elastos::IO::EIID_ISerializable;

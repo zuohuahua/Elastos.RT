@@ -14,9 +14,9 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CGZIPOutputStream.h"
-#include "CDeflater.h"
-#include "CCRC32.h"
+#include "elastos/utility/zip/CGZIPOutputStream.h"
+#include "elastos/utility/zip/CDeflater.h"
+#include "elastos/utility/zip/CCRC32.h"
 
 namespace Elastos {
 namespace Utility {

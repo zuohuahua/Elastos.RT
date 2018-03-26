@@ -16,9 +16,9 @@
 
 #include "Elastos.CoreLibrary.IO.h"
 #include "Elastos.CoreLibrary.Utility.Zip.h"
-#include "JarURLConnection.h"
-#include "UriCodec.h"
-#include "CURL.h"
+#include "elastos/net/JarURLConnection.h"
+#include "libcore/net/UriCodec.h"
+#include "elastos/net/CURL.h"
 
 using Elastos::Core::ICloneable;
 using Libcore::Net::UriCodec;

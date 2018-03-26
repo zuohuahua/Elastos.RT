@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CPRINTWRITR_H__
 
 #include "_Elastos_IO_CPrintWriter.h"
-#include "PrintWriter.h"
+#include "elastos/io/PrintWriter.h"
 
 namespace Elastos {
 namespace IO {

@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CHANNELS_SPI_ELASTOS_IO_CHANNELS_ABSTRACTINTERRUPTIBLECHANNEL_H__
 
 #include "Elastos.CoreLibrary.IO.h"
-#include <elastos/core/Runnable.h>
+#include "elastos/core/Runnable.h"
 
 using Elastos::Core::Runnable;
 using Elastos::IO::ICloseable;

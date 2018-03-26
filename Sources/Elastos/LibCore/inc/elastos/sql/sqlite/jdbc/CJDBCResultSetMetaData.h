@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_SQL_SQLITE_JDBC_CJDBCRESULTSETMETADATA_H__
 #define __ELASTOS_SQL_SQLITE_JDBC_CJDBCRESULTSETMETADATA_H__
 
-#include <elastos/core/Object.h>
+#include "elastos/core/Object.h"
 #include "_Elastos_Sql_SQLite_JDBC_CJDBCResultSetMetaData.h"
 
 using Elastos::Core::Object;

@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CBase64.h"
+#include "libcore/io/CBase64.h"
 
 namespace Libcore {
 namespace IO {

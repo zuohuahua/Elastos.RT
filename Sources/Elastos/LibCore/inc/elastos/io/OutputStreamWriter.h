@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_IO_OUTPUTSTREAMWRITER_H__
 #define __ELASTOS_IO_OUTPUTSTREAMWRITER_H__
 
-#include "Writer.h"
+#include "elastos/io/Writer.h"
 
 using Elastos::IO::Charset::ICharset;
 using Elastos::IO::Charset::ICharsetEncoder;

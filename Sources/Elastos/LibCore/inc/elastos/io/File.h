@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_FILE_H__
 
 #include "Elastos.CoreLibrary.IO.h"
-#include <elastos/core/Object.h>
+#include "elastos/core/Object.h"
 
 using Elastos::Core::IComparable;
 using Elastos::Core::Object;

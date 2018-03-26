@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "Preferences.h"
-#include "XMLParser.h"
+#include "elastos/utility/prefs/Preferences.h"
+#include "elastos/utility/prefs/XMLParser.h"
 
 namespace Elastos {
 namespace Utility {

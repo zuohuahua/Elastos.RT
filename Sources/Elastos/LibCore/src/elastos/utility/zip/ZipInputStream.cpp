@@ -14,17 +14,17 @@
 // limitations under the License.
 //=========================================================================
 
-#include "ZipInputStream.h"
-#include "CZipFile.h"
-#include "CZipEntry.h"
-#include "CCRC32.h"
-#include "Memory.h"
-#include "ElaMath.h"
-#include "CPushbackInputStream.h"
-#include "CStreams.h"
-#include "CInflater.h"
-#include "charset/CModifiedUtf8.h"
-#include "Arrays.h"
+#include "elastos/utility/zip/ZipInputStream.h"
+#include "elastos/utility/zip/CZipFile.h"
+#include "elastos/utility/zip/CZipEntry.h"
+#include "elastos/utility/zip/CCRC32.h"
+#include "libcore/io/Memory.h"
+#include "elastos/core/Math.h"
+#include "elastos/io/CPushbackInputStream.h"
+#include "libcore/io/CStreams.h"
+#include "elastos/utility/zip/CInflater.h"
+#include "elastos/io/charset/CModifiedUtf8.h"
+#include "elastos/utility/Arrays.h"
 #include <cutils/log.h>
 
 using Elastos::Core::Math;

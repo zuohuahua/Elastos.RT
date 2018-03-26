@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CNetPermission.h"
+#include "elastos/net/CNetPermission.h"
 
 //using Elastos::Security::IBasicPermission;
 //using Elastos::Security::IPermission;

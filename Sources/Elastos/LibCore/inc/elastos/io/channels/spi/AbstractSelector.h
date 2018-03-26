@@ -17,8 +17,8 @@
 #ifndef __ELASTOS_IO_CHANNELS_SPI_ABSTRACTSELECTOR_H__
 #define __ELASTOS_IO_CHANNELS_SPI_ABSTRACTSELECTOR_H__
 
-#include "Selector.h"
-#include <elastos/core/Runnable.h>
+#include "elastos/io/channels/Selector.h"
+#include "elastos/core/Runnable.h"
 
 using Elastos::Core::Runnable;
 using Elastos::IO::Channels::Selector;

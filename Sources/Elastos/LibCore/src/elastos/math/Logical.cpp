@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "Logical.h"
-#include "ElaMath.h"
+#include "elastos/math/Logical.h"
+#include "elastos/core/Math.h"
 #include <assert.h>
 
 namespace Elastos {

@@ -16,9 +16,9 @@
 
 #include "org/conscrypt/OpenSSLDHPrivateKey.h"
 #include "org/conscrypt/NativeCrypto.h"
-#include <elastos/core/AutoLock.h>
-#include <elastos/core/StringBuilder.h>
-#include <elastos/utility/Arrays.h>
+#include "elastos/core/AutoLock.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/utility/Arrays.h"
 
 using Elastos::Core::StringBuilder;
 using Elastos::IO::IObjectInput;

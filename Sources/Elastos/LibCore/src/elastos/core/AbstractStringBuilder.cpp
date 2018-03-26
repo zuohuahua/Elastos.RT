@@ -14,12 +14,12 @@
 // limitations under the License.
 //=========================================================================
 
-#include "AbstractStringBuilder.h"
-#include "ElaMath.h"
-#include "RealToString.h"
-#include "IntegralToString.h"
-#include "Character.h"
-#include "CString.h"
+#include "elastos/core/AbstractStringBuilder.h"
+#include "elastos/core/Math.h"
+#include "elastos/core/RealToString.h"
+#include "elastos/core/IntegralToString.h"
+#include "elastos/core/Character.h"
+#include "elastos/core/CString.h"
 // #include <utils/Log.h>
 
 #define DEFAULT_STEP 16

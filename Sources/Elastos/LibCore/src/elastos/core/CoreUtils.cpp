@@ -14,17 +14,17 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CoreUtils.h"
-#include "CArrayOf.h"
-#include "CBoolean.h"
-#include "CByte.h"
-#include "CChar32.h"
-#include "CInteger16.h"
-#include "CInteger32.h"
-#include "CInteger64.h"
-#include "CFloat.h"
-#include "CDouble.h"
-#include "CString.h"
+#include "elastos/core/CoreUtils.h"
+#include "elastos/core/CArrayOf.h"
+#include "elastos/core/CBoolean.h"
+#include "elastos/core/CByte.h"
+#include "elastos/core/CChar32.h"
+#include "elastos/core/CInteger16.h"
+#include "elastos/core/CInteger32.h"
+#include "elastos/core/CInteger64.h"
+#include "elastos/core/CFloat.h"
+#include "elastos/core/CDouble.h"
+#include "elastos/core/CString.h"
 
 namespace Elastos {
 namespace Core {

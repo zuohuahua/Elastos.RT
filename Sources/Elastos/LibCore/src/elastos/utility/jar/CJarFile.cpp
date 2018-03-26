@@ -14,12 +14,12 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CJarEntry.h"
-#include "CJarFile.h"
-#include "CManifest.h"
-#include "CStreams.h"
-#include "CFile.h"
-#include <elastos/utility/etl//List.h>
+#include "elastos/utility/jar/CJarEntry.h"
+#include "elastos/utility/jar/CJarFile.h"
+#include "elastos/utility/jar/CManifest.h"
+#include "libcore/io/CStreams.h"
+#include "elastos/io/CFile.h"
+#include "elastos/utility/etl/List.h"
 #include <cutils/log.h>
 
 using Elastos::Utility::Etl::List;

@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_IO_DOUBLEARRAYBUFFER_H__
 #define __ELASTOS_IO_DOUBLEARRAYBUFFER_H__
 
-#include "DoubleBuffer.h"
+#include "elastos/io/DoubleBuffer.h"
 
 namespace Elastos {
 namespace IO {

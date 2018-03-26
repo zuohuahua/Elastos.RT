@@ -18,7 +18,7 @@
 #define __ELASTOS_SECURITY_CKEYFACTORY_H__
 
 #include "_Elastos_Security_CKeyFactory.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Security::Spec::IKeySpec;
 using Org::Apache::Harmony::Security::Fortress::IEngine;

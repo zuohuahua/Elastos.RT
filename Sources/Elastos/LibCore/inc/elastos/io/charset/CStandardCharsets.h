@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CHARSET_ELASTOS_IO_CSTANDARDCHARSETS_H__
 
 #include "_Elastos_IO_Charset_CStandardCharsets.h"
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 
 using Elastos::Core::Singleton;
 

@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CSTRINGREADER_H__
 
 #include "_Elastos_IO_CStringReader.h"
-#include "StringReader.h"
+#include "elastos/io/StringReader.h"
 
 namespace Elastos {
 namespace IO {

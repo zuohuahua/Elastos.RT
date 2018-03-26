@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CPIPEDREADER_H__
 
 #include "_Elastos_IO_CPipedReader.h"
-#include "PipedReader.h"
+#include "elastos/io/PipedReader.h"
 
 namespace Elastos {
 namespace IO {

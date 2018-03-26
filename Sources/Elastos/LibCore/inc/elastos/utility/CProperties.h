@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CPROPERTIES_H__
 
 #include "_Elastos_Utility_CProperties.h"
-#include "Properties.h"
+#include "elastos/utility/Properties.h"
 
 namespace Elastos{
 namespace Utility{

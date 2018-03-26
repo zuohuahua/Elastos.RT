@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "TimerTask.h"
-#include "AutoLock.h"
+#include "elastos/utility/TimerTask.h"
+#include "elastos/core/AutoLock.h"
 
 namespace Elastos {
 namespace Utility {

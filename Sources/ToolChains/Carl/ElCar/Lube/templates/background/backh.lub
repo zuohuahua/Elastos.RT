@@ -22,7 +22,7 @@ $OUTPUT "_${fullname}.h"
 
 #include "${module.name}_server.h"
 #include <elcontainer.h>
-#include <elastos/core/Mutex.h>
+#include "elastos/core/Mutex.h"
 
 using Elastos::Core::Mutex;
 

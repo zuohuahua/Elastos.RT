@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "TimeUnit.h"
-#include "Thread.h"
+#include "elastos/utility/concurrent/TimeUnit.h"
+#include "elastos/core/Thread.h"
 
 using Elastos::Core::Thread;
 

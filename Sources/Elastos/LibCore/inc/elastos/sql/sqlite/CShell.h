@@ -19,7 +19,7 @@
 
 #include "Elastos.CoreLibrary.IO.h"
 #include "_Elastos_Sql_SQLite_CShell.h"
-#include "CDatabase.h"
+#include "elastos/sql/sqlite/CDatabase.h"
 
 using Elastos::IO::IPrintWriter;
 using Elastos::IO::IPrintStream;

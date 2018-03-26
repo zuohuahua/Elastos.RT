@@ -14,9 +14,9 @@
 // limitations under the License.
 //=========================================================================
 
-#include "HugeEnumSet.h"
-#include "ElaMath.h"
-#include "Arrays.h"
+#include "elastos/utility/HugeEnumSet.h"
+#include "elastos/core/Math.h"
+#include "elastos/utility/Arrays.h"
 
 using Elastos::Core::IEnum;
 

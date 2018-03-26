@@ -18,7 +18,7 @@
 #define __ELASTOS_NET_CINETUNIXADDRESS_H__
 
 #include "_Elastos_Net_CInetUnixAddress.h"
-#include "InetUnixAddress.h"
+#include "elastos/net/InetUnixAddress.h"
 
 namespace Elastos {
 namespace Net {

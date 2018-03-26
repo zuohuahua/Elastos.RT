@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_IO_BYTEARRAYBUFFER_H__
 #define __ELASTOS_IO_BYTEARRAYBUFFER_H__
 
-#include "ByteBuffer.h"
+#include "elastos/io/ByteBuffer.h"
 
 namespace Elastos {
 namespace IO {

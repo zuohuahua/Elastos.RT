@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_IO_LINENUMBERREADER_H__
 #define __ELASTOS_IO_LINENUMBERREADER_H__
 
-#include "BufferedReader.h"
+#include "elastos/io/BufferedReader.h"
 
 namespace Elastos {
 namespace IO {

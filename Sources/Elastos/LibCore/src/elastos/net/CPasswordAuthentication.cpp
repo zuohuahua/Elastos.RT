@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CPasswordAuthentication.h"
+#include "elastos/net/CPasswordAuthentication.h"
 
 namespace Elastos {
 namespace Net {

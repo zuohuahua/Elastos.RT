@@ -14,9 +14,9 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CAlgorithmParameterGenerator.h"
-#include "CSecurity.h"
-#include "CSecureRandom.h"
+#include "elastos/security/CAlgorithmParameterGenerator.h"
+#include "elastos/security/CSecurity.h"
+#include "elastos/security/CSecureRandom.h"
 #include "org/apache/harmony/security/fortress/CEngine.h"
 
 using Org::Apache::Harmony::Security::Fortress::CEngine;

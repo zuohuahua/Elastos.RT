@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CONCURRENT_ELASTOS_UTILITY_CCOPYONWRITEARRAYLIST_H__
 
 #include "_Elastos_Utility_Concurrent_CCopyOnWriteArrayList.h"
-#include "CopyOnWriteArrayList.h"
+#include "elastos/utility/concurrent/CopyOnWriteArrayList.h"
 
 namespace Elastos {
 namespace Utility {

@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CSTACK_H__
 
 #include "_Elastos_Utility_CStack.h"
-#include "Vector.h"
+#include "elastos/utility/Vector.h"
 
 namespace Elastos {
 namespace Utility {

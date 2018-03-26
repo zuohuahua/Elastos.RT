@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_PROPERTYPERMISSION_H__
 
 #include "Elastos.CoreLibrary.Utility.h"
-#include "security/BasicPermission.h"
+#include "elastos/security/BasicPermission.h"
 
 using Elastos::Security::BasicPermission;
 using Elastos::Security::IPermissionCollection;

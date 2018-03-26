@@ -18,7 +18,7 @@
 #define __ELASTOS_SQL_SQLITE_JDBC_CJDBCCONNECTION_H__
 
 #include "_Elastos_Sql_SQLite_JDBC_CJDBCConnection.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::Object;
 using Elastos::IO::ICloseable;

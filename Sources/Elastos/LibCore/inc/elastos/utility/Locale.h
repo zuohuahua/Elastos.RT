@@ -19,8 +19,8 @@
 
 //#include "Elastos.CoreLibrary.IO.h"
 #include "Elastos.CoreLibrary.Utility.h"
-#include <elastos/core/Object.h>
-#include <elastos/utility/etl/HashMap.h>
+#include "elastos/core/Object.h"
+#include "elastos/utility/etl/HashMap.h"
 
 using Elastos::Core::ICloneable;
 using Elastos::Core::Object;

@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CHARSET_ELASTOS_IO_CCODINGERRORACTION_H__
 
 #include "_Elastos_IO_Charset_CCodingErrorAction.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::Object;
 

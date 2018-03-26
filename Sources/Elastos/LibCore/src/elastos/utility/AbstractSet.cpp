@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "AbstractSet.h"
+#include "elastos/utility/AbstractSet.h"
 
 using Elastos::Utility::ISet;
 using Elastos::Utility::EIID_ISet;

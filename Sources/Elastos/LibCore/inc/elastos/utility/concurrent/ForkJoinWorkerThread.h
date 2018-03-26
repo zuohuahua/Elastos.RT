@@ -17,8 +17,8 @@
 #ifndef __ELASTOS_UTILITY_CONCURRENT_ELASTOS_UTILITY_FORKJOINWORKERTHREAD_H__
 #define __ELASTOS_UTILITY_CONCURRENT_ELASTOS_UTILITY_FORKJOINWORKERTHREAD_H__
 
-#include "Thread.h"
-#include "CForkJoinPool.h"
+#include "elastos/core/Thread.h"
+#include "elastos/utility/concurrent/CForkJoinPool.h"
 
 using Elastos::Core::Thread;
 using Elastos::Core::IThrowable;

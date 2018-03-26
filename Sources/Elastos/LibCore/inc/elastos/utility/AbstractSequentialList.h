@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_UTILITY_ABSTRACTSEQUENTIALLIST_H__
 #define __ELASTOS_UTILITY_ABSTRACTSEQUENTIALLIST_H__
 
-#include "AbstractList.h"
+#include "elastos/utility/AbstractList.h"
 
 namespace Elastos {
 namespace Utility {

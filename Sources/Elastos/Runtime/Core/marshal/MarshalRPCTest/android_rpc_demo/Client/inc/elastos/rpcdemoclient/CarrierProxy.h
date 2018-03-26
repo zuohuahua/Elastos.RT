@@ -2,7 +2,7 @@
 #ifndef __ELASTOS_PRCDEMOCLIENT_CORRIERPROXY_H__
 #define __ELASTOS_PRCDEMOCLIENT_CORRIERPROXY_H__
 
-#include <elastos/core/Object.h>
+#include "elastos/core/Object.h"
 #include "_Elastos.RpcDemoClient.h"
 #include <unistd.h>
 #include <ela_carrier.h>

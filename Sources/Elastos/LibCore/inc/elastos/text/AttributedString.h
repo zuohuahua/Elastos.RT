@@ -18,12 +18,12 @@
 #define __ELASTOS_TEXT_ATTRIBUTEDSTRING_H__
 
 #include "Elastos.CoreLibrary.Text.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 #define HASH_FOR_TEXT
-#include <elastos/corehash.h>
-#include <elastos/utility/etl/HashMap.h>
-#include <elastos/utility/etl/List.h>
-#include <elastos/utility/etl/HashSet.h>
+#include "elastos/corehash.h"
+#include "elastos/utility/etl/HashMap.h"
+#include "elastos/utility/etl/List.h"
+#include "elastos/utility/etl/HashSet.h"
 
 using Elastos::Core::ICloneable;
 using Elastos::Core::Object;

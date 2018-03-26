@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_DROID_SYSTEM_OS_H__
 #define __ELASTOS_DROID_SYSTEM_OS_H__
 
-#include <elastos/core/Object.h>
+#include "elastos/core/Object.h"
 
 using Elastos::IO::IFileDescriptor;
 using Elastos::IO::IByteBuffer;

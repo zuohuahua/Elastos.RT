@@ -14,14 +14,14 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CZipEntry.h"
-#include "CZipFile.h"
-#include "CDeflaterInputStream.h"
-#include "CDeflaterOutputStream.h"
-#include "CInflaterInputStream.h"
-#include "CInflaterOutputStream.h"
-#include "CZipInputStream.h"
-#include "CZipOutputStream.h"
+#include "elastos/utility/zip/CZipEntry.h"
+#include "elastos/utility/zip/CZipFile.h"
+#include "elastos/utility/zip/CDeflaterInputStream.h"
+#include "elastos/utility/zip/CDeflaterOutputStream.h"
+#include "elastos/utility/zip/CInflaterInputStream.h"
+#include "elastos/utility/zip/CInflaterOutputStream.h"
+#include "elastos/utility/zip/CZipInputStream.h"
+#include "elastos/utility/zip/CZipOutputStream.h"
 
 namespace Elastos {
 namespace Utility {

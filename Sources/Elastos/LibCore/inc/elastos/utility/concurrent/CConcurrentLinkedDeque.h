@@ -18,8 +18,8 @@
 #define __ELASTOS_UTILITY_CONCURRENT_ELASTOS_UTILITY_CCONCURRENTLINKEDDEQUE_H__
 
 #include "_Elastos_Utility_Concurrent_CConcurrentLinkedDeque.h"
-#include "AbstractCollection.h"
-#include "Object.h"
+#include "elastos/utility/AbstractCollection.h"
+#include "elastos/core/Object.h"
 
 using Elastos::IO::IObjectOutputStream;
 using Elastos::IO::IObjectInputStream;

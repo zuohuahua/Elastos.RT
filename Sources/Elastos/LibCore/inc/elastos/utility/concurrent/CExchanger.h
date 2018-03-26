@@ -18,8 +18,8 @@
 #define __ELASTOS_UTILITY_CONCURRENT_ELASTOS_UTILITY_CEXCHANGER_H__
 
 #include "_Elastos_Utility_Concurrent_CExchanger.h"
-#include "AtomicReference.h"
-#include "Object.h"
+#include "elastos/utility/concurrent/atomic/AtomicReference.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::IThread;
 using Elastos::Utility::Concurrent::Atomic::IAtomicReference;

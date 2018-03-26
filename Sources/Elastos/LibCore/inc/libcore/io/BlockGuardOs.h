@@ -17,7 +17,7 @@
 #ifndef __LIBCORE_IO_BLOCKGUARDOS_H__
 #define __LIBCORE_IO_BLOCKGUARDOS_H__
 
-#include "ForwardingOs.h"
+#include "libcore/io/ForwardingOs.h"
 
 using Libcore::IO::IOs;
 using Elastos::IO::IFileDescriptor;

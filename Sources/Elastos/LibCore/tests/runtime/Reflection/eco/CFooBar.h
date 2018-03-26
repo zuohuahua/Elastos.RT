@@ -18,7 +18,7 @@
 #define __CFOOBAR_H__
 
 #include "_Reflection_CFooBar.h"
-#include <elastos/core/Object.h>
+#include "elastos/core/Object.h"
 
 
 namespace Reflection {

@@ -18,8 +18,8 @@
 #define __ELASTOS_UTILITY_JAR_ELASTOS_UTILITY_CMANIFEST_H__
 
 #include "_Elastos_Utility_Jar_CManifest.h"
-#include "Object.h"
-#include <elastos/utility/etl/HashMap.h>
+#include "elastos/core/Object.h"
+#include "elastos/utility/etl/HashMap.h"
 
 using Elastos::Core::ICloneable;
 using Elastos::Core::Object;

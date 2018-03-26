@@ -18,7 +18,7 @@
 #define __ELASTOS_SECURITY_CDIGESTINPUTSTREAM_H__
 
 #include "_Elastos_Security_CDigestInputStream.h"
-#include <elastos/io/FilterInputStream.h>
+#include "elastos/io/FilterInputStream.h"
 
 using Elastos::IO::FilterInputStream;
 

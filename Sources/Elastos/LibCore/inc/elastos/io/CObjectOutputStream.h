@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_COBJECTOUTPUTSTREAM_H__
 
 #include "_Elastos_IO_CObjectOutputStream.h"
-#include "OutputStream.h"
+#include "elastos/io/OutputStream.h"
 
 namespace Elastos {
 namespace IO {

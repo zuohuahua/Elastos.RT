@@ -17,8 +17,8 @@
 #ifndef __ELASTOS_IO_MAPPEDBYTEBUFFER_H__
 #define __ELASTOS_IO_MAPPEDBYTEBUFFER_H__
 
-#include "ByteBuffer.h"
-#include "MemoryBlock.h"
+#include "elastos/io/ByteBuffer.h"
+#include "elastos/io/MemoryBlock.h"
 
 using Elastos::IO::Channels::FileChannelMapMode;
 

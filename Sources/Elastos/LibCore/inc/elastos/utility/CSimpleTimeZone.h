@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CSIMPLETIMEZONE_H__
 
 #include "_Elastos_Utility_CSimpleTimeZone.h"
-#include "TimeZone.h"
+#include "elastos/utility/TimeZone.h"
 
 namespace Elastos{
 namespace Utility{

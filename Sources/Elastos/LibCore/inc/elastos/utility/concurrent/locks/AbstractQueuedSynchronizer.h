@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CONCURRENT_LOCKS_ELASTOS_UTILITY_ABSTRACTQUEUEDSYNCHRONIZER_H__
 
 #include "Elastos.CoreLibrary.Utility.Concurrent.h"
-#include "AbstractOwnableSynchronizer.h"
+#include "elastos/utility/concurrent/locks/AbstractOwnableSynchronizer.h"
 
 using Elastos::IO::ISerializable;
 

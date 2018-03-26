@@ -18,7 +18,7 @@
 #define __ELASTOS_SECURITY_CPERMISSIONS_H__
 
 #include "_Elastos_Security_CPermissions.h"
-#include "PermissionCollection.h"
+#include "elastos/security/PermissionCollection.h"
 
 using Elastos::IO::ISerializable;
 

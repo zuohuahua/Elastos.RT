@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CARRAYDEQUE_H__
 
 #include "_Elastos_Utility_CArrayDeque.h"
-#include "AbstractCollection.h"
+#include "elastos/utility/AbstractCollection.h"
 
 using Elastos::Core::ICloneable;
 using Elastos::IO::ISerializable;

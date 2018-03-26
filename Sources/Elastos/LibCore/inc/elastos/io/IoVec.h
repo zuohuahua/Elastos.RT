@@ -17,8 +17,8 @@
 #ifndef __ELASTOS_IO_IOVEC_H__
 #define __ELASTOS_IO_IOVEC_H__
 
-#include <elastos/core/Object.h>
-#include "ByteBuffer.h"
+#include "elastos/core/Object.h"
+#include "elastos/io/ByteBuffer.h"
 
 namespace Elastos {
 namespace IO {

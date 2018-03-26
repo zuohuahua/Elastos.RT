@@ -14,16 +14,16 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CSecureRandom.h"
-#include "CSecurity.h"
-#include "AutoLock.h"
+#include "elastos/security/CSecureRandom.h"
+#include "elastos/security/CSecurity.h"
+#include "elastos/core/AutoLock.h"
 #include "libcore/io/Memory.h"
 #include "Elastos.CoreLibrary.IO.h"
 #include "Elastos.CoreLibrary.Libcore.h"
 #include "org/apache/harmony/security/fortress/CEngine.h"
 #include "org/apache/harmony/security/fortress/Services.h"
 #include "org/apache/harmony/security/provider/crypto/CSHA1PRNG_SecureRandomImpl.h"
-#include <elastos/utility/logging/Logger.h>
+#include "elastos/utility/logging/Logger.h"
 
 using Libcore::IO::ISizeOf;
 using Libcore::IO::Memory;

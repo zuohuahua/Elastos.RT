@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include <CProxyHelper.h>
-#include <CProxy.h>
+#include "elastos/net/CProxyHelper.h"
+#include "elastos/net/CProxy.h"
 
 namespace Elastos {
 namespace Net {

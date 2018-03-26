@@ -18,7 +18,7 @@
 #define __ELASTOS_TEXT_CNUMBERFORMATFIELD_H__
 
 #include "_Elastos_Text_CNumberFormatField.h"
-#include "NumberFormat.h"
+#include "elastos/text/NumberFormat.h"
 
 namespace Elastos {
 namespace Text {

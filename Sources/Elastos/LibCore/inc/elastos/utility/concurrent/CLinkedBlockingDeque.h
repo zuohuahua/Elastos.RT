@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CONCURRENT_ELASTOS_UTILITY_CLINKEDBLOCKINGDEQUE_H__
 
 #include "_Elastos_Utility_Concurrent_CLinkedBlockingDeque.h"
-#include "AbstractQueue.h"
+#include "elastos/utility/AbstractQueue.h"
 
 using Elastos::IO::ISerializable;
 using Elastos::IO::IObjectOutputStream;

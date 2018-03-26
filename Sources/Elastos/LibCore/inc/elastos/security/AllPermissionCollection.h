@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_SECURITY_ALLPERMISSIONCOLLECTION_H__
 #define __ELASTOS_SECURITY_ALLPERMISSIONCOLLECTION_H__
 
-#include "PermissionCollection.h"
+#include "elastos/security/PermissionCollection.h"
 
 using Elastos::Utility::IEnumeration;
 

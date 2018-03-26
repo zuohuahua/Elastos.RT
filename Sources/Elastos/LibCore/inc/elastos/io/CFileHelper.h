@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CFILEHELPER_H__
 
 #include "_Elastos_IO_CFileHelper.h"
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 
 using Elastos::Core::Singleton;
 

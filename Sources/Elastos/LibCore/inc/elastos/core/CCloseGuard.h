@@ -18,7 +18,7 @@
 #define __ELASTOS_CORE_CCLOSEGUARD_H__
 
 #include "_Elastos_Core_CCloseGuard.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 namespace Elastos {
 namespace Core {

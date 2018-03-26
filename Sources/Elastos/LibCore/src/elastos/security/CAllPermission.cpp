@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CAllPermission.h"
+#include "elastos/security/CAllPermission.h"
 
 namespace Elastos {
 namespace Security {

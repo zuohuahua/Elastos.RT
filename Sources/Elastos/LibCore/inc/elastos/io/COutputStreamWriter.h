@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_COUTPUTSTREAMWRITER_H__
 
 #include "_Elastos_IO_COutputStreamWriter.h"
-#include "OutputStreamWriter.h"
+#include "elastos/io/OutputStreamWriter.h"
 
 namespace Elastos {
 namespace IO {

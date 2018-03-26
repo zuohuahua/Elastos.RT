@@ -15,9 +15,9 @@
 //=========================================================================
 
 #include "Elastos.CoreLibrary.IO.h"
-#include "CConcurrentLinkedDeque.h"
-#include "CArrayList.h"
-#include <ElaMath.h>
+#include "elastos/utility/concurrent/CConcurrentLinkedDeque.h"
+#include "elastos/utility/CArrayList.h"
+#include "elastos/core/Math.h"
 
 using Elastos::IO::EIID_ISerializable;
 using Elastos::Core::Math;

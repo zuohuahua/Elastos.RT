@@ -17,8 +17,8 @@
 #ifndef __ELASTOS_IO_BYTEBUFFERASCHARBUFFER_H__
 #define __ELASTOS_IO_BYTEBUFFERASCHARBUFFER_H__
 
-#include "CharBuffer.h"
-#include "ByteBuffer.h"
+#include "elastos/io/CharBuffer.h"
+#include "elastos/io/ByteBuffer.h"
 
 namespace Elastos {
 namespace IO {

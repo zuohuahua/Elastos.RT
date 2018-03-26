@@ -18,8 +18,8 @@
 #define __ELASTOS_NET_CSOCKETPERMISSION_H__
 
 #include "_Elastos_Net_CSocketPermission.h"
-//#include "security/Permission.h"
-#include "Object.h"
+//#include "elastos/security/Permission.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::Object;
 using Elastos::IO::ISerializable;

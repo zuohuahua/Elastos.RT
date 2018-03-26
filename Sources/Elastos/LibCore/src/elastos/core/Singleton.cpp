@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 
 namespace Elastos {
 namespace Core {

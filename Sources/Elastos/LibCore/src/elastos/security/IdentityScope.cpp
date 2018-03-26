@@ -14,9 +14,9 @@
 // limitations under the License.
 //=========================================================================
 
-#include "IdentityScope.h"
-#include "CSecurity.h"
-#include "StringBuilder.h"
+#include "elastos/security/IdentityScope.h"
+#include "elastos/security/CSecurity.h"
+#include "elastos/core/StringBuilder.h"
 
 using Elastos::Core::StringBuilder;
 

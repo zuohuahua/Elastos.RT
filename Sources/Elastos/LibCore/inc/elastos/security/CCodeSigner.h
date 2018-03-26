@@ -18,7 +18,7 @@
 #define __ELASTOS_SECURITY_CCODESIGNER_H__
 
 #include "_Elastos_Security_CCodeSigner.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::IO::ISerializable;
 using Elastos::Security::Cert::ICertPath;

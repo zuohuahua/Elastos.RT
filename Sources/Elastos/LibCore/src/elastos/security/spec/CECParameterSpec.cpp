@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CECParameterSpec.h"
+#include "elastos/security/spec/CECParameterSpec.h"
 #include "elastos/math/CBigIntegerHelper.h"
 
 using Elastos::Core::IComparable;

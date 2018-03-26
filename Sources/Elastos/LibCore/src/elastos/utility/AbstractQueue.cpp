@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "AbstractQueue.h"
+#include "elastos/utility/AbstractQueue.h"
 
 namespace Elastos {
 namespace Utility {

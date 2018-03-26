@@ -19,7 +19,7 @@
 
 #include "Elastos.CoreLibrary.Libcore.h"
 #include "Elastos.CoreLibrary.Net.h"
-#include "InputStream.h"
+#include "elastos/io/InputStream.h"
 
 using Elastos::IO::InputStream;
 using Elastos::IO::IInputStream;

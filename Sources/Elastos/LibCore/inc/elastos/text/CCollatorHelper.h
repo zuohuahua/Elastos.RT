@@ -18,7 +18,7 @@
 #define __ELASTOS_TEXT_CCOLLATORHELPER_H__
 
 #include "_Elastos_Text_CCollatorHelper.h"
-#include <elastos/core/Singleton.h>
+#include "elastos/core/Singleton.h"
 
 using Elastos::Core::Singleton;
 using Elastos::Utility::ILocale;

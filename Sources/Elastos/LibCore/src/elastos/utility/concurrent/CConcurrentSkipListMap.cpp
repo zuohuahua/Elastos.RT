@@ -15,11 +15,11 @@
 //=========================================================================
 
 #include "Elastos.CoreLibrary.IO.h"
-#include "CConcurrentSkipListMap.h"
-#include <ElaMath.h>
-#include "CRandom.h"
-#include "CArrayList.h"
-//#include "CCollections.h"
+#include "elastos/utility/concurrent/CConcurrentSkipListMap.h"
+#include "elastos/core/Math.h"
+#include "elastos/utility/CRandom.h"
+#include "elastos/utility/CArrayList.h"
+//#include "elastos/utility/CCollections.h"
 
 using Elastos::Core::Math;
 using Elastos::Core::EIID_IComparable;

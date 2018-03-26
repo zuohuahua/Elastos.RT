@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "AuthProvider.h"
+#include "elastos/security/AuthProvider.h"
 
 namespace Elastos {
 namespace Security {

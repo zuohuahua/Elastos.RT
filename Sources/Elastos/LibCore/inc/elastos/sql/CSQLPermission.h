@@ -18,8 +18,8 @@
 #define __ELASTOS_SQL_CSQLPERMISSION_H__
 
 #include "_Elastos_Sql_CSQLPermission.h"
-#include "Object.h"
-//#include "BasicPermission.h"
+#include "elastos/core/Object.h"
+//#include "elastos/security/BasicPermission.h"
 
 using Elastos::Core::Object;
 //TODO: temp.

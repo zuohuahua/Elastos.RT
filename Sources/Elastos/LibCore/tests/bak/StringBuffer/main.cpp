@@ -2,14 +2,14 @@
 #include <stdio.h>
 #include <elastos.h>
 #include <elautoptr.h>
-#include <elastos/ElaMath.h>
+#include "elastos/core/Math.h"
 
 #ifndef DEBUG
 #define DEBUG
 #endif
 
 #define private public
-#include <elastos/StringBuffer.h>
+#include "elastos/core/StringBuffer.h"
 #undef private
 
 using namespace Elastos;

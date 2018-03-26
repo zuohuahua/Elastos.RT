@@ -17,7 +17,7 @@
 #ifndef __LIBCORE_ICU_CTRANSLITERATOR__
 #define __LIBCORE_ICU_CTRANSLITERATOR__
 
-#include "Transliterator.h"
+#include "libcore/icu/Transliterator.h"
 #include "_Libcore_ICU_CTransliterator.h"
 
 namespace Libcore {

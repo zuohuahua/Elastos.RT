@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CThreadLocalRandomHelper.h"
-#include "CThreadLocalRandom.h"
+#include "elastos/utility/concurrent/CThreadLocalRandomHelper.h"
+#include "elastos/utility/concurrent/CThreadLocalRandom.h"
 
 using Elastos::Utility::Concurrent::CThreadLocalRandom;
 

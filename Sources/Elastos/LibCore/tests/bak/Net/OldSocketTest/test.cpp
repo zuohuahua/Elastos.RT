@@ -1,7 +1,7 @@
 
 #include "test.h"
-#include "elastos/StringBuilder.h"
-//#include "elastos/SocketChannel.h"
+#include "elastos/core/StringBuilder.h"
+//#include "elastos/io/channels/SocketChannel.h"
 
 //====================================================================
 // CTest::Thread_1::

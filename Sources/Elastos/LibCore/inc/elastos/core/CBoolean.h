@@ -18,7 +18,7 @@
 #define __ELASTOS_CORE_CBOOLEAN_H__
 
 #include "_Elastos_Core_CBoolean.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::IO::ISerializable;
 

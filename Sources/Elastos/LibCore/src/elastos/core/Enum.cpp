@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "Enum.h"
+#include "elastos/core/Enum.h"
 
 using Elastos::IO::EIID_ISerializable;
 using Elastos::Core::EIID_IComparable;

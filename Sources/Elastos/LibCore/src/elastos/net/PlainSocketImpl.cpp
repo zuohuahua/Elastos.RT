@@ -14,21 +14,21 @@
 // limitations under the License.
 //=========================================================================
 
-#include "PlainSocketImpl.h"
-#include "InetAddress.h"
-#include "CFileDescriptor.h"
-#include "CInetSocketAddress.h"
-#include "CInteger32.h"
-#include "CInetAddressHelper.h"
-#include "CSocks4Message.h"
-#include "Arrays.h"
-#include "CCloseGuard.h"
-#include "CLibcore.h"
-#include "IoBridge.h"
-#include "OsConstants.h"
-#include "Memory.h"
-#include "CPlainSocketInputStream.h"
-#include "CPlainSocketOutputStream.h"
+#include "elastos/net/PlainSocketImpl.h"
+#include "elastos/net/InetAddress.h"
+#include "elastos/io/CFileDescriptor.h"
+#include "elastos/net/CInetSocketAddress.h"
+#include "elastos/core/CInteger32.h"
+#include "elastos/net/CInetAddressHelper.h"
+#include "elastos/net/CSocks4Message.h"
+#include "elastos/utility/Arrays.h"
+#include "elastos/core/CCloseGuard.h"
+#include "libcore/io/CLibcore.h"
+#include "libcore/io/IoBridge.h"
+#include "elastos/droid/system/OsConstants.h"
+#include "libcore/io/Memory.h"
+#include "elastos/net/CPlainSocketInputStream.h"
+#include "elastos/net/CPlainSocketOutputStream.h"
 
 using Elastos::IO::CFileDescriptor;
 using Elastos::IO::EIID_IInputStream;

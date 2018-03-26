@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CONCURRENT_ELASTOS_UTILITY_CEXECUTORCOMPLETIONSERVICE_H__
 
 #include "_Elastos_Utility_Concurrent_CExecutorCompletionService.h"
-#include "FutureTask.h"
+#include "elastos/utility/concurrent/FutureTask.h"
 
 using Elastos::Core::IRunnable;
 

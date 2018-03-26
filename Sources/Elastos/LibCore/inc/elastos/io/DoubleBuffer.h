@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_IO_DOUBLEBUFFER_H__
 #define __ELASTOS_IO_DOUBLEBUFFER_H__
 
-#include "Buffer.h"
+#include "elastos/io/Buffer.h"
 
 namespace Elastos {
 namespace IO {

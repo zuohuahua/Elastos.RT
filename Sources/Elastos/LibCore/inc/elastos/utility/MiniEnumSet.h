@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_UTILITY_MINIENUMSET_H__
 #define __ELASTOS_UTILITY_MINIENUMSET_H__
 
-#include "EnumSet.h"
+#include "elastos/utility/EnumSet.h"
 
 namespace Elastos {
 namespace Utility {

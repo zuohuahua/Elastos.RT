@@ -14,15 +14,15 @@
 // limitations under the License.
 //=========================================================================
 
-#include "FutureTask.h"
+#include "elastos/utility/concurrent/FutureTask.h"
 // #include <cutils/atomic.h>
 // #include <cutils/atomic-inline.h>
-#include "LockSupport.h"
-#include "Executors.h"
-#include "CInteger32.h"
-#include "CExecutors.h"
-#include "CLockSupport.h"
-#include "CSystem.h"
+#include "elastos/utility/concurrent/locks/LockSupport.h"
+#include "elastos/utility/concurrent/Executors.h"
+#include "elastos/core/CInteger32.h"
+#include "elastos/utility/concurrent/CExecutors.h"
+#include "elastos/utility/concurrent/locks/CLockSupport.h"
+#include "elastos/core/CSystem.h"
 
 using Elastos::Core::ISystem;
 using Elastos::Core::IInteger32;

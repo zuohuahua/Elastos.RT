@@ -21,11 +21,11 @@
 #include "_Elastos.CoreLibrary.Libcore.h"
 #include <stdarg.h>
 #include <elautoptr.h>
-#include <elastos/coredef.h>
-#include <elastos/core/StringUtils.h>
-#include <elastos/core/StringBuilder.h>
-#include <elastos/utility/etl/List.h>
-#include <elastos/utility/Arrays.h>
+#include "elastos/coredef.h"
+#include "elastos/core/StringUtils.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/utility/etl/List.h"
+#include "elastos/utility/Arrays.h"
 
 using namespace Elastos;
 using namespace Elastos::IO;

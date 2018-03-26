@@ -14,13 +14,13 @@
 // limitations under the License.
 //=========================================================================
 
-#include "DeleteOnExit.h"
-#include "CString.h"
-#include "AutoLock.h"
-#include "CFile.h"
-#include "utility/Collections.h"
+#include "libcore/io/DeleteOnExit.h"
+#include "elastos/core/CString.h"
+#include "elastos/core/AutoLock.h"
+#include "elastos/io/CFile.h"
+#include "elastos/utility/Collections.h"
 
-// #include "utility/CCollections.h"
+// #include "elastos/utility/CCollections.h"
 
 
 using Elastos::IO::IFile;

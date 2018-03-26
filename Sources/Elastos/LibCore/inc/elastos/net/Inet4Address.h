@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_NET_INET4ADDRESS_H__
 #define __ELASTOS_NET_INET4ADDRESS_H__
 
-#include "InetAddress.h"
+#include "elastos/net/InetAddress.h"
 
 namespace Elastos {
 namespace Net {

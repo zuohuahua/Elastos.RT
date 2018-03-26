@@ -14,10 +14,10 @@
 // limitations under the License.
 //=========================================================================
 
-#include "Random.h"
-#include "CSystem.h"
-#include "ElaMath.h"
-#include "AutoLock.h"
+#include "elastos/utility/Random.h"
+#include "elastos/core/CSystem.h"
+#include "elastos/core/Math.h"
+#include "elastos/core/AutoLock.h"
 
 using Elastos::Core::CSystem;
 using Elastos::IO::EIID_ISerializable;

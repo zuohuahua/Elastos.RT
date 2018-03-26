@@ -16,7 +16,7 @@
 
 #include "OpenSSLKeyGeneratorTest.h"
 #include "org/conscrypt/COpenSSLSecretKey.h"
-#include <elastos/utility/logging/Logger.h>
+#include "elastos/utility/logging/Logger.h"
 
 using Elastosx::Crypto::EIID_IKeyGeneratorSpi;
 using Elastos::Utility::Logging::Logger;

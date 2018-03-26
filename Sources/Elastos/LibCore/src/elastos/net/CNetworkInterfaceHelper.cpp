@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include <CNetworkInterfaceHelper.h>
-#include "NetworkInterface.h"
+#include "elastos/net/CNetworkInterfaceHelper.h"
+#include "elastos/net/NetworkInterface.h"
 
 namespace Elastos {
 namespace Net {

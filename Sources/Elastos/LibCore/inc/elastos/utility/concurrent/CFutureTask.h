@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CONCURRENT_ELASTOS_UTILITY_CFUTURETASK_H__
 
 #include "_Elastos_Utility_Concurrent_CFutureTask.h"
-#include "FutureTask.h"
+#include "elastos/utility/concurrent/FutureTask.h"
 
 namespace Elastos {
 namespace Utility {

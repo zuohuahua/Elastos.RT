@@ -18,10 +18,10 @@
 #define __ELASTOS_UTILITY_ZIPFILE_H__
 
 #include "Elastos.CoreLibrary.Utility.h"
-#include "Object.h"
-#include "InflaterInputStream.h"
-#include "InputStream.h"
-#include "AutoLock.h"
+#include "elastos/core/Object.h"
+#include "elastos/utility/zip/InflaterInputStream.h"
+#include "elastos/io/InputStream.h"
+#include "elastos/core/AutoLock.h"
 
 using Elastos::Core::ICloseGuard;
 using Elastos::IO::IRandomAccessFile;

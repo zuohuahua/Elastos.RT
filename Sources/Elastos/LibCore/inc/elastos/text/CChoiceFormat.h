@@ -18,7 +18,7 @@
 #define __ELASTOS_TEXT_CCHOICEFORMAT_H__
 
 #include "_Elastos_Text_CChoiceFormat.h"
-#include "ChoiceFormat.h"
+#include "elastos/text/ChoiceFormat.h"
 
 namespace Elastos {
 namespace Text {

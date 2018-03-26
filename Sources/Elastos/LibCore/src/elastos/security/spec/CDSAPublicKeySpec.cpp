@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CDSAPublicKeySpec.h"
+#include "elastos/security/spec/CDSAPublicKeySpec.h"
 
 namespace Elastos {
 namespace Security {

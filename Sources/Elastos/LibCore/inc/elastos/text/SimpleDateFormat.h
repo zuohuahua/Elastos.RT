@@ -18,8 +18,8 @@
 #define __ELASTOS_TEXT_SIMPLEDATEFORMAT_H__
 
 #include "Elastos.CoreLibrary.Utility.h"
-#include "DateFormat.h"
-#include <elastos/utility/etl/List.h>
+#include "elastos/text/DateFormat.h"
+#include "elastos/utility/etl/List.h"
 #include "elastos/core/StringBuffer.h"
 #include "elastos/core/Character.h"
 

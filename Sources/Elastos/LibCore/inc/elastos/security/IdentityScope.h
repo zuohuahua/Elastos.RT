@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_SECURITY_IDENTITYSCOPE_H__
 #define __ELASTOS_SECURITY_IDENTITYSCOPE_H__
 
-#include "Identity.h"
+#include "elastos/security/Identity.h"
 
 namespace Elastos {
 namespace Security {

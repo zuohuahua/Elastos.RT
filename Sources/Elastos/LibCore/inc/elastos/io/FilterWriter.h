@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_IO_FILTERWRITER_H__
 #define __ELASTOS_IO_FILTERWRITER_H__
 
-#include "Writer.h"
+#include "elastos/io/Writer.h"
 
 namespace Elastos {
 namespace IO {

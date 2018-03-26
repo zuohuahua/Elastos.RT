@@ -14,13 +14,13 @@
 // limitations under the License.
 //=========================================================================
 
-#include "Currency.h"
-#include "CLocale.h"
-#include "ICUUtil.h"
-#include "CLocaleData.h"
-#include "CLinkedHashSet.h"
-#include "AutoLock.h"
-#include "Logger.h"
+#include "elastos/utility/Currency.h"
+#include "elastos/utility/CLocale.h"
+#include "libcore/icu/ICUUtil.h"
+#include "libcore/icu/CLocaleData.h"
+#include "elastos/utility/CLinkedHashSet.h"
+#include "elastos/core/AutoLock.h"
+#include "elastos/utility/logging/Logger.h"
 
 using Elastos::IO::EIID_ISerializable;
 using Elastos::Utility::CLocale;

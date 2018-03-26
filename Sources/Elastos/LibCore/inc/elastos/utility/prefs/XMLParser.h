@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_UTILITY_PREFS_XMLPARSER_H__
 #define __ELASTOS_UTILITY_PREFS_XMLPARSER_H__
 
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::IO::IOutputStream;
 using Elastos::IO::IInputStream;

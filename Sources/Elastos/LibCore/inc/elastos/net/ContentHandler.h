@@ -18,7 +18,7 @@
 #define __ELASTOS_NET_CONTENTHANDLER_H__
 
 #include "Elastos.CoreLibrary.Net.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::Object;
 

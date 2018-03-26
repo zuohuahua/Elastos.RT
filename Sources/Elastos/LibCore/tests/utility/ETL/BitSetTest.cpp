@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 #include <elautoptr.h>
-#include <elastos/coredef.h>
-#include <elastos/core/StringUtils.h>
-#include <elastos/core/StringBuilder.h>
-#include <elastos/utility/etl/List.h>
-#include <elastos/utility/Arrays.h>
+#include "elastos/coredef.h"
+#include "elastos/core/StringUtils.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/utility/etl/List.h"
+#include "elastos/utility/Arrays.h"
 
 using namespace Elastos;
 using Elastos::Core::StringUtils;

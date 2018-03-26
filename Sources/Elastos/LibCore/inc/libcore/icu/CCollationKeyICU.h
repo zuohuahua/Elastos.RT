@@ -18,7 +18,7 @@
 #define __LIBCORE_ICU_ICU_CCOLLATIONKEYICU_H__
 
 #include "_Libcore_ICU_CCollationKeyICU.h"
-#include "CollationKeyICU.h"
+#include "libcore/icu/CollationKeyICU.h"
 
 namespace Libcore {
 namespace ICU {

@@ -19,8 +19,8 @@
 
 #include "Elastos.CoreLibrary.Utility.h"
 #include "_Elastos_Utility_Jar_CStrictJarFile.h"
-#include "Object.h"
-#include "JarVerifier.h"
+#include "elastos/core/Object.h"
+#include "elastos/utility/jar/JarVerifier.h"
 
 using Elastos::Utility::IIterator;
 using Elastos::Utility::Jar::IManifest;

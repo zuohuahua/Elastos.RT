@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CONCURRENT_ATOMIC_ELASTOS_UTILITY_CATOMICSTAMPEDREFRERNCE_H__
 
 #include "_Elastos_Utility_Concurrent_Atomic_CAtomicStampedReference.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::Object;
 

@@ -18,7 +18,7 @@
 #define __LIBCORE_NET_URL_LIBCORE_NET_URI_CURLUTILSHELPER_H__
 
 #include "_Libcore_Net_Url_CUrlUtilsHelper.h"
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 
 using Elastos::Core::Singleton;
 

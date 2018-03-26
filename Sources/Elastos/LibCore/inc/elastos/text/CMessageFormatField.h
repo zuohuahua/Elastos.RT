@@ -18,7 +18,7 @@
 #define __ELASTOS_TEXT_CMESSAGEFORMATFIELD_H__
 
 #include "_Elastos_Text_CMessageFormatField.h"
-#include "MessageFormat.h"
+#include "elastos/text/MessageFormat.h"
 
 namespace Elastos {
 namespace Text {

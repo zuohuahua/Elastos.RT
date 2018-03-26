@@ -18,10 +18,10 @@
 #define __ELASTOS_IO_CHARSET_ELASTOS_IO_CHAARSET_CHAARSET_H__
 
 #include "Elastos.CoreLibrary.IO.h"
-#include "Object.h"
-#include <elastos/utility/etl/HashMap.h>
-#include <elastos/utility/etl/HashSet.h>
-#include <elastos/utility/etl/Set.h>
+#include "elastos/core/Object.h"
+#include "elastos/utility/etl/HashMap.h"
+#include "elastos/utility/etl/HashSet.h"
+#include "elastos/utility/etl/Set.h"
 
 using Elastos::Core::Object;
 using Elastos::Utility::Etl::HashMap;

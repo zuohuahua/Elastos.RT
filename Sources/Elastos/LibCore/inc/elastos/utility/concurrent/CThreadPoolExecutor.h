@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CONCURRENT_ELASTOS_UTILITY_CTHREADPOOLEXECUTOR_H__
 
 #include "_Elastos_Utility_Concurrent_CThreadPoolExecutor.h"
-#include "ThreadPoolExecutor.h"
+#include "elastos/utility/concurrent/ThreadPoolExecutor.h"
 
 namespace Elastos {
 namespace Utility {

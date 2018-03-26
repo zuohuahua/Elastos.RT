@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CECGenParameterSpec.h"
+#include "elastos/security/spec/CECGenParameterSpec.h"
 
 namespace Elastos {
 namespace Security {

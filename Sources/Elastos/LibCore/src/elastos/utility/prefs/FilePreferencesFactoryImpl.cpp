@@ -14,9 +14,9 @@
 // limitations under the License.
 //=========================================================================
 
-#include "FilePreferencesFactoryImpl.h"
-#include "FilePreferencesImpl.h"
-#include "CSystem.h"
+#include "elastos/utility/prefs/FilePreferencesFactoryImpl.h"
+#include "elastos/utility/prefs/FilePreferencesImpl.h"
+#include "elastos/core/CSystem.h"
 
 using Elastos::Core::ISystem;
 using Elastos::Core::CSystem;

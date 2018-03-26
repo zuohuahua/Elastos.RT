@@ -14,12 +14,12 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CScheduledThreadPoolExecutor.h"
-#include "TimeUnit.h"
-#include "Arrays.h"
-#include "Executors.h"
-#include "CSystem.h"
-#include "CAtomicInteger64.h"
+#include "elastos/utility/concurrent/CScheduledThreadPoolExecutor.h"
+#include "elastos/utility/concurrent/TimeUnit.h"
+#include "elastos/utility/Arrays.h"
+#include "elastos/utility/concurrent/Executors.h"
+#include "elastos/core/CSystem.h"
+#include "elastos/utility/concurrent/atomic/CAtomicInteger64.h"
 
 using Elastos::Core::ISystem;
 using Elastos::Utility::Concurrent::Locks::ILock;

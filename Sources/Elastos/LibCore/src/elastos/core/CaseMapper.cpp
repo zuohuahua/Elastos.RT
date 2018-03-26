@@ -15,10 +15,10 @@
 //=========================================================================
 
 #include "Elastos.CoreLibrary.Utility.h"
-#include "CaseMapper.h"
-#include "ICUUtil.h"
-#include "Character.h"
-#include "CTransliterator.h"
+#include "elastos/core/CaseMapper.h"
+#include "libcore/icu/ICUUtil.h"
+#include "elastos/core/Character.h"
+#include "libcore/icu/CTransliterator.h"
 
 using Libcore::ICU::ICUUtil;
 using Libcore::ICU::CTransliterator;

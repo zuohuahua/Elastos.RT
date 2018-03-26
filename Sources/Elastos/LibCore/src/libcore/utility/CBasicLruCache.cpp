@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CBasicLruCache.h"
+#include "libcore/utility/CBasicLruCache.h"
 
 namespace Libcore {
 namespace Utility {

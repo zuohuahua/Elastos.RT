@@ -17,7 +17,7 @@
 #ifndef __LIBCORE_ICU_CRULEBASEDCOLLATORICU_H__
 #define __LIBCORE_ICU_CRULEBASEDCOLLATORICU_H__
 
-#include <Object.h>
+#include "elastos/core/Object.h"
 #include "_Libcore_ICU_CRuleBasedCollatorICU.h"
 
 using Elastos::Core::ICloneable;

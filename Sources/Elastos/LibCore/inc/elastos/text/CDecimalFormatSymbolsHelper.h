@@ -19,7 +19,7 @@
 
 #include "_Elastos_Text_CDecimalFormatSymbolsHelper.h"
 #include <Elastos.CoreLibrary.h>
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 
 using Elastos::Core::Singleton;
 using Elastos::Utility::ILocale;

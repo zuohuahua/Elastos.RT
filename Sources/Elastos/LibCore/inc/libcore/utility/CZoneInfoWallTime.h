@@ -18,7 +18,7 @@
 #define __LIBCORE_UTILITY_CZONEINFOWALLTIME_H__
 
 #include "Elastos.CoreLibrary.Utility.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 #include "_Libcore_Utility_CZoneInfoWallTime.h"
 
 using Elastos::Core::IInteger32;

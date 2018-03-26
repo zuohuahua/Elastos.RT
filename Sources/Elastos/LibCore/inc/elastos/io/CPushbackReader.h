@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CPUSHBACKREADER_H__
 
 #include "_Elastos_IO_CPushbackReader.h"
-#include "PushbackReader.h"
+#include "elastos/io/PushbackReader.h"
 
 namespace Elastos {
 namespace IO {

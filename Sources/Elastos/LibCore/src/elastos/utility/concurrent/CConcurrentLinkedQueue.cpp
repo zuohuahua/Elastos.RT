@@ -15,9 +15,9 @@
 //=========================================================================
 
 #include "Elastos.CoreLibrary.IO.h"
-#include "CConcurrentLinkedQueue.h"
-#include "CArrayList.h"
-#include <ElaMath.h>
+#include "elastos/utility/concurrent/CConcurrentLinkedQueue.h"
+#include "elastos/utility/CArrayList.h"
+#include "elastos/core/Math.h"
 
 using Elastos::Core::Math;
 using Elastos::IO::IObjectInput;

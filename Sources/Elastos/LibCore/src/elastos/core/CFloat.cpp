@@ -14,9 +14,9 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CFloat.h"
-#include "ElaMath.h"
-#include "RealToString.h"
+#include "elastos/core/CFloat.h"
+#include "elastos/core/Math.h"
+#include "elastos/core/RealToString.h"
 
 using Elastos::IO::EIID_ISerializable;
 using Elastos::Core::RealToString;

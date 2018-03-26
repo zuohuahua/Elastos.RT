@@ -14,11 +14,11 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CBigDecimal.h"
-#include "CMathContext.h"
-#include "Conversion.h"
-#include "Multiplication.h"
-#include "StringUtils.h"
+#include "elastos/math/CBigDecimal.h"
+#include "elastos/math/CMathContext.h"
+#include "elastos/math/Conversion.h"
+#include "elastos/math/Multiplication.h"
+#include "elastos/core/StringUtils.h"
 
 using Elastos::Core::StringUtils;
 using Elastos::Core::EIID_INumber;

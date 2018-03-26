@@ -14,9 +14,9 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CPropertyResourceBundle.h"
-#include "CProperties.h"
-#include "CString.h"
+#include "elastos/utility/CPropertyResourceBundle.h"
+#include "elastos/utility/CProperties.h"
+#include "elastos/core/CString.h"
 
 using Elastos::Core::ICharSequence;
 using Elastos::Core::CString;

@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CHttpCookieHelper.h"
-#include "CHttpCookie.h"
+#include "elastos/net/CHttpCookieHelper.h"
+#include "elastos/net/CHttpCookie.h"
 
 namespace Elastos {
 namespace Net {

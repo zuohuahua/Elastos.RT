@@ -18,7 +18,7 @@
 #define __ELASTOS_SECURITY_CKEYFACTORYHELPER_H__
 
 #include "_Elastos_Security_CKeyFactoryHelper.h"
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 
 namespace Elastos {
 namespace Security {

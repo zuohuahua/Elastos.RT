@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_IO_PRINTSTREAM_H__
 #define __ELASTOS_IO_PRINTSTREAM_H__
 
-#include "FilterOutputStream.h"
+#include "elastos/io/FilterOutputStream.h"
 
 using Elastos::Core::ICharSequence;
 using Elastos::Core::IAppendable;

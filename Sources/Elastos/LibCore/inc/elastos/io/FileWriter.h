@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_IO_FILEWRITER_H__
 #define __ELASTOS_IO_FILEWRITER_H__
 
-#include "OutputStreamWriter.h"
+#include "elastos/io/OutputStreamWriter.h"
 
 namespace Elastos {
 namespace IO {

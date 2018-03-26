@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CAtomicBoolean.h"
-#include "StringUtils.h"
+#include "elastos/utility/concurrent/atomic/CAtomicBoolean.h"
+#include "elastos/core/StringUtils.h"
 
 using Elastos::Core::StringUtils;
 using Elastos::IO::EIID_ISerializable;

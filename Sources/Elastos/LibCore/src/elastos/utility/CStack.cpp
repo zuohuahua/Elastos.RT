@@ -14,10 +14,10 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CStack.h"
-#include "AutoLock.h"
+#include "elastos/utility/CStack.h"
+#include "elastos/core/AutoLock.h"
 
-#include <elastos/core/AutoLock.h>
+#include "elastos/core/AutoLock.h"
 using Elastos::Core::AutoLock;
 
 namespace Elastos {

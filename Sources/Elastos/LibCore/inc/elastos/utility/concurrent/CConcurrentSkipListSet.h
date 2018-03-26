@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CONCURRENT_ELASTOS_UTILITY_CCONCURRENTSKIPLISTSET_H__
 
 #include "_Elastos_Utility_Concurrent_CConcurrentSkipListSet.h"
-#include "AbstractSet.h"
+#include "elastos/utility/AbstractSet.h"
 
 using Elastos::Core::ICloneable;
 using Elastos::Core::IComparator;

@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CPack200.h"
-#include "CSystem.h"
+#include "elastos/utility/jar/CPack200.h"
+#include "elastos/core/CSystem.h"
 
 using Elastos::Core::ISystem;
 using Elastos::Core::IClassLoader;

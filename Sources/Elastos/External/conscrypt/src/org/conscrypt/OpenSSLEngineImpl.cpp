@@ -23,8 +23,8 @@
 #include "org/conscrypt/OpenSSLBIOSource.h"
 #include "org/conscrypt/Platform.h"
 #include "org/conscrypt/SSLNullSession.h"
-#include <elastos/core/AutoLock.h>
-#include <elastos/core/ElaMath.h>
+#include "elastos/core/AutoLock.h"
+#include "elastos/core/Math.h"
 
 using Elastos::IO::CByteBufferHelper;
 using Elastos::IO::IBuffer;

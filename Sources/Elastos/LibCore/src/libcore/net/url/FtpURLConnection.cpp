@@ -15,18 +15,18 @@
 //=========================================================================
 
 #include "Elastos.CoreLibrary.Utility.h"
-#include "FtpURLConnection.h"
-#include "ProxySelector.h"
-#include "StringBuilder.h"
-#include "CProxy.h"
-#include "CSocket.h"
-#include "CInetSocketAddress.h"
-#include "CServerSocket.h"
-#include "CBufferedInputStream.h"
-#include "StringUtils.h"
-#include "CFtpURLInputStream.h"
-#include "CSocketPermission.h"
-#include <elastos/utility/etl/List.h>
+#include "libcore/net/url/FtpURLConnection.h"
+#include "elastos/net/ProxySelector.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/net/CProxy.h"
+#include "elastos/net/CSocket.h"
+#include "elastos/net/CInetSocketAddress.h"
+#include "elastos/net/CServerSocket.h"
+#include "elastos/io/CBufferedInputStream.h"
+#include "elastos/core/StringUtils.h"
+#include "libcore/net/url/CFtpURLInputStream.h"
+#include "elastos/net/CSocketPermission.h"
+#include "elastos/utility/etl/List.h"
 
 using Elastos::Utility::IIterable;
 using Elastos::Utility::IIterator;

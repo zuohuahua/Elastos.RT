@@ -14,13 +14,13 @@
 // limitations under the License.
 //=========================================================================
 
-#include "HexStringParser.h"
-#include "Character.h"
-#include "ElaMath.h"
-#include "StringBuilder.h"
-#include "StringToIntegral.h"
-#include "StringUtils.h"
-#include "CPatternHelper.h"
+#include "elastos/core/HexStringParser.h"
+#include "elastos/core/Character.h"
+#include "elastos/core/Math.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/core/StringToIntegral.h"
+#include "elastos/core/StringUtils.h"
+#include "elastos/utility/regex/CPatternHelper.h"
 
 using Elastos::Core::Math;
 using Elastos::Utility::Regex::IMatcher;

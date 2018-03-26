@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_JAR_ELASTOS_UTILITY_CNAME_H__
 
 #include "_Elastos_Utility_Jar_CName.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::Object;
 

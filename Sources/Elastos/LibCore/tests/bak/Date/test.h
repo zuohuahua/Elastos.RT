@@ -5,7 +5,7 @@
 #include <elastos.h>
 #include <elautoptr.h>
 #include "Elastos.CoreLibrary.h"
-#include "elastos/StringBuilder.h"
+#include "elastos/core/StringBuilder.h"
 
 using namespace Elastos;
 using namespace Elastos::Core;

@@ -19,7 +19,7 @@
 
 #include "_Elastos_Security_Cert_CX509CRLSelector.h"
 #include "Elastos.CoreLibrary.Utility.h"
-#include "core/Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::ICloneable;
 using Elastos::Utility::IArrayList;

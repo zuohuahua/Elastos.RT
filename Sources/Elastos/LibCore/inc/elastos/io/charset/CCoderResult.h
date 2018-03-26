@@ -18,8 +18,8 @@
 #define __ELASTOS_IO_CHARSET_CCODERRESULT_H__
 
 #include "_Elastos_IO_Charset_CCoderResult.h"
-#include <elastos/core/Object.h>
-#include <elastos/utility/etl/HashMap.h>
+#include "elastos/core/Object.h"
+#include "elastos/utility/etl/HashMap.h"
 
 using Elastos::Core::Object;
 using Elastos::Utility::Etl::HashMap;

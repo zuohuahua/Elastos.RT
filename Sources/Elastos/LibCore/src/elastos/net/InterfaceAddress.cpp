@@ -14,9 +14,9 @@
 // limitations under the License.
 //=========================================================================
 
-#include "InterfaceAddress.h"
-#include "StringBuilder.h"
-#include "StringUtils.h"
+#include "elastos/net/InterfaceAddress.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/core/StringUtils.h"
 
 using Elastos::Core::StringBuilder;
 using Elastos::Core::StringUtils;

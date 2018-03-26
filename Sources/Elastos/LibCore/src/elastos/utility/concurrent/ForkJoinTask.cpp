@@ -16,13 +16,13 @@
 
 #include "Elastos.CoreLibrary.IO.h"
 #include "Elastos.CoreLibrary.Utility.h"
-#include "ForkJoinTask.h"
-#include "Thread.h"
-#include "ForkJoinWorkerThread.h"
-#include "CSystem.h"
-#include "AutoLock.h"
+#include "elastos/utility/concurrent/ForkJoinTask.h"
+#include "elastos/core/Thread.h"
+#include "elastos/utility/concurrent/ForkJoinWorkerThread.h"
+#include "elastos/core/CSystem.h"
+#include "elastos/core/AutoLock.h"
 
-#include <elastos/core/AutoLock.h>
+#include "elastos/core/AutoLock.h"
 using Elastos::Core::AutoLock;
 using Elastos::IO::EIID_ISerializable;
 using Elastos::Core::ISystem;

@@ -18,7 +18,7 @@
 #define __ELASTOS_SQL_SQLITE_JDBC_CJDBCPREPAREDSTATEMENT_H__
 
 #include "_Elastos_Sql_SQLite_JDBC_CJDBCPreparedStatement.h"
-#include "JDBCStatement.h"
+#include "elastos/sql/sqlite/jdbc/JDBCStatement.h"
 
 using Elastos::Net::IURL;
 using Elastos::IO::IReader;

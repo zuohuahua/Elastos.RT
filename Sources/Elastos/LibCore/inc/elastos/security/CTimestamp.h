@@ -19,7 +19,7 @@
 
 #include "_Elastos_Security_CTimestamp.h"
 #include "Elastos.CoreLibrary.Utility.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::IO::ISerializable;
 using Elastos::Security::Cert::ICertPath;

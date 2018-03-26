@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_PREFS_NODESET_H__
 
 #include "Elastos.CoreLibrary.External.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::Object;
 using Org::W3c::Dom::INodeList;

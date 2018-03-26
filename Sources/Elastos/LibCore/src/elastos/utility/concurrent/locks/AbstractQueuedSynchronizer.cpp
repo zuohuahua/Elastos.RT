@@ -15,11 +15,11 @@
 //=========================================================================
 
 #include "Elastos.CoreLibrary.Utility.h"
-#include "AbstractQueuedSynchronizer.h"
-#include "LockSupport.h"
-#include "CSystem.h"
-#include <Thread.h>
-#include <StringUtils.h>
+#include "elastos/utility/concurrent/locks/AbstractQueuedSynchronizer.h"
+#include "elastos/utility/concurrent/locks/LockSupport.h"
+#include "elastos/core/CSystem.h"
+#include "elastos/core/Thread.h"
+#include "elastos/core/StringUtils.h"
 
 using Elastos::Core::Thread;
 using Elastos::Core::CSystem;

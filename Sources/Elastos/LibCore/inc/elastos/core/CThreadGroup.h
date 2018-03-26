@@ -18,7 +18,7 @@
 #define __ELASTOS_CORE_CTHREADGROUP_H__
 
 #include "_Elastos_Core_CThreadGroup.h"
-#include "ThreadGroup.h"
+#include "elastos/core/ThreadGroup.h"
 
 namespace Elastos {
 namespace Core {

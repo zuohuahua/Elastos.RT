@@ -16,7 +16,7 @@
 
 #include "org/conscrypt/OpenSSLBIOSink.h"
 #include "org/conscrypt/NativeCrypto.h"
-#include <elastos/core/ElaMath.h>
+#include "elastos/core/Math.h"
 
 using Elastos::IO::CByteArrayOutputStream;
 using Elastos::IO::IOutputStream;

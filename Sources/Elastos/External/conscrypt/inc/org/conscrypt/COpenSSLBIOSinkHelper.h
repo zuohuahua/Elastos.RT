@@ -18,7 +18,7 @@
 #define __ORG_CONSCRYPT_COPENSSLBIOSINKHELPER_H__
 
 #include "_Org_Conscrypt_COpenSSLBIOSinkHelper.h"
-#include <elastos/core/Singleton.h>
+#include "elastos/core/Singleton.h"
 
 namespace Org {
 namespace Conscrypt {

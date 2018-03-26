@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CFILEDESCRIPTORHELPER_H__
 
 #include "_Elastos_IO_CFileDescriptorHelper.h"
-#include <elastos/core/Singleton.h>
+#include "elastos/core/Singleton.h"
 
 namespace Elastos {
 namespace IO {

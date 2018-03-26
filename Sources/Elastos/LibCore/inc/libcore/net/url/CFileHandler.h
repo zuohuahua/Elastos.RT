@@ -18,7 +18,7 @@
 #define __LIBCORE_NET_URL_LIBCORE_NET_URI_CFILEHANDLER_H__
 
 #include "_Libcore_Net_Url_CFileHandler.h"
-#include "FileHandler.h"
+#include "libcore/net/url/FileHandler.h"
 
 using Elastos::Net::IURLConnection;
 using Elastos::Net::IURL;

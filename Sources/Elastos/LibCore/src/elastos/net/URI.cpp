@@ -14,13 +14,13 @@
 // limitations under the License.
 //=========================================================================
 
-#include "URI.h"
-#include "CURI.h"
-#include "CURL.h"
-#include "InetAddress.h"
-#include "UrlUtils.h"
-#include "StringBuilder.h"
-#include "StringUtils.h"
+#include "elastos/net/URI.h"
+#include "elastos/net/CURI.h"
+#include "elastos/net/CURL.h"
+#include "elastos/net/InetAddress.h"
+#include "libcore/net/url/UrlUtils.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/core/StringUtils.h"
 
 namespace Elastos {
 namespace Net {

@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_IO_PIPEDOUTPUTSTREAM_H__
 #define __ELASTOS_IO_PIPEDOUTPUTSTREAM_H__
 
-#include "OutputStream.h"
+#include "elastos/io/OutputStream.h"
 
 namespace Elastos {
 namespace IO {

@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "NetworkEventListener.h"
+#include "libcore/net/event/NetworkEventListener.h"
 
 namespace Libcore {
 namespace Net {

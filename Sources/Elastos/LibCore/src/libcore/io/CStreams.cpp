@@ -14,11 +14,11 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CStreams.h"
-#include "ElaMath.h"
-#include "StringBuilder.h"
-#include "CByteArrayOutputStream.h"
-#include "CStringWriter.h"
+#include "libcore/io/CStreams.h"
+#include "elastos/core/Math.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/io/CByteArrayOutputStream.h"
+#include "elastos/io/CStringWriter.h"
 
 using Elastos::Core::ICharSequence;
 using Elastos::Core::StringBuilder;

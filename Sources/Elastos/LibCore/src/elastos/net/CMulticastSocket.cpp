@@ -15,17 +15,17 @@
 //=========================================================================
 
 #include "Elastos.CoreLibrary.Utility.h"
-#include "CMulticastSocket.h"
-#include "InetAddress.h"
-#include "CInet6Address.h"
-#include "CInet4Address.h"
-#include "NetworkInterface.h"
-#include "CInteger32.h"
-#include "CBoolean.h"
-#include "CPlainDatagramSocketImpl.h"
-#include "AutoLock.h"
+#include "elastos/net/CMulticastSocket.h"
+#include "elastos/net/InetAddress.h"
+#include "elastos/net/CInet6Address.h"
+#include "elastos/net/CInet4Address.h"
+#include "elastos/net/NetworkInterface.h"
+#include "elastos/core/CInteger32.h"
+#include "elastos/core/CBoolean.h"
+#include "elastos/net/CPlainDatagramSocketImpl.h"
+#include "elastos/core/AutoLock.h"
 
-#include <elastos/core/AutoLock.h>
+#include "elastos/core/AutoLock.h"
 using Elastos::Core::AutoLock;
 using Elastos::Core::IInteger32;
 using Elastos::Core::CInteger32;

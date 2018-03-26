@@ -18,7 +18,7 @@
 #define __ELASTOS_SQL_SQLITE_CSTRINGENCODERHELPER_H__
 
 #include "_Elastos_Sql_SQLite_CStringEncoderHelper.h"
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 
 using Elastos::Core::Singleton;
 

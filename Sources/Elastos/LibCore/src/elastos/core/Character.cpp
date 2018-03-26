@@ -14,9 +14,9 @@
 // limitations under the License.
 //=========================================================================
 
-#include "Character.h"
-#include "ElaMath.h"
-#include "StringBuilder.h"
+#include "elastos/core/Character.h"
+#include "elastos/core/Math.h"
+#include "elastos/core/StringBuilder.h"
 #include "elastos/utility/logging/Slogger.h"
 
 DEFINE_CONVERSION_FOR(Elastos::Core::Character::UnicodeBlock, IInterface)

@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include "PermissionCollection.h"
+#include "elastos/security/PermissionCollection.h"
 
 using Elastos::IO::EIID_ISerializable;
 

@@ -17,8 +17,8 @@
 #ifndef __ELASTOS_IO_STRINGWRITER_H__
 #define __ELASTOS_IO_STRINGWRITER_H__
 
-#include "Writer.h"
-#include <elastos/core/StringBuffer.h>
+#include "elastos/io/Writer.h"
+#include "elastos/core/StringBuffer.h"
 
 namespace Elastos {
 namespace IO {

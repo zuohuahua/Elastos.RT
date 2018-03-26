@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_IO_INT64ARRAYBUFFER_H__
 #define __ELASTOS_IO_INT64ARRAYBUFFER_H__
 
-#include "Int64Buffer.h"
+#include "elastos/io/Int64Buffer.h"
 
 namespace Elastos {
 namespace IO {

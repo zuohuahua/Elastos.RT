@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CNativeBreakIteratorHelper.h"
-#include "NativeBreakIterator.h"
+#include "libcore/icu/CNativeBreakIteratorHelper.h"
+#include "libcore/icu/NativeBreakIterator.h"
 
 namespace Libcore {
 namespace ICU {

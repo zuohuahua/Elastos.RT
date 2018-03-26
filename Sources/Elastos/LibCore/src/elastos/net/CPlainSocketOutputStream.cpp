@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CPlainSocketOutputStream.h"
-#include "PlainSocketImpl.h"
+#include "elastos/net/CPlainSocketOutputStream.h"
+#include "elastos/net/PlainSocketImpl.h"
 
 namespace Elastos {
 namespace Net {

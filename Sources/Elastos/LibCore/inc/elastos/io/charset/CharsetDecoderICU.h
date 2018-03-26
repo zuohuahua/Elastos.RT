@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_IO_CHARSETDECODERICU_H__
 #define __ELASTOS_IO_CHARSETDECODERICU_H__
 
-#include "CharsetDecoder.h"
+#include "elastos/io/charset/CharsetDecoder.h"
 
 namespace Elastos {
 namespace IO {

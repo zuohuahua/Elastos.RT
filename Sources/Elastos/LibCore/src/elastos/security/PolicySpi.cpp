@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "PolicySpi.h"
-#include "Policy.h"
+#include "elastos/security/PolicySpi.h"
+#include "elastos/security/Policy.h"
 
 namespace Elastos {
 namespace Security {

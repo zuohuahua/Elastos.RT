@@ -14,10 +14,10 @@
 // limitations under the License.
 //=========================================================================
 
-#include "EnumSet.h"
-#include "CMiniEnumSet.h"
-#include "CHugeEnumSet.h"
-#include "Enum.h"
+#include "elastos/utility/EnumSet.h"
+#include "elastos/utility/CMiniEnumSet.h"
+#include "elastos/utility/CHugeEnumSet.h"
+#include "elastos/core/Enum.h"
 
 using Elastos::Core::Enum;
 using Elastos::IO::EIID_ISerializable;

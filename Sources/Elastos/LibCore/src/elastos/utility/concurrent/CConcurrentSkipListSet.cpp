@@ -14,9 +14,9 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CConcurrentSkipListSet.h"
-#include "CBoolean.h"
-#include "CConcurrentSkipListMap.h"
+#include "elastos/utility/concurrent/CConcurrentSkipListSet.h"
+#include "elastos/core/CBoolean.h"
+#include "elastos/utility/concurrent/CConcurrentSkipListMap.h"
 
 using Elastos::IO::EIID_ISerializable;
 using Elastos::Core::EIID_ICloneable;

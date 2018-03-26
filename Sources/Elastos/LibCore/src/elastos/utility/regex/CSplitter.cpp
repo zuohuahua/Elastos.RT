@@ -14,11 +14,11 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CSplitter.h"
-#include "CMatcher.h"
-#include "CString.h"
-#include "ElaMath.h"
-#include "EmptyArray.h"
+#include "elastos/utility/regex/CSplitter.h"
+#include "elastos/utility/regex/CMatcher.h"
+#include "elastos/core/CString.h"
+#include "elastos/core/Math.h"
+#include "libcore/utility/EmptyArray.h"
 
 using Elastos::Core::CString;
 using Elastos::Core::Math;

@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_BUFFER_H__
 
 //#include "Elastos.CoreLibrary.IO.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::IArrayOf;
 using Elastos::Core::Object;

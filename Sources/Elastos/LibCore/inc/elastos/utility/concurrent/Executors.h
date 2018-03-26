@@ -17,8 +17,8 @@
 #ifndef __ELASTOS_UTILITY_CONCURRENT_ELASTOS_UTILITY_EXECUTORS_H__
 #define __ELASTOS_UTILITY_CONCURRENT_ELASTOS_UTILITY_EXECUTORS_H__
 
-#include "Object.h"
-#include "AbstractExecutorService.h"
+#include "elastos/core/Object.h"
+#include "elastos/utility/concurrent/AbstractExecutorService.h"
 
 using Elastos::Core::IRunnable;
 using Elastos::Core::IThread;

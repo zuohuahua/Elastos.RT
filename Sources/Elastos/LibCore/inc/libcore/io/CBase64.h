@@ -17,7 +17,7 @@
 #ifndef __LIBCORE_IO_CBASE64_H__
 #define __LIBCORE_IO_CBASE64_H__
 
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 #include "_Libcore_IO_CBase64.h"
 
 using Elastos::Core::Singleton;

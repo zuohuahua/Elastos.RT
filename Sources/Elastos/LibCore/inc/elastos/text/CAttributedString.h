@@ -18,7 +18,7 @@
 #define __ELASTOS_TEXT_CATTRIBUTEDSTRING_H__
 
 #include "_Elastos_Text_CAttributedString.h"
-#include "AttributedString.h"
+#include "elastos/text/AttributedString.h"
 
 using Elastos::Utility::IMap;
 

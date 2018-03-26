@@ -14,11 +14,11 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CDatagramPacket.h"
-#include "CInetSocketAddress.h"
-#include "AutoLock.h"
+#include "elastos/net/CDatagramPacket.h"
+#include "elastos/net/CInetSocketAddress.h"
+#include "elastos/core/AutoLock.h"
 
-#include <elastos/core/AutoLock.h>
+#include "elastos/core/AutoLock.h"
 using Elastos::Core::AutoLock;
 
 namespace Elastos {

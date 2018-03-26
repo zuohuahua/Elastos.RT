@@ -18,7 +18,7 @@
 #define __ELASTOS_SQL_CDATATRUNCATION_H__
 
 #include "_Elastos_Sql_CDataTruncation.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::IThrowable;
 using Elastos::Core::Object;

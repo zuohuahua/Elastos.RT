@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CThreadGroup.h"
-#include "Thread.h"
+#include "elastos/core/CThreadGroup.h"
+#include "elastos/core/Thread.h"
 
 namespace Elastos {
 namespace Core {

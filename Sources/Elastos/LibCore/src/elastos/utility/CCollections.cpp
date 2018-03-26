@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CCollections.h"
-#include "Collections.h"
+#include "elastos/utility/CCollections.h"
+#include "elastos/utility/Collections.h"
 
 namespace Elastos{
 namespace Utility{

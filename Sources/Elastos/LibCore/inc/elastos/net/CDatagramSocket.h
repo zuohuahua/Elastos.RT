@@ -18,7 +18,7 @@
 #define __ELASTOS_NET_CDATAGRAMSOCKET_H__
 
 #include "_Elastos_Net_CDatagramSocket.h"
-#include "DatagramSocket.h"
+#include "elastos/net/DatagramSocket.h"
 
 namespace Elastos {
 namespace Net {

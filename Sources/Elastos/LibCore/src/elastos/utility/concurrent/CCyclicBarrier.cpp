@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CCyclicBarrier.h"
-#include "Thread.h"
+#include "elastos/utility/concurrent/CCyclicBarrier.h"
+#include "elastos/core/Thread.h"
 
 using Elastos::Core::Thread;
 using Elastos::Utility::Concurrent::Locks::ILock;

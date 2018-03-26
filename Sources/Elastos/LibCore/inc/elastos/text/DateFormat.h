@@ -17,8 +17,8 @@
 #ifndef __ELASTOS_TEXT_DATEFORMAT_H__
 #define __ELASTOS_TEXT_DATEFORMAT_H__
 
-#include "FormatBase.h"
-#include <elastos/utility/etl/HashMap.h>
+#include "elastos/text/FormatBase.h"
+#include "elastos/utility/etl/HashMap.h"
 
 using Elastos::Utility::IDate;
 using Elastos::Utility::ICalendar;

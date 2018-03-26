@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_IO_MEMORYBLOCK_H__
 #define __ELASTOS_IO_MEMORYBLOCK_H__
 
-#include <elastos/core/Object.h>
+#include "elastos/core/Object.h"
 
 using Elastos::Core::Object;
 using Elastos::IO::Channels::FileChannelMapMode;

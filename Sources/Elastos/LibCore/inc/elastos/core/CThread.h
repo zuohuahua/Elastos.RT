@@ -18,7 +18,7 @@
 #define __ELASTOS_CORE_CTHREAD_H__
 
 #include "_Elastos_Core_CThread.h"
-#include "Thread.h"
+#include "elastos/core/Thread.h"
 
 namespace Elastos {
 namespace Core {

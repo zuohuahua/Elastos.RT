@@ -17,9 +17,9 @@
 #ifndef __ELASTOS_IO_CHANNELS_SELECTABLECHANNEL_H__
 #define __ELASTOS_IO_CHANNELS_SELECTABLECHANNEL_H__
 
-#include <elastos/core/Thread.h>
-#include "AbstractInterruptibleChannel.h"
-#include "SelectorProvider.h"
+#include "elastos/core/Thread.h"
+#include "elastos/io/channels/spi/AbstractInterruptibleChannel.h"
+#include "elastos/io/channels/spi/SelectorProvider.h"
 
 using Elastos::Core::IRunnable;
 using Elastos::IO::Channels::Spi::ISelectorProvider;

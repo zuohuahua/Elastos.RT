@@ -14,14 +14,14 @@
 // limitations under the License.
 //=========================================================================
 
-#include "UriCodec.h"
-#include "Character.h"
-#include "IntegralToString.h"
-#include "ElaMath.h"
-#include "CharBuffer.h"
-#include "CByteArrayOutputStream.h"
-#include "CCharsets.h"
-#include "charset/StandardCharsets.h"
+#include "libcore/net/UriCodec.h"
+#include "elastos/core/Character.h"
+#include "elastos/core/IntegralToString.h"
+#include "elastos/core/Math.h"
+#include "elastos/io/CharBuffer.h"
+#include "elastos/io/CByteArrayOutputStream.h"
+#include "elastos/io/charset/CCharsets.h"
+#include "elastos/io/charset/StandardCharsets.h"
 
 using Elastos::Core::Character;
 using Elastos::Core::StringBuilder;

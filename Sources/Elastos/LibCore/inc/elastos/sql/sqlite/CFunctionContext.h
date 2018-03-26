@@ -18,7 +18,7 @@
 #define __ELASTOS_SQL_SQLITE_CFUNCTIONCONTEXT_H__
 
 #include "_Elastos_Sql_SQLite_CFunctionContext.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::Object;
 

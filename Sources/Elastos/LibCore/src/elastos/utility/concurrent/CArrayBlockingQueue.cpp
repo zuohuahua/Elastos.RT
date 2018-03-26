@@ -14,11 +14,11 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CArrayBlockingQueue.h"
-#include "CReentrantLock.h"
-#include <StringBuilder.h>
-#include <StringUtils.h>
-#include <ElaMath.h>
+#include "elastos/utility/concurrent/CArrayBlockingQueue.h"
+#include "elastos/utility/concurrent/locks/CReentrantLock.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/core/StringUtils.h"
+#include "elastos/core/Math.h"
 
 using Elastos::IO::EIID_ISerializable;
 using Elastos::Core::StringBuilder;

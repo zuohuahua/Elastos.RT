@@ -19,8 +19,8 @@
 #include "Platform.h"
 #include "SSLParametersImpl.h"
 #include "OpenSSLKey.h"
-#include <elastos/core/AutoLock.h>
-#include <elastos/utility/Arrays.h>
+#include "elastos/core/AutoLock.h"
+#include "elastos/utility/Arrays.h"
 
 using Elastos::Core::ICloseGuardHelper;
 using Elastos::Core::CCloseGuardHelper;

@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CRANDOM_H__
 
 #include "_Elastos_Utility_CRandom.h"
-#include "Random.h"
+#include "elastos/utility/Random.h"
 
 namespace Elastos {
 namespace Utility {

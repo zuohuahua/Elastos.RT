@@ -17,9 +17,9 @@
 #ifndef __ELASTOS_UTILITY_TIMEZONE_H__
 #define __ELASTOS_UTILITY_TIMEZONE_H__
 
-#include "CDate.h"
-#include "StringBuffer.h"
-#include "Object.h"
+#include "elastos/utility/CDate.h"
+#include "elastos/core/StringBuffer.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::StringBuffer;
 using Elastos::Utility::ILocale;

@@ -14,10 +14,10 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CAttributes.h"
-#include "CName.h"
-#include "CHashMap.h"
-#include "CString.h"
+#include "elastos/utility/jar/CAttributes.h"
+#include "elastos/utility/jar/CName.h"
+#include "elastos/utility/CHashMap.h"
+#include "elastos/core/CString.h"
 
 using Elastos::Utility::CHashMap;
 using Elastos::Core::EIID_ICloneable;

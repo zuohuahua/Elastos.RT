@@ -18,7 +18,7 @@
 #define __ELASTOS_NET_CMULTICASTSOCKET_H__
 
 #include "_Elastos_Net_CMulticastSocket.h"
-#include "DatagramSocket.h"
+#include "elastos/net/DatagramSocket.h"
 
 using Elastos::IO::IFileDescriptor;
 

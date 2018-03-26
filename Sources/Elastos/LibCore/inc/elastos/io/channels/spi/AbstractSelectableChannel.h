@@ -17,8 +17,8 @@
 #ifndef __ELASTOS_IO_CHANNELS_SPI_ABSTRACTSELECTABLECHANNEL_H__
 #define __ELASTOS_IO_CHANNELS_SPI_ABSTRACTSELECTABLECHANNEL_H__
 
-#include "SelectableChannel.h"
-#include <elastos/utility/etl/List.h>
+#include "elastos/io/channels/SelectableChannel.h"
+#include "elastos/utility/etl/List.h"
 
 using Elastos::Utility::Etl::List;
 

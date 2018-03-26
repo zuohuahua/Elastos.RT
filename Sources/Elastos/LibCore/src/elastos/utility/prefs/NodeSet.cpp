@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "NodeSet.h"
-#include "CArrayList.h"
+#include "elastos/utility/prefs/NodeSet.h"
+#include "elastos/utility/CArrayList.h"
 
 using Elastos::Utility::CArrayList;
 using Org::W3c::Dom::EIID_INodeList;

@@ -14,9 +14,9 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CArrayOf.h"
-#include "StringBuilder.h"
-#include <elastos/utility/Arrays.h>
+#include "elastos/core/CArrayOf.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/utility/Arrays.h"
 
 using Elastos::Utility::Arrays;
 

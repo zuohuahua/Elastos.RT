@@ -18,9 +18,9 @@
 #define __ELASTOS_MATH_CBIGDECIMAL_H__
 
 #include "_Elastos_Math_CBigDecimal.h"
-#include <CBigInteger.h>
-#include <elastos/core/ElaMath.h>
-#include <elastos/core/Object.h>
+#include "elastos/math/CBigInteger.h"
+#include "elastos/core/Math.h"
+#include "elastos/core/Object.h"
 #include <elstring.h>
 
 using Elastos::Core::INumber;

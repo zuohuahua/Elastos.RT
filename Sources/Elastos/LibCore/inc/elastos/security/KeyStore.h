@@ -18,7 +18,7 @@
 #define __ELASTOS_SECURITY_KEYSTORE_H__
 
 #include "Elastos.CoreLibrary.Security.h"
-#include "core/Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::Object;
 using Elastos::Utility::IDate;

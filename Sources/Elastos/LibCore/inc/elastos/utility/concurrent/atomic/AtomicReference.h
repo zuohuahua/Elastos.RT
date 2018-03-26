@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CONCURRENT_ATOMIC_ELASTOS_UTILITY_ATOMICREFERENCE_H__
 
 #include "Elastos.CoreLibrary.Utility.Concurrent.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::Object;
 using Elastos::IO::ISerializable;

@@ -14,13 +14,13 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CX509CRLSelector.h"
-#include "CArrayList.h"
+#include "elastos/security/cert/CX509CRLSelector.h"
+#include "elastos/utility/CArrayList.h"
 #include "CX500Principal.h"
-#include "CString.h"
-#include "StringBuilder.h"
-#include "CDate.h"
-#include "X509CRL.h"
+#include "elastos/core/CString.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/utility/CDate.h"
+#include "elastos/security/cert/X509CRL.h"
 
 using Elastos::Core::EIID_ICloneable;
 using Elastos::Core::ICharSequence;

@@ -14,18 +14,18 @@
 // limitations under the License.
 //=========================================================================
 
-#include "NetworkInterface.h"
-#include "CFile.h"
-#include "Collections.h"
-#include "IoUtils.h"
-#include "CLibcore.h"
-#include "StringBuilder.h"
-#include "StringUtils.h"
-#include "CInet4Address.h"
-#include "CInet6Address.h"
-#include "InterfaceAddress.h"
-#include "CArrayList.h"
-#include "Arrays.h"
+#include "elastos/net/NetworkInterface.h"
+#include "elastos/io/CFile.h"
+#include "elastos/utility/Collections.h"
+#include "libcore/io/IoUtils.h"
+#include "libcore/io/CLibcore.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/core/StringUtils.h"
+#include "elastos/net/CInet4Address.h"
+#include "elastos/net/CInet6Address.h"
+#include "elastos/net/InterfaceAddress.h"
+#include "elastos/utility/CArrayList.h"
+#include "elastos/utility/Arrays.h"
 #include <net/if.h>
 #include <sys/socket.h>
 #include <sys/ioctl.h>

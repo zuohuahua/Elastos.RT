@@ -14,11 +14,11 @@
 // limitations under the License.
 //=========================================================================
 
-#include "Pattern.h"
-#include "CMatcher.h"
-#include "CSplitter.h"
-#include "CString.h"
-#include "StringBuilder.h"
+#include "elastos/utility/regex/Pattern.h"
+#include "elastos/utility/regex/CMatcher.h"
+#include "elastos/utility/regex/CSplitter.h"
+#include "elastos/core/CString.h"
+#include "elastos/core/StringBuilder.h"
 
 using Elastos::Core::CString;
 using Elastos::Core::ICharSequence;

@@ -14,11 +14,11 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CJarHandler.h"
-#include "UrlUtils.h"
-#include "CURL.h"
-#include "StringBuilder.h"
-#include "CJarURLConnectionImpl.h"
+#include "libcore/net/url/CJarHandler.h"
+#include "libcore/net/url/UrlUtils.h"
+#include "elastos/net/CURL.h"
+#include "elastos/core/StringBuilder.h"
+#include "libcore/net/url/CJarURLConnectionImpl.h"
 
 using Elastos::Core::StringBuilder;
 using Elastos::Net::CURL;

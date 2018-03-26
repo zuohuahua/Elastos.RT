@@ -15,13 +15,13 @@
 //=========================================================================
 
 #include "Elastos.CoreLibrary.IO.h"
-#include "CLinkedTransferQueue.h"
-#include "LockSupport.h"
-#include <ElaMath.h>
-#include "CSystem.h"
-#include "Thread.h"
-#include "CLibcore.h"
-#include <elastos/droid/system/OsConstants.h>
+#include "elastos/utility/concurrent/CLinkedTransferQueue.h"
+#include "elastos/utility/concurrent/locks/LockSupport.h"
+#include "elastos/core/Math.h"
+#include "elastos/core/CSystem.h"
+#include "elastos/core/Thread.h"
+#include "libcore/io/CLibcore.h"
+#include "elastos/droid/system/OsConstants.h"
 
 using Elastos::Core::Thread;
 using Elastos::Core::ISystem;

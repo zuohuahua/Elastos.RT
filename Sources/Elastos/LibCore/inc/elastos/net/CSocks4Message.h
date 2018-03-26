@@ -18,7 +18,7 @@
 #define __ELASTOS_NET_CSOCKS4MESSAGE_H__
 
 #include "_Elastos_Net_CSocks4Message.h"
-#include "Socks4Message.h"
+#include "elastos/net/Socks4Message.h"
 
 namespace Elastos {
 namespace Net {

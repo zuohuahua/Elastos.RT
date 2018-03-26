@@ -3,7 +3,7 @@
 #define __CDUMMY_H__
 
 #include "_CDummy.h"
-#include <elastos/core/Object.h>
+#include "elastos/core/Object.h"
 
 using Elastos::Core::Object;
 

@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CBUFFEREDOUTPUTSTREAM_H__
 
 #include "_Elastos_IO_CBufferedOutputStream.h"
-#include "BufferedOutputStream.h"
+#include "elastos/io/BufferedOutputStream.h"
 
 namespace Elastos {
 namespace IO {

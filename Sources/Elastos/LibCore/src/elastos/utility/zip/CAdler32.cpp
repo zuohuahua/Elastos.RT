@@ -14,9 +14,9 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CAdler32.h"
+#include "elastos/utility/zip/CAdler32.h"
 #include <zlib.h>
-#include "Arrays.h"
+#include "elastos/utility/Arrays.h"
 
 namespace Elastos {
 namespace Utility {

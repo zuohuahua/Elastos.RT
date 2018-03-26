@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CPatternHelper.h"
-#include "Pattern.h"
+#include "elastos/utility/regex/CPatternHelper.h"
+#include "elastos/utility/regex/Pattern.h"
 
 namespace Elastos {
 namespace Utility {

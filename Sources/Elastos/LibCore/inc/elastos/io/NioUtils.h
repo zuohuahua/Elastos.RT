@@ -17,8 +17,8 @@
 #ifndef __ELASTOS_IO_NIOUTILS_H__
 #define __ELASTOS_IO_NIOUTILS_H__
 
-#include "Buffer.h"
-#include "ByteBuffer.h"
+#include "elastos/io/Buffer.h"
+#include "elastos/io/ByteBuffer.h"
 
 using Elastos::IO::Channels::IFileChannel;
 

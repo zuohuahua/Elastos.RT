@@ -17,8 +17,8 @@
 #ifndef __LIBCORE_ICU_IMMUTABLEINDEX_H__
 #define __LIBCORE_ICU_IMMUTABLEINDEX_H__
 
-#include "Object.h"
-#include "AlphabeticIndex.h"
+#include "elastos/core/Object.h"
+#include "libcore/icu/AlphabeticIndex.h"
 
 
 namespace Libcore {

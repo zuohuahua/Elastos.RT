@@ -19,8 +19,8 @@
 
 #include "Elastos.CoreLibrary.Security.h"
 #include "_Elastos_Utility_Jar_CJarEntry.h"
-#include "ZipEntry.h"
-#include <elastos/utility/etl/List.h>
+#include "elastos/utility/zip/ZipEntry.h"
+#include "elastos/utility/etl/List.h"
 
 using Elastos::Utility::Etl::List;
 using Elastos::Utility::Zip::IZipEntry;

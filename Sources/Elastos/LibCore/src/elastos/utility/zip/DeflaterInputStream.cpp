@@ -14,11 +14,11 @@
 // limitations under the License.
 //=========================================================================
 
-#include "DeflaterInputStream.h"
-#include "ElaMath.h"
-#include "CStreams.h"
-#include "CDeflater.h"
-#include "Arrays.h"
+#include "elastos/utility/zip/DeflaterInputStream.h"
+#include "elastos/core/Math.h"
+#include "libcore/io/CStreams.h"
+#include "elastos/utility/zip/CDeflater.h"
+#include "elastos/utility/Arrays.h"
 
 using Elastos::Core::Math;
 using Elastos::IO::EIID_IInputStream;

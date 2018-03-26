@@ -18,7 +18,7 @@
 #define __ELASTOS_SECURITY_SPEC_CDSAPARAMETERSPEC_H__
 
 #include "_Elastos_Security_Spec_CDSAParameterSpec.h"
-#include "core/Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Security::Interfaces::IDSAParams;
 using Elastos::Math::IBigInteger;

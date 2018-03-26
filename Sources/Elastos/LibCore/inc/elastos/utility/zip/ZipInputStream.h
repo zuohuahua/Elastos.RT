@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_UTILITY_ZIPINPUTSTREAM_H__
 #define __ELASTOS_UTILITY_ZIPINPUTSTREAM_H__
 
-#include "InflaterInputStream.h"
+#include "elastos/utility/zip/InflaterInputStream.h"
 
 namespace Elastos {
 namespace Utility {

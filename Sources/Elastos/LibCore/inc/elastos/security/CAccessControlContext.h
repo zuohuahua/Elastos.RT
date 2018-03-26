@@ -18,7 +18,7 @@
 #define __ELASTOS_SECURITY_CACCESSCONTROLCONTEXT_H__
 
 #include "_Elastos_Security_CAccessControlContext.h"
-#include "core/Object.h"
+#include "elastos/core/Object.h"
 
 namespace Elastos {
 namespace Security {

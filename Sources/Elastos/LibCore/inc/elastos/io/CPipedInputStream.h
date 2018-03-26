@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CPIPEDINPUTSTREAM_H__
 
 #include "_Elastos_IO_CPipedInputStream.h"
-#include "PipedInputStream.h"
+#include "elastos/io/PipedInputStream.h"
 
 namespace Elastos {
 namespace IO {

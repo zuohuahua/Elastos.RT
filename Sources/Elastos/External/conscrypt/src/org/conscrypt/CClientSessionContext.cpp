@@ -15,7 +15,7 @@
 //=========================================================================
 
 #include "org/conscrypt/CClientSessionContext.h"
-#include <elastos/core/AutoLock.h>
+#include "elastos/core/AutoLock.h"
 
 using Elastos::Utility::CHashMap;
 

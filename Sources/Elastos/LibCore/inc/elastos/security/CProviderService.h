@@ -18,11 +18,11 @@
 #define __ELASTOS_SECURITY_CPROVIDERSERVICE_H__
 
 #include "Elastos.CoreLibrary.Utility.h"
-#include "coredef.h"
+#include "elastos/coredef.h"
 #include "_Elastos_Security_CProviderService.h"
-#include "core/Mutex.h"
-#include "core/Object.h"
-#include "utility/etl/HashMap.h"
+#include "elastos/core/Mutex.h"
+#include "elastos/core/Object.h"
+#include "elastos/utility/etl/HashMap.h"
 
 using Elastos::Core::Mutex;
 using Elastos::Core::Object;

@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CBUFFEREDREADER_H__
 
 #include "_Elastos_IO_CBufferedReader.h"
-#include "BufferedReader.h"
+#include "elastos/io/BufferedReader.h"
 
 namespace Elastos {
 namespace IO {

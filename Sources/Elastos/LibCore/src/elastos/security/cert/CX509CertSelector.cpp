@@ -14,11 +14,11 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CX509CertSelector.h"
-#include "StringUtils.h"
+#include "elastos/security/cert/CX509CertSelector.h"
+#include "elastos/core/StringUtils.h"
 #include "CX500Principal.h"
-#include "CHashSet.h"
-#include "CBoolean.h"
+#include "elastos/utility/CHashSet.h"
+#include "elastos/core/CBoolean.h"
 
 using Elastos::Core::CBoolean;
 using Elastos::Core::EIID_ICloneable;

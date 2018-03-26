@@ -17,8 +17,8 @@
 #ifndef __ELASTOS_UTILITY_ZIPOUTPUTSTREAM_H__
 #define __ELASTOS_UTILITY_ZIPOUTPUTSTREAM_H__
 
-#include "DeflaterOutputStream.h"
-#include <elastos/utility/etl/HashSet.h>
+#include "elastos/utility/zip/DeflaterOutputStream.h"
+#include "elastos/utility/etl/HashSet.h"
 
 using Elastos::Utility::Etl::HashSet;
 using Elastos::IO::IOutputStream;

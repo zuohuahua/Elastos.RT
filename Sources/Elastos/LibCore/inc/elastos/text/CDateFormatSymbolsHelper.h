@@ -18,7 +18,7 @@
 #define __ELASTOS_TEXT_CDATEFORMATSYMBOLSHELPER_H__
 
 #include "_Elastos_Text_CDateFormatSymbolsHelper.h"
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 
 using Elastos::Core::Singleton;
 using Elastos::Utility::ILocale;

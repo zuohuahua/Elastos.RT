@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_CORE_BLOCKGUARD_H__
 #define __ELASTOS_CORE_BLOCKGUARD_H__
 
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 
 namespace Elastos {
 namespace Core {

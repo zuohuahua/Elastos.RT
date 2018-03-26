@@ -14,9 +14,9 @@
 // limitations under the License.
 //=========================================================================
 
-#include "AddressCache.h"
-#include "CSystem.h"
-#include "CBasicLruCache.h"
+#include "elastos/net/AddressCache.h"
+#include "elastos/core/CSystem.h"
+#include "libcore/utility/CBasicLruCache.h"
 
 using Elastos::Core::ISystem;
 using Elastos::Core::CSystem;

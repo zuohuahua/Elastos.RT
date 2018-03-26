@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CBlockGuard.h"
-#include "BlockGuard.h"
+#include "elastos/core/CBlockGuard.h"
+#include "elastos/core/BlockGuard.h"
 
 namespace Elastos {
 namespace Core {

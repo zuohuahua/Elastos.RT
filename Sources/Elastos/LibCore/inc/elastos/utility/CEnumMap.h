@@ -18,10 +18,10 @@
 #define __ELASTOS_UTILITY_CENUMMAP_H__
 
 #include "_Elastos_Utility_CEnumMap.h"
-#include "AbstractMap.h"
-#include "AbstractSet.h"
-#include "AbstractCollection.h"
-#include "MapEntry.h"
+#include "elastos/utility/AbstractMap.h"
+#include "elastos/utility/AbstractSet.h"
+#include "elastos/utility/AbstractCollection.h"
+#include "elastos/utility/MapEntry.h"
 
 //using Elastos::IO::IObjectInputStream;
 //using Elastos::IO::IObjectOutputStream;

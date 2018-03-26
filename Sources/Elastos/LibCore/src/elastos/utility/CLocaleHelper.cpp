@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CLocaleHelper.h"
-#include "CLocale.h"
+#include "elastos/utility/CLocaleHelper.h"
+#include "elastos/utility/CLocale.h"
 
 namespace Elastos {
 namespace Utility {

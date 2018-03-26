@@ -2,7 +2,7 @@
 
 #include "Elastos.CoreLibrary.h"
 #include <elautoptr.h>
-#include <elastos/StringBuffer.h>
+#include "elastos/core/StringBuffer.h"
 
 using namespace Elastos;
 using namespace Elastos::Text;

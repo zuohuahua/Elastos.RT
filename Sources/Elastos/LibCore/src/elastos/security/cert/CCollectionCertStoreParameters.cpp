@@ -14,9 +14,9 @@
 // limitations under the License.
 //=========================================================================
 
-#include "security/cert/CCollectionCertStoreParameters.h"
-#include "core/StringBuilder.h"
-#include "Collections.h"
+#include "elastos/security/cert/CCollectionCertStoreParameters.h"
+#include "elastos/core/StringBuilder.h"
+#include "elastos/utility/Collections.h"
 
 using Elastos::Core::EIID_ICloneable;
 using Elastos::Core::StringBuilder;

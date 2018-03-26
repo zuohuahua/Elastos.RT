@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CRANDOMACCESSFILE_H__
 
 #include "_Elastos_IO_CRandomAccessFile.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::Object;
 using Elastos::Core::ICloseGuard;

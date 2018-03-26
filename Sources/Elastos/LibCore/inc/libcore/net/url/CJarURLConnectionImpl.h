@@ -19,8 +19,8 @@
 
 #include "Elastos.CoreLibrary.Utility.Zip.h"
 #include "_Libcore_Net_Url_CJarURLConnectionImpl.h"
-#include "JarURLConnection.h"
-#include "FilterInputStream.h"
+#include "elastos/net/JarURLConnection.h"
+#include "elastos/io/FilterInputStream.h"
 
 using Elastos::Net::IURL;
 using Elastos::Net::JarURLConnection;

@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "MiniEnumSet.h"
-#include "ElaMath.h"
+#include "elastos/utility/MiniEnumSet.h"
+#include "elastos/core/Math.h"
 
 using Elastos::Core::IEnum;
 

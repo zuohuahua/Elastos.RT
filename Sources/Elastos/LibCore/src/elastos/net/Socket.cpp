@@ -14,15 +14,15 @@
 // limitations under the License.
 //=========================================================================
 
-#include "Socket.h"
-#include "CInet4Address.h"
-#include "InetAddress.h"
-#include "CInetSocketAddress.h"
-#include "CPlainSocketImpl.h"
-#include "CInteger32.h"
-#include "CBoolean.h"
-#include "IoBridge.h"
-#include "AutoLock.h"
+#include "elastos/net/Socket.h"
+#include "elastos/net/CInet4Address.h"
+#include "elastos/net/InetAddress.h"
+#include "elastos/net/CInetSocketAddress.h"
+#include "elastos/net/CPlainSocketImpl.h"
+#include "elastos/core/CInteger32.h"
+#include "elastos/core/CBoolean.h"
+#include "libcore/io/IoBridge.h"
+#include "elastos/core/AutoLock.h"
 
 using Elastos::Core::IBoolean;
 using Elastos::Core::CBoolean;

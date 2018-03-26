@@ -18,8 +18,8 @@
 #define __ELASTOS_MATH_CBIGINTEGER_H__
 
 #include "_Elastos_Math_CBigInteger.h"
-#include "BigInt.h"
-#include <elastos/core/Object.h>
+#include "elastos/math/BigInt.h"
+#include "elastos/core/Object.h"
 #include <elstring.h>
 
 using Elastos::Core::INumber;

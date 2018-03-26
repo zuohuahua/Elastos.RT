@@ -18,7 +18,7 @@
 #define __LIBCORE_IO_CMEMORYMAPPEDFILE_H__
 
 #include "_Libcore_IO_CMemoryMappedFile.h"
-#include "Object.h"
+#include "elastos/core/Object.h"
 
 using Elastos::Core::Object;
 using Elastos::IO::ICloseable;

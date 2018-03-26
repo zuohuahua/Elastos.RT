@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include <elastos/utility/logging/Logger.h>
-#include <elastos/utility/logging/Slogger.h>
+#include "elastos/utility/logging/Logger.h"
+#include "elastos/utility/logging/Slogger.h"
 
 namespace Elastos {
 namespace Utility {

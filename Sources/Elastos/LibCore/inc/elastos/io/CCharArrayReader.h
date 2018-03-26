@@ -18,7 +18,7 @@
 #define __ELASTOS_IO_CCHARARRAYREADER_H__
 
 #include "_Elastos_IO_CCharArrayReader.h"
-#include "CharArrayReader.h"
+#include "elastos/io/CharArrayReader.h"
 
 namespace Elastos {
 namespace IO {

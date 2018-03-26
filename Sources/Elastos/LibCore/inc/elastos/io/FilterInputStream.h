@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_IO_FILTERINPUTSTREAM_H__
 #define __ELASTOS_IO_FILTERINPUTSTREAM_H__
 
-#include <elastos/io/InputStream.h>
+#include "elastos/io/InputStream.h"
 
 namespace Elastos {
 namespace IO {

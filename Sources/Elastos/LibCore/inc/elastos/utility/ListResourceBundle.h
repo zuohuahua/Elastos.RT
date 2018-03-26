@@ -17,7 +17,7 @@
 #ifndef __ELASTOS_UTILITY_LISTRESOURCEBUNDLE_H__
 #define __ELASTOS_UTILITY_LISTRESOURCEBUNDLE_H__
 
-#include "ResourceBundle.h"
+#include "elastos/utility/ResourceBundle.h"
 
 namespace Elastos{
 namespace Utility{

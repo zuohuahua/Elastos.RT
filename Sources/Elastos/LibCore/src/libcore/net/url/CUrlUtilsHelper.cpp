@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CUrlUtilsHelper.h"
-#include "UrlUtils.h"
+#include "libcore/net/url/CUrlUtilsHelper.h"
+#include "libcore/net/url/UrlUtils.h"
 
 namespace Libcore {
 namespace Net {

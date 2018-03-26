@@ -18,7 +18,7 @@
 #define __ELASTOS_UTILITY_CUUIDHELPER_H__
 
 #include "_Elastos_Utility_CUUIDHelper.h"
-#include "Singleton.h"
+#include "elastos/core/Singleton.h"
 
 
 namespace Elastos {

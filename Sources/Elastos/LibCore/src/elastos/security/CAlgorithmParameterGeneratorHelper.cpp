@@ -14,8 +14,8 @@
 // limitations under the License.
 //=========================================================================
 
-#include "CAlgorithmParameterGeneratorHelper.h"
-#include "CAlgorithmParameterGenerator.h"
+#include "elastos/security/CAlgorithmParameterGeneratorHelper.h"
+#include "elastos/security/CAlgorithmParameterGenerator.h"
 
 namespace Elastos {
 namespace Security {
