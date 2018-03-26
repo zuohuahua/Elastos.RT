@@ -112,21 +112,6 @@ public:
     ~CCarrier();
 
 private:
-    CCarrier();
-    CCarrier(CCarrier const&);
-    CCarrier& operator=(CCarrier const&);
-    static void *CarrierThread(void *arg);
-
-private:
-    class ListenerNode : public SLinkNode
-    {
-    public:
-        ListenerNode(){};
-
-    public:
-        AutoPtr<ICarrierListener> mCarrierListener;
-    };
-
     //CFriend: include the friend's information.
     class CFriend
         : public ElRefBase
@@ -134,7 +119,8 @@ private:
     {
     public:
         CFriend(
-            /* [in] */ const String& uid);
+            /* [in] */ const String& uid,
+            /* [in] */ Boolean online);
 
         CARAPI GetUid(
             /* [out] */ String* uid);
@@ -172,18 +158,54 @@ private:
         Boolean mIsOnline;
     };
 
+    class ListenerNode : public SLinkNode
+    {
+    public:
+        ListenerNode(){};
+
+    public:
+        AutoPtr<ICarrierListener> mCarrierListener;
+    };
+
+    class FriendNode : public SLinkNode
+    {
+    public:
+        FriendNode(){}
+
+        CARAPI Get(
+            /* [out] */ IFriend** _friend);
+
+    public:
+        String mUid;
+        AutoPtr<CFriend> mFriend;
+    };
+
+private:
+    CCarrier();
+    CCarrier(CCarrier const&);
+    CCarrier& operator=(CCarrier const&);
+    static void *CarrierThread(void *arg);
+    CARAPI_(void) Cleanup();
+
+    //Local method about friend list.
+    CARAPI_(void) AddFriend2List(
+        /* [in] */ const String& uid,
+        /* [in] */ Boolean online);
+
+    CARAPI_(void) RemoveFriendFromList(
+        /* [in] */ IFriend* _friend);
+
 private:
     //This instance: distributing the callbacks.
     static CCarrier* sLocalInstance;
     static AutoPtr<ICarrier> sGlobalCarrier;
-    static Boolean sInitialized;
 
     ElaCarrier* mElaCarrier;
     ListenerNode mListeners;
     pthread_mutex_t mListenersLock;
 
-    HashTable<CFriend *, Type_String> mFriendsTable;
-    pthread_mutex_t mFriendsTableLock;
+    FriendNode mFriendList;
+    pthread_mutex_t mFriendListLock;
 
     //Carrier thread id
     pthread_t m_carrierThreadId;
