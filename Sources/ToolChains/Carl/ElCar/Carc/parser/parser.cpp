@@ -6452,7 +6452,7 @@ int GenerateModuleName(const char *pszModuleName)
     if (s_pModule->mAttribs & CARAttrib_library) return Ret_Continue;
 
     s_pModule->mUunm = new char
-            [strlen(s_pszFactoryUrl) + strlen(pszModuleName) + 6];
+            [strlen(s_pszFactoryUrl) + strlen(pszModuleName) + strlen("/lib.so") + 1]; // 1 for '\0'
     if (!s_pModule->mUunm) goto OutOfMemoryError;
     if (0 != *s_pszFactoryUrl) {
         strcpy(s_pModule->mUunm, s_pszFactoryUrl);
