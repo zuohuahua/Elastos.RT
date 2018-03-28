@@ -21,3 +21,4 @@ If you want to learn more, please refer to the following:
 
 - [Elastos_Development_Guide](DevDoc/References/Elastos_Development_Guide.md)
 - [Elastos_64bit_Upgrade_Guide](DevDoc/References/Elastos_64bit_Upgrade_Guide.md)
+- [How_to_Export_API](DevDoc/DocTools/How_to_Export_API.md)

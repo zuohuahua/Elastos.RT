@@ -1088,9 +1088,9 @@ HTML_EXTRA_STYLESHEET  = /home/xilong/swap/ElastosDocWork/doxyfile/doxy_css/mycs
 # files will be copied as-is; there are no commands or markers available.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_EXTRA_FILES       = ../../Pictures/elastos_logo.png \
-                         ../../Pictures/elastos_logo_red.png \
-                         ../../Pictures/elastos_logo_blue.png
+HTML_EXTRA_FILES       = ../Pictures/elastos_logo.png \
+                         ../Pictures/elastos_logo_red.png \
+                         ../Pictures/elastos_logo_blue.png
 
 # The HTML_COLORSTYLE_HUE tag controls the color of the HTML output. Doxygen
 # will adjust the colors in the stylesheet and background images according to

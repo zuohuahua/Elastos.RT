@@ -4,6 +4,8 @@
 
 ### 1. Download the ndk
 
+You can download ndk at: https://developer.android.com/ndk/downloads/index.html
+
 ##### Now, we verify the ndk that can be use:
 * android-ndk-r10d
 * android-ndk-r10e
