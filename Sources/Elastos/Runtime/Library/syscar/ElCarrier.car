@@ -16,6 +16,10 @@
 
 library
 {
+    //  const FAMILY_CORE = 0x10        // Carrier's error code.
+    //  #define FRAMEWORK_ERROR(c)      MAKE_ECODE(SEVERITY_ERROR, FAMILY_FRAMEWORK, c)
+    const E_CARRIER_NOT_READY                         = 0x81010000;
+
     interface IFriend {
         GetUid(
             [out] String* uid);

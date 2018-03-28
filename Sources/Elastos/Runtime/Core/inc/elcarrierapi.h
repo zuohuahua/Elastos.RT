@@ -197,8 +197,7 @@ private:
 
 private:
     //This instance: distributing the callbacks.
-    static CCarrier* sLocalInstance;
-    static AutoPtr<ICarrier> sGlobalCarrier;
+    static CCarrier* sGlobalCarrier;
 
     ElaCarrier* mElaCarrier;
     ListenerNode mListeners;
@@ -214,6 +213,9 @@ private:
     String mDataPath;
     //Carrier's status
     Boolean mIsOnline;
+
+    //Carrier is ready
+    Boolean mIsReady;
 };
 
 _ELASTOS_NAMESPACE_END

@@ -20,6 +20,10 @@
 #define VALIDATE_NOT_NULL(x) if (!x) { return E_INVALID_ARGUMENT; }
 #endif
 
+#ifndef CARRIER_NOT_READY
+#define CARRIER_NOT_READY() if (!mIsReady) { return E_CARRIER_NOT_READY; }
+#endif
+
 #ifdef _android
 #include <android/log.h>
 #define CARRIER_LOG(...) __android_log_print(ANDROID_LOG_DEBUG, "ElCarrier", __VA_ARGS__)
@@ -152,14 +156,14 @@ static bool OnFriendsList(
 }
 
 
-AutoPtr<ICarrier> CCarrier::sGlobalCarrier;
-CCarrier* CCarrier::sLocalInstance = NULL;
+CCarrier* CCarrier::sGlobalCarrier = NULL;
 CCarrier::CCarrier()
     : mElaCarrier(NULL)
     , mListenersLock(PTHREAD_MUTEX_INITIALIZER)
     , mFriendListLock(PTHREAD_MUTEX_INITIALIZER)
     , m_carrierThreadId(0)
     , mIsOnline(FALSE)
+    , mIsReady(FALSE)
 {}
 
 CCarrier::~CCarrier()
@@ -248,7 +252,6 @@ ECode CCarrier::Start(
         CARRIER_LOG("Create thread failed.\n");
         return E_FAIL;
     }
-    sLocalInstance = this;
     return NOERROR;
 }
 
@@ -311,14 +314,18 @@ ECode CCarrier::Stop()
 
 ECode CCarrier::RegenerateAddress()
 {
-    // TODO: Add your code here
-    return E_NOT_IMPLEMENTED;
+    CARRIER_NOT_READY();
+    static Int32 nospam = 1;
+    ela_set_self_nospam(mElaCarrier, nospam++);
+    return NOERROR;
 }
 
 ECode CCarrier::GetAddress(
     /* [out] */ String* myAddress)
 {
+    CARRIER_NOT_READY();
     VALIDATE_NOT_NULL(myAddress);
+
     char buf[ELA_MAX_ADDRESS_LEN + 1];
     ela_get_address(mElaCarrier, buf, sizeof(buf));
     *myAddress = String(buf);
@@ -328,6 +335,8 @@ ECode CCarrier::GetAddress(
 ECode CCarrier::AccpetFriendRequest(
     /* [in] */ const String& uid)
 {
+    CARRIER_NOT_READY();
+
     Int32 rc = ela_accept_friend(mElaCarrier, uid);
     if (rc == 0) {
         CARRIER_LOG("Accept friend request success.\n");
@@ -342,6 +351,8 @@ ECode CCarrier::AddFriend(
     /* [in] */ const String& friendAddress,
     /* [in] */ const String& hello)
 {
+    CARRIER_NOT_READY();
+
     Int32 rc = ela_add_friend(mElaCarrier, friendAddress.string(), hello.string());
     if (rc == 0) {
         CARRIER_LOG("Request to add a new friend succeess.\n");
@@ -355,6 +366,7 @@ ECode CCarrier::AddFriend(
 ECode CCarrier::RemoveFriend(
     /* [in] */ IFriend* _friend)
 {
+    CARRIER_NOT_READY();
     VALIDATE_NOT_NULL(_friend);
 
     String uid;
@@ -437,20 +449,17 @@ ECode CCarrier::AddCarrierNodeListener(
     /* [in] */ ICarrierListener* listener)
 {
     pthread_mutex_lock(&mListenersLock);
-    Boolean contains = FALSE;
     ListenerNode* it = &mListeners;
     for (; NULL != it; it = (ListenerNode*)(it->Next())) {
         if (it->mCarrierListener.Get() == listener) {
-            contains = TRUE;
-            break;
+            pthread_mutex_unlock(&mListenersLock);
+            return NOERROR;
         }
     }
 
-    if (!contains) {
-        ListenerNode* listenerNode = new ListenerNode;
-        listenerNode->mCarrierListener = listener;
-        mListeners.InsertFirst(listenerNode);
-    }
+    ListenerNode* listenerNode = new ListenerNode;
+    listenerNode->mCarrierListener = listener;
+    mListeners.InsertFirst(listenerNode);
     pthread_mutex_unlock(&mListenersLock);
 
     return NOERROR;
@@ -519,6 +528,7 @@ ECode CCarrier::DistributeOnConnectionChanged(
 ECode CCarrier::DistributeOnReady()
 {
     //Distribute the callback: OnReady.
+    mIsReady = TRUE;
     pthread_mutex_lock(&mListenersLock);
     ListenerNode* it = &mListeners;
     for (; NULL != it; it = (ListenerNode*)(it->Next())) {
@@ -564,8 +574,8 @@ ECode CCarrier::DistributeOnFriendConnetionChanged(
 
 CCarrier* CCarrier::GetLocalInstance()
 {
-    assert(sLocalInstance != NULL);
-    return sLocalInstance;
+    assert(sGlobalCarrier != NULL);
+    return sGlobalCarrier;
 }
 
 PInterface CCarrier::Probe(
@@ -610,26 +620,23 @@ void CCarrier::AddFriend2List(
     /* [in] */ Boolean online)
 {
     pthread_mutex_lock(&mFriendListLock);
-    Boolean contains = FALSE;
     FriendNode* it = &mFriendList;
     for (; NULL != it; it = (FriendNode*)(it->Next())) {
         if (it->mUid.Equals(uid)) {
-            contains = TRUE;
             //Update the online by the method: UpdateStatus
             it->mFriend->UpdateStatus(online);
-            break;
+            pthread_mutex_unlock(&mFriendListLock);
+            return;
         }
     }
 
-    if (!contains) {
-        //Add the new friend to the table.
-        FriendNode* fn = new FriendNode();
-        fn->mUid = uid;
+    //Add the new friend to the table.
+    FriendNode* fn = new FriendNode();
+    fn->mUid = uid;
 
-        //Update the online by constructor.
-        fn->mFriend = new CFriend(uid, online);
-        mFriendList.InsertFirst(fn);
-    }
+    //Update the online by constructor.
+    fn->mFriend = new CFriend(uid, online);
+    mFriendList.InsertFirst(fn);
     pthread_mutex_unlock(&mFriendListLock);
 }
 
