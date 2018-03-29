@@ -14,9 +14,17 @@
 // limitations under the License.
 //=========================================================================
 
+/** @addtogroup MarshalAPI
+  *   @{
+  */
+
 library
 {
     enum MarshalType {
+        /**
+        * \~English
+        * XXXXXXXXXXXXXXXXXXXXXX.
+        */
         MarshalType_IPC,
         MarshalType_RPC,
     }
@@ -223,3 +231,5 @@ library
             [out] IInterface** newProxy);
     }
 }
+
+/** @} */

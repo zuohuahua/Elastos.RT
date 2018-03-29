@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-/** @addtogroup ReflectionRef
+/** @addtogroup ReflectionAPI
   *   @{
   */
 
@@ -1469,4 +1469,3 @@ library
 }
 
 /** @} */
-
