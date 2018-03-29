@@ -197,7 +197,7 @@ private:
 
 private:
     //This instance: distributing the callbacks.
-    static CCarrier* sGlobalCarrier;
+    static AutoPtr<CCarrier> sGlobalCarrier;
 
     ElaCarrier* mElaCarrier;
     ListenerNode mListeners;

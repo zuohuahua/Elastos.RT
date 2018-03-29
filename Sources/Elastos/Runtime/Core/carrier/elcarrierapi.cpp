@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include <elcarrierapi.h>
+#include "elcarrierapi.h"
 
 #ifndef VALIDATE_NOT_NULL
 #define VALIDATE_NOT_NULL(x) if (!x) { return E_INVALID_ARGUMENT; }
@@ -156,7 +156,7 @@ static bool OnFriendsList(
 }
 
 
-CCarrier* CCarrier::sGlobalCarrier = NULL;
+AutoPtr<CCarrier> CCarrier::sGlobalCarrier = NULL;
 CCarrier::CCarrier()
     : mElaCarrier(NULL)
     , mListenersLock(PTHREAD_MUTEX_INITIALIZER)
@@ -223,6 +223,8 @@ ECode CCarrier::GetInstance(
         sGlobalCarrier = new CCarrier();
     }
     *carrier = sGlobalCarrier;
+    (*carrier)->AddRef();
+
     return NOERROR;
 }
 
