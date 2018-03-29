@@ -14,6 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
+#include <elspinlock.h>
 #include "elcarrierapi.h"
 
 #ifndef VALIDATE_NOT_NULL
@@ -31,6 +32,7 @@
 #define CARRIER_LOG printf
 #endif
 
+static SpinLock sCarrierInstanceLock;
 ELAPI _CCarrier_GetInstance(
     /* [out] */ ICarrier** carrier)
 {
@@ -156,7 +158,7 @@ static bool OnFriendsList(
 }
 
 
-AutoPtr<CCarrier> CCarrier::sGlobalCarrier = NULL;
+CCarrier* CCarrier::sGlobalCarrier = NULL;
 CCarrier::CCarrier()
     : mElaCarrier(NULL)
     , mListenersLock(PTHREAD_MUTEX_INITIALIZER)
@@ -168,6 +170,10 @@ CCarrier::CCarrier()
 
 CCarrier::~CCarrier()
 {
+    sCarrierInstanceLock.Lock();
+    sGlobalCarrier = NULL;
+    sCarrierInstanceLock.Unlock();
+
     Cleanup();
 
     pthread_mutex_destroy(&mListenersLock);
@@ -218,12 +224,20 @@ ECode CCarrier::GetInstance(
     /* [out] */ ICarrier** carrier)
 {
     VALIDATE_NOT_NULL(carrier);
+    *carrier = NULL;
 
+    sCarrierInstanceLock.Lock();
     if (sGlobalCarrier == NULL) {
         sGlobalCarrier = new CCarrier();
+        if (sGlobalCarrier == NULL) {
+            sCarrierInstanceLock.Unlock();
+            return E_OUT_OF_MEMORY;
+        }
     }
+
     *carrier = sGlobalCarrier;
     (*carrier)->AddRef();
+    sCarrierInstanceLock.Unlock();
 
     return NOERROR;
 }
