@@ -22,9 +22,30 @@ library
 {
     //  const FAMILY_CORE = 0x10        // Carrier's error code.
     //  #define FRAMEWORK_ERROR(c)      MAKE_ECODE(SEVERITY_ERROR, FAMILY_FRAMEWORK, c)
+
+    /**
+     *
+     * the description of E_CARRIER_NOT_READY
+     */
     const E_CARRIER_NOT_READY                         = 0x81010000;
 
+    /**
+     *
+     * the description of interface IFriend
+     *
+     */
     interface IFriend {
+
+        /**
+        *
+        * Description of the method.
+        *
+        * @param
+        *      uid [out] Description of the out param.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding macro.
+        */
         GetUid(
             [out] String* uid);
 
@@ -81,14 +102,17 @@ library
             [out] Boolean* online);
 
         /**
-        * 
+        *
         * Description of the method.
         *
         * @param
         *      uid     [in] Description of the in param.
         *
+        * @param
+        *      _friend [out] Description of the out param.
+        *
         * @return
-        *      _friend [out] Description of the out param. 
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding macro.
         */
         GetFriend(
             [in] String uid,

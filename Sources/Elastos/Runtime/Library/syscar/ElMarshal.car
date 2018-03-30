@@ -22,7 +22,7 @@ library
 {
     enum MarshalType {
         /**
-        * \~English
+        *
         * XXXXXXXXXXXXXXXXXXXXXX.
         */
         MarshalType_IPC,

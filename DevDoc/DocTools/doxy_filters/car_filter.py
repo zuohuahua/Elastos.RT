@@ -12,7 +12,7 @@ interfaces = []
 class_name = ""
 
 #regular expression
-re_module = re.compile(r"(\s*)(module)(\s*)({?)$")
+re_module = re.compile(r"(\s*)(module|library)(\s*)({?)$")
 re_class = re.compile(r"(\s*)(class)(\s*)(\w*)")
 re_singleton = re.compile(r"(\s*)(singleton)(\s*)(class)(\s*)(\w*)")
 re_interface = re.compile(r"(\s*)(interface)(\s*)(\w*)(;)")
