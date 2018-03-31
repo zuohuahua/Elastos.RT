@@ -398,7 +398,7 @@ ifneq "$(EXPORT_ECO)" ""
 		$(MKDIR) $(ELASTOS_EXPORT_PATH)/$(TARGET_NAME); \
 		cd $(ELASTOS_EXPORT_PATH)/$(TARGET_NAME); \
 		rm -f *; \
-		lube -C $(XDK_TARGETS)/$(TARGET_PREFIX)$(TARGET_NAME).$(DEPEND_OBJ_TYPE) -f -T header3; \
+		lube -C $(XDK_TARGETS)/$(TARGET_PREFIX)$(TARGET_NAME).$(DEPEND_OBJ_TYPE) -f -T exportheader; \
 		#lube -C $(XDK_TARGETS)/$(TARGET_PREFIX)$(TARGET_NAME).$(DEPEND_OBJ_TYPE) -f -T header2 -T headercpp; \
 		#Delete CoreLibrary's exported header files. \
 		rm -f *lastos.CoreLibrary*; \

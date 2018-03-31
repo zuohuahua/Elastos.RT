@@ -74,6 +74,10 @@ add_custom_command(
         ${CMAKE_CURRENT_SOURCE_DIR}/header/clienth.lub
         ${CMAKE_CURRENT_SOURCE_DIR}/header/serverh.lub
         ${CMAKE_CURRENT_SOURCE_DIR}/header/genericcallback.lub
+        ${CMAKE_CURRENT_SOURCE_DIR}/header/exportheader.lub
+        ${CMAKE_CURRENT_SOURCE_DIR}/header/exportbaseh.lub
+        ${CMAKE_CURRENT_SOURCE_DIR}/header/exportclienth.lub
+        ${CMAKE_CURRENT_SOURCE_DIR}/header/exportdecluuid.lub
         ${CMAKE_CURRENT_SOURCE_DIR}/headercpp/headercpp.lub
         ${CMAKE_CURRENT_SOURCE_DIR}/headercpp/basecpp.lub
         ${CMAKE_CURRENT_SOURCE_DIR}/public/cls2abrg.lub

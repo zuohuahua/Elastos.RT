@@ -16,13 +16,25 @@ $;;=========================================================================
 $
 $INPUT module
 $
-$TEMPLATE "public/public.lub"
-$TEMPLATE "header/header.lub"
-$TEMPLATE "header/header2.lub"
-$TEMPLATE "header/header3.lub"
-$TEMPLATE "header/exportheader.lub"
-$;;TEMPLATE "header/serverh.lub"
-$TEMPLATE "headercpp/headercpp.lub"
-$TEMPLATE "background/background.lub"
-$TEMPLATE "foreground/foreground.lub"
-$;;TEMPLATE "carusage/carusage.lub"
+$TEMPLATE "exportbaseh.lub"
+$OUTPUT "${name}.h"
+$
+#ifndef __CAR_${Upper(name)}_H__
+#define __CAR_${Upper(name)}_H__
+
+#ifndef _NO_INCLIST
+#include <elastos.h>
+using namespace Elastos;
+$WITH all libraries DO
+${CreateHFiles(name)}
+$;;{CreateCPPFiles(name)}
+$
+$END DO
+#endif // !_NO_INCLIST
+$
+
+#include "${name}.Export.h"
+
+#endif // __CAR_${Upper(name)}_H__
+$
+$END OUTPUT

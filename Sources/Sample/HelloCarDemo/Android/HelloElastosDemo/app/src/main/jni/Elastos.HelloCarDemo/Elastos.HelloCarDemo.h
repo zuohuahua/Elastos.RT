@@ -8,20 +8,6 @@ using namespace Elastos;
 
 #endif // !_NO_INCLIST
 
-
-interface IHelloCar;
-EXTERN const _ELASTOS InterfaceID EIID_IHelloCar;
-interface ICHelloCarClassObject;
-EXTERN const _ELASTOS InterfaceID EIID_ICHelloCarClassObject;
-EXTERN const _ELASTOS ClassID ECLSID_CHelloCar;
-EXTERN const _ELASTOS ClassID ECLSID_CHelloCarClassObject;
-
-
-
-
-
-#ifdef __ELASTOS_HELLOCARDEMO_USER_TYPE_H__
-#include "Elastos.HelloCarDemo_user_type.h"
-#endif
+#include "Elastos.HelloCarDemo.Export.h"
 
 #endif // __CAR_ELASTOS_HELLOCARDEMO_H__

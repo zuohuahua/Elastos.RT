@@ -83,9 +83,19 @@ interface IParcelable;
 EXTERN const _ELASTOS InterfaceID EIID_IParcelable;
 interface ICustomMarshal;
 EXTERN const _ELASTOS InterfaceID EIID_ICustomMarshal;
+interface IFriend;
+EXTERN const _ELASTOS InterfaceID EIID_IFriend;
+interface ICarrierListener;
+EXTERN const _ELASTOS InterfaceID EIID_ICarrierListener;
+interface ICarrier;
+EXTERN const _ELASTOS InterfaceID EIID_ICarrier;
 
 
 
+
+#ifndef E_CARRIER_NOT_READY
+#define E_CARRIER_NOT_READY 0x81010000
+#endif
 
 
 #ifndef __ENUM_WaitResult__

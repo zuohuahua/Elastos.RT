@@ -15,14 +15,30 @@ $;; limitations under the License.
 $;;=========================================================================
 $
 $INPUT module
+$OUTPUT "${name}.Export.h"
+
+${GenerateDependHeaderForModule(module)}
+
+using namespace Elastos;
+
+$TEMPLATE "exportdecluuid.lub"
 $
-$TEMPLATE "public/public.lub"
-$TEMPLATE "header/header.lub"
-$TEMPLATE "header/header2.lub"
-$TEMPLATE "header/header3.lub"
-$TEMPLATE "header/exportheader.lub"
-$;;TEMPLATE "header/serverh.lub"
-$TEMPLATE "headercpp/headercpp.lub"
-$TEMPLATE "background/background.lub"
-$TEMPLATE "foreground/foreground.lub"
-$;;TEMPLATE "carusage/carusage.lub"
+$WITH all interfaces DO
+$  IF interface.attrib is not "sink"
+${InterfaceNamespaceBegin(interface)}$^
+$   WITH all interfaceconsts DO
+$     IF type is "Byte" or type is "Int16" or type is "Int32" or type is "Char32"
+const ${type} ${interface.name}::${name};
+$     ELSE
+$        IF type is "String"
+INIT_PROI_1 const ${type} ${interface.name}::${name} = ${value};
+$        ELSE
+const ${type} ${interface.name}::${name} = ${value};
+$        END IF
+$     END IF
+$   END DO ;; all interfaceconsts
+${InterfaceNamespaceEnd(interface)}$^
+$  END IF;; not sink
+$END DO ;; all interfaces
+$
+$END OUTPUT

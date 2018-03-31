@@ -2264,4 +2264,149 @@ ICustomMarshal : public IInterface
 
 };
 
+CAR_INTERFACE("88862D45-1512-2782-7E54-F1C0E244952E")
+IFriend : public IInterface
+{
+    virtual CARAPI_(PInterface) Probe(
+        /* [in] */ _ELASTOS REIID riid) = 0;
+
+    static CARAPI_(IFriend*) Probe(PInterface pObj)
+    {
+        if (pObj == NULL) return NULL;
+        return (IFriend*)pObj->Probe(EIID_IFriend);
+    }
+
+    static CARAPI_(IFriend*) Probe(IObject* pObj)
+    {
+        if (pObj == NULL) return NULL;
+        return (IFriend*)pObj->Probe(EIID_IFriend);
+    }
+
+    static CARAPI_(IFriend*) QueryInterface(const Elastos::String& uid)
+    {
+        return NULL;
+    }
+
+    virtual CARAPI GetUid(
+        /* [out] */ _ELASTOS String * uid) = 0;
+
+    virtual CARAPI GetName(
+        /* [out] */ _ELASTOS String * name) = 0;
+
+    virtual CARAPI SetLabel(
+        /* [in] */ const _ELASTOS String& label) = 0;
+
+    virtual CARAPI GetLabel(
+        /* [out] */ _ELASTOS String * label) = 0;
+
+    virtual CARAPI IsOnline(
+        /* [out] */ _ELASTOS Boolean * online) = 0;
+
+};
+
+CAR_INTERFACE("D4F15233-0312-3512-6AB0-B89FF1FE0FA6")
+ICarrierListener : public IInterface
+{
+    virtual CARAPI_(PInterface) Probe(
+        /* [in] */ _ELASTOS REIID riid) = 0;
+
+    static CARAPI_(ICarrierListener*) Probe(PInterface pObj)
+    {
+        if (pObj == NULL) return NULL;
+        return (ICarrierListener*)pObj->Probe(EIID_ICarrierListener);
+    }
+
+    static CARAPI_(ICarrierListener*) Probe(IObject* pObj)
+    {
+        if (pObj == NULL) return NULL;
+        return (ICarrierListener*)pObj->Probe(EIID_ICarrierListener);
+    }
+
+    static CARAPI_(ICarrierListener*) QueryInterface(const Elastos::String& uid)
+    {
+        return NULL;
+    }
+
+    virtual CARAPI OnConnectionChanged(
+        /* [in] */ _ELASTOS Boolean online) = 0;
+
+    virtual CARAPI OnReady() = 0;
+
+    virtual CARAPI OnFriendRequest(
+        /* [in] */ const _ELASTOS String& uid,
+        /* [in] */ const _ELASTOS String& hello) = 0;
+
+    virtual CARAPI OnFriendConnetionChanged(
+        /* [in] */ const _ELASTOS String& uid,
+        /* [in] */ _ELASTOS Boolean online) = 0;
+
+};
+
+CAR_INTERFACE("172BAB38-0312-3512-6AB0-B8FF43B5EB0D")
+ICarrier : public IInterface
+{
+    virtual CARAPI_(PInterface) Probe(
+        /* [in] */ _ELASTOS REIID riid) = 0;
+
+    static CARAPI_(ICarrier*) Probe(PInterface pObj)
+    {
+        if (pObj == NULL) return NULL;
+        return (ICarrier*)pObj->Probe(EIID_ICarrier);
+    }
+
+    static CARAPI_(ICarrier*) Probe(IObject* pObj)
+    {
+        if (pObj == NULL) return NULL;
+        return (ICarrier*)pObj->Probe(EIID_ICarrier);
+    }
+
+    static CARAPI_(ICarrier*) QueryInterface(const Elastos::String& uid)
+    {
+        return NULL;
+    }
+
+    virtual CARAPI Start(
+        /* [in] */ const _ELASTOS String& carrierDataPath) = 0;
+
+    virtual CARAPI Stop() = 0;
+
+    virtual CARAPI RegenerateAddress() = 0;
+
+    virtual CARAPI GetAddress(
+        /* [out] */ _ELASTOS String * myAddress) = 0;
+
+    virtual CARAPI AccpetFriendRequest(
+        /* [in] */ const _ELASTOS String& uid) = 0;
+
+    virtual CARAPI AddFriend(
+        /* [in] */ const _ELASTOS String& friendAddress,
+        /* [in] */ const _ELASTOS String& hello) = 0;
+
+    virtual CARAPI RemoveFriend(
+        /* [in] */ IFriend * _friend) = 0;
+
+    virtual CARAPI IsOnline(
+        /* [out] */ _ELASTOS Boolean * online) = 0;
+
+    virtual CARAPI GetFriend(
+        /* [in] */ const _ELASTOS String& uid,
+        /* [out] */ IFriend ** _friend) = 0;
+
+    virtual CARAPI GetFriends(
+        /* [out, callee] */ _ELASTOS ArrayOf<IFriend *> ** friends) = 0;
+
+    virtual CARAPI AddCarrierNodeListener(
+        /* [in] */ ICarrierListener * listener) = 0;
+
+    virtual CARAPI RemoveCarrierNodeListener(
+        /* [in] */ ICarrierListener * listener) = 0;
+
+    virtual CARAPI Import(
+        /* [in] */ const _ELASTOS String& dataPath) = 0;
+
+    virtual CARAPI Export(
+        /* [out] */ _ELASTOS String * dataPath) = 0;
+
+};
+
 #endif // ___ElastosCore_h__
