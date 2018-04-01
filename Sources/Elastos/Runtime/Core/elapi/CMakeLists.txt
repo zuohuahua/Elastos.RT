@@ -10,8 +10,10 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../Library/inc/elasys)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../marshal)
 
 if("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "android")
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../marshal/android_linux)
+# TODO: Cleanup
+# include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../marshal/android_linux)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../marshal/linux_rpc)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../marshal/others_rpc)
 elseif("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "linux")
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../marshal/others_rpc)
 endif()

@@ -93,8 +93,11 @@ int SearchFileFromPath(
             n += strlen(pszFile);
             if (!_stricmp(pszResult + n - 4, ".eco")) {
                 strcpy(pszResult + n - 4, ".cls");
-            } else if (!_stricmp(pszResult + n - 3, ".so")) {
-                strcpy(pszResult + n - 3, ".cls");
+            } else if (!strncmp(pszFile, "lib", 3) && !_stricmp(pszResult + n - 3, ".so")) {
+                int filename_len = strlen(pszFile);
+                int prefix_len = strlen("lib");
+                memmove(pszResult + n - filename_len, pszResult + n - filename_len + prefix_len, filename_len - prefix_len);
+                strcpy(pszResult + n - strlen("lib.so"), ".cls");
             }
 #endif
             if (0 == _access(pszResult, 0)) _ReturnOK (CLS_NoError);

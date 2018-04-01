@@ -1,74 +1,88 @@
 
 # Build CAR Compiler
 
-In general, you will not use it. It will be used that When you need to modify the tools.
+In general, you will not use it. It will be used after you modified the source code of the CAR tools.
 
-1. enter the build environment:
+1. Enter the build environment:
 
-* Ubuntu_32bit
-  ```
-  $ source ~/Elastos.RT/Setup/SetEnv.sh devtools_32
-  or
-  $ source ~/Elastos.RT/Setup/SetEnv.sh
-  then choose the index number of "devtools_32" item from the numbered list
-  ```
+   * Ubuntu_32bit
+     ```
+     $ source ~/Elastos.RT/Setup/SetEnv.sh devtools_32
+     ```
+     or
+     ```
+     $ source ~/Elastos.RT/Setup/SetEnv.sh
+     ```
+     and then choose the index number of the "devtools_32" item from the numbered list
 
-* Ubuntu_64bit
-  ```
-  $ source ~/Elastos.RT/Setup/SetEnv.sh devtools_64
-  or
-  $ source ~/Elastos.RT/Setup/SetEnv.sh
-  then choose the index number of "devtools_64" item from the numbered list
-  ```
+   * Ubuntu_64bit
+     ```
+     $ source ~/Elastos.RT/Setup/SetEnv.sh devtools_64
+     ```
+     or
+     ```
+     $ source ~/Elastos.RT/Setup/SetEnv.sh
+     ```
+     and then choose the index number of the "devtools_64" item from the numbered list
 
-* host_devtools:linux or mac
-  ```
-  $ source ~/Elastos.RT/Setup/SetEnv.sh host_devtools
-  or
-  $ source ~/Elastos.RT/Setup/SetEnv.sh
-  then choose the index number of "host_devtools" item from the numbered list
-  ```
+   * linux_devtools: linux tools for the new cmake build environment
+     ```
+     $ source ~/Elastos.RT/Setup/SetEnv.sh linux_devtools
+     ```
+     or
+     ```
+     $ source ~/Elastos.RT/Setup/SetEnv.sh
+     ```
+     and then choose the index number of the "linux_devtools" item from the numbered list
 
-2. build CAR tools
+   * mac_devtools: mac tools for the new cmake build environment
+     ```
+     $ source ~/Elastos.RT/Setup/SetEnv.sh mac_devtools
+     ```
+     or
+     ```
+     $ source ~/Elastos.RT/Setup/SetEnv.sh
+     ```
+     and then choose the index number of the "mac_devtools" item from the numbered list
 
-build release version of carc
+2. Build CAR tools
 
-```
-~/Elastos.RT/Sources$ rls
-~/Elastos.RT/Sources$ emake
-~/Elastos.RT/Sources$ pd @
-```
+   Build release version of CAR compiler
 
-3. use your new CAR tools
+   ```
+   ~/Elastos.RT/Sources$ rls
+   ~/Elastos.RT/Sources$ emake
+   ~/Elastos.RT/Sources$ pd @
+   ```
 
-copy your build result to ~/Elastos.RT/Build/Tools
+3. Deploy the new CAR tools
 
-* Ubuntu_32bit
-  ```
-  cp CInfoReader Cls2C carc carcode lubc lube libz.so ~/Elastos.RT/Build/Tools_32/
-  ```
+   Copy your build result to ~/Elastos.RT/Build/Tools
 
-* Ubuntu_64bit
-  ```
-  cp CInfoReader Cls2C carc carcode lubc lube libz.so ~/Elastos.RT/Build/Tools_64/
-  ```
+   * Ubuntu_32bit
+     ```
+     cp CInfoReader Cls2C carc carcode lubc lube libz.so ~/Elastos.RT/Build/Tools_32/
+     ```
 
-* host_devtools:linux or mac
+   * Ubuntu_64bit
+     ```
+     cp CInfoReader Cls2C carc carcode lubc lube libz.so ~/Elastos.RT/Build/Tools_64/
+     ```
 
-  linux
-  ```
-  cp CInfoReader Cls2C carc carcode lubc lube ~/Elastos.RT/Build/Tools/linux/
-  cp lube.lbo systypes.cls ~/Elastos.RT/Build/Tools/
-  ```
+   * linux_devtools
+     ```
+     cp CInfoReader Cls2C carc carcode lubc lube ~/Elastos.RT/Build/Tools/linux/
+     cp lube.lbo systypes.cls ~/Elastos.RT/Build/Tools/
+     ```
 
-  mac
-  ```
-  cp Cls2C carc carcode lubc lube ~/Elastos.RT/Build/Tools/mac/
-  cp lube.lbo systypes.cls ~/Elastos.RT/Build/Tools/
-  ```
+   * mac_devtools
+     ```
+     cp Cls2C carc carcode lubc lube ~/Elastos.RT/Build/Tools/mac/
+     cp lube.lbo systypes.cls ~/Elastos.RT/Build/Tools/
+     ```
 
-4. release version or debug version
-```
- rls    #It is an alias of  --> chv rls
- dbg    #It is an alias of  --> chv dbg
-```
+4. Change between release version and debug version
+   ```
+   rls    #It is an alias of  --> chv rls
+   dbg    #It is an alias of  --> chv dbg
+   ```

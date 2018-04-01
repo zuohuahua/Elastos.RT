@@ -21,6 +21,10 @@ add_definitions(-DELASTOS_CORELIBRARY)
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/../../corelibrary)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../../inc)
 
+if(ANDROID)
+    # TODO: To be remove
+    include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../../inc/org/android_prebuilt)
+endif()
 
 add_library(elastos.math STATIC ${SOURCES})
 add_dependencies(elastos.math elastos_core_library_car)

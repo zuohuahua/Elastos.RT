@@ -24,25 +24,32 @@ $ git submodule update
 
 Please select the appropriate compilation environment as needed:
 
-* ### Use dockerized build environment
+* ### Use dockerized Untuntu_64bit build environment
 
-  If you have `docker` and `docker-compose` installed in your machine, you could use a dockerized build environment.
+  1. Install `docker` and `docker-compose`
 
-  You should follow the official instructions to install Docker and Docker Compose.
-  
-  Install Docker: https://docs.docker.com/install/
-  
-  Install Docker Compose: https://docs.docker.com/compose/install/
+     Follow the official instructions to install Docker and Docker Compose.
 
-  To build the docker image and enter the dockerized build environment:
-  ```
-  $ cd ~/Elastos.RT/docker
-  ~/Elastos.RT/docker$ docker-compose build --build-arg HOST_USER_UID=`id -u` --build-arg HOST_USER_GID=`id -g` build-env
-  ~/Elastos.RT/docker$ docker-compose run --rm build-env
-  ```
-  NOTE: Please do NOT store any important files outside of the `Elastos.RT` folder as the docker container will be removed after you exit the building environment. And only the changes in the `Elastos.RT` folder will be retained as it has defined as a VOLUME in the Dockerfile.
+     Install Docker: https://docs.docker.com/install/
 
-  Type `exit` if you want to exit the docker build environment. And type `docker-compose run --rm build-env` if you want to re-enter it.
+     Install Docker Compose: https://docs.docker.com/compose/install/
+
+  2. Build the docker image
+
+     ```
+     $ cd ~/Elastos.RT/docker
+     ~/Elastos.RT/docker$ docker-compose build --build-arg HOST_USER_UID=`id -u` --build-arg HOST_USER_GID=`id -g` build-env
+     ```
+
+  3. Enter the dockerized build environment:
+
+     ```
+     $ cd ~/Elastos.RT/docker
+     ~/Elastos.RT/docker$ docker-compose run --rm build-env
+     ```
+     NOTES: Please do NOT store any important files outside of the `Elastos.RT` folder as the docker container will be removed after you exit the building environment. And only the changes in the `Elastos.RT` folder will be retained as it has defined as a VOLUME in the Dockerfile.
+
+     Type `exit` if you want to exit the docker build environment. And type `docker-compose run --rm build-env` if you want to re-enter it.
 
 * ### Ubuntu_32bit
 
@@ -61,8 +68,38 @@ Please select the appropriate compilation environment as needed:
   cd /lib/i386-linux-gnu/
   sudo ln -s libicuuc.so.52 libicuuc.so
   sudo ln -s libcrypto.so.1.0.0 libcrypto.so
-
   ```
+
+  * Install CMake
+
+    To use the new CMake building environment, you will need to have `cmake` installed.
+
+    To build for the Android by using `clang` compiler, you should have CMake 3.6.0 or newer version.
+
+    The Ubuntu 16.04 come with CMake 3.5.0 if you install it by using `apt-get`.
+
+    Check the cmake version if you already installed it.
+    ```
+    $ cmake --version
+    ```
+
+    Remove the old version
+    ```
+    $ sudo apt-get purge cmake
+    ```
+
+    Download and install the newer version:
+    ```
+    $ CMAKE_VERSION=3.11
+    $ CMAKE_BUILD=0
+    $ wget https://cmake.org/files/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}.${CMAKE_BUILD}-Linux-x86_64.tar.gz
+    $ mkdir ~/cmake
+    $ tar xzvf cmake-${CMAKE_VERSION}.${CMAKE_BUILD}-Linux-x86_64.tar.gz --strip-components=1 -C ~/cmake
+    $ export PATH=~/cmake/bin:$PATH
+    ```
+
+    You may want to append the `export PATH=~/cmake/bin:$PATH` to your `~/.bashrc` file.
+
 
 * ### Ubuntu_64bit
 
@@ -72,38 +109,42 @@ Please select the appropriate compilation environment as needed:
   sudo apt-get install bison g++-multilib git gperf libxml2-utils make zlib1g-dev:i386 zip libsqlite3-dev libicu-dev libssl-dev
   ```
 
-* ### IOS
- 
-  1.Install homebrew（https://brew.sh/）
+  [Install cmake](#install-cmake) if needed.
 
-  ```
-  $ /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-  ```
+* ### MacOS (for IOS build)
 
-  2.Install cmake
+  1. Install [homebrew](https://brew.sh)
 
-  ```
-  $ brew install cmake
-  ```
+     ```
+     $ /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+     ```
 
-  3.Install Xcode and Check Xcode path
+  2. Install cmake
 
-  Please search Xcode in AppStore and install it.
-  
-  ```
-  $ /usr/bin/xcode-select -print-path
-  ```
+     ```
+     $ brew install cmake
+     ```
 
-  if the result is not “/Applications/Xcode.app/Contents/Developer”，then 
-  ```
-  $ sudo xcode-select --switch /Applications/Xcode.app
-  ```
+  3. Install Xcode and Check Xcode path
 
-  4.Install simulator in Xcode
-  
-  If you want to use "ios_device" to compile and run , please ignore this step.
+     Please search Xcode in AppStore and install it.
 
-  Xcode->Preferences->Components, install iOS 11.1 Simulator
+     Run this command to check the active developer directory path
+
+     ```
+     $ /usr/bin/xcode-select -print-path
+     ```
+
+     If the result is not `/Applications/Xcode.app/Contents/Developer`，then swtich the active developer directory
+     ```
+     $ sudo xcode-select --switch /Applications/Xcode.app
+     ```
+
+  4. Install simulator in Xcode
+
+     If you just wanted to build for the "ios_device", you can ignore this step.
+
+     Xcode->Preferences->Components, install iOS 11.1 Simulator or newer version.
 
 
 ## Build Elastos.RT
@@ -112,60 +153,100 @@ Please select the appropriate compilation environment as needed:
 
 * Download NDK and execute script to generate NDK toolchain:
 
-***The compiling of android-version RT needs to install NDK toolchain, you can refer to [Install NDK](https://github.com/elastos/Elastos.RT/blob/master/ToolChains/android/Readme.md),then you can  contiune it.***
+  ***The compiling of android-version RT needs to install NDK toolchain, you can refer to [Install NDK](https://github.com/elastos/Elastos.RT/blob/master/ToolChains/android/Readme.md),then you can  contiune it.***
 
-1. enter the build environment:
-```
-$ source ~/Elastos.RT/Setup/SetEnv.sh arm_android
-or
-$ source ~/Elastos.RT/Setup/SetEnv.sh
-then choose the index number of "arm_android" item from the numbered list
-```
+1. Enter the build environment:
+   ```
+   $ source ~/Elastos.RT/Setup/SetEnv.sh arm_android
+   ```
+   or
+   ```
+   $ source ~/Elastos.RT/Setup/SetEnv.sh
+   ```
+   and then choose the index number of the "arm_android" item from the numbered list
 
 2. emake
-```
-~/Elastos.RT/Sources$ emake
-```
+   ```
+   ~/Elastos.RT/Sources$ emake
+   ```
+
+### Build Android by using "clang" on Mac or Linux (Use CMake, Experimental)
+
+1. Download the proper Android NDK for your OS. (Currently support Mac and Linux)
+
+   ***Download the lastest version [Android NDK](https://developer.android.com/ndk/downloads/index.html)***
+
+   You will need to have Android NDK r15c or newer version.
+
+2. Set the `ANDROID_NDK` environment variable
+   ```
+   $ export ANDROID_NDK=~/my-android-ndk
+   ```
+
+   NOTE: If you are using the dockerized build environment. Make sure set the ANDROID_NDK to a Linux version of the Android NDK before entering the dockerized build environment.
+
+   [Install cmake](#install-cmake) if needed.
+
+
+3. Enter the build environment:
+   ```
+   $ source ~/Elastos.RT/Setup/SetEnv.sh arm_android_clang_32
+   ```
+   or
+   ```
+   $ source ~/Elastos.RT/Setup/SetEnv.sh
+   ```
+   and then choose the index number of the "arm_android_clang_32" item from the numbered list
+
+3. emake
+   ```
+   ~/Elastos.RT/Sources$ emake
+   ```
 
 ### Build Linux
 
-1. enter the build environment:
-```
-$ source ~/Elastos.RT/Setup/SetEnv.sh linux
-or
-$ source ~/Elastos.RT/Setup/SetEnv.sh
-then choose the index number of "linux" item from the numbered list
-```
+1. Enter the build environment:
+   ```
+   $ source ~/Elastos.RT/Setup/SetEnv.sh linux
+   ```
+   or
+   ```
+   $ source ~/Elastos.RT/Setup/SetEnv.sh
+   ```
+   and then choose the index number of the "linux" item from the numbered list
 
 2. emake
-```
-~/Elastos.RT/Sources$ emake
-```
+   ```
+   ~/Elastos.RT/Sources$ emake
+   ```
 
 ### Build IOS
 
-1. enter the build environment:
+1. Enter the build environment:
 
-* ios_simulator64 : Simulator version
-```
-$ source ~/Elastos.RT/Setup/SetEnv.sh ios_simulator64
-or
-$ source ~/Elastos.RT/Setup/SetEnv.sh
-then choose the index number of "ios_simulator64" item from the numbered list
-```
+   * ios_simulator : Simulator version
+     ```
+     $ source ~/Elastos.RT/Setup/SetEnv.sh ios_simulator
+     ```
+     or
+     ```
+     $ source ~/Elastos.RT/Setup/SetEnv.sh
+     ```
+     and then choose the index number of the "ios_simulator" item from the numbered list
 
-* ios_device : Real machine version
-```
-$ source ~/Elastos.RT/Setup/SetEnv.sh ios_device
-or
-$ source ~/Elastos.RT/Setup/SetEnv.sh
-then choose the index number of "ios_device" item from the numbered list
-```
+   * ios_device : Real machine version
+     ```
+     $ source ~/Elastos.RT/Setup/SetEnv.sh ios_device
+     ```
+     or
+     ```
+     $ source ~/Elastos.RT/Setup/SetEnv.sh
+     ```
+     and then choose the index number of the "ios_device" item from the numbered list
 
 2. emake
-```
-~/Elastos.RT/Sources$ emake
-```
+   ```
+   ~/Elastos.RT/Sources$ emake
+   ```
 
-note: 
-No matter which IOS version is compiled, you should register Apple developer ID before compiling; but before compiling ios_device version, you also should set DEVELOPMENT_TEAM_ID and you may need to modify APP_BUNDLE_IDENTIFIER in CMakeLists.txt
+NOTES: No matter which IOS version is compiled, you should register Apple developer ID before compiling; but before compiling ios_device version, you also should set DEVELOPMENT_TEAM_ID and you may need to modify APP_BUNDLE_IDENTIFIER in CMakeLists.txt

@@ -16,11 +16,6 @@ set(SOURCES
     implibs.cpp
 )
 
-if(NOT APPLE)
-list(APPEND SOURCES
-    elfreader.cpp
-)
-endif()
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../inc)
 add_library(clsbase_min STATIC ${SOURCES})

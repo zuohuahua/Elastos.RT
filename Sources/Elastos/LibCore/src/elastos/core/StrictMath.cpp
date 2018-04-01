@@ -16,11 +16,7 @@
 
 #include "elastos/core/StrictMath.h"
 #include "elastos/core/Math.h"
-#ifndef ANDROID
 #include <math.h>
-#else
-#include <fdlibm.h>
-#endif
 
 namespace Elastos {
 namespace Core {
@@ -28,7 +24,6 @@ namespace Core {
 const Double StrictMath::E                        = 2.718281828459045;
 const Double StrictMath::PI                       = 3.141592653589793;
 
-#ifndef ANDROID
 #define ieee_acos       acos
 #define ieee_asin       asin
 #define ieee_atan       atan
@@ -53,7 +48,6 @@ const Double StrictMath::PI                       = 3.141592653589793;
 #define ieee_tan        tan
 #define ieee_tanh       tanh
 #define ieee_nextafter  nextafter
-#endif
 
 Double StrictMath::Abs(
     /* [in] */ Double d)

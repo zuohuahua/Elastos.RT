@@ -113,7 +113,11 @@ macro(xdk_compile_def GENERATED_FILE def_file)
         DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/${def_file}"
     )
     add_custom_target(${def_file} ALL DEPENDS __${def_file})
-    set(CMAKE_SHARED_LINKER_FLAGS "-exported_symbols_list __${def_filename}.exp")
+    if(APPLE)
+        string(APPEND CMAKE_SHARED_LINKER_FLAGS " -exported_symbols_list __${def_filename}.exp")
+    else()
+        string(APPEND CMAKE_SHARED_LINKER_FLAGS " -Wl,--retain-symbols-file,__${def_filename}.sym -Wl,--version-script,__${def_filename}.vs")
+    endif()
 endmacro()
 
 macro(xdk_gen_headers_from_cls target_name cls_file)
@@ -130,13 +134,19 @@ endmacro()
 
 include_directories($ENV{XDK_USER_INC})
 
+if(ANDROID)
+    # TODO: To be remove
+    include_directories(${CMAKE_SOURCE_DIR}/../ToolChains/android/Thirdlibrary/include/icu/icu4c/source/i18n)
+    include_directories(${CMAKE_SOURCE_DIR}/../ToolChains/android/Thirdlibrary/include/icu/include)
+endif()
+
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY $ENV{XDK_TARGETS} )
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY $ENV{XDK_USER_OBJ}/$ENV{XDK_BUILD_KIND}/lib )
 
 if(APPLE)
-    set(CMAKE_SHARED_LINKER_FLAGS "-Wl,-undefined,error")
+    string(APPEND CMAKE_SHARED_LINKER_FLAGS " -Wl,-undefined,error")
     set(CMAKE_SHARED_LIBRARY_RUNTIME_C_FLAG "-Wl,-rpath,")
     set(CMAKE_SHARED_LIBRARY_RUNTIME_C_FLAG_SEP ":")
     set(CMAKE_SHARED_LIBRARY_PREFIX "")
@@ -146,13 +156,12 @@ if(APPLE)
     set(CMAKE_INSTALL_RPATH "@executable_path/Frameworks;@loader_path/Frameworks")
     set(CMAKE_BUILD_WITH_INSTALL_NAME_DIR TRUE)
     set(CMAKE_INSTALL_NAME_DIR "@rpath")
-
 else()
-    set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")
+    string(APPEND CMAKE_SHARED_LINKER_FLAGS " -Wl,--no-undefined")
 endif()
 
 # Suppress warning: empty struct has size 0 in C, size 1 in C++ [-Wextern-c-compat]
-SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wno-extern-c-compat" )
+string(APPEND CMAKE_CXX_FLAGS " -Wno-extern-c-compat")
 
 if($ENV{XDK_VERSION} STREQUAL "rls")
     set(CMAKE_BUILD_TYPE Release)

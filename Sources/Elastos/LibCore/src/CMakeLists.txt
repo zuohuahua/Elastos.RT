@@ -1,5 +1,9 @@
 
-add_definitions(-DHAVE_APPLE_PTHREAD_SETNAME_NP)
+if(APPLE)
+    add_definitions(-DHAVE_APPLE_PTHREAD_SETNAME_NP)
+elseif(ANDROID)
+    add_definitions(-DHAVE_ANDROID_PTHREAD_SETNAME_NP)
+endif()
 
 add_definitions(-DHAVE_GETTID
                 -DHAVE_SELINUX

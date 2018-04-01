@@ -157,10 +157,9 @@ typedef const InterfaceID&  RInterfaceID;
 
 _ELASTOS_NAMESPACE_END
 
-#if defined(_linux) || defined(_mips) && defined(_GNUC) || defined(_apple)
+// TODO: Remove these macro definitions
 #define __cdecl
 #define __stdcall
-#endif
 
 #define CDECL                   __cdecl
 #define STDCALL                 __stdcall

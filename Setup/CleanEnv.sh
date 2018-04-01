@@ -12,6 +12,7 @@ while read I; do
        && "${I%%=*}" != "LANG"
        && "${I%%=*}" != "LC_ALL"
        && "${I%%=*}" != "LC_CTYPE"
+       && "${I%%=*}" != "ANDROID_NDK"
        ]]; then
         unset ${I%%=*} &>/dev/null || true
     fi

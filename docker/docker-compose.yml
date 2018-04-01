@@ -5,6 +5,7 @@ services:
     build: .
     volumes:
       - ..:/home/hostuser/Elastos.RT
+      - ${ANDROID_NDK}:/home/hostuser/android-ndk
     tmpfs:
       - /tmp
     cap_add:

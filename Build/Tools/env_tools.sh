@@ -88,6 +88,7 @@ reset_env ()
    # Set target object environment variables
    XDK_BUILD_KIND=${XDK_TARGET_CPU}_$XDK_TARGET_CPU_ARCH.$XDK_COMPILER.$XDK_TARGET_PLATFORM.
    XDK_BUILD_KIND+=${XDK_TARGET_PRODUCT:+$XDK_TARGET_PRODUCT.}
+   XDK_BUILD_KIND+=${debian_chroot:+$debian_chroot.}
    XDK_BUILD_KIND+=${XDK_BUILD_TOOL:+$XDK_BUILD_TOOL.}
    XDK_BUILD_KIND+=$XDK_VERSION
    export XDK_BUILD_KIND
@@ -668,8 +669,24 @@ function emake ()
             export XDK_CMAKE_DIR=$XDK_BUILD_PATH/CMake
             export XDK_DEFINITIONS_CMAKE=$XDK_CMAKE_DIR/definitions.cmake
             export XDK_COMMON_CMAKE=$XDK_CMAKE_DIR/common.cmake
-            if [ -f $XDK_CMAKE_DIR/$XDK_TARGET_PLATFORM.cmake ]; then
-                CMAKE_ARGS="$CMAKE_ARGS -DCMAKE_TOOLCHAIN_FILE=$XDK_CMAKE_DIR/$XDK_TARGET_PLATFORM.cmake"
+            if [ -f $XDK_CMAKE_DIR/$XDK_TARGET_PLATFORM.toolchain.cmake ]; then
+                CMAKE_ARGS="$CMAKE_ARGS -DCMAKE_TOOLCHAIN_FILE=$XDK_CMAKE_DIR/$XDK_TARGET_PLATFORM.toolchain.cmake"
+            elif [ "$XDK_TARGET_PLATFORM" == "android" ]; then
+                if [ -z "$ANDROID_NDK" ] ||
+                   [ -f $ANDROID_NDK/source.properties ] && [ "$(sed -En -e 's/^Pkg.Revision\s*=\s*([0-9]+).*/\1/p' $ANDROID_NDK/source.properties)" -lt "15" ]; then
+                    echo "Could not find Android NDK (r15c or newer)."
+                    echo "    You should set an environment variable:"
+                    echo "      export ANDROID_NDK=~/my-android-ndk"
+                    return
+                elif [ -f $ANDROID_NDK/build/cmake/android.toolchain.cmake ]; then
+                    CMAKE_ARGS="$CMAKE_ARGS -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK/build/cmake/android.toolchain.cmake"
+                else
+                    echo "Could not find $ANDROID_NDK/build/cmake/android.toolchain.cmake"
+                    echo "We only support Android NDK r15c or newer version."
+                    echo "    Please set the environment variable properly:"
+                    echo "      export ANDROID_NDK=~/my-android-ndk"
+                    return
+                fi
             fi
 
             local MIRROR_ROOT_DIR=$XDK_USER_OBJ/$XDK_BUILD_KIND/mirror
@@ -701,6 +718,10 @@ function emake ()
                         rm -f ${2%.car}.cls
                     fi
                 fi
+            elif [[ "$1" == "clobber" && "$2" == "--all" ]]; then
+                echo "Clobber all..."
+                rm -rf $XDK_TARGETS_PATH/obj
+                rm -rf $XDK_TARGETS_PATH/$XDK_BUILD_ENV
             elif [ "$1" == "clobber" ]; then
                 echo "Clobber..."
                 rm -rf $XDK_USER_OBJ/$XDK_BUILD_KIND
@@ -710,7 +731,7 @@ function emake ()
                 mkdir -p $MIRROR_ROOT_DIR 1>/dev/null
                 (cd $MIRROR_ROOT_DIR && cmake -G"Unix Makefiles" $CMAKE_ARGS $XDK_SOURCE_PATH)
             else
-                if [ ! -d "$MIRROR_DIR/CMakeFiles" ]; then
+                if [ ! -f "$MIRROR_DIR/CMakeFiles/CMakeDirectoryInformation.cmake" ]; then
                     echo 'Generating makefiles...'
                     mkdir -p $MIRROR_ROOT_DIR 1>/dev/null
                     (cd $MIRROR_ROOT_DIR && cmake -G"Unix Makefiles" $CMAKE_ARGS $XDK_SOURCE_PATH)

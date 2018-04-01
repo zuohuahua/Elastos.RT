@@ -24,7 +24,7 @@ int invoke(void* func, int* param, int size)
 {
     ASM("break 0;");
 }
-#elif _apple
+#elif _arm
 int invoke(void* func, int* param, int size)
 {
     __builtin_trap();
