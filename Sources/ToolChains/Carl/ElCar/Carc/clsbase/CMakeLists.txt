@@ -20,7 +20,7 @@ set(SOURCES
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../inc)
 add_library(clsbase_min STATIC ${SOURCES})
 
-xdk_combine_static_libraries(clsbase
+xdk_combine_static_libraries(${CMAKE_CURRENT_BINARY_DIR} clsbase
     $<TARGET_FILE:clsbase_min>
     $<TARGET_FILE:guidseed>
     $<TARGET_FILE:clsinfo>

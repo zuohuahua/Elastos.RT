@@ -6,3 +6,7 @@ set(SOURCES
 )
 
 add_library(Elastos.CoreLibrary.UUIDs STATIC ${SOURCES})
+set_target_properties(Elastos.CoreLibrary.UUIDs
+    PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY $ENV{XDK_USER_LIB}
+)

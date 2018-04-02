@@ -677,7 +677,7 @@ function emake ()
                     echo "Could not find Android NDK (r15c or newer)."
                     echo "    You should set an environment variable:"
                     echo "      export ANDROID_NDK=~/my-android-ndk"
-                    return
+                    return 1
                 elif [ -f $ANDROID_NDK/build/cmake/android.toolchain.cmake ]; then
                     CMAKE_ARGS="$CMAKE_ARGS -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK/build/cmake/android.toolchain.cmake"
                 else
@@ -685,7 +685,7 @@ function emake ()
                     echo "We only support Android NDK r15c or newer version."
                     echo "    Please set the environment variable properly:"
                     echo "      export ANDROID_NDK=~/my-android-ndk"
-                    return
+                    return 1
                 fi
             fi
 
@@ -746,9 +746,11 @@ function emake ()
 
                 if [ "$DISABLE_EMAKE_TIMES" == "1" ]; then
                     (cd $MIRROR_DIR && $XDK_MAKE $1 $2 $3 $4 $5 $6)
+                    BUILD_EXIT_CODE=$?
                 else
                     local START_TIME=`date +%s`
                     (cd $MIRROR_DIR && $XDK_MAKE $1 $2 $3 $4 $5 $6)
+                    BUILD_EXIT_CODE=$?
                     local ELAPSED_TIME=$(( `date +%s`-$START_TIME ))
                     local HOURS=`echo $ELAPSED_TIME/3600 | bc`
                     local MINUTES=`echo $ELAPSED_TIME/60%60 | bc`
@@ -756,6 +758,7 @@ function emake ()
                     echo "Build finished, elapsed time: $HOURS Hours, $MINUTES Minutes, $SECONDS Seconds."
                 fi
                 unset XDK_MAKE XDK_MAKEFILE XDK_EMAKE_DIR BUILD_VERBOSE TEST_COVERAGE
+                return $BUILD_EXIT_CODE
             fi
             if [ "$1" == "clean" ]; then
                 echo "Cleaning mirror direcotory..."

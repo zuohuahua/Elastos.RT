@@ -6,6 +6,10 @@ set(SOURCES
 )
 
 add_library(Elastos.HelloCarDemo.UUIDs STATIC ${SOURCES})
+set_target_properties(Elastos.HelloCarDemo.UUIDs
+    PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY $ENV{XDK_USER_LIB}
+)
 
 set (APP_NAME HelloCarApp)
 set (APP_SUBDIR app)

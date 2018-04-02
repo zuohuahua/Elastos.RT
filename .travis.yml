@@ -1,0 +1,35 @@
+language: cpp
+
+matrix:
+  include:
+  - os: osx
+    env: BUILD_ENV=mac_devtools
+    script: source $TRAVIS_BUILD_DIR/Setup/SetEnv.sh $BUILD_ENV && emake
+
+  - os: osx
+    env: BUILD_ENV=ios_simulator
+    script: source $TRAVIS_BUILD_DIR/Setup/SetEnv.sh $BUILD_ENV && export XDK_SKIP_CODE_SIGN=1 && emake
+
+  - sudo: required
+    services: docker
+    env: BUILD_ENV=linux
+    before_install:
+      - cd $TRAVIS_BUILD_DIR/docker && docker-compose build --build-arg HOST_USER_UID=`id -u` --build-arg HOST_USER_GID=`id -g` build-env
+    script: cd $TRAVIS_BUILD_DIR/docker && docker-compose run --rm build-env bash -lc "source ~/Elastos.RT/Setup/SetEnv.sh $BUILD_ENV && emake"
+
+  - language: android
+    sudo: true
+    android:
+      components:
+        - tools
+        - platform-tools
+        - build-tools-23.0.2
+        - android-23
+    env: BUILD_ENV=arm_android_clang_32
+    install:
+      - echo y | sdkmanager 'ndk-bundle'
+      - echo y | sdkmanager 'cmake;3.6.4111459'
+      - echo y | sdkmanager 'lldb;3.0'
+      - export ANDROID_NDK=/usr/local/android-sdk/ndk-bundle
+      - export PATH=/usr/local/android-sdk/cmake/3.6.4111459/bin:$PATH
+    script: source $TRAVIS_BUILD_DIR/Setup/SetEnv.sh $BUILD_ENV && emake

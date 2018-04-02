@@ -90,7 +90,7 @@ set(SOURCES
 )
 
 add_library(elastos_utility_min STATIC ${SOURCES})
-xdk_combine_static_libraries(elastos.utility
+xdk_combine_static_libraries(${CMAKE_CURRENT_BINARY_DIR} elastos.utility
     $<TARGET_FILE:elastos_utility_min>
     $<TARGET_FILE:elastos_utility_regex>
 )

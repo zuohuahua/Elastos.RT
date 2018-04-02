@@ -1,4 +1,4 @@
-# ElastosRT
+# ElastosRT [![Build Status](https://travis-ci.org/elastos/Elastos.RT.svg?branch=master)](https://travis-ci.org/elastos/Elastos.RT)
 
 ## Summary
 

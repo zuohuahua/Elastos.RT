@@ -51,12 +51,14 @@ RUN set -ex                                                                     
     usermod -aG sudo hostuser                                                       && \
     echo 'hostuser        ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers              && \
     echo 'docker' > /etc/debian_chroot                                              && \
-    echo 'export ANDROID_NDK=/home/hostuser/android-ndk' >> /home/hostuser/.bashrc  && \
     wget https://cmake.org/files/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}.${CMAKE_BUILD}-Linux-x86_64.tar.gz -P /opt --no-verbose && \
     mkdir /opt/cmake                                                                && \
-    tar xzvf /opt/cmake-${CMAKE_VERSION}.${CMAKE_BUILD}-Linux-x86_64.tar.gz --strip-components=1 -C /opt/cmake && \
-    rm -f /opt/cmake-${CMAKE_VERSION}.${CMAKE_BUILD}-Linux-x86_64.tar.gz      && \
-    echo 'export PATH=/opt/cmake/bin:$PATH' >> /home/hostuser/.bashrc
+    tar xzf /opt/cmake-${CMAKE_VERSION}.${CMAKE_BUILD}-Linux-x86_64.tar.gz --strip-components=1 -C /opt/cmake && \
+    rm -f /opt/cmake-${CMAKE_VERSION}.${CMAKE_BUILD}-Linux-x86_64.tar.gz            && \
+    echo 'export ANDROID_NDK=/home/hostuser/android-ndk' > /home/hostuser/.bashrc_tmp  && \
+    echo 'export PATH=/opt/cmake/bin:$PATH' >> /home/hostuser/.bashrc_tmp           && \
+    cat /home/hostuser/.bashrc >> /home/hostuser/.bashrc_tmp                        && \
+    mv /home/hostuser/.bashrc_tmp /home/hostuser/.bashrc
 
 
 USER hostuser

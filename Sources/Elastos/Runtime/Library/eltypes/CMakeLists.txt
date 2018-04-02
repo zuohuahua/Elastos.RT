@@ -19,7 +19,7 @@ endif()
 
 add_library(eltypes_min STATIC ${SOURCES})
 
-xdk_combine_static_libraries(eltypes
+xdk_combine_static_libraries(${CMAKE_CURRENT_BINARY_DIR} eltypes
     $<TARGET_FILE:eltypes_min>
     $<TARGET_FILE:elrefbase>
     $<TARGET_FILE:elstring>

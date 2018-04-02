@@ -24,32 +24,32 @@ macro(xdk_add_subdirectories)
     endforeach()
 endmacro()
 
-macro(xdk_combine_static_libraries new_archive)
+macro(xdk_combine_static_libraries output_dir new_archive)
     if(APPLE)
         add_custom_command(
             COMMENT "Packing ${CMAKE_STATIC_LIBRARY_PREFIX}${new_archive}${CMAKE_STATIC_LIBRARY_SUFFIX}"
-            OUTPUT ${CMAKE_STATIC_LIBRARY_PREFIX}${new_archive}${CMAKE_STATIC_LIBRARY_SUFFIX}
-            COMMAND libtool -static -o ${CMAKE_STATIC_LIBRARY_PREFIX}${new_archive}${CMAKE_STATIC_LIBRARY_SUFFIX} ${ARGN}
+            OUTPUT ${output_dir}/${CMAKE_STATIC_LIBRARY_PREFIX}${new_archive}${CMAKE_STATIC_LIBRARY_SUFFIX}
+            COMMAND libtool -static -o ${output_dir}/${CMAKE_STATIC_LIBRARY_PREFIX}${new_archive}${CMAKE_STATIC_LIBRARY_SUFFIX} ${ARGN}
             WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
             DEPENDS ${ARGN}
         )
     else()
         add_custom_command(
             COMMENT "Packing ${CMAKE_STATIC_LIBRARY_PREFIX}${new_archive}${CMAKE_STATIC_LIBRARY_SUFFIX}"
-            OUTPUT ${CMAKE_STATIC_LIBRARY_PREFIX}${new_archive}${CMAKE_STATIC_LIBRARY_SUFFIX}
-            COMMAND $ENV{XDK_BUILD_PATH}/CMake/create_ar_script.sh ${new_archive}.ar ${CMAKE_STATIC_LIBRARY_PREFIX}${new_archive}${CMAKE_STATIC_LIBRARY_SUFFIX} ${ARGN}
+            OUTPUT ${output_dir}/${CMAKE_STATIC_LIBRARY_PREFIX}${new_archive}${CMAKE_STATIC_LIBRARY_SUFFIX}
+            COMMAND $ENV{XDK_BUILD_PATH}/CMake/create_ar_script.sh ${new_archive}.ar ${output_dir}/${CMAKE_STATIC_LIBRARY_PREFIX}${new_archive}${CMAKE_STATIC_LIBRARY_SUFFIX} ${ARGN}
             COMMAND ${CMAKE_AR} -M < ${new_archive}.ar
             WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
             DEPENDS ${ARGN}
         )
     endif()
-    add_custom_target(combined_${new_archive} ALL DEPENDS ${CMAKE_STATIC_LIBRARY_PREFIX}${new_archive}${CMAKE_STATIC_LIBRARY_SUFFIX})
+    add_custom_target(combined_${new_archive} ALL DEPENDS ${output_dir}/${CMAKE_STATIC_LIBRARY_PREFIX}${new_archive}${CMAKE_STATIC_LIBRARY_SUFFIX})
     add_library(${new_archive} STATIC IMPORTED GLOBAL)
     add_dependencies(${new_archive} combined_${new_archive})
 
     set_target_properties(${new_archive}
             PROPERTIES
-            IMPORTED_LOCATION ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_STATIC_LIBRARY_PREFIX}${new_archive}${CMAKE_STATIC_LIBRARY_SUFFIX}
+            IMPORTED_LOCATION ${output_dir}/${CMAKE_STATIC_LIBRARY_PREFIX}${new_archive}${CMAKE_STATIC_LIBRARY_SUFFIX}
             )
 endmacro()
 
@@ -143,7 +143,7 @@ endif()
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY $ENV{XDK_TARGETS} )
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY $ENV{XDK_USER_OBJ}/$ENV{XDK_BUILD_KIND}/lib )
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY $ENV{XDK_TARGETS} )
 
 if(APPLE)
     string(APPEND CMAKE_SHARED_LINKER_FLAGS " -Wl,-undefined,error")

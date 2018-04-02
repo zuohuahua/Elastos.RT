@@ -84,12 +84,12 @@ set(CMAKE_SHARED_LIBRARY_RUNTIME_C_FLAG "-Wl,-rpath,")
 set(CMAKE_SHARED_LIBRARY_RUNTIME_C_FLAG_SEP ":")
 
 add_library( Elastos.Runtime SHARED IMPORTED GLOBAL )
-set_target_properties( Elastos.Runtime PROPERTIES IMPORTED_LOCATION $ENV{XDK_USER_LIB}/Elastos.Runtime.eco )
+set_target_properties( Elastos.Runtime PROPERTIES IMPORTED_LOCATION $ENV{XDK_TARGETS}/Elastos.Runtime.eco )
 target_link_libraries(${APP_NAME} Elastos.Runtime)
 
 target_link_libraries(${APP_NAME}
-                    ${CMAKE_BINARY_DIR}/../../../../../Elastos/Runtime/Core/eladll/lib/libElastos.Runtime_static.a
-                    ${CMAKE_BINARY_DIR}/../../libElastos.HelloCarDemo.UUIDs.a)
+    $ENV{XDK_USER_LIB}/libElastos.Runtime_static.a
+    $ENV{XDK_USER_LIB}/libElastos.HelloCarDemo.UUIDs.a)
 
 
 # Turn on ARC
@@ -157,9 +157,9 @@ add_custom_command(
     POST_BUILD COMMAND /bin/sh -c
     \"COMMAND_DONE=0 \;
     if ${CMAKE_COMMAND} -E copy
-        $ENV{XDK_USER_LIB}/Elastos.Runtime.eco
-        $ENV{XDK_USER_LIB}/Elastos.CoreLibrary.eco
-        $ENV{XDK_USER_LIB}/Elastos.HelloCarDemo.eco
+        $ENV{XDK_TARGETS}/Elastos.Runtime.eco
+        $ENV{XDK_TARGETS}/Elastos.CoreLibrary.eco
+        $ENV{XDK_TARGETS}/Elastos.HelloCarDemo.eco
         \${BUILT_PRODUCTS_DIR}/${APP_NAME}.app/Frameworks/
         \&\>/dev/null \; then
         COMMAND_DONE=1 \;
@@ -193,6 +193,10 @@ add_custom_command(
         --sign ${CODE_SIGN_IDENTITY}
         \&\>/dev/null \; then
         COMMAND_DONE=1 \;
+    fi \;
+    if [ -n '$ENV{XDK_SKIP_CODE_SIGN}' ] \; then
+        echo Framework codesign skiped \;
+        exit 0 \;
     fi \;
     if [ \\$$COMMAND_DONE -eq 0 ] \; then
         echo Framework codesign failed \;
