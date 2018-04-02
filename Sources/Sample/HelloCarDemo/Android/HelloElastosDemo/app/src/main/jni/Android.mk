@@ -60,7 +60,7 @@ include $(CLEAR_VARS)
 LOCAL_SRC_FILES := elastos_testthirdlib.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/elastos/include \
-      $(LOCAL_PATH)/elastos/include/elasys \
+      $(LOCAL_PATH)/elastos/include/elastos \
       $(LOCAL_PATH)/Elastos.HelloCarDemo
 
 LOCAL_CFLAGS += -std=c++11 -D_GNUC -D_linux -D_UNDEFDLLEXP -fvisibility=hidden
