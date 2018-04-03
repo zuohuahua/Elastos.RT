@@ -70,36 +70,7 @@ Please select the appropriate compilation environment as needed:
   sudo ln -s libcrypto.so.1.0.0 libcrypto.so
   ```
 
-  * Install CMake
-
-    To use the new CMake building environment, you will need to have `cmake` installed.
-
-    To build for the Android by using `clang` compiler, you should have CMake 3.6.0 or newer version.
-
-    The Ubuntu 16.04 come with CMake 3.5.0 if you install it by using `apt-get`.
-
-    Check the cmake version if you already installed it.
-    ```
-    $ cmake --version
-    ```
-
-    Remove the old version
-    ```
-    $ sudo apt-get purge cmake
-    ```
-
-    Download and install the newer version:
-    ```
-    $ CMAKE_VERSION=3.11
-    $ CMAKE_BUILD=0
-    $ wget https://cmake.org/files/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}.${CMAKE_BUILD}-Linux-x86_64.tar.gz
-    $ mkdir ~/cmake
-    $ tar xzvf cmake-${CMAKE_VERSION}.${CMAKE_BUILD}-Linux-x86_64.tar.gz --strip-components=1 -C ~/cmake
-    $ export PATH=~/cmake/bin:$PATH
-    ```
-
-    You may want to append the `export PATH=~/cmake/bin:$PATH` to your `~/.bashrc` file.
-
+  [Install cmake](#install-cmake) if needed.
 
 * ### Ubuntu_64bit
 
@@ -110,6 +81,36 @@ Please select the appropriate compilation environment as needed:
   ```
 
   [Install cmake](#install-cmake) if needed.
+
+* ### Install CMake
+
+  To use the new CMake building environment, you will need to have `cmake` installed.
+
+  To build for the Android by using `clang` compiler, you should have CMake 3.6.0 or newer version.
+
+  The Ubuntu 16.04 come with CMake 3.5.0 if you install it by using `apt-get`.
+
+  Check the cmake version if you already installed it.
+  ```
+  $ cmake --version
+  ```
+
+  Remove the old version
+  ```
+  $ sudo apt-get purge cmake
+  ```
+
+  Download and install the newer version:
+  ```
+  $ CMAKE_VERSION=3.11
+  $ CMAKE_BUILD=0
+  $ wget https://cmake.org/files/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}.${CMAKE_BUILD}-Linux-x86_64.tar.gz
+  $ mkdir ~/cmake
+  $ tar xzvf cmake-${CMAKE_VERSION}.${CMAKE_BUILD}-Linux-x86_64.tar.gz --strip-components=1 -C ~/cmake
+  $ export PATH=~/cmake/bin:$PATH
+  ```
+
+  You may want to append the `export PATH=~/cmake/bin:$PATH` to your `~/.bashrc` file.
 
 * ### MacOS (for IOS build)
 
@@ -153,7 +154,7 @@ Please select the appropriate compilation environment as needed:
 
 * Download NDK and execute script to generate NDK toolchain:
 
-  ***The compiling of android-version RT needs to install NDK toolchain, you can refer to [Install NDK](https://github.com/elastos/Elastos.RT/blob/master/ToolChains/android/Readme.md),then you can  contiune it.***
+  ***The compiling of android-version RT needs to install NDK toolchain, you can refer to [Install NDK](../../ToolChains/android/Readme.md),then you can  contiune it.***
 
 1. Enter the build environment:
    ```
