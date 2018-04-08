@@ -4,8 +4,8 @@
 Name=Gcc Devtools
 Comment=Elastos RDK Development Env
 TryExec=gnome-terminal
-Exec=gnome-terminal -e 'bash --init-file ~/ElastosRDK4_2_2/Setup/Gcc_Devtools_Init'
-Icon=~/ElastosRDK4_2_2/Setup/Shortcuts/Gcc_Devtools.ico
+Exec=gnome-terminal -e 'bash --init-file ~/Elastos.RT/Setup/Gcc_Devtools_Init'
+Icon=~/Elastos.RT/Setup/Shortcuts/Gcc_Devtools.ico
 #Icon=utilities-terminal
 Type=Application
 Categories=TerminalEmulator
