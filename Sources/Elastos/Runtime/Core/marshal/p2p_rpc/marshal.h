@@ -4,6 +4,7 @@
 
 #include "clsinfo.h"
 #include "elastos.h"
+#include "session.h"
 
 _ELASTOS_NAMESPACE_USING
 
@@ -68,6 +69,7 @@ extern ECode StdMarshalInterface(
 
 extern ECode StdUnmarshalInterface(
         /* [in] */ UnmarshalFlag flag,
+        /* [in] */ CSession* pSession,
         /* [in] */ InterfacePack *pInterfacePack,
         /* [out] */ IInterface **ppObject);
 

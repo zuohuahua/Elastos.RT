@@ -90,7 +90,7 @@ public:
         /* [in] */ IInterface* object,
         /* [out] */ InterfaceID* iid);
 
-    CARAPI GetCarrierHandle(
+    ECode GetCarrierHandle(
         /* [out] */ Handle64* handle);
 
     //Local functions for distribute the callback.

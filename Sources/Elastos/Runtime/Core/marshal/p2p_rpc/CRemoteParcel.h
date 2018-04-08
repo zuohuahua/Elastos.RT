@@ -10,9 +10,11 @@
 class CRemoteParcel : public IParcel
 {
 public:
-    CRemoteParcel();
+    CRemoteParcel(
+        /* [in] */ CSession* pSession);
 
     CRemoteParcel(
+        /* [in] */ CSession* pSession,
         /* [in] */ UInt32 *elemBuf);
 
     virtual ~CRemoteParcel();
@@ -203,6 +205,8 @@ private:
     Int32 m_elemBufCapacity;
 
 	Boolean m_freeDataTag;
+
+    CSession* mSession;
 };
 
 #endif //__CREMOTEPARCEL_H__

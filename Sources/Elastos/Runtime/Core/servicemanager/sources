@@ -1,0 +1,9 @@
+TARGET_NAME= ServiceManager
+TARGET_TYPE= lib
+
+C_DEFINES= -D_CAR_RUNTIME
+
+INCLUDES += $(MAKEDIR)/../marshal
+INCLUDES += $(MAKEDIR)/../carrierinc
+
+SOURCES = CServiceManager.cpp

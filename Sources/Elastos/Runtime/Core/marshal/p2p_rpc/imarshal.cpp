@@ -87,6 +87,7 @@ static ECode StdUnmarshalCustomInterface(
 
 ECode StdUnmarshalInterface(
     /* [in] */ UnmarshalFlag flag,
+    /* [in] */ CSession* pSession,
     /* [in] */ InterfacePack *pInterfacePack,
     /* [out] */ IInterface **ppObj)
 {
@@ -131,6 +132,7 @@ ECode StdUnmarshalInterface(
     }
     else {
         ec = CObjectProxy::S_CreateObject(
+            pSession,
             pInterfacePack->m_clsid,
             pInterfacePack->m_stubConnName,
             &pIProxy);

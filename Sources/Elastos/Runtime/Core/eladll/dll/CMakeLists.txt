@@ -1,6 +1,9 @@
 
 
+link_directories($ENV{XDK_ROOT}/ToolChains/$ENV{XDK_TARGET_PLATFORM}/Thirdlibrary/lib)
+
 add_definitions(-D_USE_MY_DLLMAIN_)
+
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../inc)
 
@@ -14,8 +17,10 @@ if("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "ios")
     )
 elseif("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "android")
     list(APPEND MY_LINK_LIBRARIES
-#        marshal
-        marshalcomm
+        marshal
+        elcarrierapi
+        elacarrier
+        elasession
         log
     )
 endif()

@@ -1,4 +1,7 @@
 
+#ifndef _CARRIER_H_
+#define _CARRIER_H_
+
 #include "ela_carrier.h"
 #include "ela_session.h"
 #include <elastos.h>
@@ -80,3 +83,5 @@ ELAPI_(int) ECO_PUBLIC carrier_session_wait(
     ElaCarrier* carrier);
 
 ELAPI_(void) ECO_PUBLIC carrier_session_destroy();
+
+#endif //_CARRIER_H_

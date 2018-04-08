@@ -3,6 +3,7 @@
 
 #if defined(__USE_REMOTE_SOCKET)
 #include "prxstub.h"
+#include "elcarrierapi.h"
 #endif
 
 #if !defined(__USE_REMOTE_SOCKET)
@@ -18,7 +19,11 @@ ECode LookupClassInfo(
     /* [out] */ CIClassInfo **ppClassInfo);
 
 ECode GetRemoteClassInfo(
+#if defined(__USE_REMOTE_SOCKET)
+    /* [in] */ CSession* pSession,
+#elif
     /* [in] */ const char* connectionName,
+#endif
     /* [in] */ REMuid clsId,
     /* [out] */ CIClassInfo ** ppClassInfo);
 
@@ -44,23 +49,31 @@ enum Type {
     Type_InterfacePtr       = 15,
 };
 
-CRemoteParcel::CRemoteParcel() :
+CRemoteParcel::CRemoteParcel(
+    /* [in] */ CSession* pSession) :
     m_nRefs(1),
-	m_freeDataTag(FALSE)
+	m_freeDataTag(FALSE),
+    mSession(NULL)
 {
+    assert(!pSession);
     m_elemBufCapacity = 1024;
     m_elemBuf = (UInt32*)calloc(1, m_elemBufCapacity + sizeof(MarshalHeader));
     m_elemBuf = (UInt32*)((MarshalHeader*)m_elemBuf + 1);
     m_elemPtr = m_elemBuf;
+    mSession = pSession;
+    mSession->AddRef();
 }
 
 CRemoteParcel::CRemoteParcel(
+    /* [in] */ CSession* pSession,
     /* [in] */ UInt32 *elemBuf) :
     m_nRefs(1),
 	m_freeDataTag(FALSE)
 {
     m_elemBuf = (UInt32*)((MarshalHeader*)elemBuf + 1);
     m_elemPtr = m_elemBuf;
+    mSession = pSession;
+    mSession->AddRef();
 }
 
 CRemoteParcel::~CRemoteParcel()
@@ -68,6 +81,8 @@ CRemoteParcel::~CRemoteParcel()
     if (m_freeDataTag) {
         free(m_elemBuf);
     }
+
+    mSession->Release();
 }
 
 PInterface CRemoteParcel::Probe(
@@ -334,6 +349,7 @@ ECode CRemoteParcel::ReadValue(PVoid pValue, Int32 type)
                                     else {
                                         ec = StdUnmarshalInterface(
                                                 UnmarshalFlag_Noncoexisting,
+                                                mSession,
                                                 &ipack,
                                                 (IInterface**)&pBuf[i]);
                                         if (FAILED(ec)) {
@@ -386,6 +402,7 @@ ECode CRemoteParcel::ReadValue(PVoid pValue, Int32 type)
                 else {
                     ec = StdUnmarshalInterface(
                             UnmarshalFlag_Noncoexisting,
+                            mSession,
                             pItfPack,
                             (IInterface **)pValue);
                     if (FAILED(ec)) {
@@ -903,13 +920,19 @@ Boolean CRemoteParcel::IsParcelable(
     if (FAILED(ec)) {
 
 #if defined(__USE_REMOTE_SOCKET)
-        ElaCarrier* carrier;
-        int ret = carrier_connect("", &carrier);
-        if (ret != 0) {
+        ICarrier* pCarrier;
+        ec = CCarrier::GetInstance(&pCarrier);
+        if (FAILED(ec)) {
+            return FALSE;
+        }
+        Boolean online;
+        pCarrier->IsOnline(&online);
+        pCarrier->Release();
+        if (!online) {
             return FALSE;
         }
 
-        ec = GetRemoteClassInfo(pInterfacePack->m_stubConnName,
+        ec = GetRemoteClassInfo(mSession,
                                 pInterfacePack->m_clsid,
                                 ppClassInfo);
 #else
@@ -994,7 +1017,7 @@ ELAPI _CParcel_New(
     void* pLocation = calloc(sizeof(CRemoteParcel), 1);
     if (!pLocation) return E_OUT_OF_MEMORY;
 
-    pObj = (CRemoteParcel *)new(pLocation) CRemoteParcel(FALSE);
+    pObj = (CRemoteParcel *)new(pLocation) CRemoteParcel(NULL);
     pObj->AddRef();
 
     *ppObj = (IParcel*)pObj;

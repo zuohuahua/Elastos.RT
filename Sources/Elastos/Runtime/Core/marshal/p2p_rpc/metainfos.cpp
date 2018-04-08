@@ -343,7 +343,11 @@ ECode AcquireClassInfo(
 }
 
 ECode GetRemoteClassInfo(
+#if defined(__USE_REMOTE_SOCKET)
+    /* [in] */ CSession* pSession,
+#elif
     /* [in] */ const char* connectionName,
+#endif
     /* [in] */ REMuid clsId,
     /* [out] */ CIClassInfo ** ppClassInfo)
 {
@@ -432,11 +436,15 @@ ECode GetRemoteClassInfo(
     void *buf = NULL;
     int len;
 
-    if (carrier_send(METHOD_GET_CLASS_INFO, NULL, 0))
+    ec = pSession->SendMessage(METHOD_GET_CLASS_INFO, NULL, 0);
+    if (FAILED(ec)) {
         goto Exit;
+    }
 
-    if (carrier_receive(connectionName, &type, &buf, &len))
+    ec = pSession->ReceiveMessage(&type, &buf, &len);
+    if (FAILED(ec)) {
         goto Exit;
+    }
 
     if (type != METHOD_GET_CLASS_INFO_REPLY)
         goto Exit;

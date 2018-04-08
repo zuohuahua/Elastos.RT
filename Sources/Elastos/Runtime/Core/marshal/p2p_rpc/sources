@@ -6,9 +6,6 @@ TARGET_TYPE = lib
 
 EXPORT_HEADERS = carrier.h
 
-ifeq "$(XDK_TARGET_PLATFORM)" "android"
-SPECIAL_TARGET=copy_prebuilt
-endif
 
 C_DEFINES+=-D_UNDEFDLLEXP
 

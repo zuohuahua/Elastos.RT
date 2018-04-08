@@ -18,9 +18,6 @@
 # include <arpa/inet.h>
 #endif
 
-#include <uv.h>
-
-#include "sock.h"
 
 #endif
 
@@ -84,6 +81,9 @@ ECode CInterfaceStub::MarshalOut(
 }
 
 CObjectStub::CObjectStub() :
+    mSessionManager(NULL),
+    mSession(NULL),
+    mSessionManagerListener(NULL),
     m_pInterfaces(NULL),
     m_bRequestToQuit(FALSE),
     m_cRef(1)
@@ -99,9 +99,21 @@ CObjectStub::~CObjectStub()
         delete [] m_pInterfaces;
     }
 
+    if (mSessionManagerListener) {
+        mSessionManager->RemoveListener(mSessionManagerListener, this);
+        mSessionManagerListener->Release();
+    }
+
+    if (mSessionManager) {
+        mSessionManager->Release();
+    }
+
+    if (mSession) {
+        mSession->Release();
+    }
+
     UnregisterExportObject(m_connName);
 
-    sem_destroy(&m_sem);
     pthread_exit((void*)0);
 }
 
@@ -297,7 +309,7 @@ ECode CObjectStub::Invoke(
         GET_REG(ESP, puArgs);
 #endif
 
-        pParcel = new CRemoteParcel((UInt32*)pInHeader);
+        pParcel = new CRemoteParcel(mSession, (UInt32*)pInHeader);
         ec = pCurInterface->UnmarshalIn(pMethodInfo,
                                         pParcel,
                                         pOutHeader,
@@ -355,7 +367,8 @@ ECode CObjectStub::Invoke(
             GET_REG(ip, ip);
             GET_REG(lr, lr);
             GET_REG(sp, sp);
-            STUB_INVOKE_METHOD2(ec, puArgs, uMethodAddr);
+            // TODO: clang compile error, check assemble later
+            // STUB_INVOKE_METHOD2(ec, puArgs, uMethodAddr);
             SET_REG(sp, sp);
             SET_REG(lr, lr);
             SET_REG(ip, ip);
@@ -420,7 +433,7 @@ ECode CObjectStub::Invoke(
             || GET_IN_INTERFACE_MARK(pMethodInfo->mReserved1)) {
 
             if (pOutHeader && SUCCEEDED(ec)) {
-                *ppParcel = new CRemoteParcel();
+                *ppParcel = new CRemoteParcel(mSession);
                 if (*ppParcel == NULL) {
                     ec = E_OUT_OF_MEMORY;
                     goto ErrorExit;
@@ -451,7 +464,7 @@ ECode CObjectStub::Invoke(
             goto ErrorExit;
         }
 
-        *ppParcel = new CRemoteParcel();
+        *ppParcel = new CRemoteParcel(mSession);
         if (*ppParcel == NULL) {
             ec = E_OUT_OF_MEMORY;
             goto ErrorExit;
@@ -693,7 +706,7 @@ DBusHandlerResult CObjectStub::S_HandleMessage(
 
 #else
 
-ECode CObjectStub::HandleGetClassInfo(const char *uid, void const *base, int len)
+ECode CObjectStub::HandleGetClassInfo(void const *base, int len)
 {
     EMuid clsid;
     CIModuleInfo *pSrcModInfo;
@@ -708,17 +721,15 @@ ECode CObjectStub::HandleGetClassInfo(const char *uid, void const *base, int len
     pDestModInfo = (CIModuleInfo *)calloc(1, pSrcModInfo->mTotalSize);
     FlatModuleInfo(pSrcModInfo, pDestModInfo);
 
-    if (carrier_send(METHOD_GET_CLASS_INFO_REPLY,
-                pDestModInfo,
-                pDestModInfo->mTotalSize))
-        MARSHAL_DBGOUT(MSHDBG_ERROR, printf("Socket-sending failed.\n"));
+    mSession->SendMessage(METHOD_GET_CLASS_INFO_REPLY, pDestModInfo,
+                    pDestModInfo->mTotalSize);
 
     free(pDestModInfo);
 
     return NOERROR;
 }
 
-ECode CObjectStub::HandleInvoke(const char *uid, void const *base, int len)
+ECode CObjectStub::HandleInvoke(void const *base, int len)
 {
     void *pOutBuffer;
     Int32 outSize;
@@ -746,17 +757,11 @@ ECode CObjectStub::HandleInvoke(const char *uid, void const *base, int len)
             p += sizeof _ec;
             memcpy(p, pOutBuffer, outSize);
 
-
-            if (carrier_send(METHOD_INVOKE_REPLY, out_buf, out_size))
-                MARSHAL_DBGOUT(MSHDBG_ERROR,
-                        printf("Socket-sending failed.\n"));
-
+            mSession->SendMessage(METHOD_INVOKE_REPLY, out_buf, out_size);
 
         }
     } else {
-	    if (carrier_send(METHOD_INVOKE_REPLY, &_ec, sizeof _ec))
-		    MARSHAL_DBGOUT(MSHDBG_ERROR,
-				    printf("Socket-sending failed.\n"));
+        mSession->SendMessage(METHOD_INVOKE_REPLY, &_ec, sizeof _ec);
     }
 
     if (pParcel != NULL)
@@ -765,7 +770,7 @@ ECode CObjectStub::HandleInvoke(const char *uid, void const *base, int len)
     return NOERROR;
 }
 
-ECode CObjectStub::HandleRelease(const char *uid, void const *base, int len)
+ECode CObjectStub::HandleRelease(void const *base, int len)
 {
     MARSHAL_DBGOUT(MSHDBG_NORMAL, printf("Stub Release.\n"));
 
@@ -775,192 +780,11 @@ ECode CObjectStub::HandleRelease(const char *uid, void const *base, int len)
     //        reference count to control when to make the stub quit.
     //this->m_bRequestToQuit = TRUE;
 
-    if (this->Release() == 0)
-       mExitLoop = TRUE;
-
+    this->Release();
     return NOERROR;
 }
 
 #endif
-
-void* CObjectStub::S_ServiceRoutine(void *arg)
-{
-
-#if defined(__USE_REMOTE_SOCKET)
-    RPC_LOG("start S_ServiceRoutine\n");
-
-    CObjectStub *pThis = (CObjectStub *)arg;
-    pThis->mExitLoop = FALSE;
-
-    int ret = carrier_connect("", &pThis->mCarrier);
-    if (ret) {
-        RPC_LOG("S_ServiceRoutine carrier_connect failed\n");
-        return 0;
-    }
-    pThis->AddRef();
-
-    char connName[256];
-    ela_get_userid(pThis->mCarrier, connName, 256);
-
-    pThis->m_connName = connName;
-    sem_post(&pThis->m_sem);
-
-    ECode ec;
-    while(!pThis->mExitLoop) {
-        ret = carrier_wait(-1);
-        if (ret != 0) {
-            continue;
-        }
-
-        DataPack data;
-        ret = carrier_read(&data, FALSE);
-        if (ret != 0) {
-            continue;
-        }
-
-        void* p = data.data->GetPayload();
-        int _len = data.data->GetLength();
-        int _type = *(size_t *)p;
-        p += 4;
-        _len -= 4;
-
-        RPC_LOG("S_ServiceRoutine receive type:%d\n", _type);
-
-        switch (_type) {
-        case METHOD_GET_CLASS_INFO:
-            carrier_data_handled();
-            ec = pThis->HandleGetClassInfo(data.from, p, _len);
-            break;
-        case METHOD_INVOKE:
-            carrier_data_handled();
-            ec = pThis->HandleInvoke(data.from, p, _len);
-            break;
-        case METHOD_RELEASE:
-            carrier_data_handled();
-            ec = pThis->HandleRelease(data.from, p, _len);
-            break;
-        default:
-            ec = NOERROR;
-            break;
-        }
-        ArrayOf<Byte>::Free(data.data);
-
-        if (FAILED(ec)) {
-            break;
-        }
-    }
-
-    ec = UnregisterExportObject(pThis->m_connName);
-    if (FAILED(ec))
-        MARSHAL_DBGOUT(MSHDBG_ERROR, printf(
-                    "Release stub: "
-                    "unregister export object failed, ec(%x)\n", ec));
-    pThis->Release();
-
-    RPC_LOG("end S_ServiceRoutine\n");
-
-    return 0;
-
-#else
-
-    DBusError err;
-    DBusConnection *pconn;
-    DBusObjectPathVTable objectPathVTable;
-    const char *uname;
-
-    if (arg == NULL) {
-        pthread_exit((void*)E_THREAD_ABORTED);
-    }
-
-    MARSHAL_DBGOUT(MSHDBG_NORMAL,
-            printf("Listening for method calls.\n"));
-
-    // initialise the error
-    dbus_error_init(&err);
-
-    // connect to the bus and check for errors
-#ifdef _MSC_VER
-	pconn = dbus_bus_get_private(DBUS_BUS_SESSION, &err);
-#else
-    pconn = dbus_bus_get_private(DBUS_BUS_SYSTEM, &err);
-#endif
-    if (dbus_error_is_set(&err)) {
-        MARSHAL_DBGOUT(MSHDBG_ERROR,
-                printf("Connection Error (%s).\n", err.message));
-        dbus_error_free(&err);
-        pthread_exit((void*)E_FAIL);
-    }
-
-    uname = dbus_bus_get_unique_name(pconn);
-    if (uname == NULL) {
-        MARSHAL_DBGOUT(MSHDBG_ERROR,
-                printf("Get connection name fail.\n"));
-        pthread_exit((void*)E_FAIL);
-    }
-    ((CObjectStub*)arg)->m_connName = uname;
-
-    objectPathVTable.unregister_function = NULL;
-    objectPathVTable.message_function = S_HandleMessage;
-
-    dbus_connection_register_object_path(pconn,
-            STUB_OBJECT_DBUS_OBJECT_PATH, &objectPathVTable, arg);
-
-
-    sem_post(&((CObjectStub*)arg)->m_sem);
-    // loop, testing for new messages
-    while (TRUE){
-        DBusDispatchStatus status;
-
-        do{
-            dbus_connection_read_write_dispatch(pconn, -1);
-        }while((status = dbus_connection_get_dispatch_status(pconn)) \
-                == DBUS_DISPATCH_DATA_REMAINS && !((CObjectStub*)arg)->m_bRequestToQuit);
-
-        if (status == DBUS_DISPATCH_NEED_MEMORY){
-            MARSHAL_DBGOUT(MSHDBG_ERROR,
-                    printf("More memory is needed.\n"));
-            break;
-        }
-
-        if (((CObjectStub*)arg)->m_bRequestToQuit) {
-            ECode ec = UnregisterExportObject(((CObjectStub*)arg)->m_connName);
-            if (FAILED(ec)) {
-                MARSHAL_DBGOUT(MSHDBG_ERROR, printf(
-                        "Release stub: unregister export object failed, ec(%x)\n", ec));
-            }
-            ((CObjectStub*)arg)->Release();
-            break;
-        }
-    }
-
-    return (void*)NOERROR;
-
-#endif
-
-}
-
-ECode CObjectStub::StartIPCService()
-{
-
-#if defined(__USE_REMOTE_SOCKET)
-
-    this->AddRef();
-
-#endif
-
-    if (pthread_create(&m_serviceThread, NULL, &S_ServiceRoutine, this)) {
-
-#if defined(__USE_REMOTE_SOCKET)
-
-        this->Release();
-
-#endif
-
-        return E_THREAD_ABORTED;
-    }
-    sem_wait(&m_sem);
-    return NOERROR;
-}
 
 ECode CObjectStub::S_CreateObject(
     /* [in] */ IInterface *pObject,
@@ -986,6 +810,20 @@ ECode CObjectStub::S_CreateObject(
     if (!pStub) {
         return E_OUT_OF_MEMORY;
     }
+
+    ec = CSessionManager::AcquireInstance(&pStub->mSessionManager);
+    if (FAILED(ec)) {
+        RPC_LOG("CObjectStub Acquire SessionManager failed: 0x%x\n", ec);
+        goto ErrorExit;
+    }
+
+    pStub->mSessionManagerListener = new CSessionManagerListener();
+    if (!pStub->mSessionManagerListener) {
+        ec = E_OUT_OF_MEMORY;
+        goto ErrorExit;
+    }
+
+    pStub->mSessionManager->AddListener(pStub->mSessionManagerListener, pStub);
 
     pObj1 = (IObject *)pObject->Probe(EIID_IAspect);
     if (!pObj1) {
@@ -1059,18 +897,6 @@ ECode CObjectStub::S_CreateObject(
         pInterfaces[n].m_pObject = pObj;
     }
 
-    //Start stub ipc service
-    ec = pStub->StartIPCService();
-
-    /* Please be careful of the 'm_connName' in the two threads. */
-    usleep(300);
-
-    if (FAILED(ec)) {
-        pObject->Release();
-        MARSHAL_DBGOUT(MSHDBG_ERROR, printf("Stub: start ipc server fail.\n"));
-        goto ErrorExit;
-    }
-
     ec = RegisterExportObject(pStub->m_connName, pObject, pStub);
     if (FAILED(ec)) {
         pObject->Release();
@@ -1088,3 +914,57 @@ ErrorExit:
     return ec;
 }
 
+
+void CObjectStub::CSessionManagerListener::OnSessionRequest(
+    /* [in] */ ICarrier* pCarrier,
+    /* [in] */ const char *from,
+    /* [in] */ const char *sdp,
+    /* [in] */ size_t len,
+    /* [in] */ void *context)
+{
+    CObjectStub* pStub = (CObjectStub*)context;
+    if (!pStub) return;
+
+    pStub->mSessionManager->CreateSession(String(from), FALSE,
+                        sdp, len, &pStub->mSession);
+}
+
+void CObjectStub::CSessionManagerListener::OnSessionReceived(
+    /* [in] */ CSession* pSession,
+    /* [in] */ ArrayOf<Byte>* data,
+    /* [in] */ void *context)
+{
+    CObjectStub* pStub = (CObjectStub*)context;
+    if (!pStub) return;
+
+    if (pStub->mSession == NULL) {
+        pStub->mSession = pSession;
+        pStub->mSession->Release();
+    }
+
+    if (pStub->mSession != pSession) {
+        return;
+    }
+
+    Byte* p = data->GetPayload();
+    int _len = data->GetLength();
+    int _type = *(size_t *)p;
+    p += sizeof(size_t);
+    _len -= sizeof(size_t);
+
+    RPC_LOG("CObjectStub receive type:%d\n", _type);
+
+    switch (_type) {
+    case METHOD_GET_CLASS_INFO:
+        pStub->HandleGetClassInfo(p, _len);
+        break;
+    case METHOD_INVOKE:
+        pStub->HandleInvoke(p, _len);
+        break;
+    case METHOD_RELEASE:
+        pStub->HandleRelease(p, _len);
+        break;
+    default:
+        break;
+    }
+}

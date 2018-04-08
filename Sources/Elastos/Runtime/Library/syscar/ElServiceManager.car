@@ -1,0 +1,16 @@
+
+library
+{
+
+    interface IServiceManager {
+        AddService(
+            [in] String name,
+            [in] IInterface *service);
+
+        GetService(
+            [in] String uid,
+            [in] String name,
+            [out] IInterface** service);
+    }
+
+}

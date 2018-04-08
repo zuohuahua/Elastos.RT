@@ -15,13 +15,17 @@ ECode LookupClassInfo(
     /* [out] */ CIClassInfo **ppClassInfo);
 
 ECode GetRemoteClassInfo(
+#if defined(__USE_REMOTE_SOCKET)
+    /* [in] */ CSession* pSession,
+#elif
     /* [in] */ const char* connectionName,
+#endif
     /* [in] */ REMuid clsId,
     /* [out] */ CIClassInfo ** ppClassInfo);
 
 void *GetUnalignedPtr(void *pPtr);
 
-Address s_proxyEntryAddress = NULL;
+Address s_proxyEntryAddress = 0;
 
 #define SYS_PROXY_RET_OFFSET    9
 
@@ -451,7 +455,7 @@ ECode CInterfaceProxy::ProxyEntry(UInt32 *puArgs)
             "Buffer size: isize(%d), osize(%d)\n", uInSize, uOutSize));
     assert(uInSize >= sizeof(MarshalHeader));
 
-    pInParcel = new CRemoteParcel();
+    pInParcel = new CRemoteParcel(pThis->m_pOwner->mSession);
     ec = pThis->MarshalIn(uMethodIndex, puArgs, pInParcel);
     if (SUCCEEDED(ec)) {
         pInParcel->GetElementSize(&size);
@@ -467,15 +471,16 @@ ECode CInterfaceProxy::ProxyEntry(UInt32 *puArgs)
         int type, len;
         char *p = NULL;
 
-        if (carrier_send(METHOD_INVOKE, pInBuffer, size)) {
-            ec = E_FAIL; // TODO: sould set an appropriate error code
+        ec = pThis->m_pOwner->mSession->SendMessage(METHOD_INVOKE, pInBuffer, size);
+        if (FAILED(ec)) {
             goto UseSocketExit;
         }
 
-        if (carrier_receive(pThis->m_pOwner->m_stubId, &type, (void **)&p, &len)) {
-            ec = E_FAIL; // TODO: sould set an appropriate error code
+        ec = pThis->m_pOwner->ReceiveFromRemote(&type, (void **)&p, &len);
+        if (FAILED(ec)) {
             goto UseSocketExit;
         }
+
         if (type != METHOD_INVOKE_REPLY) {
             ec = E_FAIL; // TODO: sould set an appropriate error code
             goto UseSocketExit;
@@ -484,7 +489,7 @@ ECode CInterfaceProxy::ProxyEntry(UInt32 *puArgs)
         ec = *(int32_t *)p;
         if (SUCCEEDED(ec)) {
             if (pThis->MethodHasOutArgs(uMethodIndex)) {
-                pOutParcel = new CRemoteParcel((UInt32*)(p + sizeof(int32_t)));
+                pOutParcel = new CRemoteParcel(pThis->m_pOwner->mSession, (UInt32*)(p + sizeof(int32_t)));
                 ec = pThis->UnmarshalOut(uMethodIndex, pOutParcel, puArgs);
             }
         }
@@ -628,11 +633,29 @@ ProxyExit:
 #endif
 }
 
-CObjectProxy::CObjectProxy() :
+CObjectProxy::CObjectProxy(
+    /* [in] */ CSession* pSession) :
+    mSession(pSession),
     m_pInterfaces(NULL),
     m_pICallbackConnector(NULL),
     m_cRef(1)
-{}
+{
+    if (!mSession) return;
+
+    mSession->AddRef();
+    mListener = new CProxyListener();
+    if (!mListener) return;
+    mListener->AddRef();
+    mSession->AddListener(mListener, this);
+
+    pthread_mutexattr_t recursiveAttr;
+    pthread_mutexattr_init(&recursiveAttr);
+    pthread_mutexattr_settype(&recursiveAttr, PTHREAD_MUTEX_RECURSIVE);
+    pthread_mutex_init(&mWorkLock, &recursiveAttr);
+    pthread_mutexattr_destroy(&recursiveAttr);
+
+    pthread_cond_init(&mCv, NULL);
+}
 
 CObjectProxy::~CObjectProxy()
 {
@@ -646,6 +669,21 @@ CObjectProxy::~CObjectProxy()
         delete [] m_pInterfaces;
     }
 
+    if (!mSession) return;
+
+    if (mListener) {
+        mSession->RemoveListener(mListener, this);
+        mListener->Release();
+    }
+    mSession->Release();
+
+    pthread_cond_destroy(&mCv);
+    pthread_mutex_destroy(&mWorkLock);
+
+    if (mData) {
+        ArrayOf<Byte>::Free(mData);
+        mData = NULL;
+    }
 }
 
 static const EMuid ECLSID_XOR_CallbackSink = \
@@ -739,15 +777,14 @@ PInterface CObjectProxy::RemoteProbe(REIID riid)
     };
     struct ProbeReplyData *pReplyData;
 
-    if (carrier_send(METHOD_INVOKE,
-                      &requestData,
-                      sizeof(struct ProbeRequestData))) {
+    ec = mSession->SendMessage(METHOD_INVOKE, &requestData, 
+                        sizeof(struct ProbeRequestData));
+    if (FAILED(ec)) {
         return NULL;
     }
-    if (carrier_receive(this->m_stubId,
-                      &type,
-                      (void **)&pReplyData,
-                      &len)) {
+
+    ec = ReceiveFromRemote(&type, (void **)&pReplyData, &len);
+    if (FAILED(ec)) {
         return NULL;
     }
 
@@ -762,6 +799,7 @@ PInterface CObjectProxy::RemoteProbe(REIID riid)
     assert(pReplyData->notNull == MSH_NOT_NULL);
 
     ec = StdUnmarshalInterface(UnmarshalFlag_Noncoexisting,
+                               mSession,
                                &(pReplyData->interfacePack),
                                &pObj);
     free(pReplyData);
@@ -807,8 +845,10 @@ UInt32 CObjectProxy::Release(void)
 
 #if defined(__USE_REMOTE_SOCKET)
 
-        if (carrier_send(METHOD_RELEASE, NULL, 0))
-            goto Exit;
+        ec = mSession->SendMessage(METHOD_RELEASE, NULL, 0);
+        if (FAILED(ec)) {
+             goto Exit;
+        }
 
 #else
 
@@ -985,10 +1025,15 @@ ECode CObjectProxy::IsStubAlive(
 }
 
 ECode CObjectProxy::S_CreateObject(
+    /* [in] */ CSession* pSession,
     /* [in] */ REMuid rclsid,
     /* [in] */ const char* stubConnName,
     /* [out] */ IProxy **ppIProxy)
 {
+    if (!pSession) {
+        return E_INVALID_ARGUMENT;
+    }
+
     CObjectProxy *pProxy;
     CInterfaceProxy *pInterfaces;
     Int32 n;
@@ -996,7 +1041,7 @@ ECode CObjectProxy::S_CreateObject(
 
     if (ppIProxy == NULL) return E_INVALID_ARGUMENT;
 
-    pProxy = new CObjectProxy();
+    pProxy = new CObjectProxy(pSession);
     if (!pProxy) {
         MARSHAL_DBGOUT(MSHDBG_ERROR,
                 printf("Create proxy object: out of memory.\n"));
@@ -1009,7 +1054,7 @@ ECode CObjectProxy::S_CreateObject(
 
     pProxy->m_stubId = stubConnName;
 
-    if (carrier_connect("", &pProxy->mCarrier)) {
+    if (!pSession->IsConnected()) {
         ec = E_FAIL;
         goto ErrorExit;
     }
@@ -1018,7 +1063,7 @@ ECode CObjectProxy::S_CreateObject(
 
     ec = LookupClassInfo(rclsid, &(pProxy->m_pInfo));
     if (FAILED(ec)) {
-        ec = GetRemoteClassInfo(pProxy->m_stubId,
+        ec = GetRemoteClassInfo(pSession,
                                  rclsid,
                                  &pProxy->m_pInfo);
         if (FAILED(ec)) goto ErrorExit;
@@ -1070,4 +1115,75 @@ ErrorExit:
 
     delete pProxy;
     return ec;
+}
+
+ECode CObjectProxy::ReceiveFromRemote(
+    /* [out] */ int* type,
+    /* [out] */ void** buf,
+    /* [out] */ int* len)
+{
+    pthread_mutex_lock(&mWorkLock);
+    if (mData) {
+        ArrayOf<Byte>::Free(mData);
+        mData = NULL;
+    }
+    while (mData == NULL) {
+        pthread_cond_wait(&mCv, &mWorkLock);
+    }
+
+    Byte* p = mData->GetPayload();
+    int _len = mData->GetLength();
+    int _type = *(size_t *)p;
+    p += sizeof(size_t);
+    _len -= sizeof(size_t);
+
+    *type = _type;
+    if (buf != NULL) {
+        void* _base = malloc(_len);
+        if (_base == NULL) {
+            ArrayOf<Byte>::Free(mData);
+            mData = NULL;
+            pthread_mutex_unlock(&mWorkLock);
+            return E_FAIL;
+        }
+        memcpy(_base, p, _len);
+        *buf = _base;
+        *len = _len;
+    }
+    
+    ArrayOf<Byte>::Free(mData);
+    mData = NULL;
+    pthread_mutex_unlock(&mWorkLock);
+
+    return NOERROR;
+}
+
+void CObjectProxy::CProxyListener::OnSessionConnected(
+    /* [in] */ Boolean succeeded,
+    /* [in] */ void* context)
+{
+    return;
+}
+
+void CObjectProxy::CProxyListener::OnSessionReceived(
+    /* [in] */ CSession* pSession,
+    /* [in] */ ArrayOf<Byte>* data,
+    /* [in] */ void* context)
+{
+    CObjectProxy* proxy = (CObjectProxy*)context;
+    if (!proxy) return;
+
+    pthread_mutex_lock(&proxy->mWorkLock);
+
+    if (proxy->mData) {
+        ArrayOf<Byte>::Free(proxy->mData);
+        proxy->mData = NULL;
+    }
+    proxy->mData = data->Clone();
+    if (!proxy->mData) {
+        pthread_mutex_unlock(&proxy->mWorkLock);
+        return;
+    }
+    pthread_mutex_unlock(&proxy->mWorkLock);
+    pthread_cond_signal(&proxy->mCv);
 }

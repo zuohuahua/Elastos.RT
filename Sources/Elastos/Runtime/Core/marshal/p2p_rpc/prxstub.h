@@ -6,6 +6,7 @@
 
 #if defined(__USE_REMOTE_SOCKET)
 # include "carrier.h"
+# include "CSessionManager.h"
 #else
 # include <dbus/dbus.h>
 #endif
@@ -80,7 +81,9 @@ public:
 class CObjectProxy : public IProxy
 {
 public:
-    CObjectProxy();
+    CObjectProxy(
+        /* [in] */ CSession* pSession);
+
     virtual ~CObjectProxy();
 
     CARAPI_(PInterface) Probe(
@@ -126,16 +129,41 @@ public:
     CARAPI IsStubAlive(
         /* [out] */ Boolean* result);
 
+    ECode ReceiveFromRemote(
+        /* [out] */ int* type,
+        /* [out] */ void** buf,
+        /* [out] */ int* len);
+
     static CARAPI S_CreateObject(
+            /* [in] */ CSession* pSession,
             /* [in] */ REMuid rclsid,
             /* [in] */ const char* stubConnName,
             /* [out] */ IProxy **ppIProxy);
 
+private:
+    class CProxyListener
+        : public CSessionListener
+    {
+    public:
+        void OnSessionConnected(
+            /* [in] */ Boolean succeeded,
+            /* [in] */ void* context);
+
+        void OnSessionReceived(
+            /* [in] */ CSession* pSession,
+            /* [in] */ ArrayOf<Byte>* data,
+            /* [in] */ void* context);
+    };
+
 public:
 
 #if defined(__USE_REMOTE_SOCKET)
-    String              m_stubId;
-    ElaCarrier          *mCarrier;
+    String                  m_stubId;
+    CSession                *mSession;
+    CProxyListener          *mListener;
+    pthread_cond_t          mCv;
+    pthread_mutex_t         mWorkLock;
+    ArrayOf<Byte>*          mData;
 
 #endif
 
@@ -150,6 +178,7 @@ public:
 #if defined(__USE_REMOTE_SOCKET)
 private:
     IInterface *RemoteProbe(REIID iid);
+
 #endif
 };
 
@@ -240,15 +269,30 @@ public:
             /* [out] */ IStub **ppIStub);
 
 private:
+    class CSessionManagerListener
+        : public CManagerListener
+    {
+    public:
+        void OnSessionRequest(
+            /* [in] */ ICarrier* pCarrier,
+            /* [in] */ const char *from,
+            /* [in] */ const char *sdp,
+            /* [in] */ size_t len,
+            /* [in] */ void *context);
+
+        void OnSessionReceived(
+            /* [in] */ CSession* pSession,
+            /* [in] */ ArrayOf<Byte>* data,
+            /* [in] */ void *context);
+    };
+
+private:
 #if defined(_arm)
     CARAPI _Invoke(
             /* [in] */ void *pInData,
             /* [in] */ UInt32 uInSize,
             /* [out] */ CRemoteParcel **ppParcel);
 #endif
-
-    static void* S_ServiceRoutine(
-            /* [in] */ void *arg);
 
 #if !defined(__USE_REMOTE_SOCKET)
     static DBusHandlerResult S_HandleMessage(
@@ -259,20 +303,19 @@ private:
 
 #if defined(__USE_REMOTE_SOCKET)
 
-    ECode HandleGetClassInfo(const char *uid, void const *base, int len);
+    ECode HandleGetClassInfo(void const *base, int len);
 
-    ECode HandleInvoke(const char *uid, void const *base, int len);
+    ECode HandleInvoke(void const *base, int len);
 
-    ECode HandleRelease(const char *uid, void const *base, int len);
+    ECode HandleRelease(void const *base, int len);
 
 #endif
 
-    CARAPI StartIPCService();
-
 #if defined(__USE_REMOTE_SOCKET)
 
-    ElaCarrier          *mCarrier;
-    Boolean             mExitLoop;
+    CSessionManager             *mSessionManager;
+    CSession                    *mSession;
+    CSessionManagerListener     *mSessionManagerListener;
 
 #endif
 
