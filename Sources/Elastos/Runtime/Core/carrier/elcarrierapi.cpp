@@ -509,16 +509,16 @@ ECode CCarrier::RemoveCarrierNodeListener(
 }
 
 ECode CCarrier::Import(
-    /* [in] */ const String& dataPath)
+    /* [in] */ const String& dataFile)
 {
     // TODO: Add your code here
     return E_NOT_IMPLEMENTED;
 }
 
 ECode CCarrier::Export(
-    /* [out] */ String* dataPath)
+    /* [out] */ String* dataFile)
 {
-    VALIDATE_NOT_NULL(dataPath);
+    VALIDATE_NOT_NULL(dataFile);
 
     // TODO: Add your code here
     return E_NOT_IMPLEMENTED;

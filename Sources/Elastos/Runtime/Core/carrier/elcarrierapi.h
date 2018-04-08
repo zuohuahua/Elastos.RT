@@ -74,10 +74,10 @@ public:
         /* [in] */ ICarrierListener* listener);
 
     CARAPI Import(
-        /* [in] */ const String& dataPath);
+        /* [in] */ const String& dataFile);
 
     CARAPI Export(
-        /* [out] */ String* dataPath);
+        /* [out] */ String* dataFile);
 
     CARAPI_(UInt32) AddRef();
 

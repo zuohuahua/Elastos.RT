@@ -25,91 +25,258 @@ library
 
     /**
      *
-     * the description of E_CARRIER_NOT_READY
+     * Error Code: The Carrier is not ready.
      */
     const E_CARRIER_NOT_READY                         = 0x81010000;
 
     /**
      *
-     * the description of interface IFriend
+     * the information of the friend
      *
      */
     interface IFriend {
 
         /**
         *
-        * Description of the method.
+        * Get the friend's uid.
         *
         * @param
-        *      uid [out] Description of the out param.
+        *      uid [out] the friend's uid.
         *
         * @return
-        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding macro.
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
         */
         GetUid(
             [out] String* uid);
 
+        /**
+        *
+        * Get the friend's name.
+        *
+        * @param
+        *      name [out] the friend's name.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
         GetName(
             [out] String* name);
 
+        /**
+        *
+        * Set the friend's label.
+        *
+        * @param
+        *      label [in] the friend's label.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
         SetLabel(
             [in] String label);
 
+        /**
+        *
+        * Get the friend's label.
+        *
+        * @param
+        *      label [out] the friend's label.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
         GetLabel(
             [out] String* label);
 
+        /**
+        *
+        * the status of a friend.
+        *
+        * @param
+        *      online [out] the friend's status, TRUE: the friend is online; Otherwise, not online.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
         IsOnline(
             [out] Boolean* online);
     }
 
+    /**
+     *
+     * the Listeners about Carrier
+     *
+     */
     interface ICarrierListener {
+
+        /**
+        *
+        * the status of carrier.
+        *
+        * @param
+        *      online [in] the carrier's status: TRUE--the carrier is online; Otherwise, not online.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
         OnConnectionChanged(
             [in] Boolean online);
 
+        /**
+        *
+        * the carrier is ready, if the callback is invoked.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
         OnReady();
 
+        /**
+        *
+        * If the other one adds you as a friend, the carrier will be invoked this callback.
+        *
+        * @param
+        *      uid [in] the other's uid.
+        *
+        * @param
+        *      hello [in] check information sent by the other one.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
         OnFriendRequest(
             [in] String uid,
             [in] String hello);
 
+        /**
+        *
+        * If a friend is online, the carrier will be invoked this callback.
+        *
+        * @param
+        *      uid [in] the friend's uid.
+        *
+        * @param
+        *      online [in] the friend's status, TRUE: online; Otherwise, not online.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
         OnFriendConnetionChanged(
             [in] String uid,
             [in] Boolean online);
     }
 
     interface ICarrier {
+
+        /**
+        *
+        * Start the carrier.
+        *
+        * @param
+        *      carrierDataPath [in] the carrier's data path which will store your friends' information.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
         Start(
             [in] String carrierDataPath);
 
+        /**
+        *
+        * Stop the carrier.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
         Stop();
 
+        /**
+        *
+        * Regenerate the carrier's address. After this method, you can call the method GetAddress to get a new address.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
         RegenerateAddress();
 
+        /**
+        *
+        * Get your carrier's address. Generally, the other one must get your address, if wants to add you as a friend.
+        *
+        * @param
+        *      myAddress [in] your carrier's address.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
         GetAddress(
             [out] String* myAddress);
 
+        /**
+        *
+        * Accept a friend request.
+        *
+        * @param
+        *      uid [in] the other one's uid.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
         AccpetFriendRequest(
             [in] String uid);
 
+        /**
+        *
+        * Add a friend
+        *
+        * @param
+        *      friendAddress [in] the other one's address.
+        *
+        * @param
+        *      hello [in] check information that you want to be showed.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
         AddFriend(
             [in] String friendAddress,
             [in] String hello);
 
+        /**
+        *
+        * Remove a friend
+        *
+        * @param
+        *      _friend [in] the one will be removed.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
         RemoveFriend(
             [in] IFriend* _friend);
 
+        /**
+        *
+        * Check the status about the carrier.
+        *
+        * @param
+        *      online [in] the carrier's current status.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
         IsOnline(
             [out] Boolean* online);
 
         /**
         *
-        * Description of the method.
+        * Get the information of a friend.
         *
         * @param
-        *      uid     [in] Description of the in param.
+        *      uid [in] the friend's uid.
         *
         * @param
-        *      _friend [out] Description of the out param.
+        *      _friend [out] the friend's information interface.
         *
         * @return
         *      Returns NOERROR if there is no exception, otherwise it returns the corresponding macro.
@@ -118,20 +285,70 @@ library
             [in] String uid,
             [out] IFriend** _friend);
 
+        /**
+        *
+        * Get your all friends.
+        *
+        * @param
+        *      friends [in] the array which incldes your all friends.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
         GetFriends(
             [out, callee] ArrayOf<IFriend*>* friends);
 
+        /**
+        *
+        * Add your carrier listener. The listener indicates some carrier's operations.
+        *
+        * @param
+        *      listener [in] your local ICarrierListener's object.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
         AddCarrierNodeListener(
             [in] ICarrierListener* listener);
 
+        /**
+        *
+        * Remove your carrier listener
+        *
+        * @param
+        *      listener [in] your local ICarrierListener's object.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
         RemoveCarrierNodeListener(
             [in] ICarrierListener* listener);
 
+        /**
+        *
+        * Import your carrier' data file with an absolute path
+        *
+        * @param
+        *      dataFile [in] your local carrier data file.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
         Import(
-            [in] String dataPath);
+            [in] String dataFile);
 
+        /**
+        *
+        * Export your carrier' data file with an absolute path
+        *
+        * @param
+        *      dataFile [in] the carrier's data file witch comes from external file.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
         Export(
-            [out] String* dataPath);
+            [out] String* dataFile);
     }
 }
 
