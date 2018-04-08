@@ -691,6 +691,7 @@ function emake ()
 
             local MIRROR_ROOT_DIR=$XDK_USER_OBJ/$XDK_BUILD_KIND/mirror
             local MIRROR_DIR=$MIRROR_ROOT_DIR$XDK_EMAKE_DIR
+            BUILD_EXIT_CODE=0
             if [ ! "${1%.car}" == "$1" ]; then
                 carc -i -c ${1%.car}.cls $1
                 if [ "$?" == "0" ]; then
@@ -758,12 +759,12 @@ function emake ()
                     echo "Build finished, elapsed time: $HOURS Hours, $MINUTES Minutes, $SECONDS Seconds."
                 fi
                 unset XDK_MAKE XDK_MAKEFILE XDK_EMAKE_DIR BUILD_VERBOSE TEST_COVERAGE
-                return $BUILD_EXIT_CODE
             fi
             if [ "$1" == "clean" ]; then
                 echo "Cleaning mirror direcotory..."
                 rm -rf $MIRROR_DIR 1>/dev/null
             fi
+            return $BUILD_EXIT_CODE
         fi
     fi
 }

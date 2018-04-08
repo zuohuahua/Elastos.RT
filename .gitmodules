@@ -4,3 +4,6 @@
 [submodule "Sources/ThirdParty/icu4c"]
 	path = Sources/ThirdParty/icu4c
 	url = https://github.com/sillsdev/icu4c.git
+[submodule "Sources/ThirdParty/Elastos.NET.Carrier.Native.SDK"]
+	path = Sources/ThirdParty/ElaCarrier
+	url = https://github.com/elastos/Elastos.NET.Carrier.Native.SDK.git
