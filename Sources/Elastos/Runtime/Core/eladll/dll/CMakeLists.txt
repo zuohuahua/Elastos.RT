@@ -1,7 +1,4 @@
 
-
-link_directories($ENV{XDK_ROOT}/ToolChains/$ENV{XDK_TARGET_PLATFORM}/Thirdlibrary/lib)
-
 add_definitions(-D_USE_MY_DLLMAIN_)
 
 

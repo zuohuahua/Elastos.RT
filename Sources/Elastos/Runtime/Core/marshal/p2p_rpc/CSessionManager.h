@@ -123,7 +123,7 @@ private:
     };
 
     class CReceiveListener
-        : public CSessionListener
+        : public SessionListener
     {
     public:
         void OnSessionConnected(

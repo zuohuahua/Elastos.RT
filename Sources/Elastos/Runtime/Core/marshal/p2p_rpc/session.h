@@ -10,7 +10,7 @@
 
 class CSession;
 
-class CSessionListener
+class SessionListener
     : public ElLightRefBase
 {
 public:
@@ -60,11 +60,11 @@ public:
         /* [out] */ Int32* pLen);
 
     ECode AddListener(
-        /* [in] */ CSessionListener* pListener,
+        /* [in] */ SessionListener* pListener,
         /* [in] */ void* context);
 
     ECode RemoveListener(
-        /* [in] */ CSessionListener* pListener,
+        /* [in] */ SessionListener* pListener,
         /* [in] */ void* context);
 
     ECode RemoveAllListener();
@@ -83,7 +83,7 @@ private:
         {}
 
         ListenerNode(
-            /* [in] */ CSessionListener* pListener,
+            /* [in] */ SessionListener* pListener,
             /* [in] */ void* context)
         {
             mListener = pListener;
@@ -97,7 +97,7 @@ private:
         }
 
     public:
-        CSessionListener* mListener;
+        SessionListener* mListener;
         void* mContext;
     };
 
@@ -127,7 +127,7 @@ private:
 
 private:
     ListenerNode* FindListener(
-        /* [in] */ CSessionListener* pListener,
+        /* [in] */ SessionListener* pListener,
         /* [in] */ void* context,
         /* [in] */ Boolean detach = FALSE);
 

@@ -49,12 +49,12 @@ void* workThread(void* argc)
     return 0;
 }
 
-UInt32 CSessionListener::AddRef()
+UInt32 SessionListener::AddRef()
 {
     return ElLightRefBase::AddRef();
 }
 
-UInt32 CSessionListener::Release()
+UInt32 SessionListener::Release()
 {
     return ElLightRefBase::Release();
 }
@@ -400,7 +400,7 @@ ECode CSession::ReceiveMessage(
 }
 
 ECode CSession::AddListener(
-    /* [in] */ CSessionListener* pListener,
+    /* [in] */ SessionListener* pListener,
     /* [in] */ void* context)
 {
     if (!pListener) {
@@ -424,7 +424,7 @@ ECode CSession::AddListener(
 }
 
 ECode CSession::RemoveListener(
-    /* [in] */ CSessionListener* pListener,
+    /* [in] */ SessionListener* pListener,
     /* [in] */ void* context)
 {
     if (!pListener) {
@@ -457,7 +457,7 @@ ECode CSession::RemoveAllListener()
 }
 
 CSession::ListenerNode* CSession::FindListener(
-    /* [in] */ CSessionListener* pListener,
+    /* [in] */ SessionListener* pListener,
     /* [in] */ void* context,
     /* [in] */ Boolean detach)
 {

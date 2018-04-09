@@ -1,6 +1,8 @@
 
 include($ENV{XDK_DEFINITIONS_CMAKE})
 
+link_directories($ENV{XDK_TARGETS})
+
 macro(xdk_export_headers target_name)
     string(REPLACE "$ENV{XDK_SOURCE_PATH}/" "" XDK_RELATIVE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
     foreach(item ${ARGN})

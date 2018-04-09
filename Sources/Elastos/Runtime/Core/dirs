@@ -24,9 +24,6 @@ endif
 
 ifeq "$(XDK_TARGET_PLATFORM)" "linux"
     DIRS += elapi
-    ifeq "$(XDK_TARGET_CPU_ARCH)" "64"
-        DIRS += carrier
-    endif
 endif
 
 DIRS += marshal

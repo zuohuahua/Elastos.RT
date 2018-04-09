@@ -70,7 +70,7 @@ private:
     };
 
     class CGetServiceListener
-        : public CSessionListener
+        : public SessionListener
     {
     public:
         void OnSessionConnected(

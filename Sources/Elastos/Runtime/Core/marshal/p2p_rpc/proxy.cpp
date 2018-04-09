@@ -17,7 +17,7 @@ ECode LookupClassInfo(
 ECode GetRemoteClassInfo(
 #if defined(__USE_REMOTE_SOCKET)
     /* [in] */ CSession* pSession,
-#elif
+#else
     /* [in] */ const char* connectionName,
 #endif
     /* [in] */ REMuid clsId,

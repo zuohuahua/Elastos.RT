@@ -15,7 +15,6 @@ else()
     xdk_add_subdirectories(
         reflection
         elapi
-        carrier
         marshal
         libusr
         carapi

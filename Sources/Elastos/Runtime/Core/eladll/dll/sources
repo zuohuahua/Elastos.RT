@@ -82,7 +82,6 @@ LIBRARIES += -lm -lc -ldl -lpthread -lstdc++ -lz -lrt
 LIBRARIES += $(XDK_TARGETS)/libuv.so
 LIBRARIES += $(XDK_USER_LIB)/crt0.lib
 else
-ELASTOS_LIBS += ../../carrier/elcarrierapi.lib
 ELASTOS_LIBS += ../../marshal/marshalcomm.lib
 LIBRARIES += -lm -lc -ldl -lpthread -lstdc++ -lz -lrt
 LIBRARIES += -lelacarrier -lelacommon -lelasession

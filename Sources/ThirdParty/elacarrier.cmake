@@ -42,23 +42,21 @@ add_custom_command(
     DEPENDS "${ELACARRIER_BINARY_DIR}/build/flatcc-0.5.0/bin/flatcc"
 )
 
-add_custom_target(build_elacarrier ALL DEPENDS
-    "${ELACARRIER_BINARY_DIR}/build/_dist/Android-arm/debug/lib/libelacommon.so"
+add_custom_command(
+    COMMENT "Copying elacarrier so to mirror..."
+    OUTPUT "$ENV{XDK_TARGETS}/libelacommon.so"
+           "$ENV{XDK_TARGETS}/libelacarrier.so"
+           "$ENV{XDK_TARGETS}/libelasession.so"
+    COMMAND ${CMAKE_COMMAND} -E copy libelacommon.so $ENV{XDK_TARGETS}
+    COMMAND ${CMAKE_COMMAND} -E copy libelacarrier.so $ENV{XDK_TARGETS}
+    COMMAND ${CMAKE_COMMAND} -E copy libelasession.so $ENV{XDK_TARGETS}
+    WORKING_DIRECTORY ${ELACARRIER_BINARY_DIR}/build/_dist/Android-arm/debug/lib
+    DEPENDS "${ELACARRIER_BINARY_DIR}/build/_dist/Android-arm/debug/lib/libelacommon.so"
     "${ELACARRIER_BINARY_DIR}/build/_dist/Android-arm/debug/lib/libelacarrier.so"
-    "${ELACARRIER_BINARY_DIR}/build/_dist/Android-arm/debug/lib/libelasession.so")
+    "${ELACARRIER_BINARY_DIR}/build/_dist/Android-arm/debug/lib/libelasession.so"
+)
 
-add_library( elacommon STATIC IMPORTED GLOBAL )
-add_library( elacarrier STATIC IMPORTED GLOBAL )
-add_library( elasession STATIC IMPORTED GLOBAL )
-
-set_target_properties( elacommon PROPERTIES IMPORTED_LOCATION
-    "${ELACARRIER_BINARY_DIR}/build/_dist/Android-arm/debug/lib/libelacommon.so")
-set_target_properties( elacarrier PROPERTIES IMPORTED_LOCATION
-    "${ELACARRIER_BINARY_DIR}/build/_dist/Android-arm/debug/lib/libelacarrier.so")
-set_target_properties( elasession PROPERTIES IMPORTED_LOCATION
-    "${ELACARRIER_BINARY_DIR}/build/_dist/Android-arm/debug/lib/libelasession.so")
-
-add_dependencies( elacommon build_elacarrier )
-add_dependencies( elacarrier build_elacarrier )
-add_dependencies( elasession build_elacarrier )
-
+add_custom_target(build_elacarrier ALL DEPENDS
+    "$ENV{XDK_TARGETS}/libelacommon.so"
+    "$ENV{XDK_TARGETS}/libelacarrier.so"
+    "$ENV{XDK_TARGETS}/libelasession.so")

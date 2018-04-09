@@ -1,6 +1,4 @@
 
-link_directories($ENV{XDK_ROOT}/ToolChains/$ENV{XDK_TARGET_PLATFORM}/Thirdlibrary/lib)
-
 set(CAR_FLAGS -n -u)
 set(LUBE_FLAGS -n -u)
 

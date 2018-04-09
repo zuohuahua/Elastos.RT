@@ -142,7 +142,7 @@ public:
 
 private:
     class CProxyListener
-        : public CSessionListener
+        : public SessionListener
     {
     public:
         void OnSessionConnected(
