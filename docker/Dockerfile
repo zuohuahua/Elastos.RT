@@ -41,6 +41,7 @@ RUN set -ex                                                                     
         bash-completion \
         ninja \
         wget \
+        curl \
     && rm -rf /var/lib/apt/list/*
 
 RUN set -ex                                                                         && \

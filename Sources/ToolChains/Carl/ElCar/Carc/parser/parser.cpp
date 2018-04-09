@@ -1080,6 +1080,10 @@ int P_Enum()
             return Ret_AbortOnError;
         }
 
+        if (Token_S_semicolon == PeekToken(s_pFile)) {
+            GetToken(s_pFile); // ignore ";"
+        }
+
         s_pModule->mEnumDirs[r]->mFileIndex = CreateFileDirEntry(GetSubmodule(), s_pModule);
     }
     else if (Token_S_semicolon == token) {
