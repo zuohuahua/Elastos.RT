@@ -72,20 +72,20 @@ library
         CarDataType_CppVector   = 17,
         CarDataType_Struct      = 18,
         CarDataType_Interface   = 19
-    }
+    };
 
     enum ParamIOAttribute {
         ParamIOAttribute_In             = 0,
         ParamIOAttribute_CalleeAllocOut = 1,
         ParamIOAttribute_CallerAllocOut = 2
-    }
+    };
 
     enum ThreadingModel {
         ThreadingModel_Sequenced     = 1,
         ThreadingModel_Synchronized  = 2,
         ThreadingModel_ThreadSafe    = 3,
         ThreadingModel_Naked         = 4
-    }
+    };
 
     [local]
     interface IDataTypeInfo {
