@@ -39,6 +39,8 @@ set(GENERATED_SOURCES
     Elastos_Math_CMathContextClassObject.cpp
     _Elastos_Math_CMathContextHelper.cpp
     Elastos_Math_CMathContextHelperClassObject.cpp
+    _Elastos_IO_CPlainFile.cpp
+    Elastos_IO_CPlainFileClassObject.cpp
     _Elastos_Utility_CStringTokenizer.cpp
     Elastos_Utility_CStringTokenizerClassObject.cpp
     _Elastos_Utility_CArrayDeque.cpp

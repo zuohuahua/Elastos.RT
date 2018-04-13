@@ -31,6 +31,7 @@ target_link_libraries(Elastos.CoreLibrary
     elastos.utility
     libcore.utility
     elastos.core
+    elastos.io
     elastos.math
     Elastos.Runtime
     icuuc

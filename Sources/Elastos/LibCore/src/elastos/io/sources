@@ -1,5 +1,5 @@
 #=========================================================================
-# Copyright (C) 2012 The Elastos Open Source Project
+# Copyright (C) 2018 The Elastos Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,14 @@
 # limitations under the License.
 #=========================================================================
 
-DIRS = core
-DIRS += math
-DIRS += utility
-DIRS += io
+TARGET_NAME= elastos.io
+TARGET_TYPE= lib
+
+C_DEFINES += -DELASTOS_CORELIBRARY
+
+include $(MAKEDIR)/../../sources.inc
+
+INCLUDES += ../../corelibrary
+INCLUDES += $(MAKEDIR)/../../../inc
+
+SOURCES += CPlainFile.cpp

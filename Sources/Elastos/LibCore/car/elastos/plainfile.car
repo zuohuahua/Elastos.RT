@@ -1,0 +1,162 @@
+//=========================================================================
+// Copyright (C) 2018 The Elastos Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//=========================================================================
+
+module
+{
+    //======================================================
+    // Elastos.IO.IPlainFile
+    //======================================================
+
+    namespace Elastos {
+    namespace IO {
+
+    /**
+     *
+     * A plain file interface.
+     *
+     * At Android, you must add the permission: android.permission.WRITE_EXTERNAL_STORAGE
+     *
+     */
+    interface IPlainFile {
+        /**
+        *
+        * Check wether the file exists.
+        *
+        * @param
+        *      exists [out] the result of the check
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
+        Exists(
+            [out] Boolean* exists);
+
+        /**
+        *
+        * Check wether the file is a directory.
+        *
+        * @param
+        *      isDir [out] the result of the check
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
+        IsDir(
+            [out] Boolean* isDir);
+
+        /**
+        *
+        * Check wether the file is a real file.
+        *
+        * @param
+        *      isFile [out] the result of the check
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
+        IsFile(
+            [out] Boolean* isFile);
+
+        /**
+        *
+        * Delete the file whether it's a real file or a directory.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
+        Delete();
+
+        /**
+        *
+        * Creates the directory named by this file, assuming its parents exist.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
+        Mkdir();
+
+        /**
+        *
+        * Creates the directory named by this file, creating missing parent directories if necessary.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
+        Mkdirs();
+
+        /**
+        *
+        * Write the content to the file using the append mode("a+").
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
+        Write(
+            [in] String content);
+
+        /**
+        *
+        * Read a file's content. At this version, it's need the max size?
+        *
+        * @param
+        *      content [out] the content what has been read.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
+        Read(
+            [out] String* content);
+
+        /**
+        *
+        * Returns the path of this file.
+        *
+        * @param
+        *      path [out] the path of a real file or a directory.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
+        GetPath(
+            [out] String* path);
+    }
+
+    /**
+     *
+     * The car class which implements the interface: IPlainFile
+     *
+     */
+    class CPlainFile {
+        /**
+        *
+        * the constructor to construct a file using the path which must be a absolute path.
+        * This method will be invoked in the background after the c++ class' constructor.
+        *
+        * @param
+        *      path [in] the file's path which is a real file or directory.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
+        constructor(
+            [in] String path);
+
+        interface IPlainFile;
+    }
+
+    } // namespace IO
+    } // namespace Elastos
+}
