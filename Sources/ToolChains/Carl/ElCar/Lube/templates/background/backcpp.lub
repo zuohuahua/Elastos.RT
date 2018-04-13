@@ -20,7 +20,7 @@ $
 
 #include "${name}.h"
 $IF attrib is "hascallback" and type is not "generic"
-#include <${name}Sink.h>
+#include "${name}Sink.h"
 $END IF
 #include <unistd.h>
 

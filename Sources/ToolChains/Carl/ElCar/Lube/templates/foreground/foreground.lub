@@ -18,3 +18,5 @@ $INPUT module
 $
 $TEMPLATE "sources.lub"
 $TEMPLATE "forecpph.lub"
+$TEMPLATE "../public/cmake.lub"
+$TEMPLATE "cmakelists.lub"

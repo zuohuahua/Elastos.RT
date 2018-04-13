@@ -21,7 +21,7 @@ $
 #define __CAR_${Upper(name)}_H__
 
 #ifndef _NO_INCLIST
-#include <elastos.h>
+#include "elastos.h"
 _ELASTOS_NAMESPACE_USING
 $WITH all libraries DO
 ${CreateHFiles(name)}
@@ -74,7 +74,7 @@ ${ClassNamespaceEnd(class)}
 $   END IF ;; hascallback and !generic
 $END DO ;; all classes
 
-#include <_${name}.h>
+#include "_${name}.h"
 
 #endif // __CAR_${Upper(name)}_H__
 $

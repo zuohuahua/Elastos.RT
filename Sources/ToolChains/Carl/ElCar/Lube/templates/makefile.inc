@@ -42,7 +42,6 @@ lube.lbo :  $(MAKEDIR)/background/backcpp.lub           \
             $(MAKEDIR)/background/superh.lub            \
             $(MAKEDIR)/background/genericnew.lub        \
             $(MAKEDIR)/background/makefile.lub          \
-            $(MAKEDIR)/background/cmake.lub             \
             $(MAKEDIR)/carusage/carusage.lub            \
             $(MAKEDIR)/carusage/methodusage.lub         \
             $(MAKEDIR)/carusage/interfaceusage.lub      \
@@ -55,6 +54,7 @@ lube.lbo :  $(MAKEDIR)/background/backcpp.lub           \
             $(MAKEDIR)/carusage/enumusage.lub           \
             $(MAKEDIR)/carusage/constusage.lub          \
             $(MAKEDIR)/carusage/structusage.lub         \
+            $(MAKEDIR)/foreground/cmakelists.lub        \
             $(MAKEDIR)/foreground/forecpp.lub           \
             $(MAKEDIR)/foreground/forecpph.lub          \
             $(MAKEDIR)/foreground/foregeneric.lub       \
@@ -94,6 +94,7 @@ lube.lbo :  $(MAKEDIR)/background/backcpp.lub           \
             $(MAKEDIR)/headercpp/basecpp.lub            \
             $(MAKEDIR)/public/cls2abrg.lub              \
             $(MAKEDIR)/public/cls2car.lub               \
+            $(MAKEDIR)/public/cmake.lub                 \
             $(MAKEDIR)/public/public.lub                \
             $(MAKEDIR)/public/uuidcpp.lub               \
             $(MAKEDIR)/public/uuidh.lub

@@ -94,4 +94,4 @@ xdk_combine_static_libraries(${CMAKE_CURRENT_BINARY_DIR} elastos.utility
     $<TARGET_FILE:elastos_utility_min>
     $<TARGET_FILE:elastos_utility_regex>
 )
-add_dependencies(elastos_utility_min elastos_core_library_car)
+add_dependencies(elastos_utility_min Elastos.CoreLibrary.car)

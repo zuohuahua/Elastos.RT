@@ -1,4 +1,4 @@
-set(GENERATED_SOURCES
+set(CURRENT_MIRROR_SOURCES
     _Elastos_HelloCar_CDog.cpp
     Elastos_HelloCar_CDogClassObject.cpp
     _Elastos_HelloCar_CCat.cpp

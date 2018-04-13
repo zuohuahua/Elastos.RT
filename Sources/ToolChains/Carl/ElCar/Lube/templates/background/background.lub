@@ -44,4 +44,4 @@ $END DO ;; all classes
 $
 $TEMPLATE "background/modpub.lub"
 $TEMPLATE "background/makefile.lub"
-$TEMPLATE "background/cmake.lub"
+$TEMPLATE "public/cmake.lub"

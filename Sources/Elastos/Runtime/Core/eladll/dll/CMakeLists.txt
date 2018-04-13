@@ -4,8 +4,8 @@ add_definitions(-D_USE_MY_DLLMAIN_)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../inc)
 
-xdk_compile_def(GENERATED_FILE elastos.def)
-add_library(Elastos.Runtime SHARED ${GENERATED_FILE})
+xdk_compile_def(GENERATED_SOURCES elastos.def)
+add_library(Elastos.Runtime SHARED ${GENERATED_SOURCES})
 
 set(MY_LINK_LIBRARIES)
 if("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "ios")

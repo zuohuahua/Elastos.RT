@@ -15,16 +15,31 @@ $;; limitations under the License.
 $;;=========================================================================
 $
 $INPUT module
-$OUTPUT "_${name}uuid.h"
+$OUTPUT "CMakeLists.txt"
 $
-#include "elatypes.h"
 
-$WITH all classes DO
-EXTERN_C const _ELASTOS ClassID ECLSID_${name};
-$END DO ;; all classes
+set(CAR_FLAGS -n -u)
+set(LUBE_FLAGS -n -u)
 
-$WITH all interfaces DO
-EXTERN_C const _ELASTOS InterfaceID EIID_${name};
-$END DO ;; all interfaces
-$
+include(${name}.cmake)
+xdk_compile_car(GENERATED_SOURCES ${name}.car)
+
+set(SOURCES
+    $${GENERATED_SOURCES}
+    $${CURRENT_MIRROR_SOURCES}
+$   WITH all classes DO
+$       IF type is not "sink" and type is not "clsobj"
+    ${name}.cpp
+$       END IF
+$   END DO ;; all classes
+)
+
+add_library(${name} SHARED $${SOURCES})
+
+target_link_libraries(${name}
+    Elastos.Runtime
+    Elastos.Runtime_static
+    Elastos.CoreLibrary
+)
+
 $END OUTPUT

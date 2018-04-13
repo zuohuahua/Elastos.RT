@@ -241,7 +241,7 @@ int CLS2AbrgCpp_(FILE *pFile, const CLSModule *pModule)
             "#if !defined(__CAR_%sABRG_CPP__)\n"
             "#define __CAR_%sABRG_CPP__\n"
             "\n"
-            "#include <clsinfo.h>\n"
+            "#include \"clsinfo.h\"\n"
             "\n"
             "static unsigned char s_%s_classInfo[%d] = {",
             pszUpperName, pszUpperName,

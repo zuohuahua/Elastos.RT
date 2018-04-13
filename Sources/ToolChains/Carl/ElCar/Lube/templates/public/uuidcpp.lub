@@ -17,7 +17,7 @@ $
 $INPUT module
 $OUTPUT "_${name}uuid.cpp"
 $
-#include <elatypes.h>
+#include "elatypes.h"
 
 #define c_p${name}Uunm ${uunm}
 $   WITH all classes DO

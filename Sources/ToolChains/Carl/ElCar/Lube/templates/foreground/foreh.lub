@@ -22,7 +22,7 @@ $
 #define __${Upper(name)}_H__
 $IF class.attrib is "hascoalescence"
 
-#include <${module.name}_server.h>
+#include "${module.name}_server.h"
 
 ${ClassNamespaceBegin(class)}
 $  WITH ALL coalescences DO

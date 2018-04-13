@@ -21,7 +21,7 @@ $
 #define __CAR_${Upper(name)}_H__
 
 #ifndef _NO_INCLIST
-#include <elastos.h>
+#include "elastos.h"
 using namespace Elastos;
 $WITH all libraries DO
 ${CreateHFiles(name)}

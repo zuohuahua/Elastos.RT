@@ -4,6 +4,7 @@ while read I; do
        && "${I%%=*}" != "DISPLAY"
        && "${I%%=*}" != "OS_PATH"
        && "${I%%=*}" != "PATH"
+       && "${I%%=*}" != "PWD"
        && "${I%%=*}" != "XDK_BUILD_ENV"
        && "${I%%=*}" != "TERM"
        && "${I%%=*}" != "SHELL"

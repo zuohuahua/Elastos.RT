@@ -1,4 +1,4 @@
-set(GENERATED_SOURCES
+set(CURRENT_MIRROR_SOURCES
     _Elastos_Core_CObject.cpp
     Elastos_Core_CObjectClassObject.cpp
     _Elastos_Core_CThread.cpp

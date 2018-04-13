@@ -1067,9 +1067,9 @@ IMPL_USERFUNC(CreateHFiles)(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
     else if (nRet < 0)
         return LUBE_FAIL;
 
-    pCtx->PutString("#include <");
+    pCtx->PutString("#include \"");
     pCtx->PutString(pModule->mName);
-    pCtx->PutString(".h>\n");
+    pCtx->PutString(".h\"\n");
 
     PLUBEHEADER pLube;
     if (LoadLube(NULL, &pLube) < 0) {
@@ -2656,7 +2656,7 @@ void OutputInterface(InterfaceDirEntry* pItfDir, CLSModule* pModule)
             fprintf(pFile, "#ifndef __%s__\n", buffer);
             fprintf(pFile, "#define __%s__\n", buffer);
             fprintf(pFile, "\n");
-            fprintf(pFile, "#include <_%s>\n", pPath);
+            fprintf(pFile, "#include \"_%s\"\n", pPath);
             fprintf(pFile, "\n");
             fprintf(pFile, "#endif // __%s__\n", buffer);
             fclose(pFile);
@@ -2672,7 +2672,7 @@ void OutputInterface(InterfaceDirEntry* pItfDir, CLSModule* pModule)
         fprintf(pFile, "#ifndef __%s__\n", buffer);
         fprintf(pFile, "#define __%s__\n", buffer);
         fprintf(pFile, "\n");
-        fprintf(pFile, "#include <%s.h>\n", pModule->mName);
+        fprintf(pFile, "#include \"%s.h\"\n", pModule->mName);
         fprintf(pFile, "\n");
         fprintf(pFile, "ELAPI _Impl_AcquireCallbackHandler(PInterface pServerObj, _ELASTOS REIID iid, PInterface *ppHandler);\n");
         fprintf(pFile, "ELAPI _Impl_CheckClsId(PInterface pServerObj, const _ELASTOS ClassID* pClassid, PInterface *ppServerObj);\n");
@@ -2937,7 +2937,7 @@ void OutputClass(ClassDirEntry* pClsDir, CLSModule* pModule)
             fprintf(pFile, "#ifndef __%s__\n", buffer);
             fprintf(pFile, "#define __%s__\n", buffer);
             fprintf(pFile, "\n");
-            fprintf(pFile, "#include <_%s>\n", pPath);
+            fprintf(pFile, "#include \"_%s\"\n", pPath);
             fprintf(pFile, "\n");
             fprintf(pFile, "#endif // __%s__\n", buffer);
             fclose(pFile);
@@ -2952,7 +2952,7 @@ void OutputClass(ClassDirEntry* pClsDir, CLSModule* pModule)
 
         fprintf(pFile, "#ifndef __%s__", buffer);
         fprintf(pFile, "\n");
-        fprintf(pFile, "#include <%s.h>\n", pModule->mName);
+        fprintf(pFile, "#include \"%s.h\"\n", pModule->mName);
         fprintf(pFile, "ELAPI _Impl_CheckClsId(PInterface pServerObj, const _ELASTOS ClassID* pClassid, PInterface *ppServerObj);\n");
         fprintf(pFile, "\n");
     }

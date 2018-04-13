@@ -27,7 +27,7 @@ if(ANDROID)
 endif()
 
 add_library(elastos.math STATIC ${SOURCES})
-add_dependencies(elastos.math elastos_core_library_car)
+add_dependencies(elastos.math Elastos.CoreLibrary.car)
 
 
 

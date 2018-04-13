@@ -20,7 +20,7 @@ $
 #ifndef __CAR_${Upper(name)}PUB_CPP__
 #define __CAR_${Upper(name)}PUB_CPP__
 
-#include <clsinfo.h>
+#include "clsinfo.h"
 #include "elastos.h"
 
 $   WITH all classes DO
@@ -37,7 +37,7 @@ $   END DO ;; all classes
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-#include <clstype.h>
+#include "clstype.h"
 
 #define MUL_LOADFACTOR(n) (((n) * 3) >> 2) //n * 0.75
 

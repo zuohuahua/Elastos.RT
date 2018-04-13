@@ -2,10 +2,12 @@
 set(CAR_FLAGS -n -u)
 set(LUBE_FLAGS -n -u)
 
-xdk_compile_car(elastos_core_library_car Elastos.CoreLibrary.car)
+include(Elastos.CoreLibrary.cmake)
+xdk_compile_car(GENERATED_SOURCES Elastos.CoreLibrary.car)
 
 set(SOURCES
     ${GENERATED_SOURCES}
+    ${CURRENT_MIRROR_SOURCES}
     AsynchronousCloseMonitor.cpp
 #    Atomic.cpp
     Symbols.cpp
@@ -16,7 +18,6 @@ add_definitions(-DELASTOS_CORELIBRARY)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../inc)
 
 add_library(Elastos.CoreLibrary SHARED ${SOURCES})
-add_dependencies(Elastos.CoreLibrary elastos_core_library_car)
 
 if(ANDROID)
     # TODO: To be remove

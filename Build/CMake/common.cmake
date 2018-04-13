@@ -60,15 +60,17 @@ function(xdk_get_filename_without_ext name_we filename)
     set(${name_we} ${CMAKE_MATCH_1} PARENT_SCOPE)
 endfunction()
 
-macro(xdk_compile_car target_name car_file)
+macro(xdk_compile_car GENERATED_SOURCES car_file)
     xdk_get_filename_without_ext(car_filename ${car_file})
     string(REPLACE "$ENV{XDK_SOURCE_PATH}/" "" XDK_RELATIVE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
     if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${car_filename}.cmake)
         set(COMPARE_CMAKE_FILES_OR_PROMPT ${CMAKE_COMMAND} -E compare_files ${CMAKE_CURRENT_BINARY_DIR}/${car_filename}.cmake ${CMAKE_CURRENT_SOURCE_DIR}/${car_filename}.cmake)
-        include(${CMAKE_CURRENT_SOURCE_DIR}/${car_filename}.cmake)
     else()
         set(COMPARE_CMAKE_FILES_OR_PROMPT ${CMAKE_COMMAND} -E echo You could copy this cmake file to the source directory in order to compile the generated files. ${CMAKE_CURRENT_BINARY_DIR}/${car_filename}.cmake)
     endif()
+    set(${GENERATED_SOURCES}
+        "${CMAKE_CURRENT_BINARY_DIR}/__${car_filename}.cpp"
+    )
     add_custom_command(
         COMMENT "Compiling ${XDK_RELATIVE_DIR}/${car_file}"
         OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/${car_filename}.cls"
@@ -76,8 +78,10 @@ macro(xdk_compile_car target_name car_file)
                "${CMAKE_CURRENT_BINARY_DIR}/${car_filename}.d"
                "${CMAKE_CURRENT_BINARY_DIR}/${car_filename}.mk"
                "${CMAKE_CURRENT_BINARY_DIR}/${car_filename}.cmake"
+               "${CMAKE_CURRENT_BINARY_DIR}/${car_filename}.h"
                "$ENV{XDK_TARGETS}/${car_filename}.cls"
-               ${GENERATED_SOURCES}
+               ${${GENERATED_SOURCES}}
+               ${CURRENT_MIRROR_SOURCES}
         COMMAND carc -I${CMAKE_CURRENT_SOURCE_DIR} ${CAR_FLAGS} -a -c ${car_filename}.cls -E ${car_filename}Ex.cls ${car_file}
         COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/${car_filename}.cls" "$ENV{XDK_TARGETS}/${car_filename}.cls"
         COMMAND ${CMAKE_COMMAND} -E echo Generating H, CPP files from ${car_filename}.cls ...
@@ -85,16 +89,20 @@ macro(xdk_compile_car target_name car_file)
         COMMAND carc -I${CMAKE_CURRENT_SOURCE_DIR} ${CAR_FLAGS} -d ${car_file} >${car_filename}.d
         COMMAND ${CMAKE_COMMAND} -E echo >>${car_filename}.d
         COMMAND ${COMPARE_CMAKE_FILES_OR_PROMPT}
+        COMMAND ${CMAKE_COMMAND} -E echo 1 ClassInfo ${car_filename}.cls > ${car_filename}.rc
+        COMMAND "${CMAKE_C_COMPILER}" "${CMAKE_C_FLAGS}" -E -P -x c ${XDK_DEFINITIONS} -o __${car_filename}.rc ${car_filename}.rc
+        COMMAND perl $ENV{XDK_TOOLS}/version.pl "__Elastos_CAR" "`pwd`" "$ENV{XDK_TARGETS}" "${CMAKE_CURRENT_SOURCE_DIR}/${car_file}" ""
+        COMMAND perl $ENV{XDK_TOOLS}/cls_trans.pl __${car_filename}.rc 'NA'
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
         DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/${car_file}"
     )
-    add_custom_target(${target_name} ALL DEPENDS ${car_filename}.cls)
+    add_custom_target(${car_file} ALL DEPENDS ${car_filename}.cls)
 endmacro()
 
-macro(xdk_compile_def GENERATED_FILE def_file)
+macro(xdk_compile_def GENERATED_SOURCES def_file)
     xdk_get_filename_without_ext(def_filename ${def_file})
     string(REPLACE "$ENV{XDK_SOURCE_PATH}/" "" XDK_RELATIVE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
-    set(${GENERATED_FILE}
+    set(${GENERATED_SOURCES}
        "${CMAKE_CURRENT_BINARY_DIR}/__${def_filename}_exp.c"
         # "${CMAKE_CURRENT_BINARY_DIR}/__dllmain.cpp"
     )
@@ -104,9 +112,9 @@ macro(xdk_compile_def GENERATED_FILE def_file)
                "${CMAKE_CURRENT_BINARY_DIR}/__${def_filename}.sym"
                "${CMAKE_CURRENT_BINARY_DIR}/__${def_filename}.exp"
                "${CMAKE_CURRENT_BINARY_DIR}/__${def_filename}.vs"
-               "${CMAKE_CURRENT_BINARY_DIR}/__${def_filename}_exp.c"
                "${CMAKE_CURRENT_BINARY_DIR}/__dllmain.cpp"
                "${CMAKE_CURRENT_BINARY_DIR}/__section.cpp"
+               ${${GENERATED_SOURCES}}
         COMMAND ${CMAKE_COMMAND} -E remove "${CMAKE_CURRENT_BINARY_DIR}/__section.cpp"
         COMMAND "${CMAKE_C_COMPILER}" "${CMAKE_C_FLAGS}" -E -P -x c ${XDK_DEFINITIONS} -o __${def_file} ${CMAKE_CURRENT_SOURCE_DIR}/${def_file}
         COMMAND perl "$ENV{XDK_TOOLS}/def_trans.pl" __${def_file}

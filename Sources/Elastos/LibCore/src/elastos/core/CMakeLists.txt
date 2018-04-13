@@ -57,7 +57,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}/../../corelibrary)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../../inc)
 
 add_library(elastos.core STATIC ${SOURCES})
-add_dependencies(elastos.core elastos_core_library_car)
+add_dependencies(elastos.core Elastos.CoreLibrary.car)
 
 
 

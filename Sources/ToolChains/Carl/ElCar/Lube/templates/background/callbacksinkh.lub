@@ -20,8 +20,8 @@ $OUTPUT "_CCallbackSink_.h"
 #ifndef _CCallbackSink_H_
 #define _CCallbackSink_H_
 
-#include <elastos.h>
-#include <callback.h>
+#include "elastos.h"
+#include "callback.h"
 #include "elastos/core/Mutex.h"
 
 using namespace Elastos;

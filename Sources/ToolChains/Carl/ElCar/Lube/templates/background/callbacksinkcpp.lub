@@ -20,7 +20,7 @@ $OUTPUT "_CCallbackSink_.cpp"
 #include "_CCallbackSink_.h"
 #include <new>
 #include <unistd.h>
-#include <elcontainer.h>
+#include "elcontainer.h"
 
 ECode _CCallbackSink_::_AddCallback(
     PInterface pCallbackContext,

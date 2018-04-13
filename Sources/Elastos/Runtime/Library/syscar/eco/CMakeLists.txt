@@ -3,8 +3,7 @@ set(CAR_FLAGS -e -A -k)
 set(LUBE_FLAGS -e -k -z)
 set(LUBE_TS -T uuidcpp)
 
-xdk_compile_car(elastos_core_car ElastosCore.car)
-
+xdk_compile_car(GENERATED_SOURCES ElastosCore.car)
 
 add_custom_command(
     COMMENT "Copying ElastosCore.* to system..."
@@ -13,9 +12,7 @@ add_custom_command(
     COMMAND ${CMAKE_COMMAND} -E copy ElastosCore.h $ENV{XDK_USER_INC}
     COMMAND ${CMAKE_COMMAND} -E copy _ElastosCore.h $ENV{XDK_USER_INC}
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-    DEPENDS elastos_core_car
-            ${CMAKE_CURRENT_BINARY_DIR}/ElastosCore.h
-            ${CMAKE_CURRENT_BINARY_DIR}/_ElastosCore.h
+    DEPENDS ${GENERATED_SOURCES}
 )
 
 add_custom_target(copy_elastos_core_headers ALL DEPENDS

@@ -56,7 +56,14 @@ int main(int argc, char *argv[])
     fprintf(fWfile, "}ResStruct;\n");
     fprintf(fWfile, "\n");
 
-    fprintf(fWfile, "const ResStruct DllResource __attribute__ ((used,__section__ (\".clsresource\"))) = {\n");
+    fprintf(fWfile, "#ifdef _apple\n");
+    fprintf(fWfile, "#define CLS_SECTION\n");
+    fprintf(fWfile, "#else\n");
+    fprintf(fWfile, "#define CLS_SECTION __attribute__ ((used,__section__ (\".clsresource\")))\n");
+    fprintf(fWfile, "#endif\n");
+    fprintf(fWfile, "\n");
+
+    fprintf(fWfile, "const ResStruct DllResource CLS_SECTION = {\n");
 	fprintf(fWfile, "\t");
     fprintf(fWfile, "%d, \n", len);
     //fprintf(fWfile, "\n");
