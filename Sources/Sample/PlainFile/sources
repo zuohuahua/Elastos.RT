@@ -14,11 +14,20 @@
 # limitations under the License.
 #=========================================================================
 
-ifeq "$(XDK_TARGET_PLATFORM)" "linux"
-    DIRS = HelloCar
-    DIRS += PlainFile
-endif
+TARGET_NAME = TestPlainFile
+TARGET_TYPE = ecx
 
-ifeq "$(XDK_TARGET_PLATFORM)" "android"
-    DIRS = HelloCarDemo
-endif
+CAR_FLAGS += -n -u
+LUBE_FLAGS += -n -u
+
+IMPORTS = Elastos.CoreLibrary.eco
+
+SOURCES = main.cpp
+SOURCES += Elastos.CoreLibrary.cpp
+
+LIBRARIES = $(XDK_USER_LIB)/Elastos.Runtime.lib
+LIBRARIES += $(XDK_TARGETS)/Elastos.Runtime.eco
+LIBRARIES += $(XDK_USER_LIB)/Elastos.CoreLibrary.UUIDs.lib
+LIBRARIES += $(XDK_TARGETS)/Elastos.CoreLibrary.eco
+LIBRARIES += -lm -lstdc++ -ldl
+#LIBRARIES += -lm -lcutils -ldl

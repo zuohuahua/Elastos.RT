@@ -24,12 +24,11 @@ namespace Elastos {
 namespace IO {
 
 /**
- * An immutable arbitrary-precision signed decimal.
+ * An representation of a file system identified by a pathname.
+ * The pathname must be absolute (relative to the root directory of the file system)
  *
- * <p>A value is represented by an arbitrary-precision "unscaled value" and a signed 32-bit "scale",
- * combined thus: {@code unscaled * 10<sup>-scale</sup>}. See {@link #unscaledValue} and {@link #scale}.
- *
- * <p>Most operations allow you to supply a {@link MathContext} to specify a desired rounding mode.
+ * The actual file referenced by a CPlainFile may or may not exist. It may
+ * also, despite the name CPlainFile, be a directory or other regular file.
  */
 CarClass(CPlainFile)
     , public Object
@@ -43,7 +42,11 @@ public:
     CAR_INTERFACE_DECL();
 
     CARAPI constructor(
-        /* [in] */ const String& path);
+        /* [in] */ const String& dir);
+
+    CARAPI constructor(
+        /* [in] */ const String& dir,
+        /* [in] */ const String& name);
 
     CARAPI Exists(
         /* [out] */ Boolean* exists);
@@ -79,11 +82,6 @@ private:
     CARAPI _Delete(
         /* [in] */ const char* path);
 
-    CARAPI_(void) _GetFilePath(
-        /* [in] */ const char* path,
-        /* [in] */ const char* file_name,
-        /* [in] */ char *file_path);
-
     CARAPI_(Boolean) _IsSpecialDir(
         /* [in] */ const char* path);
 
@@ -96,25 +94,13 @@ private:
     CARAPI_(Boolean) _Mkdirs(
         /* [in] */ const String& path);
 
-    CARAPI_(Boolean) _CreateFile(
-        /* [in] */ const char* path,
-        /* [in] */ const char* fileName);
-
-    //以追加的方式写入文件
-    bool write_file(const char *fileName,const char *content) {
-        FILE *fp;
-        fp = fopen(fileName, "a+");
-        if (NULL == fp) {
-            return FALSE;
-        }
-        if( fwrite(content, strlen(content), 1, fp)!=1)
-             return FALSE;
-        fclose (fp);
-        return true;
-    }
+    CARAPI_(String) _GetAbsolutePath(
+        /* [in] */ const String& dir,
+        /* [in] */ const String& name);
 
 private:
-    String mPath;
+    String mDir;
+    String mName;
 };
 
 } // namespace IO

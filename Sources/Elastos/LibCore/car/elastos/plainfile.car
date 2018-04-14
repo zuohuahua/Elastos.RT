@@ -136,23 +136,47 @@ module
 
     /**
      *
-     * The car class which implements the interface: IPlainFile
+     * An representation of a file system identified by a pathname.
+     * The pathname must be absolute (relative to the root directory of the file system)
+     *
+     * The actual file referenced by a CPlainFile may or may not exist. It may
+     * also, despite the name CPlainFile, be a directory or other regular file.
+     *
+     * This car class implements the interface: IPlainFile
      *
      */
     class CPlainFile {
+        /**
+        *
+        * The constructor will construct a directory using the path which must be a absolute path.
+        * This method will be invoked in the background after the c++ class' constructor.
+        *
+        * @param
+        *      dir [in] the directory's path.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
+        constructor(
+            [in] String dir);
+
         /**
         *
         * the constructor to construct a file using the path which must be a absolute path.
         * This method will be invoked in the background after the c++ class' constructor.
         *
         * @param
-        *      path [in] the file's path which is a real file or directory.
+        *      dir [in] the directory of the file.
+        *
+        * @param
+        *      name [in] the file's name. If the name is NULL, The file created by CPlainFile will be a directory actully.
         *
         * @return
         *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
         */
         constructor(
-            [in] String path);
+            [in] String dir,
+            [in] String name);
 
         interface IPlainFile;
     }
