@@ -21,12 +21,10 @@ The programming idea with CAR is the essential technology in Elastos, it runs th
 - [Basic Data Type](Docs/CAR_Language.md#Data-Type)
 - [Componet Class and Interface](Docs/CAR_Language.md#Keywords)
 
-
 ### 2. RPC by CAR interface
 
 - [Carrier](Docs/Elastos_Carrier.md)
 - [Service Manager](Docs/Service_Manager.md)
-
 
 ## Build
 
@@ -44,12 +42,9 @@ The programming idea with CAR is the essential technology in Elastos, it runs th
 - [Android App - Java call CAR](Sources/Sample/HelloCarDemo/Android/HelloElastosDemo/README.md)
 - [iOS App - Object C call CAR](Sources/Sample/HelloCarDemo/iOS/app/README.md)
 
-
-
 ## More
 
 If you want to learn more, please refer to the following:
 
-- [Elastos_Development_Guide](DevDoc/References/Elastos_Development_Guide.md)
-- [Elastos_64bit_Upgrade_Guide](DevDoc/References/Elastos_64bit_Upgrade_Guide.md)
-- [How_to_Export_API](DevDoc/DocTools/How_to_Export_API.md)
+- [Elastos_Development_Guide](Docs/Elastos_Development_Guide.md)
+- [Elastos_64bit_Upgrade_Guide](Docs/Elastos_64bit_Upgrade_Guide.md)
