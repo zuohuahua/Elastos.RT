@@ -18,6 +18,6 @@ brew install doxygen
 2. Take the API that generates runtime as an example
 
 ```
-cd /Elastos.RT/DocTools/doxyfile
+cd /Elastos.RT/Docs/DocTools/doxyfile
 doxygen elastos_sdk_runtime_car_pdf_doxy
 ```
