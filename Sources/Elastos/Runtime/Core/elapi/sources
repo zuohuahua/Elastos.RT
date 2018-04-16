@@ -24,8 +24,11 @@ INCLUDES += $(MAKEDIR)/../../Library/inc/elasys;
 INCLUDES += $(MAKEDIR)/../marshal/
 ifeq "$(XDK_TARGET_PLATFORM)" "android"
 #INCLUDES += $(MAKEDIR)/../marshal/android_linux;
-INCLUDES += $(MAKEDIR)/../marshal/linux_rpc;
-INCLUDES += $(MAKEDIR)/../marshal/others_rpc;
+#INCLUDES += $(MAKEDIR)/../marshal/linux_rpc;
+#INCLUDES += $(MAKEDIR)/../marshal/others_rpc;
+INCLUDES += $(MAKEDIR)/../marshal/p2p_rpc;
+INCLUDES += $(XDK_SOURCE_PATH)/ThirdParty/ElaCarrier/src/carrier/
+INCLUDES += $(XDK_SOURCE_PATH)/ThirdParty/ElaCarrier/src/session/
 else
 ifeq "$(XDK_TARGET_PLATFORM)" "linux"
 INCLUDES += $(MAKEDIR)/../marshal/others_rpc;

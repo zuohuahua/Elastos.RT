@@ -6,6 +6,6 @@ C_DEFINES= -D_CAR_RUNTIME
 
 INCLUDES += $(MAKEDIR)/../inc
 INCLUDES += $(MAKEDIR)/../reflection
-INCLUDES += $(MAKEDIR)/carrierinc
+INCLUDES += $(XDK_SOURCE_PATH)/ThirdParty/ElaCarrier/src/carrier/
 
 SOURCES = elcarrierapi.cpp

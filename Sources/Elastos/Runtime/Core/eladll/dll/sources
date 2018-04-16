@@ -32,7 +32,7 @@ C_DEFINES= -D_USE_MY_DLLMAIN_
 
 
 ifeq "$(XDK_TARGET_PLATFORM)" "android"
-    SOURCES += elastos_android.def
+    SOURCES += elastos.def
 	SOURCES += dllmain.cpp
 	SOURCES += dllinit.cpp
 	SOURCES += elastos.rc

@@ -335,7 +335,7 @@ ECode CSession::SendMessage(
     }
 
 
-    int rc = ela_stream_write(mElaSession, mStream, 
+    int rc = ela_stream_write(mElaSession, mStream,
                                 data->GetPayload(), msgLen);
     ArrayOf<Byte>::Free(data);
     if (rc > 0) {
@@ -368,7 +368,7 @@ ECode CSession::ReceiveMessage(
     while(mData == NULL) {
         pthread_cond_wait(&mDataCv, &mDataLock);
     }
-    
+
     if (mData == NULL) {
         pthread_mutex_unlock(&mDataLock);
         return E_FAIL;
@@ -456,6 +456,12 @@ ECode CSession::RemoveAllListener()
     return NOERROR;
 }
 
+ECode CSession::GetUid(
+    /* [out] */ String* pUid)
+{
+    return NOERROR;
+}
+
 CSession::ListenerNode* CSession::FindListener(
     /* [in] */ SessionListener* pListener,
     /* [in] */ void* context,
@@ -511,7 +517,7 @@ ECode CSession::SessionRequest()
         SessionDestroy();
         NotifySessionConnected(FALSE);
     }
-    
+
     return ret;
 }
 

@@ -166,7 +166,7 @@ ELAPI _CObject_UnmarshalInterface(
 #ifdef _ELASTOS64
         assert(0 && "64-bit cpu architecture does not support RPC.");
 #else
-        ECode ec = StdUnmarshalInterface(flag, (InterfacePack*)package, object);
+        ECode ec = StdUnmarshalInterface(flag, NULL, (InterfacePack*)package, object);
         if (FAILED(ec)) {
             return ec;
         }
