@@ -4,7 +4,7 @@
 
 ElastosRT is a development framework.
 
-The programming idea with CAR is the essential technology in Elastos, it runs through the entire technology system implementation. In Elastos Runtime the component library provided by the Elastos framework is implemented using CAR technology. 
+The programming idea with CAR is the essential technology in Elastos, it runs through the entire technology system implementation. In Elastos Runtime the component library provided by the Elastos framework is implemented using CAR technology.
 
 ## Technology
 
@@ -18,8 +18,8 @@ The programming idea with CAR is the essential technology in Elastos, it runs th
   CAR components provide service using interface, component interface needs the metadata to describe the component so that other users can know how to use the service. Metadata describe the relationship between services and calls. With this description, calling between different components becomes possible, and members of the long-range, inter-process communication can be properly carried out. The major solved problems by CAR component technology are: component from different sources can interoperate; components upgrade but affect no other component; component is independent of the programming language; transparency of component operating environment.
 
 - [CAR Language](Docs/CAR_Language.md)
-- [Basic Data Type](Docs/CAR_Language.md#Data-Type)
-- [Componet Class and Interface](Docs/CAR_Language.md#Keywords)
+- [Basic Data Type](Docs/CAR_Language.md#2.Data-Type)
+- [Componet Class and Interface](Docs/CAR_Language.md#3.Keywords)
 
 ### 2. RPC by CAR interface
 
