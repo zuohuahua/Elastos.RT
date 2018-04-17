@@ -73,9 +73,4 @@ LOCAL_LDFLAGS := $(LOCAL_PATH)/elastos/libs/libElastos.Runtime.so \
 		$(LOCAL_PATH)/Elastos.HelloCarDemo/libElastos.HelloCarDemo.so \
 		$(LOCAL_PATH)/elastos/libs/Elastos.Runtime.lib
 
-#LOCAL_LDFLAGS := $(LOCAL_PATH)/elastoslib/Elastos.Runtime.eco \
-#		$(LOCAL_PATH)/elastoslib/Elastos.CoreLibrary.eco \
-#		$(LOCAL_PATH)/elastoslib/Elastos.HelloCarDemo.eco \
-#		$(LOCAL_PATH)/elastoslib/Elastos.Runtime.lib
-
 include $(BUILD_SHARED_LIBRARY)

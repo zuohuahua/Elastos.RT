@@ -29,7 +29,6 @@ The programming idea with CAR is the essential technology in Elastos, it runs th
 ## Build
 
 - [Getting Started](Docs/getting_started.md)
-- [Build for android app](Docs/Example_HelloElastosDemo.md)
 - [Build for CAR tools](Docs/How_to_build_CAR_tools_such_as_carc.md)
 - [Build for test case](Docs/How_to_run_test_on_ubuntu.md)
 - [Build Tips](Docs/build_tips.md)
