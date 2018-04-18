@@ -13,6 +13,13 @@ pthread_cond_t CServiceManager::sGetServiceCv;
 Int32 CServiceManager::sNotifyType = 0;
 ArrayOf<Byte>* CServiceManager::sData = NULL;
 
+
+ELAPI _CServiceManager_AcquireInstance(
+    /* [out] */ IServiceManager** manager)
+{
+    return CServiceManager::AcquireInstance(manager);
+}
+
 CServiceManager::CServiceManager()
     : mCarrier(NULL)
     , mSessionManager(NULL)
@@ -145,6 +152,7 @@ ECode CServiceManager::AddService(
         return E_INVALID_ARGUMENT;
     }
 
+    RPC_LOG("CServiceManager::AddService: %s", name.string());
     InterfacePack ip;
     ECode ec = StdMarshalInterface(pService, &ip);
     if (FAILED(ec)) return ec;
@@ -295,6 +303,7 @@ ECode CServiceManager::HandleGetService(
     pSession->SendMessage(GET_SERVICE_REPLY, data->GetPayload(), _len);
 
     ArrayOf<Byte>::Free(data);
+    return NOERROR;
 }
 
 
@@ -305,6 +314,7 @@ void CServiceManager::CSessionManagerListener::OnSessionRequest(
     /* [in] */ size_t len,
     /* [in] */ void *context)
 {
+    RPC_LOG("CServiceManager::CSessionManagerListener::OnSessionRequest");
     return;
 }
 
@@ -318,12 +328,11 @@ void CServiceManager::CSessionManagerListener::OnSessionReceived(
 
     Byte* p = data->GetPayload();
     int type = *(size_t *)p;
-    RPC_LOG("CServiceManager receive type: %d\n", type);
+    RPC_LOG("CServiceManager::CSessionManagerListener receive type: %d\n", type);
     p += sizeof(size_t);
 
     if (type == GET_SERVICE) {
         String name((char*)p, data->GetLength() - 4);
-        RPC_LOG("CServiceManager get gervice: %s\n", name.string());
         manager->HandleGetService(pSession, name);
     }
 }
@@ -349,11 +358,13 @@ void CServiceManager::CGetServiceListener::OnSessionReceived(
     /* [in] */ void* context)
 {
     Byte* p = data->GetPayload();
-    int type = *(size_t *)p;
-    RPC_LOG("CGetServiceListener receive type:%d\n", type);
+    size_t type = *(size_t *)p;
+    RPC_LOG("CServiceManager::CGetServiceListener receive type:%d\n", type);
     if (type != GET_SERVICE_REPLY) {
         return;
     }
+
+    sNotifyType = SESSION_SERVICE_INFO;
 
     p += sizeof(size_t);
 

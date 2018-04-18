@@ -10,15 +10,15 @@ enum {
     MESSAGE_TYPE_EXIT,
 };
 
-class CMessage
+class RPCMessage
 {
 public:
-    CMessage(
-        void* data,
+    RPCMessage(
+        const void* data,
         Int32 len,
         Int32 type);
 
-    ~CMessage();
+    ~RPCMessage();
 
     ArrayOf<Byte>* GetData();
 

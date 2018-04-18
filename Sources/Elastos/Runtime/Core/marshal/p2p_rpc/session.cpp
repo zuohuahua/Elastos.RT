@@ -10,7 +10,7 @@ void* workThread(void* argc)
     CSession* pThis = (CSession*)argc;
     if (!pThis) return 0;
 
-    RPC_LOG("Session[%d] work thread start......\n", pThis->mStream);
+    RPC_LOG("Session[%d] work thread %d start...\n", pThis->mStream, gettid());
 
     Boolean exit = FALSE;
     while(!exit) {
@@ -30,12 +30,13 @@ void* workThread(void* argc)
         pthread_mutex_unlock(&pThis->mWorkLock);
 
         Int32 type = node->mMessage->GetType();
+        RPC_LOG("workThread thread wait handle message type: %d", type);
         switch(type) {
         case MESSAGE_TYPE_DATA:
             pThis->NotifySessionReceived(node->mMessage);
             break;
         case MESSAGE_TYPE_EXIT:
-            RPC_LOG("Session[%d] work thread end......\n", pThis->mStream);
+            RPC_LOG("Session[%d] work thread end...\n", pThis->mStream);
             exit = TRUE;
             break;
         default:
@@ -77,11 +78,10 @@ CSession::CSession(
     }
 
     if (pCarrier) {
-        Handle64 carrier;
-        ECode ec = ((CCarrier*)pCarrier)->GetCarrierHandle(&carrier);
-        if (SUCCEEDED(ec)) {
-            mElaCarrier = (ElaCarrier*)carrier;
-        }
+        // Handle64 carrier;
+        ECode ec = ((CCarrier*)pCarrier)->GetCarrierHandle(&mElaCarrier);
+        // if (SUCCEEDED(ec)) {
+        // }
     }
 
     mUid = uid;
@@ -195,8 +195,8 @@ void SessionRequestComplete(
     size_t len,
     void *context)
 {
-    RPC_LOG("Session complete, status: %d, reason: %s\n", status,
-           reason ? reason : "null");
+    RPC_LOG("Session complete, status: %d, reason: %s, tid: %d\n", status,
+           reason ? reason : "null", gettid());
 
     if (status != 0)
         return;
@@ -219,21 +219,21 @@ void StreamReceiveData(
     CSession* pThis = (CSession*)context;
     if (!pThis) return;
 
-    CSession::MessageNode* node;
-    ECode ec = pThis->CreateMessageNode(data, len, MESSAGE_TYPE_DATA, &node);
-    if (FAILED(ec)) {
-        return;
-    }
-
-    pthread_mutex_lock(&pThis->mWorkLock);
-    pThis->mMessageQueue.InsertPrev(node);
-    pthread_mutex_unlock(&pThis->mWorkLock);
-    pthread_cond_signal(&pThis->mCv);
-
-
     pthread_mutex_lock(&pThis->mDataLock);
     if (!pThis->mWaitingForData) {
         pthread_mutex_unlock(&pThis->mDataLock);
+
+        CSession::MessageNode* node;
+        ECode ec = pThis->CreateMessageNode(data, len, MESSAGE_TYPE_DATA, &node);
+        if (FAILED(ec)) {
+            return;
+        }
+
+        pthread_mutex_lock(&pThis->mWorkLock);
+        pThis->mMessageQueue.InsertPrev(node);
+        pthread_mutex_unlock(&pThis->mWorkLock);
+        pthread_cond_signal(&pThis->mCv);
+
         return;
     }
 
@@ -247,6 +247,7 @@ void StreamReceiveData(
         pthread_mutex_unlock(&pThis->mDataLock);
         return;
     }
+    memcpy(pThis->mData->GetPayload(), data, len);
     pthread_mutex_unlock(&pThis->mDataLock);
     pthread_cond_signal(&pThis->mDataCv);
 }
@@ -316,6 +317,7 @@ ECode CSession::SendMessage(
     void* msg,
     size_t len)
 {
+    RPC_LOG("CSession::SendMessage type: %d", type);
     if (mElaCarrier == NULL) {
         return E_FAIL;
     }
@@ -339,12 +341,12 @@ ECode CSession::SendMessage(
                                 data->GetPayload(), msgLen);
     ArrayOf<Byte>::Free(data);
     if (rc > 0) {
-        RPC_LOG("Send message success stream[%d] len[%d].\n",
+        RPC_LOG("Send message success stream[%d] len[%d].",
                                 mStream, msgLen);
         return NOERROR;
     }
     else {
-        RPC_LOG("Send message failed(0x%x).\n", ela_get_error());
+        RPC_LOG("Send message failed(0x%x).", ela_get_error());
         return rc;
     }
 }
@@ -368,7 +370,8 @@ ECode CSession::ReceiveMessage(
     while(mData == NULL) {
         pthread_cond_wait(&mDataCv, &mDataLock);
     }
-
+    
+    mWaitingForData = FALSE;
     if (mData == NULL) {
         pthread_mutex_unlock(&mDataLock);
         return E_FAIL;
@@ -380,6 +383,7 @@ ECode CSession::ReceiveMessage(
     p += sizeof(size_t);
     _len -= sizeof(size_t);
 
+    RPC_LOG("CSession::ReceiveMessage type: %d", _type);
     *pType = _type;
     if (pBuf != NULL) {
         void* _base = malloc(_len);
@@ -444,7 +448,7 @@ ECode CSession::RemoveAllListener()
     if (!mListeners.IsEmpty()) {
         ListenerNode* head = &mListeners;
         ListenerNode* next = (ListenerNode*)mListeners.Next();
-        while(next != NULL) {
+        while(next != head) {
             next->Detach(head);
             delete next;
             next = (ListenerNode*)mListeners.Next();
@@ -459,6 +463,11 @@ ECode CSession::RemoveAllListener()
 ECode CSession::GetUid(
     /* [out] */ String* pUid)
 {
+    if (!pUid) {
+        return E_INVALID_ARGUMENT;
+    }
+
+    *pUid = mUid;
     return NOERROR;
 }
 
@@ -473,9 +482,10 @@ CSession::ListenerNode* CSession::FindListener(
         return NULL;
     }
 
+    ListenerNode* head = &mListeners;
     ListenerNode* next = (ListenerNode*)mListeners.Next();
     ListenerNode* prev = &mListeners;
-    while(next != NULL) {
+    while(next != head) {
         if (next->mListener == pListener && next->mContext == context) {
             if (detach) next->Detach(prev);
             pthread_mutex_unlock(&mListenersLock);
@@ -483,7 +493,7 @@ CSession::ListenerNode* CSession::FindListener(
         }
 
         prev = next;
-        next = (ListenerNode*)mListeners.Next();
+        next = (ListenerNode*)next->Next();
     }
     pthread_mutex_unlock(&mListenersLock);
 
@@ -547,7 +557,7 @@ ECode CSession::SessionComplete(
     mRemoteSdp[len] = 0;
     mSdpLen = len;
 
-    SessionStart();
+    return SessionStart();
 }
 
 ECode CSession::SessionDestroy()
@@ -556,6 +566,8 @@ ECode CSession::SessionDestroy()
         ela_session_close(mElaSession);
         mElaSession = NULL;
     }
+
+    return NOERROR;
 }
 
 ECode CSession::NotifySessionConnected(
@@ -567,8 +579,9 @@ ECode CSession::NotifySessionConnected(
         return NOERROR;
     }
 
+    ListenerNode* head = &mListeners;
     ListenerNode* next = (ListenerNode*)mListeners.Next();
-    while(next != NULL) {
+    while(next != head) {
         next->mListener->OnSessionConnected(succeeded, next->mContext);
         next = (ListenerNode*)next->Next();
     }
@@ -578,7 +591,7 @@ ECode CSession::NotifySessionConnected(
 }
 
 ECode CSession::NotifySessionReceived(
-    /* [in] */ CMessage* msg)
+    /* [in] */ RPCMessage* msg)
 {
     pthread_mutex_lock(&mListenersLock);
     if (mListeners.IsEmpty()) {
@@ -586,8 +599,9 @@ ECode CSession::NotifySessionReceived(
         return NOERROR;
     }
 
+    ListenerNode* head = &mListeners;
     ListenerNode* next = (ListenerNode*)mListeners.Next();
-    while(next != NULL) {
+    while(next != head) {
         next->mListener->OnSessionReceived(this, msg->GetData(), next->mContext);
         next = (ListenerNode*)next->Next();
     }
@@ -603,7 +617,7 @@ ECode CSession::CreateMessageNode(
 {
     if (!ppNode) return E_INVALID_ARGUMENT;
 
-    CMessage* msg = new CMessage(NULL, 0, MESSAGE_TYPE_EXIT);
+    RPCMessage* msg = new RPCMessage(data, len, type);
     if (!msg) return E_OUT_OF_MEMORY;
 
     MessageNode* node = new MessageNode(msg);
@@ -630,4 +644,6 @@ ECode CSession::ClearMessageQuere()
         next = (MessageNode*)mMessageQueue.Next();
     }
     pthread_mutex_unlock(&mWorkLock);
+
+    return NOERROR;
 }

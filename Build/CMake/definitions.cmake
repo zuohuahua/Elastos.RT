@@ -18,6 +18,10 @@ if(APPLE)
     list(APPEND XDK_DEFINITIONS -D_apple)
 endif()
 
+if("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "android")
+    list(APPEND XDK_DEFINITIONS -D_linux)
+endif()
+
 list(APPEND XDK_DEFINITIONS -D_cmake)
 
 add_definitions(${XDK_DEFINITIONS})

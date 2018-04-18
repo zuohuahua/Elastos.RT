@@ -66,6 +66,7 @@ ifeq "$(XDK_TARGET_PLATFORM)" "android"
 ELASTOS_LIBS += ../../carrier/elcarrierapi.lib
 ELASTOS_LIBS += ../../elapi/elapi.lib
 ELASTOS_LIBS += ../../marshal/p2p_rpc/marshal.lib
+ELASTOS_LIBS += ../../servicemanager/servicemanager.lib
 #ELASTOS_LIBS += ../../marshal/android_linux/marshal.lib
 #ELASTOS_LIBS += ../../marshal/linux_rpc/marshal_rpc.lib
 #LIBRARIES += -lm -ldl -llog -lz -lcutils -lutils -lbinder

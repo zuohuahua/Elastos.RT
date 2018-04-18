@@ -64,6 +64,7 @@ EXPORTS
     RegisterModuleInfo                              @181    NONAME
 #if defined(_android)
     _CCarrier_GetInstance                           @182    NONAME
+    _CServiceManager_AcquireInstance                @183    NONAME
 #endif
 
     ;;============================================================

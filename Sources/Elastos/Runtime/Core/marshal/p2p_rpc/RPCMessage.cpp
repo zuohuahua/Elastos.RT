@@ -1,10 +1,11 @@
 
-#include "CMessage.h"
+#include "RPCMessage.h"
 
-CMessage::CMessage(
-    void* data,
+RPCMessage::RPCMessage(
+    const void* data,
     Int32 len,
     Int32 type)
+    : mData(NULL)
 {
     if (data && len > 0) {
         mData = ArrayOf<Byte>::Alloc(len);
@@ -15,19 +16,19 @@ CMessage::CMessage(
     mType = type;
 }
 
-CMessage::~CMessage()
+RPCMessage::~RPCMessage()
 {
     if (mData) {
         ArrayOf<Byte>::Free(mData);
     }
 }
 
-ArrayOf<Byte>* CMessage::GetData()
+ArrayOf<Byte>* RPCMessage::GetData()
 {
     return mData;
 }
 
-Int32 CMessage::GetType()
+Int32 RPCMessage::GetType()
 {
     return mType;
 }

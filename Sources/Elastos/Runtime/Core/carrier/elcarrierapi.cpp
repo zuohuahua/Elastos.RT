@@ -243,10 +243,10 @@ ECode CCarrier::GetInstance(
 }
 
 ECode CCarrier::GetCarrierHandle(
-    /* [out] */ Handle64* handle)
+    /* [out] */ ElaCarrier** handle)
 {
     VALIDATE_NOT_NULL(handle);
-    *handle = (Handle64)mElaCarrier;
+    *handle = mElaCarrier;
     return NOERROR;
 }
 
@@ -401,6 +401,7 @@ ECode CCarrier::RemoveFriend(
 ECode CCarrier::IsOnline(
     /* [out] */ Boolean* online)
 {
+    CARRIER_LOG("=== IsOnline");
     VALIDATE_NOT_NULL(online);
     *online = mIsOnline;
     return NOERROR;
@@ -415,6 +416,7 @@ ECode CCarrier::GetFriend(
 
     pthread_mutex_lock(&mFriendListLock);
     FriendNode* it = &mFriendList;
+    it = (FriendNode*)(it->Next());
     for (; NULL != it; it = (FriendNode*)(it->Next())) {
         if (it->mUid.Equals(uid)) {
             //The caller need to use AutoPtr<IFriend> xxx to get the interface.
@@ -466,6 +468,7 @@ ECode CCarrier::AddCarrierNodeListener(
 {
     pthread_mutex_lock(&mListenersLock);
     ListenerNode* it = &mListeners;
+    it = (ListenerNode*)(it->Next());
     for (; NULL != it; it = (ListenerNode*)(it->Next())) {
         if (it->mCarrierListener.Get() == listener) {
             pthread_mutex_unlock(&mListenersLock);
@@ -487,7 +490,7 @@ ECode CCarrier::RemoveCarrierNodeListener(
     pthread_mutex_lock(&mListenersLock);
     ListenerNode* prev = NULL;
     ListenerNode* head = &mListeners;
-    ListenerNode* it = &mListeners;
+    ListenerNode* it = (ListenerNode*)(head->Next());
     for (; NULL != it; it = (ListenerNode*)(it->Next())) {
         if (it->mCarrierListener.Get() == listener) {
             it->mCarrierListener = NULL;
@@ -524,6 +527,18 @@ ECode CCarrier::Export(
     return E_NOT_IMPLEMENTED;
 }
 
+ECode CCarrier::GetUerid(
+    /* [out] */ String* myUid)
+{
+    CARRIER_NOT_READY();
+    VALIDATE_NOT_NULL(myUid);
+
+    char buf[ELA_MAX_ID_LEN  + 1];
+    ela_get_userid(mElaCarrier, buf, sizeof(buf));
+    *myUid = String(buf);
+    return NOERROR;
+}
+
 ECode CCarrier::DistributeOnConnectionChanged(
     /* [in] */ Boolean online)
 {
@@ -533,6 +548,7 @@ ECode CCarrier::DistributeOnConnectionChanged(
     //Distribute the callback: OnConnectionChanged
     pthread_mutex_lock(&mListenersLock);
     ListenerNode* it = &mListeners;
+    it = (ListenerNode*)(it->Next());
     for (; NULL != it; it = (ListenerNode*)(it->Next())) {
         it->mCarrierListener->OnConnectionChanged(online);
     }
@@ -547,6 +563,7 @@ ECode CCarrier::DistributeOnReady()
     mIsReady = TRUE;
     pthread_mutex_lock(&mListenersLock);
     ListenerNode* it = &mListeners;
+    it = (ListenerNode*)(it->Next());
     for (; NULL != it; it = (ListenerNode*)(it->Next())) {
         it->mCarrierListener->OnReady();
     }
@@ -562,6 +579,7 @@ ECode CCarrier::DistributeOnFriendRequest(
     //Distribute the callback: OnFriendRequest
     pthread_mutex_lock(&mListenersLock);
     ListenerNode* it = &mListeners;
+    it = (ListenerNode*)(it->Next());
     for (; NULL != it; it = (ListenerNode*)(it->Next())) {
         it->mCarrierListener->OnFriendRequest(uid, hello);
     }
@@ -580,6 +598,7 @@ ECode CCarrier::DistributeOnFriendConnetionChanged(
     //Distribute the callback: OnFriendConnetionChanged
     pthread_mutex_lock(&mListenersLock);
     ListenerNode* it = &mListeners;
+    it = (ListenerNode*)(it->Next());
     for (; NULL != it; it = (ListenerNode*)(it->Next())) {
         it->mCarrierListener->OnFriendConnetionChanged(uid, online);
     }
@@ -637,6 +656,7 @@ void CCarrier::AddFriend2List(
 {
     pthread_mutex_lock(&mFriendListLock);
     FriendNode* it = &mFriendList;
+    it = (FriendNode*)(it->Next());
     for (; NULL != it; it = (FriendNode*)(it->Next())) {
         if (it->mUid.Equals(uid)) {
             //Update the online by the method: UpdateStatus
@@ -665,6 +685,7 @@ void CCarrier::RemoveFriendFromList(
     pthread_mutex_lock(&mFriendListLock);
     FriendNode* prev = NULL;
     FriendNode* it = &mFriendList;
+    it = (FriendNode*)(it->Next());
     for (; NULL != it; it = (FriendNode*)(it->Next())) {
         if (it->mUid.Equals(uid)) {
             it->mFriend = NULL;

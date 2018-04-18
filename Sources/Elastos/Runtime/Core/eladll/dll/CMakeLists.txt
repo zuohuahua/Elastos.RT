@@ -4,16 +4,27 @@ add_definitions(-D_USE_MY_DLLMAIN_)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../inc)
 
+set(SOURCES
+    dllmain.cpp
+    dllinit.cpp
+)
+
 xdk_compile_def(GENERATED_SOURCES elastos.def)
-add_library(Elastos.Runtime SHARED ${GENERATED_SOURCES})
+add_library(Elastos.Runtime SHARED ${GENERATED_SOURCES} ${SOURCES})
 
 set(MY_LINK_LIBRARIES)
+
+list(APPEND MY_LINK_LIBRARIES
+    elapi
+)
+
 if("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "ios")
     list(APPEND MY_LINK_LIBRARIES
         marshalcomm
     )
 elseif("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "android")
     list(APPEND MY_LINK_LIBRARIES
+        servicemanager
         marshal
         elcarrierapi
         elacarrier
@@ -28,7 +39,6 @@ list(APPEND MY_LINK_LIBRARIES
     lib4ela
     eltypes
     elasys
-    elapi
     clsinfo
     z
 )

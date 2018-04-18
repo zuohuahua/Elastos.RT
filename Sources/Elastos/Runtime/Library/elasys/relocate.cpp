@@ -63,11 +63,13 @@ void RelocateModuleInfo(
     CIInterfaceInfo * interfaceInfo;
     CIMethodInfo * methodInfo;
 
+
     memcpy(destModInfo, srcModInfo, srcModInfo->mTotalSize);
 
     destModInfo->mInterfaces = (CIInterfaceInfo*)((Byte *)destModInfo +
         (INTEGER_DST)destModInfo->mInterfaces);
     interfaceInfo = destModInfo->mInterfaces;
+
     for (Int32 i = 0; i < destModInfo->mInterfaceNum; i++) {
         interfaceInfo[i].mMethods = (CIMethodInfo *) \
               ((Byte *)destModInfo + (INTEGER_DST)interfaceInfo[i].mMethods);

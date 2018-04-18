@@ -29,6 +29,11 @@ endif
 DIRS += marshal
 DIRS += libusr
 DIRS += carapi
+
+ifeq "$(XDK_TARGET_PLATFORM)" "android"
+    DIRS += servicemanager
+endif
+
 DIRS += eladll
 
 PLATFORM_DIRS = marshal elapi

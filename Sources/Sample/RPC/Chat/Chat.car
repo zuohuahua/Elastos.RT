@@ -1,0 +1,26 @@
+
+module {
+    importlib("Elastos.CoreLibrary");
+
+    interface IMessageListener {
+    	MessageRecived(
+    		[in] String msg);
+    }
+
+    interface IChat {
+        Send(
+        	[in] String msg);
+
+        SetMessageListener(
+        	[in] IMessageListener* listener);
+
+    }
+
+    class CChat {
+        constructor();
+
+        interface IChat;
+    }
+
+}
+

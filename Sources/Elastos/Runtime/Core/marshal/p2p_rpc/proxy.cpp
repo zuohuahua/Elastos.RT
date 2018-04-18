@@ -45,16 +45,16 @@ EXTERN_C void ProxyEntryFunc(void);
 
 #ifdef _GNUC
 #    if defined(_arm)
-#       define DECL_SYS_PROXY_ENTRY()
+#       define DECL_SYS_PROXY_ENTRY()              \
             __asm__(                               \
-            ".text;"                            \
-            ".align 4;"                         \
-            ".globl ProxyEntryFunc;"           \
-            "ProxyEntryFunc:"                  \
-            "stmdb  sp!, {r0 - r3};"            \
-             "mov    r1, #0xff;"                 \
-            "ldr    pc, [r0, #4];"              \
-            "nop;"                              \
+            ".text;"                               \
+            ".align 4;"                            \
+            ".globl ProxyEntryFunc;"               \
+            "ProxyEntryFunc:"                      \
+            "push {r0 - r3};"                      \
+            "push {lr};"                           \
+            "mov  r1, #0xff;"                      \
+            "ldr  pc, [r0, #4];"                   \
         )
         DECL_SYS_PROXY_ENTRY();
 #    elif defined(_x86)
@@ -82,7 +82,6 @@ EXTERN_C void ProxyEntryFunc(void);
  * |  o == &up_o
  * |  o == eip
  */
-
 
 #   define DECL_SYS_PROXY_ENTRY()                  \
 	__asm__(                                   \
@@ -132,14 +131,17 @@ EXTERN_C ECode GlobalProxyEntry(UInt32 *puArgs)
     __asm__(                            \
         ".text;"                        \
         ".align 4;"                     \
-        ".globl __ProxyEntry;"         \
-        "__ProxyEntry:"                \
-        "stmdb  sp!, {r1, lr};"         \
+        ".globl __ProxyEntry;"          \
+        "__ProxyEntry:"                 \
+        "push   {r1};"                  \
         "add    r0, sp, #4;"            \
-        "bl     GlobalProxyEntry;"     \
-        "ldr    lr, [sp, #4];"          \
-        "add    sp, sp, #24;"           \
-        "mov    pc, lr;"                \
+        "bl     GlobalProxyEntry;"      \
+        "add    sp, sp, #4;"            \
+        "pop    {lr};"                  \
+        "pop    {r1};"                  \
+        "pop    {r1 - r3};"             \
+        "push   {lr};"                  \
+        "pop    {pc};"                  \
     )
 
 DECL_PROXY_ENTRY();
@@ -204,7 +206,7 @@ void InitProxyEntry()
     char * p = (char *)s_proxyEntryAddress;
     for (Int32 n = 0; n < PROXY_ENTRY_NUM; n++) {
         memcpy(p, (void *)&ProxyEntryFunc, PROXY_ENTRY_SIZE);
-        p[4] = n;
+        p[8] = n;
         p += PROXY_ENTRY_SIZE;
     }
 #else
@@ -497,7 +499,7 @@ ECode CInterfaceProxy::ProxyEntry(UInt32 *puArgs)
 UseSocketExit:
         if (p) free(p);
         goto ProxyExit;
-        
+
 #else
 
         // initialiset the errors
@@ -636,6 +638,8 @@ ProxyExit:
 CObjectProxy::CObjectProxy(
     /* [in] */ CSession* pSession) :
     mSession(pSession),
+    mListener(NULL),
+    mData(NULL),
     m_pInterfaces(NULL),
     m_pICallbackConnector(NULL),
     m_cRef(1)
@@ -788,12 +792,15 @@ PInterface CObjectProxy::RemoteProbe(REIID riid)
         return NULL;
     }
 
+    RPC_LOG(" RemoteProbe receive len: %d", len);
+
     if (len < sizeof(ProbeReplyData) ||
             type != METHOD_INVOKE_REPLY ||
             !SUCCEEDED(pReplyData->ec)) {
         MARSHAL_DBGOUT(MSHDBG_WARNING,
                 printf("proxy RemoteProbe() ec = %x\n", pReplyData->ec));
         free(pReplyData);
+    RPC_LOG(" RemoteProbe receive return null");
         return NULL;
     }
     assert(pReplyData->notNull == MSH_NOT_NULL);
@@ -951,6 +958,7 @@ ECode CObjectProxy::GetInterface(
 {
     assert(ppObj != NULL);
 
+    RPC_LOG(" CObjectProxy::GetInterface uIndex: %d, m_cInterfaces: %d", uIndex, m_cInterfaces);
     if (uIndex < (UInt32)m_cInterfaces) {
         *ppObj = (IInterface *)&(m_pInterfaces[uIndex].m_pvVptr);
         this->AddRef();
@@ -1137,6 +1145,7 @@ ECode CObjectProxy::ReceiveFromRemote(
     p += sizeof(size_t);
     _len -= sizeof(size_t);
 
+    RPC_LOG("CObjectProxy::ReceiveFromRemote type:%d", _type);
     *type = _type;
     if (buf != NULL) {
         void* _base = malloc(_len);
@@ -1170,6 +1179,7 @@ void CObjectProxy::CProxyListener::OnSessionReceived(
     /* [in] */ ArrayOf<Byte>* data,
     /* [in] */ void* context)
 {
+    RPC_LOG("CObjectProxy::CProxyListener::OnSessionReceived data: %p, context: %p", data, context);
     CObjectProxy* proxy = (CObjectProxy*)context;
     if (!proxy) return;
 

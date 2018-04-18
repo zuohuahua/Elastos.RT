@@ -367,6 +367,7 @@ ECode CObjectStub::Invoke(
             GET_REG(ip, ip);
             GET_REG(lr, lr);
             GET_REG(sp, sp);
+            assert(0);
             // TODO: clang compile error, check assemble later
             // STUB_INVOKE_METHOD2(ec, puArgs, uMethodAddr);
             SET_REG(sp, sp);
@@ -736,10 +737,11 @@ ECode CObjectStub::HandleInvoke(void const *base, int len)
     CRemoteParcel *pParcel = NULL;
     ECode ec;
 
-    RPC_LOG("Call Invoke.\n");
+    RPC_LOG("Call Invoke.");
     MARSHAL_DBGOUT(MSHDBG_NORMAL, printf("Call Invoke.\n"));
 
     ec = this->Invoke((void *)base, len, &pParcel);
+    RPC_LOG("Call Invoke ec: %x", ec);
 
     int32_t _ec = ec;
     if (pParcel != NULL) {
@@ -824,6 +826,8 @@ ECode CObjectStub::S_CreateObject(
     }
 
     pStub->mSessionManager->AddListener(pStub->mSessionManagerListener, pStub);
+
+    pStub->mSessionManager->GetUid(&pStub->m_connName);
 
     pObj1 = (IObject *)pObject->Probe(EIID_IAspect);
     if (!pObj1) {
@@ -934,12 +938,14 @@ void CObjectStub::CSessionManagerListener::OnSessionReceived(
     /* [in] */ ArrayOf<Byte>* data,
     /* [in] */ void *context)
 {
+    RPC_LOG("CObjectStub::CSessionManagerListener OnSessionReceived");
+
     CObjectStub* pStub = (CObjectStub*)context;
     if (!pStub) return;
 
     if (pStub->mSession == NULL) {
         pStub->mSession = pSession;
-        pStub->mSession->Release();
+        pStub->mSession->AddRef();
     }
 
     if (pStub->mSession != pSession) {
@@ -948,11 +954,11 @@ void CObjectStub::CSessionManagerListener::OnSessionReceived(
 
     Byte* p = data->GetPayload();
     int _len = data->GetLength();
-    int _type = *(size_t *)p;
+    size_t _type = *(size_t *)p;
     p += sizeof(size_t);
     _len -= sizeof(size_t);
 
-    RPC_LOG("CObjectStub receive type:%d\n", _type);
+    RPC_LOG("CObjectStub receive type:%d, len: %d\n", _type, _len);
 
     switch (_type) {
     case METHOD_GET_CLASS_INFO:

@@ -79,6 +79,9 @@ public:
     CARAPI Export(
         /* [out] */ String* dataFile);
 
+    CARAPI GetUerid(
+        /* [out] */ String* myUid);
+
     CARAPI_(UInt32) AddRef();
 
     CARAPI_(UInt32) Release();
@@ -91,7 +94,7 @@ public:
         /* [out] */ InterfaceID* iid);
 
     ECode GetCarrierHandle(
-        /* [out] */ Handle64* handle);
+        /* [out] */ ElaCarrier** carrier);
 
     //Local functions for distribute the callback.
     CARAPI DistributeOnConnectionChanged(

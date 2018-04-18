@@ -6,7 +6,7 @@
 #include "ela_session.h"
 #include <elcontainer.h>
 #include <elrefbase.h>
-#include "CMessage.h"
+#include "RPCMessage.h"
 
 class CSession;
 
@@ -88,6 +88,8 @@ private:
         {
             mListener = pListener;
             mListener->AddRef();
+
+            mContext = context;
         }
 
         ~ListenerNode()
@@ -110,7 +112,7 @@ private:
         {}
 
         MessageNode(
-            /* [in] */ CMessage* msg)
+            /* [in] */ RPCMessage* msg)
         {
             mMessage = msg;
         }
@@ -122,7 +124,7 @@ private:
         }
 
     public:
-        CMessage* mMessage;
+        RPCMessage* mMessage;
     };
 
 private:
@@ -146,7 +148,7 @@ private:
         /* [in] */ Boolean succeeded);
 
     ECode NotifySessionReceived(
-        /* [in] */ CMessage* msg);
+        /* [in] */ RPCMessage* msg);
 
     ECode CreateMessageNode(
         /* [in] */ const void* data,

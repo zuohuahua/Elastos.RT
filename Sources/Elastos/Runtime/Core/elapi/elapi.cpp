@@ -100,7 +100,7 @@ ELAPI _CObject_MarshalInterface(
 #ifdef _apple
         assert(0 && "RPC is not supported on ios.");
 #else
-#if defined(_ELASTOS64) || defined(_cmake) // TODO: Will remove _cmake later
+#if defined(_ELASTOS64)
         assert(0 && "64-bit cpu architecture does not support RPC.");
 #else
         InterfacePack* itfPack = (InterfacePack*)calloc(sizeof(InterfacePack), 1);
@@ -163,9 +163,10 @@ ELAPI _CObject_UnmarshalInterface(
 #ifdef _apple
         assert(0 && "RPC is not supported on ios.");
 #else
-#if defined(_ELASTOS64) || defined(_cmake) // TODO: Will remove _cmake later
+#if defined(_ELASTOS64)
         assert(0 && "64-bit cpu architecture does not support RPC.");
 #else
+
 #ifdef _android
         ECode ec = StdUnmarshalInterface(flag, NULL, (InterfacePack*)package, object);
 #else

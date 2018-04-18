@@ -1,6 +1,7 @@
 
 #include "CSessionManager.h"
 #include "elcarrierapi.h"
+#include "android/log.h"
 
 
 CSessionManager* CSessionManager::sInstance = NULL;
@@ -98,7 +99,7 @@ CSessionManager::~CSessionManager()
     if (!sListeners.IsEmpty()) {
         ListenerNode* head = &sListeners;
         ListenerNode* next = (ListenerNode*)sListeners.Next();
-        while(next != NULL) {
+        while(next != head) {
             next->Detach(head);
             delete next;
             next = (ListenerNode*)sListeners.Next();
@@ -113,7 +114,7 @@ CSessionManager::~CSessionManager()
     if (!mSessions.IsEmpty()) {
         SessionNode* head = &mSessions;
         SessionNode* next = (SessionNode*)mSessions.Next();
-        while(next != NULL) {
+        while(next != head) {
             next->Detach(head);
             delete next;
             next = (SessionNode*)mSessions.Next();
@@ -176,6 +177,7 @@ ECode CSessionManager::CreateSession(
 
     *ppSession = session;
     (*ppSession)->AddRef();
+
     return NOERROR;
 }
 
@@ -190,7 +192,7 @@ ECode CSessionManager::GetSession(
     pthread_mutex_lock(&mSessionsLock);
     SessionNode* head = &mSessions;
     SessionNode* next = (SessionNode*)mSessions.Next();
-    while(next != NULL) {
+    while(next != head) {
         String remoteUid;
         next->mSession->GetUid(&remoteUid);
         if (remoteUid.Equals(uid)) {
@@ -246,6 +248,12 @@ ECode CSessionManager::RemoveListener(
     return NOERROR;
 }
 
+ECode CSessionManager::GetUid(
+    /* [out] */ String* pUid)
+{
+    return sCarrier->GetUerid(pUid);
+}
+
 CSessionManager::ListenerNode* CSessionManager::FindListener(
     /* [in] */ CManagerListener* pListener,
     /* [in] */ void* context,
@@ -257,9 +265,10 @@ CSessionManager::ListenerNode* CSessionManager::FindListener(
         return NULL;
     }
 
+    ListenerNode* head = &sListeners;
     ListenerNode* next = (ListenerNode*)sListeners.Next();
     ListenerNode* prev = NULL;
-    while(next != NULL) {
+    while(next != head) {
         if (next->mListener == pListener && next->mContext == context) {
             if (detach) {
                 next->Detach(prev);
@@ -300,8 +309,9 @@ void SessionRequestCallback(
         return;
     }
 
+    CSessionManager::ListenerNode* head = &CSessionManager::sListeners;
     CSessionManager::ListenerNode* next = (CSessionManager::ListenerNode*)CSessionManager::sListeners.Next();
-    while(next != NULL) {
+    while(next != head) {
         pthread_mutex_unlock(&CSessionManager::sListenersLock);
         next->mListener->OnSessionRequest(CSessionManager::sCarrier, from, sdp, len, next->mContext);
         pthread_mutex_lock(&CSessionManager::sListenersLock);
@@ -313,11 +323,11 @@ void SessionRequestCallback(
 
 ECode CSessionManager::InitSession()
 {
-    Handle64 carrier;
+    ElaCarrier* carrier;
     ECode ec = ((CCarrier*)sCarrier)->GetCarrierHandle(&carrier);
     if (FAILED(ec)) return ec;
 
-    int ret = ela_session_init((ElaCarrier*)carrier, SessionRequestCallback, this);
+    int ret = ela_session_init(carrier, SessionRequestCallback, NULL);
     if (ret != 0) {
         RPC_LOG("Error init session: 0x%x\n", ela_get_error());
     }
@@ -337,14 +347,16 @@ void CSessionManager::CReceiveListener::OnSessionReceived(
     /* [in] */ ArrayOf<Byte>* data,
     /* [in] */ void* context)
 {
+    RPC_LOG("CSessionManager::CReceiveListener OnSessionReceived: %p, data: %p", pSession, data);
     pthread_mutex_lock(&sListenersLock);
     if (sListeners.IsEmpty()) {
         pthread_mutex_unlock(&sListenersLock);
         return;
     }
 
+    ListenerNode* head = &sListeners;
     ListenerNode* next = (ListenerNode*)sListeners.Next();
-    while(next != NULL) {
+    while(next != head) {
         pthread_mutex_unlock(&sListenersLock);
         next->mListener->OnSessionReceived(pSession, data, next->mContext);
         pthread_mutex_lock(&sListenersLock);

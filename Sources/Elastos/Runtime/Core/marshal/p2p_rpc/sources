@@ -13,7 +13,7 @@ SOURCES += imarshal.cpp
 SOURCES += proxy.cpp
 SOURCES += stub.cpp
 SOURCES += CRemoteParcel.cpp
-SOURCES += CMessage.cpp
+SOURCES += RPCMessage.cpp
 SOURCES += session.cpp
 SOURCES += CSessionManager.cpp
 

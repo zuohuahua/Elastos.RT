@@ -104,7 +104,7 @@ macro(xdk_compile_def GENERATED_SOURCES def_file)
     string(REPLACE "$ENV{XDK_SOURCE_PATH}/" "" XDK_RELATIVE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
     set(${GENERATED_SOURCES}
        "${CMAKE_CURRENT_BINARY_DIR}/__${def_filename}_exp.c"
-        # "${CMAKE_CURRENT_BINARY_DIR}/__dllmain.cpp"
+       "${CMAKE_CURRENT_BINARY_DIR}/__dllmain.cpp"
     )
     add_custom_command(
         COMMENT "Preprocessing ${XDK_RELATIVE_DIR}/${def_file}"

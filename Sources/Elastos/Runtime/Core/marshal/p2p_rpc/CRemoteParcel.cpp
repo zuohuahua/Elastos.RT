@@ -55,7 +55,7 @@ CRemoteParcel::CRemoteParcel(
 	m_freeDataTag(FALSE),
     mSession(NULL)
 {
-    assert(!pSession);
+    assert(pSession != NULL);
     m_elemBufCapacity = 1024;
     m_elemBuf = (UInt32*)calloc(1, m_elemBufCapacity + sizeof(MarshalHeader));
     m_elemBuf = (UInt32*)((MarshalHeader*)m_elemBuf + 1);
@@ -301,18 +301,7 @@ ECode CRemoteParcel::ReadValue(PVoid pValue, Int32 type)
                             != (q.mFlags & CarQuintetFlag_TypeMask)) {
                             if (CarQuintetFlag_Type_String
                                 == (q.mFlags & CarQuintetFlag_TypeMask)) {
-                                ArrayOf<String>* strArr = (ArrayOf<String>*)(*(PCARQUINTET*)pValue);
-                                for (Int32 i = 0; i < (Int32)(size / sizeof(String)); i++) {
-                                    Int32 tag = *(Int32*)m_elemPtr;
-                                    m_elemPtr++;
-                                    if (tag != MSH_NULL) {
-                                        Int32 size = *(Int32*)m_elemPtr;
-                                        m_elemPtr++;
-                                        const char* str = (char*)m_elemPtr;
-                                        m_elemPtr += size;
-                                        (*strArr)[i] = str;
-                                    }
-                                }
+                                assert(0 && "ArrayOf<String> is not supported.");
                             }
                             else {
                                 memcpy(qq->mBuf, m_elemPtr, size);
@@ -547,24 +536,7 @@ ECode CRemoteParcel::WriteValue(PVoid pValue, Int32 type, Int32 size)
                     //
                     if (CarQuintetFlag_Type_String == (((PCARQUINTET)pValue)->mFlags
                             & CarQuintetFlag_TypeMask)) {
-                        Int32 size = ((PCARQUINTET)pValue)->mSize / sizeof(String);
-                        String* strBuf = (String*)((PCARQUINTET)pValue)->mBuf;
-                        for (Int32 i = 0; i < size; ++i) {
-                            // ALOGD("i: %d, str: %s", i, strBuf[i].string());
-                            if (!strBuf[i].IsNull()) {
-                                *m_elemPtr = MSH_NOT_NULL;
-                                m_elemPtr++;
-                                Int32 len = strBuf[i].GetLength();
-                                *m_elemPtr = len;
-                                m_elemPtr++;
-                                memcpy(m_elemPtr, strBuf[i].string(), len);
-                                m_elemPtr += len;
-                            }
-                            else {  // null pointer
-                                *m_elemPtr = MSH_NULL;
-                                m_elemPtr++;
-                            }
-                        }
+                        assert(0 && "ArrayOf<String> is not supported");
                     } else {
                         memcpy(m_elemPtr, ((PCARQUINTET)pValue)->mBuf,
                             ((PCARQUINTET)pValue)->mSize);
@@ -577,7 +549,7 @@ ECode CRemoteParcel::WriteValue(PVoid pValue, Int32 type, Int32 size)
                     Int32 used = ((PCARQUINTET)pValue)->mUsed
                                 / sizeof(IInterface *);
                     Int32 *pBuf = (Int32*)((PCARQUINTET)pValue)->mBuf;
-                    PCARQUINTET carquient = (PCARQUINTET)pValue;
+                    PCARQUINTET carquient = (PCARQUINTET)m_elemPtr;
                     for (Int32 i = 0; i < used; i++) {
                         if (pBuf[i]) {
                             ec = StdMarshalInterface(
@@ -593,7 +565,7 @@ ECode CRemoteParcel::WriteValue(PVoid pValue, Int32 type, Int32 size)
                                     sizeof(InterfacePack));
 
                             IParcelable *pParcelable = \
-                                    (IParcelable*)((IInterface*)pBuf[i])->Probe(EIID_IParcelable);
+                                    (IParcelable*)(*(IInterface**)pValue)->Probe(EIID_IParcelable);
                             if (pParcelable != NULL) pParcelable->WriteToParcel(this);
                         }
                         else {  // null pointer

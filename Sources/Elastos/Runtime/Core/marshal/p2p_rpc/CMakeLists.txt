@@ -7,7 +7,7 @@ set(SOURCES
     proxy.cpp
     stub.cpp
     CRemoteParcel.cpp
-    CMessage.cpp
+    RPCMessage.cpp
     session.cpp
     CSessionManager.cpp
 )

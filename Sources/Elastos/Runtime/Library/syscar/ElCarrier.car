@@ -349,6 +349,19 @@ library
         */
         Export(
             [out] String* dataFile);
+
+        /**
+        *
+        * Get your carrier's userid.
+        *
+        * @param
+        *      myUid [in] your carrier's userid.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
+        GetUerid(
+            [out] String* myUid);
     }
 }
 

@@ -67,6 +67,9 @@ public:
         /* [in] */ CManagerListener* pListener,
         /* [in] */ void* context);
 
+    ECode GetUid(
+        /* [out] */ String* pUid);
+
 private:
     class ListenerNode
         : public SLinkNode

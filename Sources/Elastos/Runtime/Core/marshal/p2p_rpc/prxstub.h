@@ -336,7 +336,12 @@ extern Address s_proxyEntryAddress;
 #define PROXY_ENTRY_SIZE    0x10
 #define PROXY_ENTRY_MASK    0x0f
 #define PROXY_ENTRY_SHIFT   4
+
+#if defined(_arm)
+#define PROXY_ENTRY_NUM     0xe0
+#else
 #define PROXY_ENTRY_NUM     0x80
+#endif
 
 #ifdef _x86
 

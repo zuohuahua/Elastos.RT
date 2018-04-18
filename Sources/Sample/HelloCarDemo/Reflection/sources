@@ -4,6 +4,11 @@ TARGET_TYPE = exe
 SOURCES += reflection.cpp
 
 LIBRARIES += $(XDK_USER_LIB)/Elastos.Runtime.lib
+
+ifeq "$(XDK_TARGET_PLATFORM)" "android"
+LIBRARIES += $(XDK_TARGETS)/libElastos.Runtime.so
+LIBRARIES += $(XDK_TARGETS)/libElastos.CoreLibrary.so
+else
 LIBRARIES += $(XDK_TARGETS)/Elastos.Runtime.eco
 LIBRARIES += $(XDK_TARGETS)/Elastos.CoreLibrary.eco
-LIBRARIES += -lc -lpthread -lstdc++
+endif
