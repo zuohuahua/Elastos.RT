@@ -686,9 +686,11 @@ function emake ()
             else
                 if [ "$CLOSE_EMAKE_TIMES" == "1" ]; then
                     $XDK_MAKE -f$XDK_MAKEFILE $1 $2 $3 $4 $5 $6
+                    BUILD_EXIT_CODE=$?
                 else
                     local START_TIME=`date +%s`
                     $XDK_MAKE -f$XDK_MAKEFILE $1 $2 $3 $4 $5 $6
+                    BUILD_EXIT_CODE=$?
                     local ELAPSED_TIME=$(( `date +%s`-$START_TIME ))
                     local HOURS=`echo $ELAPSED_TIME/3600 | bc`
                     local MINUTES=`echo $ELAPSED_TIME/60%60 | bc`
@@ -696,6 +698,7 @@ function emake ()
                     echo "Build finished, elapsed time: $HOURS Hours, $MINUTES Minutes, $SECONDS Seconds."
                 fi
                 unset XDK_MAKE XDK_MAKEFILE XDK_EMAKE_DIR BUILD_VERBOSE TEST_COVERAGE
+                return $BUILD_EXIT_CODE
             fi
         fi
     fi

@@ -25,25 +25,45 @@ In general, you will not use it. It will be used after you modified the source c
      ```
      and then choose the index number of the "devtools_64" item from the numbered list
 
-   * linux_devtools: linux tools for the new cmake build environment
+   * linux_devtools_64: 64 bits linux tools for the new cmake build environment
      ```
-     $ source ~/Elastos.RT/Setup/SetEnv.sh linux_devtools
+     $ source ~/Elastos.RT/Setup/SetEnv.sh linux_devtools_64
      ```
      or
      ```
      $ source ~/Elastos.RT/Setup/SetEnv.sh
      ```
-     and then choose the index number of the "linux_devtools" item from the numbered list
+     and then choose the index number of the "linux_devtools_64" item from the numbered list
 
-   * mac_devtools: mac tools for the new cmake build environment
+   * linux_devtools_32: 32 bits linux tools for the new cmake build environment
      ```
-     $ source ~/Elastos.RT/Setup/SetEnv.sh mac_devtools
+     $ source ~/Elastos.RT/Setup/SetEnv.sh linux_devtools_32
      ```
      or
      ```
      $ source ~/Elastos.RT/Setup/SetEnv.sh
      ```
-     and then choose the index number of the "mac_devtools" item from the numbered list
+     and then choose the index number of the "linux_devtools_32" item from the numbered list
+
+   * mac_devtools_64: mac tools for the new cmake build environment
+     ```
+     $ source ~/Elastos.RT/Setup/SetEnv.sh mac_devtools_64
+     ```
+     or
+     ```
+     $ source ~/Elastos.RT/Setup/SetEnv.sh
+     ```
+     and then choose the index number of the "mac_devtools_64" item from the numbered list
+
+   * mac_devtools_32: mac tools for the new cmake build environment
+     ```
+     $ source ~/Elastos.RT/Setup/SetEnv.sh mac_devtools_32
+     ```
+     or
+     ```
+     $ source ~/Elastos.RT/Setup/SetEnv.sh
+     ```
+     and then choose the index number of the "mac_devtools_32" item from the numbered list
 
 2. Build CAR tools
 
@@ -69,16 +89,28 @@ In general, you will not use it. It will be used after you modified the source c
      cp CInfoReader Cls2C carc carcode lubc lube libz.so ~/Elastos.RT/Build/Tools_64/
      ```
 
-   * linux_devtools
+   * linux_devtools_64
      ```
-     cp CInfoReader Cls2C carc carcode lubc lube ~/Elastos.RT/Build/Tools/linux/
-     cp lube.lbo systypes.cls ~/Elastos.RT/Build/Tools/
+     cp CInfoReader Cls2C carc carcode lubc lube ~/Elastos.RT/Build/Tools/64/linux/
+     cp lube.lbo systypes.cls ~/Elastos.RT/Build/Tools/64/
      ```
 
-   * mac_devtools
+   * linux_devtools_32
      ```
-     cp Cls2C carc carcode lubc lube ~/Elastos.RT/Build/Tools/mac/
-     cp lube.lbo systypes.cls ~/Elastos.RT/Build/Tools/
+     cp CInfoReader Cls2C carc carcode lubc lube ~/Elastos.RT/Build/Tools/32/linux/
+     cp lube.lbo systypes.cls ~/Elastos.RT/Build/Tools/32/
+     ```
+
+   * mac_devtools_64
+     ```
+     cp Cls2C carc carcode lubc lube ~/Elastos.RT/Build/Tools/64/mac/
+     cp lube.lbo systypes.cls ~/Elastos.RT/Build/Tools/64/
+     ```
+
+   * mac_devtools_32
+     ```
+     cp Cls2C carc carcode lubc lube ~/Elastos.RT/Build/Tools/32/mac/
+     cp lube.lbo systypes.cls ~/Elastos.RT/Build/Tools/32/
      ```
 
 4. Change between release version and debug version

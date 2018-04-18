@@ -31,6 +31,8 @@
 #define _stricmp strcasecmp
 #endif
 
+#define _MAX_PATH 256
+
 void GetNakedFileName(const char *pszSource, char *pszDest)
 {
     int n;
@@ -73,9 +75,24 @@ int SearchFileFromPath(
     const char *pszPath, const char *pszFile, char *pszResult)
 {
     int n;
+    char szFileToSearch[_MAX_PATH] = {0};
 
-    if (0 == _access(pszFile, 0)) {
-        strcpy(pszResult, pszFile);
+    strcpy(szFileToSearch, pszFile);
+#if defined(_cmake)
+    // With cmake building environment, we only store CAR class metadata in a separate file.
+    n = strlen(szFileToSearch);
+    if (!_stricmp(szFileToSearch + n - 4, ".eco")) {
+        strcpy(szFileToSearch + n - 4, ".cls");
+    } else if (!strncmp(pszFile, "lib", 3) && !_stricmp(szFileToSearch + n - 3, ".so")) {
+        int filename_len = strlen(pszFile);
+        int prefix_len = strlen("lib");
+        memmove(szFileToSearch + n - filename_len, szFileToSearch + n - filename_len + prefix_len, filename_len - prefix_len);
+        strcpy(szFileToSearch + n - strlen("lib.so"), ".cls");
+    }
+#endif
+
+    if (0 == _access(szFileToSearch, 0)) {
+        strcpy(pszResult, szFileToSearch);
         _ReturnOK (CLS_NoError);
     }
 
@@ -86,20 +103,8 @@ int SearchFileFromPath(
         }
         if (n > 0) {
             if (!IS_PATH_SEPARATOR(pszResult[n - 1])) pszResult[n++] = '/';
-            strcpy(pszResult + n, pszFile);
+            strcpy(pszResult + n, szFileToSearch);
 
-#if defined(_cmake)
-            // With cmake building environment, we only store CAR class metadata in a separate file.
-            n += strlen(pszFile);
-            if (!_stricmp(pszResult + n - 4, ".eco")) {
-                strcpy(pszResult + n - 4, ".cls");
-            } else if (!strncmp(pszFile, "lib", 3) && !_stricmp(pszResult + n - 3, ".so")) {
-                int filename_len = strlen(pszFile);
-                int prefix_len = strlen("lib");
-                memmove(pszResult + n - filename_len, pszResult + n - filename_len + prefix_len, filename_len - prefix_len);
-                strcpy(pszResult + n - strlen("lib.so"), ".cls");
-            }
-#endif
             if (0 == _access(pszResult, 0)) _ReturnOK (CLS_NoError);
         }
 
@@ -107,6 +112,6 @@ int SearchFileFromPath(
     }
     pszResult[0] = 0;
 
-    ExtraMessage(pszFile);
+    ExtraMessage(szFileToSearch);
     _ReturnError (CLSError_NotFound);
 }

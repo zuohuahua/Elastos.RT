@@ -23,11 +23,14 @@ endif
 	 test "$(XDK_TARGET_CPU)" = "x86"; then \
 	  sudo make install; \
 	fi
+	touch $@
 
 android_build_src:
 	$(shell echo source) $(MAKEDIR)/elastos-android-configure $(MAKEDIR)/gyp_uv.py -Dtarget_arch=arm -DOS=android && \
 	make -C $(MAKEDIR) -C $(MAKEDIR)/out
+	touch $@
 
 copy_prebuilt:
 	$(CP) $(PREBUILD_LIB)\$(XDK_VERSION)\libuv.dll $(XDK_TARGETS)
+	touch $@
 

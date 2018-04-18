@@ -2,9 +2,9 @@
 
 ## HelloCar
 
-1. enter the build environment(optional)
+1. enter the build environment
 ```
-$ source ~/Elastos.RT/Setup/SetEnv.sh linux
+$ source ~/Elastos.RT/Setup/SetEnv.sh linux_64
 ```
 
 2. build Elastos.HelloCar.eco
@@ -50,9 +50,9 @@ CAnimalHelper::CanFly : Kitty can not fly!
 
 ## Math
 
-1. enter the build environment(optional)
+1. enter the build environment
 ```
-$ source ~/Elastos.RT/Setup/SetEnv.sh linux
+$ source ~/Elastos.RT/Setup/SetEnv.sh linux_64
 ```
 
 2. build Math test case

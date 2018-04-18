@@ -158,13 +158,13 @@ Please select the appropriate compilation environment as needed:
 
 1. Enter the build environment:
    ```
-   $ source ~/Elastos.RT/Setup/SetEnv.sh arm_android
+   $ source ~/Elastos.RT/Setup/SetEnv.sh arm_android_32
    ```
    or
    ```
    $ source ~/Elastos.RT/Setup/SetEnv.sh
    ```
-   and then choose the index number of the "arm_android" item from the numbered list
+   and then choose the index number of the "arm_android_32" item from the numbered list
 
 2. emake
    ```
@@ -208,13 +208,13 @@ Please select the appropriate compilation environment as needed:
 
 1. Enter the build environment:
    ```
-   $ source ~/Elastos.RT/Setup/SetEnv.sh linux
+   $ source ~/Elastos.RT/Setup/SetEnv.sh linux_64
    ```
    or
    ```
    $ source ~/Elastos.RT/Setup/SetEnv.sh
    ```
-   and then choose the index number of the "linux" item from the numbered list
+   and then choose the index number of the "linux_64" item from the numbered list
 
 2. emake
    ```

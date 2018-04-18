@@ -17,6 +17,7 @@
 ifeq "$(XDK_TARGET_PLATFORM)" "linux"
     DIRS = HelloCar
     DIRS += PlainFile
+    DIRS += HelloCarDemo
 endif
 
 ifeq "$(XDK_TARGET_PLATFORM)" "android"

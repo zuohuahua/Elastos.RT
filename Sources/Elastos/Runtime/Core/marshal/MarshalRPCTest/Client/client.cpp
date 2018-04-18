@@ -97,6 +97,7 @@ int main(int argc, char *argv[])
 
     printf("GetDouble %lf\n", d);
 
+#if 0
 
     array->Set(0, 11);
     array->Set(1, 22);
@@ -111,6 +112,7 @@ int main(int argc, char *argv[])
     printf("GetArrayOf %d %d\n", (*ret)[0], (*ret)[1]);
 
     sleep(10);
+#endif
 
 out2:
     if (ismc != NULL)

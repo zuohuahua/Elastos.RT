@@ -14,15 +14,17 @@ generic_env_options=(
 mac_env_options=(
     "ios_simulator"         "ios_simulator.sh"      "64"    " (use cmake)"
     "ios_device"            "ios_device.sh"         "64"    " (use cmake)"
-    "mac_devtools"          "host_devtools.sh"      "64"    " (use cmake)"
+    "mac_devtools_64"       "host_devtools.sh"      "64"    " (use cmake)"
+    "mac_devtools_32"       "host_devtools.sh"      "32"    " (use cmake)"
 )
 linux_env_options=(
-    "linux"                 "linux.sh"              "64"    ""
+    "linux_64"              "linux.sh"              "64"    ""
     "linux_32"              "linux.sh"              "32"    ""
-    "arm_android"           "arm_android.sh"        "32"    ""
+    "arm_android_32"        "arm_android.sh"        "32"    ""
     "devtools_32"           "gcc_devtools.sh"       "32"    ""
     "devtools_64"           "gcc_devtools.sh"       "64"    ""
-    "linux_devtools"        "host_devtools.sh"      "64"    " (use cmake)"
+    "linux_devtools_64"     "host_devtools.sh"      "64"    " (use cmake)"
+    "linux_devtools_32"     "host_devtools.sh"      "32"    " (use cmake)"
 )
 id_option_name=0
 id_config_file=1
@@ -123,7 +125,7 @@ unset options
 if [ "${col_cpu_arch[$chose_index]}" == "64" ]; then
     export _ELASTOS64=YES
 else
-    export _ELASTOS64=
+    unset _ELASTOS64
 fi
 unset col_cpu_arch
 
@@ -173,8 +175,8 @@ unset chose_config_file
 # Set command and build-tool lookup path
 if [ "$XDK_BUILD_TOOL" == "cmake" ]; then
     export XDK_TOOLS=$XDK_BUILD_PATH/Tools
-    [[ $OSTYPE == *linux* ]] && export PATH=$XDK_TOOLS/linux:$PATH
-    [[ $OSTYPE == *darwin* ]] && export PATH=$XDK_TOOLS/mac:$PATH
+    [[ $OSTYPE == *linux* ]] && export PATH=$XDK_TOOLS/$XDK_TARGET_CPU_ARCH/linux:$PATH
+    [[ $OSTYPE == *darwin* ]] && export PATH=$XDK_TOOLS/$XDK_TARGET_CPU_ARCH/mac:$PATH
 else
     if [[ "$_ELASTOS64" == "YES" ]]; then
         export XDK_TOOLS=$XDK_BUILD_PATH/Tools_64

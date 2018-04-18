@@ -3,7 +3,11 @@ language: cpp
 matrix:
   include:
   - os: osx
-    env: BUILD_ENV=mac_devtools
+    env: BUILD_ENV=mac_devtools_64
+    script: source $TRAVIS_BUILD_DIR/Setup/SetEnv.sh $BUILD_ENV && emake
+
+  - os: osx
+    env: BUILD_ENV=mac_devtools_32
     script: source $TRAVIS_BUILD_DIR/Setup/SetEnv.sh $BUILD_ENV && emake
 
   - os: osx
@@ -12,7 +16,14 @@ matrix:
 
   - sudo: required
     services: docker
-    env: BUILD_ENV=linux
+    env: BUILD_ENV=linux_64
+    before_install:
+      - cd $TRAVIS_BUILD_DIR/docker && docker-compose build --build-arg HOST_USER_UID=`id -u` --build-arg HOST_USER_GID=`id -g` build-env
+    script: cd $TRAVIS_BUILD_DIR/docker && docker-compose run --rm build-env bash -lc "source ~/Elastos.RT/Setup/SetEnv.sh $BUILD_ENV && emake"
+
+  - sudo: required
+    services: docker
+    env: BUILD_ENV=linux_32
     before_install:
       - cd $TRAVIS_BUILD_DIR/docker && docker-compose build --build-arg HOST_USER_UID=`id -u` --build-arg HOST_USER_GID=`id -g` build-env
     script: cd $TRAVIS_BUILD_DIR/docker && docker-compose run --rm build-env bash -lc "source ~/Elastos.RT/Setup/SetEnv.sh $BUILD_ENV && emake"

@@ -90,7 +90,7 @@ macro(xdk_compile_car GENERATED_SOURCES car_file)
         COMMAND ${CMAKE_COMMAND} -E echo >>${car_filename}.d
         COMMAND ${COMPARE_CMAKE_FILES_OR_PROMPT}
         COMMAND ${CMAKE_COMMAND} -E echo 1 ClassInfo ${car_filename}.cls > ${car_filename}.rc
-        COMMAND "${CMAKE_C_COMPILER}" "${CMAKE_C_FLAGS}" -E -P -x c ${XDK_DEFINITIONS} -o __${car_filename}.rc ${car_filename}.rc
+        COMMAND "${CMAKE_C_COMPILER}" -E -P -x c ${XDK_DEFINITIONS} -o __${car_filename}.rc ${car_filename}.rc
         COMMAND perl $ENV{XDK_TOOLS}/version.pl "__Elastos_CAR" "`pwd`" "$ENV{XDK_TARGETS}" "${CMAKE_CURRENT_SOURCE_DIR}/${car_file}" ""
         COMMAND perl $ENV{XDK_TOOLS}/cls_trans.pl __${car_filename}.rc 'NA'
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
@@ -116,7 +116,7 @@ macro(xdk_compile_def GENERATED_SOURCES def_file)
                "${CMAKE_CURRENT_BINARY_DIR}/__section.cpp"
                ${${GENERATED_SOURCES}}
         COMMAND ${CMAKE_COMMAND} -E remove "${CMAKE_CURRENT_BINARY_DIR}/__section.cpp"
-        COMMAND "${CMAKE_C_COMPILER}" "${CMAKE_C_FLAGS}" -E -P -x c ${XDK_DEFINITIONS} -o __${def_file} ${CMAKE_CURRENT_SOURCE_DIR}/${def_file}
+        COMMAND "${CMAKE_C_COMPILER}" -E -P -x c ${XDK_DEFINITIONS} -o __${def_file} ${CMAKE_CURRENT_SOURCE_DIR}/${def_file}
         COMMAND perl "$ENV{XDK_TOOLS}/def_trans.pl" __${def_file}
         COMMAND perl "$ENV{XDK_TOOLS}/res_trans.pl" __${def_file} "def" ${def_file}
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
@@ -172,6 +172,11 @@ endif()
 
 # Suppress warning: empty struct has size 0 in C, size 1 in C++ [-Wextern-c-compat]
 string(APPEND CMAKE_CXX_FLAGS " -Wno-extern-c-compat")
+
+if($ENV{XDK_TARGET_CPU} STREQUAL "x86" AND $ENV{XDK_TARGET_CPU_ARCH} STREQUAL "32")
+string(APPEND CMAKE_C_FLAGS " -m32")
+string(APPEND CMAKE_CXX_FLAGS " -m32")
+endif()
 
 if($ENV{XDK_VERSION} STREQUAL "rls")
     set(CMAKE_BUILD_TYPE Release)

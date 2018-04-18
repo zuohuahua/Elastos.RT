@@ -200,6 +200,8 @@ int LoadResourceFromCLS(const char *pszName, CLSModule **ppDest)
     if (pszName == NULL) {
         char path[256];
         strcpy(path, getenv("XDK_TOOLS"));
+        strcat(path, "/");
+        strcat(path, getenv("XDK_TARGET_CPU_ARCH"));
         strcat(path, "/systypes.cls");
         LoadCLSFromFile(path, ppDest);
         _ReturnOK (CLS_NoError);
