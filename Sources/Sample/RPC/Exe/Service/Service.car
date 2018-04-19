@@ -1,0 +1,22 @@
+
+module {
+    importlib("Elastos.CoreLibrary");
+
+    interface IService {
+        AddService(
+            [in] String name,
+            [in] IInterface* intreface);
+
+        Start();
+
+    }
+
+    class CService {
+        constructor(
+            [in] String path);
+
+        interface IService;
+    }
+
+}
+

@@ -1,0 +1,18 @@
+
+module {
+    importlib("Elastos.CoreLibrary");
+
+    interface IClient {
+        GetService(
+            [in] String name,
+            [out] IInterface** service);
+    }
+
+    class CClient {
+        constructor(
+            [in] String path);
+
+        interface IClient;
+    }
+
+}

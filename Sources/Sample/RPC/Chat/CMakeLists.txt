@@ -12,7 +12,6 @@ set(SOURCES
 )
 
 add_library(Chat SHARED ${SOURCES})
-add_dependencies(Chat chat_car)
 
 target_link_libraries(Chat
     Elastos.Runtime

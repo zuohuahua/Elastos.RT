@@ -3,16 +3,16 @@ module {
     importlib("Elastos.CoreLibrary");
 
     interface IMessageListener {
-    	MessageRecived(
-    		[in] String msg);
+        MessageRecived(
+            [in] String msg);
     }
 
     interface IChat {
         Send(
-        	[in] String msg);
+            [in] String msg);
 
         SetMessageListener(
-        	[in] IMessageListener* listener);
+            [in] IMessageListener* listener);
 
     }
 
