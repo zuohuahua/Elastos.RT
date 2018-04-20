@@ -88,9 +88,6 @@ CObjectStub::CObjectStub() :
     m_bRequestToQuit(FALSE),
     m_cRef(1)
 {
-    if (sem_init(&m_sem, 0, 0) < 0) {
-        perror("sem_init()");
-    }
 }
 
 CObjectStub::~CObjectStub()
@@ -216,18 +213,7 @@ ECode CObjectStub::Invoke(
 #ifdef _x86
     UInt32 uEAX, uEDX, uECX, uESP;
 #elif defined(_arm)
-    struct ArgumentBuffer
-    {
-        UInt32    r0;
-        UInt32    r1;
-        UInt32    r2;
-        UInt32    r3;
-    } argbuf;
-#if defined(_GNUC)
-    UInt32 r0, r1, r2, r3, ip, lr, sp;
-#else
-#error Unknown C++ compiler
-#endif // defined(_GNUC)
+
 #elif defined(_mips)
     UInt32 uV0, uV1;
     UInt32 uA0, uA1, uA2, uA3;
@@ -343,42 +329,58 @@ ECode CObjectStub::Invoke(
 #elif defined(_arm)
 
 #if defined(_GNUC)
-        if (sizeof(UInt32) * 4 >= uInSize) {
-            GET_REG(r0, r0);
-            GET_REG(r1, r1);
-            GET_REG(r2, r2);
-            GET_REG(r3, r3);
-            GET_REG(ip, ip);
-            GET_REG(lr, lr);
-            STUB_INVOKE_METHOD1(ec, puArgs, uMethodAddr);
-            SET_REG(lr, lr);
-            SET_REG(ip, ip);
-            SET_REG(r3, r3);
-            SET_REG(r2, r2);
-            SET_REG(r1, r1);
-            SET_REG(r0, r0);
-        }
-        else {
-            argbuf = *(ArgumentBuffer *)puArgs;
-            GET_REG(r0, r0);
-            GET_REG(r1, r1);
-            GET_REG(r2, r2);
-            GET_REG(r3, r3);
-            GET_REG(ip, ip);
-            GET_REG(lr, lr);
-            GET_REG(sp, sp);
-            assert(0);
-            // TODO: clang compile error, check assemble later
-            // STUB_INVOKE_METHOD2(ec, puArgs, uMethodAddr);
-            SET_REG(sp, sp);
-            SET_REG(lr, lr);
-            SET_REG(ip, ip);
-            SET_REG(r3, r3);
-            SET_REG(r2, r2);
-            SET_REG(r1, r1);
-            SET_REG(r0, r0);
-            *(ArgumentBuffer *)puArgs = argbuf;
-        }
+    if (sizeof(UInt32) * 4 >= uInSize) {
+        ec = ((ECode (*)(
+                UInt32, UInt32, UInt32, UInt32
+            ))uMethodAddr)
+            (
+                *puArgs, *(puArgs + 1), *(puArgs + 2), *(puArgs + 3)
+            );
+    }
+    else if (sizeof(UInt32) * 8 >= uInSize) {
+        ec = ((ECode (*)(
+                UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32
+            ))uMethodAddr)
+            (
+                *puArgs, *(puArgs + 1), *(puArgs + 2), *(puArgs + 3),
+                *(puArgs + 4), *(puArgs + 5), *(puArgs + 6), *(puArgs + 7)
+            );
+    }
+    else if (sizeof(UInt32) * 16 >= uInSize) {
+        ec = ((ECode (*)(
+                UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32,
+                UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32
+            ))uMethodAddr)
+            (
+                *puArgs, *(puArgs + 1), *(puArgs + 2), *(puArgs + 3),
+                *(puArgs + 4), *(puArgs + 5), *(puArgs + 6), *(puArgs + 7),
+                *(puArgs + 8), *(puArgs + 9), *(puArgs + 10), *(puArgs + 11),
+                *(puArgs + 12), *(puArgs + 13), *(puArgs + 14), *(puArgs + 15)
+            );
+    }
+    else if (sizeof(UInt32) * 32 >= uInSize) {
+        ec = ((ECode (*)(
+                UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32,
+                UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32,
+                UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32,
+                UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32
+            ))uMethodAddr)
+            (
+                *puArgs, *(puArgs + 1), *(puArgs + 2), *(puArgs + 3),
+                *(puArgs + 4), *(puArgs + 5), *(puArgs + 6), *(puArgs + 7),
+                *(puArgs + 8), *(puArgs + 9), *(puArgs + 10), *(puArgs + 11),
+                *(puArgs + 12), *(puArgs + 13), *(puArgs + 14), *(puArgs + 15),
+                *(puArgs + 16), *(puArgs + 17), *(puArgs + 18), *(puArgs + 19),
+                *(puArgs + 20), *(puArgs + 21), *(puArgs + 22), *(puArgs + 23),
+                *(puArgs + 24), *(puArgs + 25), *(puArgs + 26), *(puArgs + 27),
+                *(puArgs + 28), *(puArgs + 29), *(puArgs + 30), *(puArgs + 31)
+            );
+    }
+    else {
+        MARSHAL_DBGOUT(MSHDBG_ERROR,
+                printf("Stub invoke: too many parameters, stack size(%x)\n", uInSize));
+        return E_MARSHAL_DATA_TRANSPORT_ERROR;
+    }
 #else
 
 #error Unknown C++ compiler

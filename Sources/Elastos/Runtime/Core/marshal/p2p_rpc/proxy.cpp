@@ -49,6 +49,7 @@ EXTERN_C void ProxyEntryFunc(void);
             __asm__(                               \
             ".text;"                               \
             ".align 4;"                            \
+            ".arm;"                                \
             ".globl ProxyEntryFunc;"               \
             "ProxyEntryFunc:"                      \
             "push {r0 - r3};"                      \
@@ -131,6 +132,7 @@ EXTERN_C ECode GlobalProxyEntry(UInt32 *puArgs)
     __asm__(                            \
         ".text;"                        \
         ".align 4;"                     \
+        ".arm;"                         \
         ".globl __ProxyEntry;"          \
         "__ProxyEntry:"                 \
         "push   {r1};"                  \
@@ -781,7 +783,7 @@ PInterface CObjectProxy::RemoteProbe(REIID riid)
     };
     struct ProbeReplyData *pReplyData;
 
-    ec = mSession->SendMessage(METHOD_INVOKE, &requestData, 
+    ec = mSession->SendMessage(METHOD_INVOKE, &requestData,
                         sizeof(struct ProbeRequestData));
     if (FAILED(ec)) {
         return NULL;
@@ -1159,7 +1161,7 @@ ECode CObjectProxy::ReceiveFromRemote(
         *buf = _base;
         *len = _len;
     }
-    
+
     ArrayOf<Byte>::Free(mData);
     mData = NULL;
     pthread_mutex_unlock(&mWorkLock);

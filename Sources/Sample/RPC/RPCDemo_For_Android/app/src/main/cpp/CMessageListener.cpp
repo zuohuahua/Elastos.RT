@@ -9,8 +9,8 @@ _ELASTOS ECode CMessageListener::MessageRecived(
 {
     JNIEnv* env = GetEnv();
     jclass clazz = env->GetObjectClass(mObj);
-    jmethodID method = env->GetMethodID(clazz, "recieveMessage", "(Ljava/lang/String)V");
-    env->CallIntMethod(mObj, method, env->NewStringUTF(msg.string()));
+    jmethodID method = env->GetMethodID(clazz, "recieveMessage", "(Ljava/lang/String;)V");
+    env->CallVoidMethod(mObj, method, env->NewStringUTF(msg.string()));
     Detach();
     return NOERROR;
 }

@@ -325,7 +325,6 @@ public:
     Int32               m_cInterfaces;
     CInterfaceStub      *m_pInterfaces; // size_is(m_cInterfaces)
     pthread_t           m_serviceThread;
-    sem_t               m_sem;
     Boolean             m_bRequestToQuit;
 
     Int32               m_cRef;
@@ -337,11 +336,7 @@ extern Address s_proxyEntryAddress;
 #define PROXY_ENTRY_MASK    0x0f
 #define PROXY_ENTRY_SHIFT   4
 
-#if defined(_arm)
-#define PROXY_ENTRY_NUM     0xe0
-#else
 #define PROXY_ENTRY_NUM     0x80
-#endif
 
 #ifdef _x86
 
@@ -406,43 +401,11 @@ inline UInt32 CalcMethodIndex(UInt32 uCallerAddr)
 //#ifdef _GNUC
 #elif defined(_arm)
 
-#define GET_REG(reg, v)                 \
-    ASM("str    "#reg", %0;"            \
-        :"=m"(v))
-
-#define SET_REG(reg, v)                 \
-    ASM("ldr    "#reg", %0;"            \
-        : :"m"(v))
-
 #define SYS_PROXY_EXIT(ec, pret, argc)  \
     do {                                \
         return (ec);                    \
     } while (0)
 
-#define STUB_INVOKE_METHOD1(ec, puArgs, addr) \
-    ASM("mov    lr, %1;"                \
-        "ldr    r0, [lr];"              \
-        "ldr    r1, [lr, #4];"          \
-        "ldr    r2, [lr, #8];"          \
-        "ldr    r3, [lr, #12];"         \
-        "adr    lr, __StubInvokeNext1;" \
-        "ldr    pc, %2;"                \
-        "__StubInvokeNext1:"            \
-        "str    r0, %0;"                \
-        :"=m"(ec) :"r"(puArgs), "m"(addr))
-
-#define STUB_INVOKE_METHOD2(ec, puArgs, addr) \
-    ASM("mov    lr, %1;"                \
-        "ldr    r0, [lr];"              \
-        "ldr    r1, [lr, #4];"          \
-        "ldr    r2, [lr, #8];"          \
-        "ldr    r3, [lr, #12];"         \
-        "add    sp, lr, #16;"           \
-        "adr    lr, __StubInvokeNext2;" \
-        "ldr    pc, %2;"                \
-        "__StubInvokeNext2:"            \
-        "str    r0, %0;"                \
-        :"=m"(ec) :"r"(puArgs), "m"(addr))
 #elif defined(_mips)
 
 inline UInt32 CalcMethodIndex(UInt32 uCallerAddr)

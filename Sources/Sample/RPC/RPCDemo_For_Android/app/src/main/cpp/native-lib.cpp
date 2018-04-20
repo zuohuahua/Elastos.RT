@@ -222,7 +222,7 @@ extern "C" JNIEXPORT jint JNICALL Java_com_elastos_rpcdemo_MainActivity_sendMess
     const char* msgstr = env->GetStringUTFChars(msg, nullptr);
     __android_log_print(ANDROID_LOG_DEBUG, "RPCDemo", "=== call IChat send msgstr: %s", msgstr);
 //    pChat->AddRef();
-    ECode ec = pChat->Send(String("test"));
+    ECode ec = pChat->Send(String(msgstr));
     env->ReleaseStringUTFChars(uid, uidstr);
     env->ReleaseStringUTFChars(msg, msgstr);
     return 0;
