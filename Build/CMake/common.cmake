@@ -112,7 +112,6 @@ macro(xdk_compile_def GENERATED_SOURCES def_file)
                "${CMAKE_CURRENT_BINARY_DIR}/__${def_filename}.sym"
                "${CMAKE_CURRENT_BINARY_DIR}/__${def_filename}.exp"
                "${CMAKE_CURRENT_BINARY_DIR}/__${def_filename}.vs"
-               "${CMAKE_CURRENT_BINARY_DIR}/__dllmain.cpp"
                "${CMAKE_CURRENT_BINARY_DIR}/__section.cpp"
                ${${GENERATED_SOURCES}}
         COMMAND ${CMAKE_COMMAND} -E remove "${CMAKE_CURRENT_BINARY_DIR}/__section.cpp"

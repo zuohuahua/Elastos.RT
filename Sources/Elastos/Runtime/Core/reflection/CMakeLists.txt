@@ -31,11 +31,14 @@ set(SOURCES
 )
 
 
-# if("$ENV{XDK_TARGET_CPU}" STREQUAL "arm")
-#     list(APPEND SOURCES invoke_gnuc.S)
-# else()
+if("$ENV{XDK_TARGET_CPU}" STREQUAL "arm")
+    enable_language(ASM)
+    if (CMAKE_ASM_COMPILER_WORKS)
+        list(APPEND SOURCES invoke_gnuc.S)
+    endif(CMAKE_ASM_COMPILER_WORKS)
+else()
     list(APPEND SOURCES invoke.cpp)
-# endif()
+endif()
 
 add_definitions(-D_CAR_RUNTIME)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../inc)
