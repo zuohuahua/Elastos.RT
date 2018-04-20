@@ -5,7 +5,7 @@
 
 cmake_minimum_required(VERSION 3.4.1)
 
-link_directories(${CMAKE_SOURCE_DIR}/src/main/cpp/elastos/libs/armeabi/)
+link_directories(${CMAKE_SOURCE_DIR}/src/main/cpp/elastos/libs/armeabi-v7a/)
 
 # Creates and names a library, sets it as either STATIC
 # or SHARED, and provides the relative paths to its source code.
@@ -36,7 +36,7 @@ add_library( # Sets the name of the library.
 add_library( Elastos.Runtime SHARED IMPORTED )
 set_target_properties( Elastos.Runtime
                         PROPERTIES IMPORTED_LOCATION
-                        ${CMAKE_SOURCE_DIR}/src/main/cpp/elastos/libs/armeabi/libElastos.Runtime.so)
+                        ${CMAKE_SOURCE_DIR}/src/main/cpp/elastos/libs/armeabi-v7a/libElastos.Runtime.so)
 
 add_library( Elastos.Runtime.Lib SHARED IMPORTED )
 set_target_properties( Elastos.Runtime.Lib
@@ -46,12 +46,12 @@ set_target_properties( Elastos.Runtime.Lib
 add_library( Elastos.CoreLibrary SHARED IMPORTED )
 set_target_properties( Elastos.CoreLibrary
                         PROPERTIES IMPORTED_LOCATION
-                        ${CMAKE_SOURCE_DIR}/src/main/cpp/elastos/libs/armeabi/libElastos.CoreLibrary.so)
+                        ${CMAKE_SOURCE_DIR}/src/main/cpp/elastos/libs/armeabi-v7a/libElastos.CoreLibrary.so)
 
 add_library( Chat SHARED IMPORTED )
 set_target_properties( Chat
                         PROPERTIES IMPORTED_LOCATION
-                        ${CMAKE_SOURCE_DIR}/src/main/cpp/elastos/libs/armeabi/libChat.so)
+                        ${CMAKE_SOURCE_DIR}/src/main/cpp/elastos/libs/armeabi-v7a/libChat.so)
 
 
 
@@ -75,6 +75,7 @@ target_link_libraries( # Specifies the target library.
                        Elastos.Runtime
                        Elastos.Runtime.Lib
                        Elastos.CoreLibrary
-                       Chat)
+                       Chat
+                       elasession)
 
 include_directories(src/main/cpp/elastos/inc)

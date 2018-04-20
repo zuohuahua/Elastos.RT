@@ -28,7 +28,7 @@ import com.google.zxing.integration.android.IntentResult;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
+    private static final String TAG = "MainActivity";
     private static final int MSG_CONNECT_CHANGED = 2003;
     private static final int MSG_FRIEND_REQUEST = 2004;
     private static final int MSG_FRIEND_CHANGED = 2005;
@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Editable text = mServiceName.getText();
                 if (text.toString().isEmpty()) {
+                    Log.d(TAG, "service name is empty");
                     return;
                 }
 
@@ -223,6 +224,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void OnFriendConnectionChanged(String uid, boolean online)
     {
+        Log.d("MainActivity", "OnFriendConnectionChanged: " + uid + " online: " + online);
         Message msg = new Message();
         msg.what = MSG_FRIEND_CHANGED;
         Bundle bundle = new Bundle();

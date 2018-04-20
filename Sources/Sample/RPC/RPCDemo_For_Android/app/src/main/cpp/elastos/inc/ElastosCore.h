@@ -2,7 +2,7 @@
 #define __CAR_ELASTOSCORE_H__
 
 #ifndef _NO_INCLIST
-#include <elastos.h>
+#include "elastos.h"
 using namespace Elastos;
 #endif // !_NO_INCLIST
 

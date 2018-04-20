@@ -24,6 +24,7 @@ _ELASTOS ECode CCarrierListener::OnConnectionChanged(
 
 _ELASTOS ECode CCarrierListener::OnReady()
 {
+    __android_log_print(ANDROID_LOG_DEBUG, "CCarrierListener", "==== OnReady");
     return NOERROR;
 }
 
@@ -32,12 +33,16 @@ _ELASTOS ECode CCarrierListener::OnFriendRequest(
     /* [in] */ const _ELASTOS String& hello)
 {
     __android_log_print(ANDROID_LOG_DEBUG, "CCarrierListener", "==== OnFriendRequest: %s", uid.string());
+
     JNIEnv* env = GetEnv();
+    jstring juid = env->NewStringUTF(uid.string());
+    jstring jhello = env->NewStringUTF(hello.string());
     jclass clazz = env->GetObjectClass(mObj);
-    jmethodID method = env->GetMethodID(clazz, "OnFriendRequest", "(Ljava/lang/String;Ljava/lang/String)V");
-    env->CallVoidMethod(mObj, method, env->NewStringUTF(uid.string()), env->NewStringUTF(hello.string()));
+    jmethodID method = env->GetMethodID(clazz, "OnFriendRequest", "(Ljava/lang/String;Ljava/lang/String;)V");
+    env->CallVoidMethod(mObj, method, juid, jhello);
     Detach();
     __android_log_print(ANDROID_LOG_DEBUG, "CCarrierListener", "==== OnFriendRequest end");
+
     return NOERROR;
 }
 

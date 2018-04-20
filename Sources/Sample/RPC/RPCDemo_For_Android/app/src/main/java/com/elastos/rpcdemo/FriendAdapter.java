@@ -83,7 +83,9 @@ public class FriendAdapter extends RecyclerView.Adapter {
     }
 
     public void friendStatusChanged(String uid, boolean online, boolean session) {
-        if (mData == null) return;
+        if (mData == null) {
+            mData = new ArrayList<>();
+        }
 
         for (Friend item : mData) {
             if (item.mUid.equals(uid)) {
@@ -93,6 +95,11 @@ public class FriendAdapter extends RecyclerView.Adapter {
                 return;
             }
         }
+
+        Friend friend = new Friend(uid, online);
+        friend.mSessionConnected = session;
+        mData.add(friend);
+        notifyDataSetChanged();
     }
 
     void setOnClickListener(FriendAdapter.OnItemClickListener listener) {

@@ -1,7 +1,7 @@
 #ifndef ___ElastosCore_h__
 #define ___ElastosCore_h__
 
-#include <ElastosCore.h>
+#include "ElastosCore.h"
 
 ELAPI _Impl_AcquireCallbackHandler(PInterface pServerObj, _ELASTOS REIID iid, PInterface *ppHandler);
 ELAPI _Impl_CheckClsId(PInterface pServerObj, const _ELASTOS ClassID* pClassid, PInterface *ppServerObj);
@@ -2342,7 +2342,7 @@ ICarrierListener : public IInterface
 
 };
 
-CAR_INTERFACE("172BAB38-0312-3512-6AB0-B8FF43B5EB0D")
+CAR_INTERFACE("9C89B33F-0312-3512-6AB0-B8FF43B5EB0D")
 ICarrier : public IInterface
 {
     virtual CARAPI_(PInterface) Probe(
@@ -2406,6 +2406,9 @@ ICarrier : public IInterface
 
     virtual CARAPI Export(
         /* [out] */ _ELASTOS String * dataFile) = 0;
+
+    virtual CARAPI GetUerid(
+        /* [out] */ _ELASTOS String * myUid) = 0;
 
 };
 

@@ -2,6 +2,7 @@
 #include <string>
 #include <_Chat.h>
 #include <android/log.h>
+#include <ela_session.h>
 #include "elastos.h"
 #include "elapi.h"
 #include "_ElastosCore.h"
@@ -13,6 +14,11 @@ ICarrier* gCarrier = NULL;
 IServiceManager* gServiceManager = NULL;
 
 Elastos::Utility::Etl::HashMap<String, IChat*> gInterfaces;
+
+JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved){
+    ela_session_jni_onload(vm, reserved);
+    return JNI_VERSION_1_6;
+}
 
 extern "C"
 JNIEXPORT jstring
@@ -35,14 +41,11 @@ extern "C" JNIEXPORT void JNICALL Java_com_elastos_rpcdemo_MainActivity_startCar
         if (FAILED(ec)) return;
 
         CCarrierListener* listener = new CCarrierListener(env, jobj);
-        ICarrierListener* pLis = ICarrierListener::Probe(listener);
-        __android_log_print(ANDROID_LOG_DEBUG, "RPCDemo JNI", "=== probe ICarrierListener:%x", pLis);
-        gCarrier->AddCarrierNodeListener(pLis);
+        gCarrier->AddCarrierNodeListener(ICarrierListener::Probe(listener));
 
         const char* nativeString = env->GetStringUTFChars(path, nullptr);
         gCarrier->Start(String(nativeString));
         env->ReleaseStringUTFChars(path, nativeString);
-
 }
 
 extern "C" JNIEXPORT void JNICALL Java_com_elastos_rpcdemo_MainActivity_stopCarrier(
@@ -109,6 +112,7 @@ extern "C" JNIEXPORT jint JNICALL Java_com_elastos_rpcdemo_MainActivity_acceptFr
     if (gCarrier == NULL) return -1;
 
     const char* nativeString = env->GetStringUTFChars(uid, nullptr);
+    __android_log_print(ANDROID_LOG_DEBUG, "JNI", "accept friend %s", nativeString);
     ECode ec = gCarrier->AccpetFriendRequest(String(nativeString));
     env->ReleaseStringUTFChars(uid, nativeString);
     return ec;
@@ -129,9 +133,10 @@ extern "C" JNIEXPORT void JNICALL Java_com_elastos_rpcdemo_MainActivity_startSer
         jobject jobj) {
     if (gCarrier == NULL) return;
     if (gServiceManager != NULL) {
-        gServiceManager->Release();
+        return;
     }
 
+    _CServiceManager_AcquireInstance(&gServiceManager);
 }
 
 extern "C" JNIEXPORT void JNICALL Java_com_elastos_rpcdemo_MainActivity_stopServiceManager(
@@ -147,7 +152,10 @@ extern "C" JNIEXPORT jint JNICALL Java_com_elastos_rpcdemo_MainActivity_addServi
         JNIEnv *env,
         jobject jobj,
         jstring name) {
-    if (gServiceManager == NULL) return -1;
+    if (gServiceManager == NULL) {
+        __android_log_print(ANDROID_LOG_DEBUG, "JNI", "service manager not init");
+        return -1;
+    }
 
     IChat* chat;
     ECode ec = CChat::New(&chat);
@@ -157,6 +165,7 @@ extern "C" JNIEXPORT jint JNICALL Java_com_elastos_rpcdemo_MainActivity_addServi
     chat->SetMessageListener(IMessageListener::Probe(listener));
 
     const char* nativeString = env->GetStringUTFChars(name, nullptr);
+    __android_log_print(ANDROID_LOG_DEBUG, "JNI", "add service %s", nativeString);
     ec = gServiceManager->AddService(String(nativeString), chat);
     env->ReleaseStringUTFChars(name, nativeString);
     chat->Release();
@@ -176,16 +185,23 @@ extern "C" JNIEXPORT jint JNICALL Java_com_elastos_rpcdemo_MainActivity_getServi
     ECode ec = gServiceManager->GetService(String(uidstr), String(namestr), &pInterface);
     env->ReleaseStringUTFChars(name, namestr);
     if (FAILED(ec)) {
-        env->ReleaseStringUTFChars(name, uidstr);
+        env->ReleaseStringUTFChars(uid, uidstr);
         return ec;
     }
 
+
+    __android_log_print(ANDROID_LOG_DEBUG, "RPCDdemo", "pInterface: %p", pInterface);
+
     IChat* pChat = IChat::Probe(pInterface);
     if (pChat == NULL) {
-        env->ReleaseStringUTFChars(name, uidstr);
+        __android_log_print(ANDROID_LOG_DEBUG, "RPCDdemo", "probe IChat failed");
+        env->ReleaseStringUTFChars(uid, uidstr);
+        pInterface->Release();
         return -1;
     }
+
     gInterfaces[String(uidstr)] = pChat;
+    env->ReleaseStringUTFChars(uid, uidstr);
     return NOERROR;
 }
 
@@ -197,15 +213,18 @@ extern "C" JNIEXPORT jint JNICALL Java_com_elastos_rpcdemo_MainActivity_sendMess
     if (gServiceManager == NULL) return -1;
 
     const char* uidstr = env->GetStringUTFChars(uid, nullptr);
-    IChat* pInterface = gInterfaces[String(uidstr)];
-    if (pInterface == NULL) {
+    IChat* pChat = gInterfaces[String(uidstr)];
+    __android_log_print(ANDROID_LOG_DEBUG, "RPCDemo", "=== get IChat: %p", pChat);
+    if (pChat == NULL) {
         env->ReleaseStringUTFChars(uid, uidstr);
         return -1;
     }
     const char* msgstr = env->GetStringUTFChars(msg, nullptr);
-    ECode ec = pInterface->Send(String(msgstr));
+    __android_log_print(ANDROID_LOG_DEBUG, "RPCDemo", "=== call IChat send msgstr: %s", msgstr);
+//    pChat->AddRef();
+    ECode ec = pChat->Send(String("test"));
     env->ReleaseStringUTFChars(uid, uidstr);
     env->ReleaseStringUTFChars(msg, msgstr);
-    return ec;
+    return 0;
 }
 
