@@ -1,0 +1,37 @@
+
+module {
+    importlib("Elastos.CoreLibrary");
+
+    interface ISwitchListener {
+        OnSwitch1Changed(
+            [in] Boolean on);
+
+        OnSwitch2Changed(
+            [in] Boolean on);
+    }
+
+    interface ISwitch {
+        TurnSwitch1(
+            [in] Boolean on);
+
+        GetSwitch1(
+            [out] Boolean* on);
+
+        TurnSwitch2(
+            [in] Boolean on);
+
+        GetSwitch2(
+            [out] Boolean* on);
+
+        SetSwitchListener(
+            [in] ISwitchListener* listener);
+
+    }
+
+    class CSwitch {
+        constructor();
+
+        interface ISwitch;
+    }
+
+}

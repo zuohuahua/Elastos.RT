@@ -108,11 +108,6 @@ public class MainActivity extends AppCompatActivity {
                 this, LinearLayoutManager.VERTICAL, false));
 
         ArrayList<Friend> list = new ArrayList<>();
-        Friend f1 = new Friend("hdhgih9812793879483", false);
-        list.add(f1);
-        Friend f2 = new Friend("jiougosdjfhaoghwoeihfo", true);
-        list.add(f2);
-
         mAdapter = new FriendAdapter(list);
         mAdapter.setOnClickListener(new FriendAdapter.OnItemClickListener() {
             @Override

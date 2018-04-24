@@ -20,11 +20,11 @@ ECode CChat::SetMessageListener(
     /* [in] */ IMessageListener * pListener)
 {
     if (mListener) {
-    	mListener->Release();
+        mListener->Release();
     }
     mListener = pListener;
     if (mListener) {
-    	mListener->AddRef();
+        mListener->AddRef();
     }
     return NOERROR;
 }

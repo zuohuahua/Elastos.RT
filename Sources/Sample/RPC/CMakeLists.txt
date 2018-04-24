@@ -1,5 +1,6 @@
 xdk_add_subdirectories(
     Chat
+    Switch
 )
 
 if("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "android")
