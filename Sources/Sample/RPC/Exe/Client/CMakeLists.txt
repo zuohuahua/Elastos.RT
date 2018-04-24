@@ -15,9 +15,9 @@ set(SOURCES
     client.cpp
 )
 
-add_executable(Client ${SOURCES})
+add_executable(ChatClient ${SOURCES})
 
-target_link_libraries(Client
+target_link_libraries(ChatClient
     Elastos.Runtime
     Elastos.Runtime_static
     Elastos.CoreLibrary

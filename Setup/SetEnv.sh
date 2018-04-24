@@ -6,25 +6,22 @@ setupArg=$1
 
 # Fields: option_name config_file cpu_arch descriptions
 generic_env_options=(
-    "arm_android_clang_32"  "arm_android_clang.sh"  "32"    " (use cmake, experimental)"
+    "arm_android_32"        "arm_android_clang.sh"  "32"    " (use clang)"
     # TODO: Enable 64-bits Android build
     #       Currently, the pre-built libraries (e.g. libicuuc.so) only have 32-bits version.
-    # "arm_android_clang_64"  "arm_android_clang.sh"  "64"    " (use cmake)"
+    # "arm_android_64"        "arm_android_clang.sh"  "64"    " (use clang)"
 )
 mac_env_options=(
-    "ios_simulator"         "ios_simulator.sh"      "64"    " (use cmake)"
-    "ios_device"            "ios_device.sh"         "64"    " (use cmake)"
-    "mac_devtools_64"       "host_devtools.sh"      "64"    " (use cmake)"
-    "mac_devtools_32"       "host_devtools.sh"      "32"    " (use cmake)"
+    "ios_simulator"         "ios_simulator.sh"      "64"    " (64-bits)"
+    "ios_device"            "ios_device.sh"         "64"    " (64-bits)"
+    "mac_devtools_64"       "host_devtools.sh"      "64"    ""
+    "mac_devtools_32"       "host_devtools.sh"      "32"    ""
 )
 linux_env_options=(
-    "linux_64"              "linux.sh"              "64"    ""
-    "linux_32"              "linux.sh"              "32"    ""
-    "arm_android_32"        "arm_android.sh"        "32"    ""
-    "devtools_32"           "gcc_devtools.sh"       "32"    ""
-    "devtools_64"           "gcc_devtools.sh"       "64"    ""
-    "linux_devtools_64"     "host_devtools.sh"      "64"    " (use cmake)"
-    "linux_devtools_32"     "host_devtools.sh"      "32"    " (use cmake)"
+    "linux_64"              "host.sh"               "64"    ""
+    "linux_32"              "host.sh"               "32"    ""
+    "linux_devtools_64"     "host_devtools.sh"      "64"    ""
+    "linux_devtools_32"     "host_devtools.sh"      "32"    ""
 )
 id_option_name=0
 id_config_file=1

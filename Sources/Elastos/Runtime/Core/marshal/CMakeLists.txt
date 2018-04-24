@@ -5,6 +5,14 @@ if("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "android")
     )
 endif()
 
+if(("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "linux" OR "$ENV{XDK_TARGET_PLATFORM}" STREQUAL "mac")
+        AND "$ENV{XDK_TARGET_CPU_ARCH}" STREQUAL "32")
+    xdk_add_subdirectories(
+        others_rpc
+        # MarshalRPCTest
+    )
+endif()
+
 set(SOURCES
     metainfos.cpp
 )

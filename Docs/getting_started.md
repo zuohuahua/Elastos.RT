@@ -58,7 +58,7 @@ Please select the appropriate compilation environment as needed:
   sudo dpkg --add-architecture i386
   sudo apt-get update
   sudo apt-get install texinfo libglib2.0-dev autoconf libtool libsdl-dev build-essential tofrodos bison g++-multilib git gperf
-  sudo apt-get install libxml2-utils make bc zip zlib1g-dev zlib1g-dev:i386 libicu-dev libicu-dev:i386 libssl-dev libssl-dev:i386
+  sudo apt-get install libxml2-utils make bc zip zlib1g-dev zlib1g-dev:i386 libicu-dev libicu-dev:i386 libssl-dev libssl-dev:i386 libuv1-dev libuv1-dev:i386
   ```
   or
   copy the libs under folder Build/Prebuilt/Linux/usr/lib to /lib/i386-linux-gnu/
@@ -77,7 +77,7 @@ Please select the appropriate compilation environment as needed:
   On Ubuntu this should obtain the necessary pre-reqs:
   ```
   sudo apt-get install texinfo libglib2.0-dev autoconf libtool libsdl-dev build-essential tofrodos zlib1g-dev:amd64 zlib1g-dev
-  sudo apt-get install bison g++-multilib git gperf libxml2-utils make zlib1g-dev:i386 zip libsqlite3-dev libicu-dev libssl-dev
+  sudo apt-get install bison g++-multilib git gperf libxml2-utils make zlib1g-dev:i386 zip libsqlite3-dev libicu-dev libssl-dev libuv1-dev
   ```
 
   [Install cmake](#install-cmake) if needed.
@@ -150,28 +150,7 @@ Please select the appropriate compilation environment as needed:
 
 ## Build Elastos.RT
 
-### Build Android
-
-* Download NDK and execute script to generate NDK toolchain:
-
-  ***The compiling of android-version RT needs to install NDK toolchain, you can refer to [Install NDK](../../ToolChains/android/Readme.md),then you can  contiune it.***
-
-1. Enter the build environment:
-   ```
-   $ source ~/Elastos.RT/Setup/SetEnv.sh arm_android_32
-   ```
-   or
-   ```
-   $ source ~/Elastos.RT/Setup/SetEnv.sh
-   ```
-   and then choose the index number of the "arm_android_32" item from the numbered list
-
-2. emake
-   ```
-   ~/Elastos.RT/Sources$ emake
-   ```
-
-### Build Android by using "clang" on Mac or Linux (Use CMake, Experimental)
+### Build Android on Mac or Linux
 
 1. Download the proper Android NDK for your OS. (Currently support Mac and Linux)
 
@@ -191,13 +170,13 @@ Please select the appropriate compilation environment as needed:
 
 3. Enter the build environment:
    ```
-   $ source ~/Elastos.RT/Setup/SetEnv.sh arm_android_clang_32
+   $ source ~/Elastos.RT/Setup/SetEnv.sh arm_android_32
    ```
    or
    ```
    $ source ~/Elastos.RT/Setup/SetEnv.sh
    ```
-   and then choose the index number of the "arm_android_clang_32" item from the numbered list
+   and then choose the index number of the "arm_android_32" item from the numbered list
 
 3. emake
    ```

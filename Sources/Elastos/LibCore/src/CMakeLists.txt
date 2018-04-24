@@ -1,7 +1,7 @@
 
 if(APPLE)
     add_definitions(-DHAVE_APPLE_PTHREAD_SETNAME_NP)
-elseif(ANDROID)
+else()
     add_definitions(-DHAVE_ANDROID_PTHREAD_SETNAME_NP)
 endif()
 

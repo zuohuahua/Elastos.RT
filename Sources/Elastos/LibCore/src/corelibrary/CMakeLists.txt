@@ -39,3 +39,9 @@ target_link_libraries(Elastos.CoreLibrary
     crypto
     z
 )
+
+add_dependencies(Elastos.CoreLibrary libcore_headers)
+
+if("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "linux")
+    target_link_libraries(Elastos.CoreLibrary icui18n)
+endif()

@@ -36,7 +36,7 @@ matrix:
         - platform-tools
         - build-tools-23.0.2
         - android-23
-    env: BUILD_ENV=arm_android_clang_32
+    env: BUILD_ENV=arm_android_32
     install:
       - echo y | sdkmanager 'ndk-bundle'
       - echo y | sdkmanager 'cmake;3.6.4111459'

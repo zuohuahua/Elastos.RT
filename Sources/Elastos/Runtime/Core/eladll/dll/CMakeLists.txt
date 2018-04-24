@@ -31,6 +31,19 @@ elseif("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "android")
         elasession
         log
     )
+elseif(("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "linux" OR "$ENV{XDK_TARGET_PLATFORM}" STREQUAL "mac") AND "$ENV{XDK_TARGET_CPU_ARCH}" STREQUAL "32")
+    list(APPEND MY_LINK_LIBRARIES
+        marshal
+        uv
+        pthread
+        dl
+    )
+else()
+    list(APPEND MY_LINK_LIBRARIES
+        marshalcomm
+        pthread
+        dl
+    )
 endif()
 
 list(APPEND MY_LINK_LIBRARIES

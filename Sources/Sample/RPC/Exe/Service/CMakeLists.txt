@@ -15,9 +15,9 @@ set(SOURCES
     service.cpp
 )
 
-add_executable(Service ${SOURCES})
+add_executable(ChatService ${SOURCES})
 
-target_link_libraries(Service
+target_link_libraries(ChatService
     Elastos.Runtime
     Elastos.Runtime_static
     Elastos.CoreLibrary

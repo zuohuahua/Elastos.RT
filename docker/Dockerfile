@@ -37,6 +37,8 @@ RUN set -ex                                                                     
         libicu-dev:i386 \
         libssl-dev \
         libssl-dev:i386 \
+        libuv1-dev \
+        libuv1-dev:i386 \
         gdbserver \
         bash-completion \
         ninja \
