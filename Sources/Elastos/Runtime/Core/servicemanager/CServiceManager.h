@@ -74,6 +74,7 @@ private:
     {
     public:
         void OnSessionConnected(
+            /* [in] */ CSession* pSession,
             /* [in] */ Boolean succeeded,
             /* [in] */ void* context);
 

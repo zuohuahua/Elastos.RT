@@ -109,7 +109,6 @@ CSessionManager::~CSessionManager()
     pthread_mutex_unlock(&sListenersLock);
     pthread_mutex_destroy(&sListenersLock);
 
-
     pthread_mutex_lock(&mSessionsLock);
     if (!mSessions.IsEmpty()) {
         SessionNode* head = &mSessions;
@@ -151,7 +150,10 @@ ECode CSessionManager::CreateSession(
     }
 
     ECode ec = GetSession(uid, ppSession);
-    if (SUCCEEDED(ec)) return ec;
+    if (SUCCEEDED(ec)) {
+        RPC_LOG("CSessionManager::CreateSession uid: %s exist", uid.string());
+        return S_ALREADY_EXISTS;
+    }
 
     CSession* session = new CSession(sCarrier, uid, sdp, len);
     if (!session) {
@@ -164,7 +166,7 @@ ECode CSessionManager::CreateSession(
         return ec;
     }
 
-    session->AddListener(mReceiveListener, NULL);
+    session->AddListener(mReceiveListener, this);
 
     pthread_mutex_lock(&mSessionsLock);
     SessionNode* node = new SessionNode(session);
@@ -197,6 +199,7 @@ ECode CSessionManager::GetSession(
         next->mSession->GetUid(&remoteUid);
         if (remoteUid.Equals(uid)) {
             *ppSession = next->mSession;
+            (*ppSession)->AddRef();
             pthread_mutex_unlock(&mSessionsLock);
             return NOERROR;
         }
@@ -267,7 +270,7 @@ CSessionManager::ListenerNode* CSessionManager::FindListener(
 
     ListenerNode* head = &sListeners;
     ListenerNode* next = (ListenerNode*)sListeners.Next();
-    ListenerNode* prev = NULL;
+    ListenerNode* prev = head;
     while(next != head) {
         if (next->mListener == pListener && next->mContext == context) {
             if (detach) {
@@ -336,9 +339,31 @@ ECode CSessionManager::InitSession()
 }
 
 void CSessionManager::CReceiveListener::OnSessionConnected(
+    /* [in] */ CSession* pSession,
     /* [in] */ Boolean succeeded,
     /* [in] */ void* context)
 {
+    // if session connect failed, delete the session
+    if (!succeeded) {
+        CSessionManager* pThis = (CSessionManager*)context;
+
+        pthread_mutex_lock(&pThis->mSessionsLock);
+        if (!pThis->mSessions.IsEmpty()) {
+            SessionNode* head = &pThis->mSessions;
+            SessionNode* next = (SessionNode*)pThis->mSessions.Next();
+            SessionNode* prev = head;
+            while(next != head) {
+                if (next->mSession == pSession) {
+                    next->Detach(head);
+                    delete next;
+                    break;
+                }
+                prev = next;
+                next = (SessionNode*)next->Next();
+            }
+        }
+        pthread_mutex_unlock(&pThis->mSessionsLock);
+    }
     return;
 }
 

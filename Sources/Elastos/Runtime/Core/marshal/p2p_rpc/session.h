@@ -7,6 +7,7 @@
 #include <elcontainer.h>
 #include <elrefbase.h>
 #include "RPCMessage.h"
+#include "carrier.h"
 
 class CSession;
 
@@ -15,6 +16,7 @@ class SessionListener
 {
 public:
     virtual void OnSessionConnected(
+        /* [in] */ CSession* pSession,
         /* [in] */ Boolean succeeded,
         /* [in] */ void* context) = 0;
 
@@ -184,7 +186,7 @@ private:
     // for receive data once
     pthread_cond_t mDataCv;
     pthread_mutex_t mDataLock;
-    ArrayOf<Byte>* mData;
+    DataPack* mData;
     Boolean mWaitingForData;
 
     friend void* workThread(void* argc);

@@ -687,7 +687,9 @@ CObjectProxy::~CObjectProxy()
     pthread_mutex_destroy(&mWorkLock);
 
     if (mData) {
-        ArrayOf<Byte>::Free(mData);
+        if (mData->data)
+            ArrayOf<Byte>::Free(mData->data);
+        delete mData;
         mData = NULL;
     }
 }
@@ -1134,15 +1136,27 @@ ECode CObjectProxy::ReceiveFromRemote(
 {
     pthread_mutex_lock(&mWorkLock);
     if (mData) {
-        ArrayOf<Byte>::Free(mData);
+        if (mData->data)
+            ArrayOf<Byte>::Free(mData->data);
+        delete mData;
         mData = NULL;
     }
     while (mData == NULL) {
         pthread_cond_wait(&mCv, &mWorkLock);
     }
 
-    Byte* p = mData->GetPayload();
-    int _len = mData->GetLength();
+    if (FAILED(mData->ec)) {
+        ECode ec = mData->ec;
+        if (mData->data)
+            ArrayOf<Byte>::Free(mData->data);
+        delete mData;
+        mData = NULL;
+        pthread_mutex_unlock(&mWorkLock);
+        return ec;
+    }
+
+    Byte* p = mData->data->GetPayload();
+    int _len = mData->data->GetLength();
     int _type = *(size_t *)p;
     p += sizeof(size_t);
     _len -= sizeof(size_t);
@@ -1152,7 +1166,9 @@ ECode CObjectProxy::ReceiveFromRemote(
     if (buf != NULL) {
         void* _base = malloc(_len);
         if (_base == NULL) {
-            ArrayOf<Byte>::Free(mData);
+            if (mData->data)
+                ArrayOf<Byte>::Free(mData->data);
+            delete mData;
             mData = NULL;
             pthread_mutex_unlock(&mWorkLock);
             return E_FAIL;
@@ -1162,7 +1178,9 @@ ECode CObjectProxy::ReceiveFromRemote(
         *len = _len;
     }
 
-    ArrayOf<Byte>::Free(mData);
+    if (mData->data)
+        ArrayOf<Byte>::Free(mData->data);
+    delete mData;
     mData = NULL;
     pthread_mutex_unlock(&mWorkLock);
 
@@ -1170,9 +1188,33 @@ ECode CObjectProxy::ReceiveFromRemote(
 }
 
 void CObjectProxy::CProxyListener::OnSessionConnected(
+    /* [in] */ CSession* pSession,
     /* [in] */ Boolean succeeded,
     /* [in] */ void* context)
 {
+    if (!succeeded) {
+        CObjectProxy* proxy = (CObjectProxy*)context;
+        if (!proxy) return;
+
+        pthread_mutex_lock(&proxy->mWorkLock);
+
+        if (proxy->mData) {
+            if (proxy->mData->data)
+                ArrayOf<Byte>::Free(proxy->mData->data);
+            delete proxy->mData;
+            proxy->mData = NULL;
+        }
+
+        proxy->mData = new DataPack();
+        if (!proxy->mData) {
+            pthread_mutex_unlock(&proxy->mWorkLock);
+            return;
+        }
+        proxy->mData->data = NULL;
+        proxy->mData->ec = E_SESSION_FAILED;
+        pthread_mutex_unlock(&proxy->mWorkLock);
+        pthread_cond_signal(&proxy->mCv);
+    }
     return;
 }
 
@@ -1188,14 +1230,23 @@ void CObjectProxy::CProxyListener::OnSessionReceived(
     pthread_mutex_lock(&proxy->mWorkLock);
 
     if (proxy->mData) {
-        ArrayOf<Byte>::Free(proxy->mData);
+        if (proxy->mData->data)
+            ArrayOf<Byte>::Free(proxy->mData->data);
+        delete proxy->mData;
         proxy->mData = NULL;
     }
-    proxy->mData = data->Clone();
+
+    proxy->mData = new DataPack();
     if (!proxy->mData) {
         pthread_mutex_unlock(&proxy->mWorkLock);
         return;
     }
+    proxy->mData->data = data->Clone();
+    if (!proxy->mData->data) {
+        pthread_mutex_unlock(&proxy->mWorkLock);
+        return;
+    }
+    proxy->mData->ec = NOERROR;
     pthread_mutex_unlock(&proxy->mWorkLock);
     pthread_cond_signal(&proxy->mCv);
 }

@@ -130,6 +130,7 @@ private:
     {
     public:
         void OnSessionConnected(
+            /* [in] */ CSession* pSession,
             /* [in] */ Boolean succeeded,
             /* [in] */ void* context);
 
@@ -169,6 +170,8 @@ private:
         const char *sdp,
         size_t len,
         void *context);
+
+    friend class CSession;
 };
 
 

@@ -173,10 +173,14 @@ ECode CServiceManager::GetService(
         return E_INVALID_ARGUMENT;
     }
 
+    Boolean waitSesseionConnect = TRUE;
     CSession* session;
     ECode ec = mSessionManager->CreateSession(uid, TRUE, NULL, 0, &session);
     if (FAILED(ec)) {
         return ec;
+    }
+    if (ec == S_ALREADY_EXISTS) {
+        waitSesseionConnect = FALSE;
     }
 
     CGetServiceListener* listener = new CGetServiceListener();
@@ -188,19 +192,21 @@ ECode CServiceManager::GetService(
         return ec;
     }
 
-    pthread_mutex_lock(&sGetServiceMutex);
-    sNotifyType = 0;
-    while (sNotifyType == 0) {
-        pthread_cond_wait(&sGetServiceCv, &sGetServiceMutex);
-    }
-    pthread_mutex_unlock(&sGetServiceMutex);
+    if (waitSesseionConnect) {
+        pthread_mutex_lock(&sGetServiceMutex);
+        sNotifyType = 0;
+        while (sNotifyType == 0) {
+            pthread_cond_wait(&sGetServiceCv, &sGetServiceMutex);
+        }
+        pthread_mutex_unlock(&sGetServiceMutex);
 
-    if (sNotifyType == SESSION_CONNECT_FAILED) {
-        RPC_LOG("CServiceManager GetService session connect failed\n");
-        session->RemoveListener(listener, NULL);
-        session->Release();
-        listener->Release();
-        return E_FAIL;
+        if (sNotifyType == SESSION_CONNECT_FAILED) {
+            RPC_LOG("CServiceManager GetService session connect failed\n");
+            session->RemoveListener(listener, NULL);
+            session->Release();
+            listener->Release();
+            return E_FAIL;
+        }
     }
 
     ec = session->SendMessage(GET_SERVICE, name.GetBytes()->GetPayload(), name.GetLength());
@@ -338,6 +344,7 @@ void CServiceManager::CSessionManagerListener::OnSessionReceived(
 }
 
 void CServiceManager::CGetServiceListener::OnSessionConnected(
+    /* [in] */ CSession* pSession,
     /* [in] */ Boolean succeeded,
     /* [in] */ void* context)
 {

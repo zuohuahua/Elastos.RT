@@ -2,8 +2,6 @@
 #ifndef _CARRIER_H_
 #define _CARRIER_H_
 
-#include "ela_carrier.h"
-#include "ela_session.h"
 #include <elastos.h>
 
 #ifdef _android
@@ -31,57 +29,10 @@ enum {
     METHOD_RELEASE_REPLY
 };
 
-typedef struct _DataPack{
-    String from;
-    int stream;
+struct DataPack
+{
     ArrayOf<Byte>* data;
-} DataPack;
-
-ELAPI_(int) ECO_PUBLIC carrier_connect(
-    const char* location,
-    ElaCarrier** carrier);
-
-ELAPI_(int) ECO_PUBLIC carrier_add_friend(
-    ElaCarrier* carrier,
-    const char* address,
-    const char* hello);
-
-ELAPI_(_ELASTOS Boolean) ECO_PUBLIC carrier_is_friend(
-    ElaCarrier* carrier,
-    const char* uid);
-
-ELAPI_(ElaConnectionStatus) ECO_PUBLIC carrier_get_friend_status(
-    const char* uid);
-
-ELAPI_(int) ECO_PUBLIC carrier_send(
-    int type,
-    void* msg,
-    size_t len);
-
-ELAPI_(int) ECO_PUBLIC carrier_wait(
-    int time);
-
-ELAPI_(int) ECO_PUBLIC carrier_read(
-    DataPack* data,
-    Boolean clearData = TRUE);
-
-ELAPI_(void) ECO_PUBLIC carrier_destroy();
-
-ELAPI_(void) ECO_PUBLIC carrier_data_handled();
-
-int carrier_receive(
-    const char* from,
-    int* type,
-    void** buf,
-    int* len);
-
-ELAPI_(int) ECO_PUBLIC carrier_session_connect(
-    ElaCarrier* carrier,
-    const char* uid);
-
-ELAPI_(int) ECO_PUBLIC carrier_session_wait(
-    ElaCarrier* carrier);
-
-ELAPI_(void) ECO_PUBLIC carrier_session_destroy();
+    ECode ec;
+};
 
 #endif //_CARRIER_H_

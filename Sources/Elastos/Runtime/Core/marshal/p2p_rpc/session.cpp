@@ -2,6 +2,7 @@
 #include "session.h"
 #include "carrier.h"
 #include "elcarrierapi.h"
+#include "rpcerror.h"
 
 using Elastos::CCarrier;
 
@@ -129,7 +130,9 @@ CSession::~CSession()
 
     pthread_mutex_lock(&mDataLock);
     if (mData) {
-        ArrayOf<Byte>::Free(mData);
+        if (mData->data)
+            ArrayOf<Byte>::Free(mData->data);
+        delete mData;
         mData = NULL;
     }
     pthread_mutex_unlock(&mDataLock);
@@ -185,6 +188,31 @@ void StreamStateChanged(
             pThis->SessionStart();
         }
     }
+    else if (state == ElaStreamState_deactivated
+        || state == ElaStreamState_closed
+        || state == ElaStreamState_failed) {
+        pThis->NotifySessionConnected(FALSE);
+
+        if (pThis->mWaitingForData) {
+            if (pThis->mData) {
+                if (pThis->mData->data)
+                    ArrayOf<Byte>::Free(pThis->mData->data);
+                delete pThis->mData;
+                pThis->mData = NULL;
+            }
+
+            pThis->mData = new DataPack();
+            if (!pThis->mData) {
+                pthread_mutex_unlock(&pThis->mDataLock);
+                return;
+            }
+
+            pThis->mData->data = NULL;
+            pThis->mData->ec = E_SESSION_FAILED;
+            pthread_mutex_unlock(&pThis->mDataLock);
+            pthread_cond_signal(&pThis->mDataCv);
+        }
+    }
 }
 
 void SessionRequestComplete(
@@ -238,16 +266,25 @@ void StreamReceiveData(
     }
 
     if (pThis->mData) {
-        ArrayOf<Byte>::Free(pThis->mData);
+        if (pThis->mData->data)
+            ArrayOf<Byte>::Free(pThis->mData->data);
+        delete pThis->mData;
         pThis->mData = NULL;
     }
 
-    pThis->mData = ArrayOf<Byte>::Alloc(len);
+    pThis->mData = new DataPack();
     if (!pThis->mData) {
         pthread_mutex_unlock(&pThis->mDataLock);
         return;
     }
-    memcpy(pThis->mData->GetPayload(), data, len);
+
+    pThis->mData->data = ArrayOf<Byte>::Alloc(len);
+    if (!pThis->mData->data) {
+        pthread_mutex_unlock(&pThis->mDataLock);
+        return;
+    }
+    memcpy(pThis->mData->data->GetPayload(), data, len);
+    pThis->mData->ec = NOERROR;
     pthread_mutex_unlock(&pThis->mDataLock);
     pthread_cond_signal(&pThis->mDataCv);
 }
@@ -363,7 +400,9 @@ ECode CSession::ReceiveMessage(
     pthread_mutex_lock(&mDataLock);
     mWaitingForData = TRUE;
     if (mData) {
-        ArrayOf<Byte>::Free(mData);
+        if (mData->data)
+            ArrayOf<Byte>::Free(mData->data);
+        delete mData;
         mData = NULL;
     }
 
@@ -377,8 +416,18 @@ ECode CSession::ReceiveMessage(
         return E_FAIL;
     }
 
-    Byte* p = mData->GetPayload();
-    int _len = mData->GetLength();
+    if (FAILED(mData->ec)) {
+        ECode ec = mData->ec;
+        if (mData->data)
+            ArrayOf<Byte>::Free(mData->data);
+        delete mData;
+        mData = NULL;
+        pthread_mutex_unlock(&mDataLock);
+        return ec;
+    }
+
+    Byte* p = mData->data->GetPayload();
+    int _len = mData->data->GetLength();
     int _type = *(size_t *)p;
     p += sizeof(size_t);
     _len -= sizeof(size_t);
@@ -388,7 +437,8 @@ ECode CSession::ReceiveMessage(
     if (pBuf != NULL) {
         void* _base = malloc(_len);
         if (_base == NULL) {
-            ArrayOf<Byte>::Free(mData);
+            ArrayOf<Byte>::Free(mData->data);
+            delete mData;
             mData = NULL;
             pthread_mutex_unlock(&mDataLock);
             return E_FAIL;
@@ -582,7 +632,7 @@ ECode CSession::NotifySessionConnected(
     ListenerNode* head = &mListeners;
     ListenerNode* next = (ListenerNode*)mListeners.Next();
     while(next != head) {
-        next->mListener->OnSessionConnected(succeeded, next->mContext);
+        next->mListener->OnSessionConnected(this, succeeded, next->mContext);
         next = (ListenerNode*)next->Next();
     }
     pthread_mutex_unlock(&mListenersLock);

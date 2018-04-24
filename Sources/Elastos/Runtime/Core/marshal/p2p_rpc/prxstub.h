@@ -7,6 +7,7 @@
 #if defined(__USE_REMOTE_SOCKET)
 # include "carrier.h"
 # include "CSessionManager.h"
+# include "rpcerror.h"
 #else
 # include <dbus/dbus.h>
 #endif
@@ -146,6 +147,7 @@ private:
     {
     public:
         void OnSessionConnected(
+            /* [in] */ CSession* pSession,
             /* [in] */ Boolean succeeded,
             /* [in] */ void* context);
 
@@ -163,7 +165,7 @@ public:
     CProxyListener          *mListener;
     pthread_cond_t          mCv;
     pthread_mutex_t         mWorkLock;
-    ArrayOf<Byte>*          mData;
+    DataPack*               mData;
 
 #endif
 
