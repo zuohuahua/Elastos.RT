@@ -279,7 +279,7 @@ int ParseArgs(int nArgc, char *ppArgv[], CommandArgs *pArgs)
 
                 case 'T':
                     pszStr = stream.GetWord();
-                    if (strcmp(pszStr, "foreground") == 0) {
+                    if (strcmp(pszStr, "foreground") == 0 || strcmp(pszStr, "foregroundjava") == 0) {
                         pArgs->mAttribs |= Command_r_Foreground;
                     }
                     if (!pszStr) {

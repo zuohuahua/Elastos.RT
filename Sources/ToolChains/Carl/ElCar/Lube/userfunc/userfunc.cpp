@@ -105,6 +105,8 @@ DECL_USERFUNC(GenerateModuleImplementation);
 DECL_USERFUNC(GenerateModuleImplementation2);
 DECL_USERFUNC(GenerateDependHeaderForClass);
 DECL_USERFUNC(GenerateDependHeaderForModule);
+DECL_USERFUNC(JavaMethodSignature);
+DECL_USERFUNC(JavaParameterText);
 
 const UserFuncEntry g_userFuncs[] = {
     USERFUNC_(Embed, ARGTYPE_STRING, \
@@ -221,6 +223,10 @@ const UserFuncEntry g_userFuncs[] = {
             "Generate the depend header files for class"),
     USERFUNC_(GenerateDependHeaderForModule, ARGTYPE_(Object_Module, Member_None), \
             "Generate the depend header files for class"),
+    USERFUNC_(JavaMethodSignature, ARGTYPE_(Object_None, Member_Type), \
+            "Get java signatue string"),
+    USERFUNC_(JavaParameterText, ARGTYPE_(Object_ClsIntf, Member_None), \
+            "Get java parameter' text"),
 };
 const int c_cUserFuncs = sizeof(g_userFuncs) / sizeof(UserFuncEntry);
 
@@ -340,6 +346,209 @@ IMPL_USERFUNC(MacroRewrite)(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
     }
     pCtx->PutString(pString);
     free(pString);
+
+    return LUBE_OK;
+}
+
+IMPL_USERFUNC(JavaMethodSignature)(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
+{
+    assert(NULL != pvArg);
+
+    const char *pszType = NULL;
+    TypeDescriptor *pType = (TypeDescriptor *)pvArg;
+    switch (pType->mType) {
+        case Type_Char32: {
+            pszType = "C";
+            break;
+        }
+        case Type_Int32: {
+            pszType = "I";
+            break;
+        }
+        case Type_Int64: {
+            pszType = "J";
+            break;
+        }
+        case Type_Byte: {
+            pszType = "B";
+            break;
+        }
+        case Type_Boolean: {
+            pszType = "Z";
+            break;
+        }
+        case Type_Float: {
+            pszType = "F";
+            break;
+        }
+        case Type_Double: {
+            pszType = "D";
+            break;
+        }
+        case Type_String: {
+            pszType = "Ljava/lang/String;";
+            break;
+        }
+        // case Type_ArrayOf:
+        //     if (Type_String == pType->mNestedType->mType) {
+        //         pszType = "ArrayOfString";
+        //     }
+        //     else {
+        //         pszType = "CarArray";
+        //     }
+        //     break;
+
+        // case Type_Array:
+        //     pszType = "CarArray";
+        //     break;
+
+        // case Type_interface:
+        //     pszType = "Interface";
+        //     break;
+
+        // case Type_struct:
+        //     pszType = "Struct";
+        //     break;
+        default: {
+            pszType = "Unknown";
+            fprintf(stderr, "Uonsupport parameter type: [%d]\n", pType->mType);
+            break;
+        }
+    }
+
+    pCtx->PutString(pszType);
+
+    return LUBE_OK;
+}
+
+const char* GenerateJavaTypeString(const TypeDescriptor *pType)
+{
+    switch (pType->mType) {
+        case Type_Char32: {
+            return "char";
+        }
+        case Type_Int32: {
+            return "int";
+        }
+        case Type_Int64: {
+            return "long";
+        }
+        case Type_Byte: {
+            return "byte";
+        }
+        case Type_Boolean: {
+            return "boolean";
+        }
+        case Type_Float: {
+            return "float";
+        }
+        case Type_Double: {
+            return "double";
+        }
+        case Type_String: {
+            return "String";
+        }
+        // case Type_ArrayOf:
+        //     if (Type_String == pType->mNestedType->mType) {
+        //         pszType = "ArrayOfString";
+        //     }
+        //     else {
+        //         pszType = "CarArray";
+        //     }
+        //     break;
+
+        // case Type_Array:
+        //     pszType = "CarArray";
+        //     break;
+
+        // case Type_interface:
+        //     pszType = "Interface";
+        //     break;
+
+        // case Type_struct:
+        //     pszType = "Struct";
+        //     break;
+        default: {
+            fprintf(stderr, "Uonsupport parameter type: [%d]\n", pType->mType);
+            return "Unknown";
+        }
+    }
+}
+
+IMPL_USERFUNC(JavaParameterText)(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
+{
+    assert(NULL != pCtx->m_pInterface && pvArg == pCtx->m_pInterface);
+
+    InterfaceDirEntry *pItfDir = pCtx->m_pInterface;
+    assert(pItfDir->mDesc != NULL);
+
+    char szContent[128];
+    for (int i = 0; i < pItfDir->mDesc->mMethodCount; i++) {
+        MethodDescriptor* methodDesc = pItfDir->mDesc->mMethods[i];
+        assert(methodDesc != NULL);
+
+        const char* retType = "void";
+        int outParaPos = -1;
+        if (methodDesc->mParamCount > 0) {
+            for (int j = 0; j < methodDesc->mParamCount; j++) {
+                ParamDescriptor* paraDesc = methodDesc->mParams[j];
+                assert(paraDesc != NULL);
+
+                if (paraDesc->mAttribs & ParamAttrib_out) {
+                    outParaPos = j;
+                    retType = GenerateJavaTypeString(&paraDesc->mType);
+                    break;
+                }
+            }
+        }
+
+        sprintf(szContent, "    public static %s %s(", retType, methodDesc->mName);
+        pCtx->PutString(szContent);
+        if (methodDesc->mParamCount > 0) {
+            for (int j = 0; j < methodDesc->mParamCount; j++) {
+                ParamDescriptor* paraDesc = methodDesc->mParams[j];
+                assert(paraDesc != NULL);
+
+                if (paraDesc->mAttribs & ParamAttrib_in) {
+                    // Before [out] parameter print.
+                    if (j == 0) {
+                        pCtx->PutString("\n");
+                    }
+
+                    if (j > 0 && (outParaPos == -1 || j < outParaPos)) {
+                        pCtx->PutString(",\n");
+                    }
+
+                    sprintf(szContent, "        /* [in] */ %s %s", GenerateJavaTypeString(&paraDesc->mType), paraDesc->mName);
+                    pCtx->PutString(szContent);
+                }
+            }
+        }
+
+        pCtx->PutString(")\n");
+
+        // Function body.
+        pCtx->PutString("    {\n");
+        pCtx->PutString("        // TODO: Add your code here\n");
+        if (outParaPos >= 0) {
+            if (!strcmp(retType, "String")) {
+                sprintf(szContent, "        %s _retValue = \"NULL\";\n", retType);
+            }
+            else {
+                sprintf(szContent, "        %s _retValue = 0;\n", retType);
+            }
+
+            pCtx->PutString(szContent);
+            pCtx->PutString("        return _retValue;\n");
+        }
+
+        if ((pItfDir->mDesc->mMethodCount - 1) == i) {
+            pCtx->PutString("    }");
+        }
+        else {
+            pCtx->PutString("    }\n\n");
+        }
+    }
 
     return LUBE_OK;
 }

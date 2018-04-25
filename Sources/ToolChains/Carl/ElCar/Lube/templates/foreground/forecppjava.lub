@@ -1,0 +1,159 @@
+$;;=========================================================================
+$;; Copyright (C) 2018 The Elastos Open Source Project
+$;;
+$;; Licensed under the Apache License, Version 2.0 (the "License");
+$;; you may not use this file except in compliance with the License.
+$;; You may obtain a copy of the License at
+$;;
+$;;      http://www.apache.org/licenses/LICENSE-2.0
+$;;
+$;; Unless required by applicable law or agreed to in writing, software
+$;; distributed under the License is distributed on an "AS IS" BASIS,
+$;; WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+$;; See the License for the specific language governing permissions and
+$;; limitations under the License.
+$;;=========================================================================
+$
+$INPUT class
+$OUTPUT "${name}.cpp"
+
+#include "${name}.h"
+${ClassNamespaceBegin(class)}
+$IF attrib is "singleton"
+CAR_SINGLETON_IMPL(${class.name})
+$ELSE
+CAR_OBJECT_IMPL(${class.name})
+$END IF
+$WITH all interfaces DO
+$   IF interface is first and name is not "IThread"
+CAR_INTERFACE_IMPL(${class.name}$^
+$       IF class.attrib is "singleton"
+, Singleton$^
+$       ELSE
+, Object$^
+$       END IF
+$   END IF
+$   IF attrib is not "callback" and attrib is not "callbacksink" and attrib is not "clsobj" and attrib is not "filter" and name is not "IRegime" and name is not "IObject" and name is not "ISynchronize" and name is not "IWeakReferenceSource" and name is not "IThread" and name is not "IRunnable"
+, ${interface.name}$^
+$   END IF
+$END DO
+$WITH all interfaces DO
+$   IF interface is first and name is not "IThread"
+);
+$   END IF
+$END DO
+
+$WITH all interfaces DO
+$   IF attrib is not "callback" and attrib is not "callbacksink" and attrib is not "clsobj" and attrib is not "filter" and name is not "IRegime" and name is not "IObject" and name is not "ISynchronize" and name is not "IWeakReferenceSource" and name is not "IThread"
+$       WITH all parents_and_me DO
+$       WITH all methods DO
+${type} ${class.name}::${name}($^
+$           WITH all parameters DO
+
+    /* [${attrib}] */ ${type} ${PrefixingNameByName(parameter)}$^
+$           IF parameter is not last
+,$^
+$           END IF
+$           END DO ;; all parameters
+)
+$   IF interface.attrib is "inherited" and interface.name is not "IAppletMain"
+// {
+//     // TODO: Add your code here
+//     return E_NOT_IMPLEMENTED;
+// }
+$   ELSE
+{
+    if (mClassPath.IsNullOrEmpty()) {
+        return E_INVALID_ARGUMENT;
+    }
+
+    //Call the java codes, Now we are only support static method.
+    String outSign;
+    String signature("(");
+$WITH all parameters DO
+$   IF attrib is "in"
+    signature.Append("${JavaMethodSignature(type)}");
+$   END IF ;; attrib is "in"
+$END DO ;; all parameters
+$ WITH all parameters DO
+$       IF attrib is "out"
+    outSign.Append("${JavaMethodSignature(type)}");
+$       END IF ;; attrib is "out"
+$END DO ;; all parameters
+    if (!outSign.IsNullOrEmpty()) {
+        signature.Append(")");
+        signature.Append(outSign);
+    }
+    else {
+        signature.Append(")V");
+    }
+
+    jclass cls = mEnv->FindClass(mClassPath.string());
+    String methodName("${name}");
+    jmethodID staticMethod = mEnv->GetStaticMethodID(cls, methodName.string(), signature.string());
+    mEnv->CallStaticVoidMethod(cls, staticMethod);
+
+    return NOERROR;
+}
+$   END IF ;; is "inherited" and not "IAppletMain"
+
+$       END DO ;; all methods
+$       END DO ;; parents_and_me
+$   END IF ;; is not "callback" and not "callbacksink" and not "clsobj" and not "filter" and name is not "IRegime" and name is not "IObject"
+$
+$   IF attrib is "delegatesink"
+$       WITH all parents_and_me DO
+$       WITH all methods DO
+ECode ${class.name}::Do${name}(
+    /* [in] */ IInterface *pSender$^
+$    WITH all parameters DO
+,$^
+    /* [${attrib}] */ ${type} ${PrefixingNameByName(parameter)}$^
+$    END DO ;; all parameters
+)
+{
+    // TODO: Add your code here
+    return E_NOT_IMPLEMENTED;
+}
+
+$       END DO ;; all methods
+$       END DO ;; parents_and_me
+$   END IF ;; is "delegatesink"
+$END DO ;; all interfaces
+$
+$IF class.attrib is not "hasTrivialCtor"
+$  WITH all interfaces DO
+$    IF attrib is "clsobj"
+$      WITH all methods DO
+${type} ${class.name}::constructor($^
+$        WITH all parameters DO
+$          IF parameter is not last
+$            IF parameter is not first
+,$^
+$            END IF
+
+    /* [${attrib}] */ ${type} ${PrefixingNameByName(parameter)}$^
+$          END IF
+$        END DO ;; all parameters
+)
+{
+    // TODO: Add your code here for constructor
+    JavaVM* vm = (JavaVM*)jvm;
+    assert(vm != NULL);
+    mClassPath = classPath;
+
+    vm->AttachCurrentThread(&mEnv, NULL);
+    jclass cls = mEnv->FindClass(mClassPath.string());
+    if (cls == NULL) {
+        return E_INVALID_ARGUMENT;
+    }
+
+    return NOERROR;
+}
+$      END DO ;; all methods
+$
+$    END IF
+$  END DO ;; all interfaces
+$END IF;;
+${ClassNamespaceEnd(class)}
+$END OUTPUT

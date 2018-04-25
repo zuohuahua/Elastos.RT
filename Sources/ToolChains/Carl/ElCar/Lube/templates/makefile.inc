@@ -63,6 +63,11 @@ lube.lbo :  $(MAKEDIR)/background/backcpp.lub           \
             $(MAKEDIR)/foreground/nakedforeh.lub        \
             $(MAKEDIR)/foreground/nakedforecpp.lub      \
             $(MAKEDIR)/foreground/sources.lub           \
+            $(MAKEDIR)/foreground/foregroundjava.lub    \
+            $(MAKEDIR)/foreground/forecpphjava.lub      \
+            $(MAKEDIR)/foreground/forecppjava.lub       \
+            $(MAKEDIR)/foreground/forehjava.lub         \
+            $(MAKEDIR)/foreground/generatejavaclass.lub \
             $(MAKEDIR)/header/baseh.lub                 \
             $(MAKEDIR)/header/trigger.lub               \
             $(MAKEDIR)/header/classobj.lub              \

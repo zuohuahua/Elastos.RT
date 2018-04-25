@@ -1,5 +1,5 @@
 $;;=========================================================================
-$;; Copyright (C) 2012 The Elastos Open Source Project
+$;; Copyright (C) 2018 The Elastos Open Source Project
 $;;
 $;; Licensed under the Apache License, Version 2.0 (the "License");
 $;; you may not use this file except in compliance with the License.
@@ -14,16 +14,19 @@ $;; See the License for the specific language governing permissions and
 $;; limitations under the License.
 $;;=========================================================================
 $
-$INPUT module
+$INPUT class
+$OUTPUT "${name}.java"
+
+//TODO : Modify the package
+package elastos.org.xxx;
+
+public class ${class.name} {
+$WITH all interfaces DO
+$   IF attrib is not "callback" and attrib is not "callbacksink" and attrib is not "clsobj" and attrib is not "filter" and name is not "IRegime" and name is not "IObject" and name is not "ISynchronize" and name is not "IWeakReferenceSource" and name is not "IThread"
+$           {JavaParameterText(interface)}
+$   END IF ;; is not "callback" and not "callbacksink" and not "clsobj" and not "filter" and name is not "IRegime" and name is not "IObject"
 $
-$TEMPLATE "public/public.lub"
-$TEMPLATE "header/header.lub"
-$TEMPLATE "header/header2.lub"
-$TEMPLATE "header/header3.lub"
-$TEMPLATE "header/exportheader.lub"
-$;;TEMPLATE "header/serverh.lub"
-$TEMPLATE "headercpp/headercpp.lub"
-$TEMPLATE "background/background.lub"
-$TEMPLATE "foreground/foreground.lub"
-$TEMPLATE "foreground/foregroundjava.lub"
-$;;TEMPLATE "carusage/carusage.lub"
+$END DO ;; all interfaces
+}
+$
+$END OUTPUT
