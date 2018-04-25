@@ -87,544 +87,2243 @@ library
         ThreadingModel_Naked         = 4
     };
 
+    /**
+     *
+     * The information of Data Type Interface
+     *
+     */
     [local]
     interface IDataTypeInfo {
+        /**
+        *
+        * Get the data name.
+        *
+        * @param
+        *      name [out] Output the data type names.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetName(
             [out] String* name);
 
+        /**
+        *
+        * Get the size of the data type.
+        *
+        * @param
+        *      size [out] Output data type size.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetSize(
             [out] MemorySize* size);
 
+        /**
+        *
+        * Get data type.
+        *
+        * @param
+        *      dataType [out] Output the Car data type.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetDataType(
             [out] CarDataType* dataType);
     }
 
+    /**
+     *
+     * User-defined pointer information interface.
+     *
+     */
     [local]
     interface ILocalPtrInfo extends IDataTypeInfo {
+        /**
+        *
+        * Get data type.
+        *
+        * @param
+        *      dateTypeInfo [out] Output a pointer to the IDataTypeInfo interface which contains the Car data type.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetTargetTypeInfo(
             [out] IDataTypeInfo** dateTypeInfo);
 
+        /**
+        *
+        * Get pointer layer.
+        *
+        * @param
+        *      level [out] Output the number of pointer layers.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetPtrLevel(
             [out] Int32* level);
     }
 
+    /**
+     *
+     * Enumeration type information interface.
+     *
+     */
     [local]
     interface IEnumInfo extends IDataTypeInfo {
+        /**
+        *
+        * Get namespace information.
+        *
+        * @param
+        *      ns [out] Output the namespace information of IEnumInfo.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetNamespace(
             [out] String* ns);
 
+        /**
+        *
+        * Get Moudle information.
+        *
+        * @param
+        *      moduleInfo [out] Output the information of moudle.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetModuleInfo(
             [out] IModuleInfo** moduleInfo);
 
+        /**
+        *
+        * Get the number of enumeration items.
+        *
+        * @param
+        *      count [out] Output the number of enumeration items.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetItemCount(
             [out] Int32* count);
 
+        /**
+        *
+        * Get all enumeration information.
+        *
+        * @param
+        *      itemInfos [out] Output all enumeration information.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetAllItemInfos(
             [out] ArrayOf<IEnumItemInfo*> itemInfos);
 
+        /**
+        *
+        * Get specific enumeration information.
+        *
+        * @param
+        *      name [in] Entered enumeration item name.
+        *
+        * @param
+        *      enumItemInfo [out] Output a pointer to the IEnumItemInfo interface which contains enumeration information.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetItemInfo(
             [in] String name,
             [out] IEnumItemInfo** enumItemInfo);
     }
 
+    /**
+     *
+     * Enumeration item information interface.
+     *
+     */
     [local]
     interface IEnumItemInfo {
+        /**
+        *
+        * Get enumeration item name.
+        *
+        * @param
+        *      name [out] Output enumerated item names.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetName(
             [out] String* name);
 
+        /**
+        *
+        * Get enumeration information.
+        *
+        * @param
+        *      enumInfo [out] Output a pointer to the IEnumInfo interface which contains enumeration information.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetEnumInfo(
             [out] IEnumInfo** enumInfo);
 
+        /**
+        *
+        * Get the value of enumeration item.
+        *
+        * @param
+        *      value [out] Output the value of enumeration item.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetValue(
             [out] Int32* value);
     }
 
+    /**
+     *
+     * CarArray Information Interface.
+     *
+     */
     [local]
     interface ICarArrayInfo extends IDataTypeInfo {
+        /**
+        *
+        * Get the type of CarArray element.
+        *
+        * @param
+        *      elementTypeInfo [out] Output a pointer to IDataTypeInfo interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetElementTypeInfo(
             [out] IDataTypeInfo** elementTypeInfo);
 
+        /**
+        *
+        * Create variable object and allocate data area on heap.
+        *
+        * @param
+        *      capacity [in] To create the variable's capacity.
+        *
+        * @param
+        *      variableBox [out] Output a pointer to the IVariableOfCarArray interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         CreateVariable(
             [in] Int32 capacity,
             [out] IVariableOfCarArray** variableBox);
 
+        /**
+        *
+        * Create variable container object and point to user allocated memory block.
+        *
+        * @param
+        *      variableDescriptor [in] The specified local variable pointer.
+        *
+        * @param
+        *      variableBox [out] Output a pointer to the IVariableOfCarArray interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         CreateVariableBox(
             [in] PCarQuintet variableDescriptor,
             [out] IVariableOfCarArray** variableBox);
     }
 
+    /**
+     *
+     * C++ array information interface.
+     *
+     */
     [local]
     interface ICppVectorInfo extends IDataTypeInfo {
+        /**
+        *
+        * Get array element type.
+        *
+        * @param
+        *      elementTypeInfo [out] Output a pointer to the IDataTypeInfo interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetElementTypeInfo(
             [out] IDataTypeInfo** elementTypeInfo);
 
+        /**
+        *
+        * Get the length of the array.
+        *
+        * @param
+        *      length [out] Output the length of the array.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetLength(
             [out] Int32* length);
     }
 
+    /**
+     *
+     * Struct Information Interface.
+     *
+     */
     [local]
     interface IStructInfo extends IDataTypeInfo {
+        /**
+        *
+        * Get the information of module which the struct is located in.
+        *
+        * @param
+        *      moduleInfo [out] Output a pointer to the IModuleInfo interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetModuleInfo(
             [out] IModuleInfo** moduleInfo);
 
+        /**
+        *
+        * Get the number of structure members.
+        *
+        * @param
+        *      count [out] Output the number of members.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetFieldCount(
             [out] Int32* count);
 
+        /**
+        *
+        * Get all members of the structure.
+        *
+        * @param
+        *      fieldInfos [out] Output a member list.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetAllFieldInfos(
             [out] ArrayOf<IFieldInfo*> fieldInfos);
 
+        /**
+        *
+        * Get structure member information.
+        *
+        * @param
+        *      name [in] Entered member name.
+        *
+        * @param
+        *      fieldInfo [out] Output a pointer to the IFieldInfo interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetFieldInfo(
             [in] String name,
             [out] IFieldInfo** fieldInfo);
 
+        /**
+        *
+        * Create a variable object and allocate a data area on the heap.
+        *
+        * @param
+        *      variableBox [out] Output a pointer to the IStructVariable interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         CreateVariable(
             [out] IVariableOfStruct** variableBox);
 
+        /**
+        *
+        * Create variable container object and point to user allocated memory block.
+        *
+        * @param
+        *      variableDescriptor [in] The specified local variable pointer.
+        *
+        * @param
+        *      variableBox [out] Output a pointer to the IVariableOfStruct interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         CreateVariableBox(
             [in] PVoid variableDescriptor,
             [out] IVariableOfStruct** variableBox);
     }
 
+    /**
+     *
+     * Structure member information interface
+     *
+     */
     [local]
     interface IFieldInfo {
+        /**
+        *
+        * Get member name.
+        *
+        * @param
+        *      name [out] Output the structure member name.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetName(
             [out] String* name);
 
+        /**
+        *
+        * Get member type.
+        *
+        * @param
+        *      typeInfo [out] Output a pointer to the IDataTypeInfo interface which contains member type information.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetTypeInfo(
             [out] IDataTypeInfo** typeInfo);
     }
 
+    /**
+     *
+     * Interface Information Interface
+     *
+     */
     [local]
     interface IInterfaceInfo extends IDataTypeInfo {
+        /**
+        *
+        * Get the namespace of the interface.
+        *
+        * @param
+        *      ns [out] Output the namespace of the IInterfaceInfo.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetNamespace(
             [out] String* ns);
 
+        /**
+        *
+        * Get class loader.
+        *
+        * @param
+        *      loader [out] Output the class loader.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetClassLoader(
             [out] IInterface** loader);
 
+        /**
+        *
+        * Set up class loader.
+        *
+        * @param
+        *      loader [in] The value of the class loader to set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetClassLoader(
             [in] IInterface* loader);
 
+        /**
+        *
+        * Get the number of annotations.
+        *
+        * @param
+        *      count [out] Output the number of annotations.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetAnnotationCount(
             [out] Int32* count);
 
+        /**
+        *
+        * Get all members of the annotation.
+
+        * @param
+        *      annotationInfos [out] Output the list of the annotation information.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetAllAnnotationInfos(
             [out] ArrayOf<IAnnotationInfo*> annotationInfos);
 
+        /**
+        *
+        * Get annotation information by name.
+        *
+        * @param
+        *      fullName [in] IInterface name.
+        *
+        * @param
+        *      annotationInfo [out] Output a pointer to the IAnnotationInfo interface which contains the annotation information.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetAnnotation(
             [in] String fullName,
             [out] IAnnotationInfo** annotationInfo);
 
+        /**
+        *
+        * Get interface ID number.
+        *
+        * @param
+        *      iid [out] Output interface ID number.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetId(
             [out] InterfaceID* iid);
 
+        /**
+        *
+        * Get component information.
+        *
+        * @param
+        *      moduleInfo [out] Output a pointer to the IModuleInfo interface which contains the moudle information.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetModuleInfo(
             [out] IModuleInfo** moduleInfo);
 
+        /**
+        *
+        * Determine whether it is a local interface.
+        *
+        * @param
+        *      isLocal [out] Output the judgment result.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         IsLocal(
             [out] Boolean* isLocal);
 
+        /**
+        *
+        * Determine if there is a base interface.
+        *
+        * @param
+        *      hasBase [out] Output the judgment result.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         HasBase(
             [out] Boolean* hasBase);
 
+        /**
+        *
+        * Get upper-level base interface.
+        *
+        * @param
+        *      baseInfo [out] Output a pointer to the IInterfaceInfo interface which contains the upper-level base interface information of methods.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetBaseInfo(
             [out] IInterfaceInfo** baseInfo);
 
+        /**
+        *
+        * Get the number of methods.
+        *
+        * @param
+        *      count [out] Output the number of methods.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetMethodCount(
             [out] Int32* count);
 
+        /**
+        *
+        * Get all method information.
+        *
+        * @param
+        *      methodInfos [out] Output the list of all interfaces.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetAllMethodInfos(
             [out] ArrayOf<IMethodInfo*> methodInfos);
 
+        /**
+        *
+        * Get method information by name and signature.
+        *
+        * @param
+        *      name [in] the name of method.
+        *
+        * @param
+        *      signature [in] the signature of method.
+        *
+        * @param
+        *      methodInfo [out] Output a pointer to the IMethodInfo interface which contains the method information.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetMethodInfo(
             [in] String name,
             [in] String signature,
             [out] IMethodInfo** methodInfo);
 
+        /**
+        *
+        * Get method information by serial number.
+        *
+        * @param
+        *      index [in] the serial number of method.
+        *
+        * @param
+        *      methodInfo [out] Output a pointer to the IMethodInfo interface which contains the method information.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetMethodInfo(
             [in] Int32 index,
             [out] IMethodInfo** methodInfo);
     }
 
+    /**
+     *
+     * Function Information Interface
+     *
+     */
     [local]
     interface IFunctionInfo {
+        /**
+        *
+        * Get function name.
+        *
+        * @param
+        *      name [out] Output the function name.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetName(
             [out] String* name);
 
+        /**
+        *
+        * Get the signature.
+        *
+        * @param
+        *      signature [out] Output the signature.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetSignature(
             [out] String* signature);
 
+        /**
+        *
+        * Get the number of parameters.
+        *
+        * @param
+        *      count [out] Output the number of parameters.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetParamCount(
             [out] Int32* count);
 
+        /**
+        *
+        * Get all parameter information.
+        *
+        * @param
+        *      paramInfos [out] Output all parameter information.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetAllParamInfos(
             [out] ArrayOf<IParamInfo*> paramInfos);
 
+        /**
+        *
+        * Get parameter information by serial number.
+        *
+        * @param
+        *      index [in] the serial number of method.
+        *
+        * @param
+        *      paramInfo [out] Output a pointer to the IParamInfo interface which contains the parameter information.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetParamInfoByIndex(
             [in] Int32 index,
             [out] IParamInfo** paramInfo);
 
+        /**
+        *
+        * Get parameter information by name.
+        *
+        * @param
+        *      name [in] parameter name.
+        *
+        * @param
+        *      paramInfo [out] Output a pointer to the IParamInfo interface which contains the parameter information
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetParamInfoByName(
             [in] String name,
             [out] IParamInfo** paramInfo);
     }
 
+    /**
+     *
+     * Method Information Interface
+     *
+     */
     [local]
     interface IMethodInfo extends IFunctionInfo {
+        /**
+        *
+        * Get the number of annotations.
+        *
+        * @param
+        *      count [out] Output the number of annotations.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetAnnotationCount(
             [out] Int32* count);
 
+        /**
+        *
+        * Get the informations of all annotation.
+        *
+        * @param
+        *      annotationInfos [out] Output a list of annotation information.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetAllAnnotationInfos(
             [out] ArrayOf<IAnnotationInfo*> annotationInfos);
 
+        /**
+        *
+        * Get annotation information by name.
+        *
+        * @param
+        *      fullName [in] method name.
+        *
+        * @param
+        *      annotationInfo [out] Output a pointer to the IAnnotationInfo interface which contains the annotation information.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetAnnotation(
             [in] String fullName,
             [out] IAnnotationInfo** annotationInfo);
 
+        /**
+        *
+        * Get the currently declaring interface.
+        *
+        * @param
+        *      interfaceInfo [out] Output the currently declaring interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetDeclaringInterface(
             [out] IInterfaceInfo** interfaceInfo);
 
+        /**
+        *
+        * Create parameter list.
+        *
+        * @param
+        *      argumentList [out] Output a pointer to the IArgumentList interface which contains the parameter list.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         CreateArgumentList(
             [out] IArgumentList** argumentList);
 
+        /**
+        *
+        * Call the appropriate method.
+        *
+        * @param
+        *      target [in] the target interface.
+        *
+        * @param
+        *      argumentList [out] Output a pointer to the IArgumentList interface which contains the parameter list.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         Invoke(
             [in] PInterface target,
             [in] IArgumentList* argumentList);
     }
 
+    /**
+     *
+     * Parameter Information Interface
+     *
+     */
     [local]
     interface IParamInfo {
+        /**
+        *
+        * Get the method where this parameter is located。
+        *
+        * @param
+        *      methodInfo [out] Output a pointer to the IMethodInfo interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetMethodInfo(
             [out] IMethodInfo** methodInfo);
 
+        /**
+        *
+        * Get the parameter name.
+        *
+        * @param
+        *      name [out] Output the parameter name.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetName(
             [out] String* name);
 
+        /**
+        *
+        * Get the parameter serial number.
+        *
+        * @param
+        *      index [out] Output the parameter serial number.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetIndex(
             [out] Int32* index);
 
+        /**
+        *
+        * Get input/output parameter properties.
+        *
+        * @param
+        *      ioAttrib [out] Output the input/output parameter properties.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetIOAttribute(
             [out] ParamIOAttribute* ioAttrib);
 
+        /**
+        *
+        * To determine whether it is a return value.
+        *
+        * @param
+        *      returnValue [out] Output the judgment result.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         IsReturnValue(
             [out] Boolean* returnValue);
 
+        /**
+        *
+        * Get parameter type.
+        *
+        * @param
+        *      typeInfo [out] Output a pointer to the IDataTypeInfo interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetTypeInfo(
             [out] IDataTypeInfo** typeInfo);
 
+        /**
+        *
+        * Get the recommended size for the specified self-describing type.
+        *
+        * @param
+        *      advisedCapacity [out] Output specify the capacity of the self-describing type.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetAdvisedCapacity(
             [out] Int32* advisedCapacity);
 
+        /**
+        *
+        * Determine if there is a parameter alias.
+        *
+        * @param
+        *      usingTypeAlias [out] Output the judgment result.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         IsUsingTypeAlias(
             [out] Boolean* usingTypeAlias);
 
+        /**
+        *
+        * Get type alias information.
+        *
+        * @param
+        *      usedTypeAliasInfo [out] Output a pointer to the ITypeAliasInfo interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetUsedTypeAliasInfo(
             [out] ITypeAliasInfo** usedTypeAliasInfo);
     }
 
+    /**
+     *
+     * Type Alias Information Interface
+     *
+     */
     [local]
     interface ITypeAliasInfo {
+        /**
+        *
+        * Get type alias name.
+        *
+        * @param
+        *      name [out] Output type alias name.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetName(
             [out] String* name);
 
+        /**
+        *
+        * Get type alias information.
+        *
+        * @param
+        *      typeInfo [out] Output a pointer to the IDataTypeInfo interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetTypeInfo(
             [out] IDataTypeInfo** typeInfo);
 
+        /**
+        *
+        * Get component information.
+        *
+        * @param
+        *      moduleInfo [out] Output a pointer to the IModuleInfo interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetModuleInfo(
             [out] IModuleInfo** moduleInfo);
 
+        /**
+        *
+        * Determine if it is a dummy.
+        *
+        * @param
+        *      isDummy [out] Output the judgment result.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         IsDummy(
             [out] Boolean* isDummy);
 
+        /**
+        *
+        * Get the pointer's level.
+        *
+        * @param
+        *      level [out] Output the pointer's level.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetPtrLevel(
             [out] Int32* level);
     }
 
+    /**
+     *
+     * Parameter list interface
+     *
+     */
     [local, deprecated]
     interface IArgumentList {
+        /**
+        *
+        * Get function information interface.
+        *
+        * @param
+        *      functionInfo [out] Output a pointer to the IFunctionInfo interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetFunctionInfo(
             [out] IFunctionInfo** functionInfo);
 
+        /**
+        *
+        * Get the value of input parameter to Int16 by serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [out] Output the value of input parameter to Int16.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetInputArgumentOfInt16(
             [in] Int32 index,
             [out] Int16* value);
 
+        /**
+        *
+        * Set input parameter to Int16 type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] the value of input parameter to Int16 type to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetInputArgumentOfInt16(
             [in] Int32 index,
             [in] Int16 value);
 
+        /**
+        *
+        * Get the value of input parameter to Int64 byte by serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [out] Output the value of input parameter to Int32 byte .
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetInputArgumentOfInt32(
             [in] Int32 index,
             [out] Int32* value);
 
+        /**
+        *
+        * Set input parameter to Int32 type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] the value of input parameter to Int32 type to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetInputArgumentOfInt32(
             [in] Int32 index,
             [in] Int32 value);
 
+        /**
+        *
+        * Get the value of input parameter to Int64 byte by serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [out] Output the value of input parameter to Int64.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetInputArgumentOfInt64(
             [in] Int32 index,
             [out] Int64* value);
 
+        /**
+        *
+        * Set input parameter to Int64 type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] the value of input parameter to Int64 type to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetInputArgumentOfInt64(
             [in] Int32 index,
             [in] Int64 value);
 
+        /**
+        *
+        * Get the value of input parameter to Byte type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [out] Output the value of input parameter to Byte type.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetInputArgumentOfByte(
             [in] Int32 index,
             [out] Byte* value);
 
+        /**
+        *
+        * Set input parameter to Byte type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] the value of input parameter to Byte type to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetInputArgumentOfByte(
             [in] Int32 index,
             [in] Byte value);
 
+        /**
+        *
+        * Get the value of input parameter to Float type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [out] Output the value of input parameter to Float type.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetInputArgumentOfFloat(
             [in] Int32 index,
             [out] Float* value);
 
+        /**
+        *
+        * Set input parameter to Float type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] the value of input parameter to Float type to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetInputArgumentOfFloat(
             [in] Int32 index,
             [in] Float value);
 
+        /**
+        *
+        * Get the value of input parameter to Double type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [out] Output the value of input parameter to Double type.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetInputArgumentOfDouble(
             [in] Int32 index,
             [out] Double* value);
 
+        /**
+        *
+        * Set input parameter to Double type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] the value of input parameter to Double type to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetInputArgumentOfDouble(
             [in] Int32 index,
             [in] Double value);
 
+        /**
+        *
+        * Get the value of input parameter to Char32 type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [out] Output the value of input parameter to Char32 type.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetInputArgumentOfChar(
             [in] Int32 index,
             [out] Char32* value);
 
+        /**
+        *
+        * Set input parameter to Char32 type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] the value of input parameter to Char32 type to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetInputArgumentOfChar(
             [in] Int32 index,
             [in] Char32 value);
 
+        /**
+        *
+        * Get the value of input parameter to String type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [out] Output the value of input parameter to String type.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetInputArgumentOfString(
             [in] Int32 index,
             [out] String* value);
 
+        /**
+        *
+        * Set input parameter to String type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] the value of input parameter to String type to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetInputArgumentOfString(
             [in] Int32 index,
             [in] String value);
 
+        /**
+        *
+        * Get the value of input parameter to Boolean type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [out] Output the value of input parameter to Boolean type.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetInputArgumentOfBoolean(
             [in] Int32 index,
             [out] Boolean* value);
 
+        /**
+        *
+        * Set input parameter to Boolean type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] the value of input parameter to Boolean type to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetInputArgumentOfBoolean(
             [in] Int32 index,
             [in] Boolean value);
 
+        /**
+        *
+        * Get the value of input parameter to EIID type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [out] Output the value of input parameter to EMuid type.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetInputArgumentOfEMuid(
             [in] Int32 index,
             [out] EMuid* value);
 
+        /**
+        *
+        * Set input parameter to EIID type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] the pointer to the set EMuid type parameter value.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetInputArgumentOfEMuid(
             [in] Int32 index,
             [in] EMuid* value);
 
+        /**
+        *
+        * Get the value of input parameter to ClassID type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [out] Output the value of input parameter to EGuid type.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetInputArgumentOfEGuid(
             [in] Int32 index,
             [out] EGuid* value);
 
+        /**
+        *
+        * Set input parameter to ClassID type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] the value of input parameter to EGuid type to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetInputArgumentOfEGuid(
             [in] Int32 index,
             [in] EGuid* value);
 
+        /**
+        *
+        * Get the value of input parameter to ECode type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [out] Output the value of input parameter to ECode type.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetInputArgumentOfECode(
             [in] Int32 index,
             [out] ECode* value);
 
+        /**
+        *
+        * Set input parameter to ECode type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] the value of input parameter to ECode type to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetInputArgumentOfECode(
             [in] Int32 index,
             [in] ECode value);
 
+        /**
+        *
+        * Set input parameter to User-defined pointer type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] the value of input parameter to User-defined pointer type to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetInputArgumentOfLocalPtr(
             [in] Int32 index,
             [in] LocalPtr value);
 
+        /**
+        *
+        * Set input parameter to User-defined type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] the value of input parameter to User-defined type to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetInputArgumentOfLocalType(
             [in] Int32 index,
             [in] PVoid value);
 
+        /**
+        *
+        * Get the value of input parameter to enumeration type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [out] Output the value of input parameter to enumeration type.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetInputArgumentOfEnum(
             [in] Int32 index,
             [out] Int32* value);
 
+        /**
+        *
+        * Set input parameter to enumeration type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] the value of input parameter to enumeration type to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetInputArgumentOfEnum(
             [in] Int32 index,
             [in] Int32 value);
 
+        /**
+        *
+        * Get the value of input parameter to CarArray type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [out] Output the value of input parameter to PCarQuintet type.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetInputArgumentOfCarArray(
             [in] Int32 index,
             [out] PCarQuintet* value);
 
+        /**
+        *
+        * Set input parameter to CarArray type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] the value of input parameter is to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetInputArgumentOfCarArray(
             [in] Int32 index,
             [in] PCarQuintet value);
 
+        /**
+        *
+        * Set input parameter to Structure pointer type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] the value of input parameter is to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetInputArgumentOfStructPtr(
             [in] Int32 index,
             [in] PVoid value);
 
+        /**
+        *
+        * Get the value of input parameter to PInterface type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [out] Output the value of input parameter to PInterface type.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetInputArgumentOfObjectPtr(
             [in] Int32 index,
             [out] PInterface* value);
 
+        /**
+        *
+        * Set input parameter to PInterface type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] the value of input parameter is to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetInputArgumentOfObjectPtr(
             [in] Int32 index,
             [in] PInterface value);
 
+        /**
+        *
+        * Determine if the output parameter is a null pointer.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      isNull [out] Output the judgment result.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         IsOutputArgumentNullPtr(
             [in] Int32 index,
             [out] Boolean* isNull);
 
+        /**
+        *
+        * Assign stack space to the output parameter of the Int16 pointer type by the serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] The size of the allocated stack space.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         AssignOutputArgumentOfInt16Ptr(
             [in] Int32 index,
             [in] Int16 value);
 
+        /**
+        *
+        * Set the output parameter of the Int16 pointer type by the serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] Int16 pointer parameters to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetOutputArgumentOfInt16Ptr(
             [in] Int32 index,
-            [out] Int16* value);
+            [in] Int16* value);
 
+        /**
+        *
+        * Assign stack space to the output parameter of the Int32 pointer type by the serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] The size of the allocated stack space.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         AssignOutputArgumentOfInt32Ptr(
             [in] Int32 index,
             [in] Int32 value);
 
+        /**
+        *
+        * Set the output parameter of the Int32 pointer type by the serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] Int32 pointer parameters to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetOutputArgumentOfInt32Ptr(
             [in] Int32 index,
-            [out] Int32* value);
+            [in] Int32* value);
 
+        /**
+        *
+        * Assign stack space to the output parameter of the Int64 pointer type by the serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] The size of the allocated stack space.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         AssignOutputArgumentOfInt64Ptr(
             [in] Int32 index,
             [in] Int64 value);
 
+        /**
+        *
+        * Set the output parameter of the Int64 pointer type by the serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] Int64 pointer parameters to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetOutputArgumentOfInt64Ptr(
             [in] Int32 index,
-            [out] Int64* value);
+            [in] Int64* value);
 
+        /**
+        *
+        * Assign stack space to the output parameter of the Byte pointer type by the serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] The size of the allocated stack space.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         AssignOutputArgumentOfBytePtr(
             [in] Int32 index,
             [in] Byte value);
 
+        /**
+        *
+        * Set the output parameter of the Byte pointer type by the serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] Byte pointer parameters to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetOutputArgumentOfBytePtr(
             [in] Int32 index,
-            [out] Byte* value);
+            [in] Byte* value);
 
+        /**
+        *
+        * Assign stack space to the output parameter of the Float pointer type by the serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] The size of the allocated stack space.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         AssignOutputArgumentOfFloatPtr(
             [in] Int32 index,
             [in] Float value);
 
+        /**
+        *
+        * Set the output parameter of the Float pointer type by the serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] Float pointer parameters to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetOutputArgumentOfFloatPtr(
             [in] Int32 index,
-            [out] Float* value);
+            [in] Float* value);
 
+        /**
+        *
+        * Assign stack space to the output parameter of the Double pointer type by the serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] The size of the allocated stack space.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         AssignOutputArgumentOfDoublePtr(
             [in] Int32 index,
             [in] Double value);
 
+        /**
+        *
+        * Set the output parameter of the Double pointer type by the serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] Double pointer parameters to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetOutputArgumentOfDoublePtr(
             [in] Int32 index,
-            [out] Double* value);
+            [in] Double* value);
 
+        /**
+        *
+        * Assign stack space to the output parameter of the Char32 pointer type by the serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] The size of the allocated stack space.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         AssignOutputArgumentOfCharPtr(
             [in] Int32 index,
             [in] Char32 value);
 
+        /**
+        *
+        * Set the output parameter of the Char32 pointer type by the serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] Char32 pointer parameters to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetOutputArgumentOfCharPtr(
             [in] Int32 index,
-            [out] Char32* value);
+            [in] Char32* value);
 
+        /**
+        *
+        * Assign stack space to the output parameter of the String pointer type by the serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] The size of the allocated stack space.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         AssignOutputArgumentOfStringPtr(
             [in] Int32 index,
             [in] String value);
 
+        /**
+        *
+        * Set the output parameter of the String pointer type by the serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] String pointer parameters to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetOutputArgumentOfStringPtr(
             [in] Int32 index,
-            [out] String* value);
+            [in] String* value);
 
+        /**
+        *
+        * Assign stack space to the output parameter of the Boolean pointer type by the serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] The size of the allocated stack space.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         AssignOutputArgumentOfBooleanPtr(
             [in] Int32 index,
             [in] Boolean value);
 
+        /**
+        *
+        * Set the output parameter of the Boolean pointer type by the serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] Boolean pointer parameters to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetOutputArgumentOfBooleanPtr(
             [in] Int32 index,
-            [out] Boolean* value);
+            [in] Boolean* value);
 
+        /**
+        *
+        * Assign stack space to the output parameter of the EIID pointer type by the serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] The size of the allocated stack space.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         AssignOutputArgumentOfEMuidPtr(
             [in] Int32 index,
             [in] EMuid* value);
 
+        /**
+        *
+        * Set the output parameter of the EIID pointer type by the serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] EMuid pointer parameters to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetOutputArgumentOfEMuidPtr(
             [in] Int32 index,
-            [out] EMuid* value);
+            [in] EMuid* value);
 
+        /**
+        *
+        * Assign stack space to the output parameter of the ClassID pointer type by the serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] The size of the allocated stack space.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         AssignOutputArgumentOfEGuidPtr(
             [in] Int32 index,
             [in] EGuid* value);
 
+        /**
+        *
+        * Set the output parameter of the ClassID pointer type by the serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] EGuid pointer parameters to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetOutputArgumentOfEGuidPtr(
             [in] Int32 index,
-            [out] EGuid* value);
+            [in] EGuid* value);
 
+        /**
+        *
+        * Assign stack space to the output parameter of the ECode pointer type by the serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] The size of the allocated stack space.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         AssignOutputArgumentOfECodePtr(
             [in] Int32 index,
             [in] ECode value);
 
+        /**
+        *
+        * Set the output parameter of the ECode pointer type by the serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] ECode pointer parameters to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetOutputArgumentOfECodePtr(
             [in] Int32 index,
-            [out] ECode* value);
+            [in] ECode* value);
 
+        /**
+        *
+        * Set the output parameter of the pointer type pointing to the user-defined type pointer by the serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] LocalPtr pointer parameters to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetOutputArgumentOfLocalPtrPtr(
             [in] Int32 index,
             [out] LocalPtr* value);
 
+        /**
+        *
+        * Set the output parameter of the pointer to custom type by the serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] Int32 pointer parameters to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetOutputArgumentOfLocalTypePtr(
             [in] Int32 index,
-            [out] PVoid value);
+            [in] PVoid value);
 
+        /**
+        *
+        * Assign stack space to the output parameter of the enumeration pointer type by the serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] The size of the allocated stack space.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         AssignOutputArgumentOfEnumPtr(
             [in] Int32 index,
             [in] Int32 value);
 
+        /**
+        *
+        * Set the output parameter of the enumeration pointer type by the serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] Enum pointer parameters to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetOutputArgumentOfEnumPtr(
             [in] Int32 index,
-            [out] Int32* value);
+            [in] Int32* value);
 
+        /**
+        *
+        * Assign stack space to the output parameter of the CarArray pointer type by the serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] The size of the allocated stack space.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         // Caller allocated
         AssignOutputArgumentOfCarArrayPtr(
             [in] Int32 index,
             [in] PCarQuintet value);
 
+        /**
+        *
+        * Set the output parameter of the CarArray pointer type by the serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] CarArray pointer parameters to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetOutputArgumentOfCarArrayPtr(
             [in] Int32 index,
-            [out] PCarQuintet value);
+            [in] PCarQuintet value);
 
+        /**
+        *
+        * Assign stack space to the output parameter of pointer type pointing to CarArray pointer type by the serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] The size of the allocated stack space.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         // Callee allocated
         AssignOutputArgumentOfCarArrayPtrPtr(
             [in] Int32 index,
             [in] PCarQuintet value);
 
+        /**
+        *
+        * Set the output parameter of pointer type pointing to CarArray pointer by serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] The value of parameters to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetOutputArgumentOfCarArrayPtrPtr(
             [in] Int32 index,
             [out] PCarQuintet* value);
 
+        /**
+        *
+        * Set the output parameter of the structure pointer type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] The value of parameters to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         // Caller allocated
         SetOutputArgumentOfStructPtr(
             [in] Int32 index,
-            [out] PVoid value);
+            [in] PVoid value);
 
+        /**
+        *
+        * Set the output parameter of pointer type pointing to structure pointer type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] The value of parameters to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         // Callee allocated
         SetOutputArgumentOfStructPtrPtr(
             [in] Int32 index,
             [out] PVoid* value);
 
+        /**
+        *
+        * Assign stack space to the output parameter of pointer type pointing to PInterface type by serial numbe.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] The size of the allocated stack space.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         AssignOutputArgumentOfObjectPtrPtr(
             [in] Int32 index,
             [in] PInterface value);
 
+        /**
+        *
+        * Set the output parameter of pointer type pointing to PInterface type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of parameter.
+        *
+        * @param
+        *      value [in] The value of parameters to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetOutputArgumentOfObjectPtrPtr(
             [in] Int32 index,
             [out] PInterface* value);
@@ -632,708 +2331,2953 @@ library
 
     [local]
     interface IVariable {
+        /**
+        *
+        * Get type information.
+        *
+        * @param
+        *      typeInfo [out] Output a pointer to the IDataTypeInfo interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetTypeInfo(
             [out] IDataTypeInfo** typeInfo);
 
+        /**
+        *
+        * Get memory address.
+        *
+        * @param
+        *      payload [out] Output a pointer to PVoid.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetPayload(
             [out] PVoid* payload);
 
+        /**
+        *
+        * Recreating variables with the specified local variables.
+        *
+        * @param
+        *      localVariablePtr [out] The specified local variable pointer.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         Rebox(
             [in] PVoid localVariablePtr);
     }
 
     [local]
     interface IVariableOfCarArray extends IVariable {
+        /**
+        *
+        * To Get a pointer to the ICarArraySetter interface.
+        *
+        * @param
+        *      setter [out] Output a pointer to the ICarArraySetter interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetSetter(
             [out] ICarArraySetter** setter);
 
+        /**
+        *
+        * To Get a pointer to the ICarArrayGetter interface..
+        *
+        * @param
+        *      getter [out] Output a pointer to the ICarArrayGetter interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetGetter(
             [out] ICarArrayGetter** getter);
     }
 
     [local]
     interface IVariableOfStruct extends IVariable {
+        /**
+        *
+        * Used to get Setter interface.
+        *
+        * @param
+        *      setter [out] Output a pointer to the IStructSetter interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetSetter(
             [out] IStructSetter** setter);
 
+        /**
+        *
+        * Used to get Getter interface.
+        *
+        * @param
+        *      getter [out] Output a pointer to the IStructGetter interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetGetter(
             [out] IStructGetter** getter);
     }
 
+    /**
+     *
+     * CarArray variable assignment interface.
+     *
+     */
     [local, deprecated]
     interface ICarArraySetter {
+        /**
+        *
+        * Set the space usage of this variable.
+        *
+        * @param
+        *      used [in] Space usage to set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetUsed(
             [in] Int32 used);
 
+        /**
+        *
+        * Set the value of Int16 type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of CarArray.
+        *
+        * @param
+        *      value [in] the value of Int16 type to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetInt16Element(
             [in] Int32 index,
             [in] Int16 value);
 
+        /**
+        *
+        * Set the value of Int32 type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of CarArray.
+        *
+        * @param
+        *      value [in] the value of Int32 type to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetInt32Element(
             [in] Int32 index,
             [in] Int32 value);
 
+        /**
+        *
+        * Set the value of Int64 type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of CarArray.
+        *
+        * @param
+        *      value [in] the value of Int64 type to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetInt64Element(
             [in] Int32 index,
             [in] Int64 value);
 
+        /**
+        *
+        * Set the value of Byte type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of CarArray.
+        *
+        * @param
+        *      value [in] the value of Byte type to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetByteElement(
             [in] Int32 index,
             [in] Byte value);
 
+        /**
+        *
+        * Set the value of Float type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of CarArray.
+        *
+        * @param
+        *      value [in] the value of Float type to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetFloatElement(
             [in] Int32 index,
             [in] Float value);
 
+        /**
+        *
+        * Set the value of Double type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of CarArray.
+        *
+        * @param
+        *      value [in] the value of Double type to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetDoubleElement(
             [in] Int32 index,
             [in] Double value);
 
+        /**
+        *
+        * Set the value of enumeration type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of CarArray.
+        *
+        * @param
+        *      value [in] the value of enumeration type to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetEnumElement(
             [in] Int32 index,
             [in] Int32 value);
 
+        /**
+        *
+        * Set the value of Char32 type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of CarArray.
+        *
+        * @param
+        *      value [in] the value of Char32 type to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetCharElement(
             [in] Int32 index,
             [in] Char32 value);
 
+        /**
+        *
+        * Set the value of String type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of CarArray.
+        *
+        * @param
+        *      value [in] the value of String type to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetStringElement(
             [in] Int32 index,
             [in] String value);
 
+        /**
+        *
+        * Set the value of Boolean type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of CarArray.
+        *
+        * @param
+        *      value [in] the value of Boolean type to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetBooleanElement(
             [in] Int32 index,
             [in] Boolean value);
 
+        /**
+        *
+        * Set the value of EIID type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of CarArray.
+        *
+        * @param
+        *      value [in] the value of EMuid type to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetEMuidElement(
             [in] Int32 index,
             [in] EMuid* value);
 
+        /**
+        *
+        * Set the value of ClassID type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of CarArray.
+        *
+        * @param
+        *      value [in] the value of EGuid type to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetEGuidElement(
             [in] Int32 index,
             [in] EGuid* value);
 
+        /**
+        *
+        * Set the value of ECode type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of CarArray.
+        *
+        * @param
+        *      value [in] the value of ECode type to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetECodeElement(
             [in] Int32 index,
             [in] ECode value);
 
+        /**
+        *
+        * Set the element's value of custom type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of CarArray.
+        *
+        * @param
+        *      value [in] a pointer to element value.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetLocalTypeElement(
             [in] Int32 index,
             [in] PVoid value);
 
+        /**
+        *
+        * Set the value of PObject type by serial number.
+        *
+        * @param
+        *      index [in] the serial number of CarArray.
+        *
+        * @param
+        *      value [in] the value of PObject type to be set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetObjectPtrElement(
             [in] Int32 index,
             [in] PInterface value);
 
+        /**
+        *
+        * Obtaining a setter of a structure by serial number.
+        *
+        * @param
+        *      index [in] the serial number of CarArray.
+        *
+        * @param
+        *      setter [out] Output a pointer to the IStructSetter interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetStructElementSetter(
             [in] Int32 index,
             [out] IStructSetter** setter);
     }
 
+    /**
+     *
+     * Carray variable get value interface
+     *
+     */
     [local]
     interface ICarArrayGetter {
+        /**
+        *
+        * Get the size of the variable.
+        *
+        * @param
+        *      capacity [out] Output the size of the variable.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetCapacity(
             [out] Int32* capacity);
 
+        /**
+        *
+        * Get the space usage of this variable.
+        *
+        * @param
+        *      used [out] Output the space usage of this variable.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetUsed(
             [out] Int32* used);
 
+        /**
+        *
+        * Get the value of Int16 element by a sequence number.
+        *
+        * @param
+        *      index [in] the serial number of CarArray.
+        *
+        * @param
+        *      value [out] Output the value of Int16 element.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetInt16Element(
             [in] Int32 index,
             [out] Int16* value);
 
+        /**
+        *
+        * Get the value of Int32 element by a sequence number.
+        *
+        * @param
+        *      index [in] the serial number of CarArray.
+        *
+        * @param
+        *      value [out] Output the value of Int32 element.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetInt32Element(
             [in] Int32 index,
             [out] Int32* value);
 
+        /**
+        *
+        * Get the value of Int64 element by a sequence number.
+        *
+        * @param
+        *      index [in] the serial number of CarArray.
+        *
+        * @param
+        *      value [out] Output the value of Int64 element.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetInt64Element(
             [in] Int32 index,
             [out] Int64* value);
 
+        /**
+        *
+        * Get the value of Byte element by a sequence number.
+        *
+        * @param
+        *      index [in] the serial number of CarArray.
+        *
+        * @param
+        *      value [out] Output the value of Byte element.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetByteElement(
             [in] Int32 index,
             [out] Byte* value);
 
+        /**
+        *
+        * Get the value of Float element by a sequence number.
+        *
+        * @param
+        *      index [in] the serial number of CarArray.
+        *
+        * @param
+        *      value [out] Output the value of Float element.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetFloatElement(
             [in] Int32 index,
             [out] Float* value);
 
+        /**
+        *
+        * Get the value of Double element by a sequence number.
+        *
+        * @param
+        *      index [in] the serial number of CarArray.
+        *
+        * @param
+        *      value [out] Output the value of Double element.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetDoubleElement(
             [in] Int32 index,
             [out] Double* value);
 
+        /**
+        *
+        * Get the value of enumeration element by a sequence number.
+        *
+        * @param
+        *      index [in] the serial number of CarArray.
+        *
+        * @param
+        *      value [out] Output the value of enumeration element.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetEnumElement(
             [in] Int32 index,
             [out] Int32* value);
 
+        /**
+        *
+        * Get the value of Char32 element by a sequence number.
+        *
+        * @param
+        *      index [in] the serial number of CarArray.
+        *
+        * @param
+        *      value [out] Output the value of Char32 element.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetCharElement(
             [in] Int32 index,
             [out] Char32* value);
 
+        /**
+        *
+        * Get the value of String element by a sequence number.
+        *
+        * @param
+        *      index [in] the serial number of CarArray.
+        *
+        * @param
+        *      value [out] Output the value of String element.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetStringElement(
             [in] Int32 index,
             [out] String* value);
 
+        /**
+        *
+        * Get the value of Boolean element by a sequence number.
+        *
+        * @param
+        *      index [in] the serial number of CarArray.
+        *
+        * @param
+        *      value [out] Output the value of Boolean element.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetBooleanElement(
             [in] Int32 index,
             [out] Boolean* value);
 
+        /**
+        *
+        * Get the value of EIID element by a sequence number.
+        *
+        * @param
+        *      index [in] the serial number of CarArray.
+        *
+        * @param
+        *      value [out] Output the value of EMuid element.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetEMuidElement(
             [in] Int32 index,
             [out] EMuid* value);
 
+        /**
+        *
+        * Get the value of ClassID element by a sequence number.
+        *
+        * @param
+        *      index [in] the serial number of CarArray.
+        *
+        * @param
+        *      value [out] Output the value of EGuid element.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetEGuidElement(
             [in] Int32 index,
             [out] EGuid* value);
 
+        /**
+        *
+        * Get the value of ECode element by a sequence number.
+        *
+        * @param
+        *      index [in] the serial number of CarArray.
+        *
+        * @param
+        *      value [out] Output the value of ECode element.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetECodeElement(
             [in] Int32 index,
             [out] ECode* value);
 
+        /**
+        *
+        * Get the element's value of custom type by a sequence number.
+        *
+        * @param
+        *      index [in] the serial number of CarArray.
+        *
+        * @param
+        *      value [out] Output a pointer to element value.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetLocalTypeElement(
             [in] Int32 index,
             [out] PVoid value);
 
+        /**
+        *
+        * Get the value of PObject element by a sequence number.
+        *
+        * @param
+        *      index [in] the serial number of CarArray.
+        *
+        * @param
+        *      value [out] Output the value of PObject element.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetObjectPtrElement(
             [in] Int32 index,
             [out] PInterface* value);
 
+        /**
+        *
+        * Get a pointer to structure element by a sequence number.
+        *
+        * @param
+        *      index [in] the serial number of CarArray.
+        *
+        * @param
+        *      getter [out] Output a pointer to the IStructGetter interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetStructElementGetter(
             [in] Int32 index,
             [out] IStructGetter** getter);
     }
 
+    /**
+     *
+     * Structure variable assignment interface.
+     *
+     */
     [local, deprecated]
     interface IStructSetter {
+        /**
+        *
+        * Clear all members of the structure.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         ZeroAllFields();
 
+        /**
+        *
+        * Set a member value of Int16 type by name.
+        *
+        * @param
+        *      name [in] Structure member name.
+        *
+        * @param
+        *      value [in] The value of Int16 type to input.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetInt16Field(
             [in] String name,
             [in] Int16 value);
 
+        /**
+        *
+        * Set a member value of Int32 type by name.
+        *
+        * @param
+        *      name [in] Structure member name.
+        *
+        * @param
+        *      value [in] The value of Int32 type to input.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetInt32Field(
             [in] String name,
             [in] Int32 value);
 
+        /**
+        *
+        * Set a member value of Int64 type by name.
+        *
+        * @param
+        *      name [in] Structure member name.
+        *
+        * @param
+        *      value [in] The value of Int64 type to input.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetInt64Field(
             [in] String name,
             [in] Int64 value);
 
+        /**
+        *
+        * Set a member value of Byte type by name.
+        *
+        * @param
+        *      name [in] Structure member name.
+        *
+        * @param
+        *      value [in] The value of Byte type to input.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetByteField(
             [in] String name,
             [in] Byte value);
 
+        /**
+        *
+        * Set a member value of Float type by name.
+        *
+        * @param
+        *      name [in] Structure member name.
+        *
+        * @param
+        *      value [in] The value of Float type to input.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetFloatField(
             [in] String name,
             [in] Float value);
 
+        /**
+        *
+        * Set a member value of Double type by name.
+        *
+        * @param
+        *      name [in] Structure member name.
+        *
+        * @param
+        *      value [in] The value of Double type to input.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetDoubleField(
             [in] String name,
             [in] Double value);
 
+        /**
+        *
+        * Set a member value of Char32 type by name.
+        *
+        * @param
+        *      name [in] Structure member name.
+        *
+        * @param
+        *      value [in] The value of Char32 type to input.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetCharField(
             [in] String name,
             [in] Char32 value);
 
+        /**
+        *
+        * Set a member value of Boolean type by name.
+        *
+        * @param
+        *      name [in] Structure member name.
+        *
+        * @param
+        *      value [in] The value of Boolean type to input.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetBooleanField(
             [in] String name,
             [in] Boolean value);
 
+        /**
+        *
+        * Set a member value of EIID type by name.
+        *
+        * @param
+        *      name [in] Structure member name.
+        *
+        * @param
+        *      value [in] The value of EMuid type to input.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetEMuidField(
             [in] String name,
             [in] EMuid* value);
 
+        /**
+        *
+        * Set a member value of ClassID type by name.
+        *
+        * @param
+        *      name [in] Structure member name.
+        *
+        * @param
+        *      value [in] The value of EGuid type to input.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetEGuidField(
             [in] String name,
             [in] EGuid* value);
 
+        /**
+        *
+        * Set a member value of ECode type by name.
+        *
+        * @param
+        *      name [in] Structure member name.
+        *
+        * @param
+        *      value [in] The value of ECode type to input.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetECodeField(
             [in] String name,
             [in] ECode value);
 
+        /**
+        *
+        * Set a member value of User-defined pointer type by name.
+        *
+        * @param
+        *      name [in] Structure member name.
+        *
+        * @param
+        *      value [in] The value of User-defined pointer type to input.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetLocalPtrField(
             [in] String name,
             [in] LocalPtr value);
 
+        /**
+        *
+        * Set a member value of custom type by name.
+        *
+        * @param
+        *      name [in] Structure member name.
+        *
+        * @param
+        *      value [in] The value of PVoid type to input.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetLocalTypeField(
             [in] String name,
             [in] PVoid value);
 
+        /**
+        *
+        * Set a member value of enumeration type by name.
+        *
+        * @param
+        *      name [in] Structure member name.
+        *
+        * @param
+        *      value [in] The value of enumeration type to input.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetEnumField(
             [in] String name,
             [in] Int32 value);
 
+        /**
+        *
+        * Get a pointer to IStructSetter by name.
+        *
+        * @param
+        *      name [in] Structure member name.
+        *
+        * @param
+        *      setter [out] Output a pointer to the IStructSetter interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetStructFieldSetter(
             [in] String name,
             [out] IStructSetter** setter);
 
+        /**
+        *
+        * Get a pointer to ICppVectorSetter by name.
+        *
+        * @param
+        *      name [in] Structure member name.
+        *
+        * @param
+        *      setter [out] Output a pointer to the ICppVectorSetter interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetCppVectorFieldSetter(
             [in] String name,
             [out] ICppVectorSetter** setter);
     }
 
+    /**
+     *
+     * Structure Variable Get Value Interface
+     *
+     */
     [local]
     interface IStructGetter {
+        /**
+        *
+        * Get the member's value of Int16 type by name.
+        *
+        * @param
+        *      name [in] Structure member name.
+        *
+        * @param
+        *      value [out] Output a pointer to Int16.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetInt16Field(
             [in] String name,
             [out] Int16* value);
 
+        /**
+        *
+        * Get the member's value of Int32 type by name.
+        *
+        * @param
+        *      name [in] Structure member name.
+        *
+        * @param
+        *      value [out] Output a pointer to Int32 byte.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetInt32Field(
             [in] String name,
             [out] Int32* value);
 
+        /**
+        *
+        * Get the member's value of Int64 type by name.
+        *
+        * @param
+        *      name [in] Structure member name.
+        *
+        * @param
+        *      value [out] Output a pointer to Int64.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetInt64Field(
             [in] String name,
             [out] Int64* value);
 
+        /**
+        *
+        * Get the member's value of Byte type by name.
+        *
+        * @param
+        *      name [in] Structure member name.
+        *
+        * @param
+        *      value [out] Output a pointer to Byte.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetByteField(
             [in] String name,
             [out] Byte* value);
 
+        /**
+        *
+        * Get the member's value of Float type by name.
+        *
+        * @param
+        *      name [in] Structure member name.
+        *
+        * @param
+        *      value [out] Output a pointer to Float.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetFloatField(
             [in] String name,
             [out] Float* value);
 
+        /**
+        *
+        * Get the member's value of Double type by name.
+        *
+        * @param
+        *      name [in] Structure member name.
+        *
+        * @param
+        *      value [out] Output a pointer to Double.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetDoubleField(
             [in] String name,
             [out] Double* value);
 
+        /**
+        *
+        * Get the member's value of Char32 type by name.
+        *
+        * @param
+        *      name [in] Structure member name.
+        *
+        * @param
+        *      value [out] Output a pointer to Char32.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetCharField(
             [in] String name,
             [out] Char32* value);
 
+        /**
+        *
+        * Get the member's value of Boolean type by name.
+        *
+        * @param
+        *      name [in] Structure member name.
+        *
+        * @param
+        *      value [out] Output a pointer to Boolean.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetBooleanField(
             [in] String name,
             [out] Boolean* value);
 
+        /**
+        *
+        * Get the member's value of EIID type by name.
+        *
+        * @param
+        *      name [in] Structure member name.
+        *
+        * @param
+        *      value [out] Output a pointer to EMuid.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetEMuidField(
             [in] String name,
             [out] EMuid* value);
 
+        /**
+        *
+        * Get the member's value of ClassID type by name.
+        *
+        * @param
+        *      name [in] Structure member name.
+        *
+        * @param
+        *      value [out] Output a pointer to EGuid.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetEGuidField(
             [in] String name,
             [out] EGuid* value);
 
+        /**
+        *
+        * Get the member's value of ECode type by name.
+        *
+        * @param
+        *      name [in] Structure member name.
+        *
+        * @param
+        *      value [out] Output a pointer to ECode.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetECodeField(
             [in] String name,
             [out] ECode* value);
 
+        /**
+        *
+        * Get the member's value of User-defined pointer type by name.
+        *
+        * @param
+        *      name [in] Structure member name.
+        *
+        * @param
+        *      value [out] Output a pointer to the LocalPtr interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetLocalPtrField(
             [in] String name,
             [out] LocalPtr* value);
 
+        /**
+        *
+        * Get the member's value of custom type by name.
+        *
+        * @param
+        *      name [in] Structure member name.
+        *
+        * @param
+        *      value [out] Output a pointer to the PVoid.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetLocalTypeField(
             [in] String name,
             [out] PVoid value);
 
+        /**
+        *
+        * Get the member's value of enumeration type by name.
+        *
+        * @param
+        *      name [in] Structure member name.
+        *
+        * @param
+        *      value [out] Output a pointer to Enum.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetEnumField(
             [in] String name,
             [out] Int32* value);
 
+        /**
+        *
+        * Get the member's Getter of Struct type by name.
+        *
+        * @param
+        *      name [in] Structure member name.
+        *
+        * @param
+        *      getter [out] Output a pointer to the IStructGetter interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetStructFieldGetter(
             [in] String name,
             [out] IStructGetter** getter);
 
+        /**
+        *
+        * Get the member's Getter of array type by name.
+        *
+        * @param
+        *      name [in] Structure member name.
+        *
+        * @param
+        *      getter [out] Output a pointer to the ICppVectorGetter interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetCppVectorFieldGetter(
             [in] String name,
             [out] ICppVectorGetter** getter);
     }
 
+    /**
+     *
+     * C++ array assignment interface
+     *
+     */
     [local, deprecated]
     interface ICppVectorSetter {
+        /**
+        *
+        * Clear all elements.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         ZeroAllElements();
 
+        /**
+        *
+        * Set the value of all elements.
+        *
+        * @param
+        *      value [in] The value to be assigned.
+        *
+        * @param
+        *      size [in] The memory size allocated.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetAllElements(
             [in] PVoid value,
             [in] MemorySize size);
 
+        /**
+        *
+        * Set the member's value of Int16 type by array number.
+        *
+        * @param
+        *      index [in] Array number.
+        *
+        * @param
+        *      value [in] The value of Int16 type to input.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetInt16Element(
             [in] Int32 index,
             [in] Int16 value);
 
+        /**
+        *
+        * Set the member's value of Int32 type by array number.
+        *
+        * @param
+        *      index [in] Array number.
+        *
+        * @param
+        *      value [in] The value of Int32 type to input.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetInt32Element(
             [in] Int32 index,
             [in] Int32 value);
 
+        /**
+        *
+        * Set the member's value of Int64 type by array number.
+        *
+        * @param
+        *      index [in] Array number.
+        *
+        * @param
+        *      value [in] The value of Int64 type to input.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetInt64Element(
             [in] Int32 index,
             [in] Int64 value);
 
+        /**
+        *
+        * Set the member's value of Byte type by array number.
+        *
+        * @param
+        *      index [in] Array number.
+        *
+        * @param
+        *      value [in] The value of Byte type to input.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetByteElement(
             [in] Int32 index,
             [in] Byte value);
 
+        /**
+        *
+        * Set the member's value of Float type by array number.
+        *
+        * @param
+        *      index [in] Array number.
+        *
+        * @param
+        *      value [in] The value of Float type to input.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetFloatElement(
             [in] Int32 index,
             [in] Float value);
 
+        /**
+        *
+        * Set the member's value of Double type by array number.
+        *
+        * @param
+        *      index [in] Array number.
+        *
+        * @param
+        *      value [in] The value of Double type to input.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetDoubleElement(
             [in] Int32 index,
             [in] Double value);
 
+        /**
+        *
+        * Set the member's value of Char32 type by array number.
+        *
+        * @param
+        *      index [in] Array number.
+        *
+        * @param
+        *      value [in] The value of Char32 type to input.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetCharElement(
             [in] Int32 index,
             [in] Char32 value);
 
+        /**
+        *
+        * Set the member's value of Boolean type by array number.
+        *
+        * @param
+        *      index [in] Array number.
+        *
+        * @param
+        *      value [in] The value of Boolean type to input.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetBooleanElement(
             [in] Int32 index,
             [in] Boolean value);
 
+        /**
+        *
+        * Set the member's value of EIID type by array number.
+        *
+        * @param
+        *      index [in] Array number.
+        *
+        * @param
+        *      value [in] The value of EMuid type to input.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetEMuidElement(
             [in] Int32 index,
             [in] EMuid* value);
 
+        /**
+        *
+        * Set the member's value of ClassID type by array number.
+        *
+        * @param
+        *      index [in] Array number.
+        *
+        * @param
+        *      value [in] The value of EGuid type to input.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetEGuidElement(
             [in] Int32 index,
             [in] EGuid* value);
 
+        /**
+        *
+        * Set the member's value of ECode type by array number.
+        *
+        * @param
+        *      index [in] Array number.
+        *
+        * @param
+        *      value [in] The value of ECode type to input.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetECodeElement(
             [in] Int32 index,
             [in] ECode value);
 
+        /**
+        *
+        * Set the member's value of User-defined pointer type by array number.
+        *
+        * @param
+        *      index [in] Array number.
+        *
+        * @param
+        *      value [in] The value of LocalPtr type to input.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetLocalPtrElement(
             [in] Int32 index,
             [in] LocalPtr value);
 
+        /**
+        *
+        * Set the member's value of custom type by array number.
+        *
+        * @param
+        *      index [in] Array number.
+        *
+        * @param
+        *      value [in] The value of PVoid type to input.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetLocalTypeElement(
             [in] Int32 index,
             [in] PVoid value);
 
+        /**
+        *
+        * Set the member's value of enumeration type by array number.
+        *
+        * @param
+        *      index [in] Array number.
+        *
+        * @param
+        *      value [in] The value of Enum type to input.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetEnumElement(
             [in] Int32 index,
             [in] Int32 value);
 
+        /**
+        *
+        * Get the member's Setter of the Structure type by array number.
+        *
+        * @param
+        *      index [in] Array number.
+        *
+        * @param
+        *      setter [out] Output a pointer to the IStructSetter interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetStructElementSetter(
             [in] Int32 index,
             [out] IStructSetter** setter);
 
+        /**
+        *
+        * Get the member's Setter of the Vector type by array number.
+        *
+        * @param
+        *      index [in] Array number.
+        *
+        * @param
+        *      setter [out] Output a pointer to the ICppVectorSetter interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetCppVectorElementSetter(
             [in] Int32 index,
             [out] ICppVectorSetter** setter);
     }
 
+    /**
+     *
+     * C++ array get value interface
+     *
+     */
     [local]
     interface ICppVectorGetter {
+        /**
+        *
+        * Get the length of array.
+        *
+        * @param
+        *      length [out] Output the length of array.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetLength(
             [out] Int32* length);
 
+        /**
+        *
+        * Get the level of the array.
+        *
+        * @param
+        *      rank [out] Output the level value.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetRank(
             [out] Int32* rank);
 
+        /**
+        *
+        * Get the value of Int16 element by array number.
+        *
+        * @param
+        *      index [in] array number.
+        *
+        * @param
+        *      value [out] Output the value of Int16 element.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetInt16Element(
             [in] Int32 index,
             [out] Int16* value);
 
+        /**
+        *
+        * Get the value of Int32 element by array number.
+        *
+        * @param
+        *      index [in] array number.
+        *
+        * @param
+        *      value [out] Output the value of Int32 element.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetInt32Element(
             [in] Int32 index,
             [out] Int32* value);
 
+        /**
+        *
+        * Get the value of Int64 element by array number.
+        *
+        * @param
+        *      index [in] array number.
+        *
+        * @param
+        *      value [out] Output the value of Int64 element.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetInt64Element(
             [in] Int32 index,
             [out] Int64* value);
 
+        /**
+        *
+        * Get the value of Byte element by array number.
+        *
+        * @param
+        *      index [in] array number.
+        *
+        * @param
+        *      value [out] Output the value of Byte element.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetByteElement(
             [in] Int32 index,
             [out] Byte* value);
 
+        /**
+        *
+        * Get the value of Float element by array number.
+        *
+        * @param
+        *      index [in] array number.
+        *
+        * @param
+        *      value [out] Output the value of Float element.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetFloatElement(
             [in] Int32 index,
             [out] Float* value);
 
+        /**
+        *
+        * Get the value of Double element by array number.
+        *
+        * @param
+        *      index [in] array number.
+        *
+        * @param
+        *      value [out] Output the value of Double element.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetDoubleElement(
             [in] Int32 index,
             [out] Double* value);
 
+        /**
+        *
+        * Get the value of Char32 element by array number.
+        *
+        * @param
+        *      index [in] array number.
+        *
+        * @param
+        *      value [out] Output the value of Char32 element.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetCharElement(
             [in] Int32 index,
             [out] Char32* value);
 
+        /**
+        *
+        * Get the value of Boolean element by array number.
+        *
+        * @param
+        *      index [in] array number.
+        *
+        * @param
+        *      value [out] Output the value of Boolean element.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetBooleanElement(
             [in] Int32 index,
             [out] Boolean* value);
 
+        /**
+        *
+        * Get the value of EIID element by array number.
+        *
+        * @param
+        *      index [in] array number.
+        *
+        * @param
+        *      value [out] Output the value of EMuid element.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetEMuidElement(
             [in] Int32 index,
             [out] EMuid* value);
 
+        /**
+        *
+        * Get the value of ClassID element by array number.
+        *
+        * @param
+        *      index [in] array number.
+        *
+        * @param
+        *      value [out] Output the value of EGuid element.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetEGuidElement(
             [in] Int32 index,
             [out] EGuid* value);
 
+        /**
+        *
+        * Get the value of ECode element by array number.
+        *
+        * @param
+        *      index [in] array number.
+        *
+        * @param
+        *      value [out] Output the value of ECode element.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetECodeElement(
             [in] Int32 index,
             [out] ECode* value);
 
+        /**
+        *
+        * Get the element's value of User-defined pointer type by array number.
+        *
+        * @param
+        *      index [in] array number.
+        *
+        * @param
+        *      value [out] Output the element's value of LocalPtr type.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetLocalPtrElement(
             [in] Int32 index,
             [out] LocalPtr* value);
 
+        /**
+        *
+        * Get the element's value of custom type by array number.
+        *
+        * @param
+        *      index [in] array number.
+        *
+        * @param
+        *      value [out] Output the element's value of custom type.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetLocalTypeElement(
             [in] Int32 index,
             [out] PVoid value);
 
+        /**
+        *
+        * Get the element's value of enumeration type by array number.
+        *
+        * @param
+        *      index [in] array number.
+        *
+        * @param
+        *      value [out] Output the element's value of Enum type.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetEnumElement(
             [in] Int32 index,
             [out] Int32* value);
 
+        /**
+        *
+        * Get the member's Getter of Struct type by array number.
+        *
+        * @param
+        *      index [in] array number.
+        *
+        * @param
+        *      getter [out] Output a pointer to the IStructGetter interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetStructElementGetter(
             [in] Int32 index,
             [out] IStructGetter** getter);
 
+        /**
+        *
+        * Get the member's Getter of array type by array number.
+        *
+        * @param
+        *      index [in] array number.
+        *
+        * @param
+        *      getter [out] Output a pointer to the ICppVectorGetter interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetCppVectorElementGetter(
             [in] Int32 index,
             [out] ICppVectorGetter** getter);
     }
 
+    /**
+     *
+     * Component Module Information Interface.
+     *
+     */
     [local]
     interface IModuleInfo {
+        /**
+        *
+        * Get component ID.
+        *
+        * @param
+        *      path [out] Output the content of component ID.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetPath(
             [out] String* path);
 
+        /**
+        *
+        * Get component version information.
+        *
+        * @param
+        *      major [out] Major version number.
+        *
+        * @param
+        *      minor [out] Minor version number.
+        *
+        * @param
+        *      build [out] Compile time version number.
+        *
+        * @param
+        *      revision [out] Modified version number.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetVersion(
             [out] Int32* major,
             [out] Int32* minor,
             [out] Int32* build,
             [out] Int32* revision);
 
+        /**
+        *
+        * Get the number of classes.
+        *
+        * @param
+        *      count [out] Output the number of classes.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetClassCount(
             [out] Int32* count);
 
+        /**
+        *
+        * Get all class information.
+        *
+        * @param
+        *      classInfos [out] Output class informations.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetAllClassInfos(
             [out] ArrayOf<IClassInfo*> classInfos);
 
+        /**
+        *
+        * Get class information by class name.
+        *
+        * @param
+        *      fullName [in] class name.
+        *
+        * @param
+        *      classInfo [out] Output a pointer to the IClassInfo interface which contains class information.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetClassInfo(
             [in] String fullName,
             [out] IClassInfo** classInfo);
 
+        /**
+        *
+        * Get the number of interfaces.
+        *
+        * @param
+        *      count [out] Output the number of interfaces.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetInterfaceCount(
             [out] Int32* count);
 
+        /**
+        *
+        * Get all interface information.
+        *
+        * @param
+        *      interfaceInfos [out] Output a list of interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetAllInterfaceInfos(
             [out] ArrayOf<IInterfaceInfo*> interfaceInfos);
 
+        /**
+        *
+        * Get interface information by interface name.
+        *
+        * @param
+        *      fullName [in] interface name.
+        *
+        * @param
+        *      interfaceInfo [out] Output a pointer to the IInterfaceInfo interface which contains interface information.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetInterfaceInfo(
             [in] String fullName,
             [out] IInterfaceInfo** interfaceInfo);
 
+        /**
+        *
+        * Get the number of structures.
+        *
+        * @param
+        *      count [out] Output the number of structures.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetStructCount(
             [out] Int32* count);
 
+        /**
+        *
+        * Get all structure information.
+        *
+        * @param
+        *      structInfos [out] Output a list of the structure information.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetAllStructInfos(
             [out] ArrayOf<IStructInfo*> structInfos);
 
+        /**
+        *
+        * Get the structure information by structure name.
+        *
+        * @param
+        *      name [in] structure name.
+        *
+        * @param
+        *      structInfo [out] Output a pointer to the IStructInfo interface which contains structure information.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetStructInfo(
             [in] String name,
             [out] IStructInfo** structInfo);
 
+        /**
+        *
+        * Get the number of enumerations.
+        *
+        * @param
+        *      count [out] Output the number of enumerations.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetEnumCount(
             [out] Int32* count);
 
+        /**
+        *
+        * Get all enumeration informations.
+        *
+        * @param
+        *      enumInfos [out] Output a list of enumeration information.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetAllEnumInfos(
             [out] ArrayOf<IEnumInfo*> enumInfos);
 
+        /**
+        *
+        * Get the enumeration information by enumeration name.
+        *
+        * @param
+        *      fullName [in] Enumeration name.
+        *
+        * @param
+        *      enumInfo [out] Output a pointer to the IEnumInfo interface which contains enumeration information.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetEnumInfo(
             [in] String fullName,
             [out] IEnumInfo** enumInfo);
 
+        /**
+        *
+        * Get the number of type aliases.
+        *
+        * @param
+        *      count [out] Output the number of type alias.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetTypeAliasCount(
             [out] Int32* count);
 
+        /**
+        *
+        * Get all type alias informations.
+        *
+        * @param
+        *      typeAliasInfos [out] Output all type alias informations.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetAllTypeAliasInfos(
             [out] ArrayOf<ITypeAliasInfo*> typeAliasInfos);
 
+        /**
+        *
+        * Get the type alias information by name.
+        *
+        * @param
+        *      name [in] type alias name.
+        *
+        * @param
+        *      typeAliasInfo [out] Output a pointer to the ITypeAliasInfo interface which contains the type alias information.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetTypeAliasInfo(
             [in] String name,
             [out] ITypeAliasInfo** typeAliasInfo);
 
+        /**
+        *
+        * Get the number of constants.
+        *
+        * @param
+        *      count [out] Output the number of constants.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetConstantCount(
             [out] Int32* count);
 
+        /**
+        *
+        * Get all constants informations.
+        *
+        * @param
+        *      constantInfos [out] Output a list of constants.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetAllConstantInfos(
             [out] ArrayOf<IConstantInfo*> constantInfos);
 
+        /**
+        *
+        * Get the constants informations by name.
+        *
+        * @param
+        *      name [in] constant name.
+        *
+        * @param
+        *      constantInfo [out] Output a pointer to the IConstantInfo interface which contains constants information.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetConstantInfo(
             [in] String name,
             [out] IConstantInfo** constantInfo);
 
+        /**
+        *
+        * Get the number of imported module informations.
+        *
+        * @param
+        *      count [out] Output the number of imported module informations.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetImportModuleInfoCount(
             [out] Int32* count);
 
+        /**
+        *
+        * Get all imported module informations.
+        *
+        * @param
+        *      moduleInfos [out] Output a list of all imported module informations.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetAllImportModuleInfos(
             [out] ArrayOf<IModuleInfo*> moduleInfos);
     }
 
+    /**
+     *
+     * Constant information interface
+     *
+     */
     [local]
     interface IConstantInfo {
+        /**
+        *
+        * Get constant name.
+        *
+        * @param
+        *      name [out] Output the name of constant.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetName(
             [out] String* name);
 
+        /**
+        *
+        * Get the value of constant.
+        *
+        * @param
+        *      value [out] Output the value of constant.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetValue(
             [out] Int32* value);
 
+        /**
+        *
+        * Get the component information.
+        *
+        * @param
+        *      moduleInfo [out] Output a pointer to the IModuleInfo interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetModuleInfo(
             [out] IModuleInfo** moduleInfo);
     }
 
+    /**
+     *
+     * Component Information Interface.
+     *
+     */
     [local]
     interface IClassInfo {
+        /**
+        *
+        * Get the class name.
+        *
+        * @param
+        *      name [out] Output the class name.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetName(
             [out] String* name);
 
+        /**
+        *
+        * Get the namespace information.
+        *
+        * @param
+        *      ns [out] Output the namespace information of IClassInfo.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetNamespace(
             [out] String* ns);
 
+        /**
+        *
+        * Get the ClassID.
+        *
+        * @param
+        *      clsid [out] Output the ClassID.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetId(
             [out] ClassID* clsid);
 
+        /**
+        *
+        * Get the component information.
+        *
+        * @param
+        *      moduleInfo [out] Output a pointer to the IModuleInfo interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetModuleInfo(
             [out] IModuleInfo** moduleInfo);
 
+        /**
+        *
+        * Get class loader.
+        *
+        * @param
+        *      loader [out] Output the class loader.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetClassLoader(
             [out] IInterface** loader);
 
+        /**
+        *
+        * Set up class loader.
+        *
+        * @param
+        *      loader [in] The value of the class loader to set.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         SetClassLoader(
             [in] IInterface* loader);
 
+        /**
+        *
+        * Get the number of annotations.
+        *
+        * @param
+        *      count [out] Output the number of annotations.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetAnnotationCount(
             [out] Int32* count);
 
+        /**
+        *
+        * Get the informations of all annotations.
+        *
+        * @param
+        *      annotationInfos [out] Output a list of annotation information.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetAllAnnotationInfos(
             [out] ArrayOf<IAnnotationInfo*> annotationInfos);
 
+        /**
+        *
+        * Get annotation information by name.
+        *
+        * @param
+        *      fullName [in] class name.
+        *
+        * @param
+        *      annotationInfo [out] Output a pointer to the IAnnotationInfo interface which contains the annotation information.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetAnnotation(
             [in] String fullName,
             [out] IAnnotationInfo** annotationInfo);
 
+        /**
+        *
+        * Determine whether it is a singleton.
+        *
+        * @param
+        *      isSingleton [out] Output the judgment result.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         IsSingleton(
             [out] Boolean* isSingleton);
 
+        /**
+        *
+        * Get threading model.
+        *
+        * @param
+        *      threadingModel [out] Output the threading model.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetThreadingModel(
             [out] ThreadingModel* threadingModel);
 
+        /**
+        *
+        * Is it private class.
+        *
+        * @param
+        *      isPrivate [out] Output the judgment result.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         IsPrivate(
             [out] Boolean* isPrivate);
 
+        /**
+        *
+        * Is it return value.
+        *
+        * @param
+        *      returnValue [out] Output the judgment result.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         IsReturnValue(
             [out] Boolean* returnValue);
 
+        /**
+        *
+        * Determine whether it is a base class.
+        *
+        * @param
+        *      isBaseClass [out] Output the judgment result.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         IsBaseClass(
             [out] Boolean* isBaseClass);
 
+        /**
+        *
+        * Determine if there is a base class.
+        *
+        * @param
+        *      hasBaseClass [out] Output the judgment result.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         HasBaseClass(
             [out] Boolean* hasBaseClass);
 
+        /**
+        *
+        * Get base class.
+        *
+        * @param
+        *      baseClassInfo [out] Output a pointer to the IClassInfo interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetBaseClassInfo(
             [out] IClassInfo** baseClassInfo);
 
+        /**
+        *
+        * Determine whether it is a generic class.
+        *
+        * @param
+        *      isGeneric [out] Output the judgment result.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         IsGeneric(
             [out] Boolean* isGeneric);
 
+        /**
+        *
+        * Is there a generic class as its parent.
+        *
+        * @param
+        *      hasGeneric [out] Output the judgment result.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         HasGeneric(
             [out] Boolean* hasGeneric);
 
+        /**
+        *
+        * Get generic information.
+        *
+        * @param
+        *      genericInfo [out] Output a pointer to the IClassInfo interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetGenericInfo(
             [out] IClassInfo** genericInfo);
 
+        /**
+        *
+        * Determine whether the current component calculation is in a context.
+        *
+        * @param
+        *      isRegime [out] Output the judgment result.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         IsRegime(
             [out] Boolean* isRegime);
 
+        /**
+        *
+        * Get the number of aspect classes.
+        *
+        * @param
+        *      count [out] Output the number of aspect classes .
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetAspectCount(
             [out] Int32* count);
 
+        /**
+        *
+        * Get the information of all aspect classes.
+        *
+        * @param
+        *      aspectInfos [out] Output a list of all aspect classes.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetAllAspectInfos(
             [out] ArrayOf<IClassInfo*> aspectInfos);
 
+        /**
+        *
+        * Get aspect class information by name.
+        *
+        * @param
+        *      name [in] aspect class name.
+        *
+        * @param
+        *      aspectInfo [out] Output a pointer to the IClassInfo interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetAspectInfo(
             [in] String name,
             [out] IClassInfo** aspectInfo);
 
+        /**
+        *
+        * Judging whether it is an aspect class.
+        *
+        * @param
+        *      isAspect [out] Output the judgment result.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         IsAspect(
             [out] Boolean* isAspect);
 
+        /**
+        *
+        * Get the number of aggregated classes.
+        *
+        * @param
+        *      count [out] Output the number of aggregated classes.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetAggregateeCount(
             [out] Int32* count);
 
+        /**
+        *
+        * Get the information of all aggregated classes.
+        *
+        * @param
+        *      aggregateeInfos [out] Output a list of all aggregated classes.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetAllAggregateeInfos(
             [out] ArrayOf<IClassInfo*> aggregateeInfos);
 
+        /**
+        *
+        * Get the aggregated class information by name.
+        *
+        * @param
+        *      name [in] the aggregated class name.
+        *
+        * @param
+        *      aggregateeInfo [out] Output a pointer to the IClassInfo interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetAggregateeInfo(
             [in] String name,
             [out] IClassInfo** aggregateeInfo);
 
+        /**
+        *
+        * Get the number of constructors.
+        *
+        * @param
+        *      count [out] Output the number of constructors.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetConstructorCount(
             [out] Int32* count);
 
+        /**
+        *
+        * Get the information of all constructors.
+        *
+        * @param
+        *      constructorInfos [out] Output a list of all constructors.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetAllConstructorInfos(
             [out] ArrayOf<IConstructorInfo*> constructorInfos);
 
+        /**
+        *
+        * Get interface information by parameter name.
+        *
+        * @param
+        *      name [in] Parameter name.
+        *
+        * @param
+        *      constructorInfo [out] Output a pointer to the IConstructorInfo interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetConstructorInfoByParamNames(
             [in] String name,
             [out] IConstructorInfo** constructorInfo);
 
+        /**
+        *
+        * Get interface information by the number of parameters.
+        *
+        * @param
+        *      count [in] the number of parameters.
+        *
+        * @param
+        *      constructorInfo [out] Output a pointer to the IConstructorInfo interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetConstructorInfoByParamCount(
             [in] Int32 count,
             [out] IConstructorInfo** constructorInfo);
 
+        /**
+        *
+        * Get the number of interfaces.
+        *
+        * @param
+        *      count [out] Output the number of interfaces.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetInterfaceCount(
             [out] Int32* count);
 
+        /**
+        *
+        * Get the information of all interfaces.
+        *
+        * @param
+        *      interfaceInfos [out] Output a list of all interfaces information.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetAllInterfaceInfos(
             [out] ArrayOf<IInterfaceInfo*> interfaceInfos);
 
+        /**
+        *
+        * Get the interface information by name.
+        *
+        * @param
+        *      fullName [in] the interface name.
+        *
+        * @param
+        *      interfaceInfo [out] Output a pointer to the IInterfaceInfo interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetInterfaceInfo(
             [in] String fullName,
             [out] IInterfaceInfo** interfaceInfo);
 
+        /**
+        *
+        * Determine whether this interface information.
+        *
+        * @param
+        *      interfaceInfo [in] The Interface to be judged.
+        *
+        * @param
+        *      result [out] Output judgment result.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         HasInterfaceInfo(
             [in] IInterfaceInfo* interfaceInfo,
             [out] Boolean* result);
 
+        /**
+        *
+        * Get the number of methods.
+        *
+        * @param
+        *      count [out] Output the number of methods.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetMethodCount(
             [out] Int32* count);
 
+        /**
+        *
+        * Get all methods information.
+        *
+        * @param
+        *      methodInfos [out] Output a list of all methods.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetAllMethodInfos(
             [out] ArrayOf<IMethodInfo*> methodInfos);
 
+        /**
+        *
+        * Get the method information by name and signature.
+        *
+        * @param
+        *      name [in] the method name.
+        *
+        * @param
+        *      signature [in] the method signature.
+        *
+        * @param
+        *      methodInfo [out] Output a pointer to the IMethodInfo interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetMethodInfo(
             [in] String name,
             [in] String signature,
             [out] IMethodInfo** methodInfo);
 
+        /**
+        *
+        * Create an instance.
+        *
+        * @param
+        *      object [out] Output PInterface interface pointer to create an object.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         CreateObject(
             [out] PInterface* object);
     }
 
+    /**
+     *
+     * Constructor information interface.
+     *
+     */
     [local]
     interface IConstructorInfo extends IFunctionInfo {
+        /**
+        *
+        * Get the number of annotations.
+        *
+        * @param
+        *      count [out] Output the number of annotations.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetAnnotationCount(
             [out] Int32* count);
 
+        /**
+        *
+        * Get the informations of all annotations.
+        *
+        * @param
+        *      annotationInfos [out] Output a list of annotation information.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetAllAnnotationInfos(
             [out] ArrayOf<IAnnotationInfo*> annotationInfos);
 
+        /**
+        *
+        * Get annotation information by name.
+        *
+        * @param
+        *      fullName [in] Constructor name.
+        *
+        * @param
+        *      annotationInfo [out] Output a pointer to the IAnnotationInfo interface which contains the annotation information.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetAnnotation(
             [in] String fullName,
             [out] IAnnotationInfo** annotationInfo);
 
+        /**
+        *
+        * Create parameter list.
+        *
+        * @param
+        *      argumentList [out] Output a pointer to the IArgumentList interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         CreateArgumentList(
             [out] IArgumentList** argumentList);
 
+        /**
+        *
+        * Create an object.
+        *
+        * @param
+        *      argumentList [in] A pointer to the IArgumentList interface.
+        *
+        * @param
+        *      object [out] Outputs a PInterface pointer to the created object.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         CreateObject(
             [in] IArgumentList* argumentList,
             [out] PInterface* object);
     }
 
+    /**
+     *
+     * Callback function information interface.
+     *
+     */
     [local]
     interface ICallbackMethodInfo extends IFunctionInfo {
+        /**
+        *
+        * Register the server's callback agent.
+        *
+        * @param
+        *      server [in] Specified interface pointer.
+        *
+        * @param
+        *      handler [in] Registered callback agent.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         AddCallback(
             [in] PInterface server,
             [in] EventHandler handler);
 
+        /**
+        *
+        * Unregister the server's callback agent.
+        *
+        * @param
+        *      server [in] Specified interface pointer.
+        *
+        * @param
+        *      handler [in] Unregistered callback agent.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         RemoveCallback(
             [in] PInterface server,
             [in] EventHandler handler);
 
+        /**
+        *
+        * Creates a proxy for the targetMethod and invokes the Invoke method of callbackInvocation when the proxy is triggered.
+        *
+        * @param
+        *      targetObject [in] Object pointer used to pass user-defined information.
+        *
+        * @param
+        *      targetMethod [in] The function pointer used to pass user-defined information.
+        *
+        * @param
+        *      callbackInvocation [in] Interface pointer to callbackInvocation.
+        *
+        * @param
+        *      delegateProxy [out] Output a pointer to the created IDelegateProxy.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         CreateDelegateProxy(
             [in] PVoid targetObject,
             [in] PVoid targetMethod,
@@ -1341,128 +5285,518 @@ library
             [out] IDelegateProxy** delegateProxy);
     }
 
+    /**
+     *
+     * Agency interface.
+     *
+     */
     [local]
     interface IDelegateProxy {
+        /**
+        *
+        * Get callback function information.
+        *
+        * @param
+        *      callbackMethodInfo [out] Output a pointer to a callback function information interface pointer.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetCallbackMethodInfo(
             [out] ICallbackMethodInfo** callbackMethodInfo);
 
+        /**
+        *
+        * Get the target object.
+        *
+        * @param
+        *      targetObject [out] Output a pointer to PVoid which points target object.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetTargetObject(
             [out] PVoid* targetObject);
 
+        /**
+        *
+        * Get objective function.
+        *
+        * @param
+        *      targetMethod [out] Output a pointer to PVoid which points objective function.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetTargetMethod(
             [out] PVoid* targetMethod);
 
+        /**
+        *
+        * Get callback function call interface.
+        *
+        * @param
+        *      callbackInvocation [out] Outputs a pointer to the callback interface pointer for output callback calls.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetCallbackInvocation(
             [out] ICallbackInvocation** callbackInvocation);
 
+        /**
+        *
+        * Get proxy interface.
+        *
+        * @param
+        *      handler [out] Output an EventHandler pointer to output the proxy interface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetDelegate(
             [out] EventHandler* handler);
     }
 
+    /**
+     *
+     * Callback function call interface
+     *
+     */
     [local]
     interface ICallbackInvocation {
+        /**
+        *
+        * This method is customized by the user and will be called back when the proxy containing the ICallbackInvocation interface is triggered.
+        *
+        * @param
+        *      targetObject [in] Object pointer for user-defined information.
+        *
+        * @param
+        *      targetMethod [in] User-defined information function pointer.
+        *
+        * @param
+        *      callbackArgumentList [in] ICallbackArgumentList type interface pointer, containing the parameter value of the callback function.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         Invoke(
             [in] PVoid targetObject,
             [in] PVoid targetMethod,
             [in] ICallbackArgumentList* callbackArgumentList);
     }
 
+    /**
+     *
+     * Callback function parameter list.
+     *
+     */
     [local, deprecated]
     interface ICallbackArgumentList {
+        /**
+        *
+        * Get callback function information interface.
+        *
+        * @param
+        *      callbackMethodInfo [out] Output a pointer to the ICallbackMethodInfo interface pointer.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetCallbackMethodInfo(
             [out] ICallbackMethodInfo** callbackMethodInfo);
 
+        /**
+        *
+        * Get a pointer to the callback function server interface.
+        *
+        * @param
+        *      server [out] Output a pointer to the PInterface.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetServerPtrArgument(
             [out] PInterface* server);
 
+        /**
+        *
+        * Get the parameter of type Int16 by serial number.
+        *
+        * @param
+        *      index [in] Parameter number.
+        *
+        * @param
+        *      value [out] Output Int16 type parameters.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetInt16Argument(
             [in] Int32 index,
             [out] Int16* value);
 
+        /**
+        *
+        * Get the parameter of type Int32 by serial number.
+        *
+        * @param
+        *      index [in] Parameter number.
+        *
+        * @param
+        *      value [out] Output Int32 type parameters.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetInt32Argument(
             [in] Int32 index,
             [out] Int32* value);
 
+        /**
+        *
+        * Get the parameter of type Int64 by serial number.
+        *
+        * @param
+        *      index [in] Parameter number.
+        *
+        * @param
+        *      value [out] Output Int64 type parameters.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetInt64Argument(
             [in] Int32 index,
             [out] Int64* value);
 
+        /**
+        *
+        * Get the parameter of type Byte by serial number.
+        *
+        * @param
+        *      index [in] Parameter number.
+        *
+        * @param
+        *      value [out] Output Byte type parameters.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetByteArgument(
             [in] Int32 index,
             [out] Byte* value);
 
+        /**
+        *
+        * Get the parameter of type Float by serial number.
+        *
+        * @param
+        *      index [in] Parameter number.
+        *
+        * @param
+        *      value [out] Output Float type parameters.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetFloatArgument(
             [in] Int32 index,
             [out] Float* value);
 
+        /**
+        *
+        * Get the parameter of type Double by serial number.
+        *
+        * @param
+        *      index [in] Parameter number.
+        *
+        * @param
+        *      value [out] Output Double type parameters.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetDoubleArgument(
             [in] Int32 index,
             [out] Double* value);
 
+        /**
+        *
+        * Get the parameter of type Char32 by serial number.
+        *
+        * @param
+        *      index [in] Parameter number.
+        *
+        * @param
+        *      value [out] Output Char32 type parameters.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetCharArgument(
             [in] Int32 index,
             [out] Char32* value);
 
+        /**
+        *
+        * Get the parameter of type String by serial number.
+        *
+        * @param
+        *      index [in] Parameter number.
+        *
+        * @param
+        *      value [out] Output String type parameters.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetStringArgument(
             [in] Int32 index,
             [out] String* value);
 
+        /**
+        *
+        * Get the parameter of type Boolean by serial number.
+        *
+        * @param
+        *      index [in] Parameter number.
+        *
+        * @param
+        *      value [out] Output Boolean type parameters.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetBooleanArgument(
             [in] Int32 index,
             [out] Boolean* value);
 
+        /**
+        *
+        * Get the parameter of type EIID by serial number.
+        *
+        * @param
+        *      index [in] Parameter number.
+        *
+        * @param
+        *      value [out] Output EMuid type parameters.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetEMuidArgument(
             [in] Int32 index,
             [out] EMuid** value);
 
+        /**
+        *
+        * Get the parameter of type ClassID by serial number.
+        *
+        * @param
+        *      index [in] Parameter number.
+        *
+        * @param
+        *      value [out] Output EGuid type parameters.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetEGuidArgument(
             [in] Int32 index,
             [out] EGuid** value);
 
+        /**
+        *
+        * Get the parameter of type ECode by serial number.
+        *
+        * @param
+        *      index [in] Parameter number.
+        *
+        * @param
+        *      value [out] Output ECode type parameters.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetECodeArgument(
             [in] Int32 index,
             [out] ECode* value);
 
+        /**
+        *
+        * Get user-defined pointer type parameters by serial number.
+        *
+        * @param
+        *      index [in] Parameter number.
+        *
+        * @param
+        *      value [out] LocalPtr type pointer, used to output user-defined pointer type parameters.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         // Need it?
         GetLocalPtrArgument(
             [in] Int32 index,
             [out] LocalPtr* value);
 
+        /**
+        *
+        * Get the parameter of type enumeration by serial number.
+        *
+        * @param
+        *      index [in] Parameter number.
+        *
+        * @param
+        *      value [out] Output Enum type parameters.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetEnumArgument(
             [in] Int32 index,
             [out] Int32* value);
 
+        /**
+        *
+        * Get the parameter of type CarArray by serial number.
+        *
+        * @param
+        *      index [in] Parameter number.
+        *
+        * @param
+        *      value [out] A five-tuple pointer to output five-tuple parameters.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetCarArrayArgument(
             [in] Int32 index,
             [out] PCarQuintet* value);
 
+         /**
+        *
+        * Get the parameter of type structure by serial number.
+        *
+        * @param
+        *      index [in] Parameter number.
+        *
+        * @param
+        *      value [out] PVoid type pointer for output structure pointer.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetStructPtrArgument(
             [in] Int32 index,
             [out] PVoid* value);
 
+        /**
+        *
+        * Get the parameter of type PInterface by serial number.
+        *
+        * @param
+        *      index [in] Parameter number.
+        *
+        * @param
+        *      value [out] PInerface type pointer for output interface pointer.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetObjectPtrArgument(
             [in] Int32 index,
             [out] PInterface* value);
     }
 
+    /**
+     *
+     * Annotation information interface.
+     *
+     */
     [local]
     interface IAnnotationInfo {
+        /**
+        *
+        * Get annotation name.
+        *
+        * @param
+        *      name [out] Output the annotation name.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetName(
             [out] String* name);
 
+        /**
+        *
+        * Get the namespace information.
+        *
+        * @param
+        *      ns [out] Output the namespace information of IAnnotationInfo.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetNamespace(
             [out] String* ns);
 
+        /**
+        *
+        * Get the number of annotation.
+        *
+        * @param
+        *      size [out] Output the number of key value pair in annotation.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetSize(
             [out] Int32* size);
 
+        /**
+        *
+        * Get all the keys in annotation.
+        *
+        * @param
+        *      keys [out] Output a list of key in the annotation.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetKeys(
             [out, callee] ArrayOf<String>* keys);
 
+        /**
+        *
+        * Get the value of the key in the annotation.
+        *
+        * @param
+        *      key [in] the key in the annotation.
+        *
+        * @param
+        *      value [out] Output the value of the key in the annotation.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetValue(
             [in] String key,
             [out] String* value);
 
+        /**
+        *
+        * Get all the values in annotation.
+        *
+        * @param
+        *      values [out] Output a list of value in the annotation.
+        *
+        * @return
+        *      Returns NOERROR if success, otherwise it returns the corresponding error code.
+        */
         GetValues(
             [out, callee] ArrayOf<String>* values);
     }
