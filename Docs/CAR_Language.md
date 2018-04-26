@@ -39,7 +39,7 @@ CAR使用Char32为字符类型，它能够表示所有的UNICODE字符。C/C++�
 
 为了兼容已有的程序，Elastos的C++代码保留16位的字符型Char16，并提供Char16数组与Char32数组之间的转换。
 
-枚举成员的名字均为大写，并以该枚举的名字大写为前缀，若名字中包含多个单词，请用下划线连接起来。例如<code>BitmapConfig_ALPHA_8</code>。
+枚举成员的名字均为大写，并以该枚举的名字大写为前缀，若名字中包含多个单词，请用下划线连接起来。例如`BitmapConfig_ALPHA_8`。
 
 > ### 2.2.String类型
 
@@ -47,25 +47,25 @@ CAR使用String类型表示字符串。String类型采用UTF-8编码方式，使
 
 > ### 2.3.ArrayOf类型
 
-ArrayOf实现了类似数组的功能，即在一块连续的内存中存储若干个元素。并且，如果将CAR对象指针、继承自 __Object__ 或者 __ElLightRefBase__ 类的对象指针以及String对象作为ArrayOf的元素，那么调用其<code>Set(Int32 index, T const other)</code>方法设置元素时，ArrayOf能对它们进行自动化引用计数管理，但是，通过下标<code>__[]__</code>操作进行赋值并不会自动进行引用计数管理。
+ArrayOf实现了类似数组的功能，即在一块连续的内存中存储若干个元素。并且，如果将CAR对象指针、继承自 __Object__ 或者 __ElLightRefBase__ 类的对象指针以及String对象作为ArrayOf的元素，那么调用其`Set(Int32 index, T const other)`方法设置元素时，ArrayOf能对它们进行自动化引用计数管理，但是，通过下标 __`[]`__ 操作进行赋值并不会自动进行引用计数管理。
 
-对于适用于<code>AutoPtr<T></code>的类型T，该类型的指针可以直接作为ArrayOf的元素类型，即使用<code>ArrayOf<T*></code>的形式，而非<code>ArrayOf< AutoPtr<T> ></code>的形式。
+对于适用于`AutoPtr<T>`的类型T，该类型的指针可以直接作为ArrayOf的元素类型，即使用`ArrayOf<T*>`的形式，而非`ArrayOf< AutoPtr<T> >`的形式。
 
-ArrayOf创建时会调用<code>memset</code>将分配到的内存清零，并且自身也实现了引用计数。其引用计数增减规则说明如下：
+ArrayOf创建时会调用`memset`将分配到的内存清零，并且自身也实现了引用计数。其引用计数增减规则说明如下：
 
-* 创建操作(<code>__Alloc()/Clone()__</code>)：
+* 创建操作(__`Alloc()/Clone()`__)：
 
-    创建或克隆一个新对象，新对象的引用计数为 0，返回的新对象需要加入AutoPtr自动释放或手动调用<code>Free()/Release()</code>释放。
+    创建或克隆一个新对象，新对象的引用计数为 0，返回的新对象需要加入AutoPtr自动释放或手动调用`Free()/Release()`释放。
 
-* 减少引用计数操作(<code>__Free()/Release()__</code>)：
+* 减少引用计数操作(__`Free()/Release()`__)：
 
-    <code>Free()/Release()</code>这两个方法等价，为保证一致性推荐使用<code>Release()</code>，或加入AutoPtr由其在内部调用<code>Release()</code>自动减少引用计数。
+    `Free()/Release()`这两个方法等价，为保证一致性推荐使用`Release()`，或加入AutoPtr由其在内部调用`Release()`自动减少引用计数。
 
-* 增加引用计数(<code>__AddRef()__</code>)：
+* 增加引用计数(__`AddRef()`__)：
 
-    将一个ArrayOf指针赋值给一个AutoPtr变量时，后者将在内部调用<code>AddRef()</code>增加引用计数。如果需要手动增加引用计数，请使用宏<code>INTERFACE_ADDREF()</code>。
+    将一个ArrayOf指针赋值给一个AutoPtr变量时，后者将在内部调用`AddRef()`增加引用计数。如果需要手动增加引用计数，请使用宏`INTERFACE_ADDREF()`。
 
-ArrayOf支持分配0个元素，即调用<code>ArrayOf<T>::Alloc(0)</code>，此时，针对返回的ArrayOf对象，调用其<code>GetLength()</code>方法将获得0。
+ArrayOf支持分配0个元素，即调用`ArrayOf<T>::Alloc(0)`，此时，针对返回的ArrayOf对象，调用其`GetLength()`方法将获得0。
 
 ArrayOf的几种典型用法如下：
 
@@ -121,7 +121,7 @@ ArrayOf的几种典型用法如下：
         /* [in] */ const String& str);
     ```
 
-对于 __双重数组__，请使用<code>AutoPtr< ArrayOf< AutoPtr< ArrayOf<T> > > ></code>形式。为了简化代码的编写，可以参考以下两种方法(实现在 __elquintent.h__ 文件中)：
+对于 __双重数组__，请使用`AutoPtr< ArrayOf< AutoPtr< ArrayOf<T> > > >`形式。为了简化代码的编写，可以参考以下两种方法(实现在 __elquintent.h__ 文件中)：
 
 * 使用模板类。该方法通用性好，但可读性欠佳。
 
@@ -176,13 +176,13 @@ IInterface接口是所有接口的(直接或间接)父接口，如果在.car中�
 
 由于IInterface接口是所有接口的父接口，所以一个实现了多个接口的对象有多个地址不同的IInterface接口，因此如果通过IInterface接口来进行对象判等，则判等的两个对象都需要Probe出IInterface接口再比较。对象的Equals方法中较多涉及此情景。
 
-如何Probe，请参考示例可以看上述[Car类继承](#10.1.Car类继承)。
+如何Probe，请参考示例[Car类继承](#10.1.Car类继承)。
 
 > ### 2.6.返回类型
 
-CAR文件中所有的方法其函数返回类型均默认为<code>ECode</code>。所以在Car中声明定义的时候，无需再次指明。而在头文件中定义的时候，其函数返回类型写成<code>CARAPI</code>，在Cpp实现文件中可直接写成<code>ECode</code>。
+CAR文件中所有的方法其函数返回类型均默认为`ECode`。所以在Car中声明定义的时候，无需再次指明。而在头文件中定义的时候，其函数返回类型写成`CARAPI`，在Cpp实现文件中可直接写成`ECode`。
 
-<code>ECode</code>是一个32位二进制整数。<code>ECode</code>高16位中，最高位表示方法调用错误(1)或成功(0)；其余15位表示具体的错误信息，例如:接口错误、驱动错误、CRT错误、文件系统错误、图形系统错误等。对于许多CAR兼容的实现语言(例如:Visual Basic、Java)而言，这些ECode被运行时库或者虚拟机截取，然后被映射为语言中特定的异常(exception)。<code>ECode</code>低16位用作调试和测试用。
+`ECode`是一个32位二进制整数。`ECode`高16位中，最高位表示方法调用错误(1)或成功(0)；其余15位表示具体的错误信息，例如:接口错误、驱动错误、CRT错误、文件系统错误、图形系统错误等。对于许多CAR兼容的实现语言(例如:Visual Basic、Java)而言，这些ECode被运行时库或者虚拟机截取，然后被映射为语言中特定的异常(exception)。`ECode`低16位用作调试和测试用。
 
 CAR中提供以下两个宏，使用这两个宏可以通过判断ECode返回值得知方法调用是否成功：
 
@@ -191,10 +191,9 @@ CAR中提供以下两个宏，使用这两个宏可以通过判断ECode返回值
 | SUCCEEDED(ec)       | 判断方法调用是否成功         |
 | FAILED(ec)          | 判断方法调用是否失败         |
 
-在Elastos中做开发，无论是C++类，还是Car类，当需要声明非接口中的方法时，如果返回不是<code>ECode</code>，也请遵循规则：返回值类型在头文件中需写成：<code>CARAPI_(XXX)</code>，其中 XXX 指的是返回值类型。比如要返回<code>Int32</code>，则在头文件中写成<code>CARAPI_(Int32)</code>。
+在Elastos中做开发，无论是C++类，还是Car类，当需要声明非接口中的方法时，如果返回不是`ECode`，也请遵循规则：返回值类型在头文件中需写成：`CARAPI_(XXX)`，其中 XXX 指的是返回值类型。比如要返回`Int32`，则在头文件中写成`CARAPI_(Int32)`。
 
 > ## 3.Keywords
-
 > ### 3.1.Car基本关键字
 
 关键字也称保留字。它是预先定义好的表示符，这些表示符对CAR编译程序有着特殊的含义。下面对CAR中几个主要关键字的含义和表示方法一一进行介绍。
@@ -314,12 +313,11 @@ CAR中提供以下两个宏，使用这两个宏可以通过判断ECode返回值
     | callee                     | 用于修饰五元组，表示该参数由客户端程序分配    |
 
 > ## 4.Car构件组成
-
 > ### 4.1.Car文件结构
 
-一个CAR文件（扩展名为.car）对应一个module或library。CAR文件的结构主要由构件类，接口和接口方法组成。每个CAR构件都由若干类组成，每个类实现若干接口，每个接口中定义若干方法。例如：HelloDemo.car文件。
+一个CAR文件（扩展名为.car）对应一个`module`或`library`。CAR文件的结构主要由构件类，接口和接口方法组成。每个CAR构件都由若干类组成，每个类实现若干接口，每个接口中定义若干方法。例如：HelloDemo.car文件。
 
-```
+``` cpp
 module　　　　　//构件HelloDemo
 {
     //接口IHello
@@ -367,24 +365,22 @@ module　　　　　//构件HelloDemo
 
 CAR属性：位于方括号“[]”中，多个属性之间以逗号“,”作为分隔符；对构件、接口、类、类别等的定义位于花括号“{}”中。属性总是出现在相应主题的定义之前。
 
-构件：在一个CAR文件中只能有一个构件的定义。在CAR中可以使用关键字module定义生成动态链接库.dll形式的car构件，也可以用关键字library定义生成静态链接库.lib形式的car构件。
+构件：在一个CAR文件中只能有一个构件的定义。在CAR中可以使用关键字`module`定义生成动态链接库`.dll`形式的car构件，也可以用关键字`library`定义生成静态链接库`.lib`形式的car构件。
 
 > ### 4.3.Car文件编译
 
 * 编译一个CAR文件主要分为四个步骤：
 
-    ```
-    第一步：编写.car文件，声明方法、接口、类和构件
-    第二步：调用“emake xxx.car”生成前台代码框架
-    第三步：在前台代码框架中编写实现代码
-    第四步：调用“emake”生成后台代码，然后编译链接成构件(.dll或.lib)
-    ```
+  * 编写.car文件，声明方法、接口、类和构件
+  * 调用“emake xxx.car”生成前台代码框架
+  * 在前台代码框架中编写实现代码
+  * 调用“emake”生成后台代码，然后编译链接成构件(.dll或.lib)
 
 * 自动生成前台代码框架：
 
-    Car编译器主要包括四个工具：carusage.exe carc.exe lubc.exe和lube.exe。简单来说，carc.exe工具是用来编译.car文件的；lubc.exe工具用来编译.lub模板的；Lube.exe工具根据模板产生代码。其中lub模板是由一组特定规则组成的扩展名为lub的文件。可以使用命令 xxx -? 分别查看这些工具的使用说明。例如命令carc -? 会列出carc工具的使用方法。
+    Car编译器主要包括四个工具：carusage.exe carc.exe lubc.exe和lube.exe。简单来说，`carc.exe`工具是用来编译.car文件的；`lubc.exe`工具用来编译.lub模板的；`Lube.exe`工具根据模板产生代码。其中lub模板是由一组特定规则组成的扩展名为lub的文件。可以使用命令 `xxx -?` 分别查看这些工具的使用说明。例如命令 `carc -?` 会列出carc工具的使用方法。
 
-    在XDK命令行输入“emake xxx.car”后，将首先使用carc工具在当前目录下（可以指定目录）生成xxx.car文件对应的xxx.cls文件，该文件主要包括元数据的信息,编译时这些信息被打包到dll中。元数据，是一种描述数据的数据。CAR构件中的元数据主要包括模块信息（ModuleInfo）,接口信息（InterfaceInfo），类信息（ClassInfo）等。这些信息是在CAR文件编译后得到，是CAR文件的二进制表述。
+    在XDK命令行输入`emake xxx.car`后，将首先使用carc工具在当前目录下（可以指定目录）生成xxx.car文件对应的xxx.cls文件，该文件主要包括元数据的信息,编译时这些信息被打包到dll中。元数据，是一种描述数据的数据。CAR构件中的元数据主要包括模块信息（ModuleInfo）,接口信息（InterfaceInfo），类信息（ClassInfo）等。这些信息是在CAR文件编译后得到，是CAR文件的二进制表述。
 
     然后使用lube工具根据刚才生成的xxx.cls文件，按照foreground.lub模板生成构件的前台代码框架，即为构件中定义的所有类生成该类对应的xxx.cpp和xxx.h文件，此外还包括sources文件和xml文件。这些文件的含义如下：
 
@@ -416,9 +412,9 @@ CAR属性：位于方括号“[]”中，多个属性之间以逗号“,”作�
 
 Car类和C++类在定义的时候，使用的关键字不同。
 
-C++类是使用关键字<code>class</code>定义的：
+C++类是使用关键字`class`定义的：
 
-```c++
+``` cpp
 class B
     ：public A
 {
@@ -426,9 +422,9 @@ class B
 };
 ```
 
-而Car类是使用关键字<code>CarClass</code>来定义的：
+而Car类是使用关键字`CarClass`来定义的：
 
-```c++
+``` cpp
 CarClass(CDemo)
     ，public A
 {
@@ -467,11 +463,11 @@ Car类必须要在.car文件中声明。
 
 因此，我们可以利用C++构造方法的初始化列表初始化成员变量。
 
-对于实现了 __IParcelble__ 接口的CAR类而言，它必须有一个无参的CAR构造方法 __constrctor()__ （无论是默认提供的，还是显式声明的），这是为了支持该对象的散集(unmarshall)。散集时，先调用该构造方法创建对象，然后再转型为IParcelble接口，调用<code>IParcelble::ReadFromParcel()</code>设置对象成员变量。因此，Elastos里规定，凡是实现了IParcelable接口的CAR类都必须显式声明一个无参的CAR构造方法。例如：
+对于实现了 __IParcelble__ 接口的CAR类而言，它必须有一个无参的CAR构造方法 __constrctor()__ （无论是默认提供的，还是显式声明的），这是为了支持该对象的散集(unmarshall)。散集时，先调用该构造方法创建对象，然后再转型为IParcelble接口，调用`IParcelble::ReadFromParcel()`设置对象成员变量。因此，Elastos里规定，凡是实现了IParcelable接口的CAR类都必须显式声明一个无参的CAR构造方法。例如：
 
 使用范例：
 
-```
+``` cpp
 module {
     interface IHello {
         Hello();
@@ -493,7 +489,7 @@ module {
 
 如何new一个car对象，以及如何调用接口中的方法，请参考下面的例子：
 
-```
+``` cpp
 AutoPtr<IHello> helloobj1, helloObj2;
 CHello::New((IHello**)&helloobj1);
 CHello::New(18, String("andy"),(IHello**)&helloobj);
@@ -505,7 +501,7 @@ helloobj2->Hello();
 
 > ## 7.CAR唯一实例(singleton)
 
-保证一个 CAR class 在一个Elastos环境中只有一个实体(Instance、Object)，可以用 CAR 关键字 singleton 来达到目的。
+保证一个 CAR class 在一个Elastos环境中只有一个实体(Instance、Object)，可以用 CAR 关键字 `singleton` 来达到目的。
 
 语法:
 
@@ -521,7 +517,7 @@ singleton class className classBody;
 
 示例 singletonDemo.car 文件如下:
 
-```
+``` cpp
 module {
     interface IFoo {
         Hello();
@@ -537,7 +533,7 @@ module {
 
 如何new一个单一例对象，以及如何调用接口中的方法，请参考下面的例子：
 
-```
+``` cpp
 AutoPtr<IFoo> foo;
 CFoo::AcquireSingleton((IFoo**)&foo);
 foo->Hello();
@@ -553,12 +549,12 @@ Elastos定义了Object类，该类实现了以下功能：
 
 * 支持引用计数管理生命周期。
 * 支持弱引用，实现了IWeakReferenceSource接口。
-* 实现了IObject接口，支持<code>Equals()</code>、<code>GetHashCode()</code>以及<code>ToString()</code>等方法。
-* 实现了ISynchronize接口，支持<code>Lock()</code>、<code>Unlock()</code>、<code>Wait()</code>以及<code>Notify()</code>等方法。
+* 实现了IObject接口，支持`Equals()`、`GetHashCode()`以及`ToString()`等方法。
+* 实现了ISynchronize接口，支持`Lock()`、`Unlock()`、`Wait()`以及`Notify()`等方法。
 
-当编写一个C++类(全部成员是静态成员的类除外)或者CAR类时，请将Object类作为其基类，可以直接或者间接继承Object。Object的子类可以按需重载<code>Equals()</code>、<code>GetHashCode()</code>以及<code>ToString()</code>方法，CAR类还需重载<code>GetClassID()</code>方法。
+当编写一个C++类(全部成员是静态成员的类除外)或者CAR类时，请将Object类作为其基类，可以直接或者间接继承Object。Object的子类可以按需重载`Equals()`、`GetHashCode()`以及`ToString()`方法，CAR类还需重载`GetClassID()`方法。
 
-为方便调试，子类需重视<code>ToString()</code>方法的实现。一般的，<code>ToString()</code>方法返回该对象所属类的类名。对于CAR类，Object基类的<code>ToString()</code>方法可以通过反射获取类名，因此，如无其它需求，CAR类无需重载该方法。而C++类请 __重载__ 该方法，在实现中返回类名。
+为方便调试，子类需重视`ToString()`方法的实现。一般的，`ToString()`方法返回该对象所属类的类名。对于CAR类，Object基类的`ToString()`方法可以通过反射获取类名，因此，如无其它需求，CAR类无需重载该方法。而C++类请 __重载__ 该方法，在实现中返回类名。
 
 所有CAR类都默认实现了IObject、ISynchronize和IWeakReferenceSource接口，在.car文件中声明CAR类时，不用显式的声明这些接口，它们将由CAR编译器自动加入到CAR类实现的接口中去。
 
@@ -591,7 +587,7 @@ Elastos之前版本按照Java中类的继承关系来定义系统中接口间的
 
 car文件内容如下：
 
-```
+``` cpp
 module
 {
     importlib("Elastos.CoreLibrary");
@@ -629,7 +625,7 @@ module
 
 CFoo2.h 文件内容如下：
 
-```
+``` cpp
 #ifndef __CFOO2_H__
 #define __CFOO2_H__
 
@@ -672,7 +668,7 @@ private:
 
 CFoo2.cpp 内容如下：
 
-```
+``` cpp
 
 #include "CFoo2.h"
 
@@ -712,13 +708,13 @@ ECode CFoo2::constructor(
 然后补充实现代码：
 在头文件的private中，增加一条：
 
-```
+``` cpp
 Int32 mAge;
 ```
 
 在cpp文件中，补充实现：
 
-```
+``` cpp
 ECode CFoo2::Hello(
     /* [out] */ String * pName)
 {
@@ -758,7 +754,7 @@ ECode CFoo2::constructor(
 
 下面举例怎么使用：
 
-```
+``` cpp
 AutoPtr<IFoo2> fobj;
 CFoo2::New(17, (IFoo2**)&fobj);
 String str;
@@ -805,7 +801,7 @@ CAR数据类型中支持引用计数的类型包括String类型、ArrayOf类型�
 
 > ### 智能指针(AutoPtr)
 
-为简化类型的引用计数操作以及保证引用计数操作的正确性，推荐使用智能指针 __AutoPtr__。并且，<code>AutoPtr<...></code>变量不必显式的赋NULL值。
+为简化类型的引用计数操作以及保证引用计数操作的正确性，推荐使用智能指针 __AutoPtr__。并且，`AutoPtr<...>`变量不必显式的赋NULL值。
 
 对于需要返回接口指针或者对象指针的方法，建议使用 __AutoPtr__ 作为返回值，而不是直接返回裸指针。例如：
 
@@ -852,7 +848,7 @@ while (...) {
 }
 ```
 
-正确的处理方式是在调用<code>GetObject</code>前显式的调用<code>obj = NULL;</code> 以清除上一次存储的内容，如下：
+正确的处理方式是在调用`GetObject`前显式的调用`obj = NULL;` 以清除上一次存储的内容，如下：
 
 ``` cpp
 AutoPtr<IInterface> obj;

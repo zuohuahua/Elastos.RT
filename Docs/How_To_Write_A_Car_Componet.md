@@ -166,7 +166,6 @@ CAnimalHelper.h    CCat.h    CDog.h    Elastos.HelloCar.car  IAnimal.car        
     自动生成的代码框架中，是直接的生成的Car类和单例。在此，为说明C++的继承和实现方式，对生成的头文件和cpp框架上做了改动，主要是类CCat和类CDog的实现改变了：增加了一个C++基类Animal来实现，然后让Car类再继承C++类。请看下面步骤：
 
 > ### 2.3.编写头文件和cpp文件
-
 > #### 2.3.1.编写C++基类 Animal
 
     HelloCar/eco/inc/elastos/hellocar/Animal.h
