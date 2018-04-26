@@ -70,6 +70,26 @@ extern "C" JNIEXPORT jint JNICALL Java_com_elastos_rpcdemo_MainActivity_addFrien
     return ec;
 }
 
+extern "C" JNIEXPORT jint JNICALL Java_com_elastos_rpcdemo_MainActivity_deleteFriend(
+        JNIEnv *env,
+        jobject jobj,
+        jstring uid) {
+    if (gCarrier == NULL) return -1;
+
+    const char* nativeString = env->GetStringUTFChars(uid, nullptr);
+    IFriend* pFriend;
+    ECode ec = gCarrier->GetFriend(String(nativeString), &pFriend);
+    if (FAILED(ec)) {
+        env->ReleaseStringUTFChars(uid, nativeString);
+        return ec;
+    }
+
+    ec = gCarrier->RemoveFriend(pFriend);
+    pFriend->Release();
+    env->ReleaseStringUTFChars(uid, nativeString);
+    return ec;
+}
+
 extern "C" JNIEXPORT jobject JNICALL Java_com_elastos_rpcdemo_MainActivity_getFriendList(
         JNIEnv *env,
         jobject jobj) {
@@ -85,8 +105,19 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_elastos_rpcdemo_MainActivity_getFr
     jmethodID arrayList_add = env->GetMethodID(cls_ArrayList, "add", "(Ljava/lang/Object;)Z");
 
     jclass cls_friend = env->FindClass("Friend");
+    if (env->ExceptionCheck()) {
+        __android_log_print(ANDROID_LOG_DEBUG, "RPCDemo", "find class Friend exception");
+        env->ExceptionClear();
+        friends->Release();
+        return NULL;
+    }
     //none argument construct function
     jmethodID construct_user = env->GetMethodID(cls_friend, "<init>", "(Ljava/lang/String;Z)V");
+    if (env->ExceptionCheck()) {
+        env->ExceptionClear();
+        friends->Release();
+        return NULL;
+    }
 
     for (int i = 0; i < friends->GetLength(); i++) {
         IFriend* iFriend = (*friends)[i];
@@ -97,6 +128,11 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_elastos_rpcdemo_MainActivity_getFr
         iFriend->IsOnline(&online);
         jobject obj_friend = env->NewObject(cls_friend, construct_user, env->NewStringUTF(uid.string()), online);
         env->CallObjectMethod(obj_ArrayList, arrayList_add, obj_friend);
+        if (env->ExceptionCheck()) {
+            env->ExceptionClear();
+            friends->Release();
+            return NULL;
+        }
     }
 
     friends->Release();

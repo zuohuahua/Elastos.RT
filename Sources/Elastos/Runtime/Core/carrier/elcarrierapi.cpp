@@ -300,6 +300,22 @@ void *CCarrier::CarrierThread(void *arg)
     opts.bootstraps[0].port = "33445";
     opts.bootstraps[0].public_key = "89vny8MrKdDKs7Uta9RdVmspPjnRMdwMmaiEW27pZ7gh";
 
+    opts.bootstraps[1].ipv4 = "18.216.102.47";
+    opts.bootstraps[1].port = "33445";
+    opts.bootstraps[1].public_key = "G5z8MqiNDFTadFUPfMdYsYtkUDbX5mNCMVHMZtsCnFeb";
+
+    opts.bootstraps[2].ipv4 = "18.216.6.197";
+    opts.bootstraps[2].port = "33445";
+    opts.bootstraps[2].public_key = "H8sqhRrQuJZ6iLtP2wanxt4LzdNrN2NNFnpPdq1uJ9n2";
+
+    opts.bootstraps[3].ipv4 = "54.223.36.193";
+    opts.bootstraps[3].port = "33445";
+    opts.bootstraps[3].public_key = "5tuHgK1Q4CYf4K5PutsEPK5E3Z7cbtEBdx7LwmdzqXHL";
+
+    opts.bootstraps[4].ipv4 = "52.80.187.125";
+    opts.bootstraps[4].port = "33445";
+    opts.bootstraps[4].public_key = "3khtxZo89SBScAMaHhTvD68pPHiKxgZT6hTCSZZVgNEm";
+
     proxy->mElaCarrier = ela_new(&opts, &callbacks, NULL);
     if (proxy->mElaCarrier == NULL) {
         CARRIER_LOG("Error start carrier loop: 0x%x\n", ela_get_error());
@@ -488,7 +504,7 @@ ECode CCarrier::RemoveCarrierNodeListener(
     /* [in] */ ICarrierListener* listener)
 {
     pthread_mutex_lock(&mListenersLock);
-    ListenerNode* prev = NULL;
+    ListenerNode* prev = &mListeners;
     ListenerNode* head = &mListeners;
     ListenerNode* it = (ListenerNode*)(head->Next());
     for (; NULL != it; it = (ListenerNode*)(it->Next())) {
@@ -683,7 +699,7 @@ void CCarrier::RemoveFriendFromList(
     _friend->GetUid(&uid);
 
     pthread_mutex_lock(&mFriendListLock);
-    FriendNode* prev = NULL;
+    FriendNode* prev = &mFriendList;
     FriendNode* it = &mFriendList;
     it = (FriendNode*)(it->Next());
     for (; NULL != it; it = (FriendNode*)(it->Next())) {

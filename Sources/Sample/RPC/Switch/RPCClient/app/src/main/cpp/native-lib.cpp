@@ -57,6 +57,27 @@ extern "C" JNIEXPORT jint JNICALL Java_com_elastos_rpcclient_MainActivity_addFri
     return ec;
 }
 
+
+extern "C" JNIEXPORT jint JNICALL Java_com_elastos_rpcclient_MainActivity_deleteFriend(
+        JNIEnv *env,
+        jobject jobj,
+        jstring uid) {
+    if (gCarrier == NULL) return -1;
+
+    const char* nativeString = env->GetStringUTFChars(uid, nullptr);
+    IFriend* pFriend;
+    ECode ec = gCarrier->GetFriend(String(nativeString), &pFriend);
+    if (FAILED(ec)) {
+        env->ReleaseStringUTFChars(uid, nativeString);
+        return ec;
+    }
+
+    ec = gCarrier->RemoveFriend(pFriend);
+    pFriend->Release();
+    env->ReleaseStringUTFChars(uid, nativeString);
+    return ec;
+}
+
 extern "C" JNIEXPORT jobject JNICALL Java_com_elastos_rpcclient_MainActivity_getFriendList(
         JNIEnv *env,
         jobject jobj) {

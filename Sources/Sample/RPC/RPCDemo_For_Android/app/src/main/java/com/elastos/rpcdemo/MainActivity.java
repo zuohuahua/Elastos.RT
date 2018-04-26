@@ -143,6 +143,30 @@ public class MainActivity extends AppCompatActivity {
                 });
                 builder.create().show();
             }
+
+            @Override
+            public void onItemDeleteMenuClick(View view, final Friend friend) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("Delete Friend")
+                        .setMessage("delete " + friend.mUid)
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                                int ret = deleteFriend(friend.mUid);
+                                if (ret < 0) return;
+
+                                mAdapter.deleteFriend(friend);
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+                builder.create().show();
+            }
         });
         mFriendList.setAdapter(mAdapter);
         mFriendList.addItemDecoration(new ItemDecoration(this, LinearLayoutManager.VERTICAL));
@@ -261,8 +285,8 @@ public class MainActivity extends AppCompatActivity {
             ArrayList<Friend> list = getFriendList();
             mAdapter.clearFriends();
             mAdapter.addFriendList(list);
-
             startServiceManager();
+
         } else{
             mConnecting.setVisibility(View.VISIBLE);
             mConnected.setVisibility(View.GONE);
@@ -363,6 +387,7 @@ public class MainActivity extends AppCompatActivity {
     public native void startCarrier(String path);
     public native void stopCarrier();
     public native int addFriend(String uid);
+    public native int deleteFriend(String uid);
     public native ArrayList<Friend> getFriendList();
     public native int acceptFriend(String uid);
     public native String getAddress();

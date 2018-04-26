@@ -46,4 +46,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     compile 'com.google.zxing:core:3.3.2'
     compile 'com.journeyapps:zxing-android-embedded:3.3.0'
+    compile 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.2.1'
 }
