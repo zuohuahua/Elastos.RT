@@ -2,7 +2,7 @@
 #include "CTestCar.h"
 
 CAR_OBJECT_IMPL(CTestCar)
-CAR_INTERFACE_IMPL(CTestCar, Object, ITestCar);
+CAR_INTERFACE_IMPL(CTestCar, Object, ITestCar, ITestCar2);
 
 ECode CTestCar::SetInt(
     /* [in] */ Int32 value)
@@ -187,6 +187,8 @@ ECode CTestCar::Test2(
     /* [in] */ Byte value6,
     /* [in] */ Char32 value7,
     /* [in] */ const String& value8,
+    /* [in] */ const String& value9,
+    /* [in] */ const String& value10,
     /* [out] */ Int32 * pResult)
 {
     if (mClassPath.IsNullOrEmpty()) {
@@ -204,6 +206,8 @@ ECode CTestCar::Test2(
     signature.Append("B");
     signature.Append("C");
     signature.Append("Ljava/lang/String;");
+    signature.Append("Ljava/lang/String;");
+    signature.Append("Ljava/lang/String;");
     outSign.Append("I");
     if (!outSign.IsNullOrEmpty()) {
         signature.Append(")");
@@ -215,6 +219,66 @@ ECode CTestCar::Test2(
 
     jclass cls = mEnv->FindClass(mClassPath.string());
     String methodName("Test2");
+    jmethodID staticMethod = mEnv->GetStaticMethodID(cls, methodName.string(), signature.string());
+    mEnv->CallStaticVoidMethod(cls, staticMethod);
+
+    return NOERROR;
+}
+
+ECode CTestCar::SetInt2(
+    /* [in] */ Int32 value)
+{
+    if (mClassPath.IsNullOrEmpty()) {
+        return E_INVALID_ARGUMENT;
+    }
+
+    //Call the java codes, Now we are only support static method.
+    String outSign;
+    String signature("(");
+    signature.Append("I");
+    if (!outSign.IsNullOrEmpty()) {
+        signature.Append(")");
+        signature.Append(outSign);
+    }
+    else {
+        signature.Append(")V");
+    }
+
+    jclass cls = mEnv->FindClass(mClassPath.string());
+    String methodName("SetInt2");
+    jmethodID staticMethod = mEnv->GetStaticMethodID(cls, methodName.string(), signature.string());
+    mEnv->CallStaticVoidMethod(cls, staticMethod);
+
+    return NOERROR;
+}
+
+ECode CTestCar::Update(
+    /* [in] */ const String& value1,
+    /* [in] */ const String& value2,
+    /* [in] */ const String& value3,
+    /* [out] */ String * pValue)
+{
+    if (mClassPath.IsNullOrEmpty()) {
+        return E_INVALID_ARGUMENT;
+    }
+
+    //Call the java codes, Now we are only support static method.
+    String outSign;
+    String signature("(");
+    signature.Append("Ljava/lang/String;");
+    signature.Append("Ljava/lang/String;");
+    signature.Append("Ljava/lang/String;");
+    outSign.Append("Ljava/lang/String;");
+    if (!outSign.IsNullOrEmpty()) {
+        signature.Append(")");
+        signature.Append(outSign);
+    }
+    else {
+        signature.Append(")V");
+    }
+
+    jclass cls = mEnv->FindClass(mClassPath.string());
+    String methodName("Update");
     jmethodID staticMethod = mEnv->GetStaticMethodID(cls, methodName.string(), signature.string());
     mEnv->CallStaticVoidMethod(cls, staticMethod);
 

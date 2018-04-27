@@ -14,19 +14,19 @@ $;; See the License for the specific language governing permissions and
 $;; limitations under the License.
 $;;=========================================================================
 $
-$INPUT module
+$INPUT class
+$OUTPUT "${name}Impl.java"
+
+//TODO : Modify the package and this java class will implement the elastos interface.
+package elastos.org.xxx;
+
+public class ${class.name}Impl {
+$WITH all interfaces DO
+$   IF attrib is not "callback" and attrib is not "callbacksink" and attrib is not "clsobj" and attrib is not "filter" and name is not "IRegime" and name is not "IObject" and name is not "ISynchronize" and name is not "IWeakReferenceSource" and name is not "IThread"
+$           {GenerateJavaClassImpl(interface)}
+$   END IF ;; is not "callback" and not "callbacksink" and not "clsobj" and not "filter" and name is not "IRegime" and name is not "IObject"
 $
+$END DO ;; all interfaces
+}
 $
-$WITH all classes DO
-$   IF type is not "clsobj" and type is not "sink"
-$     IF type is not "generic"
-$       IF attrib is not "naked"
-$         TEMPLATE "forehjava.lub"
-$         TEMPLATE "forecppjava.lub"
-$         TEMPLATE "generatejavaclassimpl.lub"
-$         TEMPLATE "generatejavaclassuser.lub"
-$         TEMPLATE "generatejavajnicpp.lub"
-$       END IF
-$     END IF
-$   END IF
-$END DO
+$END OUTPUT

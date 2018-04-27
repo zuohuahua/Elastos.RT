@@ -15,15 +15,15 @@ $;; limitations under the License.
 $;;=========================================================================
 $
 $INPUT class
-$OUTPUT "${name}.java"
+$OUTPUT "${name}User.java"
 
-//TODO : Modify the package
+//TODO : Modify the package and the final user will call this class' method.
 package elastos.org.xxx;
 
-public class ${class.name} {
+public class ${class.name}User {
 $WITH all interfaces DO
 $   IF attrib is not "callback" and attrib is not "callbacksink" and attrib is not "clsobj" and attrib is not "filter" and name is not "IRegime" and name is not "IObject" and name is not "ISynchronize" and name is not "IWeakReferenceSource" and name is not "IThread"
-$           {JavaParameterText(interface)}
+$           {GenerateJavaClassUser(interface)}
 $   END IF ;; is not "callback" and not "callbacksink" and not "clsobj" and not "filter" and name is not "IRegime" and name is not "IObject"
 $
 $END DO ;; all interfaces

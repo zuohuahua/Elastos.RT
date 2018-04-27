@@ -14,19 +14,17 @@ $;; See the License for the specific language governing permissions and
 $;; limitations under the License.
 $;;=========================================================================
 $
-$INPUT module
+$INPUT class
+$OUTPUT "${name}_jni.cpp"
+
+#include <jni.h>
+
+//For Elastos
+$WITH all interfaces DO
+$   IF attrib is not "callback" and attrib is not "callbacksink" and attrib is not "clsobj" and attrib is not "filter" and name is not "IRegime" and name is not "IObject" and name is not "ISynchronize" and name is not "IWeakReferenceSource" and name is not "IThread"
+$           {GenerateJavaJniCpp(interface)}
+$   END IF ;; is not "callback" and not "callbacksink" and not "clsobj" and not "filter" and name is not "IRegime" and name is not "IObject"
 $
-$
-$WITH all classes DO
-$   IF type is not "clsobj" and type is not "sink"
-$     IF type is not "generic"
-$       IF attrib is not "naked"
-$         TEMPLATE "forehjava.lub"
-$         TEMPLATE "forecppjava.lub"
-$         TEMPLATE "generatejavaclassimpl.lub"
-$         TEMPLATE "generatejavaclassuser.lub"
-$         TEMPLATE "generatejavajnicpp.lub"
-$       END IF
-$     END IF
-$   END IF
-$END DO
+$END DO ;; all interfaces
+${GenerateJavaJniCpp2(class)}
+$END OUTPUT

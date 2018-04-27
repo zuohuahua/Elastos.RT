@@ -25,3 +25,4 @@ INCLUDES += $(INCLUDESTEMP);
 SOURCES = prefix.cpp
 SOURCES += retype.cpp
 SOURCES += userfunc.cpp
+SOURCES += autojava.cpp
