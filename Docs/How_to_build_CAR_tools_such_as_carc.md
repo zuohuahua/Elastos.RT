@@ -6,7 +6,7 @@ In general, you will not use it. It will be used after you modified the source c
 
    * Ubuntu 64-bits CAR tools
      ``` shell
-     source ~/Elastos.RT/Setup/SetEnv.sh linux_devtools_4
+     source ~/Elastos.RT/Setup/SetEnv.sh linux_devtools_64
      ```
      or
      ``` shell
