@@ -8,7 +8,7 @@
 
     HelloCar包括两个部分：Elastos.HelloCar.eco和使用这个eco的可执行程序，请阅读代码与注释了解细节。下面将讲解一下其中的要点。
 
-```
+``` 目录框架图
 + HelloCar
     + eco
         + elastos
@@ -158,7 +158,9 @@
 
     自动生成的代码框架如下所示:
 
-```
+``` shell
+~/Elastos.RT/Sources/Sample/HelloCar/eco/hellocar$ emake Elastos.HelloCar.car
+~/Elastos.RT/Sources/Sample/HelloCar/eco/hellocar$ ls
 CAnimalHelper.cpp  CCat.cpp  CDog.cpp  CMakeLists.txt        Elastos.HelloCar.cmake  IDog.car
 CAnimalHelper.h    CCat.h    CDog.h    Elastos.HelloCar.car  IAnimal.car             sources
 ```

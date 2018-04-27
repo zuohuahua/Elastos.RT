@@ -4,20 +4,20 @@ Take the example of exporting documents in Ubuntu environment.
 
 1. install doxygen
 
-* Ubuntu
-```
-sudo apt-get update
-sudo apt-get install doxygen
-```
+    * Ubuntu
+        ``` shell
+        sudo apt-get update
+        sudo apt-get install doxygen
+        ```
 
-* Mac
-```
-brew install doxygen
-```
+    * Mac
+        ``` shell
+        brew install doxygen
+        ```
 
 2. Take the API that generates runtime as an example
 
-```
-cd /Elastos.RT/Docs/DocTools/doxyfile
-doxygen elastos_sdk_runtime_car_pdf_doxy
-```
+    ``` shell
+    cd /Elastos.RT/Docs/DocTools/doxyfile
+    doxygen elastos_sdk_runtime_car_pdf_doxy
+    ```

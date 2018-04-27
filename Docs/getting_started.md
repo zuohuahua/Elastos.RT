@@ -3,21 +3,23 @@
 ## Checking out the source code
 
 The Elastos.RT Git repository is located
-at: https://github.com/elastos/Elastos.RT
+at: <https://github.com/elastos/Elastos.RT>
 
 To clone the repository
 in your environment:
-```shell
-$ cd ~
-$ git clone --recurse-submodules https://github.com/elastos/Elastos.RT
+
+``` shell
+cd ~
+
+git clone --recurse-submodules https://github.com/elastos/Elastos.RT
 ```
 
 We use `--recurse-submodules` here because we need to download the submodules as well.
 If you forgot to use the argument, you could download the submodules later by typing:
 
-```shell
-$ git submodule init
-$ git submodule update
+``` shell
+git submodule init
+git submodule update
 ```
 
 ## Preparing the build environment
@@ -30,20 +32,20 @@ Please select the appropriate compilation environment as needed:
 
      Follow the official instructions to install Docker and Docker Compose.
 
-     Install Docker: https://docs.docker.com/install/
+     Install Docker: <https://docs.docker.com/install/>
 
-     Install Docker Compose: https://docs.docker.com/compose/install/
+     Install Docker Compose: <https://docs.docker.com/compose/install/>
 
   2. Build the docker image
 
-     ```
+     ``` shell
      $ cd ~/Elastos.RT/docker
      ~/Elastos.RT/docker$ docker-compose build --build-arg HOST_USER_UID=`id -u` --build-arg HOST_USER_GID=`id -g` build-env
      ```
 
   3. Enter the dockerized build environment:
 
-     ```
+     ``` shell
      $ cd ~/Elastos.RT/docker
      ~/Elastos.RT/docker$ docker-compose run --rm build-env
      ```
@@ -54,15 +56,19 @@ Please select the appropriate compilation environment as needed:
 * ### Ubuntu_32bit
 
   On Ubuntu this should obtain the necessary pre-reqs:
-  ```
+
+  ``` shell
   sudo dpkg --add-architecture i386
   sudo apt-get update
   sudo apt-get install texinfo libglib2.0-dev autoconf libtool libsdl-dev build-essential tofrodos bison g++-multilib git gperf
   sudo apt-get install libxml2-utils make bc zip zlib1g-dev zlib1g-dev:i386 libicu-dev libicu-dev:i386 libssl-dev libssl-dev:i386 libuv1-dev libuv1-dev:i386
   ```
+
   or
+
   copy the libs under folder Build/Prebuilt/Linux/usr/lib to /lib/i386-linux-gnu/
-  ```
+
+  ``` shell
   sudo cp ~/Elastos.RT/Build/Prebuilt/Linux/usr/lib/lib* /lib/i386-linux-gnu/
 
   cd /lib/i386-linux-gnu/
@@ -75,7 +81,8 @@ Please select the appropriate compilation environment as needed:
 * ### Ubuntu_64bit
 
   On Ubuntu this should obtain the necessary pre-reqs:
-  ```
+
+  ``` shell
   sudo apt-get install texinfo libglib2.0-dev autoconf libtool libsdl-dev build-essential tofrodos zlib1g-dev:amd64 zlib1g-dev
   sudo apt-get install bison g++-multilib git gperf libxml2-utils make zlib1g-dev:i386 zip libsqlite3-dev libicu-dev libssl-dev libuv1-dev
   ```
@@ -91,23 +98,31 @@ Please select the appropriate compilation environment as needed:
   The Ubuntu 16.04 come with CMake 3.5.0 if you install it by using `apt-get`.
 
   Check the cmake version if you already installed it.
-  ```
-  $ cmake --version
+
+  ``` shell
+  cmake --version
   ```
 
   Remove the old version
-  ```
-  $ sudo apt-get purge cmake
+
+  ``` shell
+  sudo apt-get purge cmake
   ```
 
   Download and install the newer version:
-  ```
-  $ CMAKE_VERSION=3.11
-  $ CMAKE_BUILD=0
-  $ wget https://cmake.org/files/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}.${CMAKE_BUILD}-Linux-x86_64.tar.gz
-  $ mkdir ~/cmake
-  $ tar xzvf cmake-${CMAKE_VERSION}.${CMAKE_BUILD}-Linux-x86_64.tar.gz --strip-components=1 -C ~/cmake
-  $ export PATH=~/cmake/bin:$PATH
+
+  ``` shell
+  CMAKE_VERSION=3.11
+
+  CMAKE_BUILD=0
+
+  wget https://cmake.org/files/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}.${CMAKE_BUILD}-Linux-x86_64.tar.gz
+
+  mkdir ~/cmake
+
+  tar xzvf cmake-${CMAKE_VERSION}.${CMAKE_BUILD}-Linux-x86_64.tar.gz --strip-components=1 -C ~/cmake
+
+  export PATH=~/cmake/bin:$PATH
   ```
 
   You may want to append the `export PATH=~/cmake/bin:$PATH` to your `~/.bashrc` file.
@@ -116,14 +131,14 @@ Please select the appropriate compilation environment as needed:
 
   1. Install [homebrew](https://brew.sh)
 
-     ```
-     $ /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+     ``` shell
+     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
      ```
 
   2. Install cmake
 
-     ```
-     $ brew install cmake
+     ``` shell
+     brew install cmake
      ```
 
   3. Install Xcode and Check Xcode path
@@ -132,13 +147,14 @@ Please select the appropriate compilation environment as needed:
 
      Run this command to check the active developer directory path
 
-     ```
-     $ /usr/bin/xcode-select -print-path
+     ``` shell
+     /usr/bin/xcode-select -print-path
      ```
 
      If the result is not `/Applications/Xcode.app/Contents/Developer`，then swtich the active developer directory
-     ```
-     $ sudo xcode-select --switch /Applications/Xcode.app
+
+     ``` shell
+     sudo xcode-select --switch /Applications/Xcode.app
      ```
 
   4. Install simulator in Xcode
@@ -146,7 +162,6 @@ Please select the appropriate compilation environment as needed:
      If you just wanted to build for the "ios_device", you can ignore this step.
 
      Xcode->Preferences->Components, install iOS 11.1 Simulator or newer version.
-
 
 ## Build Elastos.RT
 
@@ -159,44 +174,54 @@ Please select the appropriate compilation environment as needed:
    You will need to have Android NDK r15c or newer version.
 
 2. Set the `ANDROID_NDK` environment variable
-   ```
-   $ export ANDROID_NDK=~/my-android-ndk
+
+   ``` shell
+   export ANDROID_NDK=~/my-android-ndk
    ```
 
    NOTE: If you are using the dockerized build environment. Make sure set the ANDROID_NDK to a Linux version of the Android NDK before entering the dockerized build environment.
 
    [Install cmake](#install-cmake) if needed.
 
-
 3. Enter the build environment:
+
+   ``` shell
+   ~/Elastos.RT$ source Setup/SetEnv.sh arm_android_32
    ```
-   $ source ~/Elastos.RT/Setup/SetEnv.sh arm_android_32
-   ```
+
    or
+
+   ``` shell
+   ~/Elastos.RT$ source Setup/SetEnv.sh
    ```
-   $ source ~/Elastos.RT/Setup/SetEnv.sh
-   ```
+
    and then choose the index number of the "arm_android_32" item from the numbered list
 
-3. emake
-   ```
+4. emake
+
+   ``` shell
    ~/Elastos.RT/Sources$ emake
    ```
 
 ### Build Linux
 
 1. Enter the build environment:
+
+   ``` shell
+   ~/Elastos.RT$ source Setup/SetEnv.sh linux_64
    ```
-   $ source ~/Elastos.RT/Setup/SetEnv.sh linux_64
-   ```
+
    or
+
+   ``` shell
+   ~/Elastos.RT$ source Setup/SetEnv.sh
    ```
-   $ source ~/Elastos.RT/Setup/SetEnv.sh
-   ```
+
    and then choose the index number of the "linux_64" item from the numbered list
 
 2. emake
-   ```
+
+   ``` shell
    ~/Elastos.RT/Sources$ emake
    ```
 
@@ -205,27 +230,28 @@ Please select the appropriate compilation environment as needed:
 1. Enter the build environment:
 
    * ios_simulator : Simulator version
-     ```
-     $ source ~/Elastos.RT/Setup/SetEnv.sh ios_simulator
+     ``` shell
+     ~/Elastos.RT$ source Setup/SetEnv.sh ios_simulator
      ```
      or
-     ```
-     $ source ~/Elastos.RT/Setup/SetEnv.sh
+     ``` shell
+     ~/Elastos.RT$ source Setup/SetEnv.sh
      ```
      and then choose the index number of the "ios_simulator" item from the numbered list
 
    * ios_device : Real machine version
-     ```
-     $ source ~/Elastos.RT/Setup/SetEnv.sh ios_device
+     ``` shell
+     ~/Elastos.RT$ source Setup/SetEnv.sh ios_device
      ```
      or
-     ```
-     $ source ~/Elastos.RT/Setup/SetEnv.sh
+     ``` shell
+     ~/Elastos.RT$ source Setup/SetEnv.sh
      ```
      and then choose the index number of the "ios_device" item from the numbered list
 
 2. emake
-   ```
+
+   ``` shell
    ~/Elastos.RT/Sources$ emake
    ```
 
