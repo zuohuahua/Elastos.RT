@@ -3,6 +3,7 @@
 #include "carrier.h"
 #include "elcarrierapi.h"
 #include "rpcerror.h"
+#include "eladef.h"
 
 using Elastos::CCarrier;
 
@@ -33,9 +34,21 @@ void* workThread(void* argc)
         Int32 type = node->mMessage->GetType();
         RPC_LOG("workThread thread wait handle message type: %d", type);
         switch(type) {
-        case MESSAGE_TYPE_DATA:
+        case MESSAGE_TYPE_DATA: {
+            // save sender uid in tls
+            void* buf = pthread_getspecific(TL_CARRIER_ID_SLOT);
+            if (buf) {
+                free(buf);
+            }
+            void* p = malloc(pThis->mUid.GetLength());
+            if (p) {
+                memcpy(p, pThis->mUid.string(), pThis->mUid.GetLength());
+                int ret = pthread_setspecific(TL_CARRIER_ID_SLOT, p);
+            }
+
             pThis->NotifySessionReceived(node->mMessage);
             break;
+        }
         case MESSAGE_TYPE_EXIT:
             RPC_LOG("Session[%d] work thread end...\n", pThis->mStream);
             exit = TRUE;
@@ -48,7 +61,9 @@ void* workThread(void* argc)
         delete node;
     }
 
-    return 0;
+
+    void* buf = pthread_getspecific(TL_CARRIER_ID_SLOT);
+    return buf;
 }
 
 UInt32 SessionListener::AddRef()

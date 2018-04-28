@@ -82,7 +82,6 @@ ECode CInterfaceStub::MarshalOut(
 
 CObjectStub::CObjectStub() :
     mSessionManager(NULL),
-    mSession(NULL),
     mSessionManagerListener(NULL),
     m_pInterfaces(NULL),
     m_bRequestToQuit(FALSE),
@@ -103,10 +102,6 @@ CObjectStub::~CObjectStub()
 
     if (mSessionManager) {
         mSessionManager->Release();
-    }
-
-    if (mSession) {
-        mSession->Release();
     }
 
     UnregisterExportObject(m_connName);
@@ -174,26 +169,30 @@ ECode CObjectStub::GetInterfaceID(
 
 #ifdef _arm
 ECode CObjectStub::Invoke(
+    /* [in] */ CSession* pSession,
     /* [in] */ void *pInData,
     /* [in] */ UInt32 uInSize,
     /* [out] */ CRemoteParcel **ppParcel)
 {
-    return _Invoke(pInData, uInSize, ppParcel);
+    return _Invoke(pSession, pInData, uInSize, ppParcel);
 }
 #endif //_arm
 
 #ifdef _x86
 ECode CObjectStub::Invoke(
+    /* [in] */ CSession* pSession,
     /* [in] */ void *pInData,
     /* [in] */ UInt32 uInSize,
     /* [out] */ CRemoteParcel **ppParcel)
 #elif defined(_arm)
 ECode CObjectStub::_Invoke(
+    /* [in] */ CSession* pSession,
     /* [in] */ void *pInData,
     /* [in] */ UInt32 uInSize,
     /* [out] */ CRemoteParcel **ppParcel)
 #elif defined(_mips)
 ECode CObjectStub::Invoke(
+    /* [in] */ CSession* pSession,
     /* [in] */ void *pInData,
     /* [in] */ UInt32 uInSize,
     /* [out] */ CRemoteParcel **ppParcel)
@@ -295,7 +294,7 @@ ECode CObjectStub::Invoke(
         GET_REG(ESP, puArgs);
 #endif
 
-        pParcel = new CRemoteParcel(mSession, (UInt32*)pInHeader);
+        pParcel = new CRemoteParcel(pSession, (UInt32*)pInHeader);
         ec = pCurInterface->UnmarshalIn(pMethodInfo,
                                         pParcel,
                                         pOutHeader,
@@ -436,7 +435,7 @@ ECode CObjectStub::Invoke(
             || GET_IN_INTERFACE_MARK(pMethodInfo->mReserved1)) {
 
             if (pOutHeader && SUCCEEDED(ec)) {
-                *ppParcel = new CRemoteParcel(mSession);
+                *ppParcel = new CRemoteParcel(pSession);
                 if (*ppParcel == NULL) {
                     ec = E_OUT_OF_MEMORY;
                     goto ErrorExit;
@@ -467,7 +466,7 @@ ECode CObjectStub::Invoke(
             goto ErrorExit;
         }
 
-        *ppParcel = new CRemoteParcel(mSession);
+        *ppParcel = new CRemoteParcel(pSession);
         if (*ppParcel == NULL) {
             ec = E_OUT_OF_MEMORY;
             goto ErrorExit;
@@ -709,7 +708,7 @@ DBusHandlerResult CObjectStub::S_HandleMessage(
 
 #else
 
-ECode CObjectStub::HandleGetClassInfo(void const *base, int len)
+ECode CObjectStub::HandleGetClassInfo(CSession* pSession, void const *base, int len)
 {
     EMuid clsid;
     CIModuleInfo *pSrcModInfo;
@@ -724,7 +723,7 @@ ECode CObjectStub::HandleGetClassInfo(void const *base, int len)
     pDestModInfo = (CIModuleInfo *)calloc(1, pSrcModInfo->mTotalSize);
     FlatModuleInfo(pSrcModInfo, pDestModInfo);
 
-    mSession->SendMessage(METHOD_GET_CLASS_INFO_REPLY, pDestModInfo,
+    pSession->SendMessage(METHOD_GET_CLASS_INFO_REPLY, pDestModInfo,
                     pDestModInfo->mTotalSize);
 
     free(pDestModInfo);
@@ -732,7 +731,7 @@ ECode CObjectStub::HandleGetClassInfo(void const *base, int len)
     return NOERROR;
 }
 
-ECode CObjectStub::HandleInvoke(void const *base, int len)
+ECode CObjectStub::HandleInvoke(CSession* pSession, void const *base, int len)
 {
     void *pOutBuffer;
     Int32 outSize;
@@ -742,7 +741,7 @@ ECode CObjectStub::HandleInvoke(void const *base, int len)
     RPC_LOG("Call Invoke.");
     MARSHAL_DBGOUT(MSHDBG_NORMAL, printf("Call Invoke.\n"));
 
-    ec = this->Invoke((void *)base, len, &pParcel);
+    ec = this->Invoke(pSession, (void *)base, len, &pParcel);
     RPC_LOG("Call Invoke ec: %x", ec);
 
     int32_t _ec = ec;
@@ -761,11 +760,11 @@ ECode CObjectStub::HandleInvoke(void const *base, int len)
             p += sizeof _ec;
             memcpy(p, pOutBuffer, outSize);
 
-            mSession->SendMessage(METHOD_INVOKE_REPLY, out_buf, out_size);
+            pSession->SendMessage(METHOD_INVOKE_REPLY, out_buf, out_size);
 
         }
     } else {
-        mSession->SendMessage(METHOD_INVOKE_REPLY, &_ec, sizeof _ec);
+        pSession->SendMessage(METHOD_INVOKE_REPLY, &_ec, sizeof _ec);
     }
 
     if (pParcel != NULL)
@@ -774,7 +773,7 @@ ECode CObjectStub::HandleInvoke(void const *base, int len)
     return NOERROR;
 }
 
-ECode CObjectStub::HandleRelease(void const *base, int len)
+ECode CObjectStub::HandleRelease(CSession* pSession, void const *base, int len)
 {
     MARSHAL_DBGOUT(MSHDBG_NORMAL, printf("Stub Release.\n"));
 
@@ -931,8 +930,12 @@ void CObjectStub::CSessionManagerListener::OnSessionRequest(
     CObjectStub* pStub = (CObjectStub*)context;
     if (!pStub) return;
 
-    pStub->mSessionManager->CreateSession(String(from), FALSE,
-                        sdp, len, &pStub->mSession);
+    CSession* pSession;
+    ECode ec = pStub->mSessionManager->CreateSession(String(from), FALSE,
+                        sdp, len, &pSession);
+    if (SUCCEEDED(ec)) {
+        pSession->Release();
+    }
 }
 
 void CObjectStub::CSessionManagerListener::OnSessionReceived(
@@ -945,15 +948,6 @@ void CObjectStub::CSessionManagerListener::OnSessionReceived(
     CObjectStub* pStub = (CObjectStub*)context;
     if (!pStub) return;
 
-    if (pStub->mSession == NULL) {
-        pStub->mSession = pSession;
-        pStub->mSession->AddRef();
-    }
-
-    if (pStub->mSession != pSession) {
-        return;
-    }
-
     Byte* p = data->GetPayload();
     int _len = data->GetLength();
     size_t _type = *(size_t *)p;
@@ -964,13 +958,13 @@ void CObjectStub::CSessionManagerListener::OnSessionReceived(
 
     switch (_type) {
     case METHOD_GET_CLASS_INFO:
-        pStub->HandleGetClassInfo(p, _len);
+        pStub->HandleGetClassInfo(pSession, p, _len);
         break;
     case METHOD_INVOKE:
-        pStub->HandleInvoke(p, _len);
+        pStub->HandleInvoke(pSession, p, _len);
         break;
     case METHOD_RELEASE:
-        pStub->HandleRelease(p, _len);
+        pStub->HandleRelease(pSession, p, _len);
         break;
     default:
         break;

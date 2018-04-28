@@ -219,6 +219,7 @@ public:
 interface IStub : public IInterface
 {
     virtual CARAPI Invoke(
+            /* [in] */ CSession* pSession,
             /* [in] */ void *pInData,
             /* [in] */ UInt32 uInSize,
             /* [out] */ CRemoteParcel **ppParcel) = 0;
@@ -252,6 +253,7 @@ public:
             /* [out] */ InterfaceID *pIID);
 
     CARAPI Invoke(
+            /* [in] */ CSession* pSession,
             /* [in] */ void *pInData,
             /* [in] */ UInt32 uInSize,
             /* [out] */ CRemoteParcel **ppParcel);
@@ -291,6 +293,7 @@ private:
 private:
 #if defined(_arm)
     CARAPI _Invoke(
+            /* [in] */ CSession* pSession,
             /* [in] */ void *pInData,
             /* [in] */ UInt32 uInSize,
             /* [out] */ CRemoteParcel **ppParcel);
@@ -305,18 +308,17 @@ private:
 
 #if defined(__USE_REMOTE_SOCKET)
 
-    ECode HandleGetClassInfo(void const *base, int len);
+    ECode HandleGetClassInfo(CSession* pSession, void const *base, int len);
 
-    ECode HandleInvoke(void const *base, int len);
+    ECode HandleInvoke(CSession* pSession, void const *base, int len);
 
-    ECode HandleRelease(void const *base, int len);
+    ECode HandleRelease(CSession* pSession, void const *base, int len);
 
 #endif
 
 #if defined(__USE_REMOTE_SOCKET)
 
     CSessionManager             *mSessionManager;
-    CSession                    *mSession;
     CSessionManagerListener     *mSessionManagerListener;
 
 #endif

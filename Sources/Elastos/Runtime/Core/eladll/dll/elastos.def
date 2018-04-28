@@ -36,6 +36,8 @@ EXPORTS
     ;; Elastos Execution Engine APIs, using ordinal 1-199
     ;;
 
+    getTlSystemSlotBase
+    
     _CObject_CreateInstance                         @106    NONAME
     _CObject_CreateInstanceEx                       @107    NONAME
     _CObject_AcquireClassFactory                    @108    NONAME

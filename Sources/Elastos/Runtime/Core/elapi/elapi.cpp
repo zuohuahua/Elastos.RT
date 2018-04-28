@@ -38,18 +38,28 @@ EXTERN_C const InterfaceID EIID_IProxy;
 #include <marshal.h>
 #endif
 
-pthread_key_t g_TlSystemSlots[10];
+pthread_key_t g_TlSystemSlots[TLS_TOTAL_SLOTS];
+
+static void destructor(void* buf)
+{
+    free(buf);
+}
+
+EXTERN_C pthread_key_t *getTlSystemSlotBase()
+{
+    return g_TlSystemSlots;
+}
 
 EXTERN void InitTLS()
 {
-    for (Int32 i = 0; i < 10; i++) {
-        pthread_key_create(&g_TlSystemSlots[i], NULL);
+    for (Int32 i = 0; i < TLS_TOTAL_SLOTS; i++) {
+        pthread_key_create(&g_TlSystemSlots[i], destructor);
     }
 }
 
 EXTERN void UninitTLS()
 {
-    for (Int32 i = 0; i < 10; i++) {
+    for (Int32 i = 0; i < TLS_TOTAL_SLOTS; i++) {
         pthread_key_delete(g_TlSystemSlots[i]);
     }
 }

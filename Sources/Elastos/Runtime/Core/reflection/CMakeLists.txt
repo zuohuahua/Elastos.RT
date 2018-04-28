@@ -31,7 +31,8 @@ set(SOURCES
 )
 
 
-if("$ENV{XDK_TARGET_CPU}" STREQUAL "arm")
+if("$ENV{XDK_TARGET_CPU}" STREQUAL "arm"
+    AND "$ENV{XDK_TARGET_CPU_ARCH}" STREQUAL "32")
     enable_language(ASM)
     if (CMAKE_ASM_COMPILER_WORKS)
         list(APPEND SOURCES invoke_gnuc.S)
