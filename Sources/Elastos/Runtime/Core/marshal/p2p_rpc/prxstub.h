@@ -2,15 +2,9 @@
 #ifndef __PRXSTUB_H__
 #define __PRXSTUB_H__
 
-#define __USE_REMOTE_SOCKET
-
-#if defined(__USE_REMOTE_SOCKET)
 # include "carrier.h"
 # include "CSessionManager.h"
 # include "rpcerror.h"
-#else
-# include <dbus/dbus.h>
-#endif
 
 #include <semaphore.h>
 
@@ -159,15 +153,12 @@ private:
 
 public:
 
-#if defined(__USE_REMOTE_SOCKET)
     String                  m_stubId;
     CSession                *mSession;
     CProxyListener          *mListener;
     pthread_cond_t          mCv;
     pthread_mutex_t         mWorkLock;
     DataPack*               mData;
-
-#endif
 
     String              m_stubConnName;
     CIClassInfo         *m_pInfo;
@@ -177,11 +168,8 @@ public:
 
     Int32               m_cRef;
 
-#if defined(__USE_REMOTE_SOCKET)
 private:
     IInterface *RemoteProbe(REIID iid);
-
-#endif
 };
 
 typedef struct InterfaceStruct {
@@ -299,29 +287,14 @@ private:
             /* [out] */ CRemoteParcel **ppParcel);
 #endif
 
-#if !defined(__USE_REMOTE_SOCKET)
-    static DBusHandlerResult S_HandleMessage(
-            /* [in] */ DBusConnection *pconn,
-            /* [in] */ DBusMessage *pmsg,
-            /* [in] */ void *parg);
-#endif
-
-#if defined(__USE_REMOTE_SOCKET)
-
     ECode HandleGetClassInfo(CSession* pSession, void const *base, int len);
 
     ECode HandleInvoke(CSession* pSession, void const *base, int len);
 
     ECode HandleRelease(CSession* pSession, void const *base, int len);
 
-#endif
-
-#if defined(__USE_REMOTE_SOCKET)
-
     CSessionManager             *mSessionManager;
     CSessionManagerListener     *mSessionManagerListener;
-
-#endif
 
 public:
     String              m_connName;
