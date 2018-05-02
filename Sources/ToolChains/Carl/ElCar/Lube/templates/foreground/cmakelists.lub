@@ -22,10 +22,10 @@ set(CAR_FLAGS -n -u)
 set(LUBE_FLAGS -n -u)
 
 include(${name}.cmake)
-xdk_compile_car(GENERATED_SOURCES ${name}.car)
+xdk_compile_car(CAR_GENERATED_SOURCES ${name}.car)
 
 set(SOURCES
-    $${GENERATED_SOURCES}
+    $${CAR_GENERATED_SOURCES}
     $${CURRENT_MIRROR_SOURCES}
 $   WITH all classes DO
 $       IF type is not "sink" and type is not "clsobj"

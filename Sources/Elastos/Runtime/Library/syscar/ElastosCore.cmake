@@ -1,0 +1,6 @@
+set(CURRENT_MIRROR_SOURCES
+)
+
+set(CURRENT_MIRROR_HEADERS
+    ElastosCore.h
+)

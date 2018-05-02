@@ -81,9 +81,9 @@ int LubeContext::LibraryMember(MemberType member, char *pszBuffer)
 
     if (Member_Name == member) {
 #ifdef _android
-        char* suffix =".so";
+        const char* suffix =".so";
 #else
-        char* suffix = ".eco";
+        const char* suffix = ".eco";
 #endif
         while (*p && strcasecmp(suffix, p) != 0) *pszBuffer++= *p++;
         *pszBuffer = 0;
@@ -166,7 +166,7 @@ int LubeContext::ClassMember(MemberType member, char *pszBuffer)
             sprintf(pszBuffer, "%s", buffer);
             return LUBE_OK;
         case Member_Attrib:
-            sprintf(pszBuffer, "%08x", m_pClass->mDesc->mAttribs);
+            sprintf(pszBuffer, "%08x", (unsigned int)m_pClass->mDesc->mAttribs);
             return LUBE_OK;
         case Member_Uuid:
             pszOutput = Uuid2CString(&m_pClass->mDesc->mClsid, TRUE);

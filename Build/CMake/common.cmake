@@ -3,46 +3,64 @@ include($ENV{XDK_DEFINITIONS_CMAKE})
 
 link_directories($ENV{XDK_TARGETS})
 
-macro(xdk_export_headers target_name)
-    string(REPLACE "$ENV{XDK_SOURCE_PATH}/" "" XDK_RELATIVE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
-    foreach(item ${ARGN})
+function(xdk_export_headers target_name header1)
+    set(headers ${header1} ${ARGN})
+    file(RELATIVE_PATH XDK_RELATIVE_DIR $ENV{XDK_SOURCE_PATH} ${CMAKE_CURRENT_SOURCE_DIR})
+    foreach(header ${headers})
         add_custom_command(
-            COMMENT "Exporting ${XDK_RELATIVE_DIR}/${item}"
-            OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/${item}"
-                    "$ENV{XDK_USER_INC}/${item}"
-            COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/${item}" "${CMAKE_CURRENT_BINARY_DIR}/${item}"
-            COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/${item}" "$ENV{XDK_USER_INC}/${item}"
+            COMMENT "Exporting ${XDK_RELATIVE_DIR}/${header}"
+            OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/${header}"
+                    "$ENV{XDK_USER_INC}/${header}"
+            COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/${header}" "${CMAKE_CURRENT_BINARY_DIR}/${header}"
+            COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/${header}" "$ENV{XDK_USER_INC}/${header}"
             WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-            DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/${item}"
+            DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/${header}"
         )
     endforeach()
 
-    add_custom_target(${target_name} ALL DEPENDS ${ARGN})
-endmacro()
+    add_custom_target(${target_name} ALL DEPENDS ${headers})
+endfunction()
 
-macro(xdk_add_subdirectories)
+function(xdk_export_car_headers EXPORT_CAR_HEADERS header1)
+    set(headers ${header1} ${ARGN})
+    foreach(header ${headers})
+        string(APPEND export_message "Exporting CAR ${header}\n")
+        list(APPEND all_outputs $ENV{XDK_USER_INC}/${header})
+    endforeach()
+    add_custom_command(
+        OUTPUT ${all_outputs}
+        COMMENT ${export_message}
+        COMMAND ${CMAKE_COMMAND} -E copy ${headers} $ENV{XDK_USER_INC}/
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+        DEPENDS ${headers}
+    )
+    set(${EXPORT_CAR_HEADERS} ${all_outputs} PARENT_SCOPE)
+endfunction()
+
+function(xdk_add_subdirectories)
     foreach(item ${ARGV})
         add_subdirectory(${item})
     endforeach()
-endmacro()
+endfunction()
 
-macro(xdk_combine_static_libraries output_dir new_archive)
+function(xdk_combine_static_libraries output_dir new_archive archive1)
+    set(archives ${archive1} ${ARGN})
     if(APPLE)
         add_custom_command(
             COMMENT "Packing ${CMAKE_STATIC_LIBRARY_PREFIX}${new_archive}${CMAKE_STATIC_LIBRARY_SUFFIX}"
             OUTPUT ${output_dir}/${CMAKE_STATIC_LIBRARY_PREFIX}${new_archive}${CMAKE_STATIC_LIBRARY_SUFFIX}
-            COMMAND libtool -static -o ${output_dir}/${CMAKE_STATIC_LIBRARY_PREFIX}${new_archive}${CMAKE_STATIC_LIBRARY_SUFFIX} ${ARGN}
+            COMMAND libtool -static -o ${output_dir}/${CMAKE_STATIC_LIBRARY_PREFIX}${new_archive}${CMAKE_STATIC_LIBRARY_SUFFIX} ${archives}
             WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-            DEPENDS ${ARGN}
+            DEPENDS ${archives}
         )
     else()
         add_custom_command(
             COMMENT "Packing ${CMAKE_STATIC_LIBRARY_PREFIX}${new_archive}${CMAKE_STATIC_LIBRARY_SUFFIX}"
             OUTPUT ${output_dir}/${CMAKE_STATIC_LIBRARY_PREFIX}${new_archive}${CMAKE_STATIC_LIBRARY_SUFFIX}
-            COMMAND $ENV{XDK_BUILD_PATH}/CMake/create_ar_script.sh ${new_archive}.ar ${output_dir}/${CMAKE_STATIC_LIBRARY_PREFIX}${new_archive}${CMAKE_STATIC_LIBRARY_SUFFIX} ${ARGN}
+            COMMAND $ENV{XDK_BUILD_PATH}/CMake/create_ar_script.sh ${new_archive}.ar ${output_dir}/${CMAKE_STATIC_LIBRARY_PREFIX}${new_archive}${CMAKE_STATIC_LIBRARY_SUFFIX} ${archives}
             COMMAND ${CMAKE_AR} -M < ${new_archive}.ar
             WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-            DEPENDS ${ARGN}
+            DEPENDS ${archives}
         )
     endif()
     add_custom_target(combined_${new_archive} ALL DEPENDS ${output_dir}/${CMAKE_STATIC_LIBRARY_PREFIX}${new_archive}${CMAKE_STATIC_LIBRARY_SUFFIX})
@@ -53,24 +71,26 @@ macro(xdk_combine_static_libraries output_dir new_archive)
             PROPERTIES
             IMPORTED_LOCATION ${output_dir}/${CMAKE_STATIC_LIBRARY_PREFIX}${new_archive}${CMAKE_STATIC_LIBRARY_SUFFIX}
             )
-endmacro()
+endfunction()
 
 function(xdk_get_filename_without_ext name_we filename)
     string(REGEX MATCH "^(.*)\\.[^.]*$" dummy ${filename})
     set(${name_we} ${CMAKE_MATCH_1} PARENT_SCOPE)
 endfunction()
 
-macro(xdk_compile_car GENERATED_SOURCES car_file)
+function(xdk_compile_car CAR_GENERATED_SOURCES car_file)
+    set(export_headers ${ARGN})
     xdk_get_filename_without_ext(car_filename ${car_file})
-    string(REPLACE "$ENV{XDK_SOURCE_PATH}/" "" XDK_RELATIVE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+    file(RELATIVE_PATH XDK_RELATIVE_DIR $ENV{XDK_SOURCE_PATH} ${CMAKE_CURRENT_SOURCE_DIR})
     if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${car_filename}.cmake)
         set(COMPARE_CMAKE_FILES_OR_PROMPT ${CMAKE_COMMAND} -E compare_files ${CMAKE_CURRENT_BINARY_DIR}/${car_filename}.cmake ${CMAKE_CURRENT_SOURCE_DIR}/${car_filename}.cmake)
     else()
         set(COMPARE_CMAKE_FILES_OR_PROMPT ${CMAKE_COMMAND} -E echo You could copy this cmake file to the source directory in order to compile the generated files. ${CMAKE_CURRENT_BINARY_DIR}/${car_filename}.cmake)
     endif()
-    set(${GENERATED_SOURCES}
+    set(GENERATED_SOURCES
         "${CMAKE_CURRENT_BINARY_DIR}/__${car_filename}.cpp"
     )
+    set(${CAR_GENERATED_SOURCES} ${GENERATED_SOURCES} PARENT_SCOPE)
     add_custom_command(
         COMMENT "Compiling ${XDK_RELATIVE_DIR}/${car_file}"
         OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/${car_filename}.cls"
@@ -78,14 +98,14 @@ macro(xdk_compile_car GENERATED_SOURCES car_file)
                "${CMAKE_CURRENT_BINARY_DIR}/${car_filename}.d"
                "${CMAKE_CURRENT_BINARY_DIR}/${car_filename}.mk"
                "${CMAKE_CURRENT_BINARY_DIR}/${car_filename}.cmake"
-               "${CMAKE_CURRENT_BINARY_DIR}/${car_filename}.h"
                "$ENV{XDK_TARGETS}/${car_filename}.cls"
-               ${${GENERATED_SOURCES}}
+               ${GENERATED_SOURCES}
                ${CURRENT_MIRROR_SOURCES}
+               ${CURRENT_MIRROR_HEADERS}
         COMMAND carc -I${CMAKE_CURRENT_SOURCE_DIR} ${CAR_FLAGS} -a -c ${car_filename}.cls -E ${car_filename}Ex.cls ${car_file}
         COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/${car_filename}.cls" "$ENV{XDK_TARGETS}/${car_filename}.cls"
         COMMAND ${CMAKE_COMMAND} -E echo Generating H, CPP files from ${car_filename}.cls ...
-        COMMAND lube ${LUBE_FLAGS} -C${car_filename}Ex.cls -f -T header -T cls2abrg -T background ${LUBE_TS}
+        COMMAND lube ${LUBE_FLAGS} -C${car_filename}Ex.cls -f -T header2 -T cls2abrg -T background ${LUBE_TS}
         COMMAND carc -I${CMAKE_CURRENT_SOURCE_DIR} ${CAR_FLAGS} -d ${car_file} >${car_filename}.d
         COMMAND ${CMAKE_COMMAND} -E echo >>${car_filename}.d
         COMMAND ${COMPARE_CMAKE_FILES_OR_PROMPT}
@@ -96,16 +116,17 @@ macro(xdk_compile_car GENERATED_SOURCES car_file)
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
         DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/${car_file}"
     )
-    add_custom_target(${car_file} ALL DEPENDS ${car_filename}.cls)
-endmacro()
+    add_custom_target(${car_file} ALL DEPENDS ${car_filename}.cls ${export_headers})
+endfunction()
 
-macro(xdk_compile_def GENERATED_SOURCES def_file)
+function(xdk_compile_def DEF_GENERATED_SOURCES def_file)
     xdk_get_filename_without_ext(def_filename ${def_file})
-    string(REPLACE "$ENV{XDK_SOURCE_PATH}/" "" XDK_RELATIVE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
-    set(${GENERATED_SOURCES}
-       "${CMAKE_CURRENT_BINARY_DIR}/__${def_filename}_exp.c"
-       "${CMAKE_CURRENT_BINARY_DIR}/__dllmain.cpp"
+    file(RELATIVE_PATH XDK_RELATIVE_DIR $ENV{XDK_SOURCE_PATH} ${CMAKE_CURRENT_SOURCE_DIR})
+    set(GENERATED_SOURCES
+        "${CMAKE_CURRENT_BINARY_DIR}/__${def_filename}_exp.c"
+        "${CMAKE_CURRENT_BINARY_DIR}/__dllmain.cpp"
     )
+    set(${DEF_GENERATED_SOURCES} ${GENERATED_SOURCES} PARENT_SCOPE)
     add_custom_command(
         COMMENT "Preprocessing ${XDK_RELATIVE_DIR}/${def_file}"
         OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/__${def_file}"
@@ -113,7 +134,7 @@ macro(xdk_compile_def GENERATED_SOURCES def_file)
                "${CMAKE_CURRENT_BINARY_DIR}/__${def_filename}.exp"
                "${CMAKE_CURRENT_BINARY_DIR}/__${def_filename}.vs"
                "${CMAKE_CURRENT_BINARY_DIR}/__section.cpp"
-               ${${GENERATED_SOURCES}}
+               ${GENERATED_SOURCES}
         COMMAND ${CMAKE_COMMAND} -E remove "${CMAKE_CURRENT_BINARY_DIR}/__section.cpp"
         COMMAND "${CMAKE_C_COMPILER}" -E -P -x c ${XDK_DEFINITIONS} -o __${def_file} ${CMAKE_CURRENT_SOURCE_DIR}/${def_file}
         COMMAND perl "$ENV{XDK_TOOLS}/def_trans.pl" __${def_file}
@@ -127,19 +148,7 @@ macro(xdk_compile_def GENERATED_SOURCES def_file)
     else()
         string(APPEND CMAKE_SHARED_LINKER_FLAGS " -Wl,--retain-symbols-file,__${def_filename}.sym -Wl,--version-script,__${def_filename}.vs")
     endif()
-endmacro()
-
-macro(xdk_gen_headers_from_cls target_name cls_file)
-    xdk_get_filename_without_ext(cls_filename ${cls_file})
-    add_custom_command(
-        COMMENT "Generating header files from ${cls_filename}"
-        OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/${cls_filename}.cpp"
-        COMMAND lube  -C${cls_file} -f -T header2 -T headercpp
-        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-        DEPENDS "$ENV{XDK_TARGETS}/${cls_file}"
-    )
-    add_custom_target(${target_name} ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${cls_filename}.cpp)
-endmacro()
+endfunction()
 
 include_directories($ENV{XDK_USER_INC})
 
@@ -176,8 +185,13 @@ endif()
 # Suppress warning: empty struct has size 0 in C, size 1 in C++ [-Wextern-c-compat]
 string(APPEND CMAKE_CXX_FLAGS " -Wno-extern-c-compat")
 
-if($ENV{XDK_TARGET_CPU} STREQUAL "x86")
-    if($ENV{XDK_TARGET_CPU_ARCH} STREQUAL "32")
+# Treat all the warnings as an error in the devtools build environment
+if("$ENV{XDK_TARGET_PRODUCT}" STREQUAL "devtools")
+    string(APPEND CMAKE_CXX_FLAGS " -Werror")
+endif()
+
+if("$ENV{XDK_TARGET_CPU}" STREQUAL "x86")
+    if("$ENV{XDK_TARGET_CPU_ARCH}" STREQUAL "32")
         string(APPEND CMAKE_C_FLAGS " -m32")
         string(APPEND CMAKE_CXX_FLAGS " -m32")
         string(APPEND CMAKE_LINK_FLAGS " -m32")
@@ -185,7 +199,7 @@ if($ENV{XDK_TARGET_CPU} STREQUAL "x86")
     string(APPEND CMAKE_CXX_FLAGS " -fPIC")
 endif()
 
-if($ENV{XDK_VERSION} STREQUAL "rls")
+if("$ENV{XDK_VERSION}" STREQUAL "rls")
     set(CMAKE_BUILD_TYPE Release)
 else()
     set(CMAKE_BUILD_TYPE Debug)

@@ -39,5 +39,9 @@ $IF module.attrib is "hasSinkObject"
 $END IF
 $END IF
 )
+
+set(CURRENT_MIRROR_HEADERS
+${GenerateExportHeaderForCMake(module)}$^
+)
 $
 $END OUTPUT

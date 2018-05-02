@@ -110,3 +110,9 @@ set(CURRENT_MIRROR_SOURCES
     _Elastos.CoreLibrarypub.cpp
     _Elastos.CoreLibraryabrg.cpp
 )
+
+set(CURRENT_MIRROR_HEADERS
+    Elastos.CoreLibrary.h
+    Elastos.CoreLibrary.Core.h
+    Elastos.CoreLibrary.Utility.h
+)

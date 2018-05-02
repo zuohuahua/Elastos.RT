@@ -135,7 +135,7 @@ int CheckFileFormat(int fd, Elf32_64_Ehdr *ehdr)
     }
 
     if ((cnt = read(fd, (char *)ehdr, sizeof(Elf32_64_Ehdr))) < 0) {
-        printf("read() %s failed! <%s,line:%d>\n", __FUNCTION__, __LINE__);
+        printf("read() failed! <%s,line:%d>\n", __FUNCTION__, __LINE__);
         return RETFAIL;
     }
 

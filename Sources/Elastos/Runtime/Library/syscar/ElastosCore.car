@@ -20,7 +20,7 @@
 
 
 
-library Elastos:System:elastos.so
+library Elastos:System:elastos.eco
 {
     /**
      * Specifies the event that causes the end of waiting for synchronous object.
@@ -31,12 +31,12 @@ library Elastos:System:elastos.so
         WaitResult_TimedOut     = 0x02  /**< The time-out interval elapsed, and the synchronous object is not signaled. */
     }
 
-    merge("../stdobjs.car");
+    merge("stdobjs.car");
 
-    merge("../ElReflection.car");
-    merge("../ElMarshal.car");
-    merge("../ElCarrier.car");
-    merge("../ElServiceManager.car");
+    merge("ElReflection.car");
+    merge("ElMarshal.car");
+    merge("ElCarrier.car");
+    merge("ElServiceManager.car");
 }
 
 /** @} */

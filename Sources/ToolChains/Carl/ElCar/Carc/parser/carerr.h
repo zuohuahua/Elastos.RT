@@ -151,7 +151,7 @@ enum CARErrorNo {
     CAR_E_DupAnnotationName,
 };
 
-extern "C" void ErrorReport(CARErrorNo, ...);
+extern void ErrorReport(/* CARErrorNo */ int, ...);
 extern void SuppressWarning();
 extern void TreatWarningAsError();
 extern void ErrorReporterInit(const char *);

@@ -4,3 +4,7 @@ set(CURRENT_MIRROR_SOURCES
     _Servicepub.cpp
     _Serviceabrg.cpp
 )
+
+set(CURRENT_MIRROR_HEADERS
+    Service.h
+)

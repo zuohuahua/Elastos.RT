@@ -114,7 +114,7 @@ int SaveCLS(const char *pszName, const CLSModule *pModule)
 int LoadCLSFromFile(const char *pszName, CLSModule **ppDest)
 {
     int r, nRet = CLSError_OutOfMemory;
-    long nLength;
+    long nLength, nRead;
     FILE *pFile;
     CLSModule *pSrc;
 
@@ -126,12 +126,17 @@ int LoadCLSFromFile(const char *pszName, CLSModule **ppDest)
 
     fseek(pFile, 0L, SEEK_END);
     nLength = ftell(pFile);
+    rewind(pFile);
 
     pSrc = (CLSModule *)_alloca(nLength);
     if (!pSrc) goto ErrorExit;
 
-    fseek(pFile, 0L, SEEK_SET);
-    fread(pSrc, 1, nLength, pFile);
+    nRead = fread(pSrc, 1, nLength, pFile);
+    if (nRead != nLength) {
+        nRet = CLSError_OpenFile;
+        goto ErrorExit;
+    }
+
 
     r = IsValidCLS(pSrc, nLength, pszName);
 

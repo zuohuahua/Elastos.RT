@@ -372,7 +372,7 @@ int _GenerateJavaClassUser(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
 
             //Call the method and process the return value.
             if (outParaPos >= 0) {
-                if (szParameters != NULL) {
+                if (szParameters[0] != '\0') {
                     sprintf(szContent, "        return native%s(%s);\n", methodDesc->mName, szParameters);
                 }
                 else {
@@ -389,7 +389,7 @@ int _GenerateJavaClassUser(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
         pCtx->PutString("    }\n\n");
 
         //Record nativeXX function.
-        if (szNativeDefineParameters != NULL) {
+        if (szNativeDefineParameters[0] != '\0') {
             // sprintf(szContent, "    %s native%s(%s);\n\n", retType, methodDesc->mName, szNativeDefineParameters);
             pCtx->PutString("    private static native ");
             pCtx->PutString(retType);

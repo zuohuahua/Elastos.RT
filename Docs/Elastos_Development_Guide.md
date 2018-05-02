@@ -1261,8 +1261,8 @@ module
 #ifndef __HELLOCAR_ANIMAL_H__
 #define __HELLOCAR_ANIMAL_H__
 
-#include <_Elastos.HelloCar.h>    // include 模块头文件，文件名格式：模块名称_server.h
-#include <elastos/core/Object.h>  // include Object 基类
+#include "Elastos.HelloCar.h"     // include 模块头文件，文件名格式：模块名称.h
+#include "elastos/core/Object.h"  // include Object 基类
 
 using Elastos::Core::IComparable;
 

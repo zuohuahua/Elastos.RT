@@ -53,7 +53,7 @@ PVOID SaveTokenContext()
     if (s_bIn) dwContext |= 0x80000000;
     if (s_bBrace) dwContext |= 0x4000000;
 
-    return (PVOID)dwContext;
+    return (PVOID)(size_t)dwContext;
 }
 
 void RestoreTokenContext(PVOID pvCtx)

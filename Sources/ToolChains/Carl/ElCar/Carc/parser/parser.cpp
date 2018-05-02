@@ -53,7 +53,7 @@ static const char *s_pszSourcePath = "";
 static const char *s_pszFactoryUrl = "";
 static char *s_pszCurrentPath = (char *)"";
 static char *s_pszCarFullName = (char *)"";
-static char *s_pszRuntimeFileName = (char *)"";
+static const char *s_pszRuntimeFileName = (char *)"";
 ClassAttrib s_DefaultThreadModel = ClassAttrib_freethreaded;
 bool s_bLenientNaming = false;
 bool s_bInKernel = false;
@@ -2031,7 +2031,7 @@ int GenerateEnums(CLSModule *pModule)
     return 0;
 }
 
-char* GetRuntimeModuleName()
+const char* GetRuntimeModuleName()
 {
     if (*s_pszRuntimeFileName != '\0') {
         return s_pszRuntimeFileName;
@@ -6446,7 +6446,7 @@ int LoadSystemLibrary(BOOL bNoElastos)
 int GenerateModuleName(const char *pszModuleName)
 {
     char* platform = getenv("XDK_TARGET_PLATFORM");
-    char* suffix = ".eco";
+    const char* suffix = ".eco";
 
     s_pModule->mName = new char[strlen(pszModuleName) + 1];
     if (!s_pModule->mName) goto OutOfMemoryError;

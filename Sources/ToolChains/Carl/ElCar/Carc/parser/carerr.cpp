@@ -285,7 +285,7 @@ void EnableWarning(int wrn)
     }
 }
 
-void __cdecl ErrorReport(CARErrorNo err, ...)
+void __cdecl ErrorReport(/* CARErrorNo */ int err, ...)
 {
     int n;
     va_list vl;

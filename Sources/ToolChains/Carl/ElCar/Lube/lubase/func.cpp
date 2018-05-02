@@ -37,9 +37,9 @@ PVOID ModuleArg(PLUBECTX pCtx, MemberType member)
         case Member_Uunm:
             return (PVOID)pCtx->m_pModule->mUunm;
         case Member_CarCode:
-            return (PVOID)pCtx->m_pModule->mChecksum;
+            return (PVOID)(size_t)pCtx->m_pModule->mChecksum;
         case Member_BuildDate:
-            return (PVOID)pCtx->m_pModule->mBarcode;
+            return (PVOID)(size_t)pCtx->m_pModule->mBarcode;
         default:
             return NULL;
     }

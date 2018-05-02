@@ -4,3 +4,7 @@ set(CURRENT_MIRROR_SOURCES
     _Switchpub.cpp
     _Switchabrg.cpp
 )
+
+set(CURRENT_MIRROR_HEADERS
+    Switch.h
+)

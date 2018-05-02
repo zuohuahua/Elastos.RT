@@ -10,12 +10,12 @@ add_definitions(-DHAVE_GETTID
                 -DHAVE_ANDROID_OS
                 -DHAVE_PRCTL
                 -DHAVE_SYS_UIO_H
-                -DHAVE_OFF64_T)
+                -DHAVE_OFF64_T
+                -D_INSIDE_ELASTOS_CORELIBRARY_)
 
 xdk_add_subdirectories(
     corelibrary
     libcore
     elastos
-    Lib
 )
 

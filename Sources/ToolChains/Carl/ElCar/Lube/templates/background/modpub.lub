@@ -357,14 +357,18 @@ UInt32 HashTable::Hash(
     return value;
 }
 
-$   WITH all classes DO
-${ClassNamespaceBegin(class)}$^
-extern const _ELASTOS ClassID ECLSID_${name} = {
-    ${uuid},
-    (char *)c_p${MacroRewrite(module.name)}Uunm,
-    0x${module.carcode} };
-${ClassNamespaceEnd(class)}$^
-$   END DO ;; all classes
+$;; $   WITH all classes DO
+$;; ${ClassNamespaceBegin(class)}$^
+$;; extern const _ELASTOS ClassID ECLSID_${name} = {
+$;;     ${uuid},
+$;;     (char *)c_p${MacroRewrite(module.name)}Uunm,
+$;;     0x${module.carcode} };
+$;; ${ClassNamespaceEnd(class)}$^
+$;; $   END DO ;; all classes
+
+#ifndef _INSIDE_${Upper(module.name)}_
+#define _INSIDE_${Upper(module.name)}_
+#endif // _INSIDE_${Upper(module.name)}_
 
 ${GenerateDependHeaderForModule(module)}
 
@@ -381,8 +385,8 @@ const ${type} ${interface.name}::${name} = ${value};
 $        END IF
 $     END IF
 $   END DO ;; all interfaceconsts
-extern const _ELASTOS InterfaceID EIID_${name} = \
-    ${iid};
+$;; extern const _ELASTOS InterfaceID EIID_${name} = \
+$;;     ${iid};
 ${InterfaceNamespaceEnd(interface)}$^
 $   END DO ;; all interfaces
 $

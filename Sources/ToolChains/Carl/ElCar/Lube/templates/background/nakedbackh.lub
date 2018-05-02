@@ -20,6 +20,10 @@ $OUTPUT "_${fullname}.h"
 #ifndef __CAR_${fullname}_H__
 #define __CAR_${fullname}_H__
 
+#ifndef _INSIDE_${Upper(module.name)}_
+#define _INSIDE_${Upper(module.name)}_
+#endif // _INSIDE_${Upper(module.name)}_
+
 ${GenerateDependHeaderForClass(class)}
 $IF attrib is "singleton"
 #include "elspinlock.h"

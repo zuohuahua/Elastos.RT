@@ -1,6 +1,6 @@
 #import "CppInterface.h"
 
-#include <_Elastos.HelloCarDemo.h>
+#include "Elastos.HelloCarDemo.h"
 
 @implementation CppInterface
 

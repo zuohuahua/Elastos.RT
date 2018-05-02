@@ -64,7 +64,7 @@ void GenCarDependences(const char *pszden, int nRes)
 bool GenCarChecksum(const char *pszName, CLSModule *pModule)
 {
     FILE *pFile;
-    int len;
+    int len, read;
     char *pBuf;
     unsigned int checksum;
 
@@ -75,22 +75,22 @@ bool GenCarChecksum(const char *pszName, CLSModule *pModule)
 
     fseek(pFile, 0, SEEK_END);
     len=ftell(pFile);
+    rewind(pFile);
     if (len <= 0) {
         return false;
     }
 
-    pBuf = (char*)malloc(len + 1);
+    pBuf = (char*)malloc(len);
     if (!pBuf) {
         return false;
     }
-    fseek(pFile, 0, SEEK_SET);
-    fread(pBuf, sizeof(char), len + 1, pFile);
-    if (!feof(pFile)) {
+    read = fread(pBuf, sizeof(char), len, pFile);
+    fclose(pFile);
+
+    if (read != len) {
         free(pBuf);
         return false;
     }
-
-    fclose(pFile);
 
     checksum = rabin(pBuf, len);
     pModule->mChecksum = checksum;

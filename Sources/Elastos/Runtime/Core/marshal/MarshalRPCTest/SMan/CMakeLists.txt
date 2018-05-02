@@ -3,9 +3,12 @@ set(SOURCES
     SMan.cpp
 )
 
-xdk_gen_headers_from_cls(smans_headers SManS.cls)
-
 add_executable(SMan ${SOURCES})
+
+target_include_directories(
+    SMan PRIVATE
+    ${CMAKE_CURRENT_BINARY_DIR}/../SManS
+)
 
 target_link_libraries(SMan
     Elastos.Runtime_static
@@ -14,4 +17,3 @@ target_link_libraries(SMan
     pthread
 )
 
-add_dependencies(SMan smans_headers)

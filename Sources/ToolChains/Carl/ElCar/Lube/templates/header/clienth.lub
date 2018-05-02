@@ -25,15 +25,15 @@ $
 using namespace Elastos;
 $WITH all libraries DO
 ${CreateHFiles(name)}
-${CreateCPPFiles(name)}
+$;;{CreateCPPFiles(name)}
 $
 $END DO
 #endif // !_NO_INCLIST
 $
-
-$
+$TEMPLATE "exportdecluuid.lub"
 $TEMPLATE "decltype.lub"
 $
+${GenerateModuleImplementation2(module)}
 
 #endif // __CAR_${Upper(name)}_H__
 $

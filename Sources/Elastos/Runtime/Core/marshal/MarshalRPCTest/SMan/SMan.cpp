@@ -2,8 +2,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include "SManS.cpp"
-#include "_SManS.h"
+#include "SManS.h"
 
 
 int main(int argc, char *argv[])

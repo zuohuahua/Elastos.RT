@@ -4,3 +4,7 @@ set(CURRENT_MIRROR_SOURCES
     _SManCpub.cpp
     _SManCabrg.cpp
 )
+
+set(CURRENT_MIRROR_HEADERS
+    SManC.h
+)

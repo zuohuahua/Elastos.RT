@@ -16,3 +16,4 @@ fi
 export XDK_BUILD_TOOL=cmake
 export XDK_TARGET_PRODUCT=devtools
 export LD_LIBRARY_PATH=.
+export XDK_VERSION=rls

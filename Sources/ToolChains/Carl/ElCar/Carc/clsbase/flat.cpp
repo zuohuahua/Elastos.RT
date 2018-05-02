@@ -909,7 +909,7 @@ int CFlatBuffer::CalcBufferSize(const CLSModule *pModule)
 
 size_t FlatCLS(const CLSModule *pSrc, void **ppDest)
 {
-    size_t nSize;
+    long nSize;
     CLSModule *pDest;
     CFlatBuffer buffer;
 

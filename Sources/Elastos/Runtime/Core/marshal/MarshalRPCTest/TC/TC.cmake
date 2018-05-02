@@ -4,3 +4,7 @@ set(CURRENT_MIRROR_SOURCES
     _TCpub.cpp
     _TCabrg.cpp
 )
+
+set(CURRENT_MIRROR_HEADERS
+    TC.h
+)

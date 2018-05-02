@@ -3,11 +3,11 @@ set(CAR_FLAGS -n -u)
 set(LUBE_FLAGS -n -u)
 
 include(Elastos.HelloCar.cmake)
-xdk_compile_car(GENERATED_SOURCES Elastos.HelloCar.car)
+xdk_compile_car(CAR_GENERATED_SOURCES Elastos.HelloCar.car)
 
 
 set(SOURCES
-    ${GENERATED_SOURCES}
+    ${CAR_GENERATED_SOURCES}
     ${CURRENT_MIRROR_SOURCES}
     Animal.cpp
     Cat.cpp
@@ -26,7 +26,6 @@ add_library(Elastos.HelloCar SHARED ${SOURCES})
 target_link_libraries(Elastos.HelloCar
     Elastos.Runtime
     Elastos.Runtime_static
-    Elastos.CoreLibrary.UUIDs
     Elastos.CoreLibrary
 )
 

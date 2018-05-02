@@ -9,8 +9,8 @@ set(SOURCES
     dllinit.cpp
 )
 
-xdk_compile_def(GENERATED_SOURCES elastos.def)
-add_library(Elastos.Runtime SHARED ${GENERATED_SOURCES} ${SOURCES})
+xdk_compile_def(DEF_GENERATED_SOURCES elastos.def)
+add_library(Elastos.Runtime SHARED ${DEF_GENERATED_SOURCES} ${SOURCES})
 
 set(MY_LINK_LIBRARIES)
 

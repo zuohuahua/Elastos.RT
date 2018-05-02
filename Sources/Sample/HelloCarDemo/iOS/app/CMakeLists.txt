@@ -63,7 +63,7 @@ set_target_properties(${APP_NAME} PROPERTIES XCODE_ATTRIBUTE_ENABLE_BITCODE "NO"
 
 target_include_directories(${APP_NAME} PUBLIC
     "$ENV{XDK_USER_INC}"
-    "${CMAKE_CURRENT_BINARY_DIR}/../.."
+    "${CMAKE_CURRENT_BINARY_DIR}/../../../Car"
 )
 
 # Locate system libraries on iOS
@@ -88,8 +88,7 @@ set_target_properties( Elastos.Runtime PROPERTIES IMPORTED_LOCATION $ENV{XDK_TAR
 target_link_libraries(${APP_NAME} Elastos.Runtime)
 
 target_link_libraries(${APP_NAME}
-    $ENV{XDK_USER_LIB}/libElastos.Runtime_static.a
-    $ENV{XDK_USER_LIB}/libElastos.HelloCarDemo.UUIDs.a)
+    $ENV{XDK_USER_LIB}/libElastos.Runtime_static.a)
 
 
 # Turn on ARC

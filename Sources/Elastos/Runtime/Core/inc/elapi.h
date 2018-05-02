@@ -35,7 +35,7 @@
 #define _NO_INCLIST
 #endif
 #include <elstring.h>
-#include <_ElastosCore.h>
+#include <ElastosCore.h>
 #include <carapi.h>
 
 ELAPI ECO_PUBLIC _CReflector_AcquireModuleInfo(

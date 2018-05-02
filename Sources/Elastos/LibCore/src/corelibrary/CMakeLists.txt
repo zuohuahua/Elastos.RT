@@ -3,10 +3,11 @@ set(CAR_FLAGS -n -u)
 set(LUBE_FLAGS -n -u)
 
 include(Elastos.CoreLibrary.cmake)
-xdk_compile_car(GENERATED_SOURCES Elastos.CoreLibrary.car)
+xdk_export_car_headers(export_headers ${CURRENT_MIRROR_HEADERS})
+xdk_compile_car(CAR_GENERATED_SOURCES Elastos.CoreLibrary.car ${export_headers})
 
 set(SOURCES
-    ${GENERATED_SOURCES}
+    ${CAR_GENERATED_SOURCES}
     ${CURRENT_MIRROR_SOURCES}
     AsynchronousCloseMonitor.cpp
 #    Atomic.cpp

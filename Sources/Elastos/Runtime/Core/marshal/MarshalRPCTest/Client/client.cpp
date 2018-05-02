@@ -3,8 +3,8 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include "_SManC.h"
-#include "_TC.h"
+#include "SManC.h"
+#include "TC.h"
 
 
 

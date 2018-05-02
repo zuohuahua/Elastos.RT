@@ -299,6 +299,17 @@ int LoadLubeFromFile(const char *pszName, PLUBEHEADER *ppLube)
     FILE *pFile;
     PLUBEHEADER pLube;
 
+#ifdef _cmake
+    if (pszName == NULL) {
+        char path[256];
+        strcpy(path, getenv("XDK_TOOLS"));
+        strcat(path, "/");
+        strcat(path, getenv("XDK_TARGET_CPU_ARCH"));
+        strcat(path, "/lube.lbo");
+        return LoadLubeFromFile(path, ppLube);
+    }
+#endif
+
     pFile = fopen(pszName, "rb");
     if (!pFile) {
         fprintf(stderr, "[ERROR] lube (0x0304 : Can't open file %s.\n", pszName);
@@ -330,22 +341,6 @@ ErrorExit:
     return nRet;
 }
 
-#ifdef _cmake
-int LoadLubeFromCLS(const char *pszName, PLUBEHEADER *ppLube)
-{
-    if (pszName == NULL) {
-        char path[256];
-        strcpy(path, getenv("XDK_TOOLS"));
-        strcat(path, "/");
-        strcat(path, getenv("XDK_TARGET_CPU_ARCH"));
-        strcat(path, "/lube.lbo");
-        return LoadLubeFromFile(path, ppLube);
-    }
-    fprintf(stderr, "[ERROR] lube (0x0306 : Only support load lube.lbo for now.\n", pszName);
-    return LUBE_FAIL;
-}
-#endif
-
 int LoadLube(const char *pszName, PLUBEHEADER *ppLube)
 {
     int n;
@@ -353,7 +348,7 @@ int LoadLube(const char *pszName, PLUBEHEADER *ppLube)
 
     if (!pszName) {
 #if defined(_cmake)
-        return LoadLubeFromCLS(NULL, ppLube);
+        return LoadLubeFromFile(NULL, ppLube);
 #elif defined(_linux)
     	return LoadLubeFromELF(NULL, ppLube);
 #elif defined(_win32)

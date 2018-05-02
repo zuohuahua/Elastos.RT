@@ -49,7 +49,7 @@ typedef enum LubeErrorNo {
     Lube_E_InvalidEmbed,
 } LubeErrorNo;
 
-extern "C" void ErrorReport(LubeErrorNo, ...);
+extern void ErrorReport(/* LubeErrorNo */ int, ...);
 extern void ErrorReporterInit(const char *);
 extern void ErrorStringFix(const char *, const char *);
 extern void * SaveErrorContext();

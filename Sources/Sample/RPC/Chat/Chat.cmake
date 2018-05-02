@@ -4,3 +4,7 @@ set(CURRENT_MIRROR_SOURCES
     _Chatpub.cpp
     _Chatabrg.cpp
 )
+
+set(CURRENT_MIRROR_HEADERS
+    Chat.h
+)

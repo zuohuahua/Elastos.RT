@@ -17,20 +17,15 @@ $
 $INPUT module
 $
 $IF type is "library"
-#ifdef _UNDEFDLLEXP
-#define DLLEXP
-#else
-#define DLLEXP __declspec(dllimport)
-#endif
 
 $   WITH all classes DO
 $       IF attrib is not "private"
-EXTERN_C DLLEXP const _ELASTOS ClassID ECLSID_${name};
+EXTERN_C const _ELASTOS ClassID ECLSID_${name};
 $       END IF ;; not private
 $   END DO
 
 $   WITH all interfaces DO
-EXTERN_C DLLEXP const _ELASTOS InterfaceID EIID_${name};
+EXTERN_C const _ELASTOS InterfaceID EIID_${name};
 $   END DO
 $
 $ELSE ;; !(type is "library")

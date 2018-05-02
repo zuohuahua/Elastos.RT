@@ -105,6 +105,7 @@ DECL_USERFUNC(GenerateModuleImplementation);
 DECL_USERFUNC(GenerateModuleImplementation2);
 DECL_USERFUNC(GenerateDependHeaderForClass);
 DECL_USERFUNC(GenerateDependHeaderForModule);
+DECL_USERFUNC(GenerateExportHeaderForCMake);
 DECL_USERFUNC(JavaMethodSignature);
 DECL_USERFUNC(GenerateJavaClassImpl);
 DECL_USERFUNC(GenerateJavaClassUser);
@@ -225,7 +226,9 @@ const UserFuncEntry g_userFuncs[] = {
     USERFUNC_(GenerateDependHeaderForClass, ARGTYPE_(Object_Class, Member_None), \
             "Generate the depend header files for class"),
     USERFUNC_(GenerateDependHeaderForModule, ARGTYPE_(Object_Module, Member_None), \
-            "Generate the depend header files for class"),
+            "Generate the depend header files for module"),
+    USERFUNC_(GenerateExportHeaderForCMake, ARGTYPE_(Object_Module, Member_None), \
+            "Generate the export header files for CMake"),
     USERFUNC_(JavaMethodSignature, ARGTYPE_(Object_None, Member_Type), \
             "Get java signatue string"),
     USERFUNC_(GenerateJavaClassImpl, ARGTYPE_(Object_ClsIntf, Member_None), \
@@ -2278,15 +2281,15 @@ private:
                     context->PutString("interface ");
                     context->PutString(mInterface->mName);
                     context->PutString(";\n");
-                    context->PutString("EXTERN const _ELASTOS InterfaceID EIID_");
-                    context->PutString(mInterface->mName);
-                    context->PutString(";\n");
+                    // context->PutString("EXTERN const _ELASTOS InterfaceID EIID_");
+                    // context->PutString(mInterface->mName);
+                    // context->PutString(";\n");
                     break;
 
                     case TYPE_CLASS:
-                    context->PutString("EXTERN const _ELASTOS ClassID ECLSID_");
-                    context->PutString(mClass->mName);
-                    context->PutString(";\n");
+                    // context->PutString("EXTERN const _ELASTOS ClassID ECLSID_");
+                    // context->PutString(mClass->mName);
+                    // context->PutString(";\n");
                     break;
 
                     default:
@@ -2572,7 +2575,7 @@ void NamespaceEnd(const char* ns, FILE* pFile)
     while (begin != NULL) {
         char *dot = strchr(begin, '.');
         if (dot != NULL) *dot = '\0';
-        fprintf(pFile, "}\n", begin);
+        fprintf(pFile, "}\n");
         if (dot != NULL) begin = dot + 1;
         else begin = NULL;
     }
@@ -2705,42 +2708,22 @@ void OutputInterface(InterfaceDirEntry* pItfDir, CLSModule* pModule)
             fprintf(pFile, "#ifndef __%s__\n", buffer);
             fprintf(pFile, "#define __%s__\n", buffer);
             fprintf(pFile, "\n");
-            fprintf(pFile, "#include \"_%s\"\n", pPath);
+            fprintf(pFile, "#include \"%s.h\"\n", pModule->mName);
             fprintf(pFile, "\n");
-            fprintf(pFile, "#endif // __%s__\n", buffer);
-            fclose(pFile);
-
-            char *pPath2 = (char*)malloc(strlen(pPath) + 2);
-            strcpy(pPath2, "_");
-            strcat(pPath2, pPath);
-            pFile = fopen(pPath2, "w+t");
-            ConvertToDefine(pPath2, buffer);
-            free(pPath2);
         }
-
-        fprintf(pFile, "#ifndef __%s__\n", buffer);
-        fprintf(pFile, "#define __%s__\n", buffer);
-        fprintf(pFile, "\n");
-        fprintf(pFile, "#include \"%s.h\"\n", pModule->mName);
-        fprintf(pFile, "\n");
         fprintf(pFile, "ELAPI _Impl_AcquireCallbackHandler(PInterface pServerObj, _ELASTOS REIID iid, PInterface *ppHandler);\n");
         fprintf(pFile, "ELAPI _Impl_CheckClsId(PInterface pServerObj, const _ELASTOS ClassID* pClassid, PInterface *ppServerObj);\n");
         fprintf(pFile, "\n");
     }
     else {
+        pFile = fopen(pPath, "r+t");
+        assert(pFile != NULL);
         if (pItfDir->mFileIndex != 0) {
-            char *pPath2 = (char*)malloc(strlen(pPath) + 2);
-            strcpy(pPath2, "_");
-            strcat(pPath2, pPath);
-            pFile = fopen(pPath2, "r+t");
-            ConvertToDefine(pPath2, buffer);
-            free(pPath2);
+            fseek(pFile, -1 * (strlen(buffer) +  15), SEEK_END);
         }
         else {
-            pFile = fopen(pPath, "r+t");
+            fseek(pFile, 0, SEEK_END);
         }
-        assert(pFile != NULL);
-        fseek(pFile, -1 * (strlen(buffer) +  15), SEEK_END);
     }
 
     //namespace begin
@@ -2899,8 +2882,10 @@ void OutputInterface(InterfaceDirEntry* pItfDir, CLSModule* pModule)
     }
 
     ConvertToDefine(pPath, buffer);
-    fprintf(pFile, "\n");
-    fprintf(pFile, "#endif // __%s__\n", buffer);
+    if (pItfDir->mFileIndex != 0) {
+        fprintf(pFile, "\n");
+        fprintf(pFile, "#endif // __%s__\n", buffer);
+    }
 
     fclose(pFile);
 
@@ -2966,8 +2951,7 @@ void OutputClass(ClassDirEntry* pClsDir, CLSModule* pModule)
         pPath = (char*)malloc(strlen(pModule->mName) + 4);
         strcpy(pPath, "_");
         strcat(pPath, pModule->mName);
-        strcat(pPath, ".");
-        strcat(pPath, "h");
+        strcat(pPath, ".h");
     }
     else {
         pPath = (char*)malloc(strlen(pModule->mFileDirs[pClsDir->mFileIndex]->mPath) + 3);
@@ -2979,47 +2963,20 @@ void OutputClass(ClassDirEntry* pClsDir, CLSModule* pModule)
     ConvertToDefine(pPath, buffer);
 
     nRet = access(pPath, 0);
-    if (nRet != 0) {
-        pFile = fopen(pPath, "w+t");
+    assert(nRet == 0);
+    pFile = fopen(pPath, "r+t");
+    assert(pFile != NULL);
 
-        if (pClsDir->mFileIndex != 0) {
-            fprintf(pFile, "#ifndef __%s__\n", buffer);
-            fprintf(pFile, "#define __%s__\n", buffer);
-            fprintf(pFile, "\n");
-            fprintf(pFile, "#include \"_%s\"\n", pPath);
-            fprintf(pFile, "\n");
-            fprintf(pFile, "#endif // __%s__\n", buffer);
-            fclose(pFile);
-
-            char *pPath2 = (char*)malloc(strlen(pPath) + 2);
-            strcpy(pPath2, "_");
-            strcat(pPath2, pPath);
-            pFile = fopen(pPath2, "w+t");
-            ConvertToDefine(pPath2, buffer);
-            free(pPath2);
-        }
-
-        fprintf(pFile, "#ifndef __%s__", buffer);
-        fprintf(pFile, "\n");
-        fprintf(pFile, "#include \"%s.h\"\n", pModule->mName);
-        fprintf(pFile, "ELAPI _Impl_CheckClsId(PInterface pServerObj, const _ELASTOS ClassID* pClassid, PInterface *ppServerObj);\n");
-        fprintf(pFile, "\n");
-    }
-    else {
-        if (pClsDir->mFileIndex != 0) {
-            char *pPath2 = (char*)malloc(strlen(pPath) + 2);
-            strcpy(pPath2, "_");
-            strcat(pPath2, pPath);
-            pFile = fopen(pPath2, "r+t");
-            ConvertToDefine(pPath2, buffer);
-            free(pPath2);
-        }
-        else {
-            pFile = fopen(pPath, "r+t");
-        }
-        assert(pFile != NULL);
+    if (pClsDir->mFileIndex != 0) {
         fseek(pFile, -1 * (strlen(buffer) +  15), SEEK_END);
     }
+    else {
+        fseek(pFile, 0, SEEK_END);
+    }
+
+    ConvertToDefine(pModule->mName, buffer);
+    _strupr(buffer);
+    fprintf(pFile, "#ifndef _INSIDE_%s_\n", buffer);
 
     //namespace begin
     if (pClsDir->mNameSpace != NULL && pClsDir->mNameSpace[0] != '\0' &&
@@ -3183,7 +3140,7 @@ void OutputClass(ClassDirEntry* pClsDir, CLSModule* pModule)
                         fprintf(pFile, "        *__%s = (%s%s*)__pNewObj->Probe(%sEIID_%s);\n",
                                 pItfDir->mName, buffer, pItfDir->mName, buffer, pItfDir->mName);
                         fprintf(pFile, "        if (*__%s) __pNewObj->AddRef();\n",
-                                pItfDir->mName, pItfDir->mName);
+                                pItfDir->mName);
                         fprintf(pFile, "        else ec = E_NO_INTERFACE;\n");
                         fprintf(pFile, "        __pNewObj->Release();\n");
                         fprintf(pFile, "\n");
@@ -3203,10 +3160,15 @@ void OutputClass(ClassDirEntry* pClsDir, CLSModule* pModule)
         strcmp(pClsDir->mNameSpace, "systypes")) {
         NamespaceEnd(pClsDir->mNameSpace, pFile);
     }
+    ConvertToDefine(pModule->mName, buffer);
+    _strupr(buffer);
+    fprintf(pFile, "#endif // _INSIDE_%s_\n", buffer);
 
     ConvertToDefine(pPath, buffer);
-    fprintf(pFile, "\n");
-    fprintf(pFile, "#endif // __%s__\n", buffer);
+    if (pClsDir->mFileIndex != 0) {
+        fprintf(pFile, "\n");
+        fprintf(pFile, "#endif // __%s__\n", buffer);
+    }
 
     fclose(pFile);
 
@@ -3237,17 +3199,6 @@ IMPL_USERFUNC(GenerateModuleImplementation2)(PLUBECTX pCtx, PSTATEDESC pDesc, PV
             remove(pPath);
         }
 
-        if (itfDir->mFileIndex != 0) {
-            char *pPath2 = (char*)malloc(strlen(pPath) + 2);
-            strcpy(pPath2, "_");
-            strcat(pPath2, pPath);
-
-            if (access(pPath2, 0) == 0) {
-                printf("module: %s exist, delete\n", pPath2);
-                remove(pPath2);
-            }
-            free(pPath2);
-        }
         free(pPath);
     }
 
@@ -3262,6 +3213,27 @@ IMPL_USERFUNC(GenerateModuleImplementation2)(PLUBECTX pCtx, PSTATEDESC pDesc, PV
         ClassDirEntry* clsDir = module->mClassDirs[i];
         OutputClass(clsDir, module);
     }
+
+    pPath = (char*)malloc(strlen(module->mName) + 4);
+    strcpy(pPath, "_");
+    strcat(pPath, module->mName);
+    strcat(pPath, ".h");
+
+    if (access(pPath, 0) == 0) {
+        FILE *pFile = fopen(pPath, "r+t");
+        assert(pFile != NULL);
+
+        char buffer[4097];
+        size_t num_read;
+        do {
+            num_read = fread(buffer, sizeof(char), 4096, pFile);
+            buffer[num_read] = '\0';
+            pCtx->PutString(buffer);
+        } while(num_read == 4096);
+        remove(pPath);
+    }
+
+    free(pPath);
 
     return LUBE_OK;
 }
@@ -3354,7 +3326,7 @@ IMPL_USERFUNC(GenerateDependHeaderForClass)(PLUBECTX pCtx, PSTATEDESC pDesc, PVO
     }
     else {
         char buffer[512];
-        strcpy(buffer, "#include \"_");
+        strcpy(buffer, "#include \"");
         strcat(buffer, pCtx->m_pModule->mName);
         strcat(buffer, ".h\"\n");
         sHeaders.AddHeader(buffer);
@@ -3390,8 +3362,7 @@ IMPL_USERFUNC(GenerateDependHeaderForModule)(PLUBECTX pCtx, PSTATEDESC pDesc, PV
         InterfaceDirEntry* itfDir = module->mInterfaceDirs[module->mDefinedInterfaceIndexes[i]];
         if (itfDir->mFileIndex == 0) {
             char* pPath = (char*)malloc(strlen(module->mName) + 4);
-            strcpy(pPath, "_");
-            strcat(pPath, module->mName);
+            strcpy(pPath, module->mName);
             strcat(pPath, ".");
             strcat(pPath, "h");
 
@@ -3406,8 +3377,7 @@ IMPL_USERFUNC(GenerateDependHeaderForModule)(PLUBECTX pCtx, PSTATEDESC pDesc, PV
         ClassDirEntry* clsDir = module->mClassDirs[i];
         if (clsDir->mFileIndex == 0) {
             char* pPath = (char*)malloc(strlen(module->mName) + 4);
-            strcpy(pPath, "_");
-            strcat(pPath, module->mName);
+            strcpy(pPath, module->mName);
             strcat(pPath, ".");
             strcat(pPath, "h");
 
@@ -3418,6 +3388,34 @@ IMPL_USERFUNC(GenerateDependHeaderForModule)(PLUBECTX pCtx, PSTATEDESC pDesc, PV
             return LUBE_OK;
         }
     }
+
+    return LUBE_OK;
+}
+
+IMPL_USERFUNC(GenerateExportHeaderForCMake)(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
+{
+    assert(NULL != pCtx->m_pModule && pvArg == pCtx->m_pModule);
+    CLSModule* module = pCtx->m_pModule;
+
+    sHeaders.Clear();
+
+    char buffer[512];
+    strcpy(buffer, "    ");
+    strcat(buffer, module->mName);
+    strcat(buffer, ".h\n");
+    sHeaders.AddHeader(buffer);
+
+    for (int i = 0; i < module->mDefinedInterfaceCount; i++) {
+        InterfaceDirEntry* itfDir = module->mInterfaceDirs[module->mDefinedInterfaceIndexes[i]];
+        if (itfDir->mFileIndex != 0) {
+            strcpy(buffer, "    ");
+            strcat(buffer, module->mFileDirs[itfDir->mFileIndex]->mPath);
+            strcat(buffer, ".h\n");
+            sHeaders.AddHeader(buffer);
+        }
+    }
+
+    sHeaders.Print(pCtx);
 
     return LUBE_OK;
 }

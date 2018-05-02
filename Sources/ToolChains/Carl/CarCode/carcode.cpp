@@ -87,7 +87,7 @@ int getCarCodeFromDll(const char *pszName, CarCode *pCarCode)
 int getCarCodeFromDef(const char *pszName, CarCode *pCarCode)
 {
     FILE *pFile;
-    int len;
+    int len, read;
     char *pBuf;
     unsigned int checksum;
 
@@ -96,15 +96,20 @@ int getCarCodeFromDef(const char *pszName, CarCode *pCarCode)
 
     fseek(pFile, 0, SEEK_END);
     len=ftell(pFile);
+    rewind(pFile);
+
     if (len <= 0) return 0;
 
-    pBuf = (char*)malloc(len + 1);
+    pBuf = (char*)malloc(len);
     if (!pBuf) return 0;
-    fseek(pFile, 0, SEEK_SET);
-    fread(pBuf, sizeof(char), len, pFile);
-
+    read = fread(pBuf, sizeof(char), len, pFile);
 
     fclose(pFile);
+
+    if (read != len) {
+        free(pBuf);
+        return 0;
+    }
 
     checksum = rabin(pBuf, len);
 

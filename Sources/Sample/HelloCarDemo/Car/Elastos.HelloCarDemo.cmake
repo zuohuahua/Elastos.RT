@@ -4,3 +4,7 @@ set(CURRENT_MIRROR_SOURCES
     _Elastos.HelloCarDemopub.cpp
     _Elastos.HelloCarDemoabrg.cpp
 )
+
+set(CURRENT_MIRROR_HEADERS
+    Elastos.HelloCarDemo.h
+)

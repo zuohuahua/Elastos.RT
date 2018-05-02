@@ -4,10 +4,10 @@ set(CAR_FLAGS -n -u)
 set(LUBE_FLAGS -n -u)
 
 include(TC.cmake)
-xdk_compile_car(GENERATED_SOURCES TC.car)
+xdk_compile_car(CAR_GENERATED_SOURCES TC.car)
 
 set(SOURCES
-    ${GENERATED_SOURCES}
+    ${CAR_GENERATED_SOURCES}
     ${CURRENT_MIRROR_SOURCES}
     CTC.cpp
 )

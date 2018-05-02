@@ -93,7 +93,7 @@ void RestoreErrorContext(void *pv)
     }
 }
 
-void ErrorReport(LubeErrorNo err, ...)
+void ErrorReport(/* LubeErrorNo */ int err, ...)
 {
     int n;
     va_list vl;
