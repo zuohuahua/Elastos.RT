@@ -71,6 +71,6 @@ LOCAL_MODULE := testThirdLib
 LOCAL_LDFLAGS := $(LOCAL_PATH)/elastos/libs/libElastos.Runtime.so \
 		$(LOCAL_PATH)/elastos/libs/libElastos.CoreLibrary.so \
 		$(LOCAL_PATH)/Elastos.HelloCarDemo/libElastos.HelloCarDemo.so \
-		$(LOCAL_PATH)/elastos/libs/Elastos.Runtime.lib
+		$(LOCAL_PATH)/elastos/libs/libElastos.Runtime_static.a
 
 include $(BUILD_SHARED_LIBRARY)

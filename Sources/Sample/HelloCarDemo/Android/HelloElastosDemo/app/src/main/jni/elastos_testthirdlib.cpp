@@ -2,7 +2,7 @@
 #include <jni.h>
 
 //For Elastos
-#include "Elastos.HelloCarDemo.Export.h"
+#include "Elastos.HelloCarDemo.h"
 
 #define JNIREG_CLASS "org/elastos/runtime/sample/helloelastos/TestUtils"
 

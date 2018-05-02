@@ -837,6 +837,7 @@ RECURSIVE              = YES
 
 EXCLUDE                = ../../../Sources/Elastos/Runtime/Library/syscar/eco \
                          ../../../Sources/Elastos/Runtime/Library/syscar/so \
+                         ../../../Sources/Elastos/Runtime/Library/syscar/ElastosCore.car \
                          ../../../Sources/Elastos/Runtime/Library/syscar/ElMarshal.car \
                          ../../../Sources/Elastos/Runtime/Library/syscar/stdobjs.car
 
