@@ -782,7 +782,7 @@ Elastos简化了CAR编译器生成的代码，优化了Elastos C++代码的类�
 
 对于只包含静态成员方法的类，实现时可以分成C++类和CAR类，C++类实现成静态类(方法都是静态方法)，CAR类实现成单例(singleton)类，并在CAR类的方法中转调C++类的静态方法。
 
-例子可参考[CAR Programming](How_To_Write_A_Car_Componet.md)
+例子可参考[CAR Programming](How_To_Write_A_Car_Component.md)
 
 > ## 附录
 > ### 命名空间

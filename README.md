@@ -35,8 +35,8 @@ The programming idea with CAR is the essential technology in Elastos, it runs th
 
 ## Development
 
-- [CAR Programming](Docs/How_To_Write_A_Car_Componet.md)
-- [Call a remote CAR componet (RPC)](Docs/How_To_Call_A_Remote_CAR_Componet.md)
+- [CAR Programming](Docs/How_To_Write_A_Car_Component.md)
+- [Call a remote CAR componet (RPC)](Docs/How_To_Call_A_Remote_CAR_Component.md)
 - H5 App - JS call CAR (Coming soon ...)
 - [Android App - Java call CAR](Sources/Sample/HelloCarDemo/Android/HelloElastosDemo/README.md)
 - [iOS App - Object C call CAR](Sources/Sample/HelloCarDemo/iOS/app/README.md)
