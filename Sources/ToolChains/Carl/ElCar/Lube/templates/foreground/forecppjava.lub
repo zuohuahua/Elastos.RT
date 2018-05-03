@@ -45,60 +45,7 @@ $END DO
 
 $WITH all interfaces DO
 $   IF attrib is not "callback" and attrib is not "callbacksink" and attrib is not "clsobj" and attrib is not "filter" and name is not "IRegime" and name is not "IObject" and name is not "ISynchronize" and name is not "IWeakReferenceSource" and name is not "IThread"
-$       WITH all parents_and_me DO
-$       WITH all methods DO
-${type} ${class.name}::${name}($^
-$           WITH all parameters DO
-
-    /* [${attrib}] */ ${type} ${PrefixingNameByName(parameter)}$^
-$           IF parameter is not last
-,$^
-$           END IF
-$           END DO ;; all parameters
-)
-$   IF interface.attrib is "inherited" and interface.name is not "IAppletMain"
-// {
-//     // TODO: Add your code here
-//     return E_NOT_IMPLEMENTED;
-// }
-$   ELSE
-{
-    if (mClassPath.IsNullOrEmpty()) {
-        return E_INVALID_ARGUMENT;
-    }
-
-    //Call the java codes, Now we are only support static method.
-    String outSign;
-    String signature("(");
-$WITH all parameters DO
-$   IF attrib is "in"
-    signature.Append("${JavaMethodSignature(type)}");
-$   END IF ;; attrib is "in"
-$END DO ;; all parameters
-$ WITH all parameters DO
-$       IF attrib is "out"
-    outSign.Append("${JavaMethodSignature(type)}");
-$       END IF ;; attrib is "out"
-$END DO ;; all parameters
-    if (!outSign.IsNullOrEmpty()) {
-        signature.Append(")");
-        signature.Append(outSign);
-    }
-    else {
-        signature.Append(")V");
-    }
-
-    jclass cls = mEnv->FindClass(mClassPath.string());
-    String methodName("${name}");
-    jmethodID staticMethod = mEnv->GetStaticMethodID(cls, methodName.string(), signature.string());
-    mEnv->CallStaticVoidMethod(cls, staticMethod);
-
-    return NOERROR;
-}
-$   END IF ;; is "inherited" and not "IAppletMain"
-
-$       END DO ;; all methods
-$       END DO ;; parents_and_me
+$GenerateDefalutCarClassCpp(interface)
 $   END IF ;; is not "callback" and not "callbacksink" and not "clsobj" and not "filter" and name is not "IRegime" and name is not "IObject"
 $
 $   IF attrib is "delegatesink"

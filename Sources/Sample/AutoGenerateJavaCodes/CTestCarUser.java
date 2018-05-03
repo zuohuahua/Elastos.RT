@@ -11,6 +11,13 @@ public class CTestCarUser {
         System.loadLibrary("Your_Jni");
     }
 
+    public static void InitRegClassPath(String regClassPath)
+    {
+        nativeInit(regClassPath);
+    }
+
+    private static native void nativeInit(String regClassPath);
+
     public static void SetInt(
         /* [in] */ int value)
     {

@@ -111,6 +111,7 @@ DECL_USERFUNC(GenerateJavaClassImpl);
 DECL_USERFUNC(GenerateJavaClassUser);
 DECL_USERFUNC(GenerateJavaJniCpp);
 DECL_USERFUNC(GenerateJavaJniCpp2);
+DECL_USERFUNC(GenerateDefalutCarClassCpp);
 
 const UserFuncEntry g_userFuncs[] = {
     USERFUNC_(Embed, ARGTYPE_STRING, \
@@ -239,6 +240,8 @@ const UserFuncEntry g_userFuncs[] = {
             "Get the jni cpp file for user"),
     USERFUNC_(GenerateJavaJniCpp2, ARGTYPE_(Object_Class, Member_None), \
             "Get the jni cpp_jniLoad file for user"),
+    USERFUNC_(GenerateDefalutCarClassCpp, ARGTYPE_(Object_ClsIntf, Member_None), \
+            "Defalut car class implement."),
 };
 const int c_cUserFuncs = sizeof(g_userFuncs) / sizeof(UserFuncEntry);
 
@@ -394,6 +397,12 @@ int _GenerateJavaJniCppJniLoad(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg);
 IMPL_USERFUNC(GenerateJavaJniCpp2)(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
 {
     return _GenerateJavaJniCppJniLoad(pCtx, pDesc, pvArg);
+}
+
+int _GenerateDefalutCarClassCpp(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg);
+IMPL_USERFUNC(GenerateDefalutCarClassCpp)(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
+{
+    return _GenerateDefalutCarClassCpp(pCtx, pDesc, pvArg);
 }
 
 IMPL_USERFUNC(FormatUuid)(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)

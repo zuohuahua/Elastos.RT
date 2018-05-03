@@ -8,56 +8,62 @@
 #define JNIREG_CLASS "elastos/org/xxx/CTestCarUser"
 
 static AutoPtr<ITestCar> sElaClsObj;
-static void nativeInit(
+static void JNICALL nativeInit(
     /* [in] */ JNIEnv* env,
-    /* [in] */ jobject jobj)
+    /* [in] */ jobject jobj,
+    /* [in] */ jstring implClass)
 {
-    CTestCar::New((ITestCar**)&sElaClsObj);
+    JavaVM* vm;
+    env->GetJavaVM(&vm);
+    //TODO : the implClass is like "elastos/org/xxx/CTestCarImpl"
+    const char* str = env->GetStringUTFChars(implClass, NULL);
+    CTestCar::New((Handle64)vm, String(str), (ITestCar**)&sElaClsObj);
+    env->ReleaseStringUTFChars(implClass, str);
 }
 
-static void nativeSetInt(
+static void JNICALL nativeSetInt(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj,
     /* [in] */ jint jvalue)
 {
-    sElaClsObj->SetInt(jvalue);
+    ITestCar::Probe(sElaClsObj)->SetInt(jvalue);
 }
 
-static jint nativeGetInt(
+static jint JNICALL nativeGetInt(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj)
 {
     Int32 _retValue = 0;
-    sElaClsObj->GetInt(&_retValue);
+    ITestCar::Probe(sElaClsObj)->GetInt(&_retValue);
     return _retValue;
 }
 
-static void nativeSetString(
+static void JNICALL nativeSetString(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj,
     /* [in] */ jstring jvalue)
 {
     const char* str1 = env->GetStringUTFChars(jvalue, NULL);
-    sElaClsObj->SetString(str1);
+    ITestCar::Probe(sElaClsObj)->SetString(String(str1));
 }
 
-static jstring nativeGetString(
+static jstring JNICALL nativeGetString(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj)
 {
     String _retValue;
-    sElaClsObj->GetString(&_retValue);
+    ITestCar::Probe(sElaClsObj)->GetString(&_retValue);
     return env->NewStringUTF(_retValue.string());
 }
 
-static void nativeNormal(
+static void JNICALL nativeNormal(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj)
 {
-    sElaClsObj->Normal();
+    ITestCar::Probe(sElaClsObj)->Normal();
 }
 
-static void nativeTest1(
+static void JNICALL nativeTest1(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj,
     /* [in] */ jint jvalue1,
@@ -70,10 +76,10 @@ static void nativeTest1(
     /* [in] */ jstring jvalue8)
 {
     const char* str8 = env->GetStringUTFChars(jvalue8, NULL);
-    sElaClsObj->Test1(jvalue1, jvalue2, jvalue3, jvalue4, jvalue5, jvalue6, jvalue7, str8);
+    ITestCar::Probe(sElaClsObj)->Test1(jvalue1, jvalue2, jvalue3, jvalue4, jvalue5, jvalue6, jvalue7, String(str8));
 }
 
-static jint nativeTest2(
+static jint JNICALL nativeTest2(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj,
     /* [in] */ jint jvalue1,
@@ -91,19 +97,19 @@ static jint nativeTest2(
     const char* str9 = env->GetStringUTFChars(jvalue9, NULL);
     const char* str10 = env->GetStringUTFChars(jvalue10, NULL);
     Int32 _retValue = 0;
-    sElaClsObj->Test2(jvalue1, jvalue2, jvalue3, jvalue4, jvalue5, jvalue6, jvalue7, str8, str9, str10, &_retValue);
+    ITestCar::Probe(sElaClsObj)->Test2(jvalue1, jvalue2, jvalue3, jvalue4, jvalue5, jvalue6, jvalue7, String(str8), String(str9), String(str10), &_retValue);
     return _retValue;
 }
 
-static void nativeSetInt2(
+static void JNICALL nativeSetInt2(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj,
     /* [in] */ jint jvalue)
 {
-    sElaClsObj->SetInt2(jvalue);
+    ITestCar2::Probe(sElaClsObj)->SetInt2(jvalue);
 }
 
-static jstring nativeUpdate(
+static jstring JNICALL nativeUpdate(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj,
     /* [in] */ jstring jvalue1,
@@ -114,21 +120,22 @@ static jstring nativeUpdate(
     const char* str2 = env->GetStringUTFChars(jvalue2, NULL);
     const char* str3 = env->GetStringUTFChars(jvalue3, NULL);
     String _retValue;
-    sElaClsObj->Update(str1, str2, str3, &_retValue);
+    ITestCar2::Probe(sElaClsObj)->Update(String(str1), String(str2), String(str3), &_retValue);
     return env->NewStringUTF(_retValue.string());
 }
 
 
 static const JNINativeMethod gMethods[] = {
-    {"nativeSetInt", "(I)V", (void*)SetInt},
-    {"nativeGetInt", "()I", (void*)GetInt},
-    {"nativeSetString", "(Ljava/lang/String;)V", (void*)SetString},
-    {"nativeGetString", "()Ljava/lang/String;", (void*)GetString},
-    {"nativeNormal", "()V", (void*)Normal},
-    {"nativeTest1", "(IZFDJBCLjava/lang/String;)V", (void*)Test1},
-    {"nativeTest2", "(IZFDJBCLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)I", (void*)Test2},
-    {"nativeSetInt2", "(I)V", (void*)SetInt2},
-    {"nativeUpdate", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)Update},
+    {"nativeInit", "(Ljava/lang/String;)V", (void*)nativeInit},
+    {"nativeSetInt", "(I)V", (void*)nativeSetInt},
+    {"nativeGetInt", "()I", (void*)nativeGetInt},
+    {"nativeSetString", "(Ljava/lang/String;)V", (void*)nativeSetString},
+    {"nativeGetString", "()Ljava/lang/String;", (void*)nativeGetString},
+    {"nativeNormal", "()V", (void*)nativeNormal},
+    {"nativeTest1", "(IZFDJBCLjava/lang/String;)V", (void*)nativeTest1},
+    {"nativeTest2", "(IZFDJBCLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)I", (void*)nativeTest2},
+    {"nativeSetInt2", "(I)V", (void*)nativeSetInt2},
+    {"nativeUpdate", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeUpdate},
 };
 
 JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved){
@@ -137,6 +144,8 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved){
     if(vm->GetEnv((void **)&env,JNI_VERSION_1_6) != JNI_OK){
         return JNI_ERR;
     }
+    assert(0 && "Please set your own JNIREG_CLASS. If done, delete this line.");
+
     cls = env->FindClass(JNIREG_CLASS);
     env->RegisterNatives(cls, gMethods, sizeof(gMethods)/sizeof(JNINativeMethod));
     return JNI_VERSION_1_6;
