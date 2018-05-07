@@ -114,6 +114,10 @@ public:
 
     ~CCarrier();
 
+    CARAPI_(void) AddFriend2List(
+        /* [in] */ const String& uid,
+        /* [in] */ Boolean online);
+
 private:
     //CFriend: include the friend's information.
     class CFriend
@@ -189,14 +193,7 @@ private:
     CCarrier& operator=(CCarrier const&);
     static void *CarrierThread(void *arg);
     CARAPI_(void) Cleanup();
-
-    //Local method about friend list.
-    CARAPI_(void) AddFriend2List(
-        /* [in] */ const String& uid,
-        /* [in] */ Boolean online);
-
-    CARAPI_(void) RemoveFriendFromList(
-        /* [in] */ IFriend* _friend);
+    CARAPI_(void) CleanFriendList();
 
 private:
     //This instance: distributing the callbacks.
@@ -206,7 +203,7 @@ private:
     ListenerNode mListeners;
     pthread_mutex_t mListenersLock;
 
-    FriendNode mFriendList;
+    FriendNode mTempFriendList;
     pthread_mutex_t mFriendListLock;
 
     //Carrier thread id

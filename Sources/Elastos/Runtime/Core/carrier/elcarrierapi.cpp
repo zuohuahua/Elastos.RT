@@ -202,12 +202,15 @@ void CCarrier::Cleanup()
     }
     mListeners.Initialize();
     pthread_mutex_unlock(&mListenersLock);
+}
 
+void CCarrier::CleanFriendList()
+{
     //Clear up the friend list.
     pthread_mutex_lock(&mFriendListLock);
     FriendNode* fNext = NULL;
-    FriendNode* fIt = &mFriendList;
-    FriendNode* fHead = &mFriendList;
+    FriendNode* fIt = &mTempFriendList;
+    FriendNode* fHead = &mTempFriendList;
     while (NULL != fIt) {
         fNext = (FriendNode*)(fIt->Next());
         fIt->mFriend = NULL;
@@ -216,7 +219,7 @@ void CCarrier::Cleanup()
         }
         fIt = fNext;
     }
-    mFriendList.Initialize();
+    mTempFriendList.Initialize();
     pthread_mutex_unlock(&mFriendListLock);
 }
 
@@ -410,7 +413,6 @@ ECode CCarrier::RemoveFriend(
     else {
         CARRIER_LOG("Remove friend %s failed (0x%x).\n", uid.string(), ela_get_error());
     }
-    RemoveFriendFromList(_friend);
     return NOERROR;
 }
 
@@ -431,20 +433,28 @@ ECode CCarrier::GetFriend(
     *_friend = NULL;
 
     pthread_mutex_lock(&mFriendListLock);
-    FriendNode* it = &mFriendList;
-    it = (FriendNode*)(it->Next());
-    for (; NULL != it; it = (FriendNode*)(it->Next())) {
-        if (it->mUid.Equals(uid)) {
-            //The caller need to use AutoPtr<IFriend> xxx to get the interface.
-            *_friend = (IFriend*)it->mFriend->Probe(EIID_IFriend);
-            (*_friend)->AddRef();
-            pthread_mutex_unlock(&mFriendListLock);
-            return NOERROR;
-        }
-    }
-    pthread_mutex_unlock(&mFriendListLock);
+    ElaFriendInfo fi;
+    int rc = ela_get_friend_info(mElaCarrier, uid.string(), &fi);
+    if (rc == 0) {
+        *_friend = new CFriend(uid, fi.status == ElaConnectionStatus_Connected);
 
+        //The caller need to use AutoPtr<IFriend> xxx to get the interface.
+        (*_friend)->AddRef();
+        pthread_mutex_unlock(&mFriendListLock);
+        return NOERROR;
+    }
+
+    pthread_mutex_unlock(&mFriendListLock);
     return E_INVALID_ARGUMENT;
+}
+
+static bool get_friends_callback(const ElaFriendInfo *friend_info, void *context)
+{
+    if (friend_info) {
+        CCarrier::GetLocalInstance()->AddFriend2List(String(friend_info->user_info.userid),
+                friend_info->status == ElaConnectionStatus_Connected);
+    }
+    return true;
 }
 
 ECode CCarrier::GetFriends(
@@ -454,8 +464,10 @@ ECode CCarrier::GetFriends(
     *friends = NULL;
 
     pthread_mutex_lock(&mFriendListLock);
+    ela_get_friends(mElaCarrier, get_friends_callback, NULL);
+
     Int32 count = 0;
-    FriendNode* fIt = &mFriendList;
+    FriendNode* fIt = &mTempFriendList;
     while (NULL != fIt) {
         fIt = (FriendNode*)(fIt->Next());
         count++;
@@ -464,7 +476,7 @@ ECode CCarrier::GetFriends(
     if (count > 1) {
         //count - 1: minus 1 which is the Head node's count.
         ArrayOf<IFriend*>* _friends = ArrayOf<IFriend*>::Alloc(count - 1);
-        fIt = &mFriendList;
+        fIt = &mTempFriendList;
         fIt = (FriendNode*)(fIt->Next());
         Int32 i = 0;
         while (NULL != fIt) {
@@ -476,6 +488,7 @@ ECode CCarrier::GetFriends(
     }
 
     pthread_mutex_unlock(&mFriendListLock);
+    CleanFriendList();
     return NOERROR;
 }
 
@@ -608,9 +621,6 @@ ECode CCarrier::DistributeOnFriendConnetionChanged(
     /* [in] */ const String& uid,
     /* [in] */ Boolean online)
 {
-    //Update the friends list.
-    AddFriend2List(uid, online);
-
     //Distribute the callback: OnFriendConnetionChanged
     pthread_mutex_lock(&mListenersLock);
     ListenerNode* it = &mListeners;
@@ -671,16 +681,6 @@ void CCarrier::AddFriend2List(
     /* [in] */ Boolean online)
 {
     pthread_mutex_lock(&mFriendListLock);
-    FriendNode* it = &mFriendList;
-    it = (FriendNode*)(it->Next());
-    for (; NULL != it; it = (FriendNode*)(it->Next())) {
-        if (it->mUid.Equals(uid)) {
-            //Update the online by the method: UpdateStatus
-            it->mFriend->UpdateStatus(online);
-            pthread_mutex_unlock(&mFriendListLock);
-            return;
-        }
-    }
 
     //Add the new friend to the table.
     FriendNode* fn = new FriendNode();
@@ -688,38 +688,7 @@ void CCarrier::AddFriend2List(
 
     //Update the online by constructor.
     fn->mFriend = new CFriend(uid, online);
-    mFriendList.InsertFirst(fn);
-    pthread_mutex_unlock(&mFriendListLock);
-}
-
-void CCarrier::RemoveFriendFromList(
-    /* [in] */ IFriend* _friend)
-{
-    String uid;
-    _friend->GetUid(&uid);
-
-    pthread_mutex_lock(&mFriendListLock);
-    FriendNode* prev = &mFriendList;
-    FriendNode* it = &mFriendList;
-    it = (FriendNode*)(it->Next());
-    for (; NULL != it; it = (FriendNode*)(it->Next())) {
-        if (it->mUid.Equals(uid)) {
-            it->mFriend = NULL;
-
-            FriendNode* head = &mFriendList;
-            if (it != head) {
-                it->Detach(prev);
-                delete it;
-            }
-
-            pthread_mutex_unlock(&mFriendListLock);
-            CARRIER_LOG("Remove a friend from the list.\n");
-            return;
-        }
-        prev = it;
-    }
-
-    CARRIER_LOG("Remove a non-existent friend.\n");
+    mTempFriendList.InsertFirst(fn);
     pthread_mutex_unlock(&mFriendListLock);
 }
 
