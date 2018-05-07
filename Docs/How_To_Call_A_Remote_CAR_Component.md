@@ -11,6 +11,8 @@
 > ## 2.操作步骤
 
     首先实现一个car构件，以Sample/RPC/Switch中的开关示例为例。
+    rpc时序图：
+![时序图](rpc_sequence_diagram.png)
 
     如何编写car构件请参考：
 [Car Programming](How_To_Write_A_Car_Component)
