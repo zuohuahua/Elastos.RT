@@ -1,0 +1,143 @@
+#!/bin/bash
+
+# Exit immediately if a subsequent command exits with a non-zero status.
+set -e
+
+SHARED_SDK_LIBRARIES=(
+    "Elastos.Runtime"
+    "Elastos.CoreLibrary"
+    "elasession"
+    "elacarrier"
+    "elacommon"
+)
+
+STATIC_SDK_LIBRARIES=(
+    "Elastos.Runtime_static"
+)
+
+# TODO: To be removed. We should NOT use any prebuilt libraries.
+PREBUILT_THIRDPART_DIR=$XDK_ROOT/ToolChains/$XDK_TARGET_PLATFORM/Thirdlibrary
+THIRD_PARTY_LIBRARIES=(
+    "icuuc"
+    "stlport"
+    "crypto"
+)
+
+THIS_SCRIPT=$(basename $0)
+usage()
+{
+    echo
+    echo "Deploy Elastos Runtime SDK targets to a directory"
+    echo
+    echo "Usage: ${THIS_SCRIPT} [options]"
+    echo
+    echo "Options:"
+    echo "  -h, --help"
+    echo "      Print this message"
+    echo
+    echo "  -o, --output-dir <OUTPUT_DIR>"
+    echo "      \"OUTPUT_DIR/elastos\" is the location where the SDK targets will be placed"
+    echo "      The default output directory is \"\$XDK_ROOT/SDK/\$XDK_TARGET_PLATFORM/elastos\""
+    echo
+    echo "  -s, --lib-subdir <LIB_SUBDIR>"
+    echo "      \"LIB_SUBDIR\" is the subdirectory inside the \"elastos/libs\"."
+    echo "      It's convenient to add \"armeabi-v7a\" subdirectory for some platform."
+    echo
+}
+
+# Deafult output directory
+OUTPUT_DIR=$XDK_ROOT/SDK/$XDK_TARGET_PLATFORM
+LIB_SUBDIR=.
+
+while [[ $# -gt 0 ]]
+do
+key="$1"
+
+case $key in
+    -h|--help)
+        usage
+        exit 0
+        ;;
+    -o|--output-dir)
+        OUTPUT_DIR="$2"
+        shift # past argument
+        shift # past value
+        ;;
+    -s|--lib-subdir)
+        LIB_SUBDIR="$2"
+        shift # past argument
+        shift # past value
+        ;;
+    *)    # unknown option
+        usage
+        exit 1
+        ;;
+esac
+done
+
+if [ "$XDK_ROOT" = "" ] || [ "$XDK_TARGETS" = "" ]; then
+    echo "ERROR: Please \"source Elastos.RT/Setup/SetEnv.sh\" to enter one of the building environment."
+    echo
+    exit 1
+fi
+
+if [ ! -d "$XDK_TARGETS" ]; then
+    echo "ERROR: Please build the Elastos Runtime project before calling \"dropsdk\"."
+    echo
+    exit 1
+fi
+
+ELASTOS_SDK_PATH=$OUTPUT_DIR/elastos
+
+SDK_INCLUDE_PATH=$ELASTOS_SDK_PATH/include
+SDK_LIBS_PATH=$ELASTOS_SDK_PATH/libs
+
+if [ -d "$ELASTOS_SDK_PATH" ]; then
+    rm -rf "$ELASTOS_SDK_PATH"
+fi
+mkdir -p "$ELASTOS_SDK_PATH"
+mkdir "$SDK_INCLUDE_PATH"
+mkdir -p "$SDK_LIBS_PATH/$LIB_SUBDIR"
+
+echo "Droping SDK targets to $(cd $ELASTOS_SDK_PATH && pwd) ..."
+
+copy_library()
+{
+    name=$1
+    from_dir=$2
+    to_dir=$3
+
+    if [ -f $from_dir/lib$name.so ]; then
+        echo "Copying lib$name.so ..."
+        cp $from_dir/lib$name.so $to_dir
+    elif [ -f $from_dir/$name.eco ]; then
+        echo "Copying lib$name.eco ..."
+        cp $from_dir/$name.eco $to_dir
+    elif [ -f $from_dir/lib$name.dylib ]; then
+        echo "Copying lib$name.dylib ..."
+        cp $from_dir/lib$name.dylib $to_dir
+    elif [ -f $from_dir/lib$name.a ]; then
+        echo "Copying lib$name.a ..."
+        cp $from_dir/lib$name.a $to_dir
+    else
+        echo "WARNING: Library \"$name\" not found."
+    fi
+}
+
+#cp include files to sdk path
+echo "Copying header files ..."
+cp -r $XDK_USER_INC/* $SDK_INCLUDE_PATH
+
+for name in ${SHARED_SDK_LIBRARIES[@]}; do
+    copy_library $name $XDK_TARGETS $SDK_LIBS_PATH/$LIB_SUBDIR
+done
+
+for name in ${STATIC_SDK_LIBRARIES[@]}; do
+    copy_library $name $XDK_USER_LIB $SDK_LIBS_PATH/$LIB_SUBDIR
+done
+
+for name in ${THIRD_PARTY_LIBRARIES[@]}; do
+    copy_library $name $PREBUILT_THIRDPART_DIR/lib $SDK_LIBS_PATH/$LIB_SUBDIR
+done
+
+echo "Done"

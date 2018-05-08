@@ -1,4 +1,2 @@
 Targets/obj/
-Targets/rdk/
-ToolChains/android/Ndk
-Export/
+SDK/

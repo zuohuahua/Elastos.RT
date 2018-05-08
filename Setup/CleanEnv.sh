@@ -14,6 +14,7 @@ while read I; do
        && "${I%%=*}" != "LC_ALL"
        && "${I%%=*}" != "LC_CTYPE"
        && "${I%%=*}" != "ANDROID_NDK"
+       && "${I%%=*}" != "ANDROID_HOME"
        ]]; then
         unset ${I%%=*} &>/dev/null || true
     fi

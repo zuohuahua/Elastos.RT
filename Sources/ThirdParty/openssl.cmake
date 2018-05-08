@@ -18,7 +18,7 @@ get_filename_component(OPENSSL_CROSS_SDK ${CMAKE_IOS_SDK_ROOT} NAME)
 add_custom_command(
     COMMENT "Preparing openssl for out-of-source build..."
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/openssl/Configure
-    COMMAND ${OPENSSL_SCRIPTS}/prepare_out_of_source_build.sh ${OPENSSL_SOURCE}
+    COMMAND $ENV{XDK_TOOLS}/symlink_files_in_dir.sh ${OPENSSL_SOURCE}
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/openssl
     DEPENDS ${OPENSSL_SOURCE}/Configure
 )
