@@ -168,16 +168,24 @@ Please select the appropriate compilation environment as needed:
 
 ### Build Android on Mac or Linux
 
-1. Download the proper Android NDK for your OS. (Currently support Mac and Linux)
+1. Download the proper Android SDK NDK and JDK for your OS. (Currently support Mac and Linux)
+
+   ***Download the lastest version [Android SDK](https://developer.android.com/studio/)***
+
+   You may choose to install Android Studio and sdk manager or install sdk tools only.
 
    ***Download the lastest version [Android NDK](https://developer.android.com/ndk/downloads/index.html)***
 
    You will need to have Android NDK r15c or newer version.
 
-2. Set the `ANDROID_NDK` environment variable
+
+   ***Download the lastest version [JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html)***
+
+2. Set `ANDROID_NDK` and `ANDROID_HOME` environment variable
 
    ``` shell
    export ANDROID_NDK=~/my-android-ndk
+   export ANDROID_HOME=~/my-android-sdk
    ```
 
    NOTE: If you are using the dockerized build environment. Make sure set the ANDROID_NDK to a Linux version of the Android NDK before entering the dockerized build environment.
