@@ -44,6 +44,9 @@ RUN set -ex                                                                     
         ninja \
         wget \
         curl \
+        autopoint \
+        flex \
+        libncurses5-dev \
     && rm -rf /var/lib/apt/list/*
 
 RUN set -ex                                                                         && \

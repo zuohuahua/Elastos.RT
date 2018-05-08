@@ -85,6 +85,7 @@ Please select the appropriate compilation environment as needed:
   ``` shell
   sudo apt-get install texinfo libglib2.0-dev autoconf libtool libsdl-dev build-essential tofrodos zlib1g-dev:amd64 zlib1g-dev
   sudo apt-get install bison g++-multilib git gperf libxml2-utils make zlib1g-dev:i386 zip libsqlite3-dev libicu-dev libssl-dev libuv1-dev
+  sudo apt-get install autopoint flex libncurses5-dev
   ```
 
   [Install cmake](#install-cmake) if needed.
