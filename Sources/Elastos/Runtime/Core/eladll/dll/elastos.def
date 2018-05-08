@@ -37,7 +37,7 @@ EXPORTS
     ;;
 
     getTlSystemSlotBase
-    
+
     _CObject_CreateInstance                         @106    NONAME
     _CObject_CreateInstanceEx                       @107    NONAME
     _CObject_AcquireClassFactory                    @108    NONAME
@@ -64,8 +64,13 @@ EXPORTS
 
     LookupInterfaceInfo                             @180    NONAME
     RegisterModuleInfo                              @181    NONAME
-#if defined(_android)
+
+#if defined(_linux) && defined(_ELASTOS32) && !defined(_android)
+#else
     _CCarrier_GetInstance                           @182    NONAME
+#endif
+
+#if defined(_android)
     _CServiceManager_AcquireInstance                @183    NONAME
 #endif
 
