@@ -13,5 +13,6 @@ if("$ENV{XDK_VERSION}" STREQUAL "rls")
 endif()
 include_directories(${CMAKE_BINARY_DIR}/ThirdParty/ElaCarrier/build/_dist/Android-arm/${ELACARRIER_COMPILE_VERSION}/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../carrier)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../reflection)
 
 add_library(servicemanager STATIC ${SOURCES})
