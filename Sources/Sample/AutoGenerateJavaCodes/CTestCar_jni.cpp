@@ -2,7 +2,7 @@
 #include <jni.h>
 
 //For Elastos
-#include "Elastos.AutoGenerateJavaCodes.Export.h"
+#include "Elastos.AutoGenerateJavaCodes.h"
 
 //TODO : Need to Modify the java class path.
 #define JNIREG_CLASS "elastos/org/xxx/CTestCarUser"

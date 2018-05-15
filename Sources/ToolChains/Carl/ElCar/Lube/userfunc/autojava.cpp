@@ -456,7 +456,7 @@ int _GenerateJavaJniCpp(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
 
         pCtx->PutString("#include \"");
         pCtx->PutString(module->mName);
-        pCtx->PutString(".Export.h\"\n\n");
+        pCtx->PutString(".h\"\n\n");
 
         pCtx->PutString("//TODO : Need to Modify the java class path.\n");
         sprintf(szContent, "#define JNIREG_CLASS \"elastos/org/xxx/%sUser\"\n\n", pClass->mName);
