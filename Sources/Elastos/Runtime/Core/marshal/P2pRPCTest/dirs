@@ -1,8 +1,0 @@
-DIRS += TC
-DIRS += Service
-DIRS += ClientRpc
-
-ifeq "$(XDK_TARGET_PLATFORM)" "linux"
-DIRS += Server
-DIRS += ClientMain
-endif
