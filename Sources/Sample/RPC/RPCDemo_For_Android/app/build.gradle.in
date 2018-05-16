@@ -35,10 +35,10 @@ android {
     sourceSets {
         main {
             java {
-                srcDir "@CMAKE_CURRENT_SOURCE_DIR@/src/java"
+                srcDir "@CMAKE_CURRENT_SOURCE_DIR@/app/src/main/java"
             }
-            jniLibs.srcDirs = ['@CMAKE_CURRENT_BINARY_DIR@/app/elastos/libs']
-            res.srcDirs = ['@CMAKE_CURRENT_SOURCE_DIR@/src/res']
+            res.srcDirs = ['@CMAKE_CURRENT_SOURCE_DIR@/app/src/main/res']
+            jniLibs.srcDirs = ['elastos/libs']
         }
     }
 }
