@@ -11,6 +11,7 @@ The programming idea with CAR is the essential technology in Elastos, it runs th
 ### 1. CAR
 
 - What is CAR?
+
   CAR means The Component Assembly Runtime (CAR). It is Java with machine code. It is COM with metadata.
 
   It is a component-oriented programming model and also a programming idea, and it is described by special standards divided in two parts: specification and implementation. The specification part tells how to define the components and how to communicate among components. Following the specification, any language can be used. Thus, CAR can be implemented in many ways. Elastos operating system implements the CAR core services.

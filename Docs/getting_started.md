@@ -178,7 +178,6 @@ Please select the appropriate compilation environment as needed:
 
    You will need to have Android NDK r15c or newer version.
 
-
    ***Download the lastest version [JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html)***
 
 2. Set `ANDROID_NDK` and `ANDROID_HOME` environment variable
