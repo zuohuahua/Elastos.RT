@@ -12,7 +12,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         //Show the string that comes from a Elastos car objects[CHelloCar]
-        TextView textLabel = (TextView)findViewById(R.id.label);
+        TextView textLabel = (TextView)findViewById(R.id.sample_text);
         TestUtils tu = new TestUtils();
         String helloString = tu.getHelloCarString();
         textLabel.setText(helloString);

@@ -4,9 +4,9 @@
 
 参考示例:
 
-android app: Elastos.RT/Source/Sample/HelloCarDemo/Android/HelloElastosDemo
+android app: ~/Elastos.RT/Sources/Sample/HelloCarDemo/Android/HelloElastosDemo
 
-elastos Car Demo: Elastos.RT/Sources/Sample/HelloCarDemo/Car
+elastos Car Demo: ~/Elastos.RT/Sources/Sample/HelloCarDemo/Car
 
 > ## 2.原理
 
@@ -15,7 +15,7 @@ elastos Car Demo: Elastos.RT/Sources/Sample/HelloCarDemo/Car
 > ## 3.操作步骤
 > ### 3.1.编写 car 文件
 
-在Sources文件下创建一个自己的代码文件。例如: Elastos.RT/Sources/Sample/test/，然后在该目录下编写一个Car文件。
+在Sources文件下创建一个自己的代码文件。例如: ~/Elastos.RT/Sources/Sample/test/，然后在该目录下编写一个Car文件。
 
 下面请看范例 CAR 文件(Elastos.HelloCarDemo.car)内容:
 
@@ -46,8 +46,8 @@ module
 emake Elastos.HelloCarDemo.car
 ```
 
-通过该命令可以自动生成代码框架。如 CHelloCar.h、 CHelloCar.cpp、 CMakeLists.txt、Elastos.HelloCarDemo.cmake 文件以及 sources 文件。
-一般情况下，CMakeLists.txt、Elastos.HelloCarDemo.cmake、 sources 文件是不需要修改的。（其中编译在升级，sources文件即将删除）
+通过该命令可以自动生成代码框架。如 CHelloCar.h、 CHelloCar.cpp、 CMakeLists.txt 以及 Elastos.HelloCarDemo.cmake 文件。
+一般情况下，CMakeLists.txt、Elastos.HelloCarDemo.cmake 文件是不需要修改的。
 
 car文件中定义的每个类都会对应生成一个该类的.h和.cpp文件：
 
@@ -69,10 +69,10 @@ CAR_OBJECT_IMPL(CHelloCar)
 CAR_INTERFACE_IMPL(CHelloCar, Object, IHelloCar);
 
 ECode CHelloCar::Hello(
-    /* [out] */ String * output)
+    /* [out] */ String * pName)
 {
-    VALIDATE_NOT_NULL(output)
-    *output = "Elastos";
+    VALIDATE_NOT_NULL(pName)
+    *pName = "Elastos";
     return NOERROR;
 }
 ```
@@ -91,28 +91,19 @@ ECode CHelloCar::Hello(
 * integrate elastos library
 
     ``` shell
-    # 拷贝头文件
-    cd Elastos.RT/Targets/obj/rdk/arm_32.clang.android.cmake.dbg/inc
-    cp -rf * ../../../../../Sources/Sample/HelloCarDemo/Android/HelloElastosDemo/app/src/main/jni/elastos/include/
-
-    # 拷贝libs文件
-    cd Elastos.RT/Targets/obj/rdk/arm_32.clang.android.cmake.dbg/lib
-    cp libElastos.Runtime_static.a ../../../../../Sources/Sample/HelloCarDemo/Android/HelloElastosDemo/app/src/main/jni/elastos/libs/
-
-    cd  Elastos.RT/Targets/rdk/arm_32.clang.android.cmake.dbg/bin
-    cp libElastos.Runtime.so libElastos.CoreLibrary.so ../../../../Sources/Sample/HelloCarDemo/Android/HelloElastosDemo/app/src/main/jni/elastos/libs/
+    cd ~/Elastos.RT/Sources/Sample/HelloCarDemo/Android/HelloElastosDemo
+    dropsdk --output-dir app --lib-subdir armeabi-v7a
     ```
 
-* integrate third-party library
+* integrate Car component header and library
 
     ``` shell
-    # 拷贝lib文件
-    cd Elastos.RT/ToolChains/android/Thirdlibrary/lib
-    cp libelacarrier.so libelacommon.so libelasession.so libcrypto.so libicuuc.so libstlport.so  ../../../../Sources/Sample/HelloCarDemo/Android/HelloElastosDemo/app/src/main/jni/elastos/libs/
-
-    # 拷贝第三方so和头文件
-    cd Elastos.RT/Targets/obj/rdk/arm_32.clang.android.cmake.dbg/mirror/Sample/HelloCarDemo/Car
-    cp Elastos.HelloCarDemo.h  libElastos.HelloCarDemo.so ../../../../../../../../Sources/Sample/HelloCarDemo/Android/HelloElastosDemo/app/src/main/jni/Elastos.HelloCarDemo/
+    # 拷贝car构件so和头文件
+    cd ~/Elastos.RT/Sources/Sample/HelloCarDemo/Car
+    pd m
+    cp Elastos.HelloCarDemo.h ~/Elastos.RT/Sources/Sample/HelloCarDemo/Android/HelloElastosDemo/app/elastos/include
+    pd @
+    cp libElastos.HelloCarDemo.so ~/Elastos.RT/Sources/Sample/HelloCarDemo/Android/HelloElastosDemo/app/elastos/libs/armeabi-v7a/
     ```
 
 > ### 3.5.android 调用 car 构件
@@ -142,7 +133,7 @@ ECode CHelloCar::Hello(
 
 2. jni文件内容
 
-    app/src/main/jni/elastos_testthirdlib.cpp，在nativeGetHelloCarString函数中，new了一个CHelloCar对象，然后通过调用接口中的函数Hello，实现了在android中调用Car构件。
+    app/src/main/cpp/elastos_testthirdlib.cpp，在nativeGetHelloCarString函数中，new了一个CHelloCar对象，然后通过调用接口中的函数Hello，实现了在android中调用Car构件。
 
     ``` cpp
     //For Elastos
@@ -191,87 +182,37 @@ ECode CHelloCar::Hello(
 
     ``` java
     //Show the string that comes from a Elastos car objects[CHelloCar]
-    TextView textLabel = (TextView)findViewById(R.id.label);
+    TextView textLabel = (TextView)findViewById(R.id.sample_text);
     TestUtils tu = new TestUtils();
     String helloString = tu.getHelloCarString();
     textLabel.setText(helloString);
     ```
 
-4. Android.mk的内容
+4. 修改 app/CMakeLists.txt
 
-    app/src/main/jni/Android.mk：
+    把 `native-lib` 改为 `testThirdLib`， 把 `src/main/cpp/native-lib.cpp` 改为 `src/main/cpp/elastos_testthirdlib.cpp`
 
-    ``` android
-    LOCAL_PATH := $(call my-dir)
-
-    #Elastos.Runtime
-    include $(CLEAR_VARS)
-    LOCAL_MODULE    := Elastos.Runtime
-    LOCAL_SRC_FILES := $(LOCAL_PATH)/elastos/libs/libElastos.Runtime.so
-    include $(PREBUILT_SHARED_LIBRARY)
-
-    #Elastos.CoreLibrary
-    include $(CLEAR_VARS)
-    LOCAL_MODULE    := Elastos.CoreLibrary
-    LOCAL_SRC_FILES := $(LOCAL_PATH)/elastos/libs/libElastos.CoreLibrary.so
-    include $(PREBUILT_SHARED_LIBRARY)
-
-    #Elastos.HelloCarDemo
-    include $(CLEAR_VARS)
-    LOCAL_MODULE    := Elastos.HelloCarDemo
-    LOCAL_SRC_FILES := $(LOCAL_PATH)/Elastos.HelloCarDemo/libElastos.HelloCarDemo.so
-    include $(PREBUILT_SHARED_LIBRARY)
-
-    #Elastos.CoreLibrary depend libcrypto.so
-    include $(CLEAR_VARS)
-    LOCAL_MODULE    := crypto
-    LOCAL_SRC_FILES := $(LOCAL_PATH)/elastos/libs/libcrypto.so
-    include $(PREBUILT_SHARED_LIBRARY)
-
-    #Elastos.CoreLibrary depend libicuuc.so
-    include $(CLEAR_VARS)
-    LOCAL_MODULE    := icuuc
-    LOCAL_SRC_FILES := $(LOCAL_PATH)/elastos/libs/libicuuc.so
-    include $(PREBUILT_SHARED_LIBRARY)
-
-    #Elastos.CoreLibrary depend libstlport.so
-    include $(CLEAR_VARS)
-    LOCAL_MODULE    := stlport
-    LOCAL_SRC_FILES := $(LOCAL_PATH)/elastos/libs/libstlport.so
-    include $(PREBUILT_SHARED_LIBRARY)
-
-    #Elastos.Runtime depend libelacarrier.so
-    include $(CLEAR_VARS)
-    LOCAL_MODULE    := elacarrier
-    LOCAL_SRC_FILES := $(LOCAL_PATH)/elastos/libs/libelacarrier.so
-    include $(PREBUILT_SHARED_LIBRARY)
-
-    #Elastos.Runtime depend libelacommon.so
-    include $(CLEAR_VARS)
-    LOCAL_MODULE    := elacommon
-    LOCAL_SRC_FILES := $(LOCAL_PATH)/elastos/libs/libelacommon.so
-    include $(PREBUILT_SHARED_LIBRARY)
-
-    ### shared library
-    include $(CLEAR_VARS)
-    LOCAL_SRC_FILES := elastos_testthirdlib.cpp
-
-    LOCAL_C_INCLUDES := $(LOCAL_PATH)/elastos/include \
-        $(LOCAL_PATH)/elastos/include/elastos \
-        $(LOCAL_PATH)/Elastos.HelloCarDemo
-
-    LOCAL_CFLAGS += -std=c++11 -D_GNUC -D_linux -D_UNDEFDLLEXP -fvisibility=hidden
-
-    LOCAL_MODULE := testThirdLib
-
-    #The elastos eco and lib.
-    LOCAL_LDFLAGS := $(LOCAL_PATH)/elastos/libs/libElastos.Runtime.so \
-        $(LOCAL_PATH)/elastos/libs/libElastos.CoreLibrary.so \
-        $(LOCAL_PATH)/Elastos.HelloCarDemo/libElastos.HelloCarDemo.so \
-        $(LOCAL_PATH)/elastos/libs/libElastos.Runtime_static.a
-
-    include $(BUILD_SHARED_LIBRARY)
+    添加
     ```
+    include_directories(elastos/include)
+    link_directories(libs/armeabi-v7a)
+    ```
+
+    添加 `Elastos.Runtime` 和 `Elastos.Runtime_static` 到 target_link_libraries
+
+5. 修改 app/build.gradle
+
+    ```
+    externalNativeBuild {
+        cmake {
+            cppFlags "-std=c++11", "-D_GNUC", "-D_linux", "-D_UNDEFDLLEXP", "-                  fvisibility=hidden"
+        }
+    }
+    ndk {
+        abiFilters 'armeabi-v7a'
+    }
+    ```
+
 
 > ### 3.6.运行Android app
 
