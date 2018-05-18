@@ -1,75 +1,75 @@
 # CAR Language
 
-> ## 1.简介
+> ## 1.Summary
 
-本文主要讲述car的语法，比如类，接口，方法，参数，继承关系，构造函数等等.
+This article focuses on the syntax of __CAR__, such as classes, interfaces, methods, parameters, inheritance, constructors, and so on.
 
-> ## 2.Data-Type
+> ## 2.Data Type
 
-这里讨论的是CAR数据类型，即是可以在.car中使用的数据类型。
+The data type of __CAR__ discussed here is the data type that can be used in `.car`.
 
-CAR数据类型包括基本数据类型、结构体类型(struct)、ArrayOf类型、EMuid类型、EGuid类型、String类型以及接口类型。具体类型定义如下表所示。
+The __CAR__ data type includes the base data type, structure type (__struct__), __ArrayOf__ type, __EMuid__ type, __EGuid__ type, __String__ type, and interface type. The specific types are defined in the following table.
 
-| 类型                            | 说明                        |
-|:------------------------------:|:--------------------------:|
-| Char32                         | 32位字符型                   |
-| Boolean                        | 布尔型                       |
-| Byte                           | 无符号字节型                  |
-| Int8                           | 8位有符号整型                 |
-| Int16                          | 16位有符号整型                |
-| Int32                          | 32位有符号整型                |
-| Int64                          | 64位有符号整型                |
-| UInt16                         | 16位无符号整型                |
-| UInt32                         | 32位无符号整型                |
-| UInt64                         | 64位无符号整型                |
-| Float                          | 单精度浮点型                  |
-| Double                         | 双精度浮点型                  |
-| ECode                          | 返回值类型                    |
-| EMuid                          | 128位UUID                   |
-| EGuid                          | 128位UUID+UUNM              |
-| String                         | 字符串类型                    |
-| ArrayOf                        | 数组类型                     |
-| PVoid                          | void*类型                    |
-| enum xxx                       | 枚举类型                     |
-| interface Ixxx                 | 接口类型                     |
+| type                             | directions                               |
+| :------------------------------: | :--------------------------------------: |
+| Char32                           | 32-bit character type                    |
+| Boolean                          | Boolean type                             |
+| Byte                             | Unsigned byte type                       |
+| Int8                             | 8-bit signed integer                     |
+| Int16                            | 16-bit signed integer                    |
+| Int32                            | 32-bit signed integer                    |
+| Int64                            | 64-bit signed integer                    |
+| UInt16                           | 16-bit unsigned integer                  |
+| UInt32                           | 32-bit unsigned integer                  |
+| UInt64                           | 64-bit unsigned integer                  |
+| Float                            | Single-precision floating point          |
+| Double                           | Double-precision floating point          |
+| ECode                            | Return type                              |
+| EMuid                            | 128-bit UUID                             |
+| EGuid                            | 128-bit UUID+UUNM                        |
+| String                           | String type                              |
+| ArrayOf                          | Array type                               |
+| PVoid                            | void* type                               |
+| enum xxx                         | Enumeration type                         |
+| interface Ixxx                   | Interface Type                           |
 
-> ### 2.1.基本数据类型
+> ### 2.1.Basic data types
 
-CAR使用Char32为字符类型，它能够表示所有的UNICODE字符。C/C++、Java的char类型可以方便的显式转换为Char32类型。
+__CAR__ uses __Char32__ as the character type, which can represent all __UNICODE__ characters. The __char__ types of C/C++ and Java can be easily and explicitly converted to __Char32__ types.
 
-为了兼容已有的程序，Elastos的C++代码保留16位的字符型Char16，并提供Char16数组与Char32数组之间的转换。
+In order to be compatible with existing programs, the Elastos C++ code retains the 16-bit character __Char16__ and provides conversions between the __Char16__ array and the __Char32__ array.
 
-枚举成员的名字均为大写，并以该枚举的名字大写为前缀，若名字中包含多个单词，请用下划线连接起来。例如`BitmapConfig_ALPHA_8`。
+Enumeration members are all capitalized and prefixed with the name of the enumeration. If the name contains multiple words, use an underscore to connect them. For example `BitmapConfig_ALPHA_8`.
 
-> ### 2.2.String类型
+> ### 2.2.String type
 
-CAR使用String类型表示字符串。String类型采用UTF-8编码方式，使用堆内存存储所表示的字符串内容，并支持引用计数来管理自身的生命周期。
+__CAR__ represents a string using the __String__ type. The __String__ type uses the __UTF-8__ encoding, uses heap memory to store the string content it represents, and supports reference counting to manage its own life cycle.
 
-> ### 2.3.ArrayOf类型
+> ### 2.3.ArrayOf type
 
-ArrayOf实现了类似数组的功能，即在一块连续的内存中存储若干个元素。并且，如果将CAR对象指针、继承自 __Object__ 或者 __ElLightRefBase__ 类的对象指针以及String对象作为ArrayOf的元素，那么调用其`Set(Int32 index, T const other)`方法设置元素时，ArrayOf能对它们进行自动化引用计数管理，但是，通过下标 __`[]`__ 操作进行赋值并不会自动进行引用计数管理。
+__ArrayOf__ implements an array-like function that stores several elements in a contiguous memory. If the __CAR__ object pointer, object pointer inherited from __Object__ or __ElLightRefBase__ class, and __String__ object are elements of __ArrayOf__, then when the __ArrayOf__ call its `Set(Int32 index, T const other)` method to set the element, these elements can be managed automatically for reference counts by __ArrayOf__, but assigning via subscript __`[]`__ does not automatically perform reference count management.
 
-对于适用于`AutoPtr<T>`的类型T，该类型的指针可以直接作为ArrayOf的元素类型，即使用`ArrayOf<T*>`的形式，而非`ArrayOf< AutoPtr<T> >`的形式。
+For types T that apply to `AutoPtr<T>`, pointers of this type can be used directly as the element type of __ArrayOf__. In other words using the form `ArrayOf<T*>` instead of `ArrayOf< AutoPtr<T> >` form.
 
-ArrayOf创建时会调用`memset`将分配到的内存清零，并且自身也实现了引用计数。其引用计数增减规则说明如下：
+When __ArrayOf__ is created, it will call `memset` to clear the allocated memory and implement the reference count itself. The reference count increase and decrease rules are described as follows:
 
-* 创建操作(__`Alloc()/Clone()`__)：
+* Create operation(__`Alloc()/Clone()`__)：
 
-    创建或克隆一个新对象，新对象的引用计数为 0，返回的新对象需要加入AutoPtr自动释放或手动调用`Free()/Release()`释放。
+    Create or clone a new object. The reference count of the new object is 0. The returned new object needs to be automatically released by __AutoPtr__ or manually released by calling `Free()/Release()`.
 
-* 减少引用计数操作(__`Free()/Release()`__)：
+* Reduce the reference count operation(__`Free()/Release()`__)：
 
-    `Free()/Release()`这两个方法等价，为保证一致性推荐使用`Release()`，或加入AutoPtr由其在内部调用`Release()`自动减少引用计数。
+    `Free()/Release()` these two methods are equivalent. To ensure consistency, it is recommended to use `Release()`, or to add AutoPtr to automatically reduce the reference count by calling `Release()` internally.
 
-* 增加引用计数(__`AddRef()`__)：
+* Increase the reference count operation(__`AddRef()`__)：
 
-    将一个ArrayOf指针赋值给一个AutoPtr变量时，后者将在内部调用`AddRef()`增加引用计数。如果需要手动增加引用计数，请使用宏`INTERFACE_ADDREF()`。
+    When an __ArrayOf__ pointer is assigned to an AutoPtr variable, the latter will call `AddRef()` to increase the reference count internally. If you need to manually increase the reference count, use the macro `INTERFACE_ADDREF()`.
 
-ArrayOf支持分配0个元素，即调用`ArrayOf<T>::Alloc(0)`，此时，针对返回的ArrayOf对象，调用其`GetLength()`方法将获得0。
+__ArrayOf__ supports allocation of 0 elements, ie calling `ArrayOf<T>::Alloc(0)`, at this point, calling its `GetLength()` method will get 0 for the returned __ArrayOf__ object.
 
-ArrayOf的几种典型用法如下：
+Some typical uses of __ArrayOf__ are as follows:
 
-* 一般场景
+* General scene
 
     ``` cpp
     // ThreadGroup.cpp
@@ -80,7 +80,7 @@ ArrayOf的几种典型用法如下：
     mChildrenThreads = newThreads;
     ```
 
-* 作为CAR方法的 __out, callee__ 参数
+* __out, callee__ parameter as a CAR method
 
     ``` cpp
     // IPackageInfo.car
@@ -106,14 +106,14 @@ ArrayOf的几种典型用法如下：
         return NOERROR;
     }
 
-    // 调用方
+    // Caller
     AutoPtr<IPackageInfo> info;
     ...
     AutoPtr< ArrayOf<IActivityInfo*> > activities;
     info->GetActivities((ArrayOf<IActivityInfo*> **)&activities);
     ```
 
-* 作为C++方法返回值
+* Return value as a C++ method
 
     ``` cpp
     // CHardwareCamera.h
@@ -121,12 +121,12 @@ ArrayOf的几种典型用法如下：
         /* [in] */ const String& str);
     ```
 
-对于 __双重数组__，请使用`AutoPtr< ArrayOf< AutoPtr< ArrayOf<T> > > >`形式。为了简化代码的编写，可以参考以下两种方法(实现在 __elquintent.h__ 文件中)：
+For the __Double array__, use the `AutoPtr< ArrayOf< AutoPtr< ArrayOf<T> > >` form. In order to simplify the writing of the code, you can refer to the following two methods (implemented in the __elquintent.h__ file):
 
-* 使用模板类。该方法通用性好，但可读性欠佳。
+* Use the template class. This method has good versatility but poor readability.
 
     ``` cpp
-    // 定义：elquintent.h
+    // definition：elquintent.h
     template <typename T> class ArrayOf2 {
     public:
         typedef AutoPtr<ArrayOf<T> > ElementType;
@@ -134,10 +134,10 @@ ArrayOf的几种典型用法如下：
     }
     ```
 
-* 使用在 __elquintent.h__ 文件中通过 __typedef__ 预定义的类型。该方法可读性好，但不能通用。
+* Use the type predefined by __typedef__ in the __elquintent.h__ file. This method is readable but not universal.
 
     ``` cpp
-    // 定义：elquintent.h
+    // definition：elquintent.h
     typedef AutoPtr<ArrayOf<Byte> >     ByteArray;
     typedef AutoPtr<ArrayOf<Char32> >   Char32Array;
     typedef AutoPtr<ArrayOf<String> >   StringArray;
@@ -146,195 +146,197 @@ ArrayOf的几种典型用法如下：
     typedef AutoPtr<ArrayOf<Float> >    FloatArray;
     typedef AutoPtr<ArrayOf<Double> >   DoubleArray;
 
-    // 使用：View.h
+    // apply：View.h
     static const AutoPtr<ArrayOf<Int32Array> > VIEW_STATE_SETS;
     ```
 
-> ### 2.4.CAR接口(interface)
+> ### 2.4.CAR interface
 
-接口(interface)是用来定义一种程序的协定。实现接口的类或者结构要与接口的定义严格一致。有了这个协定，就可以抛开编程语言的限制(理论上)。接口可以从多个基接口继承，而类或结构可以实现多个接口。接口可以包含方法、属性、事件和索引器。接口本身不提供它所定义的成员的实现。接口只指定实现该接口的类或接口必须提供的成员。
+Interface is a protocol used to define a program. The class or structure that implements the interface must be exactly the same as the interface definition. With this agreement, you can put aside the limitations of the programming language (in theory). Interfaces can inherit from multiple base interfaces, and classes or structures can implement multiple interfaces. Interfaces can contain methods, properties, events, and indexers. The interface itself does not provide the implementation of the members it defines. The interface specifies only the members that must be provided by the class or interface that implements the interface.
 
-接口好比一种模版，这种模版定义了对象必须实现的方法，其目的就是让这些方法可以作为接口实例被引用。接口不能被实例化。类可以实现多个接口并且通过这些实现的接口被索引。接口变量只能索引实现该接口的类的实例。
+Interface is like a template. This template defines the methods the object must implement. Its purpose is to allow these methods to be referenced as interface instances. Interface cannot be instantiated. Classes can implement multiple interfaces and are indexed through these implemented interfaces. Interface variables can only index instances of classes that implement the interface.
 
-参考示例可以查看[Car文件结构](#4.1.Car文件结构)。
+Reference example can be viewed: [Car File structure](#4.1.Car-File-structure)。
 
-上面例子中的接口包含各自的接口方法。
-CAR 接口不支持多重继承，也就是构件类定义不可以继承自其它构件类。 类和结构可以多重实例化接口，就是一个接口定义可以被多个类定义所引用。
+The interfaces in the above example contain their own interface methods.
+The __CAR__ interface does not support multiple inheritance, that is, component class definitions cannot inherit from other component classes. Classes and structures can be multi-instance interfaces, that is, an interface definition can be referenced by multiple class definitions.
 
-说明:
+Explanation:
 
-* CAR 中的接口是独立于类来定义的。这与 C++模型是对立的，在 C++中接口实际上就是抽象基类。
-* 类可以继承多个接口。
-* 而类可以继承一个基类，接口根本不能继承类。这种模型避免了 C++的多继承问题，C++中不同基类中的实现可能出现冲突。因此也不再需要诸如虚拟继承和显式作用域这类复杂机制。C#的简化接口模型有助于加快应用程序的开发。
-* 一个接口定义一个只有抽象成员的引用类型。CAR 中一个接口实际所做的，仅仅只存在着方法标志，但根本就没有执行代码。这就暗示了不能实例化一个接口，只能实例化一个派生自该接口的对象。
+* The interfaces in __CAR__ are defined independently of the class. This is against the C++ model, which is actually an abstract base class in C++.
 
-接口具有引用计数功能，应当通过引用计数或者借助 __AutoPtr__ 来管理接口的生命周期。
+* The class can inherit multiple interfaces.
 
-> ### 2.5.IInterface接口
+* While a class can inherit a base class, an interface cannot inherit a class at all. This model avoids C++'s multiple inheritance issues, and implementations in different base classes in C++ may conflict. Therefore, complex mechanisms such as virtual inheritance and explicit scope are no longer needed. C#'s simplified interface model helps accelerate application development.
 
-IInterface接口是所有接口的(直接或间接)父接口，如果在.car中定义接口时没有指定其父接口，那么CAR编译器就会默认指定IInterface接口为该接口的父接口。
+* An interface defines a reference type that has only abstract members. Actually done by an interface in __CAR__, there is only a method flag, but no code is executed at all. This implies that you cannot instantiate an interface, you can only instantiate an object derived from that interface.
 
-由于IInterface接口是所有接口的父接口，所以一个实现了多个接口的对象有多个地址不同的IInterface接口，因此如果通过IInterface接口来进行对象判等，则判等的两个对象都需要Probe出IInterface接口再比较。对象的Equals方法中较多涉及此情景。
+The interface has a reference count function and should manage the life cycle of the interface by reference counting or by means of __AutoPtr__.
 
-如何Probe，请参考示例[Car类继承](#10.1.Car类继承)。
+> ### 2.5.IInterface interface
 
-> ### 2.6.返回类型
+The __`IInterface`__ interface is the (direct or indirect) parent interface of all interfaces. If the parent interface is not specified when the interface is defined in `.car`, then the __CAR__ compiler will specify the __`IInterface`__ interface as the parent interface of the interface by default.
 
-CAR文件中所有的方法其函数返回类型均默认为`ECode`。所以在Car中声明定义的时候，无需再次指明。而在头文件中定义的时候，其函数返回类型写成`CARAPI`，在Cpp实现文件中可直接写成`ECode`。
+Since the __`IInterface`__ interface is the parent interface of all interfaces, an object that implements multiple interfaces has multiple __`IInterface`__ interfaces with different addresses. Therefore, if the object is judged through the __`IInterface`__ interface, both objects that are arbitrated are need `Probe` out __`IInterface`__ interface and then compare. This scenario is more involved in the object's ʻEquals` method.
 
-`ECode`是一个32位二进制整数。`ECode`高16位中，最高位表示方法调用错误(1)或成功(0)；其余15位表示具体的错误信息，例如:接口错误、驱动错误、CRT错误、文件系统错误、图形系统错误等。对于许多CAR兼容的实现语言(例如:Visual Basic、Java)而言，这些ECode被运行时库或者虚拟机截取，然后被映射为语言中特定的异常(exception)。`ECode`低16位用作调试和测试用。
+How to `Probe`, Please refer to the example: [Car class inheritance](#10.1.Car-class-inheritance)。
 
-CAR中提供以下两个宏，使用这两个宏可以通过判断ECode返回值得知方法调用是否成功：
+> ### 2.6.Return type
 
-| 宏定义               | 含义                      |
-|:-------------------:|:------------------------:|
-| SUCCEEDED(ec)       | 判断方法调用是否成功         |
-| FAILED(ec)          | 判断方法调用是否失败         |
+All methods in the __CAR__ file whose function return types default to `ECode`. So when declaring a definition in Car, you don't need to specify again. When defined in the header file, the function return type is written as `CARAPI`, which can be directly written as `ECode` in the cpp implementation file.
 
-在Elastos中做开发，无论是C++类，还是Car类，当需要声明非接口中的方法时，如果返回不是`ECode`，也请遵循规则：返回值类型在头文件中需写成：`CARAPI_(XXX)`，其中 XXX 指的是返回值类型。比如要返回`Int32`，则在头文件中写成`CARAPI_(Int32)`。
+`ECode` is a 32-bit binary integer. In the `ECode` high 16 bits, the highest bit indicates a method call error (1) or success (0); the remaining 15 bits indicate specific error information. Such as: interface error, driver error, CRT error, file system error, graphics system error and so on. For many CAR compatible implementation languages (eg: Visual Basic, Java), these `ECode` are intercepted by the runtime library or virtual machine and then mapped to language specific exceptions. The `ECode` low 16 bits are used for debugging and testing.
+
+The following two macros are provided in __CAR__. These two macros can be used to judge whether the method call is successful by determining whether ECode returns:
+
+| Macro definition      | implication                                           |
+| :-------------------: | :---------------------------------------------------: |
+| SUCCEEDED(ec)         | Determine whether the method call was successful      |
+| FAILED(ec)            | Determine if the method call failed                   |
+
+When developing in Elastos, whether it is a C++ class or a Car class, when you need to declare a method in a non-interface, if the return is not `ECode`, follow the rules: The return value type should be written in the header file as: `CARAPI_( XXX)`, where XXX is the return value type. For example, to return `Int32`, write `CARAPI_(Int32)` in the header file.
 
 > ## 3.Keywords
-> ### 3.1.Car基本关键字
+> ### 3.1.Car Basic keywords
 
-关键字也称保留字。它是预先定义好的表示符，这些表示符对CAR编译程序有着特殊的含义。下面对CAR中几个主要关键字的含义和表示方法一一进行介绍。
+Keywords are also called reserved words. It is a pre-defined identifier that has special meaning to the __CAR__ compiler. The following describes the meaning and presentation of several major keywords in __CAR__.
 
-* 用于定义构件的关键字:
+* The key used to define the component:
 
-    | 关键字           | 描述                        |
-    |:---------------:|:---------------------------:|
-    | module          | 用于指定.dll形式的构件         |
-    | library         | 用于指定.lib形式的构件         |
+    | keywords          | description                                          |
+    | :---------------: | :--------------------------------------------------: |
+    | module            | used to specify the .dll form of the component       |
+    | library           | used to specify the .lib form of the component       |
 
-* 用于定义接口的关键字：
+* The key used to define the interface:
 
-    | 关键字           | 描述                        |
-    |:---------------:|:---------------------------:|
-    | interface       | 用于定义或声明一个接口         |
-    | callbacks       | 用于定义或声明一个异步回调接口   |
-    | delegates       | 用于定义或声明一个同步回调接口   |
+    | keywords          | description                                                      |
+    | :---------------: | :--------------------------------------------------------------: |
+    | interface         | used to define or declare an interface                           |
+    | callbacks         | used to define or declare an asynchronous callback interface     |
+    | delegates         | used to define or declare a synchronous callback interface       |
 
-* 用于定义类的关键字：
+* The key used to define the class:
 
-    | 关键字           | 描述                        |
-    |:---------------:|:---------------------------:|
-    | class           | 用于定义一个普通构件类         |
-    | generic         | 用于定义一个泛类              |
-    | applet          | 用于定义一个applet类          |
-    | aspect          | 用于定义一个方面构件类         |
-    | context         | 用于定义一个语境类            |
+    | keywords          | description                                    |
+    | :---------------: | :--------------------------------------------: |
+    | class             | used to define a generic component class       |
+    | generic           | used to define a generic class                 |
+    | applet            | used to define a `applet` class                |
+    | aspect            | used to define an aspect component class       |
+    | context           | used to define a context class                 |
 
-* 用于继承的关键字：
+* Keywords used for inheritance:
 
-    | 关键字           | 描述                                    |
-    |:---------------:|:--------------------------------------:|
-    | clasinheritss   | 用于表示普通类class继承普通类class         |
-    | extends         | 表示接口interface继承接口interface        |
-    | final           | 用于修饰普通构件类class，表示该类不允许被继承 |
-    | substitutes     | 用于表示普通类class继承泛类generic         |
+    | keywords          | description                                                                                                         |
+    | :---------------: | :-----------------------------------------------------------------------------------------------------------------: |
+    | clasinheritss     | used to indicate ordinary class `class` inherits ordinary class `class`                                             |
+    | extends           | used to indicate that the interface `interface` inherits the interface `interface`                                  |
+    | final             | used to decorate the common component class `class`, indicating that the class is not allowed to be inherited       |
+    | substitutes       | used to indicate that ordinary class `class` inherits generics class `generic`                                      |
 
-* 用于修饰接口的关键字：
+* Keyword used to decorate the interface:
 
-    | 关键字           | 描述                                                               |
-    |:---------------:|:-----------------------------------------------------------------:|
-    | virtual         | 用于修饰interface,表示声明虚接口                                      |
-    | asynchronous    | 用于修饰interface,表明被修饰的interface的接口的方法将被异步方式调用        |
-    | privileged      | 用于修饰interface,并只能用于aspect中，指定其接口只能在聚合和解聚合的时候可见 |
-    | filtering       | 用于修饰callbacks接口，表示子类过滤基类所触发的回调事件                    |
+    | keywords          | description                                                                                                                                           |
+    | :---------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------: |
+    | virtual           | used to decorate the `interface`, indicating that the virtual interface is declared                                                                   |
+    | asynchronous      | used to decorate the `interface`, indicating that the methods of the modified `interface` interface will be invoked asynchronously                    |
+    | privileged        | used to decorate the `interface`, and can only be used in `aspect`, specify its interface can only be seen when the polymerization and de-aggregation |
+    | filtering         | used to decorate the `callbacks` interface to indicate that the subclass filters the callback events triggered by the base class                      |
 
-* 用于修饰类的关键字：
+* Keywords used to decorate the class:
 
-    | 关键字           | 描述                                                                    |
-    |:---------------:|:----------------------------------------------------------------------:|
-    | singleton       | 用于表示该类只能创建出唯一的对象                                             |
-    | aggregates      | 表示被修饰的构件类创建对象时将自动聚合该属性中列举的方面构件对象                   |
-    | pertainsto      | 用于修饰语境构件类context，表示该语境构件类拥有该属性中列举的方面构件类            |
-    | affiliates      | 用于修饰方面构件类aspect，表示被修饰的方面构件类只能被该属性中列举的非方面构件类聚合  |
+    | keywords          | description                                                                                                                                                                      |
+    | :---------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+    | singleton         | used to indicate that this class can only create unique objects                                                                                                                  |
+    | aggregates        | used to indicate that when the decorated widget class creates an object, it will automatically aggregate the aspect widget objects listed in the property.                       |
+    | pertainsto        | used to decorate the context component class `context`, indicating that the context component class has the aspect component class listed in the attribute                       |
+    | affiliates        | used to decorate the aspect class ʻaspect`, indicating that the modified aspect component class can only be aggregated by the non-aspect component class listed in the attribute |
 
-* 用于定义数据结构的关键字：
+* Keywords for defining data structures:
 
-    | 关键字           | 描述                                          |
-    |:---------------:|:--------------------------------------------:|
-    | const           | 用于定义int类型的常量                           |
-    | enum            | 用于定义枚举类型，使用方法与其在C语言中用法基本相同   |
-    | struct          | 用于定义结构体，其使用方法与在C语言中用法基本相同     |
-    | typedef         | 用于定义类型，其使用方法与在C语言中用法基本相同       |
+    | keywords          | description                                                                                         |
+    | :---------------: | :-------------------------------------------------------------------------------------------------: |
+    | const             | used to define constants of type int                                                                |
+    | enum              | used to define the enumeration type, its usage is basically the same as its usage in C language     |
+    | struct            | used to define a structure, its usage is basically the same as in C language                        |
+    | typedef           | used to define a type, its use is basically the same as in C language                               |
 
-* 用于合并构件的关键字：
+* Keywords for merging components:
 
-    | 关键字           | 描述                                                                        |
-    |:---------------:|:--------------------------------------------------------------------------:|
-    | merge           | 用于在本构件中合并用到的其它构件(.car文件)                                       |
-    | mergelib        | 用于在本构件中合并用到的其它构件（.dll或者.cls文件）中被当前构件的定义引用到的部分      |
-    | import          | 指定本构件中用到的其它构件（.car文件）                                           |
-    | importlib       | 指定本构件中用到的其它构件（.dll或者.cls）                                       |
+    | keywords          | description                                                                  |
+    | :---------------: | :--------------------------------------------------------------------------: |
+    | merge             | used to merge other components (.car files) in this component                |
+    | import            | Specify other components used in this component (.car file)                  |
+    | importlib         | Specify other components used in this component (.dll or .cls)               |
 
-* 其它关键字：
+* Other keywords:
 
-    | 关键字           | 描述                                             |
-    |:---------------:|:-----------------------------------------------:|
-    | constructor     | 用于在类中定义构造函数                              |
-    | pragma          | 禁止或允许显示CAR编译器给出的警告信息                 |
-    | coalesce        | 用于在类中修饰callbacks接口方法，表示合并同类回调事件   |
+    | keywords          | description                                                                                                      |
+    | :---------------: | :--------------------------------------------------------------------------------------------------------------: |
+    | constructor       | used to define a constructor in a class                                                                          |
+    | pragma            | disable or allow display of warning information given by the CAR compiler                                        |
+    | coalesce          | used to decorate the `callbacks` interface method in the class, which means to merge similar callback events     |
 
-> ### 3.2.Car属性关键字
+> ### 3.2.Car attribute keyword
 
-    CAR属性用于修饰CAR中构件类、接口等各个部分的内容。下面对CAR中所支持的各属性的含义及其表示方法进行介绍。
+The __CAR__ attribute is used to decorate the contents of component parts, interfaces, etc. in __CAR__. The following describes the meaning of each of the attributes supported in __CAR__ and how they are represented.
 
-* 用于修饰构件的属性：
+* Used to decorate widget properties:
 
-    | 属性                       | 描述                       |
-    |:-------------------------:|:--------------------------:|
-    | version                   | 用于标识构件的版本号           |
+    | attributes                  | description                                                   |
+    | :-------------------------: | :-----------------------------------------------------------: |
+    | version                     | used to identify the version number the component             |
 
-* 用于修饰普通类的属性：
+* Used to decorate the properties of ordinary classes:
 
-    | 属性                 | 描述                                                                  |
-    |:-------------------:|:---------------------------------------------------------------------:|
-    | synchronized        | 用于标识构件对象同时只允许一个线程进入到构件的实现代码中，其它访问该构件对象的线程将被阻塞等待（一旦线程调用到对象方法内，在从对象方法返回之前，其它线程对该对象的访问均会被阻塞）                     |
-    | sequenced           | 用于标识构件对象同时只允许一个线程进入到构件的实现代码中，其它访问该构件对象的线程将被阻塞等待（对象方法访问其它对象时临时释放锁，允许其它线程进入对象）                                           |
-    | private             | 用于标识所修饰的类只能在服务端被实例化                                       |
-    | local               | 用于修饰带有constructor（内有非自描述参数）的类                              |
-    | deprecated          | 用于兼容移植来的第三方软件中不符合CAR规范的数据类型使用                         |
-    | applet              | 此属性用于修饰类，表示该类接口方法的调用具有类似于applet的接口方法行为            |
+    | attributes            | description                                                                                                                                                                                                                                                                                                                                    |
+    | :-------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+    | synchronized          | used to identify the component object and only allow one thread to enter the implementation code of the component. Other threads that access the component object will be blocked and waited (once the thread calls into the object method, other threads access to this object that will be blocked before returning from the object method.) |
+    | sequenced             | used to identify the component object and only allow one thread to enter the implementation code of the component. Other threads that access the component object will be blocked and waited (the object method will temporarily release the lock when accessing other objects, allowing other threads to enter the object)                    |
+    | private               | used to identify the modified class can only be instantiated on the server                                                                                                                                                                                                                                                                     |
+    | local                 | used to decorate classes with constructor (without self-describing parameters)                                                                                                                                                                                                                                                                 |
+    | deprecated            | used for Compatibility with data types that are not compatible with the CAR specification in compatible third-party software                                                                                                                                                                                                                   |
+    | applet                | used to decorate the class, indicating that the invocation of the interface method of this class has an interface method behavior similar to the `applet`.                                                                                                                                                                                     |
 
-* 用于修饰接口的属性：
+* Used to decorate the properties of the interface:
 
-    | 属性                  | 描述                                                            |
-    |:--------------------:|:---------------------------------------------------------------:|
-    | local                | 表示提供该接口的类的类对象与客户程序只能在相同的域内使用，不能用于远程调用   |
-    | deprecated           | 用于兼容移植来的第三方软件中不符合CAR规范的数据类型使用                  |
+    | attributes             | description                                                                                                                                                             |
+    | :--------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+    | local                  | indicates that the class object of the class providing the interface can only be used within the same domain as the client program, and cannot be used for remote calls |
+    | deprecated             | used for Compatibility with data types that are not compatible with the CAR specification in compatible third-party software                                            |
 
-* 用于修饰接口方法参数的属性：
+* Used to decorate the attributes of interface method parameters:
 
-    | 属性                        | 描述                                   |
-    |:--------------------------:|:--------------------------------------:|
-    | in                         | 用于标识该参数为输入参数                   |
-    | out                        | 用于标识该参数为输出参数                   |
-    | callee                     | 用于修饰五元组，表示该参数由客户端程序分配    |
+    | attributes                   | description                                                                                           |
+    | :--------------------------: | :---------------------------------------------------------------------------------------------------: |
+    | in                           | used to identify this parameter as an input parameter                                                 |
+    | out                          | used to identify this parameter as an output parameter                                                |
+    | callee                       | used to decorate the five-tuple, indicating that the parameter is assigned by the client program      |
 
-> ## 4.Car构件组成
-> ### 4.1.Car文件结构
+> ## 4.Car Component composition
+> ### 4.1.Car File structure
 
-一个CAR文件（扩展名为.car）对应一个`module`或`library`。CAR文件的结构主要由构件类，接口和接口方法组成。每个CAR构件都由若干类组成，每个类实现若干接口，每个接口中定义若干方法。例如：HelloDemo.car文件。
+A __CAR__ file (.car extension) corresponds to a `module` or `library`. The structure of the __CAR__ file is mainly composed of component classes, interfaces, and interface methods. Each __CAR__ component consists of several classes, each class implements several interfaces, each of which defines several methods. For example: `HelloDemo.car` file.
 
 ``` cpp
-module　　　　　//构件HelloDemo
+module　　　　　//component HelloDemo
 {
-    //接口IHello
-    [local]　　　　　　　　 //接口属性　local
+    // interface IHello
+    [local]　　　　　　　　 // Interface properties　local
     interface IHello {
         Hello(
-            [in] Int32 id);  //方法
+            [in] Int32 id);  // method
     }
 
-    //接口IHey
+    // interface IHey
     interface IHey {
         Hey(
             [in] Int32 id,
             [out] String* wtrBuf);
     }
 
-    //类CHello1
+    // class CHello1
     class CHello1 {
         constructor();
 
@@ -345,74 +347,74 @@ module　　　　　//构件HelloDemo
         interface IHey;
     }
 
-    //类CHello2
+    // class CHello2
     class CHello2 {
         interface IHello;
 
     }
-    //类CHello3
+    // class CHello3
     class CHello3 {
         interface IHey;
     }
 }
 ```
 
-注：CAR文件中使用双斜杠“//”作为语句注释符。
+Note: The double slash "//" is used as a statement comment in the __CAR__ file.
 
-> ### 4.2.Car文件语法
+> ### 4.2.Car file syntax
 
-在CAR文件中，对构件、接口、类等的定义都包括两个部分：属性和定义。
+In the __CAR__ file, the definition of components, interfaces, classes, etc., consists of two parts: attributes and definitions.
 
-CAR属性：位于方括号“[]”中，多个属性之间以逗号“,”作为分隔符；对构件、接口、类、类别等的定义位于花括号“{}”中。属性总是出现在相应主题的定义之前。
+__CAR__ attribute: is in square brackets "[]", multiple attributes are separated by a comma ","; the definition of components, interfaces, classes, categories, etc. is in curly braces "{}". Attributes always appear before the definition of the corresponding topic.
 
-构件：在一个CAR文件中只能有一个构件的定义。在CAR中可以使用关键字`module`定义生成动态链接库`.dll`形式的car构件，也可以用关键字`library`定义生成静态链接库`.lib`形式的car构件。
+Component: There can be only one component definition in a __CAR__ file. In __CAR__, the keyword `module` can be used to define the car component of generating the dynamic link library `.dll`, or the keyword `library` to define the car component of generating the static link library `.lib`.
 
-> ### 4.3.Car文件编译
+> ### 4.3.Car file compilation
 
-* 编译一个CAR文件主要分为四个步骤：
+* Compiling a __CAR__ file is mainly divided into four steps:
 
-  * 编写.car文件，声明方法、接口、类和构件
-  * 调用“emake xxx.car”生成前台代码框架
-  * 在前台代码框架中编写实现代码
-  * 调用“emake”生成后台代码，然后编译链接成构件(.dll或.lib)
+  * Write a .car file, declare methods, interfaces, classes, and components
+  * Call `emake xxx.car` to generate the foreground code framework
+  * Write implementation code in the foreground code framework
+  * Call `emake` to generate the code behind, then compile and link it into a component (.dll or .lib)
 
-* 自动生成前台代码框架：
+* Automatic generation of foreground code framework:
 
-    Car编译器主要包括四个工具：carusage.exe carc.exe lubc.exe和lube.exe。简单来说，`carc.exe`工具是用来编译.car文件的；`lubc.exe`工具用来编译.lub模板的；`Lube.exe`工具根据模板产生代码。其中lub模板是由一组特定规则组成的扩展名为lub的文件。可以使用命令 `xxx -?` 分别查看这些工具的使用说明。例如命令 `carc -?` 会列出carc工具的使用方法。
+    The __Car__ compiler mainly includes four tools: `carusage` (currently deprecated), `carc`, `lubc`, and `lube`. In simple terms, the `carc` tool is used to compile .car files; the `lubc` tool is used to compile .lub templates; the `lube` tool generates code based on templates. The `lub` template is a file with the extension `lub` made up of a set of specific rules. You can use the command `xxx -?` to view the usage instructions for these tools. For example, the command `carc -?` will list the use of the `carc` tool.
 
-    在XDK命令行输入`emake xxx.car`后，将首先使用carc工具在当前目录下（可以指定目录）生成xxx.car文件对应的xxx.cls文件，该文件主要包括元数据的信息,编译时这些信息被打包到dll中。元数据，是一种描述数据的数据。CAR构件中的元数据主要包括模块信息（ModuleInfo）,接口信息（InterfaceInfo），类信息（ClassInfo）等。这些信息是在CAR文件编译后得到，是CAR文件的二进制表述。
+    Enter the __CAR__ compilation environment, find the directory where you want to compile the car file, and then then execute the command `emake xxx.car`. First, it will use `carc` tool to generate the `xxx.cls` file which corresponds to the `xxx.car` file in the current directory (can specify the directory). This file contains mainly metadata information that was compiled into `dll` at compile time. Metadata is data that describes data. The metadata in the __CAR__ component mainly includes module information, interface information, and class information. These information are obtained after compilation of the __CAR__ file and is a binary representation of the __CAR__ file.
 
-    然后使用lube工具根据刚才生成的xxx.cls文件，按照foreground.lub模板生成构件的前台代码框架，即为构件中定义的所有类生成该类对应的xxx.cpp和xxx.h文件，此外还包括sources文件和xml文件。这些文件的含义如下：
+    Then it use the `lube` tool to generate the foreground code framework of the component according to the `foreground.lub` template based on the just generated `xxx.cls` file. This will generate the corresponding `xxx.cpp` and `xxx.h` files for the class defined for all classes in the component. In addition to the `CMakeLists.txt` file and the `xxx.camke` file. The meaning of these files is as follows:
 
-        xxx.h     .car文件中定义的类对应的头文件
+    | file name        | description                                                                                                                                                                          |
+    | :---------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+    | xxx.h             | Header file corresponding to the class defined in the .car file                                                                                                                      |
+    | xxx.cpp           | The C++ implementation code file for the class defined in the .car file                                                                                                              |
+    | CMakeLists.txt    | Used to specify how to compile the source code, generate what kind of object file and other information                                                                              |
+    | xxx.camke         | Used to define cmake compiler related variables?. The value of the variable is the list of header files and cpp files generated in the mirror directory when compiling the car file. |
 
-        xxx.cpp    .car文件中定义的类对应的C++代码文件
+* Automatic generation of background code framework：
 
-        sources    用于指定如何编译源代码，生成什么类型的目标文件等信息
+    After the implementation code is filled in the foreground code framework, execute the `emake` command, which will first use the `carc` tool to generate the extended `xxxEx.cls` file in the mirror directory.
+    Compared to the `xxx.cls` file generated by the front-end code framework, the extended `xxxEx.cls` file adds a few extra interfaces and classes. Then according to the `header.lub`, `public.lub`, `background.lub`, `cls2abrg.lub` and other templates, use the `lube` tool to generate the background code framework and finally compile and link it into `xxx.dll` (or `xxx.lib`).
 
-        xxx.xml    分别用中文和英文描述car文件内容的xml文件
+* The advantages of automatically generated code framework:
 
-* 自动生成后台代码框架：
+    The main function of the automatic generation of code in the compilation environment is packaging and abstracting the writing and use of components, making it easier for users to develop and use __CAR__ components.
 
-    在前台代码框架中填充实现代码后，执行emake命令，将首先使用carc工具在镜像目录下生成扩展的xxxEx.cls文件。相比较前台代码框架生成使用的xxx.cls文件，该扩展xxxEx.cls文件增加了一些额外的接口和类。然后使用lube工具，按照header.lub、public.lub、background.lub、cls2abrg.lub等模板生成后台代码框架，最后编译链接成xxx.dll（或xxx.lib）。
+    Writing the __CAR__ component interface description file with car is simple and convenient. Although the interface of Hello component is simple, if users write in C++, many technical details still need to be considered. The use of car language programming components is not only simple but also allows users to become more accustomed to thinking methods of component programming, and does not entangled in the internal technical details.
 
-* 自动生成代码框架的优点：
+    Automatically generate metadata. The __CLS__ file is a compressed style library of __CAR__ files, which describes the definition of interfaces, classes, methods, structures, and enumerations of the entire component. With the `cls` file, you can get the component's interface, function call methods, and even generate the source code framework. When linking to generate components, the `cls` is also placed into the component. This is equivalent to binding a specification and component together. No matter how the component is copied and moved, you can know how to use the component.
 
-    编译环境自动生成代码的主要作用是封装和抽象构件的编写和使用，让用户更方便的开发和使用CAR构件。
+    Many of the important parts of the components, such as factory, registration functions in the DLL, etc., are automatically generated by the compiler environment, and don't have to be manually implemented by the user.
 
-    用car书写CAR构件接口描述文件简单方便。Hello构件虽然接口简单，但如果用户用C++编写，仍然要考虑到许多技术细节。采用car语言编写构件，不仅简单而且让用户更加习惯构件编程的思维方法，不纠缠于内部的技术细节。
+> ## 5.CAR class
 
-    自动生成元数据。CLS文件是CAR文件压缩后的样式库，里面描述了整个构件的接口、类、方法、结构、枚举等的定义。有了cls文件，就可以得到该构件的接口，函数的调用方法，甚至生成源码框架。在链接生成构件的时候，将cls也放入构件中，这样就等于将一本说明书和构件捆绑在一起。无论构件被复制移动到哪里，都可以知道该构件该如何使用。
+The class declared in the .car file is called the __CAR__ class, and the class declared or defined only in the .h file or the .cpp file is called the C++ class.
 
-    许多构件的重要组成部分，比如类厂，DLL中的注册函数等，都由编译环境自动生成，不必用户再手工实现。
+The __Car__ class and the C++ class use different keywords when they are defined.
 
-> ## 5.CAR类
-
-在.car文件中声明的类称为CAR类，而只在.h文件或.cpp文件中声明或定义的类称为C++类。
-
-Car类和C++类在定义的时候，使用的关键字不同。
-
-C++类是使用关键字`class`定义的：
+The C++ class is defined using the keyword `class`:
 
 ``` cpp
 class B
@@ -422,50 +424,50 @@ class B
 };
 ```
 
-而Car类是使用关键字`CarClass`来定义的：
+The Car class is defined using the keyword `CarClass`:
 
 ``` cpp
 CarClass(CDemo)
     ，public A
 {
     ...
-    可使用elastos定义的宏简化书写
+    // Elastos defined macros can be used to simplify writing
 };
 ```
 
-Car类必须要在.car文件中声明。
+The Car class must be declared in the .car file.
 
-> ## 6.CAR构造函数(constructor)
-> ### 6.1.C++默认构造函数
+> ## 6.CAR constructor
+> ### 6.1.C++ default constructor
 
-1. 每个类必须有一个构造函数，否则没法创建对象;
-2. 若 programer 没有提供任何构造函数，则 C++提供一个默认的构造函数，该默认构造函数是无参构造函数，它仅负责创建对象，不做任何初始化的工作;
-3. 只要 programer 定义了一个构造函数(不管是无参还是有参构造)，C++就不再提供默认的构造函数。即如果为类定义了一个带参的构造函数，还想要无参构造函数，就必须自己定义;
-4. 与变量定义类似，在用默认构造函数创建对象时，如果创建的是全局对象或静态对象，则对象的位模式全为 0，否则，对象值是随机的。
+1. Each class must have a constructor, otherwise it cannot create objects;
+2. If programer does not provide any constructors, C++ provides a default constructor, which is a no-argument constructor, which is only responsible for creating objects without doing any initialization work;
+3. As long as programer defines a constructor (whether it has no parameters or no parameters), C++ no longer provides a default constructor. That is, if you define a constructor with a parameter for a class and you want constructor without a parameter, you must define it yourself.
+4. Similar to a variable definition, when creating an object with the default constructor, if you create a global or static object, the bit pattern of the object is all 0, otherwise, the object value is random.
 
-注:
-如 2 所述，C++在某些情况下会提供默认构造函数，但在某些情况下并不会自动调用。
-事实上，当用户没有提供自定义的构造函数的时候，声明该类的对象，以及定义包含该对象的数组，都不会调用默认构造函数；但定义包含该对象的容器时，会自动调用默认的构造函数。
+* Note:
+  * As mentioned in 2, C++ provides a default constructor in some cases, but it is not automatically called in some cases.
+  * In fact, when the user does not provide a custom constructor, declaring the object of the class, and defining the array containing the object will not call the default constructor; but when defining the container containing the object, it will automatically call the default The constructor.
 
-> ### 6.2.CAR类构造方法
+> ### 6.2.CAR clsss constructor
 
-对于一个CAR类CXXX而言，它有两种构造方法，一种是C++构造方法CXXX()，另一种是CAR构造方法 __constructor()__ 。后者本质上是一个普通的C++方法。
+For a __CAR__ class `CXXX`, it has two methods of construction, one is the C++ constructor `CXXX()` and the other is the __CAR__ constructor __`constructor()`__. The latter is essentially an ordinary C++ method.
 
-它们的相似点是：
+The similarities between them is:
 
-* 如果没有提供自定义的实现则都会提供一个默认的无参的实现。
-* 都支持构造函数重载。
+* If you do not provide a custom implementation, it will provide a default, no-argument implementation.
+* Supports constructor overloading.
 
-它们的不同点是：
+The difference between them is:
 
-* C++构造方法支持初始化列表，而CAR构造方法不支持。
-* 在C++构造方法执行时，该对象还未就绪，而CAR构造方法执行时，对象已经就绪。
+* C++ constructors support initialization lists, and the __CAR__ constructor does not.
+* While the C++ constructor is executing, the object is not yet ready, and the object is ready when the __CAR__ constructor is executed.
 
-因此，我们可以利用C++构造方法的初始化列表初始化成员变量。
+Therefore, we can use the initialization list of the C++ constructor to initialize the member variables.
 
-对于实现了 __IParcelble__ 接口的CAR类而言，它必须有一个无参的CAR构造方法 __constrctor()__ （无论是默认提供的，还是显式声明的），这是为了支持该对象的散集(unmarshall)。散集时，先调用该构造方法创建对象，然后再转型为IParcelble接口，调用`IParcelble::ReadFromParcel()`设置对象成员变量。因此，Elastos里规定，凡是实现了IParcelable接口的CAR类都必须显式声明一个无参的CAR构造方法。例如：
+For the __CAR__ class that implements the __IParcelble__ interface, it must have a no-argument __CAR__ constructor __`constctor()`__ (whether provided by default or explicitly declared), which is to support the unmarshal of this object. In the case of unmarshal, first call the constructor to create the object, and then cast it to the __IParcelble__ interface. Calling `IParcelble::ReadFromParcel()` to set the object member variable. Therefore, Elastos states that any __CAR__ class that implements the __IParcelable__ interface must explicitly declare __CAR__ constructor without a parameter.
 
-使用范例：
+example:
 
 ``` cpp
 module {
@@ -487,7 +489,7 @@ module {
 }
 ```
 
-如何new一个car对象，以及如何调用接口中的方法，请参考下面的例子：
+How to new a car object, and how to call the methods in the interface, please refer to the following example:
 
 ``` cpp
 AutoPtr<IHello> helloobj1, helloObj2;
@@ -497,25 +499,23 @@ helloobj->Hello();
 helloobj2->Hello();
 ```
 
-另外，Elastos规定对于非单例的CAR类，若该类没有显式的声明constructor，则需要显式的声明无参的constructor。
+In addition, Elastos stipulates that for a non-singleton __CAR__ class, if the class does not explicitly declare a `constructor`, then it needs to explicitly declare a `constructor` without a parameter.
 
-> ## 7.CAR唯一实例(singleton)
+> ## 7.The only instance of CAR (singleton)
 
-保证一个 CAR class 在一个Elastos环境中只有一个实体(Instance、Object)，可以用 CAR 关键字 `singleton` 来达到目的。
+Ensure that a __CAR__ class has only one entity (Instance, Object) in the Elastos environment. You can use the __CAR__ keyword `singleton` to achieve this goal.
 
-语法:
+grammar:
 
 singleton class className classBody;
 
-使用说明:
+Instructions for use:
 
-* singleton 修饰的构件类只能拥有不带参数的构造函数。
-* Singleton 不能修饰aspect构件类。
-* singleton 可以和关键字 final 同时修饰构件类，使用顺序是 singleton 在前，final 在后。
+* Singleton-decorated component classes can only have constructors with no arguments.
 
-使用范例：
+Use example:
 
-示例 singletonDemo.car 文件如下:
+The sample singletonDemo.car file is as follows:
 
 ``` cpp
 module {
@@ -531,7 +531,7 @@ module {
 }
 ```
 
-如何new一个单一例对象，以及如何调用接口中的方法，请参考下面的例子：
+How to new a singleton object, and how to call the interface method, please refer to the following example:
 
 ``` cpp
 AutoPtr<IFoo> foo;
@@ -539,53 +539,55 @@ CFoo::AcquireSingleton((IFoo**)&foo);
 foo->Hello();
 ```
 
-上述示例定义了一个具有 Singleton 属性的类 CFoo。
+The above example defines a class `CFoo` with a singleton attribute.
 
-注意：可以利用 CAR 的 singleton 这种机制实现实例间数据的共享。
+Note: You can use the singleton mechanism of __CAR__  to share data between instances.
 
-> ### 8.Object类
+> ### 8.Object class
 
-Elastos定义了Object类，该类实现了以下功能：
+Elastos defines the Object class, which implements the following features:
 
-* 支持引用计数管理生命周期。
-* 支持弱引用，实现了IWeakReferenceSource接口。
-* 实现了IObject接口，支持`Equals()`、`GetHashCode()`以及`ToString()`等方法。
-* 实现了ISynchronize接口，支持`Lock()`、`Unlock()`、`Wait()`以及`Notify()`等方法。
+* Supports reference count to manager life cycle.
+* Supports weak references and implements the __IWeakReferenceSource__ interface.
+* Implements the __IObject__ interface, supports `Equals()`, `GetHashCode()`, and `ToString()` methods.
+* Implements the __ISynchronize__ interface and supports `Lock()`, `Unlock()`, `Wait()` and `Notify()` methods.
 
-当编写一个C++类(全部成员是静态成员的类除外)或者CAR类时，请将Object类作为其基类，可以直接或者间接继承Object。Object的子类可以按需重载`Equals()`、`GetHashCode()`以及`ToString()`方法，CAR类还需重载`GetClassID()`方法。
+When writing a C++ class (with the exception of all static members) or a __CAR__ classes, use the Object class as its base class to inherit Object directly or indirectly. The subclass of Object can be on-demand overloading `Equals()`, `GetHashCode()` and `ToString()` method, __CAR__ class need to reload `GetClassID()` method.
 
-为方便调试，子类需重视`ToString()`方法的实现。一般的，`ToString()`方法返回该对象所属类的类名。对于CAR类，Object基类的`ToString()`方法可以通过反射获取类名，因此，如无其它需求，CAR类无需重载该方法。而C++类请 __重载__ 该方法，在实现中返回类名。
+To facilitate debugging, subclasses need to pay attention to the implementation of the `ToString()` method. In general, the `ToString()` method returns the class name of the class to which the object belongs. For the __CAR__ class, the `ToString()` method of the Object base class can get the class name by reflection, so the __CAR__ class does not need to override this method if there is no other requirement. The C++ class need to __override__ this method and return the class name in the implementation.
 
-所有CAR类都默认实现了IObject、ISynchronize和IWeakReferenceSource接口，在.car文件中声明CAR类时，不用显式的声明这些接口，它们将由CAR编译器自动加入到CAR类实现的接口中去。
+All __CAR__ classes implement the __IObject__, __ISynchronize__, and __IWeakReferenceSource__ interfaces by default. When the __CAR__ class is declared in the `.car` file, these interfaces are not explicitly declared; they will be automatically added to the interface implemented of the __CAR__ class by the __CAR__ compiler.
 
-> ## 9.预定义宏
+> ## 9.Predefined macros
 
-在编写继承自 Car 接口的类时，需要实现四个纯虚函数:Probe、AddRef、 Release 和 GetInterfaceID。为简化操作
-Elastos预定义了若干宏以方便开发，说明如下：
+When you write a class that implements the __Car__ interface, you need to implement four pure virtual functions: `Probe`, `AddRef`, `Release`, and `GetInterfaceID`. To simplify the operation, Elastos pre-defines several macros to facilitate development. The description is as follows:
 
-* __REFCOUNT_ADD__ 引用计数加一，__REFCOUNT_RELEASE__ 引用计数减一。
-* __CAR_INTERFACE_DECL__ 声明接口的四个基本方法，__CAR_INTERFACE_IMPL__ 定义接口的四个基本方法，接口实现类(C++类或CAR类)可使用它们。
-* __CAR_OBJECT_DECL__ 声明非单例的CAR类的基本方法，__CAR_OBJECT_IMPL__ 定义非单例的CAR类的基本方法，非单例的CAR类可使用它们。
-* __CAR_SINGLETON_DECL__ 声明单例CAR类的基本方法，__CAR_SINGLETON_IMPL__ 定义单例CAR类的基本方法，单例的CAR类可使用它们。
+* __REFCOUNT_ADD__ reference count plus one, __REFCOUNT_RELEASE__ reference count minus one.
 
-使用自动生成代码框架，这些宏可以在头文件和cpp文件中自动生成（除了REFCOUNT_ADD、REFCOUNT_RELEASE）。
+* __CAR_INTERFACE_DECL__ declares the four basic methods of the interface, __CAR_INTERFACE_IMPL__ defines the four basic methods of the interface, and the interface implementation classes (C++ classes or __CAR__ classes) can use them.
 
-> ## 10.继承
-> ### 10.1.Car类继承
+* __CAR_OBJECT_DECL__ declares the basic method of the non-singleton __CAR__ class, and __CAR_OBJECT_IMPL__ defines the basic methods of the non-single CAR class, which can be used by the non-single __CAR__ class.
 
-Elastos之前版本按照Java中类的继承关系来定义系统中接口间的继承关系。比如， __IActivity__ 接口继承 __IContextThemeWrapper__ 接口。
+* __CAR_SINGLETON_DECL__ declares the basic method for the singleton __CAR__ class, and __CAR_SINGLETON_IMPL__ defines the basic methods for the singleton __CAR__ class, which can be used by the singleton __CAR__ class.
 
-接口继承的好处是便于开发，通过IActivity接口就可以调用IContextThemeWrapper接口中的方法。
+Using the auto-generated code framework, these macros can be automatically generated in header files and cpp files (except for `REFCOUNT_ADD` and `REFCOUNT_RELEASE`).
 
-但接口继承也有比较大的弊端，其一是若Java代码中，一个类实现了多个接口，那么Elastos中应该继承哪个接口并没有相应的标准。其二是会导致代码的冗余。例如，实现IActivity接口的类可以继承实现IContextThemeWrapper的类，但即使前者没有重新定义IContextThemeWrapper接口中的任何方法，仍然需要将该接口中的所有方法都封装一下，转调基类的相应方法。
+> ## 10.Inheritance
+> ### 10.1.Car class inheritance
 
-目前Elastos取消了接口间的继承。开发时不能通过一个接口支持所有方法，而是要Probe出相应的接口再调用。例如，IActivity接口不再继承IContextThemeWrapper接口，因此不能通过IActivity接口调用IContextThemeWrapper里的方法，而是要从IActivity接口Probe出IContextThemeWrapper接口再调用。
+Previous versions of Elastos defined the inheritance relationship between interfaces in the system according to the inheritance relationship in Java. For example, the __IActivity__ interface inherits the __IContextThemeWrapper__ interface.
 
-取消接口间的继承后，实现某个接口往往伴随着要实现其它接口。例如，实现IActivity接口的类应该也实现IContextThemeWrapper接口，而实现IContextThemeWrapper接口也应该实现IContextWrapper接口，而实现IContextWrapper接口也应该实现IContext接口。这些要同时实现的接口，在IActivity接口的声明中都无法体现出来。因此，我们规定需要在其声明的头部加上一定的注释，注明这些要同时实现的接口。
+The advantage of interface inheritance is that it is easy to develop. The methods in the __IContextThemeWrapper__ interface can be invoked through the __IActivity__ interface.
 
-请参考下面写的示例。
+However, interface inheritance also has some big disadvantages. One is that if a class implements multiple interfaces in Java code, there is no corresponding standard for which interface should be inherited in Elastos. The second is the redundancy of the code. For example, a class implementing the __IActivity__ interface can inherit a class that implements __IContextThemeWrapper__, but even if the former does not redefine any methods in the __IContextThemeWrapper__ interface, you still need to encapsulate all the methods in the interface and transfer the corresponding methods of the base class.
 
-car文件内容如下：
+Currently Elastos cancels inter-interface inheritance. Development can not support all methods through an interface, but it can __Probe__ the corresponding interface and then call. For example, the __IActivity__ interface no longer inherits from the __IContextThemeWrapper__ interface, so it is not possible to call the method in __IContextThemeWrapper__ through the __IActivity__ interface, but it can call the method by the __IContextThemeWrapper__ interface which is from the __IActivity__ interface __Probe__ out.
+
+After canceling inheritance between interfaces, implementing an interface is often accompanied by the implementation of other interfaces. For example, a class implementing the __IActivity__ interface should also implement the __IContextThemeWrapper__ interface, and implementing the __IContextThemeWrapper__ interface should also implement the __IContextWrapper__ interface, and implementing the __IContextWrapper__ interface should also implement the __IContext__ interface. These interfaces that are to be implemented at the same time cannot be represented in the declaration of the __IActivity__ interface. Therefore, we stipulate that we need to add a certain comment at the head of the declaration, indicating the interfaces that we want to implement at the same time.
+
+Please refer to the following example.
+
+The contents of the car file are as follows:
 
 ``` cpp
 module
@@ -621,9 +623,9 @@ module
 }
 ```
 
-在这里，我们是想让接口 IFoo2 继承接口 IFoo ，所以在声明接口 IFoo2 前面加上注释；然后在实现接口 IFoo2 的类 CFoo2 中同时实现接口 IFoo 。编写完car文件后，通过自动生成代码框架来生成其他文件，比如下面罗列的头文件和cpp文件。
+Here, we want the interface __IFoo2__ to inherit the interface __IFoo__, so add a comment before declaring the interface __IFoo2__; then implement the interface __IFoo__ in the class __CFoo2__ which implements the interface __IFoo2__. After writing the car file, generate additional files by automatically generating code framework, such as the header files and cpp files listed below.
 
-CFoo2.h 文件内容如下：
+The contents of the CFoo2.h file are as follows:
 
 ``` cpp
 #ifndef __CFOO2_H__
@@ -666,7 +668,7 @@ private:
 #endif // __CFOO2_H__
 ```
 
-CFoo2.cpp 内容如下：
+The contents of the CFoo2.cpp file are as follows:
 
 ``` cpp
 
@@ -705,14 +707,13 @@ ECode CFoo2::constructor(
 
 ```
 
-然后补充实现代码：
-在头文件的private中，增加一条：
+Then add the implementation code: In the private part of the header file, add a member variable.
 
 ``` cpp
 Int32 mAge;
 ```
 
-在cpp文件中，补充实现：
+Supplementary implementation in the cpp file:
 
 ``` cpp
 ECode CFoo2::Hello(
@@ -752,7 +753,7 @@ ECode CFoo2::constructor(
 }
 ```
 
-下面举例怎么使用：
+Here's an example of how to use:
 
 ``` cpp
 AutoPtr<IFoo2> fobj;
@@ -762,7 +763,7 @@ fobj->Hello(&str);
 Int32 age;
 IFoo::Probe(fobj)->GetAge(&age);
 
-//也可以像下面这样：
+// it can also be like this:
 
 AutoPtr<IFoo> fobjOther;
 CFoo2::New(10, (IFoo**)&fobjOther);
@@ -772,45 +773,46 @@ String str;
 IFoo2::Probe(fobjOther)->Hello(&str);
 ```
 
-> ### 10.2.C++类继承
+> ### 10.2.C++ class inheritance
 
-在.car文件中声明的类称为CAR类，而只在.h文件或.cpp文件中声明或定义的类称为C++类。
+The class declared in the .car file is called the __CAR__ class, and the class declared or defined only in the .h file or the .cpp file is called the C++ class.
 
-Elastos简化了CAR编译器生成的代码，优化了Elastos C++代码的类继承结构。因此，可以为C++类和CAR类赋予不同的职责，C++类用于实现代码逻辑，而CAR类用于封装元信息到C++类中。因此，C++类可以被C++类和CAR类继承，而CAR类不能再被C++类或CAR类继承。
+Elastos simplifies the code generated by the __CAR__ compiler and optimizes the class inheritance structure of C++ code in Elastos. Therefore, you can assign different responsibilities to the C++ class and the __CAR__ class. The C++ class is used to implement the code logic, and the __CAR__ class is used to encapsulate metadata information into the C++ class. Therefore, C++ classes can be inherited by C++ classes and __CAR__ classes, and __CAR__ classes can no longer be inherited by C++ classes or CAR classes.
 
-目前Elastos中的继承关系，比如：CButton控件的继承关系为 __CButton-->Button-->TextView-->View-->Object__ ，而CTextView控件的继承关系为 __CTextView-->TextView-->View-->Object__ 。
+At present, the inheritance relationship in Elastos, for example: the inheritance relationship of the CButton widget is __`CButton-->Button-->TextView-->View-->Object`__, and the inheritance relationship of the CTextView widget is __`CTextView-->TextView-->View-->Object`__.
 
-对于只包含静态成员方法的类，实现时可以分成C++类和CAR类，C++类实现成静态类(方法都是静态方法)，CAR类实现成单例(singleton)类，并在CAR类的方法中转调C++类的静态方法。
+For classes that contain only static member methods, implementations can be divided into C++ classes and __CAR__ classes, C++ classes are implemented as static classes (methods are static methods),
+the __CAR__ class is implemented as a singleton class and calls the static methods of the C++ class in the method implementation of the __CAR__ class.
 
-例子可参考[CAR Programming](How_To_Write_A_Car_Component.md)
+Examples can refer to this：[CAR Programming](How_To_Write_A_Car_Component.md)
 
-> ## 附录
-> ### 命名空间
+> ## Appendix
+> ### Namespace
 
-CAR支持命名空间以减少命名冲突。
+__CAR__ supports namespaces to reduce naming conflicts.
 
-反射操作时使用的名称应当是包含命名空间的全名。例如， __Elastos.Core.IThread__ 接口的全名是 __LElastos/Core/IThread__ 。
+The name used for reflection operations should be the full name of the containing namespace. For example, the full name of the __Elastos.Core.IThread__ interface is __LElastos/Core/IThread__.
 
-具体用法，可参考示例。
+Specific usage can refer to the example.
 
-> ### 引用计数
+> ### Reference count
 
-CAR数据类型中支持引用计数的类型包括String类型、ArrayOf类型、接口类型。
+The types of supported reference counts in the __CAR__ data type include the __String__ type, __ArrayOf__ type, and interface type.
 
-对于用户自己实现的类，可以通过继承 __Object__ 或者 __ElLightRefBase__ 类增加引用计数功能。
+For user-implemented classes, the reference count of function can be increased by inheriting the __Object__ or __ElLightRefBase__ classes.
 
-> ### 智能指针(AutoPtr)
+> ### Smart pointer(AutoPtr)
 
-为简化类型的引用计数操作以及保证引用计数操作的正确性，推荐使用智能指针 __AutoPtr__。并且，`AutoPtr<...>`变量不必显式的赋NULL值。
+For the sake of simplifying the type of reference count operations and guaranteeing the correctness of the reference count operation, it is recommended to use the smart pointer __`AutoPtr`__. Also, the `AutoPtr<...>` variable does not have to explicitly assign a NULL value.
 
-对于需要返回接口指针或者对象指针的方法，建议使用 __AutoPtr__ 作为返回值，而不是直接返回裸指针。例如：
+For methods that need to return an interface pointer or an object pointer, it is recommended to use __AutoPtr__ as the return value instead of returning the raw pointer directly. E.g:
 
 ``` cpp
 // Foo.h
 AutoPtr<IFoo> GetFoo();
 ```
 
-并且，当调用返回AutoPtr的方法时，为避免返回的指针所指的对象被提前释放，需使用AutoPtr类型变量(而不是裸指针变量)接收返回值。
+Also, when calling the method that returns __AutoPtr__, in order to prevent the object pointed to by the returned pointer from being released early, you need to use the __AutoPtr__ type variable (instead of the raw pointer variable) to receive the return value.
 
 ``` cpp
 ECode CFoo::GetFoo(
@@ -824,7 +826,7 @@ ECode CFoo::GetFoo(
 }
 ```
 
-正确的实现如下：
+The correct implementation is as follows:
 
 ``` cpp
 ECode CFoo::GetFoo(
@@ -838,7 +840,7 @@ ECode CFoo::GetFoo(
 }
 ```
 
-在循环中使用同一个AutoPtr变量多次接收方法的out参数时需要小心引用计数泄漏问题。
+When using the same __AutoPtr__ variable multiple times in a loop to receive the out parameter of a method, you need to be careful about reference counting leaks.
 
 ``` cpp
 AutoPtr<IInterface> obj;
@@ -848,7 +850,7 @@ while (...) {
 }
 ```
 
-正确的处理方式是在调用`GetObject`前显式的调用`obj = NULL;` 以清除上一次存储的内容，如下：
+The correct way to handle this is to explicitly call `obj = NULL;` before calling `GetObject` to clear the contents of the last store, as follows:
 
 ``` cpp
 AutoPtr<IInterface> obj;
@@ -859,7 +861,7 @@ while (...) {
 }
 ```
 
-或者将变量定义在循环体内，如下：
+Or define the variable in the loop body as follows:
 
 ``` cpp
 while (...) {
