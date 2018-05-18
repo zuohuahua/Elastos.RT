@@ -204,3 +204,6 @@ if("$ENV{XDK_VERSION}" STREQUAL "rls")
 else()
     set(CMAKE_BUILD_TYPE Debug)
 endif()
+
+# Lowercase of the CMAKE_BUILD_TYPE
+set(TOLOWER ${CMAKE_BUILD_TYPE} XDK_BUILD_TYPE)

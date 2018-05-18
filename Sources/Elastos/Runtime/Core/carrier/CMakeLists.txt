@@ -24,11 +24,6 @@ else()
     message(STATUS "Error: Architecture ($ENV{XDK_TARGET_PLATFORM}: $ENV{XDK_TARGET_CPU_ARCH}) not supported yet")
 endif()
 
-set (ELACARRIER_COMPILE_VERSION debug)
-if("$ENV{XDK_VERSION}" STREQUAL "rls")
-    set (ELACARRIER_COMPILE_VERSION release)
-endif()
-
-include_directories(${CMAKE_BINARY_DIR}/ThirdParty/ElaCarrier/build/_dist/${ELACARRIER_ENV}/${ELACARRIER_COMPILE_VERSION}/include)
+include_directories(${CMAKE_BINARY_DIR}/ThirdParty/ElaCarrier/build/_dist/${ELACARRIER_ENV}/${XDK_BUILD_TYPE}/include)
 
 add_library(elcarrierapi STATIC ${SOURCES})

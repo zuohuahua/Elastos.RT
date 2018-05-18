@@ -31,6 +31,10 @@ android {
     }
     sourceSets {
         main {
+            java {
+                srcDir "@CMAKE_CURRENT_SOURCE_DIR@/HelloElastosDemo/app/src/main/java"
+            }
+            res.srcDirs = ['@CMAKE_CURRENT_SOURCE_DIR@/HelloElastosDemo/app/src/main/res']
             jniLibs.srcDirs = ['elastos/libs']
         }
     }
