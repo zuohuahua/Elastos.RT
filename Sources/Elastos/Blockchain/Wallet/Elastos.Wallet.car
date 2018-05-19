@@ -1,0 +1,153 @@
+//=========================================================================
+// Copyright (C) 2018 The Elastos Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//=========================================================================
+
+module
+{
+    importlib("Elastos.CoreLibrary");
+
+
+    interface ISubWalletCallback {
+        OnBalanceChanged (
+            [in] String address,
+            [in] Double oldAmount,
+            [in] Double newAmount);
+
+        OnTransationStatusChanged (
+            [in] String txid,
+            [in] String status,
+            [in] Int32 error,
+            [in] String desc,
+            [in] Int32 confirms);
+    }
+
+    interface ISubWallet {
+        GetBalanceInfo (
+            [out] String* balanceInfoJson);
+
+        GetBalance (
+            [out] Double* balance);
+
+        CreateAddress (
+            [out] String* address);
+
+        GetTheLastAddress (
+            [out] String* address);
+
+        GetAllAddress (
+            [out] String* addressListJson);
+
+        GetBalanceWithAddress (
+            [in] String address,
+            [out] Double* balance);
+
+        AddCallback (
+            [in] ISubWalletCallback* subCallback);
+
+        RemoveCallback (
+            [in] ISubWalletCallback* subCallback);
+
+        SendTransation (
+            [in] String fromAddress,
+            [in] String toAddress,
+            [in] Double amount,
+            [in] Double fee,
+            [in] String payPassword,
+            [in] String memo,
+            [out] String* txid);
+
+        SendRawTransation (
+            [in] String transationJson,
+            [in] String payPassword,
+            [out] String* txid);
+
+        GetAllTransation (
+            [in] Int32 start,
+            [in] Int32 count,
+            [in] String addressOrTxid,
+            [out] String* transationListJson);
+
+        Sign (
+            [in] String message,
+            [in] String payPassword,
+            [out] String* signature);
+
+        CheckSign (
+            [in] String address,
+            [in] String message,
+            [in] String signature,
+            [out] String* resultJson);
+    }
+
+    interface IMasterWallet {
+        CreateSubWallet (
+            [in] String chainID,
+            [in] String payPassword,
+            [in] Boolean singleAddress,
+            [out] ISubWallet** wallet);
+
+        DestroyWallet (
+            [in] ISubWallet* wallet);
+
+        GetPublicKey (
+            [in] String keystorePath);
+    }
+
+    interface IWalletFactory {
+        CreateMasterWallet (
+            [in] String backupPassword,
+            [in] String payPassword,
+            [out] IMasterWallet** masterWallet);
+
+        DestroyWallet (
+            [in] IMasterWallet* masterWallet);
+
+        ImportWalletWithKeystore (
+            [in] String keystorePath,
+            [in] String backupPassword,
+            [in] String payPassword,
+            [out] IMasterWallet** masterWallet);
+
+        ImportWalletWithMnemonic (
+            [in] String mnemonic,
+            [in] String backupPassword,
+            [in] String payPassword,
+            [out] IMasterWallet** masterWallet);
+
+        ExportWalletKeystore (
+            [in] IMasterWallet* masterWallet,
+            [in] String backupPassword,
+            [in] String keystorePath);
+
+        ExportWalletMnemonic (
+            [in] IMasterWallet* masterWallet,
+            [in] String backupPassword,
+            [out] String* mnemonic);
+    }
+
+
+    class CWalletFactory {
+        constructor();
+
+        interface IWalletFactory;
+    }
+
+    class CElaWallet {
+        constructor();
+
+        interface ISubWallet;
+    }
+
+}
