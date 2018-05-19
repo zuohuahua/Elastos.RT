@@ -4,11 +4,11 @@
 #include <ela_session.h>
 #include "elastos.h"
 #include "elapi.h"
-#include "_ElastosCore.h"
+#include "ElastosCore.h"
 #include "CCarrierListener.h"
 #include "CSwitchListener.h"
 #include "elastos/utility/etl/HashMap.h"
-#include "_Swtich.h"
+#include "Switch.h"
 
 ICarrier* gCarrier = NULL;
 IServiceManager* gServiceManager = NULL;

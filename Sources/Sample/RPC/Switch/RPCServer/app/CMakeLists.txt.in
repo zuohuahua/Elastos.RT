@@ -5,33 +5,18 @@
 
 cmake_minimum_required(VERSION 3.4.1)
 
-link_directories(${CMAKE_SOURCE_DIR}/src/main/cpp/elastos/libs/armeabi-v7a/)
+
+include_directories(elastos/include)
+link_directories(elastos/libs/armeabi-v7a)
+
+# Suppress warning: empty struct has size 0 in C, size 1 in C++ [-Wextern-c-compat]
+string(APPEND CMAKE_CXX_FLAGS " -Wno-extern-c-compat")
 
 # Creates and names a library, sets it as either STATIC
 # or SHARED, and provides the relative paths to its source code.
 # You can define multiple libraries, and CMake builds them for you.
 # Gradle automatically packages shared libraries with your APK.
 
-add_library( Elastos.Runtime SHARED IMPORTED )
-
-set_target_properties( Elastos.Runtime
-                        PROPERTIES IMPORTED_LOCATION
-                        ${CMAKE_SOURCE_DIR}/src/main/cpp/elastos/libs/armeabi-v7a/libElastos.Runtime.so)
-
-add_library( Elastos.Runtime.Lib SHARED IMPORTED )
-set_target_properties( Elastos.Runtime.Lib
-                        PROPERTIES IMPORTED_LOCATION
-                        ${CMAKE_SOURCE_DIR}/src/main/cpp/elastos/libs/libElastos.Runtime_static.a)
-
-add_library( Elastos.CoreLibrary SHARED IMPORTED )
-set_target_properties( Elastos.CoreLibrary
-                        PROPERTIES IMPORTED_LOCATION
-                        ${CMAKE_SOURCE_DIR}/src/main/cpp/elastos/libs/armeabi-v7a/libElastos.CoreLibrary.so)
-
-add_library( Switch SHARED IMPORTED )
-set_target_properties( Switch
-                        PROPERTIES IMPORTED_LOCATION
-                        ${CMAKE_SOURCE_DIR}/src/main/cpp/elastos/libs/armeabi-v7a/libSwitch.so)
 add_library( # Sets the name of the library.
              native-lib
 
@@ -39,9 +24,9 @@ add_library( # Sets the name of the library.
              SHARED
 
              # Provides a relative path to your source file(s).
-             src/main/cpp/native-lib.cpp
-             src/main/cpp/CCarrierListener.cpp
-             src/main/cpp/CSwitchListener.cpp)
+             @CMAKE_CURRENT_SOURCE_DIR@/app/src/main/cpp/native-lib.cpp
+             @CMAKE_CURRENT_SOURCE_DIR@/app/src/main/cpp/CCarrierListener.cpp
+             @CMAKE_CURRENT_SOURCE_DIR@/app/src/main/cpp/CSwitchListener.cpp)
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
@@ -67,9 +52,7 @@ target_link_libraries( # Specifies the target library.
                        # included in the NDK.
                        ${log-lib}
                        Elastos.Runtime
-                       Elastos.Runtime.Lib
+                       Elastos.Runtime_static
                        Elastos.CoreLibrary
-                       Switch
-                       elasession )
+                       elasession)
 
-include_directories(src/main/cpp/elastos/inc)

@@ -2,10 +2,10 @@
 #include <string>
 #include <android/log.h>
 #include <ela_session.h>
-#include <_Swtich.h>
+#include "Switch.h"
 #include "elastos.h"
 #include "elapi.h"
-#include "_ElastosCore.h"
+#include "ElastosCore.h"
 #include "CCarrierListener.h"
 #include "elastos/utility/etl/HashMap.h"
 

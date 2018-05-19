@@ -7,7 +7,7 @@
 
 #include <elastos/core/Object.h>
 #include <jni.h>
-#include "_ElastosCore.h"
+#include "ElastosCore.h"
 #include "elatypes.h"
 
 

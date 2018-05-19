@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 26
     defaultConfig {
-        applicationId "com.elastos.rpcserver"
+        applicationId "com.elastos.rpcclient"
         minSdkVersion 21
         targetSdkVersion 26
         versionCode 1
@@ -31,7 +31,11 @@ android {
     }
     sourceSets {
         main {
-            jniLibs.srcDirs = ['src/main/cpp/elastos/libs']
+            java {
+                srcDir "@CMAKE_CURRENT_SOURCE_DIR@/app/src/main/java"
+            }
+            res.srcDirs = ['@CMAKE_CURRENT_SOURCE_DIR@/app/src/main/res']
+            jniLibs.srcDirs = ['elastos/libs']
         }
     }
 }
