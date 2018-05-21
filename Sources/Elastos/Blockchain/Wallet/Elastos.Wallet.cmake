@@ -3,6 +3,8 @@ set(CURRENT_MIRROR_SOURCES
     CWalletFactoryClassObject.cpp
     _CElaWallet.cpp
     CElaWalletClassObject.cpp
+    _CMasterWallet.cpp
+    CMasterWalletClassObject.cpp
     _Elastos.Walletpub.cpp
     _Elastos.Walletabrg.cpp
 )

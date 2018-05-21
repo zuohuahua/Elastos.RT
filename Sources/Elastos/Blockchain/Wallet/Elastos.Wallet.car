@@ -94,15 +94,24 @@ module
     interface IMasterWallet {
         CreateSubWallet (
             [in] String chainID,
+            [in] Int32 cointypeIndex,
             [in] String payPassword,
             [in] Boolean singleAddress,
+            [out] ISubWallet** wallet);
+
+        RecoverSubWallet (
+            [in] String chainID,
+            [in] Int32 cointypeIndex,
+            [in] String payPassword,
+            [in] Boolean singleAddress,
+            [in] Int32 limitGap,
             [out] ISubWallet** wallet);
 
         DestroyWallet (
             [in] ISubWallet* wallet);
 
         GetPublicKey (
-            [in] String keystorePath);
+            [out] String* publicKey);
     }
 
     interface IWalletFactory {
@@ -150,4 +159,9 @@ module
         interface ISubWallet;
     }
 
+    class CMasterWallet {
+        constructor();
+
+        interface IMasterWallet;
+    }
 }

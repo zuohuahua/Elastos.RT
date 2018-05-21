@@ -10,6 +10,7 @@ set(SOURCES
     ${CURRENT_MIRROR_SOURCES}
     CWalletFactory.cpp
     CElaWallet.cpp
+    CMasterWallet.cpp
 )
 
 add_library(Elastos.Wallet SHARED ${SOURCES})
