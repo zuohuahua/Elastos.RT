@@ -31,7 +31,7 @@ public:
 
     CARAPI ImportWalletWithMnemonic(
         /* [in] */ const String& mnemonic,
-        /* [in] */ const String& backupPassword,
+        /* [in] */ const String& phrasePassword,
         /* [in] */ const String& payPassword,
         /* [out] */ IMasterWallet ** ppMasterWallet);
 
@@ -42,7 +42,7 @@ public:
 
     CARAPI ExportWalletMnemonic(
         /* [in] */ IMasterWallet * pMasterWallet,
-        /* [in] */ const String& backupPassword,
+        /* [in] */ const String& phrasePassword,
         /* [out] */ String * pMnemonic);
 
     CARAPI constructor();

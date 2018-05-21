@@ -129,20 +129,20 @@ module
             [in] String payPassword,
             [out] IMasterWallet** masterWallet);
 
-        ImportWalletWithMnemonic (
-            [in] String mnemonic,
-            [in] String backupPassword,
-            [in] String payPassword,
-            [out] IMasterWallet** masterWallet);
-
         ExportWalletKeystore (
             [in] IMasterWallet* masterWallet,
             [in] String backupPassword,
             [in] String keystorePath);
 
+        ImportWalletWithMnemonic (
+            [in] String mnemonic,
+            [in] String phrasePassword,
+            [in] String payPassword,
+            [out] IMasterWallet** masterWallet);
+
         ExportWalletMnemonic (
             [in] IMasterWallet* masterWallet,
-            [in] String backupPassword,
+            [in] String phrasePassword,
             [out] String* mnemonic);
     }
 

@@ -33,7 +33,7 @@ ECode CWalletFactory::ImportWalletWithKeystore(
 
 ECode CWalletFactory::ImportWalletWithMnemonic(
     /* [in] */ const String& mnemonic,
-    /* [in] */ const String& backupPassword,
+    /* [in] */ const String& phrasePassword,
     /* [in] */ const String& payPassword,
     /* [out] */ IMasterWallet ** ppMasterWallet)
 {
@@ -52,7 +52,7 @@ ECode CWalletFactory::ExportWalletKeystore(
 
 ECode CWalletFactory::ExportWalletMnemonic(
     /* [in] */ IMasterWallet * pMasterWallet,
-    /* [in] */ const String& backupPassword,
+    /* [in] */ const String& phrasePassword,
     /* [out] */ String * pMnemonic)
 {
     // TODO: Add your code here
