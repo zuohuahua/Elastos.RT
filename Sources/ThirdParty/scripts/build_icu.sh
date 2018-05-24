@@ -1,43 +1,201 @@
 #!/bin/bash
 
-if [ $# -ne 6 ]; then
-    echo "usage: $(basename $0) icu_path icu_prefix cxx cc sdk_root arch"
-    exit 1
+# Exit immediately if a subsequent command exits with a non-zero status.
+set -e
+
+THIS_SCRIPT=$(basename $0)
+usage()
+{
+    echo
+    echo "The script to build icu4c for various platforms."
+    echo
+    echo "Usage: ${THIS_SCRIPT} [options]"
+    echo
+    echo "Options:"
+    echo "  -h, --help"
+    echo "      Print this message"
+    echo
+    echo "  --icu-path <ICU_PATH>"
+    echo "      \"ICU_PATH\" is the location of the ICU source code"
+    echo
+    echo "  --output-dir <OUTPUT_DIR>"
+    echo "      \"OUTPUT_DIR\" is the location of the generated files."
+    echo
+    echo "  --install-dir <INSTALL_DIR>"
+    echo "      \"INSTALL_DIR\" is the installation directory."
+    echo
+    echo "  --cross-build <yes|no>"
+    echo "      Specify whether this is a cross-compilation."
+    echo
+    echo "  --cross-cc <CROSS_CC>"
+    echo "      \"CROSS_CC\" is the c compiler for cross-compilation."
+    echo
+    echo "  --cross-cxx <CROSS_CXX>"
+    echo "      \"CROSS_CXX\" is the cpp compiler for cross-compilation."
+    echo
+    echo "  --cross-toolchain <CROSS_TOOLCHAIN>"
+    echo "      \"CROSS_TOOLCHAIN\" is the toolchain prefix for cross-compilation."
+    echo
+    echo "  --isysroot-dir <ISYSROOT_DIR>"
+    echo "      \"ISYSROOT_DIR\" is the logical root directory for headers."
+    echo
+    echo "  --target-platform <TARGET_PLATFORM>"
+    echo "      \"TARGET_PLATFORM\" is the target platform. e.g. ios or android"
+    echo
+    echo "  --target-arch <TARGET_ARCH>"
+    echo "      \"TARGET_ARCH\" is the target cpu architecture."
+    echo
+}
+
+# Default values
+ICU_PATH=.
+OUTPUT_DIR=.
+INSTALL_DIR=./install
+CROSS_BUILD=no
+
+if [[ $# -eq 0 ]]; then
+    usage
+    exit 0
 fi
 
-ICU_PATH=$1
-ICU_PREFIX=$2
+while [[ $# -gt 0 ]]
+do
+key="$1"
 
-# build for host
+case $key in
+    -h|--help)
+        usage
+        exit 0
+        ;;
+    --icu-path)
+        ICU_PATH="$2"
+        shift;shift;; # past argument and value
+    --output-dir)
+        OUTPUT_DIR="$2"
+        shift;shift;; # past argument and value
+    --install-dir)
+        INSTALL_DIR="$2"
+        shift;shift;; # past argument and value
+    --cross-build)
+        CROSS_BUILD="$2"
+        if [[ ! "$CROSS_BUILD" == "yes" ]] && [[ ! "$CROSS_BUILD" == "no" ]]; then
+            exit 1
+        fi
+        shift;shift;; # past argument and value
+    --cross-cc)
+        CROSS_CC="$2"
+        shift;shift;; # past argument and value
+    --cross-cxx)
+        CROSS_CXX="$2"
+        shift;shift;; # past argument and value
+    --cross-toolchain)
+        CROSS_TOOLCHAIN="$2"
+        shift;shift;; # past argument and value
+    --isysroot-dir)
+        ISYSROOT_DIR="$2"
+        shift;shift;; # past argument and value
+    --target-platform)
+        TARGET_PLATFORM="$2"
+        shift;shift;; # past argument and value
+    --target-arch)
+        TARGET_ARCH="$2"
+        shift;shift;; # past argument and value
+    *)    # unknown option
+        usage
+        exit 1
+        ;;
+esac
+done
+
+mkdir -p $OUTPUT_DIR
+cd $OUTPUT_DIR
+
+# Number of CPU cores
+N_CORES=$(getconf _NPROCESSORS_ONLN)
+
+if [[ $OSTYPE == *darwin* ]]; then
+    HOST_OS="MacOSX"
+else
+    HOST_OS="Linux"
+fi
+
+ICU_CONFIGURE_FLAGS="\
+    --enable-static \
+    --enable-shared=no \
+    --enable-extras=no \
+    --enable-strict=no \
+    --enable-icuio=no \
+    --enable-layout=no \
+    --enable-layoutex=no \
+    --enable-tests=no \
+    --enable-samples=no \
+    --enable-dyload=no"
+
+# host build
 echo Building ICU for host...
 mkdir -p host-build && cd host-build
 [ -e Makefile ] && make distclean
-sh $ICU_PATH/source/configure
-gnumake
-cd ..
 
-export CXX=$3
-export CC=$4
-SDKROOT=$5
-ARCH=$6
+if [[ "$CROSS_BUILD" == "yes" ]]; then
+    CFLAGS="-Os" CXXFLAGS="--std=c++11" \
+    $ICU_PATH/source/runConfigureICU $HOST_OS $ICU_CONFIGURE_FLAGS
+    make -j$N_CORES
+    cd ..
+else
+    CFLAGS="-Os" CXXFLAGS="--std=c++11" \
+    $ICU_PATH/source/runConfigureICU $HOST_OS --prefix=$INSTALL_DIR $ICU_CONFIGURE_FLAGS
+    make -j$N_CORES install
+    exit 0
+fi
 
 # cross build
 mkdir -p cross-build && cd cross-build
 
 ICU_FLAGS="-I$ICU_PATH/source/common/ -I$ICU_PATH/source/tools/tzcode/ "
 
-export CFLAGS="-isysroot $SDKROOT -I$SDKROOT/usr/include/ -I./include/ -arch $ARCH -miphoneos-version-min=7.0 $ICU_FLAGS"
-export CXXFLAGS="-stdlib=libc++ -std=c++11 -arch $ARCH -isysroot $SDKROOT -I$SDKROOT/usr/include/ -I./include/ -miphoneos-version-min=7.0 $ICU_FLAGS"
-export LDFLAGS="-stdlib=libc++ -L$SDKROOT/usr/lib/ -isysroot $SDKROOT -Wl,-dead_strip -miphoneos-version-min=7.0 -lstdc++"
-
-if [ "$ARCH" = "x86_64" ] || [ "$ARCH" = "i386" ]; then
-    ICU_HOST=i686-apple-darwin11
-else
-    ICU_HOST=arm-apple-darwin
+if [ ! -z "$CROSS_TOOLCHAIN" ]; then
+    export CXX=$CROSS_TOOLCHAIN-clang++
+    export CC=$CROSS_TOOLCHAIN-clang
+    export AR=$CROSS_TOOLCHAIN-ar
+    export RANLIB=$CROSS_TOOLCHAIN-ranlib
+fi
+if [ ! -z "$CROSS_CXX" ]; then
+    export CXX=$CROSS_CXX
+fi
+if [ ! -z "$CROSS_CC" ]; then
+    export CC=$CROSS_CC
 fi
 
-echo Building ICU for $ARCH...
+if [ "$TARGET_PLATFORM" = "ios" ]; then
+    export CFLAGS="-arch $TARGET_ARCH -miphoneos-version-min=7.0 $ICU_FLAGS"
+    export CXXFLAGS="-stdlib=libc++ -std=c++11 $CFLAGS"
+    export LDFLAGS="-stdlib=libc++ -Wl,-dead_strip -miphoneos-version-min=7.0 -lstdc++"
+
+    if [ ! -z "$ISYSROOT_DIR" ]; then
+        export CFLAGS="-isysroot $ISYSROOT_DIR -I$ISYSROOT_DIR/usr/include/ $CFLAGS"
+        export CXXFLAGS="-isysroot $ISYSROOT_DIR -I$ISYSROOT_DIR/usr/include/ $CXXFLAGS"
+        export LDFLAGS="-L$ISYSROOT_DIR/usr/lib/ -isysroot $ISYSROOT_DIR $LDFLAGS"
+    fi
+elif [ "$TARGET_PLATFORM" = "android" ]; then
+    export CFLAGS='-Os -march=armv7-a -mfloat-abi=softfp -mfpu=neon'
+    export CXXFLAGS='--std=c++11 -march=armv7-a -mfloat-abi=softfp -mfpu=neon'
+    export LDFLAGS='-march=armv7-a -Wl,--fix-cortex-a8'
+fi
+
+if [ "$TARGET_PLATFORM" = "ios" ]; then
+    if [ "$TARGET_ARCH" = "x86_64" ]; then
+        ICU_HOST=x86_64-apple-darwin11
+    elif [ "$TARGET_ARCH" = "i386" ]; then
+        ICU_HOST=i686-apple-darwin11
+    else
+        ICU_HOST=arm-apple-darwin
+    fi
+elif [ "$TARGET_PLATFORM" = "android" ]; then
+    ICU_HOST=arm-linux-androideabi
+fi
+
+echo Building ICU for $TARGET_ARCH...
 [ -e Makefile ] && make distclean
-sh $ICU_PATH/source/configure --host=$ICU_HOST --enable-tools=no --enable-static --disable-shared --prefix=$ICU_PREFIX --with-cross-build=$(pwd)/../host-build
-gnumake -j4 install
+sh $ICU_PATH/source/configure --host=$ICU_HOST --enable-tools=no --enable-static --disable-shared $ICU_CONFIGURE_FLAGS --prefix=$INSTALL_DIR --with-cross-build=$(pwd)/../host-build
+make install -j$N_CORES
 
