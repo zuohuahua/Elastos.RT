@@ -6,45 +6,47 @@ set -e
 THIS_SCRIPT=$(basename $0)
 usage()
 {
-    echo
-    echo "The script to build icu4c for various platforms."
-    echo
-    echo "Usage: ${THIS_SCRIPT} [options]"
-    echo
-    echo "Options:"
-    echo "  -h, --help"
-    echo "      Print this message"
-    echo
-    echo "  --icu-path <ICU_PATH>"
-    echo "      \"ICU_PATH\" is the location of the ICU source code"
-    echo
-    echo "  --output-dir <OUTPUT_DIR>"
-    echo "      \"OUTPUT_DIR\" is the location of the generated files."
-    echo
-    echo "  --install-dir <INSTALL_DIR>"
-    echo "      \"INSTALL_DIR\" is the installation directory."
-    echo
-    echo "  --cross-build <yes|no>"
-    echo "      Specify whether this is a cross-compilation."
-    echo
-    echo "  --cross-cc <CROSS_CC>"
-    echo "      \"CROSS_CC\" is the c compiler for cross-compilation."
-    echo
-    echo "  --cross-cxx <CROSS_CXX>"
-    echo "      \"CROSS_CXX\" is the cpp compiler for cross-compilation."
-    echo
-    echo "  --cross-toolchain <CROSS_TOOLCHAIN>"
-    echo "      \"CROSS_TOOLCHAIN\" is the toolchain prefix for cross-compilation."
-    echo
-    echo "  --isysroot-dir <ISYSROOT_DIR>"
-    echo "      \"ISYSROOT_DIR\" is the logical root directory for headers."
-    echo
-    echo "  --target-platform <TARGET_PLATFORM>"
-    echo "      \"TARGET_PLATFORM\" is the target platform. e.g. ios or android"
-    echo
-    echo "  --target-arch <TARGET_ARCH>"
-    echo "      \"TARGET_ARCH\" is the target cpu architecture."
-    echo
+    cat << EOF
+
+The script to build icu4c for various platforms.
+
+Usage: ${THIS_SCRIPT} [options]
+
+Options:
+  -h, --help
+      Print this message
+
+  --icu-path <ICU_PATH>
+      "ICU_PATH" is the location of the ICU source code
+
+  --output-dir <OUTPUT_DIR>
+      "OUTPUT_DIR" is the location of the generated files.
+
+  --install-dir <INSTALL_DIR>
+      "INSTALL_DIR" is the installation directory.
+
+  --cross-build <yes|no>
+      Specify whether this is a cross-compilation.
+
+  --cross-cc <CROSS_CC>
+      "CROSS_CC" is the c compiler for cross-compilation.
+
+  --cross-cxx <CROSS_CXX>
+      "CROSS_CXX" is the cpp compiler for cross-compilation.
+
+  --cross-toolchain <CROSS_TOOLCHAIN>
+      "CROSS_TOOLCHAIN" is the toolchain prefix for cross-compilation.
+
+  --isysroot-dir <ISYSROOT_DIR>
+      "ISYSROOT_DIR" is the logical root directory for headers.
+
+  --target-platform <TARGET_PLATFORM>
+      "TARGET_PLATFORM" is the target platform. e.g. ios or android
+
+  --target-arch <TARGET_ARCH>
+      "TARGET_ARCH" is the target cpu architecture.
+EOF
+
 }
 
 # Default values

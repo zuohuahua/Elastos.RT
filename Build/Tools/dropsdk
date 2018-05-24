@@ -26,23 +26,25 @@ THIRD_PARTY_LIBRARIES=(
 THIS_SCRIPT=$(basename $0)
 usage()
 {
-    echo
-    echo "Deploy Elastos Runtime SDK targets to a directory"
-    echo
-    echo "Usage: ${THIS_SCRIPT} [options]"
-    echo
-    echo "Options:"
-    echo "  -h, --help"
-    echo "      Print this message"
-    echo
-    echo "  -o, --output-dir <OUTPUT_DIR>"
-    echo "      \"OUTPUT_DIR/elastos\" is the location where the SDK targets will be placed"
-    echo "      The default output directory is \"\$XDK_ROOT/SDK/\$XDK_TARGET_PLATFORM/elastos\""
-    echo
-    echo "  -s, --lib-subdir <LIB_SUBDIR>"
-    echo "      \"LIB_SUBDIR\" is the subdirectory inside the \"elastos/libs\"."
-    echo "      It's convenient to add \"armeabi-v7a\" subdirectory for some platform."
-    echo
+    cat << EOF
+
+Deploy Elastos Runtime SDK targets to a directory
+
+Usage: ${THIS_SCRIPT} [options]
+
+Options:
+  -h, --help
+      Print this message
+
+  -o, --output-dir <OUTPUT_DIR>
+      "OUTPUT_DIR/elastos" is the location where the SDK targets will be placed
+      The default output directory is "\$XDK_ROOT/SDK/\$XDK_TARGET_PLATFORM/elastos"
+
+  -s, --lib-subdir <LIB_SUBDIR>
+      "LIB_SUBDIR" is the subdirectory inside the "elastos/libs".
+      It's convenient to add "armeabi-v7a" subdirectory for some platform.
+EOF
+
 }
 
 # Deafult output directory
