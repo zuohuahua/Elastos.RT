@@ -6,7 +6,7 @@ CAR_OBJECT_IMPL(CWalletFactory)
 CAR_INTERFACE_IMPL(CWalletFactory, Object, IWalletFactory);
 
 ECode CWalletFactory::CreateMasterWallet(
-    /* [in] */ const String& backupPassword,
+    /* [in] */ const String& phrasePassword,
     /* [in] */ const String& payPassword,
     /* [out] */ IMasterWallet ** ppMasterWallet)
 {
@@ -31,6 +31,15 @@ ECode CWalletFactory::ImportWalletWithKeystore(
     return E_NOT_IMPLEMENTED;
 }
 
+ECode CWalletFactory::ExportWalletKeystore(
+    /* [in] */ IMasterWallet * pMasterWallet,
+    /* [in] */ const String& backupPassword,
+    /* [in] */ const String& keystorePath)
+{
+    // TODO: Add your code here
+    return E_NOT_IMPLEMENTED;
+}
+
 ECode CWalletFactory::ImportWalletWithMnemonic(
     /* [in] */ const String& mnemonic,
     /* [in] */ const String& phrasePassword,
@@ -41,18 +50,9 @@ ECode CWalletFactory::ImportWalletWithMnemonic(
     return E_NOT_IMPLEMENTED;
 }
 
-ECode CWalletFactory::ExportWalletKeystore(
-    /* [in] */ IMasterWallet * pMasterWallet,
-    /* [in] */ const String& backupPassword,
-    /* [in] */ const String& keystorePath)
-{
-    // TODO: Add your code here
-    return E_NOT_IMPLEMENTED;
-}
-
 ECode CWalletFactory::ExportWalletMnemonic(
     /* [in] */ IMasterWallet * pMasterWallet,
-    /* [in] */ const String& phrasePassword,
+    /* [in] */ const String& payPassword,
     /* [out] */ String * pMnemonic)
 {
     // TODO: Add your code here

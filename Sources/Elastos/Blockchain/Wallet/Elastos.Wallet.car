@@ -20,15 +20,9 @@ module
 
 
     interface ISubWalletCallback {
-        OnBalanceChanged (
-            [in] String address,
-            [in] Double oldAmount,
-            [in] Double newAmount);
-
         OnTransationStatusChanged (
             [in] String txid,
             [in] String status,
-            [in] Int32 error,
             [in] String desc,
             [in] Int32 confirms);
     }
@@ -40,18 +34,40 @@ module
         GetBalance (
             [out] Double* balance);
 
-        CreateAddress (
-            [out] String* address);
-
-        GetTheLastAddress (
-            [out] String* address);
-
-        GetAllAddress (
-            [out] String* addressListJson);
-
         GetBalanceWithAddress (
             [in] String address,
             [out] Double* balance);
+            
+        CreateAddress (
+            [out] String* address);
+        
+        CreateMultiSignAddress (
+            [in] String multiPublicKeyJson,
+            [in] Int32 totalSignNum,
+            [in] Int32 requiredSignNum,
+            [out] String* multiSignAddress);
+            
+        GenerateMultiSignTransation (
+            [in] String fromAddress,
+            [in] String toAddress,
+            [in] Double amount,
+            [in] Double fee,
+            [in] String payPassword,
+            [in] String memo,
+            [out] String* transationMsg);
+
+        SendRawTransation (
+            [in] String transationJson,
+            [in] String sign,
+            [out] String* txid);
+
+        GetAddressesCount (
+        	[out] Int32 * count);
+
+        GetAllAddress (
+            [in] Int32 start,
+            [in] Int32 count,
+            [out] String* addressListJson);
 
         AddCallback (
             [in] ISubWalletCallback* subCallback);
@@ -68,10 +84,8 @@ module
             [in] String memo,
             [out] String* txid);
 
-        SendRawTransation (
-            [in] String transationJson,
-            [in] String payPassword,
-            [out] String* txid);
+        GetTransationsCount (
+            [out] Int32 * count);
 
         GetAllTransation (
             [in] Int32 start,
@@ -97,6 +111,7 @@ module
             [in] Int32 cointypeIndex,
             [in] String payPassword,
             [in] Boolean singleAddress,
+            [in] Int64 feePerKb,
             [out] ISubWallet** wallet);
 
         RecoverSubWallet (
@@ -105,6 +120,7 @@ module
             [in] String payPassword,
             [in] Boolean singleAddress,
             [in] Int32 limitGap,
+            [in] Int64 feePerKb,
             [out] ISubWallet** wallet);
 
         DestroyWallet (
@@ -112,11 +128,22 @@ module
 
         GetPublicKey (
             [out] String* publicKey);
+
+        Sign (
+            [in] String message,
+            [in] String payPassword,
+            [out] String* signature);
+
+        CheckSign (
+            [in] String address,
+            [in] String message,
+            [in] String signature,
+            [out] String* resultJson);
     }
 
     interface IWalletFactory {
         CreateMasterWallet (
-            [in] String backupPassword,
+            [in] String phrasePassword,
             [in] String payPassword,
             [out] IMasterWallet** masterWallet);
 
@@ -142,7 +169,7 @@ module
 
         ExportWalletMnemonic (
             [in] IMasterWallet* masterWallet,
-            [in] String phrasePassword,
+            [in] String payPassword,
             [out] String* mnemonic);
     }
 

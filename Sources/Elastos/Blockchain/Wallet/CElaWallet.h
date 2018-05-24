@@ -21,18 +21,40 @@ public:
     CARAPI GetBalance(
         /* [out] */ Double * pBalance);
 
-    CARAPI CreateAddress(
-        /* [out] */ String * pAddress);
-
-    CARAPI GetTheLastAddress(
-        /* [out] */ String * pAddress);
-
-    CARAPI GetAllAddress(
-        /* [out] */ String * pAddressListJson);
-
     CARAPI GetBalanceWithAddress(
         /* [in] */ const String& address,
         /* [out] */ Double * pBalance);
+
+    CARAPI CreateAddress(
+        /* [out] */ String * pAddress);
+
+    CARAPI CreateMultiSignAddress(
+        /* [in] */ const String& multiPublicKeyJson,
+        /* [in] */ Int32 totalSignNum,
+        /* [in] */ Int32 requiredSignNum,
+        /* [out] */ String * pMultiSignAddress);
+
+    CARAPI GenerateMultiSignTransation(
+        /* [in] */ const String& fromAddress,
+        /* [in] */ const String& toAddress,
+        /* [in] */ Double amount,
+        /* [in] */ Double fee,
+        /* [in] */ const String& payPassword,
+        /* [in] */ const String& memo,
+        /* [out] */ String * pTransationMsg);
+
+    CARAPI SendRawTransation(
+        /* [in] */ const String& transationJson,
+        /* [in] */ const String& sign,
+        /* [out] */ String * pTxid);
+
+    CARAPI GetAddressesCount(
+        /* [out] */ Int32 * pCount);
+
+    CARAPI GetAllAddress(
+        /* [in] */ Int32 start,
+        /* [in] */ Int32 count,
+        /* [out] */ String * pAddressListJson);
 
     CARAPI AddCallback(
         /* [in] */ ISubWalletCallback * pSubCallback);
@@ -49,10 +71,8 @@ public:
         /* [in] */ const String& memo,
         /* [out] */ String * pTxid);
 
-    CARAPI SendRawTransation(
-        /* [in] */ const String& transationJson,
-        /* [in] */ const String& payPassword,
-        /* [out] */ String * pTxid);
+    CARAPI GetTransationsCount(
+        /* [out] */ Int32 * pCount);
 
     CARAPI GetAllTransation(
         /* [in] */ Int32 start,

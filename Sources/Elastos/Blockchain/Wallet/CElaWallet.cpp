@@ -19,6 +19,14 @@ ECode CElaWallet::GetBalance(
     return E_NOT_IMPLEMENTED;
 }
 
+ECode CElaWallet::GetBalanceWithAddress(
+    /* [in] */ const String& address,
+    /* [out] */ Double * pBalance)
+{
+    // TODO: Add your code here
+    return E_NOT_IMPLEMENTED;
+}
+
 ECode CElaWallet::CreateAddress(
     /* [out] */ String * pAddress)
 {
@@ -26,23 +34,49 @@ ECode CElaWallet::CreateAddress(
     return E_NOT_IMPLEMENTED;
 }
 
-ECode CElaWallet::GetTheLastAddress(
-    /* [out] */ String * pAddress)
+ECode CElaWallet::CreateMultiSignAddress(
+    /* [in] */ const String& multiPublicKeyJson,
+    /* [in] */ Int32 totalSignNum,
+    /* [in] */ Int32 requiredSignNum,
+    /* [out] */ String * pMultiSignAddress)
+{
+    // TODO: Add your code here
+    return E_NOT_IMPLEMENTED;
+}
+
+ECode CElaWallet::GenerateMultiSignTransation(
+    /* [in] */ const String& fromAddress,
+    /* [in] */ const String& toAddress,
+    /* [in] */ Double amount,
+    /* [in] */ Double fee,
+    /* [in] */ const String& payPassword,
+    /* [in] */ const String& memo,
+    /* [out] */ String * pTransationMsg)
+{
+    // TODO: Add your code here
+    return E_NOT_IMPLEMENTED;
+}
+
+ECode CElaWallet::SendRawTransation(
+    /* [in] */ const String& transationJson,
+    /* [in] */ const String& sign,
+    /* [out] */ String * pTxid)
+{
+    // TODO: Add your code here
+    return E_NOT_IMPLEMENTED;
+}
+
+ECode CElaWallet::GetAddressesCount(
+    /* [out] */ Int32 * pCount)
 {
     // TODO: Add your code here
     return E_NOT_IMPLEMENTED;
 }
 
 ECode CElaWallet::GetAllAddress(
+    /* [in] */ Int32 start,
+    /* [in] */ Int32 count,
     /* [out] */ String * pAddressListJson)
-{
-    // TODO: Add your code here
-    return E_NOT_IMPLEMENTED;
-}
-
-ECode CElaWallet::GetBalanceWithAddress(
-    /* [in] */ const String& address,
-    /* [out] */ Double * pBalance)
 {
     // TODO: Add your code here
     return E_NOT_IMPLEMENTED;
@@ -75,10 +109,8 @@ ECode CElaWallet::SendTransation(
     return E_NOT_IMPLEMENTED;
 }
 
-ECode CElaWallet::SendRawTransation(
-    /* [in] */ const String& transationJson,
-    /* [in] */ const String& payPassword,
-    /* [out] */ String * pTxid)
+ECode CElaWallet::GetTransationsCount(
+    /* [out] */ Int32 * pCount)
 {
     // TODO: Add your code here
     return E_NOT_IMPLEMENTED;

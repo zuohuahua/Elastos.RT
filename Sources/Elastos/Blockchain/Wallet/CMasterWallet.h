@@ -15,26 +15,39 @@ public:
 
     CAR_INTERFACE_DECL()
 
-    CARAPI CreateSubWallet (
+    CARAPI CreateSubWallet(
         /* [in] */ const String& chainID,
         /* [in] */ Int32 cointypeIndex,
         /* [in] */ const String& payPassword,
         /* [in] */ Boolean singleAddress,
-        /* [out] */ ISubWallet** wallet);
+        /* [in] */ Int64 feePerKb,
+        /* [out] */ ISubWallet ** ppWallet);
 
-    CARAPI RecoverSubWallet (
+    CARAPI RecoverSubWallet(
         /* [in] */ const String& chainID,
         /* [in] */ Int32 cointypeIndex,
         /* [in] */ const String& payPassword,
         /* [in] */ Boolean singleAddress,
         /* [in] */ Int32 limitGap,
-        /* [out] */ ISubWallet** wallet);
+        /* [in] */ Int64 feePerKb,
+        /* [out] */ ISubWallet ** ppWallet);
 
-    CARAPI DestroyWallet (
-        /* [in] */ ISubWallet* wallet);
+    CARAPI DestroyWallet(
+        /* [in] */ ISubWallet * pWallet);
 
-    CARAPI GetPublicKey (
-        /* [out] */ String* publicKey);
+    CARAPI GetPublicKey(
+        /* [out] */ String * pPublicKey);
+
+    CARAPI Sign(
+        /* [in] */ const String& message,
+        /* [in] */ const String& payPassword,
+        /* [out] */ String * pSignature);
+
+    CARAPI CheckSign(
+        /* [in] */ const String& address,
+        /* [in] */ const String& message,
+        /* [in] */ const String& signature,
+        /* [out] */ String * pResultJson);
 
     CARAPI constructor();
 
