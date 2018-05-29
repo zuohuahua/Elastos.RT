@@ -1,5 +1,5 @@
 $;;=========================================================================
-$;; Copyright (C) 2012 The Elastos Open Source Project
+$;; Copyright (C) 2018 The Elastos Open Source Project
 $;;
 $;; Licensed under the Apache License, Version 2.0 (the "License");
 $;; you may not use this file except in compliance with the License.
@@ -16,15 +16,6 @@ $;;=========================================================================
 $
 $INPUT module
 $
-$TEMPLATE "public/public.lub"
-$TEMPLATE "header/header.lub"
-$TEMPLATE "header/header2.lub"
-$TEMPLATE "header/header3.lub"
-$TEMPLATE "header/exportheader.lub"
-$;;TEMPLATE "header/serverh.lub"
-$TEMPLATE "headercpp/headercpp.lub"
-$TEMPLATE "background/background.lub"
-$TEMPLATE "foreground/foreground.lub"
-$TEMPLATE "foreground/foregroundjava.lub"
-$TEMPLATE "foreground/foregroundjni.lub"
-$;;TEMPLATE "carusage/carusage.lub"
+$TEMPLATE "forecpphjni.lub"
+$TEMPLATE "../public/cmake.lub"
+$TEMPLATE "cmakelists.lub"

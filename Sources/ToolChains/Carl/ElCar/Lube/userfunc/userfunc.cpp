@@ -107,10 +107,13 @@ DECL_USERFUNC(GenerateDependHeaderForClass);
 DECL_USERFUNC(GenerateDependHeaderForModule);
 DECL_USERFUNC(GenerateExportHeaderForCMake);
 DECL_USERFUNC(JavaMethodSignature);
+DECL_USERFUNC(GenerateJavaClassConstructor);
 DECL_USERFUNC(GenerateJavaClassImpl);
 DECL_USERFUNC(GenerateJavaClassUser);
 DECL_USERFUNC(GenerateJavaJniCpp);
 DECL_USERFUNC(GenerateJavaJniCpp2);
+DECL_USERFUNC(GenerateJavaImplJniCpp);
+DECL_USERFUNC(GenerateJavaImplJniCpp2);
 DECL_USERFUNC(GenerateDefalutCarClassCpp);
 
 const UserFuncEntry g_userFuncs[] = {
@@ -232,6 +235,8 @@ const UserFuncEntry g_userFuncs[] = {
             "Generate the export header files for CMake"),
     USERFUNC_(JavaMethodSignature, ARGTYPE_(Object_None, Member_Type), \
             "Get java signatue string"),
+    USERFUNC_(GenerateJavaClassConstructor, ARGTYPE_(Object_ClsIntf, Member_None), \
+            "Get the java class constructors"),
     USERFUNC_(GenerateJavaClassImpl, ARGTYPE_(Object_ClsIntf, Member_None), \
             "Get the implement java class"),
     USERFUNC_(GenerateJavaClassUser, ARGTYPE_(Object_ClsIntf, Member_None), \
@@ -239,6 +244,10 @@ const UserFuncEntry g_userFuncs[] = {
     USERFUNC_(GenerateJavaJniCpp, ARGTYPE_(Object_ClsIntf, Member_None), \
             "Get the jni cpp file for user"),
     USERFUNC_(GenerateJavaJniCpp2, ARGTYPE_(Object_Class, Member_None), \
+            "Get the jni cpp_jniLoad file for user"),
+    USERFUNC_(GenerateJavaImplJniCpp, ARGTYPE_(Object_ClsIntf, Member_None), \
+            "Get the jni cpp file for user"),
+    USERFUNC_(GenerateJavaImplJniCpp2, ARGTYPE_(Object_ClsIntf, Member_None), \
             "Get the jni cpp_jniLoad file for user"),
     USERFUNC_(GenerateDefalutCarClassCpp, ARGTYPE_(Object_ClsIntf, Member_None), \
             "Defalut car class implement."),
@@ -375,6 +384,12 @@ IMPL_USERFUNC(JavaMethodSignature)(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
     return LUBE_OK;
 }
 
+int _GenerateJavaClassConstructor(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg);
+IMPL_USERFUNC(GenerateJavaClassConstructor)(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
+{
+    return _GenerateJavaClassConstructor(pCtx, pDesc, pvArg);
+}
+
 int _GenerateJavaClassImpl(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg);
 IMPL_USERFUNC(GenerateJavaClassImpl)(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
 {
@@ -397,6 +412,18 @@ int _GenerateJavaJniCppJniLoad(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg);
 IMPL_USERFUNC(GenerateJavaJniCpp2)(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
 {
     return _GenerateJavaJniCppJniLoad(pCtx, pDesc, pvArg);
+}
+
+int _GenerateJavaImplJniCpp(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg);
+IMPL_USERFUNC(GenerateJavaImplJniCpp)(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
+{
+    return _GenerateJavaImplJniCpp(pCtx, pDesc, pvArg);
+}
+
+int _GenerateJavaImplJniCppJniLoad(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg);
+IMPL_USERFUNC(GenerateJavaImplJniCpp2)(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
+{
+    return _GenerateJavaImplJniCppJniLoad(pCtx, pDesc, pvArg);
 }
 
 int _GenerateDefalutCarClassCpp(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg);

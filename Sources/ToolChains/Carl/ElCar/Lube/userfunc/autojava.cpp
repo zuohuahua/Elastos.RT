@@ -70,7 +70,7 @@ const char* _JavaMethodSignature(const TypeDescriptor* pType)
         //     break;
         default: {
             pszType = "Unknown";
-            fprintf(stderr, "Uonsupport parameter type: [%d]\n", pType->mType);
+            fprintf(stderr, "Unsupport parameter type: [%d]\n", pType->mType);
             break;
         }
     }
@@ -106,7 +106,7 @@ const char* GenerateJavaTypeString(const TypeDescriptor *pType)
             return "String";
         }
         default: {
-            fprintf(stderr, "Uonsupport parameter type: [%d]\n", pType->mType);
+            fprintf(stderr, "Unsupport parameter type: [%d]\n", pType->mType);
             return "Unknown";
         }
     }
@@ -140,7 +140,7 @@ const char* GenerateJavaJniTypeString(const TypeDescriptor *pType)
             return "jstring";
         }
         default: {
-            fprintf(stderr, "Uonsupport parameter type: [%d]\n", pType->mType);
+            fprintf(stderr, "Unsupport parameter type: [%d]\n", pType->mType);
             return "Unknown";
         }
     }
@@ -208,10 +208,108 @@ const char* GetElaTypeName(const TypeDescriptor *pType)
             return "String";
         }
         default: {
-            fprintf(stderr, "Uonsupport parameter type: [%d]\n", pType->mType);
+            fprintf(stderr, "Unsupport parameter type: [%d]\n", pType->mType);
             return "Unknown";
         }
     }
+}
+
+int _GenerateJavaClassConstructor(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
+{
+    assert(NULL != pCtx->m_pClass && NULL != pCtx->m_pInterface && pvArg == pCtx->m_pInterface);
+
+    InterfaceDirEntry *pItfDir = pCtx->m_pInterface;
+    assert(pItfDir->mDesc != NULL);
+
+    ClassDirEntry* pClsDir = pCtx->m_pClass;
+
+    char szContent[128];
+    static int loadLibraryFlag = 0;
+    //If there are multi-interfaces, these codes is only one. the System.loadLibrary must be record once.
+    if (loadLibraryFlag == 0) {
+        CLSModule* module = pCtx->m_pModule;
+        assert(module != NULL);
+
+        pCtx->PutString("    static {\n");
+        pCtx->PutString("        System.loadLibrary(\"Elastos.Runtime\");\n");
+        pCtx->PutString("        System.loadLibrary(\"Elastos.CoreLibrary\");\n");
+
+        sprintf(szContent, "        System.loadLibrary(\"%s\");\n", module->mName);
+        pCtx->PutString(szContent);
+
+        pCtx->PutString("        //TODO : Your jni so, please fill it.\n");
+        pCtx->PutString("        System.loadLibrary(\"Your_Jni\");\n");
+        pCtx->PutString("    }\n\n");
+
+        pCtx->PutString("    private int mCarObj = 0;\n\n");
+
+        loadLibraryFlag = 1;
+    }
+
+    // generate nativeInit
+    for (int i = 0; i < pItfDir->mDesc->mMethodCount; i++) {
+        MethodDescriptor* methodDesc = pItfDir->mDesc->mMethods[i];
+        assert(methodDesc != NULL);
+
+        pCtx->PutString("    public native int nativeInit(");
+
+        for (int j = 0; j < methodDesc->mParamCount - 1; j++) {
+            ParamDescriptor* paraDesc = methodDesc->mParams[j];
+            assert(paraDesc != NULL);
+
+            if (j != 0) {
+                pCtx->PutString(", ");
+            }
+
+            sprintf(szContent, "%s %s", GenerateJavaTypeString(&paraDesc->mType), paraDesc->mName);
+            pCtx->PutString(szContent);
+        }
+        pCtx->PutString(");\n");
+    }
+
+    pCtx->PutString("\n");
+
+    // generate constructors
+    for (int i = 0; i < pItfDir->mDesc->mMethodCount; i++) {
+        MethodDescriptor* methodDesc = pItfDir->mDesc->mMethods[i];
+        assert(methodDesc != NULL);
+
+        sprintf(szContent, "    public %sImpl(", pClsDir->mName);
+        pCtx->PutString(szContent);
+
+        if (methodDesc->mParamCount > 0) {
+            for (int j = 0; j < methodDesc->mParamCount - 1; j++) {
+                ParamDescriptor* paraDesc = methodDesc->mParams[j];
+                assert(paraDesc != NULL);
+
+                if (j != 0) {
+                    pCtx->PutString(", ");
+                }
+
+                sprintf(szContent, "%s %s", GenerateJavaTypeString(&paraDesc->mType), paraDesc->mName);
+                pCtx->PutString(szContent);
+            }
+
+            // Function body.
+            pCtx->PutString(") {\n");
+            pCtx->PutString("        mCarObj = nativeInit(");
+            for (int j = 0; j < methodDesc->mParamCount - 1; j++) {
+                ParamDescriptor* paraDesc = methodDesc->mParams[j];
+
+                if (j != 0) {
+                    pCtx->PutString(", ");
+                }
+
+                sprintf(szContent, "%s", paraDesc->mName);
+                pCtx->PutString(szContent);
+            }
+            pCtx->PutString(");\n");
+            pCtx->PutString("        //TODO: Add your code here\n");
+            pCtx->PutString("    }\n\n");
+        }
+    }
+
+    return LUBE_OK;
 }
 
 int _GenerateJavaClassImpl(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
@@ -222,6 +320,8 @@ int _GenerateJavaClassImpl(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
     assert(pItfDir->mDesc != NULL);
 
     char szContent[128];
+    static int loadLibraryFlag = 0;
+    //If there are multi-interfaces, these codes is only one. the System.loadLibrary must be record once.
     for (int i = 0; i < pItfDir->mDesc->mMethodCount; i++) {
         MethodDescriptor* methodDesc = pItfDir->mDesc->mMethods[i];
         assert(methodDesc != NULL);
@@ -241,7 +341,7 @@ int _GenerateJavaClassImpl(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
             }
         }
 
-        sprintf(szContent, "    public static %s %s(", retType, methodDesc->mName);
+        sprintf(szContent, "    public %s %s(", retType, methodDesc->mName);
         pCtx->PutString(szContent);
         if (methodDesc->mParamCount > 0) {
             for (int j = 0; j < methodDesc->mParamCount; j++) {
@@ -264,10 +364,8 @@ int _GenerateJavaClassImpl(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
             }
         }
 
-        pCtx->PutString(")\n");
-
         // Function body.
-        pCtx->PutString("    {\n");
+        pCtx->PutString(") {\n");
         pCtx->PutString("        //TODO: Add your code here\n");
         if (outParaPos >= 0) {
             if (!strcmp(retType, "String")) {
@@ -696,6 +794,170 @@ int _GenerateJavaJniCppJniLoad(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
     return LUBE_OK;
 }
 
+int _GenerateJavaImplJniCpp(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
+{
+    assert(NULL != pCtx->m_pInterface && pvArg == pCtx->m_pInterface);
+
+    InterfaceDirEntry *pItfDir = pCtx->m_pInterface;
+    assert(pItfDir->mDesc != NULL);
+    ClassDirEntry *pClass = pCtx->m_pClass;
+
+    char szContent[512];
+    static int onceFlag = 0;
+    //If there are multi-interfaces, these codes is only one. the nativeInit method must be record once.
+    if (onceFlag == 0) {
+        CLSModule* module = pCtx->m_pModule;
+        assert(module != NULL);
+
+        pCtx->PutString("#include \"");
+        pCtx->PutString(module->mName);
+        pCtx->PutString(".h\"\n\n");
+
+        pCtx->PutString("//TODO : Need to Modify the java class path.\n");
+        sprintf(szContent, "#define JNIREG_CLASS \"elastos/org/xxx/%sImpl\"\n\n", pClass->mName);
+        pCtx->PutString(szContent);
+
+        onceFlag = 1;
+    }
+
+    for (int i = 0; i < pItfDir->mDesc->mMethodCount; i++) {
+        MethodDescriptor* methodDesc = pItfDir->mDesc->mMethods[i];
+        assert(methodDesc != NULL);
+
+        sprintf(szContent, "jint JNICALL nativeInit%d(\n", i);
+        pCtx->PutString(szContent);
+        pCtx->PutString("    /* [in] */ JNIEnv* env,\n    /* [in] */ jobject jobj");
+        if (methodDesc->mParamCount > 1) {
+            for (int j = 0; j < methodDesc->mParamCount - 1; j++) {
+                ParamDescriptor* paraDesc = methodDesc->mParams[j];
+                assert(paraDesc != NULL);
+
+                if (paraDesc->mAttribs & ParamAttrib_in) {
+                    pCtx->PutString(",\n");
+
+                    sprintf(szContent, "    /* [in] */ %s j%s", GenerateJavaJniTypeString(&paraDesc->mType), paraDesc->mName);
+                    pCtx->PutString(szContent);
+                }
+            }
+        }
+        pCtx->PutString(")\n");
+
+        // Function body.
+        pCtx->PutString("{\n");
+        pCtx->PutString("    JavaVM* vm;\n    env->GetJavaVM(&vm);\n\n");
+
+        sprintf(szContent, "    %s* pElaClsObj;\n", pItfDir->mName);
+        pCtx->PutString(szContent);
+        if (methodDesc->mParamCount == 1) {
+            sprintf(szContent, "    ECode ec = %s::New((Handle64)vm, (Handle64)jobj, &pElaClsObj);\n", pClass->mName);
+            pCtx->PutString(szContent);
+        }
+        else {
+            for (int j = 0; j < methodDesc->mParamCount - 1; j++) {
+                ParamDescriptor* paraDesc = methodDesc->mParams[j];
+                if (strcmp(GenerateJavaJniTypeString(&paraDesc->mType), "jstring")) continue;
+                sprintf(szContent, "    const char* str%d = env->GetStringUTFChars(j%s, NULL);\n", j + 1, paraDesc->mName);
+                pCtx->PutString(szContent);
+            }
+            sprintf(szContent, "    ECode ec = %s::New((Handle64)vm, (Handle64)jobj", pClass->mName);
+            pCtx->PutString(szContent);
+            char szParameters[256];
+            memset(szParameters, 0, 256);
+            for (int j = 0; j < methodDesc->mParamCount - 1; j++) {
+                ParamDescriptor* paraDesc = methodDesc->mParams[j];
+                assert(paraDesc != NULL);
+
+                strcat(szParameters, ", ");
+
+                if (!strcmp(GenerateJavaJniTypeString(&paraDesc->mType), "jstring")) {
+                    sprintf(szContent, "String(str%d)", j + 1);
+                    strcat(szParameters, szContent);
+                }
+                else {
+                    sprintf(szContent, "j%s", paraDesc->mName);
+                    strcat(szParameters, szContent);
+                }
+            }
+            sprintf(szContent, "%s, &pElaClsObj);\n", szParameters);
+            pCtx->PutString(szContent);
+
+            for (int j = 0; j < methodDesc->mParamCount - 1; j++) {
+                ParamDescriptor* paraDesc = methodDesc->mParams[j];
+                if (strcmp(GenerateJavaJniTypeString(&paraDesc->mType), "jstring")) continue;
+                sprintf(szContent, "    env->ReleaseStringUTFChars(j%s, str%d);\n", paraDesc->mName, j + 1);
+                pCtx->PutString(szContent);
+            }
+
+        }
+        pCtx->PutString("    if(FAILED(ec)) return 0;\n\n");
+        pCtx->PutString("    return pElaClsObj;\n");
+
+        if ((pItfDir->mDesc->mMethodCount - 1) == i) {
+            pCtx->PutString("}\n");
+        }
+        else {
+            pCtx->PutString("}\n\n");
+        }
+    }
+
+    return LUBE_OK;
+}
+
+int _GenerateJavaImplJniCppJniLoad(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
+{
+    assert(NULL != pCtx->m_pInterface && pvArg == pCtx->m_pInterface);
+
+    pCtx->PutString("\nstatic const JNINativeMethod gMethods[] = {\n");
+
+    InterfaceDirEntry *pItfDir = pCtx->m_pInterface;
+    assert(pItfDir->mDesc != NULL);
+
+    char szContent[256];
+    char signature[128];
+
+    for (int mi = 0; mi < pItfDir->mDesc->mMethodCount; mi++) {
+        pCtx->PutString("    {\"nativeInit\", ");
+        MethodDescriptor* methodDesc = pItfDir->mDesc->mMethods[mi];
+        assert(methodDesc != NULL);
+
+        if (methodDesc->mParamCount > 1) {
+            memset(signature, 0, 128);
+
+            for (int j = 0; j < methodDesc->mParamCount; j++) {
+                ParamDescriptor* paraDesc = methodDesc->mParams[j];
+                assert(paraDesc != NULL);
+
+                if (paraDesc->mAttribs & ParamAttrib_in) {
+                    strcat(signature, _JavaMethodSignature(&paraDesc->mType));
+                }
+            }
+
+            sprintf(szContent, "\"(%s)I\", (void*)nativeInit%d", signature, mi);
+            pCtx->PutString(szContent);
+        }
+        else {
+            sprintf(szContent, "\"()I\", (void*)nativeInit%d", mi);
+            pCtx->PutString(szContent);
+        }
+        pCtx->PutString("},\n");
+    }
+
+    pCtx->PutString("};\n\n");
+
+    pCtx->PutString("JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved){\n");
+    pCtx->PutString("    JNIEnv * env;\n    jclass cls;\n");
+    pCtx->PutString("    if(vm->GetEnv((void **)&env,JNI_VERSION_1_6) != JNI_OK){\n");
+    pCtx->PutString("        return JNI_ERR;\n");
+    pCtx->PutString("    }\n");
+    pCtx->PutString("    assert(0 && \"Please set your own JNIREG_CLASS. If done, delete this line.\");\n\n");
+    pCtx->PutString("    cls = env->FindClass(JNIREG_CLASS);\n");
+    pCtx->PutString("    env->RegisterNatives(cls, gMethods, sizeof(gMethods)/sizeof(JNINativeMethod));\n");
+    pCtx->PutString("    return JNI_VERSION_1_6;\n");
+    pCtx->PutString("};");
+
+    return LUBE_OK;
+}
+
 int _GenerateDefalutCarClassCpp(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
 {
     assert(NULL != pCtx->m_pInterface && pvArg == pCtx->m_pInterface);
@@ -786,15 +1048,15 @@ int _GenerateDefalutCarClassCpp(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
         }
 
         // Function body.
-        pCtx->PutString("{\n");
-        pCtx->PutString("    jclass cls = mEnv->FindClass(mClassPath.string());\n");
-        sprintf(szContent, "    jmethodID staticMethod = mEnv->GetStaticMethodID(cls, \"%s\", \"%s\");\n" , methodDesc->mName, signature);
+        pCtx->PutString("{\n    JNIEnv* env = GetEnv();\n");
+        pCtx->PutString("    jclass cls = env->GetObjectClass(mObj);\n");
+        sprintf(szContent, "    jmethodID method = mEnv->GetMethodID(cls, \"%s\", \"%s\");\n" , methodDesc->mName, signature);
         pCtx->PutString(szContent);
 
         tmpType = GetJniStaticMethodInvokeType(pType);
         if (outParaPos >= 0) {
             if (!strcmp("Object", tmpType)) {
-                sprintf(szContent, "    jstring _jstr = (jstring)mEnv->CallStatic%sMethod(cls, staticMethod);\n" , tmpType);
+                sprintf(szContent, "    jstring _jstr = (jstring)mEnv->Call%sMethod(cls, method);\n" , tmpType);
                 pCtx->PutString(szContent);
 
                 pCtx->PutString("    const char* __str = mEnv->GetStringUTFChars(_jstr, NULL);\n");
@@ -803,14 +1065,15 @@ int _GenerateDefalutCarClassCpp(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
                 pCtx->PutString("    mEnv->ReleaseStringUTFChars(_jstr, __str);\n");
             }
             else {
-                sprintf(szContent, "    *%s = (%s)mEnv->CallStatic%sMethod(cls, staticMethod);\n" , outParaName, GenerateJavaTypeString(pType), tmpType);
+                sprintf(szContent, "    *%s = (%s)mEnv->Call%sMethod(cls, method);\n" , outParaName, GenerateJavaTypeString(pType), tmpType);
                 pCtx->PutString(szContent);
             }
         }
         else {
-            sprintf(szContent, "    mEnv->CallStatic%sMethod(cls, staticMethod);\n" , tmpType);
+            sprintf(szContent, "    mEnv->Call%sMethod(cls, method);\n" , tmpType);
             pCtx->PutString(szContent);
         }
+        pCtx->PutString("    Detach();\n");
 
         pCtx->PutString("    return NOERROR;\n");
 

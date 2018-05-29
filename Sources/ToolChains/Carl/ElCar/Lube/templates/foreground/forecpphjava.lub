@@ -24,8 +24,7 @@ $       IF attrib is not "naked"
 $         TEMPLATE "forehjava.lub"
 $         TEMPLATE "forecppjava.lub"
 $         TEMPLATE "generatejavaclassimpl.lub"
-$         TEMPLATE "generatejavaclassuser.lub"
-$         TEMPLATE "generatejavajnicpp.lub"
+$         TEMPLATE "generatejavaimpljnicpp.lub"
 $       END IF
 $     END IF
 $   END IF

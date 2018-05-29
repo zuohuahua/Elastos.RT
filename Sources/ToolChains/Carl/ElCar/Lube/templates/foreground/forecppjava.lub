@@ -72,12 +72,12 @@ $IF class.attrib is not "hasTrivialCtor"
 $  WITH all interfaces DO
 $    IF attrib is "clsobj"
 $      WITH all methods DO
-${type} ${class.name}::constructor($^
+${type} ${class.name}::constructor(
+    /* [in] */ Handle64 jvm,
+    /* [in] */ Handle64 jobj$^
 $        WITH all parameters DO
 $          IF parameter is not last
-$            IF parameter is not first
 ,$^
-$            END IF
 
     /* [${attrib}] */ ${type} ${PrefixingNameByName(parameter)}$^
 $          END IF
@@ -85,22 +85,34 @@ $        END DO ;; all parameters
 )
 {
     // TODO: Add your code here for constructor
-    JavaVM* vm = (JavaVM*)jvm;
+    mJvm = (JavaVM*)jvm;
     assert(vm != NULL);
-    mClassPath = classPath;
 
-    vm->AttachCurrentThread(&mEnv, NULL);
-    jclass cls = mEnv->FindClass(mClassPath.string());
-    if (cls == NULL) {
+    mObj = env->NewGlobalRef(jobj);
+    if (mObj == NULL) {
         return E_INVALID_ARGUMENT;
     }
 
     return NOERROR;
 }
+
 $      END DO ;; all methods
 $
 $    END IF
 $  END DO ;; all interfaces
 $END IF;;
+JNIEnv* ${class.name}::GetEnv()
+{
+    JNIEnv* env;
+    assert(mJvm != NULL);
+    mJvm->AttachCurrentThread(&env, NULL);
+    return env;
+}
+
+void ${class.name}::Detach()
+{
+    assert(mJvm != NULL);
+    mJvm->DetachCurrentThread();
+}
 ${ClassNamespaceEnd(class)}
 $END OUTPUT

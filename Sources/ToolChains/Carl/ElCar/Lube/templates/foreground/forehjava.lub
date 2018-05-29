@@ -40,6 +40,11 @@ public:
 
     CAR_INTERFACE_DECL()
 
+    virtual ~${class.name}()
+    {
+        GetEnv()->DeleteGlobalRef(mObj);
+    }
+
 $WITH all interfaces DO
 $   IF attrib is not "callback" and attrib is not "callbacksink" and attrib is not "clsobj" and attrib is not "filter" and name is not "IRegime" and name is not "IObject" and name is not "ISynchronize" and name is not "IWeakReferenceSource" and name is not "IThread"
 $       WITH all parents_and_me DO
@@ -115,16 +120,16 @@ $  WITH all interfaces DO
 $    IF attrib is "clsobj"
 $      WITH all methods DO
 $        IF type is "ECode"
-    CARAPI constructor($^
+    CARAPI constructor(
+        /* [in] */ Handle64 jvm,
+        /* [in] */ Handle64 jobj$^
 $        ELSE
     CARAPI_(${type}) constructor($^
 $        END IF
 $
 $        WITH all parameters DO
 $          IF parameter is not last
-$            IF parameter is not first
 ,$^
-$            END IF
 
         /* [${attrib}] */ ${type} ${PrefixingNameByName(parameter)}$^
 $          END IF
@@ -136,10 +141,14 @@ $
 $    END IF ;; clsobj
 $  END DO ;; all interfaces
 $END IF;;
+privete:
+    JNIEnv* GetEnv();
+    void Detach();
+
 private:
     // TODO: Add your private member variables here.
-    JNIEnv* mEnv;
-    String mClassPath;
+    JavaVM* mJvm;
+    jobject mObj;
 };
 
 $END IF ;; end of generic IF

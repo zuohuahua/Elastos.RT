@@ -1,5 +1,5 @@
 $;;=========================================================================
-$;; Copyright (C) 2012 The Elastos Open Source Project
+$;; Copyright (C) 2018 The Elastos Open Source Project
 $;;
 $;; Licensed under the Apache License, Version 2.0 (the "License");
 $;; you may not use this file except in compliance with the License.
@@ -14,17 +14,18 @@ $;; See the License for the specific language governing permissions and
 $;; limitations under the License.
 $;;=========================================================================
 $
-$INPUT module
-$
-$TEMPLATE "public/public.lub"
-$TEMPLATE "header/header.lub"
-$TEMPLATE "header/header2.lub"
-$TEMPLATE "header/header3.lub"
-$TEMPLATE "header/exportheader.lub"
-$;;TEMPLATE "header/serverh.lub"
-$TEMPLATE "headercpp/headercpp.lub"
-$TEMPLATE "background/background.lub"
-$TEMPLATE "foreground/foreground.lub"
-$TEMPLATE "foreground/foregroundjava.lub"
-$TEMPLATE "foreground/foregroundjni.lub"
-$;;TEMPLATE "carusage/carusage.lub"
+$INPUT class
+$OUTPUT "${fullname}_jni.cpp"
+
+#include <jni.h>
+
+//For Elastos
+$IF class.attrib is not "hasTrivialCtor"
+$    WITH all interfaces DO	
+$        IF attrib is "clsobj"
+$            {GenerateJavaImplJniCpp(interface)}
+$            {GenerateJavaImplJniCpp2(interface)}
+$        END IF
+$    END DO ;; all interfaces
+$END IF ;; class.attrib is not "hasTrivialCtor"
+$END OUTPUT
