@@ -17,7 +17,7 @@ public:
 
     CARAPI CreateSubWallet(
         /* [in] */ const String& chainID,
-        /* [in] */ Int32 cointypeIndex,
+        /* [in] */ Int32 coinTypeIndex,
         /* [in] */ const String& payPassword,
         /* [in] */ Boolean singleAddress,
         /* [in] */ Int64 feePerKb,
@@ -25,7 +25,7 @@ public:
 
     CARAPI RecoverSubWallet(
         /* [in] */ const String& chainID,
-        /* [in] */ Int32 cointypeIndex,
+        /* [in] */ Int32 coinTypeIndex,
         /* [in] */ const String& payPassword,
         /* [in] */ Boolean singleAddress,
         /* [in] */ Int32 limitGap,
@@ -44,7 +44,7 @@ public:
         /* [out] */ String * pSignature);
 
     CARAPI CheckSign(
-        /* [in] */ const String& address,
+        /* [in] */ const String& publicKey,
         /* [in] */ const String& message,
         /* [in] */ const String& signature,
         /* [out] */ String * pResultJson);

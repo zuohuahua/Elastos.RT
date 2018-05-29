@@ -13,7 +13,7 @@ ECode CElaWallet::GetBalanceInfo(
 }
 
 ECode CElaWallet::GetBalance(
-    /* [out] */ Double * pBalance)
+    /* [out] */ Int64 * pBalance)
 {
     // TODO: Add your code here
     return E_NOT_IMPLEMENTED;
@@ -21,7 +21,7 @@ ECode CElaWallet::GetBalance(
 
 ECode CElaWallet::GetBalanceWithAddress(
     /* [in] */ const String& address,
-    /* [out] */ Double * pBalance)
+    /* [out] */ Int64 * pBalance)
 {
     // TODO: Add your code here
     return E_NOT_IMPLEMENTED;
@@ -44,21 +44,21 @@ ECode CElaWallet::CreateMultiSignAddress(
     return E_NOT_IMPLEMENTED;
 }
 
-ECode CElaWallet::GenerateMultiSignTransation(
+ECode CElaWallet::GenerateMultiSignTransaction(
     /* [in] */ const String& fromAddress,
     /* [in] */ const String& toAddress,
     /* [in] */ Double amount,
     /* [in] */ Double fee,
     /* [in] */ const String& payPassword,
     /* [in] */ const String& memo,
-    /* [out] */ String * pTransationMsg)
+    /* [out] */ String * pTransactionMsg)
 {
     // TODO: Add your code here
     return E_NOT_IMPLEMENTED;
 }
 
-ECode CElaWallet::SendRawTransation(
-    /* [in] */ const String& transationJson,
+ECode CElaWallet::SendRawTransaction(
+    /* [in] */ const String& transactionJson,
     /* [in] */ const String& sign,
     /* [out] */ String * pTxid)
 {
@@ -96,7 +96,7 @@ ECode CElaWallet::RemoveCallback(
     return E_NOT_IMPLEMENTED;
 }
 
-ECode CElaWallet::SendTransation(
+ECode CElaWallet::SendTransaction(
     /* [in] */ const String& fromAddress,
     /* [in] */ const String& toAddress,
     /* [in] */ Double amount,
@@ -109,18 +109,18 @@ ECode CElaWallet::SendTransation(
     return E_NOT_IMPLEMENTED;
 }
 
-ECode CElaWallet::GetTransationsCount(
+ECode CElaWallet::GetTransactionsCount(
     /* [out] */ Int32 * pCount)
 {
     // TODO: Add your code here
     return E_NOT_IMPLEMENTED;
 }
 
-ECode CElaWallet::GetAllTransation(
+ECode CElaWallet::GetAllTransaction(
     /* [in] */ Int32 start,
     /* [in] */ Int32 count,
     /* [in] */ const String& addressOrTxid,
-    /* [out] */ String * pTransationListJson)
+    /* [out] */ String * pTransactionListJson)
 {
     // TODO: Add your code here
     return E_NOT_IMPLEMENTED;
@@ -136,7 +136,7 @@ ECode CElaWallet::Sign(
 }
 
 ECode CElaWallet::CheckSign(
-    /* [in] */ const String& address,
+    /* [in] */ const String& publicKey,
     /* [in] */ const String& message,
     /* [in] */ const String& signature,
     /* [out] */ String * pResultJson)

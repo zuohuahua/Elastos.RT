@@ -29,7 +29,7 @@ public:
         /* [in] */ const String& payPassword,
         /* [out] */ IMasterWallet ** ppMasterWallet);
 
-    CARAPI ExportWalletKeystore(
+    CARAPI ExportWalletWithKeystore(
         /* [in] */ IMasterWallet * pMasterWallet,
         /* [in] */ const String& backupPassword,
         /* [in] */ const String& keystorePath);
@@ -40,7 +40,7 @@ public:
         /* [in] */ const String& payPassword,
         /* [out] */ IMasterWallet ** ppMasterWallet);
 
-    CARAPI ExportWalletMnemonic(
+    CARAPI ExportWalletWithMnemonic(
         /* [in] */ IMasterWallet * pMasterWallet,
         /* [in] */ const String& payPassword,
         /* [out] */ String * pMnemonic);

@@ -31,7 +31,7 @@ ECode CWalletFactory::ImportWalletWithKeystore(
     return E_NOT_IMPLEMENTED;
 }
 
-ECode CWalletFactory::ExportWalletKeystore(
+ECode CWalletFactory::ExportWalletWithKeystore(
     /* [in] */ IMasterWallet * pMasterWallet,
     /* [in] */ const String& backupPassword,
     /* [in] */ const String& keystorePath)
@@ -50,7 +50,7 @@ ECode CWalletFactory::ImportWalletWithMnemonic(
     return E_NOT_IMPLEMENTED;
 }
 
-ECode CWalletFactory::ExportWalletMnemonic(
+ECode CWalletFactory::ExportWalletWithMnemonic(
     /* [in] */ IMasterWallet * pMasterWallet,
     /* [in] */ const String& payPassword,
     /* [out] */ String * pMnemonic)

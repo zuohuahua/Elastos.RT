@@ -7,7 +7,7 @@ CAR_INTERFACE_IMPL(CMasterWallet, Object, IMasterWallet);
 
 ECode CMasterWallet::CreateSubWallet(
     /* [in] */ const String& chainID,
-    /* [in] */ Int32 cointypeIndex,
+    /* [in] */ Int32 coinTypeIndex,
     /* [in] */ const String& payPassword,
     /* [in] */ Boolean singleAddress,
     /* [in] */ Int64 feePerKb,
@@ -19,7 +19,7 @@ ECode CMasterWallet::CreateSubWallet(
 
 ECode CMasterWallet::RecoverSubWallet(
     /* [in] */ const String& chainID,
-    /* [in] */ Int32 cointypeIndex,
+    /* [in] */ Int32 coinTypeIndex,
     /* [in] */ const String& payPassword,
     /* [in] */ Boolean singleAddress,
     /* [in] */ Int32 limitGap,
@@ -54,7 +54,7 @@ ECode CMasterWallet::Sign(
 }
 
 ECode CMasterWallet::CheckSign(
-    /* [in] */ const String& address,
+    /* [in] */ const String& publicKey,
     /* [in] */ const String& message,
     /* [in] */ const String& signature,
     /* [out] */ String * pResultJson)

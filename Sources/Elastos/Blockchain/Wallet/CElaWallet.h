@@ -19,11 +19,11 @@ public:
         /* [out] */ String * pBalanceInfoJson);
 
     CARAPI GetBalance(
-        /* [out] */ Double * pBalance);
+        /* [out] */ Int64 * pBalance);
 
     CARAPI GetBalanceWithAddress(
         /* [in] */ const String& address,
-        /* [out] */ Double * pBalance);
+        /* [out] */ Int64 * pBalance);
 
     CARAPI CreateAddress(
         /* [out] */ String * pAddress);
@@ -34,17 +34,17 @@ public:
         /* [in] */ Int32 requiredSignNum,
         /* [out] */ String * pMultiSignAddress);
 
-    CARAPI GenerateMultiSignTransation(
+    CARAPI GenerateMultiSignTransaction(
         /* [in] */ const String& fromAddress,
         /* [in] */ const String& toAddress,
         /* [in] */ Double amount,
         /* [in] */ Double fee,
         /* [in] */ const String& payPassword,
         /* [in] */ const String& memo,
-        /* [out] */ String * pTransationMsg);
+        /* [out] */ String * pTransactionMsg);
 
-    CARAPI SendRawTransation(
-        /* [in] */ const String& transationJson,
+    CARAPI SendRawTransaction(
+        /* [in] */ const String& transactionJson,
         /* [in] */ const String& sign,
         /* [out] */ String * pTxid);
 
@@ -62,7 +62,7 @@ public:
     CARAPI RemoveCallback(
         /* [in] */ ISubWalletCallback * pSubCallback);
 
-    CARAPI SendTransation(
+    CARAPI SendTransaction(
         /* [in] */ const String& fromAddress,
         /* [in] */ const String& toAddress,
         /* [in] */ Double amount,
@@ -71,14 +71,14 @@ public:
         /* [in] */ const String& memo,
         /* [out] */ String * pTxid);
 
-    CARAPI GetTransationsCount(
+    CARAPI GetTransactionsCount(
         /* [out] */ Int32 * pCount);
 
-    CARAPI GetAllTransation(
+    CARAPI GetAllTransaction(
         /* [in] */ Int32 start,
         /* [in] */ Int32 count,
         /* [in] */ const String& addressOrTxid,
-        /* [out] */ String * pTransationListJson);
+        /* [out] */ String * pTransactionListJson);
 
     CARAPI Sign(
         /* [in] */ const String& message,
@@ -86,7 +86,7 @@ public:
         /* [out] */ String * pSignature);
 
     CARAPI CheckSign(
-        /* [in] */ const String& address,
+        /* [in] */ const String& publicKey,
         /* [in] */ const String& message,
         /* [in] */ const String& signature,
         /* [out] */ String * pResultJson);

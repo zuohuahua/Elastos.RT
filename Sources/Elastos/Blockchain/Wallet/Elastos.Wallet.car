@@ -20,7 +20,7 @@ module
 
 
     interface ISubWalletCallback {
-        OnTransationStatusChanged (
+        OnTransactionStatusChanged (
             [in] String txid,
             [in] String status,
             [in] String desc,
@@ -32,32 +32,32 @@ module
             [out] String* balanceInfoJson);
 
         GetBalance (
-            [out] Double* balance);
+            [out] Int64* balance);
 
         GetBalanceWithAddress (
             [in] String address,
-            [out] Double* balance);
-            
+            [out] Int64* balance);
+
         CreateAddress (
             [out] String* address);
-        
+
         CreateMultiSignAddress (
             [in] String multiPublicKeyJson,
             [in] Int32 totalSignNum,
             [in] Int32 requiredSignNum,
             [out] String* multiSignAddress);
-            
-        GenerateMultiSignTransation (
+
+        GenerateMultiSignTransaction (
             [in] String fromAddress,
             [in] String toAddress,
             [in] Double amount,
             [in] Double fee,
             [in] String payPassword,
             [in] String memo,
-            [out] String* transationMsg);
+            [out] String* transactionMsg);
 
-        SendRawTransation (
-            [in] String transationJson,
+        SendRawTransaction (
+            [in] String transactionJson,
             [in] String sign,
             [out] String* txid);
 
@@ -75,7 +75,7 @@ module
         RemoveCallback (
             [in] ISubWalletCallback* subCallback);
 
-        SendTransation (
+        SendTransaction (
             [in] String fromAddress,
             [in] String toAddress,
             [in] Double amount,
@@ -84,14 +84,14 @@ module
             [in] String memo,
             [out] String* txid);
 
-        GetTransationsCount (
+        GetTransactionsCount (
             [out] Int32 * count);
 
-        GetAllTransation (
+        GetAllTransaction (
             [in] Int32 start,
             [in] Int32 count,
             [in] String addressOrTxid,
-            [out] String* transationListJson);
+            [out] String* transactionListJson);
 
         Sign (
             [in] String message,
@@ -99,16 +99,54 @@ module
             [out] String* signature);
 
         CheckSign (
-            [in] String address,
+            [in] String publicKey,
             [in] String message,
             [in] String signature,
             [out] String* resultJson);
     }
 
+    /**
+     * extends ISubWallet
+     */
+    interface IMainchainSubWallet /*extends ISubWallet*/ {
+        SendDepositTransaction(
+            [in] String fromAddress,
+            [in] String sidechainAccounts,
+            [in] String sidechainAmounts,
+            [in] Double fee,
+            [in] String payPassword,
+            [in] String memo,
+            [out] String* result);
+    }
+
+    /**
+     * extends ISubWallet
+     */
+    interface ISidechainSubWallet /*extends ISubWallet*/ {
+        SendWithdrawTransaction(
+            [in] String fromAddress,
+            [in] String mainchainAccounts,
+            [in] String mainchainAmounts,
+            [in] Double fee,
+            [in] String payPassword,
+            [in] String memo,
+            [out] String* result);
+    }
+
+    /**
+     * extends ISubWallet
+     */
+    interface IDChainSubWallet /*extends ISubWallet*/ {
+        GenerateId(
+            [out] String* id,
+            [out] String* privateKey,
+            [out] String* reason);
+    }
+
     interface IMasterWallet {
         CreateSubWallet (
             [in] String chainID,
-            [in] Int32 cointypeIndex,
+            [in] Int32 coinTypeIndex,
             [in] String payPassword,
             [in] Boolean singleAddress,
             [in] Int64 feePerKb,
@@ -116,7 +154,7 @@ module
 
         RecoverSubWallet (
             [in] String chainID,
-            [in] Int32 cointypeIndex,
+            [in] Int32 coinTypeIndex,
             [in] String payPassword,
             [in] Boolean singleAddress,
             [in] Int32 limitGap,
@@ -135,7 +173,7 @@ module
             [out] String* signature);
 
         CheckSign (
-            [in] String address,
+            [in] String publicKey,
             [in] String message,
             [in] String signature,
             [out] String* resultJson);
@@ -156,7 +194,7 @@ module
             [in] String payPassword,
             [out] IMasterWallet** masterWallet);
 
-        ExportWalletKeystore (
+        ExportWalletWithKeystore (
             [in] IMasterWallet* masterWallet,
             [in] String backupPassword,
             [in] String keystorePath);
@@ -167,7 +205,7 @@ module
             [in] String payPassword,
             [out] IMasterWallet** masterWallet);
 
-        ExportWalletMnemonic (
+        ExportWalletWithMnemonic (
             [in] IMasterWallet* masterWallet,
             [in] String payPassword,
             [out] String* mnemonic);
