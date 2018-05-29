@@ -9,18 +9,12 @@ SHARED_SDK_LIBRARIES=(
     "elasession"
     "elacarrier"
     "elacommon"
+    "crypto"
+    "ssl"
 )
 
 STATIC_SDK_LIBRARIES=(
     "Elastos.Runtime_static"
-)
-
-# TODO: To be removed. We should NOT use any prebuilt libraries.
-PREBUILT_THIRDPART_DIR=$XDK_ROOT/ToolChains/$XDK_TARGET_PLATFORM/Thirdlibrary
-THIRD_PARTY_LIBRARIES=(
-    "icuuc"
-    "stlport"
-    "crypto"
 )
 
 THIS_SCRIPT=$(basename $0)
@@ -136,10 +130,6 @@ done
 
 for name in ${STATIC_SDK_LIBRARIES[@]}; do
     copy_library $name $XDK_USER_LIB $SDK_LIBS_PATH/$LIB_SUBDIR
-done
-
-for name in ${THIRD_PARTY_LIBRARIES[@]}; do
-    copy_library $name $PREBUILT_THIRDPART_DIR/lib $SDK_LIBS_PATH/$LIB_SUBDIR
 done
 
 echo "Done"

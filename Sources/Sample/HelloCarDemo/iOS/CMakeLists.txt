@@ -12,8 +12,9 @@ file(MAKE_DIRECTORY ${APP_BINARY_DIR})
 add_custom_command(
     COMMENT "Building ios HelloCarDemo app..."
     OUTPUT ${APP_OUTPUT}
-    COMMAND cmake -DCMAKE_TOOLCHAIN_FILE=${APP_SOURCE_DIR}/ios.cmake -DIOS_PLATFORM=${IOS_PLATFORM} -H${APP_SOURCE_DIR} -B${APP_BUILD_DIR} -GXcode
-    COMMAND cmake --build ${APP_BUILD_DIR} --config ${CMAKE_BUILD_TYPE}
+    COMMAND ${CMAKE_COMMAND} -DCMAKE_TOOLCHAIN_FILE=${APP_SOURCE_DIR}/ios.cmake -DIOS_PLATFORM=${IOS_PLATFORM} -H${APP_SOURCE_DIR} -B${APP_BUILD_DIR} -GXcode
+    COMMAND ${CMAKE_COMMAND} --build ${APP_BUILD_DIR} --config ${CMAKE_BUILD_TYPE}
+    COMMAND ${CMAKE_COMMAND} -E touch_nocreate ${APP_OUTPUT}
     WORKING_DIRECTORY ${APP_BINARY_DIR}
     DEPENDS Elastos.Runtime
             Elastos.CoreLibrary

@@ -103,6 +103,7 @@ case $key in
         TARGET_ARCH="$2"
         shift;shift;; # past argument and value
     *)    # unknown option
+        echo "Unknown option: $key"
         usage
         exit 1
         ;;

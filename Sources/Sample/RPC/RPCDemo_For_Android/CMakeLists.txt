@@ -43,10 +43,13 @@ add_custom_command(
             $ENV{XDK_TARGETS}/libelasession.so
 )
 
+set(apk_filename "${PROJECT_BIN}/app/build/outputs/apk/${XDK_BUILD_TYPE}/app-${XDK_BUILD_TYPE}.apk")
+
 add_custom_command(
     COMMENT "Building RPCDemo Android project..."
-    OUTPUT "${PROJECT_BIN}/app/build/outputs/apk/${XDK_BUILD_TYPE}/app-${XDK_BUILD_TYPE}.apk"
+    OUTPUT ${apk_filename}
     COMMAND ./gradlew assemble${CMAKE_BUILD_TYPE}
+    COMMAND ${CMAKE_COMMAND} -E touch_nocreate ${apk_filename}
     WORKING_DIRECTORY ${PROJECT_BIN}
     DEPENDS ${PROJECT_BIN}/app/elastos/include/Chat.h
             ${PROJECT_BIN}/app/elastos/libs/armeabi-v7a/libChat.so
@@ -54,6 +57,6 @@ add_custom_command(
 
 
 add_custom_target(build_rpcdemo ALL DEPENDS
-    ${PROJECT_BIN}/app/build/outputs/apk/${XDK_BUILD_TYPE}/app-${XDK_BUILD_TYPE}.apk
+    ${apk_filename}
 )
 

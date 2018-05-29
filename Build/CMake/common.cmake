@@ -152,12 +152,6 @@ endfunction()
 
 include_directories($ENV{XDK_USER_INC})
 
-if(ANDROID)
-    # TODO: To be remove
-    include_directories(${CMAKE_SOURCE_DIR}/../ToolChains/android/Thirdlibrary/include/icu/icu4c/source/i18n)
-    include_directories(${CMAKE_SOURCE_DIR}/../ToolChains/android/Thirdlibrary/include/icu/include)
-endif()
-
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY $ENV{XDK_TARGETS} )
@@ -201,9 +195,9 @@ endif()
 
 if("$ENV{XDK_VERSION}" STREQUAL "rls")
     set(CMAKE_BUILD_TYPE Release)
+    set(XDK_BUILD_TYPE "release")
 else()
     set(CMAKE_BUILD_TYPE Debug)
+    set(XDK_BUILD_TYPE "debug")
 endif()
 
-# Lowercase of the CMAKE_BUILD_TYPE
-set(TOLOWER ${CMAKE_BUILD_TYPE} XDK_BUILD_TYPE)
