@@ -20,6 +20,13 @@ $OUTPUT "${name}_jni.cpp"
 #include <jni.h>
 
 //For Elastos
+$IF class.attrib is not "hasTrivialCtor"
+$    WITH all interfaces DO
+$        IF attrib is "clsobj"
+$            {GenerateJavaJniCppInit(interface)}
+$        END IF
+$    END DO ;; all interfaces
+$END IF ;; class.attrib is not "hasTrivialCtor"
 $WITH all interfaces DO
 $   IF attrib is not "callback" and attrib is not "callbacksink" and attrib is not "clsobj" and attrib is not "filter" and name is not "IRegime" and name is not "IObject" and name is not "ISynchronize" and name is not "IWeakReferenceSource" and name is not "IThread"
 $           {GenerateJavaJniCpp(interface)}

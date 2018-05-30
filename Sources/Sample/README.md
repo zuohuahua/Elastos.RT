@@ -22,6 +22,11 @@ This demo explains that how to use the car class: CPlainFile to execute some ope
 ## AutoGenerateJavaCode
 
 PlainFile needs to compile and run in android environment.
-In the directory, Using the following command in proper order, it will auto-generate the corresponding java and jni codes.
+generate cls first.
 * carc -i -c Elastos.AutoGenerateJavaCodes.cls Elastos.AutoGenerateJavaCodes.car
+
+If implement in Java, this command will generate corresponding Java and jni code.
 * lube -C Elastos.AutoGenerateJavaCodes.cls -T foregroundjava
+
+If implement in C++, and call car function by jni, using this command.
+* lube -C Elastos.AutoGenerateJavaCodes.cls -T foregroundjni

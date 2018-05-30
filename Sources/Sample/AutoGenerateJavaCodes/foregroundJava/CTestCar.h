@@ -17,6 +17,11 @@ public:
 
     CAR_INTERFACE_DECL()
 
+    virtual ~CTestCar()
+    {
+        GetEnv()->DeleteGlobalRef(mObj);
+    }
+
     CARAPI SetInt(
         /* [in] */ Int32 value);
 
@@ -65,12 +70,16 @@ public:
 
     CARAPI constructor(
         /* [in] */ Handle64 jvm,
-        /* [in] */ const String& classPath);
+        /* [in] */ Handle64 jobj);
+
+privete:
+    JNIEnv* GetEnv();
+    void Detach();
 
 private:
     // TODO: Add your private member variables here.
-    JNIEnv* mEnv;
-    String mClassPath;
+    JavaVM* mJvm;
+    jobject mObj;
 };
 
 

@@ -109,7 +109,9 @@ DECL_USERFUNC(GenerateExportHeaderForCMake);
 DECL_USERFUNC(JavaMethodSignature);
 DECL_USERFUNC(GenerateJavaClassConstructor);
 DECL_USERFUNC(GenerateJavaClassImpl);
+DECL_USERFUNC(GenerateJavaClassUserConstructor);
 DECL_USERFUNC(GenerateJavaClassUser);
+DECL_USERFUNC(GenerateJavaJniCppInit);
 DECL_USERFUNC(GenerateJavaJniCpp);
 DECL_USERFUNC(GenerateJavaJniCpp2);
 DECL_USERFUNC(GenerateJavaImplJniCpp);
@@ -239,8 +241,12 @@ const UserFuncEntry g_userFuncs[] = {
             "Get the java class constructors"),
     USERFUNC_(GenerateJavaClassImpl, ARGTYPE_(Object_ClsIntf, Member_None), \
             "Get the implement java class"),
+    USERFUNC_(GenerateJavaClassUserConstructor, ARGTYPE_(Object_ClsIntf, Member_None), \
+            "Get the user class constructors"),
     USERFUNC_(GenerateJavaClassUser, ARGTYPE_(Object_ClsIntf, Member_None), \
             "Get the user java class"),
+    USERFUNC_(GenerateJavaJniCppInit, ARGTYPE_(Object_ClsIntf, Member_None), \
+            "Get the jni init func for user"),
     USERFUNC_(GenerateJavaJniCpp, ARGTYPE_(Object_ClsIntf, Member_None), \
             "Get the jni cpp file for user"),
     USERFUNC_(GenerateJavaJniCpp2, ARGTYPE_(Object_Class, Member_None), \
@@ -396,10 +402,22 @@ IMPL_USERFUNC(GenerateJavaClassImpl)(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvAr
     return _GenerateJavaClassImpl(pCtx, pDesc, pvArg);
 }
 
+int _GenerateJavaClassUserConstructor(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg);
+IMPL_USERFUNC(GenerateJavaClassUserConstructor)(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
+{
+    return _GenerateJavaClassUserConstructor(pCtx, pDesc, pvArg);
+}
+
 int _GenerateJavaClassUser(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg);
 IMPL_USERFUNC(GenerateJavaClassUser)(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
 {
     return _GenerateJavaClassUser(pCtx, pDesc, pvArg);
+}
+
+int _GenerateJavaJniCppInit(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg);
+IMPL_USERFUNC(GenerateJavaJniCppInit)(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
+{
+    return _GenerateJavaJniCppInit(pCtx, pDesc, pvArg);
 }
 
 int _GenerateJavaJniCpp(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg);
