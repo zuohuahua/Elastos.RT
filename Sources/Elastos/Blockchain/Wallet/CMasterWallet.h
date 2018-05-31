@@ -16,6 +16,7 @@ public:
     CAR_INTERFACE_DECL()
 
     CARAPI CreateSubWallet(
+        /* [in] */ SubWalletType type,
         /* [in] */ const String& chainID,
         /* [in] */ Int32 coinTypeIndex,
         /* [in] */ const String& payPassword,
@@ -24,6 +25,7 @@ public:
         /* [out] */ ISubWallet ** ppWallet);
 
     CARAPI RecoverSubWallet(
+        /* [in] */ SubWalletType type,
         /* [in] */ const String& chainID,
         /* [in] */ Int32 coinTypeIndex,
         /* [in] */ const String& payPassword,

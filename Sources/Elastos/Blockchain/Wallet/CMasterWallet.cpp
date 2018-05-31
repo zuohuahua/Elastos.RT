@@ -6,6 +6,7 @@ CAR_OBJECT_IMPL(CMasterWallet)
 CAR_INTERFACE_IMPL(CMasterWallet, Object, IMasterWallet);
 
 ECode CMasterWallet::CreateSubWallet(
+    /* [in] */ SubWalletType type,
     /* [in] */ const String& chainID,
     /* [in] */ Int32 coinTypeIndex,
     /* [in] */ const String& payPassword,
@@ -18,6 +19,7 @@ ECode CMasterWallet::CreateSubWallet(
 }
 
 ECode CMasterWallet::RecoverSubWallet(
+    /* [in] */ SubWalletType type,
     /* [in] */ const String& chainID,
     /* [in] */ Int32 coinTypeIndex,
     /* [in] */ const String& payPassword,

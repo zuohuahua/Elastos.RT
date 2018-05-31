@@ -143,8 +143,16 @@ module
             [out] String* reason);
     }
 
+    enum SubWalletType{
+        SubWalletType_Normal,
+        SubWalletType_Mainchain,
+        SubWalletType_Sidechain,
+        SubWalletType_Idchain
+    };
+
     interface IMasterWallet {
         CreateSubWallet (
+            [in] SubWalletType type,
             [in] String chainID,
             [in] Int32 coinTypeIndex,
             [in] String payPassword,
@@ -153,6 +161,7 @@ module
             [out] ISubWallet** wallet);
 
         RecoverSubWallet (
+            [in] SubWalletType type,
             [in] String chainID,
             [in] Int32 coinTypeIndex,
             [in] String payPassword,
