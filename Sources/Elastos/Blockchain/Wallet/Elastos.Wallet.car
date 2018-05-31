@@ -190,6 +190,7 @@ module
 
     interface IWalletFactory {
         CreateMasterWallet (
+            [in] String language,
             [in] String phrasePassword,
             [in] String payPassword,
             [out] IMasterWallet** masterWallet);
@@ -209,6 +210,7 @@ module
             [in] String keystorePath);
 
         ImportWalletWithMnemonic (
+            [in] String language,
             [in] String mnemonic,
             [in] String phrasePassword,
             [in] String payPassword,
