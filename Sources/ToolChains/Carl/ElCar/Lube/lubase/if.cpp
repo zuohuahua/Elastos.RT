@@ -337,6 +337,9 @@ BOOL NameConditionValue(PLUBECTX pCtx, ObjectType object, const char *pszDest)
             if (!retVal && (pCtx->m_dwOptions & LubeOpt_WeakRef)) {
                 retVal = !_stricmp("WeakReference", pszDest);
             }
+            if (!retVal && (pCtx->m_dwOptions & LubeOpt_JavaInit)) {
+                retVal = !_stricmp("JavaInit", pszDest);
+            }
             if (!retVal) {
                 retVal = !_stricmp("", pszDest);
             }

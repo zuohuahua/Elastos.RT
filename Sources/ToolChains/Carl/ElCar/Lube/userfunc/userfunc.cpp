@@ -2733,7 +2733,7 @@ const char *ParamNamespaceType(ParamDescriptor* pParamDesc, char *szType, CLSMod
     return pszType;
 }
 
-void OutputInterface(InterfaceDirEntry* pItfDir, CLSModule* pModule)
+void OutputInterface(PLUBECTX pCtx, InterfaceDirEntry* pItfDir, CLSModule* pModule)
 {
     char *pPath;
     int nRet;
@@ -2909,6 +2909,13 @@ void OutputInterface(InterfaceDirEntry* pItfDir, CLSModule* pModule)
         fprintf(pFile, "\n");
     }
 
+    if ((pCtx->m_dwOptions & LubeOpt_JavaInit) && (pItfDir->mDesc->mAttribs & InterfaceAttrib_clsobj)) {
+        fprintf(pFile, "    virtual CARAPI JavaInit(\n");
+        fprintf(pFile, "        /* [in] */ _ELASTOS Handle64 jvm,\n");
+        fprintf(pFile, "        /* [in] */ _ELASTOS Handle64 jobj)\n");
+        fprintf(pFile, "    {\n            return NOERROR;\n    }\n\n");
+    }
+
     for (int i = 0; i < pItfDir->mDesc->mMethodCount; i++) {
         MethodDescriptor* pMethod = pItfDir->mDesc->mMethods[i];
         fprintf(pFile, "    virtual CARAPI %s(", pMethod->mName);
@@ -2987,7 +2994,7 @@ IMPL_USERFUNC(GenerateModuleImplementation)(PLUBECTX pCtx, PSTATEDESC pDesc, PVO
     //handle interfaces
     for (int i = 0; i < module->mDefinedInterfaceCount; i++) {
         InterfaceDirEntry* itfDir = module->mInterfaceDirs[module->mDefinedInterfaceIndexes[i]];
-        OutputInterface(itfDir, module);
+        OutputInterface(pCtx, itfDir, module);
     }
 
     return LUBE_OK;
@@ -3259,7 +3266,7 @@ IMPL_USERFUNC(GenerateModuleImplementation2)(PLUBECTX pCtx, PSTATEDESC pDesc, PV
     //handle interfaces
     for (int i = 0; i < module->mDefinedInterfaceCount; i++) {
         InterfaceDirEntry* itfDir = module->mInterfaceDirs[module->mDefinedInterfaceIndexes[i]];
-        OutputInterface(itfDir, module);
+        OutputInterface(pCtx, itfDir, module);
     }
 
     //handle classes

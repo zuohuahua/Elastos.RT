@@ -68,15 +68,29 @@ $       END DO ;; parents_and_me
 $   END IF ;; is "delegatesink"
 $END DO ;; all interfaces
 $
+ECode ${class.name}::JavaInit(
+    /* [in] */ Handle64 jvm,
+    /* [in] */ Handle64 jobj)
+{
+    mJvm = (JavaVM*)jvm;
+    assert(mJvm != NULL);
+
+    jobject jclsobj = *((jobject*)jobj);
+    mObj = GetEnv()->NewGlobalRef(jclsobj);
+    if (mObj == NULL) {
+        return E_INVALID_ARGUMENT;
+    }
+
+    return NOERROR;
+}
+
 $IF class.attrib is not "hasTrivialCtor"
 $  WITH all interfaces DO
 $    IF attrib is "clsobj"
 $      WITH all methods DO
-${type} ${class.name}::constructor(
-    /* [in] */ Handle64 jvm,
-    /* [in] */ Handle64 jobj$^
+${type} ${class.name}::constructor($^
 $        WITH all parameters DO
-$          IF parameter is not last
+$          IF parameter is not first and parameter is not last
 ,$^
 
     /* [${attrib}] */ ${type} ${PrefixingNameByName(parameter)}$^
@@ -85,14 +99,6 @@ $        END DO ;; all parameters
 )
 {
     // TODO: Add your code here for constructor
-    mJvm = (JavaVM*)jvm;
-    assert(vm != NULL);
-
-    mObj = env->NewGlobalRef(jobj);
-    if (mObj == NULL) {
-        return E_INVALID_ARGUMENT;
-    }
-
     return NOERROR;
 }
 

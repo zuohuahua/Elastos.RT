@@ -9,8 +9,8 @@ ECode CTestCar::SetInt(
 {
     JNIEnv* env = GetEnv();
     jclass cls = env->GetObjectClass(mObj);
-    jmethodID method = mEnv->GetMethodID(cls, "SetInt", "(I)V");
-    mEnv->CallVoidMethod(cls, method);
+    jmethodID method = env->GetMethodID(cls, "SetInt", "(I)V");
+    env->CallVoidMethod(cls, method);
     Detach();
     return NOERROR;
 }
@@ -20,8 +20,8 @@ ECode CTestCar::GetInt(
 {
     JNIEnv* env = GetEnv();
     jclass cls = env->GetObjectClass(mObj);
-    jmethodID method = mEnv->GetMethodID(cls, "GetInt", "()I");
-    *value = (int)mEnv->CallIntMethod(cls, method);
+    jmethodID method = env->GetMethodID(cls, "GetInt", "()I");
+    *value = (int)env->CallIntMethod(cls, method);
     Detach();
     return NOERROR;
 }
@@ -31,8 +31,8 @@ ECode CTestCar::SetString(
 {
     JNIEnv* env = GetEnv();
     jclass cls = env->GetObjectClass(mObj);
-    jmethodID method = mEnv->GetMethodID(cls, "SetString", "(Ljava/lang/String;)V");
-    mEnv->CallVoidMethod(cls, method);
+    jmethodID method = env->GetMethodID(cls, "SetString", "(Ljava/lang/String;)V");
+    env->CallVoidMethod(cls, method);
     Detach();
     return NOERROR;
 }
@@ -42,11 +42,11 @@ ECode CTestCar::GetString(
 {
     JNIEnv* env = GetEnv();
     jclass cls = env->GetObjectClass(mObj);
-    jmethodID method = mEnv->GetMethodID(cls, "GetString", "()Ljava/lang/String;");
-    jstring _jstr = (jstring)mEnv->CallObjectMethod(cls, method);
-    const char* __str = mEnv->GetStringUTFChars(_jstr, NULL);
+    jmethodID method = env->GetMethodID(cls, "GetString", "()Ljava/lang/String;");
+    jstring _jstr = (jstring)env->CallObjectMethod(cls, method);
+    const char* __str = env->GetStringUTFChars(_jstr, NULL);
     *value = String(__str);
-    mEnv->ReleaseStringUTFChars(_jstr, __str);
+    env->ReleaseStringUTFChars(_jstr, __str);
     Detach();
     return NOERROR;
 }
@@ -55,8 +55,8 @@ ECode CTestCar::Normal()
 {
     JNIEnv* env = GetEnv();
     jclass cls = env->GetObjectClass(mObj);
-    jmethodID method = mEnv->GetMethodID(cls, "Normal", "()V");
-    mEnv->CallVoidMethod(cls, method);
+    jmethodID method = env->GetMethodID(cls, "Normal", "()V");
+    env->CallVoidMethod(cls, method);
     Detach();
     return NOERROR;
 }
@@ -73,8 +73,8 @@ ECode CTestCar::Test1(
 {
     JNIEnv* env = GetEnv();
     jclass cls = env->GetObjectClass(mObj);
-    jmethodID method = mEnv->GetMethodID(cls, "Test1", "(IZFDJBCLjava/lang/String;)V");
-    mEnv->CallVoidMethod(cls, method);
+    jmethodID method = env->GetMethodID(cls, "Test1", "(IZFDJBCLjava/lang/String;)V");
+    env->CallVoidMethod(cls, method);
     Detach();
     return NOERROR;
 }
@@ -94,8 +94,8 @@ ECode CTestCar::Test2(
 {
     JNIEnv* env = GetEnv();
     jclass cls = env->GetObjectClass(mObj);
-    jmethodID method = mEnv->GetMethodID(cls, "Test2", "(IZFDJBCLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)I");
-    *result = (int)mEnv->CallIntMethod(cls, method);
+    jmethodID method = env->GetMethodID(cls, "Test2", "(IZFDJBCLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)I");
+    *result = (int)env->CallIntMethod(cls, method);
     Detach();
     return NOERROR;
 }
@@ -105,8 +105,8 @@ ECode CTestCar::SetInt2(
 {
     JNIEnv* env = GetEnv();
     jclass cls = env->GetObjectClass(mObj);
-    jmethodID method = mEnv->GetMethodID(cls, "SetInt2", "(I)V");
-    mEnv->CallVoidMethod(cls, method);
+    jmethodID method = env->GetMethodID(cls, "SetInt2", "(I)V");
+    env->CallVoidMethod(cls, method);
     Detach();
     return NOERROR;
 }
@@ -119,28 +119,34 @@ ECode CTestCar::Update(
 {
     JNIEnv* env = GetEnv();
     jclass cls = env->GetObjectClass(mObj);
-    jmethodID method = mEnv->GetMethodID(cls, "Update", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;");
-    jstring _jstr = (jstring)mEnv->CallObjectMethod(cls, method);
-    const char* __str = mEnv->GetStringUTFChars(_jstr, NULL);
+    jmethodID method = env->GetMethodID(cls, "Update", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;");
+    jstring _jstr = (jstring)env->CallObjectMethod(cls, method);
+    const char* __str = env->GetStringUTFChars(_jstr, NULL);
     *value = String(__str);
-    mEnv->ReleaseStringUTFChars(_jstr, __str);
+    env->ReleaseStringUTFChars(_jstr, __str);
     Detach();
     return NOERROR;
 }
 
-ECode CTestCar::constructor(
+ECode CTestCar::JavaInit(
     /* [in] */ Handle64 jvm,
     /* [in] */ Handle64 jobj)
 {
-    // TODO: Add your code here for constructor
     mJvm = (JavaVM*)jvm;
-    assert(vm != NULL);
+    assert(mJvm != NULL);
 
-    mObj = env->NewGlobalRef(jobj);
+    jobject jclsobj = *((jobject*)jobj);
+    mObj = GetEnv()->NewGlobalRef(jclsobj);
     if (mObj == NULL) {
         return E_INVALID_ARGUMENT;
     }
 
+    return NOERROR;
+}
+
+ECode CTestCar::constructor()
+{
+    // TODO: Add your code here for constructor
     return NOERROR;
 }
 

@@ -42,6 +42,7 @@ typedef enum CommandOptions {
     Command_w_HaveSandwichMethod       = 0x0100,
     Command_n_UseNakedMode             = 0x0200,
     Command_u_WeakRef           = 0x0400,
+    Command_j_JavaInit          = 0x0800,
 }   CommandOptions;
 
 extern int ParseArgs(int, char **, CommandArgs *);

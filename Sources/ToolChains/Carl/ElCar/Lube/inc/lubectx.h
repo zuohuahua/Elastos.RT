@@ -119,6 +119,7 @@ typedef enum _LubeOption {
     LubeOpt_HaveSandwichMethod   = 0x0040,
     LubeOpt_UseNakedMode         = 0x0080,
     LubeOpt_WeakRef     = 0x0100,
+    LubeOpt_JavaInit    = 0x0200,
 }   _LubeOption;
 
 #endif // __LUBECTX_H__

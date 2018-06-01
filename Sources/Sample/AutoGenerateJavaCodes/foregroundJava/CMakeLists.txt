@@ -1,6 +1,6 @@
 
 set(CAR_FLAGS -n -u)
-set(LUBE_FLAGS -n -u)
+set(LUBE_FLAGS -n -u -j)
 
 include(Elastos.AutoGenerateJavaCodes.cmake)
 xdk_compile_car(CAR_GENERATED_SOURCES Elastos.AutoGenerateJavaCodes.car)

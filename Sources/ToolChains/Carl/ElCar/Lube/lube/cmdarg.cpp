@@ -52,6 +52,7 @@ const char *c_pszUsage = \
     "-z                          Specify this option when using custom class objects.\n"\
     "-n                          Specify this option when using naked mode.\n" \
     "-u                          Specify this option when supporting weak reference.\n" \
+    "-j                          Specify this option when implemented in java.\n" \
     "\n" \
     "                              -MISCELLANEOUS-\n" \
     "-l                          List all valid lube templates\n" \
@@ -366,6 +367,10 @@ int ParseArgs(int nArgc, char *ppArgv[], CommandArgs *pArgs)
 
                 case 'u':
                     pArgs->mAttribs |= Command_u_WeakRef;
+                    break;
+
+                case 'j':
+                    pArgs->mAttribs |= Command_j_JavaInit;
                     break;
 
                 case '?':

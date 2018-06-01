@@ -68,11 +68,13 @@ public:
         /* [in] */ const String& value3,
         /* [out] */ String * pValue);
 
-    CARAPI constructor(
+    CARAPI JavaInit(
         /* [in] */ Handle64 jvm,
         /* [in] */ Handle64 jobj);
 
-privete:
+    CARAPI constructor();
+
+private:
     JNIEnv* GetEnv();
     void Detach();
 

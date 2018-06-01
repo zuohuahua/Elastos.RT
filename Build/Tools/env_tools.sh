@@ -192,7 +192,15 @@ function emake ()
                          lube -C ${1%.car}.cls -T foreground
                        fi
                     else
-                        lube -C ${1%.car}.cls -T foreground
+                        if [ "$2" == "java" ]; then
+                            echo "generate java impl...."
+                            lube -C ${1%.car}.cls -T foregroundJava
+                        elif [ "$2" == "jni" ]; then
+                            echo "generate c impl with jni...."
+                            lube -C ${1%.car}.cls -T foregroundJni
+                        else
+                            lube -C ${1%.car}.cls -T foreground
+                        fi
                     fi
                 fi
                 if [ -f ${1%.car}.cls ]; then

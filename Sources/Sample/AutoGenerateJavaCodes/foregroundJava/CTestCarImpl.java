@@ -11,10 +11,10 @@ public class CTestCarImpl {
         System.loadLibrary("Your_Jni");
     }
 
-    private int mCarObj = 0;
+    private long mCarObj = 0;
 
-    public native int nativeInit();
-    public native void nativeDestroy(int carobj);
+    public native long nativeInit();
+    public native void nativeDestroy(long carobj);
 
     public CTestCarImpl() {
         mCarObj = nativeInit();

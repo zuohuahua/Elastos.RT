@@ -11,10 +11,10 @@ public class CTestCarUser {
         System.loadLibrary("Your_Jni");
     }
 
-    private int mCarObj = 0;
+    private long mCarObj = 0;
 
-    public native int nativeInit();
-    public native void nativeDestroy(int carobj);
+    public native long nativeInit();
+    public native void nativeDestroy(long carobj);
 
     public CTestCarUser() {
         mCarObj = nativeInit();
@@ -33,14 +33,14 @@ public class CTestCarUser {
         nativeSetInt(mCarObj, value);
     }
 
-    private native void nativeSetInt(int carobj, int value);
+    private native void nativeSetInt(long carobj, int value);
 
     public int GetInt()
     {
         return nativeGetInt(mCarObj);
     }
 
-    private native int nativeGetInt(int carobj);
+    private native int nativeGetInt(long carobj);
 
     public void SetString(
         /* [in] */ String value)
@@ -48,21 +48,21 @@ public class CTestCarUser {
         nativeSetString(mCarObj, value);
     }
 
-    private native void nativeSetString(int carobj, String value);
+    private native void nativeSetString(long carobj, String value);
 
     public String GetString()
     {
         return nativeGetString(mCarObj);
     }
 
-    private native String nativeGetString(int carobj);
+    private native String nativeGetString(long carobj);
 
     public void Normal()
     {
         nativeNormal();
     }
 
-    private native void nativeNormal(int carobj);
+    private native void nativeNormal(long carobj);
 
     public void Test1(
         /* [in] */ int value1,
@@ -77,7 +77,7 @@ public class CTestCarUser {
         nativeTest1(mCarObj, value1, value2, value3, value4, value5, value6, value7, value8);
     }
 
-    private native void nativeTest1(int carobj, int value1, boolean value2, float value3, double value4, long value5, byte value6, char value7, String value8);
+    private native void nativeTest1(long carobj, int value1, boolean value2, float value3, double value4, long value5, byte value6, char value7, String value8);
 
     public int Test2(
         /* [in] */ int value1,
@@ -94,7 +94,7 @@ public class CTestCarUser {
         return nativeTest2(mCarObj, value1, value2, value3, value4, value5, value6, value7, value8, value9, value10);
     }
 
-    private native int nativeTest2(int carobj, int value1, boolean value2, float value3, double value4, long value5, byte value6, char value7, String value8, String value9, String value10);
+    private native int nativeTest2(long carobj, int value1, boolean value2, float value3, double value4, long value5, byte value6, char value7, String value8, String value9, String value10);
 
 
     public void SetInt2(
@@ -103,7 +103,7 @@ public class CTestCarUser {
         nativeSetInt2(mCarObj, value);
     }
 
-    private native void nativeSetInt2(int carobj, int value);
+    private native void nativeSetInt2(long carobj, int value);
 
     public String Update(
         /* [in] */ String value1,
@@ -113,7 +113,7 @@ public class CTestCarUser {
         return nativeUpdate(mCarObj, value1, value2, value3);
     }
 
-    private native String nativeUpdate(int carobj, String value1, String value2, String value3);
+    private native String nativeUpdate(long carobj, String value1, String value2, String value3);
 
 
 }

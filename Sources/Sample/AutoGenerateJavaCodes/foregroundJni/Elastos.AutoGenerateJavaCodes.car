@@ -1,0 +1,77 @@
+//=========================================================================
+// Copyright (C) 2018 The Elastos Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//=========================================================================
+
+module
+{
+    importlib("Elastos.CoreLibrary");
+
+    interface ITestCar2 {
+        SetInt2(
+            [in] Int32 value);
+
+        Update(
+            [in] String value1,
+            [in] String value2,
+            [in] String value3,
+            [out] String* value);
+    }
+
+    interface ITestCar {
+        SetInt(
+            [in] Int32 value);
+
+        GetInt(
+            [out] Int32* value);
+
+        SetString(
+            [in] String value);
+
+        GetString(
+            [out] String* value);
+
+        Normal();
+
+        Test1(
+            [in] Int32 value1,
+            [in] Boolean value2,
+            [in] Float value3,
+            [in] Double value4,
+            [in] Int64 value5,
+            [in] Byte value6,
+            [in] Char32 value7,
+            [in] String value8);
+
+        Test2(
+            [in] Int32 value1,
+            [in] Boolean value2,
+            [in] Float value3,
+            [in] Double value4,
+            [in] Int64 value5,
+            [in] Byte value6,
+            [in] Char32 value7,
+            [in] String value8,
+            [in] String value9,
+            [in] String value10,
+            [out] Int32* result);
+    }
+
+    class CTestCar {
+        constructor();
+
+        interface ITestCar;
+        interface ITestCar2;
+    }
+}

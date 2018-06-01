@@ -115,20 +115,22 @@ $       END DO ;; parents_and_me
 $   END IF ;; is "delegatesink"
 $END DO ;; all interfaces
 $
+    CARAPI JavaInit(
+        /* [in] */ Handle64 jvm,
+        /* [in] */ Handle64 jobj);
+
 $IF class.attrib is not "hasTrivialCtor"
 $  WITH all interfaces DO
 $    IF attrib is "clsobj"
 $      WITH all methods DO
 $        IF type is "ECode"
-    CARAPI constructor(
-        /* [in] */ Handle64 jvm,
-        /* [in] */ Handle64 jobj$^
+    CARAPI constructor($^
 $        ELSE
     CARAPI_(${type}) constructor($^
 $        END IF
 $
 $        WITH all parameters DO
-$          IF parameter is not last
+$          IF parameter is not first and parameter is not last
 ,$^
 
         /* [${attrib}] */ ${type} ${PrefixingNameByName(parameter)}$^
@@ -141,7 +143,7 @@ $
 $    END IF ;; clsobj
 $  END DO ;; all interfaces
 $END IF;;
-privete:
+private:
     JNIEnv* GetEnv();
     void Detach();
 

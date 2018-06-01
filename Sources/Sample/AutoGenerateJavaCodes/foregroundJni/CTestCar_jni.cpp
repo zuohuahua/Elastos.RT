@@ -7,7 +7,7 @@
 //TODO : Need to Modify the java class path.
 #define JNIREG_CLASS "elastos/org/xxx/CTestCarUser"
 
-jint JNICALL nativeInit0(
+jlong JNICALL nativeInit0(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj)
 {
@@ -21,7 +21,7 @@ jint JNICALL nativeInit0(
 void JNICALL nativeDestroy(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj,
-    /* [in] */ jint carobj)
+    /* [in] */ jlong carobj)
 {
     IInterface* pElaClsObj = (IInterface*)carobj;
     pElaClsObj->Release();
@@ -30,7 +30,7 @@ void JNICALL nativeDestroy(
 void JNICALL nativeSetInt(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj,
-    /* [in] */ jint carobj,
+    /* [in] */ jlong carobj,
     /* [in] */ jint jvalue)
 {
     IInterface* pElaClsObj = (IInterface*)carobj;
@@ -40,7 +40,7 @@ void JNICALL nativeSetInt(
 jint JNICALL nativeGetInt(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj,
-    /* [in] */ jint carobj)
+    /* [in] */ jlong carobj)
 {
     IInterface* pElaClsObj = (IInterface*)carobj;
     Int32 _retValue = 0;
@@ -51,7 +51,7 @@ jint JNICALL nativeGetInt(
 void JNICALL nativeSetString(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj,
-    /* [in] */ jint carobj,
+    /* [in] */ jlong carobj,
     /* [in] */ jstring jvalue)
 {
     IInterface* pElaClsObj = (IInterface*)carobj;
@@ -62,7 +62,7 @@ void JNICALL nativeSetString(
 jstring JNICALL nativeGetString(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj,
-    /* [in] */ jint carobj)
+    /* [in] */ jlong carobj)
 {
     IInterface* pElaClsObj = (IInterface*)carobj;
     String _retValue;
@@ -73,7 +73,7 @@ jstring JNICALL nativeGetString(
 void JNICALL nativeNormal(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj,
-    /* [in] */ jint carobj)
+    /* [in] */ jlong carobj)
 {
     IInterface* pElaClsObj = (IInterface*)carobj;
     ITestCar::Probe(pElaClsObj)->Normal();
@@ -82,7 +82,7 @@ void JNICALL nativeNormal(
 void JNICALL nativeTest1(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj,
-    /* [in] */ jint carobj,
+    /* [in] */ jlong carobj,
     /* [in] */ jint jvalue1,
     /* [in] */ jboolean jvalue2,
     /* [in] */ jfloat jvalue3,
@@ -100,7 +100,7 @@ void JNICALL nativeTest1(
 jint JNICALL nativeTest2(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj,
-    /* [in] */ jint carobj,
+    /* [in] */ jlong carobj,
     /* [in] */ jint jvalue1,
     /* [in] */ jboolean jvalue2,
     /* [in] */ jfloat jvalue3,
@@ -124,7 +124,7 @@ jint JNICALL nativeTest2(
 void JNICALL nativeSetInt2(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj,
-    /* [in] */ jint carobj,
+    /* [in] */ jlong carobj,
     /* [in] */ jint jvalue)
 {
     IInterface* pElaClsObj = (IInterface*)carobj;
@@ -134,7 +134,7 @@ void JNICALL nativeSetInt2(
 jstring JNICALL nativeUpdate(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj,
-    /* [in] */ jint carobj,
+    /* [in] */ jlong carobj,
     /* [in] */ jstring jvalue1,
     /* [in] */ jstring jvalue2,
     /* [in] */ jstring jvalue3)
@@ -150,23 +150,23 @@ jstring JNICALL nativeUpdate(
 
 
 static const JNINativeMethod gMethods[] = {
-    {"nativeInit", "()I", (void*)nativeInit0},
-    {"nativeDestroy", "(I)V", (void*)nativeDestroy},
-    {"nativeSetInt", "(II)V", (void*)nativeSetInt},
-    {"nativeGetInt", "(I)I", (void*)nativeGetInt},
-    {"nativeSetString", "(ILjava/lang/String;)V", (void*)nativeSetString},
-    {"nativeGetString", "(I)Ljava/lang/String;", (void*)nativeGetString},
-    {"nativeNormal", "(I)V", (void*)nativeNormal},
-    {"nativeTest1", "(IIZFDJBCLjava/lang/String;)V", (void*)nativeTest1},
-    {"nativeTest2", "(IIZFDJBCLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)I", (void*)nativeTest2},
-    {"nativeSetInt2", "(II)V", (void*)nativeSetInt2},
-    {"nativeUpdate", "(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeUpdate},
+    {"nativeInit", "()J", (void*)nativeInit0},
+    {"nativeDestroy", "(J)V", (void*)nativeDestroy},
+    {"nativeSetInt", "(JI)V", (void*)nativeSetInt},
+    {"nativeGetInt", "(J)I", (void*)nativeGetInt},
+    {"nativeSetString", "(JLjava/lang/String;)V", (void*)nativeSetString},
+    {"nativeGetString", "(J)Ljava/lang/String;", (void*)nativeGetString},
+    {"nativeNormal", "(J)V", (void*)nativeNormal},
+    {"nativeTest1", "(JIZFDJBCLjava/lang/String;)V", (void*)nativeTest1},
+    {"nativeTest2", "(JIZFDJBCLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)I", (void*)nativeTest2},
+    {"nativeSetInt2", "(JI)V", (void*)nativeSetInt2},
+    {"nativeUpdate", "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeUpdate},
 };
 
-JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved){
+JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved) {
     JNIEnv * env;
     jclass cls;
-    if(vm->GetEnv((void **)&env,JNI_VERSION_1_6) != JNI_OK){
+    if (vm->GetEnv((void **)&env, JNI_VERSION_1_6) != JNI_OK) {
         return JNI_ERR;
     }
     assert(0 && "Please set your own JNIREG_CLASS. If done, delete this line.");
