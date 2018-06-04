@@ -30,7 +30,7 @@ extern int _DumpCLSID(RClassID rclsid);
 extern int _DumpBin(const void *pv, int size);
 
 #define DUMP_GUID(riid)         _DumpGUID(riid)
-#define DUMP_CLSID(rclsid)      _DumpCLSID(rclsid)      
+#define DUMP_CLSID(rclsid)      _DumpCLSID(rclsid)
 #else
 #define MARSHAL_DBGOUT(level, exp)
 #define DUMP_GUID(riid)
@@ -73,32 +73,32 @@ extern ECode StdUnmarshalInterface(
 
 extern ECode Proxy_ProcessMsh_BufferSize(
         /* [in] */ const CIMethodInfo *pMethodInfo,
-        /* [in] */ UInt32 *puArgs,
+        /* [in] */ va_list vaArgs,
         /* [out] */ UInt32 *puInSize,
         /* [out] */ UInt32 *puOutSize);
 
 extern ECode Proxy_ProcessMsh_In(
         /* [in] */ const CIMethodInfo *pMethodInfo,
-        /* [in] */ UInt32 *puArgs,
+        /* [in] */ va_list vaArgs,
         /* [in, out] */ IParcel *pParcel);
 
 extern ECode Proxy_ProcessUnmsh_Out(
         /* [in] */ const CIMethodInfo *pMethodInfo,
         /* [in] */ IParcel *pParcel,
         /* [in] */ UInt32 uDataSize,
-        /* [in, out] */ UInt32 *puArgs);  
+        /* [in, out] */ va_list vaArgs);
 
 extern ECode Stub_ProcessUnmsh_In(
         /* [in] */ const CIMethodInfo *pMethodInfo,
         /* [in] */ IParcel *pParcel,
         /* [in, out] */ UInt32 *puOutBuffer,
-        /* [in, out] */ UInt32 *puArgs); 
+        /* [in, out] */ UInt32 *puArgs);
 
 extern ECode Stub_ProcessMsh_Out(
         /* [in] */ const CIMethodInfo *pMethodInfo,
         /* [in] */ UInt32 *puArgs,
         /* [in] */ UInt32 *puOutBuffer,
         /* [in] */ Boolean bOnlyReleaseIn,
-        /* [in, out] */ IParcel* pParcel);        
+        /* [in, out] */ IParcel* pParcel);
 
 #endif //__MARSHAL_H__

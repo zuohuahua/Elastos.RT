@@ -163,34 +163,10 @@ ECode CObjectStub::GetInterfaceID(
     return E_NOT_IMPLEMENTED;
 }
 
-#ifdef _arm
 ECode CObjectStub::Invoke(
     /* [in] */ void *pInData,
     /* [in] */ UInt32 uInSize,
     /* [out] */ CRemoteParcel **ppParcel)
-{
-    return _Invoke(pInData, uInSize, ppParcel);
-}
-#endif //_arm
-
-#ifdef _x86
-ECode CObjectStub::Invoke(
-    /* [in] */ void *pInData,
-    /* [in] */ UInt32 uInSize,
-    /* [out] */ CRemoteParcel **ppParcel)
-#elif defined(_arm)
-ECode CObjectStub::_Invoke(
-    /* [in] */ void *pInData,
-    /* [in] */ UInt32 uInSize,
-    /* [out] */ CRemoteParcel **ppParcel)
-#elif defined(_mips)
-ECode CObjectStub::Invoke(
-    /* [in] */ void *pInData,
-    /* [in] */ UInt32 uInSize,
-    /* [out] */ CRemoteParcel **ppParcel)
-#else
-#error unknown architecture
-#endif
 {
     assert(pInData != NULL);
 
@@ -201,29 +177,6 @@ ECode CObjectStub::Invoke(
     const CIMethodInfo *pMethodInfo;
     CRemoteParcel *pParcel = NULL;
 
-#ifdef _x86
-    UInt32 uEAX, uEDX, uECX, uESP;
-#elif defined(_arm)
-    struct ArgumentBuffer
-    {
-        UInt32    r0;
-        UInt32    r1;
-        UInt32    r2;
-        UInt32    r3;
-    } argbuf;
-#if defined(_GNUC)
-    UInt32 r0, r1, r2, r3, ip, lr, sp;
-#else
-#error Unknown C++ compiler
-#endif // defined(_GNUC)
-#elif defined(_mips)
-    UInt32 uV0, uV1;
-    UInt32 uA0, uA1, uA2, uA3;
-    UInt32 uT0, uT1, uT2, uT3, uT4, uT5, uT6, uT7, uT8, uT9;
-    UInt32 uSp;
-#else
-#error unknown architecture
-#endif
     bool_t bOnlyReleaseIn = FALSE;
 
     MARSHAL_DBGOUT(MSHDBG_NORMAL,
@@ -293,9 +246,6 @@ ECode CObjectStub::Invoke(
             ec = E_OUT_OF_MEMORY;
             goto ErrorExit;
         }
-#ifdef _x86
-        GET_REG(ESP, puArgs);
-#endif
 
         pParcel = new CRemoteParcel((UInt32*)pInHeader);
         ec = pCurInterface->UnmarshalIn(pMethodInfo,
@@ -314,102 +264,58 @@ ECode CObjectStub::Invoke(
                 printf("Stub: invoke method - args(%x), addr(%x) \n",
                 puArgs, uMethodAddr));
 
-#ifdef _x86
-        GET_REG(EAX, uEAX);
-        GET_REG(EDX, uEDX);
-        GET_REG(ECX, uECX);
-        GET_REG(ESP, uESP);
-        assert(uESP == (UInt32)puArgs);
-        // NOTE: we should promise STUB_INVOKE_METHOD just occures
-        // in use space , if it used in kernel mode , the return
-        // args in stack have the possibilty for being modified
-        //
-        STUB_INVOKE_METHOD(ec, puArgs, uMethodAddr);
-        SET_REG(ECX, uECX);
-        SET_REG(EDX, uEDX);
-        SET_REG(EAX, uEAX);
-#elif defined(_arm)
-
-#if defined(_GNUC)
         if (sizeof(UInt32) * 4 >= uInSize) {
-            GET_REG(r0, r0);
-            GET_REG(r1, r1);
-            GET_REG(r2, r2);
-            GET_REG(r3, r3);
-            GET_REG(ip, ip);
-            GET_REG(lr, lr);
-            STUB_INVOKE_METHOD1(ec, puArgs, uMethodAddr);
-            SET_REG(lr, lr);
-            SET_REG(ip, ip);
-            SET_REG(r3, r3);
-            SET_REG(r2, r2);
-            SET_REG(r1, r1);
-            SET_REG(r0, r0);
+            ec = ((ECode (*)(
+                    UInt32, UInt32, UInt32, UInt32
+                ))uMethodAddr)
+                (
+                    *puArgs, *(puArgs + 1), *(puArgs + 2), *(puArgs + 3)
+                );
+        }
+        else if (sizeof(UInt32) * 8 >= uInSize) {
+            ec = ((ECode (*)(
+                    UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32
+                ))uMethodAddr)
+                (
+                    *puArgs, *(puArgs + 1), *(puArgs + 2), *(puArgs + 3),
+                    *(puArgs + 4), *(puArgs + 5), *(puArgs + 6), *(puArgs + 7)
+                );
+        }
+        else if (sizeof(UInt32) * 16 >= uInSize) {
+            ec = ((ECode (*)(
+                    UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32,
+                    UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32
+                ))uMethodAddr)
+                (
+                    *puArgs, *(puArgs + 1), *(puArgs + 2), *(puArgs + 3),
+                    *(puArgs + 4), *(puArgs + 5), *(puArgs + 6), *(puArgs + 7),
+                    *(puArgs + 8), *(puArgs + 9), *(puArgs + 10), *(puArgs + 11),
+                    *(puArgs + 12), *(puArgs + 13), *(puArgs + 14), *(puArgs + 15)
+                );
+        }
+        else if (sizeof(UInt32) * 32 >= uInSize) {
+            ec = ((ECode (*)(
+                    UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32,
+                    UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32,
+                    UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32,
+                    UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32
+                ))uMethodAddr)
+                (
+                    *puArgs, *(puArgs + 1), *(puArgs + 2), *(puArgs + 3),
+                    *(puArgs + 4), *(puArgs + 5), *(puArgs + 6), *(puArgs + 7),
+                    *(puArgs + 8), *(puArgs + 9), *(puArgs + 10), *(puArgs + 11),
+                    *(puArgs + 12), *(puArgs + 13), *(puArgs + 14), *(puArgs + 15),
+                    *(puArgs + 16), *(puArgs + 17), *(puArgs + 18), *(puArgs + 19),
+                    *(puArgs + 20), *(puArgs + 21), *(puArgs + 22), *(puArgs + 23),
+                    *(puArgs + 24), *(puArgs + 25), *(puArgs + 26), *(puArgs + 27),
+                    *(puArgs + 28), *(puArgs + 29), *(puArgs + 30), *(puArgs + 31)
+                );
         }
         else {
-            argbuf = *(ArgumentBuffer *)puArgs;
-            GET_REG(r0, r0);
-            GET_REG(r1, r1);
-            GET_REG(r2, r2);
-            GET_REG(r3, r3);
-            GET_REG(ip, ip);
-            GET_REG(lr, lr);
-            GET_REG(sp, sp);
-            STUB_INVOKE_METHOD2(ec, puArgs, uMethodAddr);
-            SET_REG(sp, sp);
-            SET_REG(lr, lr);
-            SET_REG(ip, ip);
-            SET_REG(r3, r3);
-            SET_REG(r2, r2);
-            SET_REG(r1, r1);
-            SET_REG(r0, r0);
-            *(ArgumentBuffer *)puArgs = argbuf;
+            MARSHAL_DBGOUT(MSHDBG_ERROR,
+                    printf("Stub invoke: too many parameters, stack size(%x)\n", uInSize));
+            return E_MARSHAL_DATA_TRANSPORT_ERROR;
         }
-#else
-
-#error Unknown C++ compiler
-
-#endif // defined(_GNUC)
-
-#elif defined(_mips)
-        GET_REG($2, uV0);
-        GET_REG($3, uV1);
-        GET_REG($4, uA0);
-        GET_REG($5, uA1);
-        GET_REG($6, uA2);
-        GET_REG($7, uA3);
-        GET_REG($8, uT0);
-        GET_REG($9, uT1);
-        GET_REG($10, uT2);
-        GET_REG($11, uT3);
-        GET_REG($12, uT4);
-        GET_REG($13, uT5);
-        GET_REG($14, uT6);
-        GET_REG($15, uT7);
-        GET_REG($24, uT8);
-        GET_REG($25, uT9);
-        GET_REG($29, uSp);
-        STUB_INVOKE_METHOD(ec, puArgs, uMethodAddr);
-        SET_REG($29, uSp);
-        SET_REG($2, uV0);
-        SET_REG($3, uV1);
-        SET_REG($4, uA0);
-        SET_REG($5, uA1);
-        SET_REG($6, uA2);
-        SET_REG($7, uA3);
-        SET_REG($8, uT0);
-        SET_REG($9, uT1);
-        SET_REG($10, uT2);
-        SET_REG($11, uT3);
-        SET_REG($12, uT4);
-        SET_REG($13, uT5);
-        SET_REG($14, uT6);
-        SET_REG($15, uT7);
-        SET_REG($24, uT8);
-        SET_REG($25, uT9);
-#else
-#error unknown architecture
-#endif
 
         if (FAILED(ec) && GET_IN_INTERFACE_MARK(pMethodInfo->mReserved1)) {
             bOnlyReleaseIn = TRUE;
