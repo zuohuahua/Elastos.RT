@@ -251,7 +251,7 @@ int _GenerateJavaConstructor(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg, const
         MethodDescriptor* methodDesc = pItfDir->mDesc->mMethods[i];
         assert(methodDesc != NULL);
 
-        pCtx->PutString("    public native long nativeInit(");
+        pCtx->PutString("    private native long nativeInit(");
 
         for (int j = 0; j < methodDesc->mParamCount - 1; j++) {
             ParamDescriptor* paraDesc = methodDesc->mParams[j];
@@ -266,7 +266,7 @@ int _GenerateJavaConstructor(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg, const
         }
         pCtx->PutString(");\n");
     }
-    pCtx->PutString("    public native void nativeDestroy(long carobj);\n");
+    pCtx->PutString("    private native void nativeDestroy(long carobj);\n");
     pCtx->PutString("\n");
 
     // generate constructors
@@ -464,7 +464,7 @@ int _GenerateJavaClassUser(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
         char szNativeDefineParameters[1024] = {0};
         pCtx->PutString("    {\n");
         if (methodDesc->mParamCount == 0) {
-            sprintf(szContent, "        native%s();\n", methodDesc->mName);
+            sprintf(szContent, "        native%s(mCarObj);\n", methodDesc->mName);
             pCtx->PutString(szContent);
         }
         else {
@@ -528,7 +528,7 @@ int _GenerateJavaClassUser(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
 
 int GenerateJavaJniCppInit(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg, const char* suffix)
 {
-        assert(NULL != pCtx->m_pInterface && pvArg == pCtx->m_pInterface);
+    assert(NULL != pCtx->m_pInterface && pvArg == pCtx->m_pInterface);
 
     InterfaceDirEntry *pItfDir = pCtx->m_pInterface;
     assert(pItfDir->mDesc != NULL);
@@ -546,11 +546,26 @@ int GenerateJavaJniCppInit(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg, const c
         pCtx->PutString(".h\"\n\n");
 
         pCtx->PutString("//TODO : Need to Modify the java class path.\n");
-        sprintf(szContent, "#define JNIREG_CLASS \"elastos/org/xxx/%s%s\"\n\n", pClass->mName, suffix);
+        sprintf(szContent, "#define JNIREG_CLASS \"org/elastos/xxx/%s%s\"\n\n", pClass->mName, suffix);
         pCtx->PutString(szContent);
 
         onceFlag = 1;
     }
+
+    // get interface name
+    char szInterfaceName[128];
+    ClassDirEntry *pClsDir = pCtx->m_pClass;
+    for (int i = 0; i < pClsDir->mDesc->mInterfaceCount; i++) {
+        ClassInterface *pClsIntf = pClsDir->mDesc->mInterfaces[i];
+
+        if (pClsIntf->mAttribs & ClassInterfaceAttrib_outer) {
+            continue;
+        }
+        InterfaceDirEntry *pClassItfDir = pCtx->m_pModule->mInterfaceDirs[pClsIntf->mIndex];
+        strcpy(szInterfaceName, pClassItfDir->mName);
+        break;
+    }
+
 
     for (int i = 0; i < pItfDir->mDesc->mMethodCount; i++) {
         MethodDescriptor* methodDesc = pItfDir->mDesc->mMethods[i];
@@ -577,7 +592,7 @@ int GenerateJavaJniCppInit(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg, const c
         // Function body.
         pCtx->PutString("{\n");
 
-        sprintf(szContent, "    %s* pElaClsObj;\n", pItfDir->mName);
+        sprintf(szContent, "    %s* pElaClsObj;\n", szInterfaceName);
         pCtx->PutString(szContent);
         if (methodDesc->mParamCount == 1) {
             sprintf(szContent, "    ECode ec = %s::New(&pElaClsObj);\n", pClass->mName);
@@ -625,9 +640,11 @@ int GenerateJavaJniCppInit(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg, const c
         pCtx->PutString("    if(FAILED(ec)) return 0;\n\n");
 
         if (!strcmp(suffix, "Impl")) {
-            pCtx->PutString("    pElaClsObj->JavaInit(jvm, &jobj);\n");
+            pCtx->PutString("    JavaVM* jvm;\n");
+            pCtx->PutString("    env->GetJavaVM(&jvm);\n");
+            pCtx->PutString("    pElaClsObj->JavaInit((Handle64)jvm, (Handle64)&jobj);\n");
         }
-        pCtx->PutString("    return pElaClsObj;\n");
+        pCtx->PutString("    return (jlong)pElaClsObj;\n");
 
         pCtx->PutString("}\n\n");
     }
@@ -643,6 +660,19 @@ int GenerateJavaJniCppInit(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg, const c
 int _GenerateJavaJniCppInit(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
 {
     return GenerateJavaJniCppInit(pCtx, pDesc, pvArg, "User");
+}
+
+void ReleaseStringUTFChars(PLUBECTX pCtx, MethodDescriptor* pMethodDesc)
+{
+    char szContent[512];
+    for (int i = 0; i < pMethodDesc->mParamCount; i++) {
+        ParamDescriptor* paraDesc = pMethodDesc->mParams[i];
+        if (!(paraDesc->mAttribs & ParamAttrib_in)
+            || strcmp(GenerateJavaJniTypeString(&paraDesc->mType), "jstring")) continue;
+
+        sprintf(szContent, "    env->ReleaseStringUTFChars(j%s, str%d);\n", paraDesc->mName, i + 1);
+        pCtx->PutString(szContent);
+    }
 }
 
 int _GenerateJavaJniCpp(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
@@ -729,10 +759,6 @@ int _GenerateJavaJniCpp(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
                         sprintf(szContent, "    const char* str%d = env->GetStringUTFChars(j%s, NULL);\n", j + 1, paraDesc->mName);
                         pCtx->PutString(szContent);
 
-                        // TODO ReleaseStringUTFChars
-                        // sprintf(szContent, "    env->ReleaseStringUTFChars(j%s, str%d);", paraDesc->mName, j);
-                        // pCtx->PutString(szContent);
-
                         sprintf(szContent, "String(str%d)", j + 1);
                         strcat(szParameters, szContent);
                     }
@@ -756,6 +782,8 @@ int _GenerateJavaJniCpp(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
 
                     pCtx->PutString(szContent);
 
+                    ReleaseStringUTFChars(pCtx, methodDesc);
+
                     pCtx->PutString("    return env->NewStringUTF(_retValue.string());\n");
                 }
                 else {
@@ -769,12 +797,14 @@ int _GenerateJavaJniCpp(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
                     }
 
                     pCtx->PutString(szContent);
+                    ReleaseStringUTFChars(pCtx, methodDesc);
                     pCtx->PutString("    return _retValue;\n");
                 }
             }
             else {
                 sprintf(szContent, "    %s::Probe(pElaClsObj)->%s(%s);\n", pItfDir->mName, methodDesc->mName, szParameters);
                 pCtx->PutString(szContent);
+                ReleaseStringUTFChars(pCtx, methodDesc);
             }
         }
 

@@ -5,17 +5,17 @@
 #include "Elastos.AutoGenerateJavaCodes.h"
 
 //TODO : Need to Modify the java class path.
-#define JNIREG_CLASS "elastos/org/xxx/CTestCarUser"
+#define JNIREG_CLASS "org/elastos/xxx/CTestCarUser"
 
 jlong JNICALL nativeInit0(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj)
 {
-    ICTestCarClassObject* pElaClsObj;
+    ITestCar* pElaClsObj;
     ECode ec = CTestCar::New(&pElaClsObj);
     if(FAILED(ec)) return 0;
 
-    return pElaClsObj;
+    return (jlong)pElaClsObj;
 }
 
 void JNICALL nativeDestroy(
@@ -57,6 +57,7 @@ void JNICALL nativeSetString(
     IInterface* pElaClsObj = (IInterface*)carobj;
     const char* str1 = env->GetStringUTFChars(jvalue, NULL);
     ITestCar::Probe(pElaClsObj)->SetString(String(str1));
+    env->ReleaseStringUTFChars(jvalue, str1);
 }
 
 jstring JNICALL nativeGetString(
@@ -95,6 +96,7 @@ void JNICALL nativeTest1(
     IInterface* pElaClsObj = (IInterface*)carobj;
     const char* str8 = env->GetStringUTFChars(jvalue8, NULL);
     ITestCar::Probe(pElaClsObj)->Test1(jvalue1, jvalue2, jvalue3, jvalue4, jvalue5, jvalue6, jvalue7, String(str8));
+    env->ReleaseStringUTFChars(jvalue8, str8);
 }
 
 jint JNICALL nativeTest2(
@@ -118,6 +120,9 @@ jint JNICALL nativeTest2(
     const char* str10 = env->GetStringUTFChars(jvalue10, NULL);
     Int32 _retValue = 0;
     ITestCar::Probe(pElaClsObj)->Test2(jvalue1, jvalue2, jvalue3, jvalue4, jvalue5, jvalue6, jvalue7, String(str8), String(str9), String(str10), &_retValue);
+    env->ReleaseStringUTFChars(jvalue8, str8);
+    env->ReleaseStringUTFChars(jvalue9, str9);
+    env->ReleaseStringUTFChars(jvalue10, str10);
     return _retValue;
 }
 
@@ -145,6 +150,9 @@ jstring JNICALL nativeUpdate(
     const char* str3 = env->GetStringUTFChars(jvalue3, NULL);
     String _retValue;
     ITestCar2::Probe(pElaClsObj)->Update(String(str1), String(str2), String(str3), &_retValue);
+    env->ReleaseStringUTFChars(jvalue1, str1);
+    env->ReleaseStringUTFChars(jvalue2, str2);
+    env->ReleaseStringUTFChars(jvalue3, str3);
     return env->NewStringUTF(_retValue.string());
 }
 

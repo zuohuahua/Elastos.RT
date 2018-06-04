@@ -1,6 +1,6 @@
 
 //TODO : Modify the package and the final user will call this class' method.
-package elastos.org.xxx;
+package org.elastos.xxx;
 
 public class CTestCarUser {
     static {
@@ -13,8 +13,8 @@ public class CTestCarUser {
 
     private long mCarObj = 0;
 
-    public native long nativeInit();
-    public native void nativeDestroy(long carobj);
+    private native long nativeInit();
+    private native void nativeDestroy(long carobj);
 
     public CTestCarUser() {
         mCarObj = nativeInit();
@@ -59,7 +59,7 @@ public class CTestCarUser {
 
     public void Normal()
     {
-        nativeNormal();
+        nativeNormal(mCarObj);
     }
 
     private native void nativeNormal(long carobj);

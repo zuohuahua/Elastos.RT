@@ -2909,11 +2909,25 @@ void OutputInterface(PLUBECTX pCtx, InterfaceDirEntry* pItfDir, CLSModule* pModu
         fprintf(pFile, "\n");
     }
 
-    if ((pCtx->m_dwOptions & LubeOpt_JavaInit) && (pItfDir->mDesc->mAttribs & InterfaceAttrib_clsobj)) {
-        fprintf(pFile, "    virtual CARAPI JavaInit(\n");
-        fprintf(pFile, "        /* [in] */ _ELASTOS Handle64 jvm,\n");
-        fprintf(pFile, "        /* [in] */ _ELASTOS Handle64 jobj)\n");
-        fprintf(pFile, "    {\n            return NOERROR;\n    }\n\n");
+    if (pCtx->m_dwOptions & LubeOpt_JavaInit && !(pItfDir->mDesc->mAttribs & InterfaceAttrib_clsobj)) {
+        // generate JavaInit in class first interface
+        for (int i = 0; i < pModule->mClassCount; i++) {
+            ClassDirEntry *pClsDir = pModule->mClassDirs[i];
+            for (int j = 0; j < pClsDir->mDesc->mInterfaceCount; j++) {
+                ClassInterface *pClsIntf = pClsDir->mDesc->mInterfaces[j];
+
+                if (pClsIntf->mAttribs & ClassInterfaceAttrib_outer) {
+                    continue;
+                }
+                InterfaceDirEntry *pClassItfDir = pModule->mInterfaceDirs[pClsIntf->mIndex];
+                if (!strcmp(pClassItfDir->mName, pItfDir->mName)) {
+                    fprintf(pFile, "    virtual CARAPI JavaInit(\n");
+                    fprintf(pFile, "        /* [in] */ _ELASTOS Handle64 jvm,\n");
+                    fprintf(pFile, "        /* [in] */ _ELASTOS Handle64 jobj) = 0;\n");
+                }
+                break;
+            }
+        }
     }
 
     for (int i = 0; i < pItfDir->mDesc->mMethodCount; i++) {

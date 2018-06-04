@@ -5,18 +5,20 @@
 #include "Elastos.AutoGenerateJavaCodes.h"
 
 //TODO : Need to Modify the java class path.
-#define JNIREG_CLASS "elastos/org/xxx/CTestCarImpl"
+#define JNIREG_CLASS "org/elastos/xxx/CTestCarImpl"
 
 jlong JNICALL nativeInit0(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj)
 {
-    ICTestCarClassObject* pElaClsObj;
+    ITestCar* pElaClsObj;
     ECode ec = CTestCar::New(&pElaClsObj);
     if(FAILED(ec)) return 0;
 
-    pElaClsObj->JavaInit(jvm, &jobj);
-    return pElaClsObj;
+    JavaVM* jvm;
+    env->GetJavaVM(&jvm);
+    pElaClsObj->JavaInit((Handle64)jvm, (Handle64)&jobj);
+    return (jlong)pElaClsObj;
 }
 
 void JNICALL nativeDestroy(

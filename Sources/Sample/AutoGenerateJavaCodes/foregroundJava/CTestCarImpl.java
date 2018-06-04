@@ -1,6 +1,6 @@
 
 //TODO : Modify the package and this java class will implement the elastos interface.
-package elastos.org.xxx;
+package org.elastos.xxx;
 
 public class CTestCarImpl {
     static {
@@ -13,8 +13,8 @@ public class CTestCarImpl {
 
     private long mCarObj = 0;
 
-    public native long nativeInit();
-    public native void nativeDestroy(long carobj);
+    private native long nativeInit();
+    private native void nativeDestroy(long carobj);
 
     public CTestCarImpl() {
         mCarObj = nativeInit();

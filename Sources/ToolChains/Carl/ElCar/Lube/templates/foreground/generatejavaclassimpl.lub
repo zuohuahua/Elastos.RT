@@ -18,7 +18,7 @@ $INPUT class
 $OUTPUT "${name}Impl.java"
 
 //TODO : Modify the package and this java class will implement the elastos interface.
-package elastos.org.xxx;
+package org.elastos.xxx;
 
 public class ${name}Impl {
 $IF class.attrib is not "hasTrivialCtor"
