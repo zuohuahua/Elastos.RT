@@ -37,19 +37,16 @@ public:
     CARAPI GenerateMultiSignTransaction(
         /* [in] */ const String& fromAddress,
         /* [in] */ const String& toAddress,
-        /* [in] */ Double amount,
-        /* [in] */ Double fee,
+        /* [in] */ Int64 amount,
+        /* [in] */ Int64 fee,
         /* [in] */ const String& payPassword,
         /* [in] */ const String& memo,
         /* [out] */ String * pTransactionMsg);
 
     CARAPI SendRawTransaction(
         /* [in] */ const String& transactionJson,
-        /* [in] */ const String& sign,
+        /* [in] */ const String& signJson,
         /* [out] */ String * pTxid);
-
-    CARAPI GetAddressesCount(
-        /* [out] */ Int32 * pCount);
 
     CARAPI GetAllAddress(
         /* [in] */ Int32 start,
@@ -65,14 +62,11 @@ public:
     CARAPI SendTransaction(
         /* [in] */ const String& fromAddress,
         /* [in] */ const String& toAddress,
-        /* [in] */ Double amount,
-        /* [in] */ Double fee,
+        /* [in] */ Int64 amount,
+        /* [in] */ Int64 fee,
         /* [in] */ const String& payPassword,
         /* [in] */ const String& memo,
         /* [out] */ String * pTxid);
-
-    CARAPI GetTransactionsCount(
-        /* [out] */ Int32 * pCount);
 
     CARAPI GetAllTransaction(
         /* [in] */ Int32 start,
@@ -86,7 +80,7 @@ public:
         /* [out] */ String * pSignature);
 
     CARAPI CheckSign(
-        /* [in] */ const String& publicKey,
+        /* [in] */ const String& address,
         /* [in] */ const String& message,
         /* [in] */ const String& signature,
         /* [out] */ String * pResultJson);

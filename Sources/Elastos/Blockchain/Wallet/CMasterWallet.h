@@ -46,10 +46,17 @@ public:
         /* [out] */ String * pSignature);
 
     CARAPI CheckSign(
-        /* [in] */ const String& publicKey,
+        /* [in] */ const String& address,
         /* [in] */ const String& message,
         /* [in] */ const String& signature,
         /* [out] */ String * pResultJson);
+
+    CARAPI DeriveIdAndKeyForPurpose(
+            /* [in] */ Int32 purpose,
+            /* [in] */ Int32 index,
+            /* [in] */ const String& payPassword,
+            /* [out] */ String* id,
+            /* [out] */ String* key);
 
     CARAPI constructor();
 

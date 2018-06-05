@@ -47,8 +47,8 @@ ECode CElaWallet::CreateMultiSignAddress(
 ECode CElaWallet::GenerateMultiSignTransaction(
     /* [in] */ const String& fromAddress,
     /* [in] */ const String& toAddress,
-    /* [in] */ Double amount,
-    /* [in] */ Double fee,
+    /* [in] */ Int64 amount,
+    /* [in] */ Int64 fee,
     /* [in] */ const String& payPassword,
     /* [in] */ const String& memo,
     /* [out] */ String * pTransactionMsg)
@@ -59,15 +59,8 @@ ECode CElaWallet::GenerateMultiSignTransaction(
 
 ECode CElaWallet::SendRawTransaction(
     /* [in] */ const String& transactionJson,
-    /* [in] */ const String& sign,
+    /* [in] */ const String& signJson,
     /* [out] */ String * pTxid)
-{
-    // TODO: Add your code here
-    return E_NOT_IMPLEMENTED;
-}
-
-ECode CElaWallet::GetAddressesCount(
-    /* [out] */ Int32 * pCount)
 {
     // TODO: Add your code here
     return E_NOT_IMPLEMENTED;
@@ -99,18 +92,11 @@ ECode CElaWallet::RemoveCallback(
 ECode CElaWallet::SendTransaction(
     /* [in] */ const String& fromAddress,
     /* [in] */ const String& toAddress,
-    /* [in] */ Double amount,
-    /* [in] */ Double fee,
+    /* [in] */ Int64 amount,
+    /* [in] */ Int64 fee,
     /* [in] */ const String& payPassword,
     /* [in] */ const String& memo,
     /* [out] */ String * pTxid)
-{
-    // TODO: Add your code here
-    return E_NOT_IMPLEMENTED;
-}
-
-ECode CElaWallet::GetTransactionsCount(
-    /* [out] */ Int32 * pCount)
 {
     // TODO: Add your code here
     return E_NOT_IMPLEMENTED;
@@ -136,7 +122,7 @@ ECode CElaWallet::Sign(
 }
 
 ECode CElaWallet::CheckSign(
-    /* [in] */ const String& publicKey,
+    /* [in] */ const String& address,
     /* [in] */ const String& message,
     /* [in] */ const String& signature,
     /* [out] */ String * pResultJson)

@@ -16,9 +16,9 @@ public:
     CAR_INTERFACE_DECL()
 
     CARAPI CreateMasterWallet(
-        /* [in] */ const String& language,
         /* [in] */ const String& phrasePassword,
         /* [in] */ const String& payPassword,
+        /* [in] */ const String& language,
         /* [out] */ IMasterWallet ** ppMasterWallet);
 
     CARAPI DestroyWallet(
@@ -36,10 +36,10 @@ public:
         /* [in] */ const String& keystorePath);
 
     CARAPI ImportWalletWithMnemonic(
-        /* [in] */ const String& language,
         /* [in] */ const String& mnemonic,
         /* [in] */ const String& phrasePassword,
         /* [in] */ const String& payPassword,
+        /* [in] */ const String& language,
         /* [out] */ IMasterWallet ** ppMasterWallet);
 
     CARAPI ExportWalletWithMnemonic(

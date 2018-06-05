@@ -6,9 +6,9 @@ CAR_OBJECT_IMPL(CWalletFactory)
 CAR_INTERFACE_IMPL(CWalletFactory, Object, IWalletFactory);
 
 ECode CWalletFactory::CreateMasterWallet(
-    /* [in] */ const String& language,
     /* [in] */ const String& phrasePassword,
     /* [in] */ const String& payPassword,
+    /* [in] */ const String& language,
     /* [out] */ IMasterWallet ** ppMasterWallet)
 {
     // TODO: Add your code here
@@ -42,10 +42,10 @@ ECode CWalletFactory::ExportWalletWithKeystore(
 }
 
 ECode CWalletFactory::ImportWalletWithMnemonic(
-    /* [in] */ const String& language,
     /* [in] */ const String& mnemonic,
     /* [in] */ const String& phrasePassword,
     /* [in] */ const String& payPassword,
+    /* [in] */ const String& language,
     /* [out] */ IMasterWallet ** ppMasterWallet)
 {
     // TODO: Add your code here

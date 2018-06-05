@@ -56,10 +56,21 @@ ECode CMasterWallet::Sign(
 }
 
 ECode CMasterWallet::CheckSign(
-    /* [in] */ const String& publicKey,
+    /* [in] */ const String& address,
     /* [in] */ const String& message,
     /* [in] */ const String& signature,
     /* [out] */ String * pResultJson)
+{
+    // TODO: Add your code here
+    return E_NOT_IMPLEMENTED;
+}
+
+ECode CMasterWallet::DeriveIdAndKeyForPurpose(
+    /* [in] */ Int32 purpose,
+    /* [in] */ Int32 index,
+    /* [in] */ const String& payPassword,
+    /* [out] */ String* id,
+    /* [out] */ String* key)
 {
     // TODO: Add your code here
     return E_NOT_IMPLEMENTED;
