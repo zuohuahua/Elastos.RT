@@ -642,6 +642,6 @@ After the modification is completed, you can compile and run:
 
 [compile and run](How_to_run_test_on_ubuntu.md#HelloCar)
 
-> ## 3.summary
+> ## 3.Summary
 
 This example shows the use of the __Car__ component and how to implement the inheritance relationship as well as the use of some of the macros defined. Please understand it.
