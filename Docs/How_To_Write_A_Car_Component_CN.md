@@ -83,7 +83,7 @@ __HelloCar__ 包括两个部分：__Elastos.HelloCar.eco__ 和使用这个eco的
 
 2. HelloCar/eco/elastos/hellocar/IDog.car
 
-    在该 Car 文件中，定义了一个 __IDog__ 接口，注释说明继承这个接口的类要同时继承 __IAnimal__ 接口。
+    在该 Car 文件中，定义了一个 __IDog__ 接口，注释说明实现这个接口的类要同时实现 __IAnimal__ 接口。
 
     ``` cpp
     module

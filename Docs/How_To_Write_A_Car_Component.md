@@ -83,7 +83,7 @@ __HelloCar__ includes two parts：__Elastos.HelloCar.eco__ and use this eco exec
 
 2. HelloCar/eco/elastos/hellocar/IDog.car
 
-    In the Car file, the __IDog__ interface is defined. Note that the class that inherits this interface must inherit the __IAnimal__ interface.
+    In the Car file, the __IDog__ interface is defined. Note that the class that implements this interface must implement the __IAnimal__ interface.
 
     ``` cpp
     module
