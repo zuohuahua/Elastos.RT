@@ -130,8 +130,10 @@ $        ELSE
 $        END IF
 $
 $        WITH all parameters DO
-$          IF parameter is not first and parameter is not last
+$          IF parameter is not last
+$            IF parameter is not first
 ,$^
+$            END IF
 
         /* [${attrib}] */ ${type} ${PrefixingNameByName(parameter)}$^
 $          END IF

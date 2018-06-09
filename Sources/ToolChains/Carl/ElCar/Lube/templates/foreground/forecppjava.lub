@@ -90,10 +90,12 @@ $    IF attrib is "clsobj"
 $      WITH all methods DO
 ${type} ${class.name}::constructor($^
 $        WITH all parameters DO
-$          IF parameter is not first and parameter is not last
+$          IF parameter is not last
+$            IF parameter is not first
 ,$^
+$            END IF
 
-    /* [${attrib}] */ ${type} ${PrefixingNameByName(parameter)}$^
+        /* [${attrib}] */ ${type} ${PrefixingNameByName(parameter)}$^
 $          END IF
 $        END DO ;; all parameters
 )

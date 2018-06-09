@@ -57,17 +57,38 @@ const char* _JavaMethodSignature(const TypeDescriptor* pType)
             pszType = "Ljava/lang/String;";
             break;
         }
-        // case Type_ArrayOf:
-        //     if (Type_String == pType->mNestedType->mType) {
-        //         pszType = "ArrayOfString";
-        //     }
-        //     else {
-        //         pszType = "CarArray";
-        //     }
-        //     break;
-        // case Type_interface:
-        //     pszType = "Interface";
-        //     break;
+        case Type_ArrayOf: {
+            CARDataType type = pType->mNestedType->mType;
+            if (type == Type_Char32) {
+                pszType = "[C";
+            }
+            else if (type == Type_Int32) {
+                pszType = "[I";
+            }
+            else if (type == Type_Int64) {
+                pszType = "[J";
+            }
+            else if (type == Type_Byte) {
+                pszType = "[B";
+            }
+            else if (type == Type_Boolean) {
+                pszType = "[Z";
+            }
+            else if (type == Type_Float) {
+                pszType = "[F";
+            }
+            else if (type == Type_Double) {
+                pszType = "[D";
+            }
+            else if (type == Type_String) {
+                pszType = "[Ljava/lang/String;";
+            }
+            else {
+                pszType = "Unknown";
+                fprintf(stderr, "Unsupport array type: [%d]\n", type);
+            }
+            break;
+        }
         default: {
             pszType = "Unknown";
             fprintf(stderr, "Unsupport parameter type: [%d]\n", pType->mType);
@@ -105,6 +126,33 @@ const char* GenerateJavaTypeString(const TypeDescriptor *pType)
         case Type_String: {
             return "String";
         }
+        case Type_ArrayOf: {
+            CARDataType type = pType->mNestedType->mType;
+            if (type == Type_Char32) {
+                return "char[]";
+            }
+            else if (type == Type_Int32) {
+                return "int[]";
+            }
+            else if (type == Type_Int64) {
+                return "long[]";
+            }
+            else if (type == Type_Byte) {
+                return "byte[]";
+            }
+            else if (type == Type_Boolean) {
+                return "boolean[]";
+            }
+            else if (type == Type_Float) {
+                return "float[]";
+            }
+            else if (type == Type_Double) {
+                return "double[]";
+            }
+            else if (type == Type_String) {
+                return "String[]";
+            }
+        }
         default: {
             fprintf(stderr, "Unsupport parameter type: [%d]\n", pType->mType);
             return "Unknown";
@@ -138,6 +186,33 @@ const char* GenerateJavaJniTypeString(const TypeDescriptor *pType)
         }
         case Type_String: {
             return "jstring";
+        }
+        case Type_ArrayOf: {
+            CARDataType type = pType->mNestedType->mType;
+            if (type == Type_Char32) {
+                return "jcharArray";
+            }
+            else if (type == Type_Int32) {
+                return "jintArray";
+            }
+            else if (type == Type_Int64) {
+                return "jlongArray";
+            }
+            else if (type == Type_Byte) {
+                return "jbyteArray";
+            }
+            else if (type == Type_Boolean) {
+                return "jbooleanArray";
+            }
+            else if (type == Type_Float) {
+                return "jfloatArray";
+            }
+            else if (type == Type_Double) {
+                return "jdoubleArray";
+            }
+            else if (type == Type_String) {
+                return "jobjectArray";
+            }
         }
         default: {
             fprintf(stderr, "Unsupport parameter type: [%d]\n", pType->mType);
@@ -206,6 +281,37 @@ const char* GetElaTypeName(const TypeDescriptor *pType)
         }
         case Type_String: {
             return "String";
+        }
+        case Type_ArrayOf: {
+            CARDataType type = pType->mNestedType->mType;
+            if (type == Type_Char32) {
+                return "ArrayOf<Char>";
+            }
+            else if (type == Type_Int32) {
+                return "ArrayOf<Int32>";
+            }
+            else if (type == Type_Int64) {
+                return "ArrayOf<Int64>";
+            }
+            else if (type == Type_Byte) {
+                return "ArrayOf<Byte>";
+            }
+            else if (type == Type_Boolean) {
+                return "ArrayOf<Boolean>";
+            }
+            else if (type == Type_Float) {
+                return "ArrayOf<Float>";
+            }
+            else if (type == Type_Double) {
+                return "ArrayOf<Double>";
+            }
+            else if (type == Type_String) {
+                return "ArrayOf<String>";
+            }
+            else {
+                fprintf(stderr, "Unsupport array type: [%d]\n", type);
+                return "ArrayOf<Unknown>";
+            }
         }
         default: {
             fprintf(stderr, "Unsupport parameter type: [%d]\n", pType->mType);
@@ -380,6 +486,9 @@ int _GenerateJavaClassImpl(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
         if (outParaPos >= 0) {
             if (!strcmp(retType, "String")) {
                 sprintf(szContent, "        %s _retValue = \"NULL\";\n", retType);
+            }
+            else if (strstr(retType, "[]") != NULL) {
+                sprintf(szContent, "        %s _retValue = {};\n", retType);
             }
             else {
                 sprintf(szContent, "        %s _retValue = 0;\n", retType);
@@ -605,6 +714,47 @@ int GenerateJavaJniCppInit(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg, const c
                 sprintf(szContent, "    const char* str%d = env->GetStringUTFChars(j%s, NULL);\n", j + 1, paraDesc->mName);
                 pCtx->PutString(szContent);
             }
+            for (int j = 0; j < methodDesc->mParamCount - 1; j++) {
+                ParamDescriptor* paraDesc = methodDesc->mParams[j];
+                if (paraDesc->mType.mType != Type_ArrayOf) continue;
+
+                const char* arrayType = GenerateJavaJniTypeString(&paraDesc->mType);
+                const char* arrayItemType = GenerateJavaJniTypeString(paraDesc->mType.mNestedType);
+                const char* nestedType = GetElaTypeName(paraDesc->mType.mNestedType);
+                sprintf(szContent, "    int _len%d = env->GetArrayLength(j%s);\n", j + 1, paraDesc->mName);
+                pCtx->PutString(szContent);
+                sprintf(szContent, "    AutoPtr<ArrayOf<%s> > _array%d = ArrayOf<%s>::Alloc(_len%d);\n", nestedType, j + 1, nestedType, j + 1);
+                pCtx->PutString(szContent);
+                sprintf(szContent, "    if(!_array%d) return E_OUT_OF_MEMORY;\n", j + 1);
+                pCtx->PutString(szContent);
+
+                if (paraDesc->mType.mNestedType->mType == Type_String) {
+                    sprintf(szContent, "    for (Int32 i = 0; i < _len%d; i++) {\n", j + 1);
+                    pCtx->PutString(szContent);
+                    sprintf(szContent, "        jstring _item = (jstring)env->GetObjectArrayElement(j%s, i);\n", paraDesc->mName);
+                    pCtx->PutString(szContent);
+                    pCtx->PutString("        const char* __str = env->GetStringUTFChars(_item, NULL);\n");
+                    sprintf(szContent, "        (*_array%d)[i] = String(__str);\n", j + 1);
+                    pCtx->PutString(szContent);
+                    pCtx->PutString("        env->ReleaseStringUTFChars(_item, __str);\n");
+                    pCtx->PutString("    }\n");
+                }
+                else {
+                    sprintf(szContent, "    %s* _items%d = env->Get%sArrayElements(j%s, 0);\n",
+                            arrayItemType, j + 1, GetJniStaticMethodInvokeType(paraDesc->mType.mNestedType), paraDesc->mName);
+                    pCtx->PutString(szContent);
+
+                    sprintf(szContent, "    for (Int32 i = 0; i < _len%d; i++) {\n", j + 1);
+                    pCtx->PutString(szContent);
+                    sprintf(szContent, "        (*_array%d)[i] = _items%d[i];\n", j + 1, j + 1);
+                    pCtx->PutString(szContent);
+                    pCtx->PutString("    }\n");
+                    sprintf(szContent, "    env->Release%sArrayElements(j%s, _items%d, 0);\n",
+                            GetJniStaticMethodInvokeType(paraDesc->mType.mNestedType), paraDesc->mName, j + 1);
+                    pCtx->PutString(szContent);
+                }
+                pCtx->PutString("\n");
+            }
             sprintf(szContent, "    ECode ec = %s::New(", pClass->mName);
             pCtx->PutString(szContent);
             char szParameters[256];
@@ -619,6 +769,10 @@ int GenerateJavaJniCppInit(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg, const c
 
                 if (!strcmp(GenerateJavaJniTypeString(&paraDesc->mType), "jstring")) {
                     sprintf(szContent, "String(str%d)", j + 1);
+                    strcat(szParameters, szContent);
+                }
+                else if (paraDesc->mType.mType == Type_ArrayOf) {
+                    sprintf(szContent, "*_array%d", j + 1);
                     strcat(szParameters, szContent);
                 }
                 else {
@@ -762,6 +916,47 @@ int _GenerateJavaJniCpp(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
                         sprintf(szContent, "String(str%d)", j + 1);
                         strcat(szParameters, szContent);
                     }
+                    else if (paraDesc->mType.mType == Type_ArrayOf) {
+                        const char* arrayType = GenerateJavaJniTypeString(&paraDesc->mType);
+                        const char* arrayItemType = GenerateJavaJniTypeString(paraDesc->mType.mNestedType);
+                        const char* nestedType = GetElaTypeName(paraDesc->mType.mNestedType);
+                        sprintf(szContent, "    int _len%d = env->GetArrayLength(j%s);\n", j + 1, paraDesc->mName);
+                        pCtx->PutString(szContent);
+                        sprintf(szContent, "    AutoPtr<ArrayOf<%s> > _array%d = ArrayOf<%s>::Alloc(_len%d);\n", nestedType, j + 1, nestedType, j + 1);
+                        pCtx->PutString(szContent);
+                        sprintf(szContent, "    if(!_array%d) return;\n", j + 1);
+                        pCtx->PutString(szContent);
+
+                        if (paraDesc->mType.mNestedType->mType == Type_String) {
+                            sprintf(szContent, "    for (Int32 i = 0; i < _len%d; i++) {\n", j + 1);
+                            pCtx->PutString(szContent);
+                            sprintf(szContent, "        jstring _item = (jstring)env->GetObjectArrayElement(j%s, i);\n", paraDesc->mName);
+                            pCtx->PutString(szContent);
+                            pCtx->PutString("        const char* __str = env->GetStringUTFChars(_item, NULL);\n");
+                            sprintf(szContent, "        (*_array%d)[i] = String(__str);\n", j + 1);
+                            pCtx->PutString(szContent);
+                            pCtx->PutString("        env->ReleaseStringUTFChars(_item, __str);\n");
+                            pCtx->PutString("    }\n");
+                        }
+                        else {
+                            sprintf(szContent, "    %s* _items%d = env->Get%sArrayElements(j%s, 0);\n",
+                                    arrayItemType, j + 1, GetJniStaticMethodInvokeType(paraDesc->mType.mNestedType), paraDesc->mName);
+                            pCtx->PutString(szContent);
+
+                            sprintf(szContent, "    for (Int32 i = 0; i < _len%d; i++) {\n", j + 1);
+                            pCtx->PutString(szContent);
+
+                            sprintf(szContent, "        (*_array%d)[i] = _items%d[i];\n", j + 1, j + 1);
+                            pCtx->PutString(szContent);
+                            pCtx->PutString("    }\n");
+                            sprintf(szContent, "    env->Release%sArrayElements(j%s, _items%d, 0);\n",
+                                    GetJniStaticMethodInvokeType(paraDesc->mType.mNestedType), paraDesc->mName, j + 1);
+                            pCtx->PutString(szContent);
+                        }
+                        pCtx->PutString("\n");
+                        sprintf(szContent, "*_array%d", j + 1);
+                        strcat(szParameters, szContent);
+                    }
                     else {
                         sprintf(szContent, "j%s", paraDesc->mName);
                         strcat(szParameters, szContent);
@@ -785,6 +980,51 @@ int _GenerateJavaJniCpp(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
                     ReleaseStringUTFChars(pCtx, methodDesc);
 
                     pCtx->PutString("    return env->NewStringUTF(_retValue.string());\n");
+                }
+                else if (pType->mType == Type_ArrayOf) {
+                    const char* nestedType = GetElaTypeName(pType->mNestedType);
+                    const char* arrayType = GenerateJavaJniTypeString(pType);
+                    const char* arrayItemType = GenerateJavaJniTypeString(pType->mNestedType);
+                    sprintf(szContent, "    AutoPtr<ArrayOf<%s> > _retValue;\n", nestedType);
+                    pCtx->PutString(szContent);
+                    if (methodDesc->mParamCount != 1) {
+                        sprintf(szContent, "    %s::Probe(pElaClsObj)->%s(%s, (ArrayOf<%s>**)&_retValue);\n",
+                                pItfDir->mName, methodDesc->mName, szParameters, nestedType);
+                    }
+                    else {
+                        sprintf(szContent, "    %s::Probe(pElaClsObj)->%s((ArrayOf<%s>**)&_retValue);\n",
+                                pItfDir->mName, methodDesc->mName, nestedType);
+                    }
+                    pCtx->PutString(szContent);
+
+                    if (pType->mNestedType->mType == Type_String) {
+                        pCtx->PutString("    jclass _retClazz = env->FindClass(\"java/lang/String\");\n");
+                        sprintf(szContent, "    %s retArray = env->NewObjectArray(_retValue->GetLength(), _retClazz, NULL);\n", arrayType);
+                        pCtx->PutString(szContent);
+                        pCtx->PutString("    if (retArray == NULL) return NULL;\n");
+
+                        pCtx->PutString("    for (Int32 i = 0; i < _retValue->GetLength(); i++) {\n");
+                        pCtx->PutString("        jstring _str = env->NewStringUTF((*_retValue)[i].string());\n");
+                        pCtx->PutString("        env->SetObjectArrayElement(retArray, i, _str);\n");
+                        pCtx->PutString("    }\n\n");
+                    }
+                    else {
+                        sprintf(szContent, "    %s retArray = env->New%sArray(_retValue->GetLength());\n",
+                                arrayType, GetJniStaticMethodInvokeType(pType->mNestedType));
+                        pCtx->PutString(szContent);
+                        pCtx->PutString("    if (retArray == NULL) return NULL;\n");
+
+                        sprintf(szContent, "    %s _fill[_retValue->GetLength()];\n", arrayItemType);
+                        pCtx->PutString(szContent);
+                        pCtx->PutString("    for (Int32 i = 0; i < _retValue->GetLength(); i++) {\n");
+                        pCtx->PutString("        _fill[i] = (*_retValue)[i];\n");
+                        pCtx->PutString("    }\n");
+                        sprintf(szContent, "    env->Set%sArrayRegion(retArray, 0, _retValue->GetLength(), _fill);\n\n",
+                            GetJniStaticMethodInvokeType(pType->mNestedType));
+                        pCtx->PutString(szContent);
+                    }
+
+                    pCtx->PutString("    return retArray;\n");
                 }
                 else {
                     sprintf(szContent, "    %s _retValue = 0;\n", GetElaTypeName(pType));
@@ -1030,6 +1270,15 @@ int _GenerateDefalutCarClassCpp(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
                     if (!strcmp("String", tmpType)) {
                         sprintf(szContent, "    /* [in] */ const String& %s", paraDesc->mName);
                     }
+                    else if (paraDesc->mType.mType == Type_ArrayOf) {
+                        if (0 == paraDesc->mType.mPointer) {
+                            sprintf(szContent, "    /* [in] */ const %s & %s", tmpType, paraDesc->mName);
+                        }
+                        else {
+                            assert (1 == m_pParam->mType.mPointer);
+                            sprintf(szContent, "    /* [in] */ %s* %s", tmpType, paraDesc->mName);
+                        }
+                    }
                     else {
                         sprintf(szContent, "    /* [in] */ %s %s", tmpType, paraDesc->mName);
                     }
@@ -1039,13 +1288,23 @@ int _GenerateDefalutCarClassCpp(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
                 }
 
                 if (paraDesc->mAttribs & ParamAttrib_out) {
-                    if (methodDesc->mParamCount == 1) {
-                        sprintf(szContent, "    /* [out] */ %s* %s", GetElaTypeName(&paraDesc->mType), paraDesc->mName);
-                    }
-                    else {
-                        sprintf(szContent, ",\n    /* [out] */ %s* %s", GetElaTypeName(&paraDesc->mType), paraDesc->mName);
+                    if (methodDesc->mParamCount > 1) {
+                        pCtx->PutString(",\n");
                     }
 
+                    if (paraDesc->mAttribs & ParamAttrib_callee) {
+                        pCtx->PutString("    /* [out, callee] */ ");
+                    }
+                    else {
+                        pCtx->PutString("    /* [out] */ ");
+                    }
+
+                    if (1 == paraDesc->mType.mPointer && paraDesc->mType.mType == Type_ArrayOf) {
+                        sprintf(szContent, "%s** %s", GetElaTypeName(&paraDesc->mType), paraDesc->mName);
+                    }
+                    else {
+                        sprintf(szContent, "%s* %s", GetElaTypeName(&paraDesc->mType), paraDesc->mName);
+                    }
                     pCtx->PutString(szContent);
 
                     // For signature
@@ -1070,10 +1329,78 @@ int _GenerateDefalutCarClassCpp(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
         sprintf(szContent, "    jmethodID method = env->GetMethodID(cls, \"%s\", \"%s\");\n" , methodDesc->mName, signature);
         pCtx->PutString(szContent);
 
+        char paramsContent[512];
+        paramsContent[0] = '\0';
+        int count = outParaPos >= 0 ? methodDesc->mParamCount - 1 : methodDesc->mParamCount;
+        for (int j = 0; j < count; j++) {
+            ParamDescriptor* paraDesc = methodDesc->mParams[j];
+            assert(paraDesc != NULL);
+            strcat(paramsContent, ", ");
+
+            if (paraDesc->mType.mType == Type_String) {
+                sprintf(szContent, "    jstring _jstr%d = env->NewStringUTF(%s.string());\n", j + 1, paraDesc->mName);
+                pCtx->PutString(szContent);
+
+                sprintf(szContent, "_jstr%d", j + 1);
+                strcat(paramsContent, szContent);
+            }
+            else if (paraDesc->mType.mType == Type_ArrayOf) {
+
+                const char* nestedType = GetElaTypeName(paraDesc->mType.mNestedType);
+                const char* arrayType = GenerateJavaJniTypeString(&paraDesc->mType);
+                const char* arrayItemType = GenerateJavaJniTypeString(paraDesc->mType.mNestedType);
+
+                if (paraDesc->mType.mNestedType->mType == Type_String) {
+                    sprintf(szContent, "    jclass _clazz%d = env->FindClass(\"java/lang/String\");\n", j + 1);
+                    pCtx->PutString(szContent);
+                    sprintf(szContent, "    %s _jarray%d = env->NewObjectArray(%s.GetLength(), _clazz%d, NULL);\n",
+                        arrayType, j + 1, paraDesc->mName, j + 1);
+                    pCtx->PutString(szContent);
+                }
+                else {
+                    sprintf(szContent, "    %s _jarray%d = env->New%sArray(%s.GetLength());\n",
+                        arrayType, j + 1, GetJniStaticMethodInvokeType(paraDesc->mType.mNestedType), paraDesc->mName);
+                    pCtx->PutString(szContent);
+                }
+
+                sprintf(szContent, "    if (_jarray%d == NULL) {\n", j + 1);
+                pCtx->PutString(szContent);
+                pCtx->PutString("        Detach();\n        return E_OUT_OF_MEMORY;\n    }\n\n");
+
+                if (paraDesc->mType.mNestedType->mType == Type_String) {
+                    sprintf(szContent, "    for (Int32 i = 0; i < %s.GetLength(); i++) {\n", paraDesc->mName);
+                    pCtx->PutString(szContent);
+                    sprintf(szContent, "        jstring _str = env->NewStringUTF(%s[i].string());\n", paraDesc->mName);
+                    pCtx->PutString(szContent);
+                    sprintf(szContent, "        env->SetObjectArrayElement(_jarray%d, i, _str);\n", j + 1);
+                    pCtx->PutString(szContent);
+                    pCtx->PutString("    }\n\n");
+                }
+                else {
+                    sprintf(szContent, "    %s _fill%d[%s.GetLength()];\n", arrayItemType, j + 1, paraDesc->mName);
+                    pCtx->PutString(szContent);
+                    sprintf(szContent, "    for (Int32 i = 0; i < %s.GetLength(); i++) {\n", paraDesc->mName);
+                    pCtx->PutString(szContent);
+                    sprintf(szContent, "        _fill%d[i] = %s[i];\n", j + 1, paraDesc->mName);
+                    pCtx->PutString(szContent);
+                    pCtx->PutString("    }\n");
+                    sprintf(szContent, "    env->Set%sArrayRegion(_jarray%d, 0, %s.GetLength(), _fill%d);\n\n",
+                        GetJniStaticMethodInvokeType(paraDesc->mType.mNestedType), j + 1, paraDesc->mName, j + 1);
+                    pCtx->PutString(szContent);
+                }
+
+                sprintf(szContent, "_jarray%d", j + 1);
+                strcat(paramsContent, szContent);
+            }
+            else {
+                strcat(paramsContent, paraDesc->mName);
+            }
+        }
+
         tmpType = GetJniStaticMethodInvokeType(pType);
         if (outParaPos >= 0) {
-            if (!strcmp("Object", tmpType)) {
-                sprintf(szContent, "    jstring _jstr = (jstring)env->Call%sMethod(cls, method);\n" , tmpType);
+            if (pType->mType == Type_String) {
+                sprintf(szContent, "    jstring _jstr = (jstring)env->Call%sMethod(cls, method%s);\n" , tmpType, paramsContent);
                 pCtx->PutString(szContent);
 
                 pCtx->PutString("    const char* __str = env->GetStringUTFChars(_jstr, NULL);\n");
@@ -1081,13 +1408,50 @@ int _GenerateDefalutCarClassCpp(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
                 pCtx->PutString(szContent);
                 pCtx->PutString("    env->ReleaseStringUTFChars(_jstr, __str);\n");
             }
+            else if (pType->mType == Type_ArrayOf) {
+                const char* arrayType = GenerateJavaJniTypeString(pType);
+                const char* carType = GetElaTypeName(pType->mNestedType);
+                const char* arrayItemType = GenerateJavaJniTypeString(pType->mNestedType);
+                sprintf(szContent, "    %s _jarray = (%s)env->Call%sMethod(cls, method%s);\n", arrayType, arrayType, tmpType, paramsContent);
+                pCtx->PutString(szContent);
+                pCtx->PutString("    int _len = env->GetArrayLength(_jarray);\n");
+                sprintf(szContent, "    AutoPtr<ArrayOf<%s> > _array = ArrayOf<%s>::Alloc(_len);\n", carType, carType);
+                pCtx->PutString(szContent);
+                pCtx->PutString("    if (!_array) {\n");
+                pCtx->PutString("        Detach();\n        return E_OUT_OF_MEMORY;\n    }\n\n");
+
+                if (pType->mNestedType->mType == Type_String) {
+                    pCtx->PutString("    for (Int32 i = 0; i < _len; i++) {\n");
+                    pCtx->PutString("        jstring _item = (jstring)env->GetObjectArrayElement(_jarray, i);\n");
+                    pCtx->PutString("        const char* __str = env->GetStringUTFChars(_item, NULL);\n");
+                    pCtx->PutString("        (*_array)[i] = String(__str);\n");
+                    pCtx->PutString("        env->ReleaseStringUTFChars(_item, __str);\n");
+                    pCtx->PutString("    }\n");
+                }
+                else {
+                    sprintf(szContent, "    %s* _items = env->Get%sArrayElements(_jarray, 0);\n",
+                            arrayItemType, GetJniStaticMethodInvokeType(pType->mNestedType));
+                    pCtx->PutString(szContent);
+                    pCtx->PutString("    for (Int32 i = 0; i < _len; i++) {\n");
+                    pCtx->PutString("        (*_array)[i] = _items[i];\n");
+                    pCtx->PutString("    }\n");
+                    sprintf(szContent, "    env->Release%sArrayElements(_jarray, _items, 0);\n",
+                            GetJniStaticMethodInvokeType(pType->mNestedType));
+                    pCtx->PutString(szContent);
+                }
+                sprintf(szContent, "    *%s = _array;\n" , outParaName);
+                pCtx->PutString(szContent);
+                sprintf(szContent, "    (*%s)->AddRef();\n" , outParaName);
+                pCtx->PutString(szContent);
+            }
             else {
-                sprintf(szContent, "    *%s = (%s)env->Call%sMethod(cls, method);\n" , outParaName, GenerateJavaTypeString(pType), tmpType);
+                sprintf(szContent, "    *%s = (%s)env->Call%sMethod(cls, method%s);\n" ,
+                        outParaName, GenerateJavaTypeString(pType), tmpType, paramsContent);
                 pCtx->PutString(szContent);
             }
         }
         else {
-            sprintf(szContent, "    env->Call%sMethod(cls, method);\n" , tmpType);
+            sprintf(szContent, "    env->Call%sMethod(cls, method%s);\n" , tmpType, paramsContent);
             pCtx->PutString(szContent);
         }
         pCtx->PutString("    Detach();\n");
