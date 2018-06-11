@@ -28,6 +28,9 @@ module
     }
 
     interface ISubWallet {
+        GetChainId(
+            [out] String* id);
+
         GetBalanceInfo (
             [out] String* balanceInfoJson);
 
@@ -40,7 +43,7 @@ module
         GetAllAddress (
             [in] Int32 start,
             [in] Int32 count,
-            [out] String* addressListJson);
+            [out] String* addressesJson);
 
         GetBalanceWithAddress (
             [in] String address,
@@ -74,7 +77,7 @@ module
             [in] Int64 fee,
             [in] String payPassword,
             [in] String memo,
-            [out] String* transactionMsg);
+            [out] String* transactionJson);
 
         SendRawTransaction (
             [in] String transactionJson,
@@ -105,9 +108,11 @@ module
     interface IMainchainSubWallet /*extends ISubWallet*/ {
         SendDepositTransaction(
             [in] String fromAddress,
-            [in] String sidechainAccounts,
-            [in] String sidechainAmounts,
-            [in] String sidechainIndexs,
+            [in] String toAddress,
+            [in] Int64 amount,
+            [in] String sidechainAccountsJson,
+            [in] String sidechainAmountsJson,
+            [in] String sidechainIndexsJson,
             [in] Int64 fee,
             [in] String payPassword,
             [in] String memo,
@@ -120,8 +125,11 @@ module
     interface ISidechainSubWallet /*extends ISubWallet*/ {
         SendWithdrawTransaction(
             [in] String fromAddress,
-            [in] String mainchainAccounts,
-            [in] String mainchainAmounts,
+            [in] String toAddress,
+            [in] Int64 amount,
+            [in] String mainchainAccountsJson,
+            [in] String mainchainAmountsJson,
+            [in] String mainchainIndexsJson,
             [in] Int64 fee,
             [in] String payPassword,
             [in] String memo,
@@ -131,14 +139,17 @@ module
     /**
      * extends ISubWallet
      */
-    interface IDChainSubWallet /*extends ISubWallet*/ {
+    interface IIdChainSubWallet /*extends ISubWallet*/ {
         SendIdTransaction(
             [in] String fromAddress,
+            [in] String toAddress,
+            [in] Int64 amount,
             [in] String payloadJson,
             [in] String programJson,
             [in] Int64 fee,
             [in] String payPassword,
-            [in] String memo);
+            [in] String memo,
+            [out] String* result);
     }
 
     enum SubWalletType{
@@ -149,100 +160,105 @@ module
     };
 
     interface IMasterWallet {
-        CreateSubWallet (
-            [in] SubWalletType type,
+        GetId(
+            [out] String* id);
+
+        GetAllSubWallets(
+            [out, callee] ArrayOf<ISubWallet*>* subWallets);
+
+        CreateSubWallet(
             [in] String chainID,
-            [in] Int32 coinTypeIndex,
             [in] String payPassword,
             [in] Boolean singleAddress,
             [in] Int64 feePerKb,
-            [out] ISubWallet** wallet);
+            [out] ISubWallet** subWallet);
 
-        RecoverSubWallet (
-            [in] SubWalletType type,
+        RecoverSubWallet(
             [in] String chainID,
-            [in] Int32 coinTypeIndex,
             [in] String payPassword,
             [in] Boolean singleAddress,
             [in] Int32 limitGap,
             [in] Int64 feePerKb,
-            [out] ISubWallet** wallet);
+            [out] ISubWallet** subWallet);
 
-        DestroyWallet (
-            [in] ISubWallet* wallet);
+        DestroyWallet(
+            [in] ISubWallet *wallet);
 
-        GetPublicKey (
+        GetPublicKey(
             [out] String* publicKey);
 
-        Sign (
+        Sign(
             [in] String message,
             [in] String payPassword,
-            [out] String* signature);
+            [out] String* result);
 
-        CheckSign (
-            [in] String address,
+        CheckSign(
+            [in] String publicKey,
             [in] String message,
             [in] String signature,
             [out] String* resultJson);
-
-        DeriveIdAndKeyForPurpose(
-                [in] Int32 purpose,
-                [in] Int32 index,
-                [in] String payPassword,
-                [out] String* id,
-                [out] String* key);
     }
 
-    interface IWalletFactory {
-        CreateMasterWallet (
+    interface IMasterWalletManager {
+        CreateMasterWallet(
+            [in] String masterWalletId,
             [in] String phrasePassword,
             [in] String payPassword,
             [in] String language,
             [out] IMasterWallet** masterWallet);
 
-        DestroyWallet (
+        GetAllMasterWallets(
+            [out, callee] ArrayOf<IMasterWallet*>* wallets);
+
+        RecoverMasterWallet(
+            [in] String masterWalletId,
+            [out] IMasterWallet** masterWallet);
+
+        DestroyWallet(
             [in] IMasterWallet* masterWallet);
 
-        ImportWalletWithKeystore (
+        ImportWalletWithKeystore(
+            [in] String masterWalletId,
             [in] String keystorePath,
             [in] String backupPassword,
             [in] String payPassword,
+            [in] String phrasePassword,
             [out] IMasterWallet** masterWallet);
 
-        ExportWalletWithKeystore (
-            [in] IMasterWallet* masterWallet,
-            [in] String backupPassword,
-            [in] String keystorePath);
-
-        ImportWalletWithMnemonic (
+        ImportWalletWithMnemonic(
+            [in] String masterWalletId,
             [in] String mnemonic,
             [in] String phrasePassword,
             [in] String payPassword,
             [in] String language,
             [out] IMasterWallet** masterWallet);
 
-        ExportWalletWithMnemonic (
+        ExportWalletWithKeystore(
             [in] IMasterWallet* masterWallet,
+            [in] String backupPassword,
+            [in] String payPassword,
+            [in] String keystorePath);
+
+        ExportWalletWithMnemonic(
+            [in] IMasterWallet *masterWallet,
             [in] String payPassword,
             [out] String* mnemonic);
     }
 
 
-    class CWalletFactory {
-        constructor();
+    interface IWalletEnviroment {
+        InitializeRootPath(
+            [in] String rootPath);
 
-        interface IWalletFactory;
+        GetRootPath(
+            [out] String* path);
+
+        GetMasterWalletManager(
+            [out] IMasterWalletManager** walletMgr);
     }
 
-    class CElaWallet {
-        constructor();
 
-        interface ISubWallet;
-    }
-
-    class CMasterWallet {
-        constructor();
-
-        interface IMasterWallet;
+    singleton class CWalletEnviroment {
+        interface IWalletEnviroment;
     }
 }

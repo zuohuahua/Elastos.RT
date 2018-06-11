@@ -8,9 +8,7 @@ xdk_compile_car(CAR_GENERATED_SOURCES Elastos.Wallet.car)
 set(SOURCES
     ${CAR_GENERATED_SOURCES}
     ${CURRENT_MIRROR_SOURCES}
-    CWalletFactory.cpp
-    CElaWallet.cpp
-    CMasterWallet.cpp
+    CWalletEnviroment.cpp
 )
 
 add_library(Elastos.Wallet SHARED ${SOURCES})
