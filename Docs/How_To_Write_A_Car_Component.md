@@ -6,7 +6,7 @@ Sample __HelloCar__ explains that how to write a CAR class with an inheritance s
 
 Sample code path：Elastos.RT/Sources/Sample/HelloCar
 
-__HelloCar__ includes two parts：__Elastos.HelloCar.eco__ and use this eco executable program __exe__ . Please read the code and notes for details, the following will explain the main points.
+__HelloCar__ includes two parts：__Elastos.HelloCar.eco__ and the executable program __exe__ which uses it. Please read the code and notes for details, the following will explain the main points.
 
 ``` Directory structure
 + HelloCar
@@ -638,7 +638,7 @@ int main(int argc, char *argv[])
 
 After generating the related files through the automatic code generation framework, in this example, we added the C++ classes and changed the code structure of the files at the same time, so please modify the `CMakeLists.txt` file synchronously.
 
-After the modification is completed, you can compile and run:
+When the modification is completed, you can compile and run:
 
 [compile and run](How_to_run_test_on_ubuntu.md#HelloCar)
 
