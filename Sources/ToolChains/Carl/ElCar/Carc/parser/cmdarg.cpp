@@ -62,7 +62,8 @@ const char *c_pszUsage = \
     "-k                  Specify this option when compiling in kernel\n" \
     "-d                  Create the dependencies when the current .car file merge .cls or .car\n" \
     "-u                  Support weak reference\n" \
-    "-n                  Specify this option when using naked mode\n"
+    "-n                  Specify this option when using naked mode\n" \
+    "-j                  Specify this option when using car interface in java\n" \
     "-?                  Display this list of CAR compiler switches\n";
 
 inline BOOL IsCommandSwitch(char c)
@@ -354,6 +355,11 @@ int ParseArgs(int nArgc, char *ppArgv[], CommandArgs *pArgs)
 
                 case 'n':
                     pArgs->mAttribs |= Command_n_NakedMode;
+
+                    break;
+
+                case 'j':
+                    pArgs->mAttribs |= Command_j_Java;
 
                     break;
 

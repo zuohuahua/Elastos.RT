@@ -183,7 +183,11 @@ function emake ()
             local MIRROR_DIR=$MIRROR_ROOT_DIR$XDK_EMAKE_DIR
             BUILD_EXIT_CODE=0
             if [ ! "${1%.car}" == "$1" ]; then
-                carc -i -c ${1%.car}.cls $1
+                if [[ "$2" == "java" || "$2" == "jni" ]]; then
+                    carc -i -j -c ${1%.car}.cls $1
+                else
+                    carc -i -c ${1%.car}.cls $1
+                fi
                 if [ "$?" == "0" ]; then
                     if [ "$XDK_PACKAGE" == "sdk" ]; then
                        if [ -z "$INTERNAL_SDK" ]; then

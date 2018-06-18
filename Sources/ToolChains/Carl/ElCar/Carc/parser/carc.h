@@ -53,6 +53,7 @@ typedef enum CommandOption {
     Command_k_InKernel  = 0x00800,
     Command_u_WeakRef   = 0x01000,
     Command_n_NakedMode = 0x02000,
+    Command_j_Java      = 0x04000,
 }   CommandOption;
 
 extern int ParseArgs(int, char **, CommandArgs *);

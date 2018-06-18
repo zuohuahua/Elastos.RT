@@ -1,8 +1,8 @@
 
-//TODO : Modify the package and this java class will implement the elastos interface.
-package org.elastos.xxx;
+package org.elastos.Elastos.AutoGenerateJavaCodes;
 
-public class CTestCarImpl {
+//this java class will implement the elastos interface.
+public class CTestCar implements ITestCar, ITestCar2 {
     static {
         System.loadLibrary("Elastos.Runtime");
         System.loadLibrary("Elastos.CoreLibrary");
@@ -16,13 +16,17 @@ public class CTestCarImpl {
     private native long nativeInit();
     private native void nativeDestroy(long carobj);
 
-    public CTestCarImpl() {
+    public CTestCar() {
         mCarObj = nativeInit();
         //TODO: Add your code here
     }
 
+    public long getCarObject() {
+        return mCarObj;
+    }
+
     // invoke destroy to release car object
-    public void destroy(){
+    public void destroy() {
         nativeDestroy(mCarObj);
     }
 
@@ -34,8 +38,7 @@ public class CTestCarImpl {
 
     public int GetInt() {
         //TODO: Add your code here
-        int _retValue = 0;
-        return _retValue;
+        return 0;
     }
 
     public void SetString(
@@ -45,8 +48,7 @@ public class CTestCarImpl {
 
     public String GetString() {
         //TODO: Add your code here
-        String _retValue = "NULL";
-        return _retValue;
+        return "NULL";
     }
 
     public void Normal() {
@@ -77,9 +79,10 @@ public class CTestCarImpl {
         /* [in] */ String value9,
         /* [in] */ String value10) {
         //TODO: Add your code here
-        int _retValue = 0;
-        return _retValue;
+        return 0;
     }
+
+
     public void SetInt2(
         /* [in] */ int value) {
         //TODO: Add your code here
@@ -90,7 +93,8 @@ public class CTestCarImpl {
         /* [in] */ String value2,
         /* [in] */ String value3) {
         //TODO: Add your code here
-        String _retValue = "NULL";
-        return _retValue;
+        return "NULL";
     }
+
+
 }

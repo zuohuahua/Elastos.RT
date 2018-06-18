@@ -106,7 +106,6 @@ DECL_USERFUNC(GenerateModuleImplementation2);
 DECL_USERFUNC(GenerateDependHeaderForClass);
 DECL_USERFUNC(GenerateDependHeaderForModule);
 DECL_USERFUNC(GenerateExportHeaderForCMake);
-DECL_USERFUNC(JavaMethodSignature);
 DECL_USERFUNC(GenerateJavaClassConstructor);
 DECL_USERFUNC(GenerateJavaClassImpl);
 DECL_USERFUNC(GenerateJavaClassUserConstructor);
@@ -117,6 +116,7 @@ DECL_USERFUNC(GenerateJavaJniCpp2);
 DECL_USERFUNC(GenerateJavaImplJniCpp);
 DECL_USERFUNC(GenerateJavaImplJniCpp2);
 DECL_USERFUNC(GenerateDefalutCarClassCpp);
+DECL_USERFUNC(GenerateJavaInterface);
 
 const UserFuncEntry g_userFuncs[] = {
     USERFUNC_(Embed, ARGTYPE_STRING, \
@@ -235,8 +235,6 @@ const UserFuncEntry g_userFuncs[] = {
             "Generate the depend header files for module"),
     USERFUNC_(GenerateExportHeaderForCMake, ARGTYPE_(Object_Module, Member_None), \
             "Generate the export header files for CMake"),
-    USERFUNC_(JavaMethodSignature, ARGTYPE_(Object_None, Member_Type), \
-            "Get java signatue string"),
     USERFUNC_(GenerateJavaClassConstructor, ARGTYPE_(Object_ClsIntf, Member_None), \
             "Get the java class constructors"),
     USERFUNC_(GenerateJavaClassImpl, ARGTYPE_(Object_ClsIntf, Member_None), \
@@ -257,6 +255,8 @@ const UserFuncEntry g_userFuncs[] = {
             "Get the jni cpp_jniLoad file for user"),
     USERFUNC_(GenerateDefalutCarClassCpp, ARGTYPE_(Object_ClsIntf, Member_None), \
             "Defalut car class implement."),
+    USERFUNC_(GenerateJavaInterface, ARGTYPE_(Object_ClsIntf, Member_None), \
+            "Generate java interface."),
 };
 const int c_cUserFuncs = sizeof(g_userFuncs) / sizeof(UserFuncEntry);
 
@@ -380,16 +380,6 @@ IMPL_USERFUNC(MacroRewrite)(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
     return LUBE_OK;
 }
 
-const char* _JavaMethodSignature(const TypeDescriptor* pType);
-IMPL_USERFUNC(JavaMethodSignature)(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
-{
-    assert(NULL != pvArg);
-    TypeDescriptor *pType = (TypeDescriptor *)pvArg;
-
-    pCtx->PutString(_JavaMethodSignature((TypeDescriptor *)pvArg));
-    return LUBE_OK;
-}
-
 int _GenerateJavaClassConstructor(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg);
 IMPL_USERFUNC(GenerateJavaClassConstructor)(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
 {
@@ -448,6 +438,12 @@ int _GenerateDefalutCarClassCpp(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg);
 IMPL_USERFUNC(GenerateDefalutCarClassCpp)(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
 {
     return _GenerateDefalutCarClassCpp(pCtx, pDesc, pvArg);
+}
+
+int _GenerateJavaInterface(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg);
+IMPL_USERFUNC(GenerateJavaInterface)(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
+{
+    return _GenerateJavaInterface(pCtx, pDesc, pvArg);
 }
 
 IMPL_USERFUNC(FormatUuid)(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
@@ -2907,27 +2903,6 @@ void OutputInterface(PLUBECTX pCtx, InterfaceDirEntry* pItfDir, CLSModule* pModu
         fprintf(pFile, "        return NULL;\n");
         fprintf(pFile, "    }\n");
         fprintf(pFile, "\n");
-    }
-
-    if (pCtx->m_dwOptions & LubeOpt_JavaInit && !(pItfDir->mDesc->mAttribs & InterfaceAttrib_clsobj)) {
-        // generate JavaInit in class first interface
-        for (int i = 0; i < pModule->mClassCount; i++) {
-            ClassDirEntry *pClsDir = pModule->mClassDirs[i];
-            for (int j = 0; j < pClsDir->mDesc->mInterfaceCount; j++) {
-                ClassInterface *pClsIntf = pClsDir->mDesc->mInterfaces[j];
-
-                if (pClsIntf->mAttribs & ClassInterfaceAttrib_outer) {
-                    continue;
-                }
-                InterfaceDirEntry *pClassItfDir = pModule->mInterfaceDirs[pClsIntf->mIndex];
-                if (!strcmp(pClassItfDir->mName, pItfDir->mName)) {
-                    fprintf(pFile, "    virtual CARAPI JavaInit(\n");
-                    fprintf(pFile, "        /* [in] */ _ELASTOS Handle64 jvm,\n");
-                    fprintf(pFile, "        /* [in] */ _ELASTOS Handle64 jobj) = 0;\n");
-                }
-                break;
-            }
-        }
     }
 
     for (int i = 0; i < pItfDir->mDesc->mMethodCount; i++) {

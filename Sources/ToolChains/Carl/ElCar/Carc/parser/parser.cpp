@@ -59,6 +59,7 @@ bool s_bLenientNaming = false;
 bool s_bInKernel = false;
 bool s_bSupportWeakRef = false;
 bool s_bInNakedMode = false;
+bool s_bImplementJavaInterface = false;
 
 static const IID EIID_IInterface = \
 {0x00000000,0x0000,0x0000,{0xC0,0x00,0x00,0x00,0x00,0x00,0x00,0x66}};
@@ -80,6 +81,9 @@ static const IID EIID_IWeakReference= \
 
 static const IID EIID_IWeakReferenceSource= \
 {0x0001000A,0x0000,0x0000,{0xC0,0x00,0x00,0x00,0x00,0x00,0x00,0x66}};
+
+static const IID EIID_IJavaInterface= \
+{0x00010004,0x0000,0x0000,{0xC0,0x00,0x00,0x00,0x00,0x00,0x00,0x66}};
 
 static const CLSID CLSID_XOR_CallbackSink = \
 /* e724df56-e16a-4599-8edd-a97ab245d583 */
@@ -4537,6 +4541,10 @@ void CheckClassAttribs(ClassDescriptor *pDesc)
         AddConstClassInterface("IRegime", NULL, pDesc);
     }
 
+    if (s_bImplementJavaInterface) {
+        AddConstClassInterface("IJavaInterface", NULL, pDesc);
+    }
+
     // if (s_bSupportWeakRef && !(pDesc->mAttribs & ClassAttrib_singleton)) {
     //     AddConstClassInterface("IWeakReferenceSource", NULL, pDesc);
     // }
@@ -6007,6 +6015,9 @@ int P_CARBody()
     RetrieveInterface("IObject", NULL, s_pModule, TRUE);
     RetrieveInterface("IAspect", NULL, s_pModule, TRUE);
     RetrieveInterface("IClassObject", NULL, s_pModule, TRUE);
+    if (s_bImplementJavaInterface) {
+        RetrieveInterface("IJavaInterface", NULL, s_pModule, TRUE);
+    }
 
     token = GetToken(s_pFile);
     if (Token_S_lbrace == token) {
@@ -6241,6 +6252,9 @@ void InterfaceLastCheck(InterfaceDirEntry *pInterface)
     }
     else if (0 == strcmp(pInterface->mName, "IWeakReferenceSource")) {
         pInterface->mDesc->mIID = EIID_IWeakReferenceSource;
+    }
+    else if (0 == strcmp(pInterface->mName, "IJavaInterface")) {
+        pInterface->mDesc->mIID = EIID_IJavaInterface;
     }
     else {
         GenIIDSeedString(pInterface, szSeedBuf);

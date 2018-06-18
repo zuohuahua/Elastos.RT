@@ -4,20 +4,25 @@
 
 #include "_CTestCar.h"
 #include "elastos/core/Object.h"
-
-using Elastos::Core::IComparable;
-using Elastos::Core::EIID_IComparable;
+#include <jni.h>
 
 
 CarClass(CTestCar)
     , public Object
     , public ITestCar
     , public ITestCar2
+    , public IJavaInterface
 {
 public:
     CAR_OBJECT_DECL()
 
     CAR_INTERFACE_DECL()
+
+    virtual ~CTestCar()
+    {
+        GetEnv()->DeleteGlobalRef(mObj);
+        Detach();
+    }
 
     CARAPI SetInt(
         /* [in] */ Int32 value);
@@ -65,10 +70,23 @@ public:
         /* [in] */ const String& value3,
         /* [out] */ String * pValue);
 
+    CARAPI JavaInit(
+        /* [in] */ Handle64 jvm,
+        /* [in] */ Handle64 jobj);
+
+    CARAPI GetJavaObject(
+        /* [out] */ Handle64 * pJobj);
+
     CARAPI constructor();
 
 private:
+    JNIEnv* GetEnv();
+    void Detach();
+
+private:
     // TODO: Add your private member variables here.
+    JavaVM* mJvm;
+    jobject mObj;
 };
 
 

@@ -11,6 +11,7 @@ CarClass(CTestCar)
     , public Object
     , public ITestCar
     , public ITestCar2
+    , public IJavaInterface
 {
 public:
     CAR_OBJECT_DECL()
@@ -20,6 +21,7 @@ public:
     virtual ~CTestCar()
     {
         GetEnv()->DeleteGlobalRef(mObj);
+        Detach();
     }
 
     CARAPI SetInt(
@@ -71,6 +73,9 @@ public:
     CARAPI JavaInit(
         /* [in] */ Handle64 jvm,
         /* [in] */ Handle64 jobj);
+
+    CARAPI GetJavaObject(
+        /* [out] */ Handle64 * pJobj);
 
     CARAPI constructor();
 

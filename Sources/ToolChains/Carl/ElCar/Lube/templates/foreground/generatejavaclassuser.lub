@@ -15,12 +15,12 @@ $;; limitations under the License.
 $;;=========================================================================
 $
 $INPUT class
-$OUTPUT "${name}User.java"
+$OUTPUT "${name}.java"
 
 //TODO : Modify the package and the final user will call this class' method.
-package org.elastos.xxx;
+package org.elastos.${module.name};
 
-public class ${class.name}User {
+public class ${class.name} {
 $IF class.attrib is not "hasTrivialCtor"
 $    WITH all interfaces DO
 $        IF attrib is "clsobj"
@@ -29,9 +29,9 @@ $        END IF
 $    END DO ;; all interfaces
 $END IF ;;class.attrib is not "hasTrivialCtor"
 $WITH all interfaces DO
-$   IF attrib is not "callback" and attrib is not "callbacksink" and attrib is not "clsobj" and attrib is not "filter" and name is not "IRegime" and name is not "IObject" and name is not "ISynchronize" and name is not "IWeakReferenceSource" and name is not "IThread"
+$   IF attrib is not "callback" and attrib is not "callbacksink" and attrib is not "clsobj" and attrib is not "filter" and name is not "IRegime" and name is not "IObject" and name is not "ISynchronize" and name is not "IWeakReferenceSource" and name is not "IThread" and name is not "IJavaInterface"
 $           {GenerateJavaClassUser(interface)}
-$   END IF ;; is not "callback" and not "callbacksink" and not "clsobj" and not "filter" and name is not "IRegime" and name is not "IObject"
+$   END IF ;; is not "callback" and not "callbacksink" and not "clsobj" and not "filter" and name is not "IRegime" and name is not "IObject" and name is not "ISynchronize" and name is not "IWeakReferenceSource" and name is not "IThread" and name is not "IJavaInterface"
 $
 $END DO ;; all interfaces
 }

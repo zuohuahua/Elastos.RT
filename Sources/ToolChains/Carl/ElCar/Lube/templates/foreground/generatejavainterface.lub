@@ -14,18 +14,13 @@ $;; See the License for the specific language governing permissions and
 $;; limitations under the License.
 $;;=========================================================================
 $
-$INPUT module
+$INPUT interface
+$OUTPUT "${name}.java"
+
+package org.elastos.${module.name};
+
+//this java interface define the elastos interface.
 $
+$   {GenerateJavaInterface(interface)}
 $
-$WITH all classes DO
-$   IF type is not "clsobj" and type is not "sink"
-$     IF type is not "generic"
-$       IF attrib is not "naked"
-$         TEMPLATE "forehjava.lub"
-$         TEMPLATE "forecppjni.lub"
-$         TEMPLATE "generatejavajnicpp.lub"
-$         TEMPLATE "generatejavaclassuser.lub"
-$       END IF
-$     END IF
-$   END IF
-$END DO
+$END OUTPUT

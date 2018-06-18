@@ -77,9 +77,6 @@ int main(int argc, char **argv)
     if (args.mAttribs & Command_u_WeakRef) {
         dwLubeOpt |= LubeOpt_WeakRef;
     }
-    if (args.mAttribs & Command_j_JavaInit) {
-        dwLubeOpt |= LubeOpt_JavaInit;
-    }
 
     if (LoadLube(args.pszInputLBO, &pLube) < 0) {
         return LUBE_FAIL;

@@ -15,12 +15,23 @@ $;; limitations under the License.
 $;;=========================================================================
 $
 $INPUT class
-$OUTPUT "${name}Impl.java"
+$OUTPUT "${name}.java"
 
-//TODO : Modify the package and this java class will implement the elastos interface.
-package org.elastos.xxx;
+package org.elastos.${module.name};
 
-public class ${name}Impl {
+//this java class will implement the elastos interface.
+public class ${name} implements$^
+$WITH all interfaces DO
+$   IF attrib is not "callback" and attrib is not "callbacksink" and attrib is not "clsobj" and attrib is not "filter" and name is not "IRegime" and name is not "IObject" and name is not "ISynchronize" and name is not "IWeakReferenceSource" and name is not "IThread" and name is not "IJavaInterface"
+$      IF interface is first
+ ${name}$^
+$      ELSE
+, ${name}$^
+$      END IF ;; interface is not last
+$   END IF ;; is not "callback" and not "callbacksink" and not "clsobj" and not "filter" and name is not "IRegime" and name is not "IObject" and name is not "ISynchronize" and name is not "IWeakReferenceSource" and name is not "IThread" and name is not "IJavaInterface"
+$
+$END DO ;; all interfaces
+ {
 $IF class.attrib is not "hasTrivialCtor"
 $    WITH all interfaces DO
 $        IF attrib is "clsobj"
@@ -29,9 +40,9 @@ $        END IF
 $    END DO ;; all interfaces
 $END IF ;;class.attrib is not "hasTrivialCtor"
 $WITH all interfaces DO
-$   IF attrib is not "callback" and attrib is not "callbacksink" and attrib is not "clsobj" and attrib is not "filter" and name is not "IRegime" and name is not "IObject" and name is not "ISynchronize" and name is not "IWeakReferenceSource" and name is not "IThread"
+$   IF attrib is not "callback" and attrib is not "callbacksink" and attrib is not "clsobj" and attrib is not "filter" and name is not "IRegime" and name is not "IObject" and name is not "ISynchronize" and name is not "IWeakReferenceSource" and name is not "IThread" and name is not "IJavaInterface"
 $           {GenerateJavaClassImpl(interface)}
-$   END IF ;; is not "callback" and not "callbacksink" and not "clsobj" and not "filter" and name is not "IRegime" and name is not "IObject"
+$   END IF ;; is not "callback" and not "callbacksink" and not "clsobj" and not "filter" and name is not "IRegime" and name is not "IObject" and name is not "ISynchronize" and name is not "IWeakReferenceSource" and name is not "IThread" and name is not "IJavaInterface"
 $
 $END DO ;; all interfaces
 }

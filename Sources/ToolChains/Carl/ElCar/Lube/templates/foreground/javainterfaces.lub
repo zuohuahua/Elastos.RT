@@ -1,5 +1,5 @@
 $;;=========================================================================
-$;; Copyright (C) 2012 The Elastos Open Source Project
+$;; Copyright (C) 2018 The Elastos Open Source Project
 $;;
 $;; Licensed under the Apache License, Version 2.0 (the "License");
 $;; you may not use this file except in compliance with the License.
@@ -15,31 +15,10 @@ $;; limitations under the License.
 $;;=========================================================================
 $
 $INPUT module
-$OUTPUT "CMakeLists.txt"
+
+$WITH all interfaces DO
+$   IF attrib is not "callback" and attrib is not "callbacksink" and attrib is not "clsobj" and attrib is not "filter" and name is not "IRegime" and name is not "IObject" and name is not "ISynchronize" and name is not "IWeakReferenceSource" and name is not "IThread" and name is not "IJavaInterface"
+$     TEMPLATE "generatejavainterface.lub"
+$   END IF ;; is not "callback" and not "callbacksink" and not "clsobj" and not "filter" and name is not "IRegime" and name is not "IObject" and name is not "ISynchronize" and name is not "IWeakReferenceSource" and name is not "IThread" and name is not "IJavaInterface"
 $
-
-set(CAR_FLAGS -n -u)
-set(LUBE_FLAGS -n -u -j)
-
-include(${name}.cmake)
-xdk_compile_car(CAR_GENERATED_SOURCES ${name}.car)
-
-set(SOURCES
-    $${CAR_GENERATED_SOURCES}
-    $${CURRENT_MIRROR_SOURCES}
-$   WITH all classes DO
-$       IF type is not "sink" and type is not "clsobj"
-    ${name}.cpp
-$       END IF
-$   END DO ;; all classes
-)
-
-add_library(${name} SHARED $${SOURCES})
-
-target_link_libraries(${name}
-    Elastos.Runtime
-    Elastos.Runtime_static
-    Elastos.CoreLibrary
-)
-
-$END OUTPUT
+$END DO ;; all interfaces

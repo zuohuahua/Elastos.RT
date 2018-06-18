@@ -33,6 +33,7 @@ extern bool s_bLenientNaming;
 extern bool s_bInKernel;
 extern bool s_bSupportWeakRef;
 extern bool s_bInNakedMode;
+extern bool s_bImplementJavaInterface;
 
 extern void SetDefaultThreadModel(ClassAttrib attrib);
 
@@ -175,6 +176,8 @@ CLSModule * CompileCAR(const char *pszName, DWORD attribs)
         s_bSupportWeakRef = true;
     if (attribs & Command_n_NakedMode)
         s_bInNakedMode = true;
+    if (attribs & Command_j_Java)
+        s_bImplementJavaInterface = true;
 
     InitNamespace();
     InitSubmodule();

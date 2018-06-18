@@ -1,8 +1,8 @@
 
 //TODO : Modify the package and the final user will call this class' method.
-package org.elastos.xxx;
+package org.elastos.Elastos.AutoGenerateJavaCodes;
 
-public class CTestCarUser {
+public class CTestCar {
     static {
         System.loadLibrary("Elastos.Runtime");
         System.loadLibrary("Elastos.CoreLibrary");
@@ -16,13 +16,17 @@ public class CTestCarUser {
     private native long nativeInit();
     private native void nativeDestroy(long carobj);
 
-    public CTestCarUser() {
+    public CTestCar() {
         mCarObj = nativeInit();
         //TODO: Add your code here
     }
 
+    public long getCarObject() {
+        return mCarObj;
+    }
+
     // invoke destroy to release car object
-    public void destroy(){
+    public void destroy() {
         nativeDestroy(mCarObj);
     }
 

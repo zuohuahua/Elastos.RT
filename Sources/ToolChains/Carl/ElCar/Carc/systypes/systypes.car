@@ -101,4 +101,13 @@ library
         GetWeakReference(
             [out] IWeakReference** weakReference);
     }
+
+    interface IJavaInterface extends IInterface {
+        JavaInit(
+            [in] Handle64 jvm,
+            [in] Handle64 jobj);
+
+        GetJavaObject(
+            [out] Handle64* jobj);
+    }
 }

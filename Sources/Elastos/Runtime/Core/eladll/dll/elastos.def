@@ -135,6 +135,7 @@ EXPORTS
 
 ;;    EIID_ICallbackSink                              @567    NONAME  DATA
 ;;    EIID_IRegime                                    @569    NONAME  DATA
+    EIID_IJavaInterface                               @570    NONAME  DATA
 
     EIID_IDataTypeInfo                              @607    NONAME  DATA
     EIID_ILocalPtrInfo                              @608    NONAME  DATA

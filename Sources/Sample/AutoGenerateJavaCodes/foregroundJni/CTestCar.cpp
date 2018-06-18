@@ -5,7 +5,7 @@
 
 CAR_OBJECT_IMPL(CTestCar)
 
-CAR_INTERFACE_IMPL(CTestCar, Object, ITestCar, ITestCar2);
+CAR_INTERFACE_IMPL(CTestCar, Object, ITestCar, ITestCar2, IJavaInterface);
 
 ECode CTestCar::SetInt(
     /* [in] */ Int32 value)
@@ -89,10 +89,50 @@ ECode CTestCar::Update(
     return E_NOT_IMPLEMENTED;
 }
 
+ECode CTestCar::JavaInit(
+    /* [in] */ Handle64 jvm,
+    /* [in] */ Handle64 jobj)
+{
+    mJvm = (JavaVM*)jvm;
+    assert(mJvm != NULL);
+
+    jobject jclsobj = *((jobject*)jobj);
+    mObj = GetEnv()->NewGlobalRef(jclsobj);
+    if (mObj == NULL) {
+        return E_INVALID_ARGUMENT;
+    }
+
+    return NOERROR;
+}
+
+ECode CTestCar::GetJavaObject(
+    /* [out] */ Handle64* jobj)
+{
+    if (!jobj) {
+        return E_INVALID_ARGUMENT;
+    }
+
+    *jobj = (Handle64)&mObj;
+    return NOERROR;
+}
+
 ECode CTestCar::constructor()
 {
     // TODO: Add your code here
     return E_NOT_IMPLEMENTED;
 }
 
+JNIEnv* CTestCar::GetEnv()
+{
+    JNIEnv* env;
+    assert(mJvm != NULL);
+    mJvm->AttachCurrentThread(&env, NULL);
+    return env;
+}
+
+void CTestCar::Detach()
+{
+    assert(mJvm != NULL);
+    mJvm->DetachCurrentThread();
+}
 

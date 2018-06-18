@@ -43,6 +43,7 @@ public:
     virtual ~${class.name}()
     {
         GetEnv()->DeleteGlobalRef(mObj);
+        Detach();
     }
 
 $WITH all interfaces DO
@@ -115,10 +116,6 @@ $       END DO ;; parents_and_me
 $   END IF ;; is "delegatesink"
 $END DO ;; all interfaces
 $
-    CARAPI JavaInit(
-        /* [in] */ Handle64 jvm,
-        /* [in] */ Handle64 jobj);
-
 $IF class.attrib is not "hasTrivialCtor"
 $  WITH all interfaces DO
 $    IF attrib is "clsobj"
