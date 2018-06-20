@@ -117,6 +117,8 @@ DECL_USERFUNC(GenerateJavaImplJniCpp);
 DECL_USERFUNC(GenerateJavaImplJniCpp2);
 DECL_USERFUNC(GenerateDefalutCarClassCpp);
 DECL_USERFUNC(GenerateJavaInterface);
+DECL_USERFUNC(GeneratePackageNameByInterface);
+DECL_USERFUNC(GeneratePackageNameByClass);
 
 const UserFuncEntry g_userFuncs[] = {
     USERFUNC_(Embed, ARGTYPE_STRING, \
@@ -236,27 +238,32 @@ const UserFuncEntry g_userFuncs[] = {
     USERFUNC_(GenerateExportHeaderForCMake, ARGTYPE_(Object_Module, Member_None), \
             "Generate the export header files for CMake"),
     USERFUNC_(GenerateJavaClassConstructor, ARGTYPE_(Object_ClsIntf, Member_None), \
-            "Get the java class constructors"),
+            "Generate the java class constructors"),
     USERFUNC_(GenerateJavaClassImpl, ARGTYPE_(Object_ClsIntf, Member_None), \
-            "Get the implement java class"),
+            "Generate the implement java class"),
     USERFUNC_(GenerateJavaClassUserConstructor, ARGTYPE_(Object_ClsIntf, Member_None), \
-            "Get the user class constructors"),
+            "Generate the user class constructors"),
     USERFUNC_(GenerateJavaClassUser, ARGTYPE_(Object_ClsIntf, Member_None), \
-            "Get the user java class"),
+            "Generate the user java class"),
     USERFUNC_(GenerateJavaJniCppInit, ARGTYPE_(Object_ClsIntf, Member_None), \
-            "Get the jni init func for user"),
+            "Generate the jni init func for user"),
     USERFUNC_(GenerateJavaJniCpp, ARGTYPE_(Object_ClsIntf, Member_None), \
-            "Get the jni cpp file for user"),
+            "Generate the jni cpp file for user"),
     USERFUNC_(GenerateJavaJniCpp2, ARGTYPE_(Object_Class, Member_None), \
-            "Get the jni cpp_jniLoad file for user"),
+            "Generate the jni cpp_jniLoad file for user"),
     USERFUNC_(GenerateJavaImplJniCpp, ARGTYPE_(Object_ClsIntf, Member_None), \
-            "Get the jni cpp file for user"),
+            "Generate the jni cpp file for user"),
     USERFUNC_(GenerateJavaImplJniCpp2, ARGTYPE_(Object_ClsIntf, Member_None), \
-            "Get the jni cpp_jniLoad file for user"),
+            "Generate the jni cpp_jniLoad file for user"),
     USERFUNC_(GenerateDefalutCarClassCpp, ARGTYPE_(Object_ClsIntf, Member_None), \
             "Defalut car class implement."),
     USERFUNC_(GenerateJavaInterface, ARGTYPE_(Object_ClsIntf, Member_None), \
             "Generate java interface."),
+    USERFUNC_(GeneratePackageNameByInterface, ARGTYPE_(Object_ClsIntf, Member_None), \
+            "Generate java interface package name."),
+    USERFUNC_(GeneratePackageNameByClass, ARGTYPE_(Object_Class, Member_None), \
+            "Generate java class package name."),
+
 };
 const int c_cUserFuncs = sizeof(g_userFuncs) / sizeof(UserFuncEntry);
 
@@ -416,10 +423,10 @@ IMPL_USERFUNC(GenerateJavaJniCpp)(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
     return _GenerateJavaJniCpp(pCtx, pDesc, pvArg);
 }
 
-int _GenerateJavaJniCppJniLoad(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg);
+int _GenerateJavaJniCppJniRegister(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg);
 IMPL_USERFUNC(GenerateJavaJniCpp2)(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
 {
-    return _GenerateJavaJniCppJniLoad(pCtx, pDesc, pvArg);
+    return _GenerateJavaJniCppJniRegister(pCtx, pDesc, pvArg);
 }
 
 int _GenerateJavaImplJniCpp(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg);
@@ -428,10 +435,10 @@ IMPL_USERFUNC(GenerateJavaImplJniCpp)(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvA
     return _GenerateJavaImplJniCpp(pCtx, pDesc, pvArg);
 }
 
-int _GenerateJavaImplJniCppJniLoad(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg);
+int _GenerateJavaImplJniCppRegister(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg);
 IMPL_USERFUNC(GenerateJavaImplJniCpp2)(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
 {
-    return _GenerateJavaImplJniCppJniLoad(pCtx, pDesc, pvArg);
+    return _GenerateJavaImplJniCppRegister(pCtx, pDesc, pvArg);
 }
 
 int _GenerateDefalutCarClassCpp(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg);
@@ -444,6 +451,18 @@ int _GenerateJavaInterface(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg);
 IMPL_USERFUNC(GenerateJavaInterface)(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
 {
     return _GenerateJavaInterface(pCtx, pDesc, pvArg);
+}
+
+int _GeneratePackageNameByInterface(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg);
+IMPL_USERFUNC(GeneratePackageNameByInterface)(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
+{
+    return _GeneratePackageNameByInterface(pCtx, pDesc, pvArg);
+}
+
+int _GeneratePackageNameByClass(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg);
+IMPL_USERFUNC(GeneratePackageNameByClass)(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
+{
+    return _GeneratePackageNameByClass(pCtx, pDesc, pvArg);
 }
 
 IMPL_USERFUNC(FormatUuid)(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)

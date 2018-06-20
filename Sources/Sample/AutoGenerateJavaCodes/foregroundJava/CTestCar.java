@@ -2,7 +2,7 @@
 package org.elastos.Elastos.AutoGenerateJavaCodes;
 
 //this java class will implement the elastos interface.
-public class CTestCar implements ITestCar, ITestCar2 {
+public class CTestCar implements ITestCar {
     static {
         System.loadLibrary("Elastos.Runtime");
         System.loadLibrary("Elastos.CoreLibrary");
@@ -13,11 +13,17 @@ public class CTestCar implements ITestCar, ITestCar2 {
 
     private long mCarObj = 0;
 
-    private native long nativeInit();
-    private native void nativeDestroy(long carobj);
+    private native long native_CTestCar(double[] dArray, String[] sArray);
+    private native long native_CTestCar(IServiceManager sm, ICarrier carrier);
+    private native void native_CTestCar_Destroy(long carobj);
 
-    public CTestCar() {
-        mCarObj = nativeInit();
+    public CTestCar(double[] dArray, String[] sArray) {
+        mCarObj = native_CTestCar(dArray, sArray);
+        //TODO: Add your code here
+    }
+
+    public CTestCar(IServiceManager sm, ICarrier carrier) {
+        mCarObj = native_CTestCar(sm, carrier);
         //TODO: Add your code here
     }
 
@@ -27,7 +33,7 @@ public class CTestCar implements ITestCar, ITestCar2 {
 
     // invoke destroy to release car object
     public void destroy() {
-        nativeDestroy(mCarObj);
+        native_CTestCar_Destroy(mCarObj);
     }
 
 
@@ -82,18 +88,24 @@ public class CTestCar implements ITestCar, ITestCar2 {
         return 0;
     }
 
-
-    public void SetInt2(
-        /* [in] */ int value) {
+    public void Test7(
+        /* [in] */ IHelloCar animal) {
         //TODO: Add your code here
     }
 
-    public String Update(
-        /* [in] */ String value1,
-        /* [in] */ String value2,
-        /* [in] */ String value3) {
+    public IHelloCar Test8() {
         //TODO: Add your code here
-        return "NULL";
+        return null;
+    }
+
+    public void Test9(
+        /* [in] */ ICarrier[] carriers) {
+        //TODO: Add your code here
+    }
+
+    public ICarrier[] Test10() {
+        //TODO: Add your code here
+        return null;
     }
 
 

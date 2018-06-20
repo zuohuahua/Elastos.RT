@@ -2,7 +2,7 @@
 #include "CTestCar.h"
 
 CAR_OBJECT_IMPL(CTestCar)
-CAR_INTERFACE_IMPL(CTestCar, Object, ITestCar, ITestCar2, IJavaInterface);
+CAR_INTERFACE_IMPL(CTestCar, Object, ITestCar, IJavaInterface);
 
 ECode CTestCar::SetInt(
     /* [in] */ Int32 value)
@@ -105,33 +105,99 @@ ECode CTestCar::Test2(
     return NOERROR;
 }
 
-ECode CTestCar::SetInt2(
-    /* [in] */ Int32 value)
+ECode CTestCar::Test7(
+    /* [in] */ IHelloCar * animal)
 {
     JNIEnv* env = GetEnv();
     jclass cls = env->GetObjectClass(mObj);
-    jmethodID method = env->GetMethodID(cls, "SetInt2", "(I)V");
-    env->CallVoidMethod(cls, method, value);
+
+    //TODO: please fix the package name of the interface.
+    assert(0);
+    jmethodID method = env->GetMethodID(cls, "Test7", "(Lorg/elastos/xxx/IHelloCar;)V");
+    Handle64 _jobj1;
+    IJavaInterface::Probe(animal)->GetJavaObject(&_jobj1);
+    env->CallVoidMethod(cls, method, *((jobject*)_jobj1));
     Detach();
     return NOERROR;
 }
 
-ECode CTestCar::Update(
-    /* [in] */ const String& value1,
-    /* [in] */ const String& value2,
-    /* [in] */ const String& value3,
-    /* [out] */ String * value)
+ECode CTestCar::Test8(
+    /* [out] */ IHelloCar ** animal)
 {
     JNIEnv* env = GetEnv();
     jclass cls = env->GetObjectClass(mObj);
-    jmethodID method = env->GetMethodID(cls, "Update", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;");
-    jstring _jstr1 = env->NewStringUTF(value1.string());
-    jstring _jstr2 = env->NewStringUTF(value2.string());
-    jstring _jstr3 = env->NewStringUTF(value3.string());
-    jstring _jstr = (jstring)env->CallObjectMethod(cls, method, _jstr1, _jstr2, _jstr3);
-    const char* __str = env->GetStringUTFChars(_jstr, NULL);
-    *value = String(__str);
-    env->ReleaseStringUTFChars(_jstr, __str);
+
+    //TODO: please fix the package name of the interface.
+    assert(0);
+    jmethodID method = env->GetMethodID(cls, "Test8", "()Lorg/elastos/xxx/IHelloCar;");
+    jobject _jobj = env->CallObjectMethod(cls, method);
+    jclass _clazz = env->GetObjectClass(_jobj);
+    jmethodID _methodId = env->GetMethodID(_clazz, "getCarObject", "()J");
+    jlong _carobj = env->CallLongMethod(_jobj, _methodId);
+    *animal = IHelloCar::Probe((IInterface*)_carobj);
+    (*animal)->AddRef();
+    Detach();
+    return NOERROR;
+}
+
+ECode CTestCar::Test9(
+    /* [in] */ const ArrayOf<ICarrier *> & carriers)
+{
+    JNIEnv* env = GetEnv();
+    jclass cls = env->GetObjectClass(mObj);
+
+    //TODO: please fix the package name of the interface.
+    assert(0);
+    jmethodID method = env->GetMethodID(cls, "Test9", "([Lorg/elastos/xxx/ICarrier;)V");
+
+    //TODO: please fix the package name of the interface.
+    assert(0);
+    jclass _clazz1 = env->FindClass("org/elastos/xxx/ICarrier");
+    jobjectArray _jarray1 = env->NewObjectArray(carriers.GetLength(), _clazz1, NULL);
+    if (_jarray1 == NULL) {
+        Detach();
+        return E_OUT_OF_MEMORY;
+    }
+
+    for (Int32 i = 0; i < carriers.GetLength(); i++) {
+        Handle64 jobj;
+        IJavaInterface::Probe(carriers[i])->GetJavaObject(&jobj);
+        env->SetObjectArrayElement(_jarray1, i, *((jobject*)jobj));
+    }
+
+    env->CallVoidMethod(cls, method, _jarray1);
+    Detach();
+    return NOERROR;
+}
+
+ECode CTestCar::Test10(
+    /* [out, callee] */ ArrayOf<ICarrier *> ** carriers)
+{
+    JNIEnv* env = GetEnv();
+    jclass cls = env->GetObjectClass(mObj);
+
+    //TODO: please fix the package name of the interface.
+    assert(0);
+    jmethodID method = env->GetMethodID(cls, "Test10", "()[Lorg/elastos/xxx/ICarrier;");
+    jobjectArray _jarray = (jobjectArray)env->CallObjectMethod(cls, method);
+    int _len = env->GetArrayLength(_jarray);
+    AutoPtr<ArrayOf<ICarrier *> > _array = ArrayOf<ICarrier *>::Alloc(_len);
+    if (!_array) {
+        Detach();
+        return E_OUT_OF_MEMORY;
+    }
+
+    
+    for (Int32 i = 0; i < _len; i++) {
+        jobject _item = env->GetObjectArrayElement(_jarray, i);
+        jclass _clazz = env->GetObjectClass(_item);
+        jmethodID _methodId = env->GetMethodID(_clazz, "getCarObject", "()J");
+        jlong _carobj = env->CallLongMethod(_item, _methodId);
+        (*_array)[i] = ICarrier::Probe((IInterface*)_carobj);
+        (*_array)[i]->AddRef();
+    }
+    *carriers = _array;
+    (*carriers)->AddRef();
     Detach();
     return NOERROR;
 }
@@ -163,7 +229,17 @@ ECode CTestCar::GetJavaObject(
     return NOERROR;
 }
 
-ECode CTestCar::constructor()
+ECode CTestCar::constructor(
+        /* [in] */ const ArrayOf<Double> & dArray,
+        /* [in] */ const ArrayOf<String> & sArray)
+{
+    // TODO: Add your code here for constructor
+    return NOERROR;
+}
+
+ECode CTestCar::constructor(
+        /* [in] */ IServiceManager * pSm,
+        /* [in] */ ICarrier * pCarrier)
 {
     // TODO: Add your code here for constructor
     return NOERROR;

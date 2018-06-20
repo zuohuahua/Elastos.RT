@@ -38,5 +38,15 @@ public interface ITestCar {
         /* [in] */ String value9,
         /* [in] */ String value10);
 
+    public void Test7(
+        /* [in] */ IHelloCar animal);
+
+    public IHelloCar Test8();
+
+    public void Test9(
+        /* [in] */ ICarrier[] carriers);
+
+    public ICarrier[] Test10();
+
 }
 

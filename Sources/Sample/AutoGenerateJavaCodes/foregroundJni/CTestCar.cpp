@@ -5,7 +5,7 @@
 
 CAR_OBJECT_IMPL(CTestCar)
 
-CAR_INTERFACE_IMPL(CTestCar, Object, ITestCar, ITestCar2, IJavaInterface);
+CAR_INTERFACE_IMPL(CTestCar, Object, ITestCar, IJavaInterface);
 
 ECode CTestCar::SetInt(
     /* [in] */ Int32 value)
@@ -72,18 +72,29 @@ ECode CTestCar::Test2(
     return E_NOT_IMPLEMENTED;
 }
 
-ECode CTestCar::SetInt2(
-    /* [in] */ Int32 value)
+ECode CTestCar::Test7(
+    /* [in] */ IHelloCar * pAnimal)
 {
     // TODO: Add your code here
     return E_NOT_IMPLEMENTED;
 }
 
-ECode CTestCar::Update(
-    /* [in] */ const String& value1,
-    /* [in] */ const String& value2,
-    /* [in] */ const String& value3,
-    /* [out] */ String * pValue)
+ECode CTestCar::Test8(
+    /* [out] */ IHelloCar ** ppAnimal)
+{
+    // TODO: Add your code here
+    return E_NOT_IMPLEMENTED;
+}
+
+ECode CTestCar::Test9(
+    /* [in] */ const ArrayOf<ICarrier *> & carriers)
+{
+    // TODO: Add your code here
+    return E_NOT_IMPLEMENTED;
+}
+
+ECode CTestCar::Test10(
+    /* [out, callee] */ ArrayOf<ICarrier *> ** ppCarriers)
 {
     // TODO: Add your code here
     return E_NOT_IMPLEMENTED;
@@ -116,7 +127,17 @@ ECode CTestCar::GetJavaObject(
     return NOERROR;
 }
 
-ECode CTestCar::constructor()
+ECode CTestCar::constructor(
+    /* [in] */ const ArrayOf<Double> & dArray,
+    /* [in] */ const ArrayOf<String> & sArray)
+{
+    // TODO: Add your code here
+    return E_NOT_IMPLEMENTED;
+}
+
+ECode CTestCar::constructor(
+    /* [in] */ IServiceManager * pSm,
+    /* [in] */ ICarrier * pCarrier)
 {
     // TODO: Add your code here
     return E_NOT_IMPLEMENTED;

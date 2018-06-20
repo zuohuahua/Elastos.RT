@@ -1,7 +1,7 @@
 
-//TODO : Modify the package and the final user will call this class' method.
 package org.elastos.Elastos.AutoGenerateJavaCodes;
 
+//TODO : Modify the package and the final user will call this class' method.
 public class CTestCar {
     static {
         System.loadLibrary("Elastos.Runtime");
@@ -13,11 +13,17 @@ public class CTestCar {
 
     private long mCarObj = 0;
 
-    private native long nativeInit();
-    private native void nativeDestroy(long carobj);
+    private native long native_CTestCar(double[] dArray, String[] sArray);
+    private native long native_CTestCar(IServiceManager sm, ICarrier carrier);
+    private native void native_CTestCar_Destroy(long carobj);
 
-    public CTestCar() {
-        mCarObj = nativeInit();
+    public CTestCar(double[] dArray, String[] sArray) {
+        mCarObj = native_CTestCar(dArray, sArray);
+        //TODO: Add your code here
+    }
+
+    public CTestCar(IServiceManager sm, ICarrier carrier) {
+        mCarObj = native_CTestCar(sm, carrier);
         //TODO: Add your code here
     }
 
@@ -27,46 +33,46 @@ public class CTestCar {
 
     // invoke destroy to release car object
     public void destroy() {
-        nativeDestroy(mCarObj);
+        native_CTestCar_Destroy(mCarObj);
     }
 
 
     public void SetInt(
         /* [in] */ int value)
     {
-        nativeSetInt(mCarObj, value);
+        native_CTestCar_ITestCar_SetInt(mCarObj, value);
     }
 
-    private native void nativeSetInt(long carobj, int value);
+    private native void native_CTestCar_ITestCar_SetInt(long carobj, int value);
 
     public int GetInt()
     {
-        return nativeGetInt(mCarObj);
+        return native_CTestCar_ITestCar_GetInt(mCarObj);
     }
 
-    private native int nativeGetInt(long carobj);
+    private native int native_CTestCar_ITestCar_GetInt(long carobj);
 
     public void SetString(
         /* [in] */ String value)
     {
-        nativeSetString(mCarObj, value);
+        native_CTestCar_ITestCar_SetString(mCarObj, value);
     }
 
-    private native void nativeSetString(long carobj, String value);
+    private native void native_CTestCar_ITestCar_SetString(long carobj, String value);
 
     public String GetString()
     {
-        return nativeGetString(mCarObj);
+        return native_CTestCar_ITestCar_GetString(mCarObj);
     }
 
-    private native String nativeGetString(long carobj);
+    private native String native_CTestCar_ITestCar_GetString(long carobj);
 
     public void Normal()
     {
-        nativeNormal(mCarObj);
+        native_CTestCar_ITestCar_Normal(mCarObj);
     }
 
-    private native void nativeNormal(long carobj);
+    private native void native_CTestCar_ITestCar_Normal(long carobj);
 
     public void Test1(
         /* [in] */ int value1,
@@ -78,10 +84,10 @@ public class CTestCar {
         /* [in] */ char value7,
         /* [in] */ String value8)
     {
-        nativeTest1(mCarObj, value1, value2, value3, value4, value5, value6, value7, value8);
+        native_CTestCar_ITestCar_Test1(mCarObj, value1, value2, value3, value4, value5, value6, value7, value8);
     }
 
-    private native void nativeTest1(long carobj, int value1, boolean value2, float value3, double value4, long value5, byte value6, char value7, String value8);
+    private native void native_CTestCar_ITestCar_Test1(long carobj, int value1, boolean value2, float value3, double value4, long value5, byte value6, char value7, String value8);
 
     public int Test2(
         /* [in] */ int value1,
@@ -95,29 +101,40 @@ public class CTestCar {
         /* [in] */ String value9,
         /* [in] */ String value10)
     {
-        return nativeTest2(mCarObj, value1, value2, value3, value4, value5, value6, value7, value8, value9, value10);
+        return native_CTestCar_ITestCar_Test2(mCarObj, value1, value2, value3, value4, value5, value6, value7, value8, value9, value10);
     }
 
-    private native int nativeTest2(long carobj, int value1, boolean value2, float value3, double value4, long value5, byte value6, char value7, String value8, String value9, String value10);
+    private native int native_CTestCar_ITestCar_Test2(long carobj, int value1, boolean value2, float value3, double value4, long value5, byte value6, char value7, String value8, String value9, String value10);
 
-
-    public void SetInt2(
-        /* [in] */ int value)
+    public void Test7(
+        /* [in] */ IHelloCar animal)
     {
-        nativeSetInt2(mCarObj, value);
+        native_CTestCar_ITestCar_Test7(mCarObj, animal);
     }
 
-    private native void nativeSetInt2(long carobj, int value);
+    private native void native_CTestCar_ITestCar_Test7(long carobj, IHelloCar animal);
 
-    public String Update(
-        /* [in] */ String value1,
-        /* [in] */ String value2,
-        /* [in] */ String value3)
+    public IHelloCar Test8()
     {
-        return nativeUpdate(mCarObj, value1, value2, value3);
+        return native_CTestCar_ITestCar_Test8(mCarObj);
     }
 
-    private native String nativeUpdate(long carobj, String value1, String value2, String value3);
+    private native IHelloCar native_CTestCar_ITestCar_Test8(long carobj);
+
+    public void Test9(
+        /* [in] */ ICarrier[] carriers)
+    {
+        native_CTestCar_ITestCar_Test9(mCarObj, carriers);
+    }
+
+    private native void native_CTestCar_ITestCar_Test9(long carobj, ICarrier[] carriers);
+
+    public ICarrier[] Test10()
+    {
+        return native_CTestCar_ITestCar_Test10(mCarObj);
+    }
+
+    private native ICarrier[] native_CTestCar_ITestCar_Test10(long carobj);
 
 
 }

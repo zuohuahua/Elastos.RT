@@ -15,18 +15,43 @@ $;; limitations under the License.
 $;;=========================================================================
 $
 $INPUT module
-$
-$
+$OUTPUT "${name}_jnionload.cpp"
+
+#include <jni.h>
+
 $WITH all classes DO
 $   IF type is not "clsobj" and type is not "sink"
 $     IF type is not "generic"
-$       IF attrib is not "naked"
-$         TEMPLATE "forehjava.lub"
-$         TEMPLATE "forecppjni.lub"
-$         TEMPLATE "generatejavajnicpp.lub"
-$         TEMPLATE "generatejavaclassuser.lub"
-$       END IF
+$       IF attrib is not "naked" and attrib is not "hasTrivialCtor"
+extern int register$^
+${class.name}$^
+Method(JNIEnv * env);
+$       END IF ;; attrib is not "naked" and attrib is not "hasTrivialCtor"
 $     END IF
 $   END IF
 $END DO
-$TEMPLATE "generatejnionload.lub"
+
+JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved) {
+    JNIEnv * env;
+    if (vm->GetEnv((void **)&env, JNI_VERSION_1_6) != JNI_OK) {
+        return JNI_ERR;
+    }
+
+    int ret;
+
+$WITH all classes DO
+$   IF type is not "clsobj" and type is not "sink"
+$     IF type is not "generic"
+$       IF attrib is not "naked" and attrib is not "hasTrivialCtor"
+    ret = register$^
+${class.name}$^
+Method(env);
+    if (ret < 0) return ret;
+$       END IF ;; attrib is not "naked" and attrib is not "hasTrivialCtor"
+$     END IF
+$   END IF
+$END DO
+
+    return JNI_VERSION_1_6;
+};
+$END OUTPUT

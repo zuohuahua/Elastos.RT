@@ -17,8 +17,7 @@ $
 $INPUT interface
 $OUTPUT "${name}.java"
 
-package org.elastos.${module.name};
-
+$  {GeneratePackageNameByInterface(interface)}
 //this java interface define the elastos interface.
 $
 $   {GenerateJavaInterface(interface)}

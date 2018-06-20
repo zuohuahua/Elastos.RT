@@ -15,13 +15,13 @@ $;; limitations under the License.
 $;;=========================================================================
 $
 $INPUT class
-$OUTPUT "${fullname}_jni.cpp"
+$OUTPUT "${name}_jni.cpp"
 
 #include <jni.h>
 
 //For Elastos
 $IF class.attrib is not "hasTrivialCtor"
-$    WITH all interfaces DO	
+$    WITH all interfaces DO
 $        IF attrib is "clsobj"
 $            {GenerateJavaImplJniCpp(interface)}
 $            {GenerateJavaImplJniCpp2(interface)}

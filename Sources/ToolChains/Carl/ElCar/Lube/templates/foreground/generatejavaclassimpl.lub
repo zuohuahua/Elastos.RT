@@ -17,8 +17,7 @@ $
 $INPUT class
 $OUTPUT "${name}.java"
 
-package org.elastos.${module.name};
-
+$  {GeneratePackageNameByClass(class)}
 //this java class will implement the elastos interface.
 public class ${name} implements$^
 $WITH all interfaces DO

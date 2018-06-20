@@ -22,23 +22,58 @@ $
 #define __${Upper(name)}_H__
 
 #include "_${fullname}.h"
-#include "elastos/core/Object.h"
 #include <jni.h>
+$IF attrib is "singleton"
+#include "elastos/core/Singleton.h"
+$ELSE ;; singleton
+$   WITH all interfaces DO
+$       IF interface is first
+$           IF name is "IThread"
+#include "elastos/core/Thread.h"
+
+using Elastos::Core::Thread;
+using Elastos::Core::EIID_IRunnable;
+$           ELSE ;; IThread
+#include "elastos/core/Object.h"
+
+using Elastos::Core::IComparable;
+using Elastos::Core::EIID_IComparable;
+$           END IF ;; IThread
+$       END IF ;; first
+$   END DO ;; all interfaces
+$END IF ;; singleton
 
 ${ClassNamespaceBegin(class)}
 $IF type is not "generic"
 CarClass(${name})
-    , public Object
+$IF attrib is "singleton"
+    , public Singleton
+$END IF
 $WITH all interfaces DO
+$   IF interface is first and class.attrib is not "singleton"
+$       IF name is "IThread"
+    , public Thread
+$       ELSE
+    , public Object
+$       END IF
+$   END IF
 $   IF attrib is not "callback" and attrib is not "callbacksink" and attrib is not "clsobj" and attrib is not "filter" and name is not "IRegime" and name is not "IObject" and name is not "ISynchronize" and name is not "IWeakReferenceSource" and name is not "IThread" and name is not "IRunnable"
     , public ${interface.name}
 $   END IF
 $END DO
 {
 public:
+$IF attrib is "singleton"
+    CAR_SINGLETON_DECL()
+$ELSE
     CAR_OBJECT_DECL()
+$END IF
 
+$WITH all interfaces DO
+$   IF interface is first and name is not "IThread"
     CAR_INTERFACE_DECL()
+$   END IF
+$END DO
 
     virtual ~${class.name}()
     {

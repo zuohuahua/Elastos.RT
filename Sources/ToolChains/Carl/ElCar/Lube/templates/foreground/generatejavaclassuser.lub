@@ -17,9 +17,8 @@ $
 $INPUT class
 $OUTPUT "${name}.java"
 
+$  {GeneratePackageNameByClass(class)}
 //TODO : Modify the package and the final user will call this class' method.
-package org.elastos.${module.name};
-
 public class ${class.name} {
 $IF class.attrib is not "hasTrivialCtor"
 $    WITH all interfaces DO

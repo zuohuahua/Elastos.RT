@@ -3,14 +3,16 @@
 #define __CTESTCAR_H__
 
 #include "_CTestCar.h"
-#include "elastos/core/Object.h"
 #include <jni.h>
+#include "elastos/core/Object.h"
+
+using Elastos::Core::IComparable;
+using Elastos::Core::EIID_IComparable;
 
 
 CarClass(CTestCar)
     , public Object
     , public ITestCar
-    , public ITestCar2
     , public IJavaInterface
 {
 public:
@@ -61,14 +63,17 @@ public:
         /* [in] */ const String& value10,
         /* [out] */ Int32 * pResult);
 
-    CARAPI SetInt2(
-        /* [in] */ Int32 value);
+    CARAPI Test7(
+        /* [in] */ IHelloCar * pAnimal);
 
-    CARAPI Update(
-        /* [in] */ const String& value1,
-        /* [in] */ const String& value2,
-        /* [in] */ const String& value3,
-        /* [out] */ String * pValue);
+    CARAPI Test8(
+        /* [out] */ IHelloCar ** ppAnimal);
+
+    CARAPI Test9(
+        /* [in] */ const ArrayOf<ICarrier *> & carriers);
+
+    CARAPI Test10(
+        /* [out, callee] */ ArrayOf<ICarrier *> ** ppCarriers);
 
     CARAPI JavaInit(
         /* [in] */ Handle64 jvm,
@@ -77,7 +82,13 @@ public:
     CARAPI GetJavaObject(
         /* [out] */ Handle64 * pJobj);
 
-    CARAPI constructor();
+    CARAPI constructor(
+        /* [in] */ const ArrayOf<Double> & dArray,
+        /* [in] */ const ArrayOf<String> & sArray);
+
+    CARAPI constructor(
+        /* [in] */ IServiceManager * pSm,
+        /* [in] */ ICarrier * pCarrier);
 
 private:
     JNIEnv* GetEnv();

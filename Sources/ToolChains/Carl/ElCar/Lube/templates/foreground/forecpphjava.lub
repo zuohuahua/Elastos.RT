@@ -30,3 +30,5 @@ $       END IF
 $     END IF
 $   END IF
 $END DO
+$
+$TEMPLATE "generatejnionload.lub"

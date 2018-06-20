@@ -9,6 +9,7 @@ set(SOURCES
     ${CAR_GENERATED_SOURCES}
     ${CURRENT_MIRROR_SOURCES}
     CTestCar.cpp
+    CSingletonTest.cpp
 )
 
 add_library(Elastos.AutoGenerateJavaCodes SHARED ${SOURCES})

@@ -17,6 +17,7 @@
 module
 {
     importlib("Elastos.CoreLibrary");
+    importlib("Elastos.HelloCarDemo");
 
     interface ITestCar2 {
         SetInt2(
@@ -27,6 +28,28 @@ module
             [in] String value2,
             [in] String value3,
             [out] String* value);
+
+        Test1(
+            [in] String name,
+            [in] ArrayOf<Int32> array);
+
+        Test2(
+            [in] ArrayOf<String> strArray,
+            [in] ArrayOf<Int32> intArray);
+
+        Test3(
+            [in] Int32 i,
+            [out, callee] ArrayOf<String>* strArray);
+
+        Test4();
+
+        Test5(
+            [out] String* str);
+
+        Test6(
+            [in] Int32 i,
+            [in] String str,
+            [out, callee] ArrayOf<Float>* floatArray);
     }
 
     interface ITestCar {
@@ -66,12 +89,35 @@ module
             [in] String value9,
             [in] String value10,
             [out] Int32* result);
+
+        Test7(
+            [in] IHelloCar* animal);
+
+        Test8(
+            [out] IHelloCar** animal);
+
+        Test9(
+            [in] ArrayOf<ICarrier*> carriers);
+
+        Test10(
+            [out, callee] ArrayOf<ICarrier*>* carriers);
     }
 
     class CTestCar {
-        constructor();
+        constructor(
+            [in] ArrayOf<Double> dArray,
+            [in] ArrayOf<String> sArray);
+
+        constructor(
+            [in] IServiceManager* sm,
+            [in] ICarrier* carrier);
 
         interface ITestCar;
+    }
+
+    singleton class CSingletonTest {
+        constructor();
+
         interface ITestCar2;
     }
 }
