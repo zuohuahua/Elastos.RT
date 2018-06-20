@@ -88,6 +88,8 @@ Please select the appropriate compilation environment as needed:
   sudo apt-get install autopoint flex libncurses5-dev
   ```
 
+  If you can't find the package "zlib1g-dev:i386", try installing the package "lib32z1".
+
   [Install cmake](#install-cmake) if needed.
 
 * ### Install CMake
