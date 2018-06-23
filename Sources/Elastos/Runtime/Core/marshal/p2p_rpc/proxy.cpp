@@ -21,212 +21,76 @@ ECode GetRemoteClassInfo(
 
 void *GetUnalignedPtr(void *pPtr);
 
-Address s_proxyEntryAddress = 0;
-
-#define SYS_PROXY_RET_OFFSET    9
-
-#ifndef PAGE_SIZE
-#define PAGE_SIZE (1u << 12)
-#endif
-#ifndef PAGE_MASK
-#define PAGE_MASK (~(PAGE_SIZE - 1))
-#endif
-#ifndef PAGE_ALIGN
-#define PAGE_ALIGN(va) (((va)+PAGE_SIZE-1)&PAGE_MASK)
-#endif
 
 UInt32 g_marshalVtbl[MSH_MAX_METHODS];
 
-EXTERN_C void ProxyEntryFunc(void);
-
-#ifdef _GNUC
-#    if defined(_arm)
-#       define DECL_SYS_PROXY_ENTRY()              \
-            __asm__(                               \
-            ".text;"                               \
-            ".align 4;"                            \
-            ".arm;"                                \
-            ".globl ProxyEntryFunc;"               \
-            "ProxyEntryFunc:"                      \
-            "push {r0 - r3};"                      \
-            "push {lr};"                           \
-            "mov  r1, #0xff;"                      \
-            "ldr  pc, [r0, #4];"                   \
-        )
-        DECL_SYS_PROXY_ENTRY();
-#    elif defined(_x86)
-
-#  if 0
-#       define DECL_SYS_PROXY_ENTRY()             \
-            __asm__(                               \
-                ".text;"                           \
-                ".align 4;"                        \
-                ".globl ProxyEntryFunc;"          \
-                "ProxyEntryFunc:"                 \
-                ".intel_syntax;"                   \
-                "ret    0x4;"                      \
-                ".att_syntax;"                     \
-            )
-        DECL_SYS_PROXY_ENTRY();
-#  else
-
-
-/*
- * ^  o == offset
- * |  o == args
- * |  o == this
- * |  o == &ret
- * |  o == &up_o
- * |  o == eip
- */
-
-#   define DECL_SYS_PROXY_ENTRY()                  \
-	__asm__(                                   \
-		".text;"                           \
-		".align 4;"                        \
-		".globl ProxyEntryFunc;"           \
-		"ProxyEntryFunc:"                  \
-		".intel_syntax noprefix;"          \
-		"push esp;"                        \
-		"mov eax, dword ptr [esp + 8];"    \
-		"call dword ptr [eax + 4];"        \
-		"add esp, 0x4;"                    \
-		"ret;"                             \
-		".att_syntax;"                     \
-	       )
-            DECL_SYS_PROXY_ENTRY();
-#  endif
-
-#    else
-#        error "Unknown archibute"
-#   endif
-#else
-#   if defined(_x86)
-#       define DECL_SYS_PROXY_ENTRY() \
-            __declspec( naked ) void ProxyEntryFunc()                   \
-            {                                       \
-                __asm push esp                      \
-                __asm mov eax, dword ptr [esp + 8]  \
-                __asm call dword ptr [eax +4]       \
-                __asm ret  0x4                      \
+#define PROXY_ENTRY_FUNC(uMethodIndex)                                         \
+            ECode ProxyEntryFunc##uMethodIndex(CInterfaceProxy *pThis, ...)    \
+            {                                                                  \
+                va_list args;                                                  \
+                ECode ec;                                                      \
+                va_start(args, pThis);                                         \
+                ec = CInterfaceProxy::ProxyEntry(pThis, uMethodIndex, args);   \
+                va_end(args);                                                  \
+                return ec;                                                     \
             }
-        DECL_SYS_PROXY_ENTRY();
-#   endif
-#endif
 
-#ifdef _arm
+#define CAT(a, ...) PRIMITIVE_CAT(a, __VA_ARGS__)
+#define PRIMITIVE_CAT(a, ...) a ## __VA_ARGS__
+#define FUNCTION_TABLE(seq) CAT(FUNCTION_TABLE_1 seq, _END)
+#define FUNCTION_TABLE_1(x) FUNCTION(x) FUNCTION_TABLE_2
+#define FUNCTION_TABLE_2(x) FUNCTION(x) FUNCTION_TABLE_1
+#define FUNCTION_TABLE_1_END
+#define FUNCTION_TABLE_2_END
 
-EXTERN_C void __ProxyEntry(void);
-
-EXTERN_C ECode GlobalProxyEntry(UInt32 *puArgs)
-{
-    return CInterfaceProxy::ProxyEntry(puArgs);
-}
-
-#ifdef _GNUC
-#define DECL_PROXY_ENTRY()              \
-    __asm__(                            \
-        ".text;"                        \
-        ".align 4;"                     \
-        ".arm;"                         \
-        ".globl __ProxyEntry;"          \
-        "__ProxyEntry:"                 \
-        "push   {r1};"                  \
-        "add    r0, sp, #4;"            \
-        "bl     GlobalProxyEntry;"      \
-        "add    sp, sp, #4;"            \
-        "pop    {lr};"                  \
-        "pop    {r1};"                  \
-        "pop    {r1 - r3};"             \
-        "push   {lr};"                  \
-        "pop    {pc};"                  \
-    )
-
-DECL_PROXY_ENTRY();
-#endif
-
-#endif
-
-#ifdef _mips
-
-EXTERN_C ECode GlobalProxyEntry(UInt32 *puArgs)
-{
-    return CInterfaceProxy::ProxyEntry(puArgs);
-}
-
-#ifdef _GNUC
-void __ProxyContinue()
-{
-DECL_ASMENTRY(ProxyContinue)
-#elif defined(_EVC)
-DECL_NAKED void ProxyContinue()
-{
-#else
-#error unknown compiler
-#endif
-    ASM(
-        "sw     $4, 0x0($29);"
-        "sw     $5, 0x4($29);"
-        "sw     $6, 0x8($29);"
-        "sw     $7, 0xc($29);"
-        "addiu  $29, $29, -0x1c;"
-        "sw     $12, 0x10($29);"
-        "add    $4, $29, 0x18;"
-        "sw     $4, 0x14($29);"
-        "la     $9, GlobalProxyEntry;"
-        "jalr   $9;"
-        "addiu  $29, $29, 0x1c;"
-        "lw     $31, -4($29);"
-        "jr     $31;");
-}
-#endif
+#define FUNCTION(x) PROXY_ENTRY_FUNC(x)
+FUNCTION_TABLE( (0)   (1)   (2)   (3)   (4)   (5)   (6)   (7)
+                (8)   (9)   (10)  (11)  (12)  (13)  (14)  (15)
+                (16)  (17)  (18)  (19)  (20)  (21)  (22)  (23)
+                (24)  (25)  (26)  (27)  (28)  (29)  (30)  (31)
+                (32)  (33)  (34)  (35)  (36)  (37)  (38)  (39)
+                (40)  (41)  (42)  (43)  (44)  (45)  (46)  (47)
+                (48)  (49)  (50)  (51)  (52)  (53)  (54)  (55)
+                (56)  (57)  (58)  (59)  (60)  (61)  (62)  (63)
+                (64)  (65)  (66)  (67)  (68)  (69)  (70)  (71)
+                (72)  (73)  (74)  (75)  (76)  (77)  (78)  (79)
+                (80)  (81)  (82)  (83)  (84)  (85)  (86)  (87)
+                (88)  (89)  (90)  (91)  (92)  (93)  (94)  (95)
+                (96)  (97)  (98)  (99)  (100) (101) (102) (103)
+                (104) (105) (106) (107) (108) (109) (110) (111)
+                (112) (113) (114) (115) (116) (117) (118) (119)
+                (120) (121) (122) (123) (124) (125) (126) (127) )
+#undef FUNCTION
 
 void InitProxyEntry()
 {
-    s_proxyEntryAddress =
-            (Address)mmap((void*)0,
-                          PAGE_ALIGN(PROXY_ENTRY_NUM * PROXY_ENTRY_SIZE),
-                          PROT_READ | PROT_WRITE | PROT_EXEC,
-                          MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-    if (s_proxyEntryAddress == 0) {
-        printf("out of memory.\n");
-        return;
-    }
-
-#if defined(_x86)
-    char *p = (char *)s_proxyEntryAddress;
-    for (UInt32 n = 0; n < PROXY_ENTRY_NUM; n++) {
-        memcpy(p, (void*)&ProxyEntryFunc, PROXY_ENTRY_SIZE);
-	//*(Int16*)&(p[SYS_PROXY_RET_OFFSET]) = ( (n + 1) << 2);
-        p+= PROXY_ENTRY_SIZE;
-    }
-#elif defined(_arm)
-    char * p = (char *)s_proxyEntryAddress;
-    for (Int32 n = 0; n < PROXY_ENTRY_NUM; n++) {
-        memcpy(p, (void *)&ProxyEntryFunc, PROXY_ENTRY_SIZE);
-        p[8] = n;
-        p += PROXY_ENTRY_SIZE;
-    }
-#else
-#error "unsupported architecture yet."
-#endif
-
     g_marshalVtbl[0] = (UInt32)&CInterfaceProxy::S_Probe;
     g_marshalVtbl[1] = (UInt32)&CInterfaceProxy::S_AddRef;
     g_marshalVtbl[2] = (UInt32)&CInterfaceProxy::S_Release;
     g_marshalVtbl[3] = (UInt32)&CInterfaceProxy::S_GetInterfaceID;
-    for (int m = 4; m < MSH_MAX_METHODS; m++) {
-        g_marshalVtbl[m] = PROXY_ENTRY_BASE + ((m - 4) << PROXY_ENTRY_SHIFT);
-    }
+
+    #define FUNCTION(x) g_marshalVtbl[x + 4] = (UInt32)&ProxyEntryFunc##x;
+    FUNCTION_TABLE( (0)   (1)   (2)   (3)   (4)   (5)   (6)   (7)
+                    (8)   (9)   (10)  (11)  (12)  (13)  (14)  (15)
+                    (16)  (17)  (18)  (19)  (20)  (21)  (22)  (23)
+                    (24)  (25)  (26)  (27)  (28)  (29)  (30)  (31)
+                    (32)  (33)  (34)  (35)  (36)  (37)  (38)  (39)
+                    (40)  (41)  (42)  (43)  (44)  (45)  (46)  (47)
+                    (48)  (49)  (50)  (51)  (52)  (53)  (54)  (55)
+                    (56)  (57)  (58)  (59)  (60)  (61)  (62)  (63)
+                    (64)  (65)  (66)  (67)  (68)  (69)  (70)  (71)
+                    (72)  (73)  (74)  (75)  (76)  (77)  (78)  (79)
+                    (80)  (81)  (82)  (83)  (84)  (85)  (86)  (87)
+                    (88)  (89)  (90)  (91)  (92)  (93)  (94)  (95)
+                    (96)  (97)  (98)  (99)  (100) (101) (102) (103)
+                    (104) (105) (106) (107) (108) (109) (110) (111)
+                    (112) (113) (114) (115) (116) (117) (118) (119)
+                    (120) (121) (122) (123) (124) (125) (126) (127) )
+    #undef FUNCTION
 }
 
 void UninitProxyEntry()
 {
-     if (0 != s_proxyEntryAddress) {
-        munmap((void*)s_proxyEntryAddress,
-               PAGE_ALIGN(PROXY_ENTRY_NUM * PROXY_ENTRY_SIZE));
-        s_proxyEntryAddress = (Address)NULL;
-    }
 }
 
 PInterface CInterfaceProxy::S_Probe(
@@ -259,19 +123,22 @@ ECode CInterfaceProxy::S_GetInterfaceID(
 
 ECode CInterfaceProxy::BufferSize(
     /* [in] */ UInt32 uMethodIndex,
-    /* [in] */ UInt32 *puArgs,
+    /* [in] */ va_list vaArgs,
     /* [out] */ UInt32 *puInSize,
     /* [out] */ UInt32 *puOutSize)
 {
     ECode ec;
+    va_list vaArgsCopy;
     const CIMethodInfo *pMethodInfo;
     pMethodInfo = &(m_pInfo->mMethods[uMethodIndex]);
 
+    va_copy(vaArgsCopy, vaArgs);
     ec = Proxy_ProcessMsh_BufferSize(
             pMethodInfo,
-            puArgs,
+            vaArgsCopy,
             puInSize,
             puOutSize);
+    va_end(vaArgsCopy);
     if (0 != *puOutSize){
         *puOutSize += sizeof(MarshalHeader);
     }
@@ -284,19 +151,22 @@ ECode CInterfaceProxy::BufferSize(
 
 ECode CInterfaceProxy::MarshalIn(
     /* [in] */ UInt32 uMethodIndex,
-    /* [in] */ UInt32 *puArgs,
+    /* [in] */ va_list vaArgs,
     /* [in, out] */ CRemoteParcel *pParcel)
 {
     ECode ec;
+    va_list vaArgsCopy;
     const CIMethodInfo *pMethodInfo;
     MarshalHeader *pHeader;
 
     pMethodInfo = &(m_pInfo->mMethods[uMethodIndex]);
 
+    va_copy(vaArgsCopy, vaArgs);
     ec = Proxy_ProcessMsh_In(
             pMethodInfo,
-            puArgs,
+            vaArgsCopy,
             (IParcel*)pParcel);
+    va_end(vaArgsCopy);
 
     if (SUCCEEDED(ec)) {
         pHeader = pParcel->GetMarshalHeader();
@@ -312,9 +182,11 @@ ECode CInterfaceProxy::MarshalIn(
 ECode CInterfaceProxy::UnmarshalOut(
     /* [in] */ UInt32 uMethodIndex,
     /* [out] */ CRemoteParcel *pParcel,
-    /* [in] */ UInt32 *puArgs)
+    /* [in] */ va_list vaArgs)
 {
     MarshalHeader *pHeader = pParcel->GetMarshalHeader();
+    ECode ec;
+    va_list vaArgsCopy;
 
     if (pHeader->m_uMagic != MARSHAL_MAGIC) {
         MARSHAL_DBGOUT(MSHDBG_ERROR,
@@ -335,11 +207,14 @@ ECode CInterfaceProxy::UnmarshalOut(
     }
 #endif
 
-    return Proxy_ProcessUnmsh_Out(
+    va_copy(vaArgsCopy, vaArgs);
+    ec = Proxy_ProcessUnmsh_Out(
             &(m_pInfo->mMethods[uMethodIndex]),
             (IParcel*)pParcel,
             pHeader->m_uOutSize - sizeof(MarshalHeader),
-            puArgs);
+            vaArgsCopy);
+    va_end(vaArgsCopy);
+    return ec;
 }
 
 UInt32 CInterfaceProxy::CountMethodArgs(
@@ -366,52 +241,22 @@ Boolean CInterfaceProxy::MethodHasOutArgs(
     return FALSE;
 }
 
-ECode CInterfaceProxy::ProxyEntry(UInt32 *puArgs)
+ECode CInterfaceProxy::ProxyEntry(
+            /* [in] */ CInterfaceProxy *pThis,
+            /* [in] */ UInt32 uMethodIndex,
+            /* [in] */ va_list vaArgs)
 {
-    CInterfaceProxy *pThis;
-    UInt32 uMethodIndex, uInSize, uOutSize;
+    UInt32 uInSize, uOutSize;
     Int32 size = 0;
     void *pInBuffer = NULL, *pOutBuffer = NULL;
     MarshalHeader *pInHeader = NULL;
     CRemoteParcel *pInParcel = NULL, *pOutParcel = NULL;
     ECode ec;
     UInt32 cArgs;
+    va_list vaArgsCopy;
 
-#ifdef _x86
-    //  puArgs = esp,set by ProxyEntryFunc
-    //        +---------+
-    //        | param   |
-    //        +---------+
-    //        | pObj    |
-    //        +---------+
-    //        | retAddr |
-    //puArs-->+---------+
-    //        | esp     |
-    //        +---------+
-    //        | retAddr |<--pRet,the return address of ProxyEntryFunc
-    //        +---------+
-    //        | ...     |
-    //        +---------+
-    UInt32 pRet = *(puArgs - 2); // get return address
-#endif
-
-    puArgs++; // skip ret address
-
-    pThis = (CInterfaceProxy *)*puArgs;
-    puArgs++; // skip this
-
-    MARSHAL_DBGOUT(MSHDBG_NORMAL,
-            printf("*puArgs = %x, puArgs = %x", *puArgs, puArgs));
     MARSHAL_DBGOUT(MSHDBG_NORMAL, printf("iid: "));
     MARSHAL_DBGOUT(MSHDBG_NORMAL, DUMP_GUID(pThis->m_pInfo->mIID));
-
-#ifdef _x86
-    uMethodIndex = CalcMethodIndex(pRet);
-#elif defined(_arm)
-    uMethodIndex = puArgs[-3];
-#else
-#error unknown architecture
-#endif
 
     // Get the stack length, not contain "this"
     cArgs = pThis->CountMethodArgs(uMethodIndex);
@@ -427,7 +272,9 @@ ECode CInterfaceProxy::ProxyEntry(UInt32 *puArgs)
     //  4. Call Thread::ReallocBuffer in SysReply if necessary to pass back the
     //      marshaled-out data with error info
     //
-    ec = pThis->BufferSize(uMethodIndex, puArgs, &uInSize, &uOutSize);
+    va_copy(vaArgsCopy, vaArgs);
+    ec = pThis->BufferSize(uMethodIndex, vaArgsCopy, &uInSize, &uOutSize);
+    va_end(vaArgsCopy);
     if (FAILED(ec)) {
         MARSHAL_DBGOUT(MSHDBG_ERROR,
                 printf("Proxy BufferSize() failed, ec = %x\n", ec));
@@ -439,7 +286,9 @@ ECode CInterfaceProxy::ProxyEntry(UInt32 *puArgs)
     assert(uInSize >= sizeof(MarshalHeader));
 
     pInParcel = new CRemoteParcel(pThis->m_pOwner->mSession);
-    ec = pThis->MarshalIn(uMethodIndex, puArgs, pInParcel);
+    va_copy(vaArgsCopy, vaArgs);
+    ec = pThis->MarshalIn(uMethodIndex, vaArgsCopy, pInParcel);
+    va_end(vaArgsCopy);
     if (SUCCEEDED(ec)) {
         pInParcel->GetElementSize(&size);
         pInParcel->GetElementPayload((Handle32*)&pInBuffer);
@@ -471,7 +320,9 @@ ECode CInterfaceProxy::ProxyEntry(UInt32 *puArgs)
         if (SUCCEEDED(ec)) {
             if (pThis->MethodHasOutArgs(uMethodIndex)) {
                 pOutParcel = new CRemoteParcel(pThis->m_pOwner->mSession, (UInt32*)(p + sizeof(int32_t)));
-                ec = pThis->UnmarshalOut(uMethodIndex, pOutParcel, puArgs);
+                va_copy(vaArgsCopy, vaArgs);
+                ec = pThis->UnmarshalOut(uMethodIndex, pOutParcel, vaArgsCopy);
+                va_end(vaArgsCopy);
             }
         }
 
@@ -490,7 +341,7 @@ ProxyExit:
 	if (pInParcel != NULL) delete pInParcel;
 	if (pOutParcel != NULL) delete pOutParcel;
 
-    SYS_PROXY_EXIT(ec, &puArgs - 1, cArgs);
+    return ec;
 }
 
 CObjectProxy::CObjectProxy(
@@ -879,14 +730,6 @@ ECode CObjectProxy::S_CreateObject(
                     pProxy->m_pInfo->mInterfaces + n);
         pInterfaces[n].m_pInfo = pInterfaceInfo;
         pInterfaces[n].m_pvVptr = g_marshalVtbl;
-
-#ifdef _x86
-	pInterfaces[n].m_pvProxyEntry = (PVoid)&CInterfaceProxy::ProxyEntry;
-#elif defined(_arm)
-	pInterfaces[n].m_pvProxyEntry = (PVoid)&__ProxyEntry;
-#else
-#error unknown architecture
-#endif
     }
 
     ec = RegisterImportObject(pProxy->m_stubConnName, (IProxy*)pProxy);

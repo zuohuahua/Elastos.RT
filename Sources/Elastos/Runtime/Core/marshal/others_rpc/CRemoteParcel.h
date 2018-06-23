@@ -5,8 +5,6 @@
 #include <elastos.h>
 #include "marshal.h"
 
-#define __USE_REMOTE_SOCKET
-
 class CRemoteParcel : public IParcel
 {
 public:

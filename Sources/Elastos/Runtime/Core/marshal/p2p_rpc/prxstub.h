@@ -41,19 +41,19 @@ public:
 
     CARAPI BufferSize(
             /* [in] */ UInt32 uMethodIndex,
-            /* [in] */ UInt32 *puArgs,
+            /* [in] */ va_list vaArgs,
             /* [out] */ UInt32 *puInSize,
             /* [out] */ UInt32 *puOutSize);
 
     CARAPI MarshalIn(
             /* [in] */ UInt32 uMethodIndex,
-            /* [in] */ UInt32 *puArgs,
+            /* [in] */ va_list vaArgs,
             /* [in, out] */ CRemoteParcel *pParcel);
 
     CARAPI UnmarshalOut(
             /* [in] */ UInt32 uMethodIndex,
             /* [out] */ CRemoteParcel *pParcel,
-            /* [in] */ UInt32 *puArgs);
+            /* [in] */ va_list vaArgs);
 
     inline CARAPI_(UInt32) CountMethodArgs(
             /* [in] */ UInt32 uMethodIndex);
@@ -62,11 +62,12 @@ public:
             /* [in] */ UInt32 uMethodIndex);
 
     static CARAPI ProxyEntry(
-            /* [in] */ UInt32 *puArgs);
+            /* [in] */ CInterfaceProxy *pThis,
+            /* [in] */ UInt32 uMethodIndex,
+            /* [in] */ va_list vaArgs);
 
 public:
     PVoid                   m_pvVptr;       // must be first member
-    PVoid                   m_pvProxyEntry; // must be m_pvVptr's next member
 
     UInt32                  m_uIndex;       // interface index in object
     CObjectProxy            *m_pOwner;
@@ -279,14 +280,6 @@ private:
     };
 
 private:
-#if defined(_arm)
-    CARAPI _Invoke(
-            /* [in] */ CSession* pSession,
-            /* [in] */ void *pInData,
-            /* [in] */ UInt32 uInSize,
-            /* [out] */ CRemoteParcel **ppParcel);
-#endif
-
     ECode HandleGetClassInfo(CSession* pSession, void const *base, int len);
 
     ECode HandleInvoke(CSession* pSession, void const *base, int len);
@@ -307,138 +300,6 @@ public:
     Int32               m_cRef;
 };
 
-extern Address s_proxyEntryAddress;
-#define PROXY_ENTRY_BASE s_proxyEntryAddress
-#define PROXY_ENTRY_SIZE    0x10
-#define PROXY_ENTRY_MASK    0x0f
-#define PROXY_ENTRY_SHIFT   4
-
 #define PROXY_ENTRY_NUM     0x80
-
-#ifdef _x86
-
-inline UInt32 CalcMethodIndex(UInt32 uCallerAddr)
-{
-    return (uCallerAddr - PROXY_ENTRY_BASE) >> PROXY_ENTRY_SHIFT;
-}
-
-#define SYS_PROXY_EXIT(ec, pret, argc)  \
-    do {                                \
-        UInt32 n;                         \
-        n = *(UInt32 *)(pret);            \
-        n &= PROXY_ENTRY_MASK;          \
-        n += PROXY_ENTRY_BASE + ((argc) << PROXY_ENTRY_SHIFT);  \
-        *(UInt32 *)(pret) = n;            \
-        return (ec);                    \
-    } while (0)
-
-#ifdef _GNUC
-// void GET_REG(register, UInt32 v);
-//
-#define GET_REG(reg, v)                 \
-    ASM("mov    %%"#reg", %0;"          \
-        :"=m"(v)                        \
-    )
-
-// void SET_REG(register, UInt32 v);
-//
-#define SET_REG(reg, v)                 \
-    ASM("mov    %0, %%"#reg";"          \
-        ::"m"(v)                        \
-    )
-
-#define STUB_INVOKE_METHOD(ec, argstart, addr) \
-    ASM("call   *%2;"                   \
-        "mov    %%eax, %0;"             \
-        "mov    %1, %%esp;"             \
-        :"=m"(ec)                       \
-        :"m"(argstart), "m"(addr)       \
-    )
-
-#else
-
-// void GET_REG(register, UInt32 v);
-//
-#define GET_REG(reg, v)                 \
-    __asm mov v, reg;
-
-// void SET_REG(register, UInt32 v);
-//
-#define SET_REG(reg, v)                 \
-    __asm mov reg, v;
-
-#define STUB_INVOKE_METHOD(ec, argstart, addr)    \
-    do {                                          \
-        __asm call addr                      \
-        __asm mov ec, eax                         \
-        __asm mov esp, argstart                   \
-    } while(0)
-
-#endif
-//#ifdef _GNUC
-#elif defined(_arm)
-
-#define SYS_PROXY_EXIT(ec, pret, argc)  \
-    do {                                \
-        return (ec);                    \
-    } while (0)
-
-#elif defined(_mips)
-
-inline UInt32 CalcMethodIndex(UInt32 uCallerAddr)
-{
-    return (uCallerAddr - PROXY_ENTRY_BASE) >> PROXY_ENTRY_SHIFT;
-}
-
-#ifdef _GNUC
-
-#define GET_REG(reg, v)                 \
-    ASM("sw\t"#reg", %0;":"=m"(v));
-
-#define SET_REG(reg, v)                 \
-    ASM("lw "#reg", %0;"::"m"(v));
-
-#define SYS_PROXY_EXIT(ec, pret, argc)  \
-    do {                                \
-            return  (ec);               \
-    } while (0);
-#elif defined(_EVC)
-#define GET_REG(reg, v)                 \
-    ASM("sw "#reg", 0(%0);", &v)
-
-#define SET_REG(reg, v)                 \
-    ASM("move "#reg", %0;", v)
-
-#define SYS_PROXY_EXIT(ec, pret, argc)  \
-    do {                                \
-            return  (ec);               \
-    } while (0)
-
-#define STUB_INVOKE_METHOD(ec, puArgs, addr)    \
-    ASM(                                        \
-        "addiu  sp, sp, -0x20;"                 \
-        "sw     s0, 0x10(sp);"                  \
-        "sw     s1, 0x14(sp);"                  \
-        "sw     s2, 0x18(sp);"                  \
-        "or     s0, a0, zero;"                  \
-        "or     s1, sp, zero;"                  \
-        "or     s2, a2, zero;"                  \
-        "or     sp, a1, zero;"                  \
-        "lw     a0, 0x0(sp);"                   \
-        "lw     a1, 0x4(sp);"                   \
-        "lw     a2, 0x8(sp);"                   \
-        "lw     a3, 0xc(sp);"                   \
-        "jal    s2;"                            \
-        "sw     v0, 0(s0);"                     \
-        "or     sp, s1, zero;"                  \
-        "lw     s0, 0x10(sp);"                  \
-        "lw     s1, 0x14(sp);"                  \
-        "lw     s2, 0x18(sp);"                  \
-        "addiu  sp, sp, 0x20;"                  \
-        , &ec, puArgs, addr)
-#else
-#error unknown architecture
-#endif
-#endif
 
 #endif //__PRXSTUB_H__

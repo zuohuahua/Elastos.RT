@@ -3,7 +3,14 @@
 
 # include <uv.h>
 
+#define RPC_LOG
 
+// #ifdef _android
+// #include <android/log.h>
+// #define RPC_LOG(...) __android_log_print(ANDROID_LOG_DEBUG, "SOCK RPC", __VA_ARGS__)
+// #else
+// #define RPC_LOG printf
+// #endif
 
 extern int sock_send_msg(uv_tcp_t *tcp,
         int type,

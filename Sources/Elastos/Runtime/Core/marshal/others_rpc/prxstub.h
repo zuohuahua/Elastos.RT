@@ -2,13 +2,7 @@
 #ifndef __PRXSTUB_H__
 #define __PRXSTUB_H__
 
-#define __USE_REMOTE_SOCKET
-
-#if defined(__USE_REMOTE_SOCKET)
 # include <uv.h>
-#else
-# include <dbus/dbus.h>
-#endif
 
 #include <semaphore.h>
 
@@ -22,8 +16,6 @@ _ELASTOS_NAMESPACE_USING
 #define GET_LENGTH(a) ((a) & 0x3f)
 #define GET_IN_INTERFACE_MARK(a) ((a) & 0x80)
 
-#if defined(__USE_REMOTE_SOCKET)
-
 enum {
     METHOD_GET_CLASS_INFO,
     METHOD_INVOKE,
@@ -32,8 +24,6 @@ enum {
     METHOD_INVOKE_REPLY,
     METHOD_RELEASE_REPLY
 };
-
-#endif
 
 class CObjectProxy;
 
@@ -145,15 +135,10 @@ public:
             /* [out] */ IProxy **ppIProxy);
 
 public:
-
-#if defined(__USE_REMOTE_SOCKET)
-
     String              m_stubIP;
     int                 m_stubPort;
 
     uv_tcp_t           *m_tcp;
-
-#endif
 
     String              m_stubConnName;
     CIClassInfo         *m_pInfo;
@@ -163,10 +148,8 @@ public:
 
     Int32               m_cRef;
 
-#if defined(__USE_REMOTE_SOCKET)
 private:
     IInterface *RemoteProbe(REIID iid);
-#endif
 };
 
 typedef struct InterfaceStruct {
@@ -259,14 +242,6 @@ private:
     static void S_ServiceRoutine(
             /* [in] */ void *arg);
 
-#if !defined(__USE_REMOTE_SOCKET)
-    static DBusHandlerResult S_HandleMessage(
-            /* [in] */ DBusConnection *pconn,
-            /* [in] */ DBusMessage *pmsg,
-            /* [in] */ void *parg);
-#endif
-
-#if defined(__USE_REMOTE_SOCKET)
 
     ECode HandleGetClassInfo(uv_tcp_t *tcp, void const *base, int len);
 
@@ -284,17 +259,13 @@ private:
 
     static void S_ListenCB(uv_stream_t *server, int status);
 
-#endif
 
     CARAPI StartIPCService();
-
-#if defined(__USE_REMOTE_SOCKET)
 
     int                 m_port;
 
     uv_loop_t          *m_loop;
 
-#endif
 
 public:
     String              m_connName;

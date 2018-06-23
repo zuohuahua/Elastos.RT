@@ -10,8 +10,6 @@
 #include "prxstub.h"
 #include "rot.h"
 
-#if defined(__USE_REMOTE_SOCKET)
-
 #ifdef _MSC_VER
 # include <winsock2.h>
 #else
@@ -21,8 +19,6 @@
 #include <uv.h>
 
 #include "sock.h"
-
-#endif
 
 ECode LookupModuleInfo(
     /* [in] */ REMuid rclsid,
@@ -346,7 +342,6 @@ ECode CObjectStub::Invoke(
             }
         }
     }
-#if defined(__USE_REMOTE_SOCKET)
     else if (pInHeader->m_hMethodIndex == 0) {
         IInterface *pInterface;
         InterfaceID *pIID = (InterfaceID *)(pInHeader + 1);
@@ -374,7 +369,6 @@ ECode CObjectStub::Invoke(
             // Here do not need to delete ppParcel for caller will do it.
         }
     }
-#endif // __USE_REMOTE_SOCKET)
     else {
         if (pInHeader->m_hMethodIndex == 0) {
             MARSHAL_DBGOUT(MSHDBG_ERROR,
@@ -440,165 +434,6 @@ ECode CObjectStub::GetInterfaceIndex(
     return E_NO_INTERFACE;
 }
 
-#if !defined(__USE_REMOTE_SOCKET)
-
-DBusHandlerResult CObjectStub::S_HandleMessage(
-    /* [in] */ DBusConnection *pconn,
-    /* [in] */ DBusMessage* pmsg,
-    /* [in] */ void *arg)
-{
-    DBusMessage *pReply;
-    DBusMessageIter args;
-    DBusMessageIter subarg;
-    void *pOutBuffer;
-    Int32 outSize;
-    dbus_uint32_t serial = 0;
-    MarshalHeader *pheader  = NULL;
-    UInt32 uInSize = 0;
-    EMuid clsid;
-    CIModuleInfo *pSrcModInfo;
-    CIModuleInfo *pDestModInfo;
-    CObjectStub *pThis = (CObjectStub*)arg;
-    CRemoteParcel *pParcel = NULL;
-    ECode ec;
-
-    // check this is a method call for the right interface & method
-    if (dbus_message_is_method_call(pmsg,
-                                    STUB_OBJECT_DBUS_INTERFACE,
-                                    "GetClassInfo")) {
-
-        pThis->GetClassID(&clsid);
-        if (FAILED(LookupModuleInfo(clsid, &pSrcModInfo))) {
-            MARSHAL_DBGOUT(MSHDBG_ERROR,
-                    printf("Lookup module info fail.\n"));
-            return DBUS_HANDLER_RESULT_HANDLED;
-        }
-
-        pDestModInfo = (CIModuleInfo *)calloc(pSrcModInfo->totalSize, 1);
-        FlatModuleInfo(pSrcModInfo, pDestModInfo);
-
-        // create a reply from the message
-        pReply = dbus_message_new_method_return(pmsg);
-
-        // add the arguments to the reply
-        dbus_message_iter_init_append(pReply, &args);
-
-        dbus_message_iter_open_container(&args,
-                                         DBUS_TYPE_ARRAY,
-                                         DBUS_TYPE_BYTE_AS_STRING,
-                                         &subarg);
-
-        dbus_message_iter_append_fixed_array(&subarg,
-                                             DBUS_TYPE_BYTE,
-                                             &pDestModInfo,
-                                             pDestModInfo->totalSize);
-
-        dbus_message_iter_close_container(&args, &subarg);
-
-        // send the reply && flush the connection
-        if (!dbus_connection_send(pconn, pReply, &serial)) {
-            MARSHAL_DBGOUT(MSHDBG_ERROR,
-                    printf("Out Of Memory.\n"));
-        }
-        dbus_connection_flush(pconn);
-
-        // free the reply
-        dbus_message_unref(pReply);
-
-        free(pDestModInfo);
-    }
-    else if (dbus_message_is_method_call(pmsg,
-                                    STUB_OBJECT_DBUS_INTERFACE,
-                                    "Invoke")) {
-        // read the arguments
-        if (!dbus_message_iter_init(pmsg, &args)) {
-            MARSHAL_DBGOUT(MSHDBG_ERROR,
-                    printf("Message has no arguments.\n"));
-            return DBUS_HANDLER_RESULT_HANDLED;
-        }
-        if (DBUS_TYPE_ARRAY != dbus_message_iter_get_arg_type(&args)) {
-            MARSHAL_DBGOUT(MSHDBG_ERROR,
-                    printf("Argument is not array.\n"));
-            return DBUS_HANDLER_RESULT_HANDLED;
-        }
-        dbus_message_iter_recurse(&args, &subarg);
-        dbus_message_iter_get_fixed_array(&subarg, (void**)&pheader, (int*)&uInSize);
-
-        MARSHAL_DBGOUT(MSHDBG_NORMAL,
-            printf("Call Invoke.\n"));
-
-        ec = pThis->Invoke((void*)pheader, uInSize, &pParcel);
-
-        //reply
-        // create a reply from the message
-        pReply = dbus_message_new_method_return(pmsg);
-
-        // add the arguments to the reply
-        dbus_message_iter_init_append(pReply, &args);
-
-        if (!dbus_message_iter_append_basic(&args, DBUS_TYPE_INT32, &ec)) {
-            MARSHAL_DBGOUT(MSHDBG_ERROR,
-                    printf("Out Of Memory.\n"));
-            return DBUS_HANDLER_RESULT_HANDLED;
-        }
-
-        if (pParcel != NULL) {
-            pParcel->GetElementSize(&outSize);
-            pParcel->GetElementPayload((Handle32*)&pOutBuffer);
-
-            if (outSize > 0) {
-                dbus_message_iter_open_container(&args,
-                                                 DBUS_TYPE_ARRAY,
-                                                 DBUS_TYPE_BYTE_AS_STRING,
-                                                 &subarg);
-                dbus_message_iter_append_fixed_array(&subarg,
-                                                     DBUS_TYPE_BYTE,
-                                                     &pOutBuffer,
-                                                     outSize);
-                dbus_message_iter_close_container(&args, &subarg);
-            }
-        }
-
-        // send the reply && flush the connection
-        if (!dbus_connection_send(pconn, pReply, &serial)) {
-            MARSHAL_DBGOUT(MSHDBG_ERROR,
-                    printf("Out Of Memory.\n"));
-        }
-        dbus_connection_flush(pconn);
-
-        // free the reply
-        dbus_message_unref(pReply);
-
-        if (pParcel != NULL) delete pParcel;
-    }
-    else if (dbus_message_is_method_call(pmsg,
-                                         STUB_OBJECT_DBUS_INTERFACE,
-                                         "Release")) {
-        MARSHAL_DBGOUT(MSHDBG_NORMAL,
-                printf("Stub Release.\n"));
-
-        //bugbug: if there are more than one processes invoke
-        //        the stub, then one proxy in a process call "Release"
-        //        should not make the stub quit. We should use
-        //        reference count to control when to make the stub quit.
-        pThis->m_bRequestToQuit = TRUE;
-//        if (pThis->Release() == 1) {
-//            pThis->m_bRequestToQuit = TRUE;
-//        }
-    }
-    else {
-        const char *psig = dbus_message_get_signature(pmsg);
-        if (psig != NULL) printf("Signature: %s\n", psig);
-//        printf("Destination: %s\n", dbus_message_get_destination(pmsg));
-//        printf("Interface: %s\n", dbus_message_get_interface(pmsg));
-//        printf("Member: %s\n", dbus_message_get_member(pmsg));
-    }
-
-    return DBUS_HANDLER_RESULT_HANDLED;
-}
-
-#else
-
 ECode CObjectStub::HandleGetClassInfo(uv_tcp_t *tcp, void const *base, int len)
 {
     EMuid clsid;
@@ -632,9 +467,11 @@ ECode CObjectStub::HandleInvoke(uv_tcp_t *tcp, void const *base, int len)
     CRemoteParcel *pParcel = NULL;
     ECode ec;
 
+    RPC_LOG("Call Invoke.");
     MARSHAL_DBGOUT(MSHDBG_NORMAL, printf("Call Invoke.\n"));
 
     ec = this->Invoke((void *)base, len, &pParcel);
+    RPC_LOG("Call Invoke ec: %x", ec);
 
     int32_t _ec = ec;
     if (pParcel != NULL) {
@@ -838,13 +675,9 @@ out1:
     }
 }
 
-#endif
 
 void CObjectStub::S_ServiceRoutine(void *arg)
 {
-
-#if defined(__USE_REMOTE_SOCKET)
-
     CObjectStub *pThis = (CObjectStub *)arg;
     uv_loop_t *loop;
     int err;
@@ -909,102 +742,14 @@ out1:
     pThis->Release();
     if (err)
         abort();
-
-#else
-
-    DBusError err;
-    DBusConnection *pconn;
-    DBusObjectPathVTable objectPathVTable;
-    const char *uname;
-
-    if (arg == NULL) {
-        pthread_exit((void*)E_THREAD_ABORTED);
-    }
-
-    MARSHAL_DBGOUT(MSHDBG_NORMAL,
-            printf("Listening for method calls.\n"));
-
-    // initialise the error
-    dbus_error_init(&err);
-
-    // connect to the bus and check for errors
-#ifdef _MSC_VER
-	pconn = dbus_bus_get_private(DBUS_BUS_SESSION, &err);
-#else
-    pconn = dbus_bus_get_private(DBUS_BUS_SYSTEM, &err);
-#endif
-    if (dbus_error_is_set(&err)) {
-        MARSHAL_DBGOUT(MSHDBG_ERROR,
-                printf("Connection Error (%s).\n", err.message));
-        dbus_error_free(&err);
-        pthread_exit((void*)E_FAIL);
-    }
-
-    uname = dbus_bus_get_unique_name(pconn);
-    if (uname == NULL) {
-        MARSHAL_DBGOUT(MSHDBG_ERROR,
-                printf("Get connection name fail.\n"));
-        pthread_exit((void*)E_FAIL);
-    }
-    ((CObjectStub*)arg)->m_connName = uname;
-
-    objectPathVTable.unregister_function = NULL;
-    objectPathVTable.message_function = S_HandleMessage;
-
-    dbus_connection_register_object_path(pconn,
-            STUB_OBJECT_DBUS_OBJECT_PATH, &objectPathVTable, arg);
-
-
-    sem_post(&((CObjectStub*)arg)->m_sem);
-    // loop, testing for new messages
-    while (TRUE){
-        DBusDispatchStatus status;
-
-        do{
-            dbus_connection_read_write_dispatch(pconn, -1);
-        }while((status = dbus_connection_get_dispatch_status(pconn)) \
-                == DBUS_DISPATCH_DATA_REMAINS && !((CObjectStub*)arg)->m_bRequestToQuit);
-
-        if (status == DBUS_DISPATCH_NEED_MEMORY){
-            MARSHAL_DBGOUT(MSHDBG_ERROR,
-                    printf("More memory is needed.\n"));
-            break;
-        }
-
-        if (((CObjectStub*)arg)->m_bRequestToQuit) {
-            ECode ec = UnregisterExportObject(((CObjectStub*)arg)->m_connName);
-            if (FAILED(ec)) {
-                MARSHAL_DBGOUT(MSHDBG_ERROR, printf(
-                        "Release stub: unregister export object failed, ec(%x)\n", ec));
-            }
-            ((CObjectStub*)arg)->Release();
-            break;
-        }
-    }
-
-    return (void*)NOERROR;
-
-#endif
-
 }
 
 ECode CObjectStub::StartIPCService()
 {
-
-#if defined(__USE_REMOTE_SOCKET)
-
     this->AddRef();
 
-#endif
-
     if (uv_thread_create(&m_serviceThread, &S_ServiceRoutine, this)) {
-
-#if defined(__USE_REMOTE_SOCKET)
-
         this->Release();
-
-#endif
-
         return E_THREAD_ABORTED;
     }
     sem_wait(&m_sem);

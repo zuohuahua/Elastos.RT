@@ -474,7 +474,8 @@ TCHAR * __HashTableKeyEnumeration<T, TCHAR>::NextElement()
     if (!m_pEntry) {
        for (++m_nIndex; m_nIndex < m_pHashtable->m_nCapacity &&
                 (m_pEntry = m_pHashtable->m_pTable[m_nIndex]) == NULL;
-                m_nIndex++);
+                m_nIndex++)
+           ;
 
         if (!m_pEntry) {
             assert(0 && "End of key enumeration!");

@@ -1,14 +1,6 @@
 
-#define __USE_REMOTE_SOCKET
-
-#if defined(__USE_REMOTE_SOCKET)
 #include "sock.h"
 #include "prxstub.h"
-#endif
-
-#if !defined(__USE_REMOTE_SOCKET)
-#include <dbus/dbus.h>
-#endif
 
 #include <pthread.h>
 #include <dlfcn.h>
@@ -344,100 +336,15 @@ ECode AcquireClassInfo(
 }
 
 ECode GetRemoteClassInfo(
-
-#if !defined(__USE_REMOTE_SOCKET)
-
-    /* [in] */ const char* connectionName,
-
-#else
-
     /* [in] */ uv_tcp_t *tcp,
-
-#endif
-
     /* [in] */ REMuid clsId,
     /* [out] */ CIClassInfo ** ppClassInfo)
 {
     ECode ec;
-
-#if !defined(__USE_REMOTE_SOCKET)
-
-    DBusError err;
-    DBusConnection *pconn = NULL;
-    DBusMessage *pmsg = NULL;
-    DBusMessage *pReply = NULL;
-    DBusMessageIter args;
-    DBusMessageIter subargs;
-
-#endif
-
     UInt32 uSize = 0;
     CIModuleInfo *pModInfo;
 
     if (ppClassInfo == NULL) return E_INVALID_ARGUMENT;
-
-#if !defined(__USE_REMOTE_SOCKET)
-
-    // initialiset the errors
-    dbus_error_init(&err);
-
-    // connect to the session bus and check for errors
-#ifdef _MSC_VER
-	pconn = dbus_bus_get_private(DBUS_BUS_SESSION, &err);
-#else
-    pconn = dbus_bus_get_private(DBUS_BUS_SYSTEM, &err);
-#endif
-    if (dbus_error_is_set(&err)) {
-        MARSHAL_DBGOUT(MSHDBG_ERROR,
-                printf("Connection Error (%s).\n", err.message));
-        dbus_error_free(&err);
-        ec = E_FAIL;
-        goto Exit;
-    }
-
-    // create a new method call and check for errors
-    pmsg = dbus_message_new_method_call(connectionName, // target for the method call
-                                        STUB_OBJECT_DBUS_OBJECT_PATH, // object to call on
-                                        STUB_OBJECT_DBUS_INTERFACE, // interface to call on
-                                        "GetClassInfo");  // method name
-    if (pmsg == NULL) {
-        MARSHAL_DBGOUT(MSHDBG_ERROR,
-                printf("Message Null.\n"));
-        ec = E_FAIL;
-        goto Exit;
-    }
-
-    // send message and wait for reply
-    MARSHAL_DBGOUT(MSHDBG_NORMAL, printf("Request Sent.\n"));
-
-    pReply = dbus_connection_send_with_reply_and_block(pconn, pmsg, INT_MAX, &err);
-    if (dbus_error_is_set(&err)) {
-        MARSHAL_DBGOUT(MSHDBG_ERROR,
-                printf("Reply Error (%s)\n", err.message));
-
-        dbus_error_free(&err);
-        ec = E_FAIL;
-        goto Exit;
-    }
-
-    // read the parameters
-    if (!dbus_message_iter_init(pReply, &args)) {
-        MARSHAL_DBGOUT(MSHDBG_ERROR,
-                printf("Message has no arguments.\n"));
-        ec = E_FAIL;
-        goto Exit;
-    }
-    if (DBUS_TYPE_ARRAY != dbus_message_iter_get_arg_type(&args)) {
-        MARSHAL_DBGOUT(MSHDBG_ERROR,
-                printf("Argument is not array.\n"));
-        ec = E_FAIL;
-        goto Exit;
-    }
-
-    dbus_message_iter_recurse(&args, &subargs);
-    dbus_message_iter_get_fixed_array(&subargs, (void**)&pModInfo, (int*)&uSize);
-
-#else
 
     int type;
     void *buf = NULL;
@@ -454,8 +361,6 @@ ECode GetRemoteClassInfo(
 
     pModInfo = (CIModuleInfo *)buf;
     uSize = len;
-
-#endif
 
     ec = RegisterModuleInfo(pModInfo);
     if (FAILED(ec)) {
@@ -489,21 +394,6 @@ ECode GetRemoteClassInfo(
     }
 
 Exit:
-
-#if !defined(__USE_REMOTE_SOCKET)
-
-    if (pmsg != NULL) dbus_message_unref(pmsg);
-    if (pReply != NULL) dbus_message_unref(pReply);
-
-    // free connection
-    dbus_connection_close(pconn);
-    dbus_connection_unref(pconn);
-
-#else
-
     free(buf);
-
-#endif
-
     return ec;
 }

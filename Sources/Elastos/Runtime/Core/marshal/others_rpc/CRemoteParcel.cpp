@@ -1,14 +1,7 @@
 
-#define __USE_REMOTE_SOCKET
-
-#if defined(__USE_REMOTE_SOCKET)
 #include "sock.h"
 #include "prxstub.h"
-#endif
 
-#if !defined(__USE_REMOTE_SOCKET)
-#include <dbus/dbus.h>
-#endif
 
 #include <new>
 #include <stdio.h>
@@ -19,17 +12,7 @@ ECode LookupClassInfo(
     /* [out] */ CIClassInfo **ppClassInfo);
 
 ECode GetRemoteClassInfo(
-
-#if !defined(__USE_REMOTE_SOCKET)
-
-    /* [in] */ const char* connectionName,
-
-#else
-
     /* [in] */ uv_tcp_t *tcp,
-
-#endif
-
     /* [in] */ REMuid clsId,
     /* [out] */ CIClassInfo ** ppClassInfo);
 
@@ -870,23 +853,11 @@ Boolean CRemoteParcel::IsParcelable(
     /* [in] */ InterfacePack *pInterfacePack,
     /* [out] */ CIClassInfo **ppClassInfo)
 {
-
-#if !defined(__USE_REMOTE_SOCKET)
-
-    DBusError err;
-    DBusConnection *pconn = NULL;
-    DBusMessage *pmsg = NULL;
-
-#endif
-
     CIInterfaceInfo *pInterfaceInfo = NULL;
     ECode ec;
 
     ec = LookupClassInfo(pInterfacePack->m_clsid, ppClassInfo);
     if (FAILED(ec)) {
-
-#if defined(__USE_REMOTE_SOCKET)
-
         char ip[32];
         int port;
 
@@ -902,14 +873,6 @@ Boolean CRemoteParcel::IsParcelable(
                                 ppClassInfo);
         sock_close(tcp);
 
-#else
-
-        ec = GetRemoteClassInfo(pInterfacePack->m_stubConnName,
-                                pInterfacePack->m_clsid,
-                                ppClassInfo);
-
-#endif
-
         if (FAILED(ec)) return FALSE;
     }
 
@@ -917,58 +880,7 @@ Boolean CRemoteParcel::IsParcelable(
         pInterfaceInfo = (*ppClassInfo)->mInterfaces[i];
         if (pInterfaceInfo->mIID == EIID_IParcelable) {
 
-#if defined(__USE_REMOTE_SOCKET)
-
             /* TODO ?? */
-
-#else
-
-            // initialiset the errors
-            dbus_error_init(&err);
-
-            // connect to the system bus and check for errors
-#ifdef _MSC_VER
-			pconn = dbus_bus_get_private(DBUS_BUS_SESSION, &err);
-#else
-    		pconn = dbus_bus_get_private(DBUS_BUS_SYSTEM, &err);
-#endif
-            if (dbus_error_is_set(&err)) {
-                MARSHAL_DBGOUT(MSHDBG_ERROR,
-                        printf("Connection Error (%s).\n", err.message));
-                dbus_error_free(&err);
-                goto Exit;
-            }
-            // create a new method call and check for errors
-            pmsg = dbus_message_new_method_call(
-                    pInterfacePack->m_stubConnName, // target for the method call
-                    STUB_OBJECT_DBUS_OBJECT_PATH, // object to call on
-                    STUB_OBJECT_DBUS_INTERFACE, // interface to call on
-                    "Release");  // method name
-            if (pmsg == NULL) {
-                MARSHAL_DBGOUT(MSHDBG_ERROR,
-                        printf("Message Null.\n"));
-                goto Exit;
-            }
-
-            if (dbus_connection_send(pconn, pmsg, NULL) == FALSE) {
-                MARSHAL_DBGOUT(MSHDBG_ERROR,
-                        printf("Send error.\n"));
-                goto Exit;
-            }
-            dbus_connection_flush(pconn);
-
-
-Exit:
-            if (pmsg != NULL) dbus_message_unref(pmsg);
-
-            // free connection
-            if (pconn != NULL) {
-                dbus_connection_close(pconn);
-                dbus_connection_unref(pconn);
-            }
-            return TRUE;
-
-#endif
 
         }
     }

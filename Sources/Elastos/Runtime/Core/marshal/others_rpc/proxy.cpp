@@ -8,9 +8,7 @@
 #include "prxstub.h"
 #include "rot.h"
 
-#if defined(__USE_REMOTE_SOCKET)
-    #include "sock.h"
-#endif
+#include "sock.h"
 
 EXTERN_C const InterfaceID EIID_IProxy;
 
@@ -19,11 +17,7 @@ ECode LookupClassInfo(
     /* [out] */ CIClassInfo **ppClassInfo);
 
 ECode GetRemoteClassInfo(
-#if !defined(__USE_REMOTE_SOCKET)
-    /* [in] */ const char* connectionName,
-#else
     /* [in] */ uv_tcp_t *tcp,
-#endif
     /* [in] */ REMuid clsId,
     /* [out] */ CIClassInfo ** ppClassInfo);
 
@@ -263,17 +257,6 @@ ECode CInterfaceProxy::ProxyEntry(
     UInt32 cArgs;
     va_list vaArgsCopy;
 
-#if !defined(__USE_REMOTE_SOCKET)
-
-    DBusError err;
-    DBusConnection *pconn = NULL;
-    DBusMessage *pmsg = NULL;
-    DBusMessage *pReply = NULL;
-    DBusMessageIter args;
-    DBusMessageIter subarg;
-
-#endif
-
     MARSHAL_DBGOUT(MSHDBG_NORMAL, printf("iid: "));
     MARSHAL_DBGOUT(MSHDBG_NORMAL, DUMP_GUID(pThis->m_pInfo->mIID));
 
@@ -317,8 +300,6 @@ ECode CInterfaceProxy::ProxyEntry(
         MARSHAL_DBGOUT(MSHDBG_NORMAL, printf(
                 "Before RemoteInvoke: ParcelSize(%d)\n", size));
 
-#if defined(__USE_REMOTE_SOCKET)
-
         int type, len;
         char *p = NULL;
 
@@ -332,6 +313,7 @@ ECode CInterfaceProxy::ProxyEntry(
             ec = E_FAIL; // TODO: sould set an appropriate error code
             goto UseSocketExit;
         }
+
         if (type != METHOD_INVOKE_REPLY) {
             ec = E_FAIL; // TODO: sould set an appropriate error code
             goto UseSocketExit;
@@ -350,112 +332,6 @@ ECode CInterfaceProxy::ProxyEntry(
 UseSocketExit:
         if (p) free(p);
         goto ProxyExit;
-
-#else
-
-        // initialiset the errors
-        dbus_error_init(&err);
-
-        // connect to the system bus and check for errors
-#ifdef _MSC_VER
-		pconn = dbus_bus_get_private(DBUS_BUS_SESSION, &err);
-#else
-    	pconn = dbus_bus_get_private(DBUS_BUS_SYSTEM, &err);
-#endif
-        if (dbus_error_is_set(&err)) {
-            MARSHAL_DBGOUT(MSHDBG_ERROR,
-                    printf("Connection Error (%s).\n", err.message));
-            dbus_error_free(&err);
-            ec = E_FAIL;
-            goto ProxyExit;
-        }
-
-        // create a new method call and check for errors
-        pmsg = dbus_message_new_method_call(
-                pThis->m_pOwner->m_stubConnName, // target for the method call
-                STUB_OBJECT_DBUS_OBJECT_PATH, // object to call on
-                STUB_OBJECT_DBUS_INTERFACE, // interface to call on
-                "Invoke");  // method name
-        if (pmsg == NULL) {
-            MARSHAL_DBGOUT(MSHDBG_ERROR,
-                    printf("Message Null.\n"));
-            ec = E_FAIL;
-            goto ProxyExit;
-        }
-
-        // append arguments
-        dbus_message_iter_init_append(pmsg, &args);
-        dbus_message_iter_open_container(&args,
-                                         DBUS_TYPE_ARRAY,
-                                         DBUS_TYPE_BYTE_AS_STRING,
-                                         &subarg);
-        dbus_message_iter_append_fixed_array(&subarg,
-                                             DBUS_TYPE_BYTE,
-                                             &pInBuffer,
-                                             size);
-        dbus_message_iter_close_container(&args, &subarg);
-
-        // send message and wait for a reply
-        MARSHAL_DBGOUT(MSHDBG_NORMAL, printf("Request Sent.\n"));
-
-        pReply = dbus_connection_send_with_reply_and_block(pconn, pmsg, INT_MAX, &err);
-        if (dbus_error_is_set(&err)) {
-            MARSHAL_DBGOUT(MSHDBG_ERROR,
-                    printf("Send with reply Error (%s)\n", err.message));
-            dbus_error_free(&err);
-            ec = E_FAIL;
-            goto ProxyExit;
-        }
-
-        // read the parameters
-        if (!dbus_message_iter_init(pReply, &args)) {
-            MARSHAL_DBGOUT(MSHDBG_ERROR,
-                    printf("Message has no arguments.\n"));
-            ec = E_FAIL;
-            goto ProxyExit;
-        }
-        else if (DBUS_TYPE_INT32 != dbus_message_iter_get_arg_type(&args)) {
-            MARSHAL_DBGOUT(MSHDBG_ERROR,
-                    printf("Argument is not Int32!\n"));
-            ec = E_FAIL;
-            goto ProxyExit;
-        }
-        else {
-            dbus_message_iter_get_basic(&args, &ec);
-        }
-        if (SUCCEEDED(ec)) {
-            if (pThis->MethodHasOutArgs(uMethodIndex)) {
-                if (!dbus_message_iter_next(&args)) {
-                    MARSHAL_DBGOUT(MSHDBG_ERROR,
-                            printf("Message has too few arguments!\n"));
-                    ec = E_FAIL;
-                    goto ProxyExit;
-                }
-                else if (DBUS_TYPE_ARRAY != dbus_message_iter_get_arg_type(&args)) {
-                    MARSHAL_DBGOUT(MSHDBG_ERROR,
-                            printf("Argument is not array.\n"));
-                    ec = E_FAIL;
-                    goto ProxyExit;
-                }
-
-                dbus_message_iter_recurse(&args, &subarg);
-                dbus_message_iter_get_fixed_array(&subarg,
-                                                  (void**)&pOutBuffer,
-                                                  (int*)&size);
-
-                if (pOutBuffer) {
-                    pOutParcel = new CRemoteParcel((UInt32*)pOutBuffer);
-                    ec = pThis->UnmarshalOut(uMethodIndex, pOutParcel, puArgs);
-                }
-            }
-        }
-        else {
-            MARSHAL_DBGOUT(MSHDBG_WARNING,
-                    printf("proxy RemoteInvoke() exit. ec = %x\n", ec));
-        }
-
-#endif
-
     }
     else {
         MARSHAL_DBGOUT(MSHDBG_ERROR,
@@ -467,17 +343,6 @@ ProxyExit:
 
 	if (pInParcel != NULL) delete pInParcel;
 	if (pOutParcel != NULL) delete pOutParcel;
-
-#if !defined(__USE_REMOTE_SOCKET)
-
-    if (pmsg != NULL) dbus_message_unref(pmsg);
-    if (pReply != NULL) dbus_message_unref(pReply);
-
-    // free connection
-    dbus_connection_close(pconn);
-    dbus_connection_unref(pconn);
-
-#endif
 
     return ec;
 }
@@ -500,12 +365,7 @@ CObjectProxy::~CObjectProxy()
         delete [] m_pInterfaces;
     }
 
-#if defined(__USE_REMOTE_SOCKET)
-
     sock_close(m_tcp);
-
-#endif
-
 }
 
 static const EMuid ECLSID_XOR_CallbackSink = \
@@ -555,15 +415,8 @@ PInterface CObjectProxy::Probe(REIID riid)
         }
     }
     if (n == m_cInterfaces) {
-#if !defined(__USE_REMOTE_SOCKET)
-        MARSHAL_DBGOUT(MSHDBG_WARNING, printf(
-                "Proxy: QI failed, iid: "));
-        MARSHAL_DBGOUT(MSHDBG_WARNING, DUMP_GUID(riid));
-        return NULL;
-#else
         // Execute a remote probe to support AOP.
         return RemoteProbe(riid);
-#endif // !defined(__USE_REMOTE_SOCKET)
     }
 
     return (IInterface *)&(m_pInterfaces[n].m_pvVptr);
@@ -612,12 +465,15 @@ PInterface CObjectProxy::RemoteProbe(REIID riid)
         return NULL;
     }
 
+    RPC_LOG(" RemoteProbe receive len: %d", len);
+
     if (len < sizeof(ProbeReplyData) ||
             type != METHOD_INVOKE_REPLY ||
             !SUCCEEDED(pReplyData->ec)) {
         MARSHAL_DBGOUT(MSHDBG_WARNING,
                 printf("proxy RemoteProbe() ec = %x\n", pReplyData->ec));
         free(pReplyData);
+    RPC_LOG(" RemoteProbe receive return null");
         return NULL;
     }
     assert(pReplyData->notNull == MSH_NOT_NULL);
@@ -642,13 +498,6 @@ UInt32 CObjectProxy::AddRef(void)
 UInt32 CObjectProxy::Release(void)
 {
     ECode ec;
-#if !defined(__USE_REMOTE_SOCKET)
-
-    DBusError err;
-    DBusConnection *pconn = NULL;
-    DBusMessage *pmsg = NULL;
-
-#endif
 
     Int32 lRefs = atomic_dec(&m_cRef);
 
@@ -666,68 +515,10 @@ UInt32 CObjectProxy::Release(void)
             delete m_pICallbackConnector;
         }
 
-#if defined(__USE_REMOTE_SOCKET)
-
         if (sock_send_msg(m_tcp, METHOD_RELEASE, NULL, 0))
             goto Exit;
 
-#else
-
-        // Release stub's reference before destroy self.
-        //
-        // initialiset the errors
-        dbus_error_init(&err);
-
-        // connect to the system bus and check for errors
-#ifdef _MSC_VER
-		pconn = dbus_bus_get_private(DBUS_BUS_SESSION, &err);
-#else
-    	pconn = dbus_bus_get_private(DBUS_BUS_SYSTEM, &err);
-#endif
-        if (dbus_error_is_set(&err)) {
-            MARSHAL_DBGOUT(MSHDBG_ERROR,
-                    printf("Connection Error (%s).\n", err.message));
-            dbus_error_free(&err);
-            goto Exit;
-        }
-
-        // create a new method call and check for errors
-        pmsg = dbus_message_new_method_call(
-                m_stubConnName, // target for the method call
-                STUB_OBJECT_DBUS_OBJECT_PATH, // object to call on
-                STUB_OBJECT_DBUS_INTERFACE, // interface to call on
-                "Release");  // method name
-        if (pmsg == NULL) {
-            MARSHAL_DBGOUT(MSHDBG_ERROR,
-                    printf("Message Null.\n"));
-            goto Exit;
-        }
-
-        // send message and wait for a reply
-        MARSHAL_DBGOUT(MSHDBG_NORMAL, printf("Request Sent.\n"));
-
-        if (dbus_connection_send(pconn, pmsg, NULL) == FALSE) {
-            MARSHAL_DBGOUT(MSHDBG_ERROR,
-                    printf("Send error.\n"));
-        }
-        dbus_connection_flush(pconn);
-#endif
-
-
 Exit:
-
-#if !defined(__USE_REMOTE_SOCKET)
-
-        if (pmsg != NULL) dbus_message_unref(pmsg);
-
-        // free connection
-        if (pconn != NULL) {
-            dbus_connection_close(pconn);
-            dbus_connection_unref(pconn);
-        }
-
-#endif
-
         delete this;
 
         return 0;
@@ -772,6 +563,7 @@ ECode CObjectProxy::GetInterface(
 {
     assert(ppObj != NULL);
 
+    RPC_LOG(" CObjectProxy::GetInterface uIndex: %d, m_cInterfaces: %d", uIndex, m_cInterfaces);
     if (uIndex < (UInt32)m_cInterfaces) {
         *ppObj = (IInterface *)&(m_pInterfaces[uIndex].m_pvVptr);
         this->AddRef();
@@ -866,8 +658,6 @@ ECode CObjectProxy::S_CreateObject(
 
     pProxy->m_stubConnName = stubConnName;
 
-#if defined(__USE_REMOTE_SOCKET)
-
     char ip[32];
     int port;
 
@@ -880,8 +670,6 @@ ECode CObjectProxy::S_CreateObject(
         ec = E_FAIL;
         goto ErrorExit;
     }
-
-#endif
 
     ec = LookupClassInfo(rclsid, &(pProxy->m_pInfo));
     if (FAILED(ec)) {
@@ -925,12 +713,8 @@ ECode CObjectProxy::S_CreateObject(
 
 ErrorExit:
 
-#if defined(__USE_REMOTE_SOCKET)
-
     if (pProxy->m_tcp != 0)
         sock_close(pProxy->m_tcp);
-
-#endif
 
     delete pProxy;
     return ec;
