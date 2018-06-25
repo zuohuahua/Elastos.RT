@@ -161,12 +161,17 @@ static bool OnFriendsList(
 CCarrier* CCarrier::sGlobalCarrier = NULL;
 CCarrier::CCarrier()
     : mElaCarrier(NULL)
-    , mListenersLock(PTHREAD_MUTEX_INITIALIZER)
-    , mFriendListLock(PTHREAD_MUTEX_INITIALIZER)
     , m_carrierThreadId(0)
     , mIsOnline(FALSE)
     , mIsReady(FALSE)
-{}
+{
+    pthread_mutexattr_t recursiveAttr;
+    pthread_mutexattr_init(&recursiveAttr);
+    pthread_mutexattr_settype(&recursiveAttr, PTHREAD_MUTEX_RECURSIVE);
+    pthread_mutex_init(&mListenersLock, &recursiveAttr);
+    pthread_mutex_init(&mFriendListLock, &recursiveAttr);
+    pthread_mutexattr_destroy(&recursiveAttr);
+}
 
 CCarrier::~CCarrier()
 {
@@ -182,10 +187,7 @@ CCarrier::~CCarrier()
 
 void CCarrier::Cleanup()
 {
-    if (mElaCarrier != NULL) {
-        ela_kill(mElaCarrier);
-        mElaCarrier = NULL;
-    }
+    Stop();
 
     //Clear up the listener list.
     pthread_mutex_lock(&mListenersLock);
@@ -263,7 +265,7 @@ ECode CCarrier::Start(
     if (!mDataPath.IsNullOrEmpty()) {
         CARRIER_LOG("You are changing the carrier data path, maybe will lose the friends' information.\n");
         //Change the carrier data path, it will cleanup the data.
-        Cleanup();
+        Stop();
     }
 
     mDataPath = carrierDataPath;
@@ -291,14 +293,13 @@ void *CCarrier::CarrierThread(void *arg)
     memset(&opts, 0, sizeof(opts));
     opts.udp_enabled = true;
     opts.persistent_location = proxy->mDataPath.string();
-    opts.bootstraps_size = 1;
-    opts.bootstraps = (BootstrapNode *)calloc(1, sizeof(BootstrapNode) * 1);
+    opts.bootstraps_size = 5;
+    opts.bootstraps = (BootstrapNode *)calloc(opts.bootstraps_size, sizeof(BootstrapNode) * 1);
     if (!opts.bootstraps) {
         CARRIER_LOG("out of memory.\n");
         return NULL;
     }
 
-    //TODO: Provide more address of public node?
     opts.bootstraps[0].ipv4 = "13.58.208.50";
     opts.bootstraps[0].port = "33445";
     opts.bootstraps[0].public_key = "89vny8MrKdDKs7Uta9RdVmspPjnRMdwMmaiEW27pZ7gh";
@@ -311,11 +312,11 @@ void *CCarrier::CarrierThread(void *arg)
     opts.bootstraps[2].port = "33445";
     opts.bootstraps[2].public_key = "H8sqhRrQuJZ6iLtP2wanxt4LzdNrN2NNFnpPdq1uJ9n2";
 
-    opts.bootstraps[3].ipv4 = "54.223.36.193";
+    opts.bootstraps[3].ipv4 = "52.83.171.135";
     opts.bootstraps[3].port = "33445";
     opts.bootstraps[3].public_key = "5tuHgK1Q4CYf4K5PutsEPK5E3Z7cbtEBdx7LwmdzqXHL";
 
-    opts.bootstraps[4].ipv4 = "52.80.187.125";
+    opts.bootstraps[4].ipv4 = "52.83.191.228";
     opts.bootstraps[4].port = "33445";
     opts.bootstraps[4].public_key = "3khtxZo89SBScAMaHhTvD68pPHiKxgZT6hTCSZZVgNEm";
 
@@ -336,6 +337,7 @@ void *CCarrier::CarrierThread(void *arg)
         CARRIER_LOG("Error start carrier loop: 0x%x\n", ela_get_error());
         ela_kill(proxy->mElaCarrier);
         proxy->mElaCarrier = NULL;
+        proxy->mDataPath = "";
     }
 
     return NULL;
@@ -343,8 +345,17 @@ void *CCarrier::CarrierThread(void *arg)
 
 ECode CCarrier::Stop()
 {
-    // TODO: Add your code here
-    return E_NOT_IMPLEMENTED;
+    if (mElaCarrier != NULL) {
+        ela_kill(mElaCarrier);
+        mElaCarrier = NULL;
+    }
+
+    pthread_join(m_carrierThreadId, NULL);
+    m_carrierThreadId = 0;
+
+    mDataPath = "";
+
+    return NOERROR;
 }
 
 ECode CCarrier::RegenerateAddress()
@@ -419,7 +430,6 @@ ECode CCarrier::RemoveFriend(
 ECode CCarrier::IsOnline(
     /* [out] */ Boolean* online)
 {
-    CARRIER_LOG("=== IsOnline");
     VALIDATE_NOT_NULL(online);
     *online = mIsOnline;
     return NOERROR;
@@ -437,6 +447,10 @@ ECode CCarrier::GetFriend(
     int rc = ela_get_friend_info(mElaCarrier, uid.string(), &fi);
     if (rc == 0) {
         *_friend = new CFriend(uid, fi.status == ElaConnectionStatus_Connected);
+        if (!*_friend) {
+            pthread_mutex_unlock(&mFriendListLock);
+            return E_OUT_OF_MEMORY;
+        }
 
         //The caller need to use AutoPtr<IFriend> xxx to get the interface.
         (*_friend)->AddRef();
@@ -463,9 +477,9 @@ ECode CCarrier::GetFriends(
     VALIDATE_NOT_NULL(friends);
     *friends = NULL;
 
-    pthread_mutex_lock(&mFriendListLock);
     ela_get_friends(mElaCarrier, get_friends_callback, NULL);
 
+    pthread_mutex_lock(&mFriendListLock);
     Int32 count = 0;
     FriendNode* fIt = &mTempFriendList;
     while (NULL != fIt) {
@@ -506,6 +520,10 @@ ECode CCarrier::AddCarrierNodeListener(
     }
 
     ListenerNode* listenerNode = new ListenerNode;
+    if (!listenerNode) {
+        pthread_mutex_unlock(&mListenersLock);
+        return E_OUT_OF_MEMORY;
+    }
     listenerNode->mCarrierListener = listener;
     mListeners.InsertFirst(listenerNode);
     pthread_mutex_unlock(&mListenersLock);
@@ -684,11 +702,15 @@ void CCarrier::AddFriend2List(
 
     //Add the new friend to the table.
     FriendNode* fn = new FriendNode();
+    if (!fn) goto exit;
     fn->mUid = uid;
 
     //Update the online by constructor.
     fn->mFriend = new CFriend(uid, online);
+    if (!fn->mFriend) goto exit;
     mTempFriendList.InsertFirst(fn);
+
+exit:
     pthread_mutex_unlock(&mFriendListLock);
 }
 

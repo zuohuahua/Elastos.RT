@@ -92,7 +92,7 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_elastos_rpcclient_MainActivity_get
     jobject obj_ArrayList = env->NewObject(cls_ArrayList, construct,"");
     jmethodID arrayList_add = env->GetMethodID(cls_ArrayList, "add", "(Ljava/lang/Object;)Z");
 
-    jclass cls_friend = env->FindClass("Friend");
+    jclass cls_friend = env->FindClass("com/elastos/rpcclient/Friend");
     //none argument construct function
     jmethodID construct_user = env->GetMethodID(cls_friend, "<init>", "(Ljava/lang/String;Z)V");
 
@@ -104,7 +104,7 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_elastos_rpcclient_MainActivity_get
         Boolean online;
         iFriend->IsOnline(&online);
         jobject obj_friend = env->NewObject(cls_friend, construct_user, env->NewStringUTF(uid.string()), online);
-        env->CallObjectMethod(obj_ArrayList, arrayList_add, obj_friend);
+        env->CallBooleanMethod(obj_ArrayList, arrayList_add, obj_friend);
     }
 
     friends->Release();
