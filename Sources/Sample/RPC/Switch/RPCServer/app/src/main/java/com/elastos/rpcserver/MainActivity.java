@@ -10,11 +10,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.LinearLayout;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -99,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(View view, final Friend friend) {
                 Log.d("Friend", "click friend:" + friend.mUid);
             }
-            
+
             @Override
             public void onItemDeleteMenuClick(View view, final Friend friend) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this)
@@ -154,6 +156,9 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, QRCodeActivity.class);
             intent.putExtra("myAddress", address);
             startActivity(intent);
+            return true;
+        } else if (id == R.id.action_addFriend) {
+            showAddFriendDialog();
             return true;
         }
 
@@ -363,6 +368,29 @@ public class MainActivity extends AppCompatActivity {
         bundle.putBoolean("switch", on);
         msg.setData(bundle);
         mHandler.sendMessage(msg);
+    }
+
+    private void showAddFriendDialog() {
+        LayoutInflater factory = LayoutInflater.from(MainActivity.this);
+        final View view = factory.inflate(R.layout.dialog_add_friend, null);
+        final EditText edit = (EditText)view.findViewById(R.id.dialog_edit);
+
+        new AlertDialog.Builder(MainActivity.this)
+                .setTitle("add friend")
+                .setView(view)
+                .setPositiveButton("Ok",
+                        new android.content.DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String address = edit.getText().toString();
+                                if (address.isEmpty()) return;
+                                addFriend(address);
+                            }
+
+                        })
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show();
     }
 
     /**

@@ -10,9 +10,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.DragEvent;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -200,6 +202,9 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("myAddress", address);
             startActivity(intent);
             return true;
+        } else if (id == R.id.action_addFriend) {
+            showAddFriendDialog();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -363,6 +368,29 @@ public class MainActivity extends AppCompatActivity {
         mSwitch1.setChecked(on);
         on = getSwitch2(mSelectedFriend);
         mSwitch2.setChecked(on);
+    }
+
+    private void showAddFriendDialog() {
+        LayoutInflater factory = LayoutInflater.from(MainActivity.this);
+        final View view = factory.inflate(R.layout.dialog_add_friend, null);
+        final EditText edit = (EditText)view.findViewById(R.id.dialog_edit);
+
+        new AlertDialog.Builder(MainActivity.this)
+                .setTitle("add friend")
+                .setView(view)
+                .setPositiveButton("Ok",
+                        new android.content.DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String address = edit.getText().toString();
+                                if (address.isEmpty()) return;
+                                addFriend(address);
+                            }
+
+                        })
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show();
     }
 
     /**

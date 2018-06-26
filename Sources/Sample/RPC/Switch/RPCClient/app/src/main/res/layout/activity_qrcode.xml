@@ -32,6 +32,13 @@
             android:id="@+id/image_qrcode"
             android:layout_width="200dp"
             android:layout_height="200dp" />
+
+        <TextView
+            android:id="@+id/text_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:paddingHorizontal="10dp" />
     </LinearLayout>
 
 
