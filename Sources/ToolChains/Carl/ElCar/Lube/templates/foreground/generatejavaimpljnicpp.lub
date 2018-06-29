@@ -20,12 +20,16 @@ $OUTPUT "${name}_jni.cpp"
 #include <jni.h>
 
 //For Elastos
-$IF class.attrib is not "hasTrivialCtor"
+$IF attrib is not "hasctor"
+$    {GenerateJavaDefaultJniCppInit(class)}
+$    {GenerateJavaDefaultJniRegister(class)}
+$ELSE
 $    WITH all interfaces DO
 $        IF attrib is "clsobj"
-$            {GenerateJavaImplJniCpp(interface)}
-$            {GenerateJavaImplJniCpp2(interface)}
+$            {GenerateJavaJniCppInit(interface)}
+$            {GenerateJavaImplJniRegister(interface)}
 $        END IF
 $    END DO ;; all interfaces
-$END IF ;; class.attrib is not "hasTrivialCtor"
+$END IF ;; attrib is not "hasctor"
+$
 $END OUTPUT

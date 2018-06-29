@@ -10,7 +10,7 @@ ECode CSingletonTest::SetInt2(
     JNIEnv* env = GetEnv();
     jclass cls = env->GetObjectClass(mObj);
     jmethodID method = env->GetMethodID(cls, "SetInt2", "(I)V");
-    env->CallVoidMethod(cls, method, value);
+    env->CallVoidMethod(mObj, method, value);
     Detach();
     return NOERROR;
 }
@@ -27,7 +27,7 @@ ECode CSingletonTest::Update(
     jstring _jstr1 = env->NewStringUTF(value1.string());
     jstring _jstr2 = env->NewStringUTF(value2.string());
     jstring _jstr3 = env->NewStringUTF(value3.string());
-    jstring _jstr = (jstring)env->CallObjectMethod(cls, method, _jstr1, _jstr2, _jstr3);
+    jstring _jstr = (jstring)env->CallObjectMethod(mObj, method, _jstr1, _jstr2, _jstr3);
     const char* __str = env->GetStringUTFChars(_jstr, NULL);
     *value = String(__str);
     env->ReleaseStringUTFChars(_jstr, __str);
@@ -55,7 +55,7 @@ ECode CSingletonTest::Test1(
     }
     env->SetIntArrayRegion(_jarray2, 0, array.GetLength(), _fill2);
 
-    env->CallVoidMethod(cls, method, _jstr1, _jarray2);
+    env->CallVoidMethod(mObj, method, _jstr1, _jarray2);
     Detach();
     return NOERROR;
 }
@@ -91,7 +91,7 @@ ECode CSingletonTest::Test2(
     }
     env->SetIntArrayRegion(_jarray2, 0, intArray.GetLength(), _fill2);
 
-    env->CallVoidMethod(cls, method, _jarray1, _jarray2);
+    env->CallVoidMethod(mObj, method, _jarray1, _jarray2);
     Detach();
     return NOERROR;
 }
@@ -103,7 +103,7 @@ ECode CSingletonTest::Test3(
     JNIEnv* env = GetEnv();
     jclass cls = env->GetObjectClass(mObj);
     jmethodID method = env->GetMethodID(cls, "Test3", "(I)[Ljava/lang/String;");
-    jobjectArray _jarray = (jobjectArray)env->CallObjectMethod(cls, method, i);
+    jobjectArray _jarray = (jobjectArray)env->CallObjectMethod(mObj, method, i);
     int _len = env->GetArrayLength(_jarray);
     AutoPtr<ArrayOf<String> > _array = ArrayOf<String>::Alloc(_len);
     if (!_array) {
@@ -128,7 +128,7 @@ ECode CSingletonTest::Test4()
     JNIEnv* env = GetEnv();
     jclass cls = env->GetObjectClass(mObj);
     jmethodID method = env->GetMethodID(cls, "Test4", "()V");
-    env->CallVoidMethod(cls, method);
+    env->CallVoidMethod(mObj, method);
     Detach();
     return NOERROR;
 }
@@ -139,7 +139,7 @@ ECode CSingletonTest::Test5(
     JNIEnv* env = GetEnv();
     jclass cls = env->GetObjectClass(mObj);
     jmethodID method = env->GetMethodID(cls, "Test5", "()Ljava/lang/String;");
-    jstring _jstr = (jstring)env->CallObjectMethod(cls, method);
+    jstring _jstr = (jstring)env->CallObjectMethod(mObj, method);
     const char* __str = env->GetStringUTFChars(_jstr, NULL);
     *str = String(__str);
     env->ReleaseStringUTFChars(_jstr, __str);
@@ -156,7 +156,7 @@ ECode CSingletonTest::Test6(
     jclass cls = env->GetObjectClass(mObj);
     jmethodID method = env->GetMethodID(cls, "Test6", "(ILjava/lang/String;)[F");
     jstring _jstr2 = env->NewStringUTF(str.string());
-    jfloatArray _jarray = (jfloatArray)env->CallObjectMethod(cls, method, i, _jstr2);
+    jfloatArray _jarray = (jfloatArray)env->CallObjectMethod(mObj, method, i, _jstr2);
     int _len = env->GetArrayLength(_jarray);
     AutoPtr<ArrayOf<Float> > _array = ArrayOf<Float>::Alloc(_len);
     if (!_array) {
@@ -182,7 +182,7 @@ ECode CSingletonTest::JavaInit(
     mJvm = (JavaVM*)jvm;
     assert(mJvm != NULL);
 
-    jobject jclsobj = *((jobject*)jobj);
+    jobject jclsobj = (jobject)jobj;
     mObj = GetEnv()->NewGlobalRef(jclsobj);
     if (mObj == NULL) {
         return E_INVALID_ARGUMENT;
@@ -198,7 +198,7 @@ ECode CSingletonTest::GetJavaObject(
         return E_INVALID_ARGUMENT;
     }
 
-    *jobj = (Handle64)&mObj;
+    *jobj = (Handle64)mObj;
     return NOERROR;
 }
 

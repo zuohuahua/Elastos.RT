@@ -77,7 +77,7 @@ ECode CSingletonTest::JavaInit(
     mJvm = (JavaVM*)jvm;
     assert(mJvm != NULL);
 
-    jobject jclsobj = *((jobject*)jobj);
+    jobject jclsobj = (jobject)jobj;
     mObj = GetEnv()->NewGlobalRef(jclsobj);
     if (mObj == NULL) {
         return E_INVALID_ARGUMENT;
@@ -93,7 +93,7 @@ ECode CSingletonTest::GetJavaObject(
         return E_INVALID_ARGUMENT;
     }
 
-    *jobj = (Handle64)&mObj;
+    *jobj = (Handle64)mObj;
     return NOERROR;
 }
 

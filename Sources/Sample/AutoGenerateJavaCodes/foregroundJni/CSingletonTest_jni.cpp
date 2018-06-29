@@ -12,7 +12,7 @@ jlong JNICALL native_CSingletonTest0(
 
     JavaVM* jvm;
     env->GetJavaVM(&jvm);
-    IJavaInterface::Probe(pElaClsObj)->JavaInit((Handle64)jvm, (Handle64)&jobj);
+    IJavaInterface::Probe(pElaClsObj)->JavaInit((Handle64)jvm, (Handle64)jobj);
     return (jlong)pElaClsObj;
 }
 
@@ -171,9 +171,6 @@ jfloatArray JNICALL native_CSingletonTest_ITestCar2_Test6(
 
 
 static const JNINativeMethod gMethods[] = {
-    {"native_CSingletonTest", "([D[Ljava/lang/String;)J", (void*)native_CSingletonTest0},
-    {"native_CSingletonTest", "(Lorg/elastos/xxx/IServiceManager;Lorg/elastos/xxx/ICarrier;)J", (void*)native_CSingletonTest1},
-    {"native_CSingletonTest_Destroy", "(J)V", (void*)native_CSingletonTest_Destroy},
     {"native_CSingletonTest", "()J", (void*)native_CSingletonTest0},
     {"native_CSingletonTest_Destroy", "(J)V", (void*)native_CSingletonTest_Destroy},
     {"native_CSingletonTest_ITestCar2_SetInt2", "(JI)V", (void*)native_CSingletonTest_ITestCar2_SetInt2},

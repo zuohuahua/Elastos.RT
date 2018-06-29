@@ -35,7 +35,7 @@ jlong JNICALL native_CTestCar0(
 
     JavaVM* jvm;
     env->GetJavaVM(&jvm);
-    IJavaInterface::Probe(pElaClsObj)->JavaInit((Handle64)jvm, (Handle64)&jobj);
+    IJavaInterface::Probe(pElaClsObj)->JavaInit((Handle64)jvm, (Handle64)jobj);
     return (jlong)pElaClsObj;
 }
 
@@ -61,7 +61,7 @@ jlong JNICALL native_CTestCar1(
 
     JavaVM* jvm;
     env->GetJavaVM(&jvm);
-    IJavaInterface::Probe(pElaClsObj)->JavaInit((Handle64)jvm, (Handle64)&jobj);
+    IJavaInterface::Probe(pElaClsObj)->JavaInit((Handle64)jvm, (Handle64)jobj);
     return (jlong)pElaClsObj;
 }
 
@@ -199,7 +199,7 @@ jobject JNICALL native_CTestCar_ITestCar_Test8(
     ITestCar::Probe(pElaClsObj)->Test8((IHelloCar**)&_retValue);
     Handle64 _jobj;
     IJavaInterface::Probe(_retValue)->GetJavaObject(&_jobj);
-    return *((jobject*)_jobj);
+    return (jobject)_jobj;
 }
 
 void JNICALL native_CTestCar_ITestCar_Test9(
@@ -240,7 +240,7 @@ jobjectArray JNICALL native_CTestCar_ITestCar_Test10(
     for (Int32 i = 0; i < _retValue->GetLength(); i++) {
         Handle64 _jobj;
         IJavaInterface::Probe((*_retValue)[i])->GetJavaObject(&_jobj);
-        env->SetObjectArrayElement(retArray, i, *((jobject*)_jobj));
+        env->SetObjectArrayElement(retArray, i, (jobject)_jobj);
     }
 
     return retArray;
@@ -250,8 +250,6 @@ jobjectArray JNICALL native_CTestCar_ITestCar_Test10(
 static const JNINativeMethod gMethods[] = {
     {"native_CTestCar", "([D[Ljava/lang/String;)J", (void*)native_CTestCar0},
     {"native_CTestCar", "(Lorg/elastos/xxx/IServiceManager;Lorg/elastos/xxx/ICarrier;)J", (void*)native_CTestCar1},
-    {"native_CTestCar_Destroy", "(J)V", (void*)native_CTestCar_Destroy},
-    {"native_CTestCar", "()J", (void*)native_CTestCar0},
     {"native_CTestCar_Destroy", "(J)V", (void*)native_CTestCar_Destroy},
     {"native_CTestCar_ITestCar_SetInt", "(JI)V", (void*)native_CTestCar_ITestCar_SetInt},
     {"native_CTestCar_ITestCar_GetInt", "(J)I", (void*)native_CTestCar_ITestCar_GetInt},

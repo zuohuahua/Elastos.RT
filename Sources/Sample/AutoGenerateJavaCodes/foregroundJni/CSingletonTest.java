@@ -3,6 +3,8 @@ package org.elastos.Elastos.AutoGenerateJavaCodes;
 
 //TODO : Modify the package and the final user will call this class' method.
 public class CSingletonTest {
+    private long mCarObj = 0;
+
     private native long native_CSingletonTest();
     private native void native_CSingletonTest_Destroy(long carobj);
 

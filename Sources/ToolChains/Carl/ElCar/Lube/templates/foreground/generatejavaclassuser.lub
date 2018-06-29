@@ -20,13 +20,17 @@ $OUTPUT "${name}.java"
 $  {GeneratePackageNameByClass(class)}
 //TODO : Modify the package and the final user will call this class' method.
 public class ${class.name} {
-$IF class.attrib is not "hasTrivialCtor"
+$
+$IF attrib is not "hasctor"
+$    {GenerateJavaClassDefaultConstructor(class)}
+$ELSE
 $    WITH all interfaces DO
 $        IF attrib is "clsobj"
-$            {GenerateJavaClassUserConstructor(interface)}
+$            {GenerateJavaClassConstructor(interface)}
 $        END IF
 $    END DO ;; all interfaces
-$END IF ;;class.attrib is not "hasTrivialCtor"
+$END IF ;; attrib is not "hasctor"
+$
 $WITH all interfaces DO
 $   IF attrib is not "callback" and attrib is not "callbacksink" and attrib is not "clsobj" and attrib is not "filter" and name is not "IRegime" and name is not "IObject" and name is not "ISynchronize" and name is not "IWeakReferenceSource" and name is not "IThread" and name is not "IJavaInterface"
 $           {GenerateJavaClassUser(interface)}

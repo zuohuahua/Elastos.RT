@@ -3,6 +3,8 @@ package org.elastos.Elastos.AutoGenerateJavaCodes;
 
 //this java class will implement the elastos interface.
 public class CSingletonTest implements ITestCar2 {
+    private long mCarObj = 0;
+
     private native long native_CSingletonTest();
     private native void native_CSingletonTest_Destroy(long carobj);
 

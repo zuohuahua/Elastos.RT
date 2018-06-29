@@ -20,15 +20,13 @@ $OUTPUT "${name}_jnionload.cpp"
 #include <jni.h>
 
 $WITH all classes DO
-$   IF type is not "clsobj" and type is not "sink"
-$     IF type is not "generic"
-$       IF attrib is not "naked" and attrib is not "hasTrivialCtor"
+$   IF type is not "clsobj" and type is not "sink" and type is not "generic"
+$     IF attrib is not "naked"
 extern int register$^
 ${class.name}$^
 Method(JNIEnv * env);
-$       END IF ;; attrib is not "naked" and attrib is not "hasTrivialCtor"
-$     END IF
-$   END IF
+$     END IF ;; attrib is not "naked"
+$   END IF ;; type is not "clsobj" and type is not "sink" and type is not "generic"
 $END DO
 
 JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved) {
@@ -40,15 +38,13 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved) {
     int ret;
 
 $WITH all classes DO
-$   IF type is not "clsobj" and type is not "sink"
-$     IF type is not "generic"
-$       IF attrib is not "naked" and attrib is not "hasTrivialCtor"
+$   IF type is not "clsobj" and type is not "sink"  and type is not "generic"
+$       IF attrib is not "naked"
     ret = register$^
 ${class.name}$^
 Method(env);
     if (ret < 0) return ret;
-$       END IF ;; attrib is not "naked" and attrib is not "hasTrivialCtor"
-$     END IF
+$       END IF ;; attrib is not "naked"
 $   END IF
 $END DO
 

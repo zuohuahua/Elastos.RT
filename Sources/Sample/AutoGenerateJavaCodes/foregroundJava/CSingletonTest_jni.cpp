@@ -12,7 +12,7 @@ jlong JNICALL native_CSingletonTest0(
 
     JavaVM* jvm;
     env->GetJavaVM(&jvm);
-    IJavaInterface::Probe(pElaClsObj)->JavaInit((Handle64)jvm, (Handle64)&jobj);
+    IJavaInterface::Probe(pElaClsObj)->JavaInit((Handle64)jvm, (Handle64)jobj);
     return (jlong)pElaClsObj;
 }
 
