@@ -765,18 +765,12 @@ int _GenerateJavaJniCppInit(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
     ClassDirEntry *pClass = pCtx->m_pClass;
 
     char szContent[512];
-    static int onceFlag = 0;
-    //If there are multi-interfaces, these codes is only one. the nativeInit method must be record once.
-    if (onceFlag == 0) {
-        CLSModule* module = pCtx->m_pModule;
-        assert(module != NULL);
 
-        pCtx->PutString("#include \"");
-        pCtx->PutString(module->mName);
-        pCtx->PutString(".h\"\n\n");
+    CLSModule* module = pCtx->m_pModule;
+    assert(module != NULL);
 
-        onceFlag = 1;
-    }
+    sprintf(szContent, "#include \"%s.h\"\n\n", module->mName);
+    pCtx->PutString(szContent);
 
     // get interface name
     char szInterfaceName[128];

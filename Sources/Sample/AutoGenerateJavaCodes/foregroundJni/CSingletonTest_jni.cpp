@@ -2,6 +2,8 @@
 #include <jni.h>
 
 //For Elastos
+#include "Elastos.AutoGenerateJavaCodes.h"
+
 jlong JNICALL native_CSingletonTest0(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj)
