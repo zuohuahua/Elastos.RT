@@ -19,7 +19,7 @@ module
     importlib("Elastos.CoreLibrary");
 
 
-    interface ISubWalletCallback {
+    interface ISubWalletListener {
         OnTransactionStatusChanged (
             [in] String txid,
             [in] String status,
@@ -50,19 +50,19 @@ module
             [out] Int64* balance);
 
         AddCallback (
-            [in] ISubWalletCallback* subCallback);
+            [in] ISubWalletListener* subCallback);
 
         RemoveCallback (
-            [in] ISubWalletCallback* subCallback);
+            [in] ISubWalletListener* subCallback);
 
-        SendTransaction (
+        CreateTransaction (
             [in] String fromAddress,
             [in] String toAddress,
             [in] Int64 amount,
             [in] Int64 fee,
-            [in] String payPassword,
             [in] String memo,
-            [out] String* txid);
+            [in] String remark,
+            [out] String* txidJson);
 
         CreateMultiSignAddress (
             [in] String multiPublicKeyJson,
@@ -70,19 +70,19 @@ module
             [in] Int32 requiredSignNum,
             [out] String* multiSignAddress);
 
-        GenerateMultiSignTransaction (
+        CreateMultiSignTransaction (
             [in] String fromAddress,
             [in] String toAddress,
             [in] Int64 amount,
             [in] Int64 fee,
-            [in] String payPassword,
             [in] String memo,
             [out] String* transactionJson);
 
         SendRawTransaction (
             [in] String transactionJson,
-            [in] String signJson,
-            [out] String* txid);
+            [in] Int64 fee,
+            [in] String payPassword,
+            [out] String* txidJson);
 
         GetAllTransaction (
             [in] Int32 start,
@@ -100,13 +100,18 @@ module
             [in] String message,
             [in] String signature,
             [out] String* resultJson);
+
+        CalculateTransactionFee(
+            [in] String rawTransaction,
+            [in] Int64 feePerKb,
+            [out] Int64* fee);
     }
 
     /**
      * extends ISubWallet
      */
     interface IMainchainSubWallet /*extends ISubWallet*/ {
-        SendDepositTransaction(
+        CreateDepositTransaction(
             [in] String fromAddress,
             [in] String toAddress,
             [in] Int64 amount,
@@ -114,16 +119,16 @@ module
             [in] String sidechainAmountsJson,
             [in] String sidechainIndexsJson,
             [in] Int64 fee,
-            [in] String payPassword,
             [in] String memo,
-            [out] String* result);
+            [in] String remark,
+            [out] String* txidJson);
     }
 
     /**
      * extends ISubWallet
      */
     interface ISidechainSubWallet /*extends ISubWallet*/ {
-        SendWithdrawTransaction(
+        CreateWithdrawTransaction(
             [in] String fromAddress,
             [in] String toAddress,
             [in] Int64 amount,
@@ -131,33 +136,26 @@ module
             [in] String mainchainAmountsJson,
             [in] String mainchainIndexsJson,
             [in] Int64 fee,
-            [in] String payPassword,
             [in] String memo,
-            [out] String* result);
+            [in] String remark,
+            [out] String* txidJson);
     }
 
     /**
      * extends ISubWallet
      */
     interface IIdChainSubWallet /*extends ISubWallet*/ {
-        SendIdTransaction(
+        CreateIdTransaction(
             [in] String fromAddress,
             [in] String toAddress,
             [in] Int64 amount,
             [in] String payloadJson,
             [in] String programJson,
             [in] Int64 fee,
-            [in] String payPassword,
             [in] String memo,
+            [in] String remark,
             [out] String* result);
     }
-
-    enum SubWalletType{
-        SubWalletType_Normal,
-        SubWalletType_Mainchain,
-        SubWalletType_Sidechain,
-        SubWalletType_Idchain
-    };
 
     interface IMasterWallet {
         GetId(
@@ -197,11 +195,26 @@ module
             [in] String message,
             [in] String signature,
             [out] String* resultJson);
+
+        IsAddressValid(
+            [in] String address,
+            [out] Boolean* valid);
+
+        GetSupportedChains(
+            [out, callee] ArrayOf<String>* supportedChains);
+
+        ChangePassword(
+            [in] String oldPassword,
+            [in] String newPassword);
+
+        ResetAddressCache(
+            [in] String payPassword);
     }
 
     interface IMasterWalletManager {
         CreateMasterWallet(
             [in] String masterWalletId,
+            [in] String mnemonic,
             [in] String phrasePassword,
             [in] String payPassword,
             [in] String language,
@@ -210,16 +223,12 @@ module
         GetAllMasterWallets(
             [out, callee] ArrayOf<IMasterWallet*>* wallets);
 
-        RecoverMasterWallet(
-            [in] String masterWalletId,
-            [out] IMasterWallet** masterWallet);
-
         DestroyWallet(
-            [in] IMasterWallet* masterWallet);
+            [in] String masterWalletId);
 
         ImportWalletWithKeystore(
             [in] String masterWalletId,
-            [in] String keystorePath,
+            [in] String keystoreContent,
             [in] String backupPassword,
             [in] String payPassword,
             [in] String phrasePassword,
@@ -237,28 +246,24 @@ module
             [in] IMasterWallet* masterWallet,
             [in] String backupPassword,
             [in] String payPassword,
-            [in] String keystorePath);
+            [out] String* keystoreContent);
 
         ExportWalletWithMnemonic(
             [in] IMasterWallet *masterWallet,
             [in] String payPassword,
             [out] String* mnemonic);
+
+        GenerateMnemonic(
+            [in] String language,
+            [out] String* mnemonic);
+
+        SaveConfigs();
     }
 
-
-    interface IWalletEnviroment {
-        InitializeRootPath(
+    class CMasterWalletManager {
+        constructor(
             [in] String rootPath);
 
-        GetRootPath(
-            [out] String* path);
-
-        GetMasterWalletManager(
-            [out] IMasterWalletManager** walletMgr);
-    }
-
-
-    singleton class CWalletEnviroment {
-        interface IWalletEnviroment;
+        interface IMasterWalletManager;
     }
 }

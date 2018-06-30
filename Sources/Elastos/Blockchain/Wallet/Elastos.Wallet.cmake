@@ -1,6 +1,6 @@
 set(CURRENT_MIRROR_SOURCES
-    _CWalletEnviroment.cpp
-    CWalletEnviromentClassObject.cpp
+    _CMasterWalletManager.cpp
+    CMasterWalletManagerClassObject.cpp
     _Elastos.Walletpub.cpp
     _Elastos.Walletabrg.cpp
 )
