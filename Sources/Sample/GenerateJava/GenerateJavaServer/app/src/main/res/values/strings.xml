@@ -1,0 +1,5 @@
+<resources>
+  <string name="app_name">GenerateJavaServer</string>
+  <string name="action_qrcode">QRCode</string>
+  <string name="action_addfriend">Add Friend</string>
+</resources>

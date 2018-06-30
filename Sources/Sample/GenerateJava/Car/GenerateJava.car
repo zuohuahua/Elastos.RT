@@ -1,0 +1,18 @@
+
+module
+{
+    importlib("Elastos.CoreLibrary");
+
+    interface IHelloJava {
+        Hello(
+            [out] String* hello);
+    }
+
+    class CHelloJava {
+        interface IHelloJava;
+    }
+
+    class CCarrierListener {
+        interface ICarrierListener;
+    }
+}
