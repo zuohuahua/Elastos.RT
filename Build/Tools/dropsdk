@@ -17,6 +17,10 @@ STATIC_SDK_LIBRARIES=(
     "Elastos.Runtime_static"
 )
 
+SHARED_SYSTEM_LIBRARIES=(
+    "c++_shared"
+)
+
 THIS_SCRIPT=$(basename $0)
 usage()
 {
@@ -131,5 +135,11 @@ done
 for name in ${STATIC_SDK_LIBRARIES[@]}; do
     copy_library $name $XDK_USER_LIB $SDK_LIBS_PATH/$LIB_SUBDIR
 done
+
+if [ "$XDK_TARGET_PLATFORM" = "android" ]; then
+    for name in ${SHARED_SYSTEM_LIBRARIES[@]}; do
+        copy_library $name $ANDROID_NDK/sources/cxx-stl/llvm-libc++/libs/$ANDROID_ABI $SDK_LIBS_PATH/$LIB_SUBDIR
+    done
+fi
 
 echo "Done"

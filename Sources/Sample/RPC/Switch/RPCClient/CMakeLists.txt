@@ -27,10 +27,10 @@ add_custom_command(
 add_custom_command(
     COMMENT "Copy elastos headers and libraries..."
     OUTPUT ${PROJECT_BIN}/app/elastos/include/Switch.h
-           ${PROJECT_BIN}/app/elastos/libs/armeabi-v7a/libSwitch.so
-    COMMAND dropsdk --output-dir app --lib-subdir armeabi-v7a
+           ${PROJECT_BIN}/app/elastos/libs/${ANDROID_ABI}/libSwitch.so
+    COMMAND dropsdk --output-dir app --lib-subdir ${ANDROID_ABI}
     COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_BIN}/../Car/Switch.h app/elastos/include
-    COMMAND ${CMAKE_COMMAND} -E copy $ENV{XDK_TARGETS}/libSwitch.so app/elastos/libs/armeabi-v7a
+    COMMAND ${CMAKE_COMMAND} -E copy $ENV{XDK_TARGETS}/libSwitch.so app/elastos/libs/${ANDROID_ABI}
     WORKING_DIRECTORY ${PROJECT_BIN}
     DEPENDS ${PROJECT_BIN}/gradlew
     ${PROJECT_BIN}/../Car/Switch.h
@@ -52,7 +52,7 @@ add_custom_command(
     COMMAND ${CMAKE_COMMAND} -E touch_nocreate ${apk_filename}
     WORKING_DIRECTORY ${PROJECT_BIN}
     DEPENDS ${PROJECT_BIN}/app/elastos/include/Switch.h
-            ${PROJECT_BIN}/app/elastos/libs/armeabi-v7a/libSwitch.so
+            ${PROJECT_BIN}/app/elastos/libs/${ANDROID_ABI}/libSwitch.so
 )
 
 
