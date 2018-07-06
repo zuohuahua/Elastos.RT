@@ -28,6 +28,7 @@ library
      * Error Code: The Carrier is not ready.
      */
     const E_CARRIER_NOT_READY                         = 0x81010000;
+    const E_CARRIER_ERROR                             = 0x81010001;
 
     /**
      *
@@ -235,12 +236,16 @@ library
         * @param
         *      hello [in] check information that you want to be showed.
         *
+        * @param
+        *      friendId [out] The user ID corresponding to the address.
+        *
         * @return
         *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
         */
         AddFriend(
             [in] String friendAddress,
-            [in] String hello);
+            [in] String hello,
+            [out] String* friendId);
 
         /**
         *

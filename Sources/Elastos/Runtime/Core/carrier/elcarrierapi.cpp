@@ -395,18 +395,30 @@ ECode CCarrier::AccpetFriendRequest(
 
 ECode CCarrier::AddFriend(
     /* [in] */ const String& friendAddress,
-    /* [in] */ const String& hello)
+    /* [in] */ const String& hello,
+    /* [out] */ String* friendId)
 {
+    char id[ELA_MAX_ID_LEN + 1] = {0};
+    char *user_id = NULL;
+    Int32 rc = 0;
     CARRIER_NOT_READY();
 
-    Int32 rc = ela_add_friend(mElaCarrier, friendAddress.string(), hello.string());
+    if (friendAddress.GetLength() == 0 || hello.GetLength() == 0 || friendId == NULL)
+        return E_INVALID_ARGUMENT;
+
+    user_id = ela_get_id_by_address(friendAddress.string(), id, ELA_MAX_ID_LEN + 1);
+    if (user_id == NULL)
+        return E_INVALID_ARGUMENT;
+
+    rc = ela_add_friend(mElaCarrier, friendAddress.string(), hello.string());
     if (rc == 0) {
-        CARRIER_LOG("Request to add a new friend succeess.\n");
+        CARRIER_LOG("Request to friend %s successfully.\n", user_id);
+        *friendId = String((const char*)id, strlen(id));
+        return NOERROR;
+    } else {
+        CARRIER_LOG("Request to friend %s unsuccessfully(0x%x).\n", user_id, ela_get_error());
+        return E_CARRIER_ERROR;
     }
-    else {
-        CARRIER_LOG("Request to add a new friend failed(0x%x).\n", ela_get_error());
-    }
-    return NOERROR;
 }
 
 ECode CCarrier::RemoveFriend(

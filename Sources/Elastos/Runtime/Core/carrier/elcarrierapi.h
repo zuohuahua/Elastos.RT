@@ -52,7 +52,8 @@ public:
 
     CARAPI AddFriend(
         /* [in] */ const String& friendAddress,
-        /* [in] */ const String& hello);
+        /* [in] */ const String& hello,
+        /* [out] */ String* friendId);
 
     CARAPI RemoveFriend(
         /* [in] */ IFriend* _friend);

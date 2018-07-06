@@ -84,7 +84,8 @@ ECode CClient::GetService(
     IFriend* pFriend;
     ECode ec = mCarrier->GetFriend(String(FRIEND_UID), &pFriend);
     if (FAILED(ec)) {
-        mCarrier->AddFriend(String(FRIEND_ADDRESS), String("hello"));
+        String friendId;
+        mCarrier->AddFriend(String(FRIEND_ADDRESS), String("hello"), &friendId);
     }
     else {
         pFriend->Release();

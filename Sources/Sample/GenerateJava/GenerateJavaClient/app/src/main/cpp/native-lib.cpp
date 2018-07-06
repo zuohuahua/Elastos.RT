@@ -51,7 +51,8 @@ extern "C" JNIEXPORT jint JNICALL Java_org_elastos_generatejavaclient_MainActivi
     if (gCarrier == NULL) return -1;
 
     const char* nativeString = env->GetStringUTFChars(uid, nullptr);
-    ECode ec = gCarrier->AddFriend(String(nativeString), String("hello"));
+    String friendId;
+    ECode ec = gCarrier->AddFriend(String(nativeString), String("hello"), &friendId);
     env->ReleaseStringUTFChars(uid, nativeString);
     return ec;
 }
