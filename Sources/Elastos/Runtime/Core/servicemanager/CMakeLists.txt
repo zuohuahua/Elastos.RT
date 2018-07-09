@@ -5,6 +5,8 @@ set(SOURCES
 
 add_definitions(-D_CAR_RUNTIME)
 
+add_definitions(-DP2P_RPC)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../marshal/common)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../marshal/p2p_rpc)
 
 include_directories(${CMAKE_BINARY_DIR}/ThirdParty/ElaCarrier/build/_dist/Android-arm/${XDK_BUILD_TYPE}/include)

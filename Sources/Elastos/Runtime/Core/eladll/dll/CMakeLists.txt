@@ -32,13 +32,15 @@ if("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "ios")
 elseif("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "android")
     list(APPEND MY_LINK_LIBRARIES
         servicemanager
-        marshal
+        marshalcomm
+        marshal_rpc
         elasession
         log
     )
 elseif(("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "linux" OR "$ENV{XDK_TARGET_PLATFORM}" STREQUAL "mac") AND "$ENV{XDK_TARGET_CPU_ARCH}" STREQUAL "32")
     list(APPEND MY_LINK_LIBRARIES
-        marshal
+        marshalcomm
+        marshal_rpc
         uv
         pthread
         dl
@@ -61,4 +63,4 @@ list(APPEND MY_LINK_LIBRARIES
     z
 )
 
-target_link_libraries(Elastos.Runtime ${MY_LINK_LIBRARIES})
+target_link_libraries(Elastos.Runtime ${XDK_START_GROUP} ${MY_LINK_LIBRARIES} ${XDK_END_GROUP})

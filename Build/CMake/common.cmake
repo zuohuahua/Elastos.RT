@@ -174,6 +174,8 @@ else()
         set(CMAKE_SHARED_LIBRARY_SUFFIX ".eco")
     endif()
     string(APPEND CMAKE_SHARED_LINKER_FLAGS " -Wl,--no-undefined")
+    set(XDK_START_GROUP "-Wl,--start-group")
+    set(XDK_END_GROUP "-Wl,--end-group")
 endif()
 
 # Suppress warning: empty struct has size 0 in C, size 1 in C++ [-Wextern-c-compat]
