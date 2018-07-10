@@ -134,7 +134,7 @@ static void OnFriendAdded(
 static void OnFriendMessage(
     /* [in] */ ElaCarrier *w,
     /* [in] */ const char *from,
-    /* [in] */ const char *msg,
+    /* [in] */ const void *msg,
     /* [in] */ size_t len,
     /* [in] */ void *context)
 {
