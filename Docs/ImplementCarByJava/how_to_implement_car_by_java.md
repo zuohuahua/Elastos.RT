@@ -3,7 +3,7 @@
 > ## 1.简介
 
     Car的开发语言是C++，为了方便Java开发者，我们实现了代码生成工具，支持通过java来实现car构件。java和c之间的相互调用通过jni和java反射来完成，并且全部自动生成相关代码，开发者只需拷贝相关文件和依赖到android工程，并添加java类的实现即可。
-    
+
     这样实现的构件同样支持RPC(远程调用)，本文档通过具体实例来讲解如何使用。
 
     C++实现远程调用的示例请参考
@@ -19,6 +19,8 @@
 [Car Programming](../How_To_Write_A_Car_Component)
 
 编写一个car构件，内容如下：
+
+```
 module
 {
     importlib("Elastos.CoreLibrary");
@@ -36,8 +38,9 @@ module
         interface ICarrierListener;
     }
 }
+```
 
-这里定义了一个接口IHelloJava，一个class CHelloJava实现IHelloJava。CCarrierListener实现了一个系统接口ICarrierListener。
+这里定义了一个接口IHelloJava 和 两个类，其中类 CHelloJava实现接口IHelloJava，另一个类CCarrierListener实现了一个系统接口ICarrierListener。
 
 car文件的名称即是模块名称，生成的so和导出头文件都以模块名称命名。如示例中的GenerateJava.car，GenerateJava是模块名称，导出头文件GenerateJava.h，生成libGenerateJava.so。
 
@@ -47,12 +50,12 @@ car文件的名称即是模块名称，生成的so和导出头文件都以模块
 
 ![生成代码](generate_code.png)
 
-    对应每一个car interface都会生成一个对应的Java interface，如示例中的IHelloJava.java, ICarrierListener.java。
+    对应每一个car interface都会生成一个对应的Java interface（包含该car文件中定义的car interface 和 定义的car类所实现的car interface），如示例中的IHelloJava.java, ICarrierListener.java。
 
     对应每一个car class都会生成一个对应的java class，实现相应的java interface。如示例中的CHelloJava.java, CCarrierListener.java。java class是我们真正需要实现的class。
     生成java文件的包名是org.elastos.modulename。
 
-    CHelloJava.cpp/h, CCarrierListener.cpp/h是car class的定义和实现，所有的接口方法都会直接调用对应java class的方法。
+    CHelloJava.h/cpp, CCarrierListener.h/cpp是car class的定义和实现，所有的接口方法都会直接调用对应java class的方法。
 
     对应每一个car class还会生成一个jni cpp，创建java对象时会同时创建一个car对象，相互保存。如示例中的CHelloJava_jni.cpp, CCarrierListener_jni.cpp。
 
@@ -63,11 +66,11 @@ car文件的名称即是模块名称，生成的so和导出头文件都以模块
     首先编译Elastos.RT仓库，如何编译请参考：
 [Getting Started](../getting_started)
 
-    修改模块上层目录的CMakeLists.txt, 添加模块目录名称到编译树种，例如示例代码添加如下内容：
+    修改模块上层目录的CMakeLists.txt, 添加模块目录名称到编译树中，例如示例代码添加如下内容：
     xdk_add_subdirectories(
         GenerateJava
     )
-  
+
     切换到模块目录，执行emake，编译模块。
   
     编译成功之后，执行dropsdk -s armeabi-v7a，导出头文件和so。导出内容在Elastos.RT/SDK/android下。
@@ -76,7 +79,7 @@ car文件的名称即是模块名称，生成的so和导出头文件都以模块
 
 > ### 2.4.创建android工程
 
-    创建两个android工程，GenrateJavaServer，GenerateJavaClient，勾选include c++ support。
+    创建两个android工程，GenerateJavaServer，GenerateJavaClient，勾选include c++ support。
 
 > ### 2.5.拷贝文件android工程
 
@@ -92,7 +95,7 @@ car文件的名称即是模块名称，生成的so和导出头文件都以模块
 
     修改app/build.gradle，设置cppFlags，编译支持的目标cpu
 
-``` 
+```
     externalNativeBuild {
         cmake {
             cppFlags "-std=c++11", "-D_GNUC", "-D_linux", "-D_UNDEFDLLEXP", "-fvisibility=hidden"
@@ -101,21 +104,21 @@ car文件的名称即是模块名称，生成的so和导出头文件都以模块
     ndk {
         abiFilters 'armeabi-v7a'
     }
-``` 
+```
 
     配置jni libs目录
 
-``` 
+```
     sourceSets {
       main {
         jniLibs.srcDirs = ['src/main/cpp/elastos/libs']
       }
     }
-``` 
+```
 
     修改app/CMakeLists.txt，增加新添加的cpp文件和头文件目录，链接目录，链接依赖的so
 
-``` 
+```
     include_directories(src/main/cpp/elastos/include)
     link_directories(src/main/cpp/elastos/libs/${ANDROID_ABI})
 
@@ -141,7 +144,7 @@ car文件的名称即是模块名称，生成的so和导出头文件都以模块
                           Elastos.Runtime_static
                           Elastos.CoreLibrary
                           elasession)
-``` 
+```
 
 > ### 2.7.添加Java class的实现
 
@@ -199,7 +202,7 @@ public class CHelloJava implements IHelloJava {
     生成的destroy方法是用来释放c对象的，如果java对象不再使用了，必须要调用destroy方法来释放c对象。
 
     destroy方法之后就是待实现的接口方法，自行添加实现内容。如示例中的Hello()，返回Hello From Java的字符串。
-    
+
 > ### 2.8.实现添加好友，注册和获取服务进行远程调用
 
     这部分内容请参考如何使用car的远程调用功能文档：
