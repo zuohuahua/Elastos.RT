@@ -4,6 +4,7 @@
 #include "CP2PParcelCarrier.h"
 #include "prxstub.h"
 #include "rot.h"
+#include "elcarrierapi.h"
 
 ECode CParcelCarrier::S_StartService(CObjectStub *pStub, CParcelCarrier **ppParcelCarrier)
 {
@@ -33,6 +34,25 @@ ECode CParcelCarrier::S_StartService(CObjectStub *pStub, CParcelCarrier **ppParc
 ErrorExit:
     delete pStub;
     return ec;
+}
+
+ECode CParcelCarrier::S_IsOnline(Elastos::Boolean* pIsOnline)
+{
+    if (!pIsOnline) {
+        return E_INVALID_ARGUMENT;
+    }
+
+    ECode ec;
+    ICarrier* pCarrier;
+    ec = CCarrier::GetInstance(&pCarrier);
+    if (FAILED(ec)) {
+        return ec;
+    }
+    Boolean online;
+    pCarrier->IsOnline(&online);
+    pCarrier->Release();
+    *pIsOnline = online;
+    return NOERROR;
 }
 
 CP2PParcelCarrier::CP2PParcelCarrier(CObjectStub * pStub) :
@@ -100,21 +120,22 @@ void CP2PParcelCarrier::CSessionManagerListener::OnSessionReceived(
 
     RPC_LOG("CObjectStub receive type:%d, len: %d\n", _type, _len);
 
+    CParcelSession *pParcelSession = CParcelSession::S_CreateObject(pSession);
     switch (_type) {
     case METHOD_GET_CLASS_INFO:
-        pP2PParcelCarrier->HandleGetClassInfo((CParcelSession *)pSession, p, _len);
+        pP2PParcelCarrier->HandleGetClassInfo(pParcelSession, p, _len);
         break;
     case METHOD_INVOKE:
-        pP2PParcelCarrier->HandleInvoke((CParcelSession *)pSession, p, _len);
+        pP2PParcelCarrier->HandleInvoke(pParcelSession, p, _len);
         break;
     case METHOD_RELEASE:
-        pP2PParcelCarrier->HandleRelease((CParcelSession *)pSession, p, _len);
+        pP2PParcelCarrier->HandleRelease(pParcelSession, p, _len);
         break;
     default:
         break;
     }
+    delete pParcelSession;
 }
-
 
 ECode CP2PParcelCarrier::HandleReleaseToZero()
 {

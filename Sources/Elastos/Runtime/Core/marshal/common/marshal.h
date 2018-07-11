@@ -6,9 +6,6 @@
 #include "elastos.h"
 
 _ELASTOS_NAMESPACE_USING
-#ifdef P2P_RPC
-#include "session.h"
-#endif
 
 #ifndef INT_MAX
 #define INT_MAX 0x7fffffff
@@ -65,15 +62,15 @@ typedef struct InterfacePack
     Char8               m_stubConnName[256];// dbus unique connection name of stub
 }   InterfacePack;
 
+class CParcelSession;
+
 extern ECode StdMarshalInterface(
         /* [in] */ IInterface *pObject,
         /* [out] */ InterfacePack *pInterfacePack);
 
 extern ECode StdUnmarshalInterface(
         /* [in] */ UnmarshalFlag flag,
-#ifdef P2P_RPC
-        /* [in] */ CSession* pSession,
-#endif
+        /* [in] */ CParcelSession* pParcelSession,
         /* [in] */ InterfacePack *pInterfacePack,
         /* [out] */ IInterface **ppObject);
 

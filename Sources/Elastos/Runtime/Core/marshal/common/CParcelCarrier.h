@@ -18,6 +18,8 @@ public:
 
     static Elastos::ECode S_StartService(CObjectStub *pStub, CParcelCarrier **ppParcelCarrier);
 
+    static Elastos::ECode S_IsOnline(Elastos::Boolean* pIsOnline);
+
     Elastos::ECode HandleGetClassInfo(CParcelSession* pSession, void const *base, int len);
 
     Elastos::ECode HandleInvoke(CParcelSession* pSession, void const *base, int len);

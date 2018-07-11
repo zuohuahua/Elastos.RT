@@ -12,6 +12,11 @@ public:
     CSockParcelSession();
     ~CSockParcelSession();
 
+    Elastos::ECode StartService(
+                /* [in] */ const char *stubConnName);
+
+    Elastos::ECode StopService();
+
     Elastos::ECode SendMessage(
                 /* [in] */ RpcMethod type,
                 /* [in] */ void* msg,
@@ -22,10 +27,16 @@ public:
                 /* [out] */ void** pBuf,
                 /* [out] */ int* pLen);
 
+    Elastos::ECode ReceiveFromRemote(
+                /* [out] */ RpcMethod* pType,
+                /* [out] */ void** pBuf,
+                /* [out] */ int* pLen);
+
     friend class CParcelSession;
-public:
+private:
     String              m_stubIP;
     int                 m_stubPort;
+    bool                m_serviceStarted;
 
     uv_tcp_t           *m_tcp;
 };

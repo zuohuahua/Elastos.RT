@@ -2,9 +2,6 @@
 #ifndef __PRXSTUB_H__
 #define __PRXSTUB_H__
 
-#ifdef SOCK_RPC
-# include <uv.h>
-#endif
 
 #include <semaphore.h>
 
@@ -15,11 +12,6 @@
 
 _ELASTOS_NAMESPACE_USING
 
-#ifdef P2P_RPC
-# include "carrier.h"
-# include "CSessionManager.h"
-# include "rpcerror.h"
-#endif
 
 #define GET_LENGTH(a) ((a) & 0x3f)
 #define GET_IN_INTERFACE_MARK(a) ((a) & 0x80)
@@ -86,11 +78,7 @@ class CParcelSession;
 class CObjectProxy : public IProxy
 {
 public:
-    CObjectProxy(
-#ifdef P2P_RPC
-        /* [in] */ CSession* pSession
-#endif
-        );
+    CObjectProxy();
 
     virtual ~CObjectProxy();
 
@@ -137,49 +125,12 @@ public:
     CARAPI IsStubAlive(
         /* [out] */ Boolean* result);
 
-#ifdef P2P_RPC
-    ECode ReceiveFromRemote(
-        /* [out] */ int* type,
-        /* [out] */ void** buf,
-        /* [out] */ int* len);
-#endif
-
-
     static CARAPI S_CreateObject(
-#ifdef P2P_RPC
-            /* [in] */ CSession* pSession,
-#endif
+            /* [in] */ CParcelSession* pParcelSession,
             /* [in] */ REMuid rclsid,
             /* [in] */ const char* stubConnName,
             /* [out] */ IProxy **ppIProxy);
 
-
-#ifdef P2P_RPC
-private:
-    class CProxyListener
-        : public SessionListener
-    {
-    public:
-        void OnSessionConnected(
-            /* [in] */ CSession* pSession,
-            /* [in] */ Boolean succeeded,
-            /* [in] */ void* context);
-
-        void OnSessionReceived(
-            /* [in] */ CSession* pSession,
-            /* [in] */ ArrayOf<Byte>* data,
-            /* [in] */ void* context);
-    };
-
-public:
-
-    String                  m_stubId;
-    CSession                *mSession;
-    CProxyListener          *mListener;
-    pthread_cond_t          mCv;
-    pthread_mutex_t         mWorkLock;
-    DataPack*               mData;
-#endif
     String              m_stubConnName;
     CIClassInfo         *m_pInfo;
     Int32               m_cInterfaces;
@@ -228,9 +179,7 @@ public:
 interface IStub : public IInterface
 {
     virtual CARAPI Invoke(
-#ifdef P2P_RPC
-            /* [in] */ CSession* pSession,
-#endif
+            /* [in] */ CParcelSession* pParcelSession,
             /* [in] */ void *pInData,
             /* [in] */ UInt32 uInSize,
             /* [out] */ CRemoteParcel **ppParcel) = 0;
@@ -266,9 +215,7 @@ public:
             /* [out] */ InterfaceID *pIID);
 
     CARAPI Invoke(
-#ifdef P2P_RPC
-            /* [in] */ CSession* pSession,
-#endif
+            /* [in] */ CParcelSession* pParcelSession,
             /* [in] */ void *pInData,
             /* [in] */ UInt32 uInSize,
             /* [out] */ CRemoteParcel **ppParcel);

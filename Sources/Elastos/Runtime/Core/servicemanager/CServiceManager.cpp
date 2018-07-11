@@ -251,7 +251,8 @@ ECode CServiceManager::GetService(
     session->RemoveListener(listener, NULL);
     listener->Release();
 
-    ec = StdUnmarshalInterface(UnmarshalFlag_Noncoexisting, session, &ip, ppService);
+    CParcelSession *pParcelSession = CParcelSession::S_CreateObject(session);
+    ec = StdUnmarshalInterface(UnmarshalFlag_Noncoexisting, pParcelSession, &ip, ppService);
     session->Release();
     return ec;
 }

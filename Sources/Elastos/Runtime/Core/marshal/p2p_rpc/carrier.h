@@ -11,8 +11,16 @@
 #define RPC_LOG printf
 #endif
 
+#include "CParcelSession.h"
+
 enum {
-    ADD_SERVICE = 0,
+    METHOD_GET_CLASS_INFO,
+    METHOD_INVOKE,
+    METHOD_RELEASE,
+    METHOD_GET_CLASS_INFO_REPLY,
+    METHOD_INVOKE_REPLY,
+    METHOD_RELEASE_REPLY,
+    ADD_SERVICE,
     GET_SERVICE,
     REMOVE_SERVICE,
     ADD_SERVICE_REPLY,
@@ -20,14 +28,15 @@ enum {
     REMOVE_SERVICE_REPLY,
     ADD_FRIEND_SUCCEEDED,
     SELF_ONLINE,
-    FRIEND_ONLINE,
-    METHOD_GET_CLASS_INFO,
-    METHOD_INVOKE,
-    METHOD_RELEASE,
-    METHOD_GET_CLASS_INFO_REPLY,
-    METHOD_INVOKE_REPLY,
-    METHOD_RELEASE_REPLY
+    FRIEND_ONLINE
 };
+
+static_assert(METHOD_GET_CLASS_INFO       == (int)RpcMethod::get_class_info,       "Enum value must equal.");
+static_assert(METHOD_INVOKE               == (int)RpcMethod::invoke,               "Enum value must equal.");
+static_assert(METHOD_RELEASE              == (int)RpcMethod::release,              "Enum value must equal.");
+static_assert(METHOD_GET_CLASS_INFO_REPLY == (int)RpcMethod::get_class_info_reply, "Enum value must equal.");
+static_assert(METHOD_INVOKE_REPLY         == (int)RpcMethod::invoke_reply,         "Enum value must equal.");
+static_assert(METHOD_RELEASE_REPLY        == (int)RpcMethod::release_reply,        "Enum value must equal.");
 
 struct DataPack
 {

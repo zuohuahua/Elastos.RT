@@ -37,7 +37,6 @@ private:
             /* [in] */ void *context);
     };
 
-private:
     CSessionManager             *mSessionManager;
     CSessionManagerListener     *mSessionManagerListener;
 };

@@ -5,7 +5,6 @@ set(SOURCES
 
 add_definitions(-D_CAR_RUNTIME)
 
-add_definitions(-DP2P_RPC)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../marshal/common)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../marshal/p2p_rpc)
 

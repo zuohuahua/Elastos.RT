@@ -22,6 +22,16 @@ ECode CParcelCarrier::S_StartService(CObjectStub *pStub, CParcelCarrier **ppParc
     return NOERROR;
 }
 
+ECode CParcelCarrier::S_IsOnline(Elastos::Boolean* pIsOnline)
+{
+    if (!pIsOnline) {
+        return E_INVALID_ARGUMENT;
+    }
+
+    *pIsOnline = true;
+    return NOERROR;
+}
+
 CSockParcelCarrier::CSockParcelCarrier(
     /* in */ CObjectStub * pStub)
     : CParcelCarrier(pStub)
@@ -108,20 +118,22 @@ void CSockParcelCarrier::S_TCPReadCB(uv_stream_t *stream,
         type = *(int32_t *)p;
         p += sizeof(int32_t);
         _len -= sizeof(int32_t);
+        CParcelSession *pParcelSession = CParcelSession::S_CreateObject(tcp);
         switch (type) {
         case METHOD_GET_CLASS_INFO:
-            ec = pThis->HandleGetClassInfo((CParcelSession*)tcp, p, _len);
+            ec = pThis->HandleGetClassInfo(pParcelSession, p, _len);
             break;
         case METHOD_INVOKE:
-            ec = pThis->HandleInvoke((CParcelSession*)tcp, p, _len);
+            ec = pThis->HandleInvoke(pParcelSession, p, _len);
             break;
         case METHOD_RELEASE:
-            ec = pThis->HandleRelease((CParcelSession*)tcp, p, _len);
+            ec = pThis->HandleRelease(pParcelSession, p, _len);
             break;
         default:
             ec = NOERROR;
             break;
         }
+        delete pParcelSession;
         if (FAILED(ec))
             abort();
 

@@ -4,8 +4,6 @@
 # include <uv.h>
 #include "CParcelSession.h"
 
-#define RPC_LOG
-
 enum {
     METHOD_GET_CLASS_INFO,
     METHOD_INVOKE,
@@ -21,13 +19,6 @@ static_assert(METHOD_RELEASE              == (int)RpcMethod::release,           
 static_assert(METHOD_GET_CLASS_INFO_REPLY == (int)RpcMethod::get_class_info_reply, "Enum value must equal.");
 static_assert(METHOD_INVOKE_REPLY         == (int)RpcMethod::invoke_reply,         "Enum value must equal.");
 static_assert(METHOD_RELEASE_REPLY        == (int)RpcMethod::release_reply,        "Enum value must equal.");
-
-// #ifdef _android
-// #include <android/log.h>
-// #define RPC_LOG(...) __android_log_print(ANDROID_LOG_DEBUG, "SOCK RPC", __VA_ARGS__)
-// #else
-// #define RPC_LOG printf
-// #endif
 
 extern int sock_send_msg(uv_tcp_t *tcp,
         int type,

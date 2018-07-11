@@ -1,7 +1,4 @@
 
-#ifdef SOCK_RPC
-#include "sock.h"
-#endif
 #include "prxstub.h"
 
 #include <pthread.h>
@@ -22,12 +19,7 @@ ECode LookupModuleInfo(
     /* [out] */ CIModuleInfo **ppModuleInfo);
 
 ECode GetRemoteClassInfo(
-#ifdef SOCK_RPC
     /* [in] */ CParcelSession *pParcelSession,
-#endif
-#ifdef P2P_RPC
-    /* [in] */ CSession* pSession,
-#endif
     /* [in] */ REMuid clsId,
     /* [out] */ CIClassInfo ** ppClassInfo)
 {
@@ -41,7 +33,6 @@ ECode GetRemoteClassInfo(
     void *buf = NULL;
     int len;
 
-#ifdef SOCK_RPC
     ec = pParcelSession->SendMessage(RpcMethod::get_class_info, NULL, 0);
     if (FAILED(ec)) {
         goto Exit;
@@ -52,21 +43,7 @@ ECode GetRemoteClassInfo(
         goto Exit;
     }
 
-#endif
-#ifdef P2P_RPC
-    ec = pSession->SendMessage(METHOD_GET_CLASS_INFO, NULL, 0);
-    if (FAILED(ec)) {
-        goto Exit;
-    }
-
-    ec = pSession->ReceiveMessage(&type, &buf, &len);
-    if (FAILED(ec)) {
-        goto Exit;
-    }
-#endif
-
-
-    if (type != METHOD_GET_CLASS_INFO_REPLY)
+    if (type != (int)RpcMethod::get_class_info_reply)
         goto Exit;
 
     pModInfo = (CIModuleInfo *)buf;

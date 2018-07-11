@@ -6,44 +6,62 @@
 #include "prxstub.h"
 #include "rot.h"
 
-ECode CParcelSession::S_CreateObject(
-                /* [in] */ const char * stubConnName,
-                /* [out] */ CParcelSession **ppParcelSession)
+CParcelSession* CParcelSession::S_CreateObject(
+                /* [in] */ void* pNativeSession)
+{
+    CSockParcelSession* pParcelSession = new CSockParcelSession();
+
+    pParcelSession->m_serviceStarted = false;
+    pParcelSession->m_tcp = (uv_tcp_t*)pNativeSession;
+
+    return pParcelSession;
+}
+
+ECode CSockParcelSession::StartService(
+                /* [in] */ const char * stubConnName)
 {
     char ip[32];
     int port;
     ECode ec;
 
-    CSockParcelSession* pParcelSession = new CSockParcelSession();
-
     sscanf(stubConnName, "%[^:]:%d", ip, &port);
 
-    pParcelSession->m_stubIP = ip;
-    pParcelSession->m_stubPort = port;
+    m_serviceStarted = true;
+    m_stubIP = ip;
+    m_stubPort = port;
 
-    if (sock_connect(&pParcelSession->m_tcp, ip, port)) {
+    if (sock_connect(&m_tcp, ip, port)) {
         ec = E_FAIL;
         goto ErrorExit;
     }
-    *ppParcelSession = pParcelSession;
     return NOERROR;
 
 ErrorExit:
-    if (pParcelSession->m_tcp != 0) {
-        sock_close(pParcelSession->m_tcp);
+    if (m_tcp != nullptr) {
+        sock_close(m_tcp);
     }
 }
 
+ECode CSockParcelSession::StopService()
+{
+    if (m_serviceStarted) {
+        sock_close(m_tcp);
+        m_serviceStarted = false;
+    }
+}
 
 CSockParcelSession::CSockParcelSession() :
     m_stubPort(0),
+    m_serviceStarted(false),
     m_tcp(nullptr)
 {
 }
 
 CSockParcelSession::~CSockParcelSession()
 {
-    sock_close(m_tcp);
+    if (m_serviceStarted) {
+        StopService();
+    }
 }
 
 ECode CSockParcelSession::SendMessage(
@@ -68,4 +86,12 @@ ECode CSockParcelSession::ReceiveMessage(
         ec = E_FAIL; // TODO: sould set an appropriate error code
     }
     return ec;
+}
+
+ECode CSockParcelSession::ReceiveFromRemote(
+                /* [out] */ RpcMethod* pType,
+                /* [out] */ void** pBuf,
+                /* [out] */ int* pLen)
+{
+    return this->ReceiveMessage(pType, pBuf, pLen);
 }

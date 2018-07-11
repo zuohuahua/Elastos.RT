@@ -7,10 +7,8 @@
 #include <sys/mman.h>
 #include "prxstub.h"
 #include "rot.h"
+#include "CParcelSession.h"
 
-#ifdef SOCK_RPC
-#include "sock.h"
-#endif
 
 EXTERN_C const InterfaceID EIID_IProxy;
 
@@ -19,12 +17,7 @@ ECode LookupClassInfo(
     /* [out] */ CIClassInfo **ppClassInfo);
 
 ECode GetRemoteClassInfo(
-#ifdef SOCK_RPC
     /* [in] */ CParcelSession *pParcelSession,
-#endif
-#ifdef P2P_RPC
-    /* [in] */ CSession* pSession,
-#endif
     /* [in] */ REMuid clsId,
     /* [out] */ CIClassInfo ** ppClassInfo);
 
@@ -295,9 +288,7 @@ ECode CInterfaceProxy::ProxyEntry(
     assert(uInSize >= sizeof(MarshalHeader));
 
     pInParcel = new CRemoteParcel(
-#ifdef P2P_RPC
-        pThis->m_pOwner->mSession
-#endif
+            pThis->m_pOwner->m_pParcelSession
         );
     va_copy(vaArgsCopy, vaArgs);
     ec = pThis->MarshalIn(uMethodIndex, vaArgsCopy, pInParcel);
@@ -314,32 +305,19 @@ ECode CInterfaceProxy::ProxyEntry(
         int type, len;
         char *p = NULL;
 
-#ifdef SOCK_RPC
         ec = pThis->m_pOwner->m_pParcelSession->SendMessage(
                                     RpcMethod::invoke, pInBuffer, size);
         if (FAILED(ec)) {
             goto UseSocketExit;
         }
 
-        ec = pThis->m_pOwner->m_pParcelSession->ReceiveMessage(
+        ec = pThis->m_pOwner->m_pParcelSession->ReceiveFromRemote(
                                     (RpcMethod*)&type, (void **)&p, (Int32*)&len);
         if (FAILED(ec)) {
             goto UseSocketExit;
         }
-#endif
-#ifdef P2P_RPC
-        ec = pThis->m_pOwner->mSession->SendMessage(METHOD_INVOKE, pInBuffer, size);
-        if (FAILED(ec)) {
-            goto UseSocketExit;
-        }
 
-        ec = pThis->m_pOwner->ReceiveFromRemote(&type, (void **)&p, &len);
-        if (FAILED(ec)) {
-            goto UseSocketExit;
-        }
-#endif
-
-        if (type != METHOD_INVOKE_REPLY) {
+        if (type != (int)RpcMethod::invoke_reply) {
             ec = E_FAIL; // TODO: sould set an appropriate error code
             goto UseSocketExit;
         }
@@ -348,9 +326,7 @@ ECode CInterfaceProxy::ProxyEntry(
         if (SUCCEEDED(ec)) {
             if (pThis->MethodHasOutArgs(uMethodIndex)) {
                 pOutParcel = new CRemoteParcel(
-#ifdef P2P_RPC
-                    pThis->m_pOwner->mSession,
-#endif
+                    pThis->m_pOwner->m_pParcelSession,
                     (UInt32*)(p + sizeof(int32_t)));
                 va_copy(vaArgsCopy, vaArgs);
                 ec = pThis->UnmarshalOut(uMethodIndex, pOutParcel, vaArgsCopy);
@@ -376,38 +352,12 @@ ProxyExit:
     return ec;
 }
 
-#ifdef P2P_RPC
-CObjectProxy::CObjectProxy(
-    /* [in] */ CSession* pSession) :
-    mSession(pSession),
-    mListener(NULL),
-    mData(NULL),
-#endif
-#ifdef SOCK_RPC
 CObjectProxy::CObjectProxy() :
-#endif
     m_pInterfaces(NULL),
     m_pICallbackConnector(NULL),
+    m_pParcelSession(NULL),
     m_cRef(1)
-{
-#ifdef P2P_RPC
-    if (!mSession) return;
-
-    mSession->AddRef();
-    mListener = new CProxyListener();
-    if (!mListener) return;
-    mListener->AddRef();
-    mSession->AddListener(mListener, this);
-
-    pthread_mutexattr_t recursiveAttr;
-    pthread_mutexattr_init(&recursiveAttr);
-    pthread_mutexattr_settype(&recursiveAttr, PTHREAD_MUTEX_RECURSIVE);
-    pthread_mutex_init(&mWorkLock, &recursiveAttr);
-    pthread_mutexattr_destroy(&recursiveAttr);
-
-    pthread_cond_init(&mCv, NULL);
-#endif
-}
+{}
 
 CObjectProxy::~CObjectProxy()
 {
@@ -420,26 +370,8 @@ CObjectProxy::~CObjectProxy()
         }
         delete [] m_pInterfaces;
     }
-
-#ifdef P2P_RPC
-    if (!mSession) return;
-
-    if (mListener) {
-        mSession->RemoveListener(mListener, this);
-        mListener->Release();
-    }
-    mSession->Release();
-
-    pthread_cond_destroy(&mCv);
-    pthread_mutex_destroy(&mWorkLock);
-
-    if (mData) {
-        if (mData->data)
-            ArrayOf<Byte>::Free(mData->data);
-        delete mData;
-        mData = NULL;
-    }
-#endif
+    m_pParcelSession->StopService();
+    delete m_pParcelSession;
 }
 
 static const EMuid ECLSID_XOR_CallbackSink = \
@@ -525,7 +457,7 @@ PInterface CObjectProxy::RemoteProbe(REIID riid)
         riid
     };
     struct ProbeReplyData *pReplyData;
-#ifdef SOCK_RPC
+
     ec = this->m_pParcelSession->SendMessage(
                       RpcMethod::invoke,
                       &requestData,
@@ -534,44 +466,28 @@ PInterface CObjectProxy::RemoteProbe(REIID riid)
         return NULL;
     }
 
-    ec = this->m_pParcelSession->ReceiveMessage(
+    ec = this->m_pParcelSession->ReceiveFromRemote(
                       (RpcMethod*)&type,
                       (void **)&pReplyData,
                       (Int32*)&len);
     if (FAILED(ec)) {
         return NULL;
     }
-#endif
-#ifdef P2P_RPC
-    ec = mSession->SendMessage(METHOD_INVOKE, &requestData,
-                        sizeof(struct ProbeRequestData));
-    if (FAILED(ec)) {
-        return NULL;
-    }
 
-    ec = ReceiveFromRemote(&type, (void **)&pReplyData, &len);
-    if (FAILED(ec)) {
-        return NULL;
-    }
-#endif
-
-    RPC_LOG(" RemoteProbe receive len: %d", len);
+    MARSHAL_DBGOUT(MSHDBG_NORMAL, printf("RemoteProbe receive len: %d", len));
 
     if (len < sizeof(ProbeReplyData) ||
-            type != METHOD_INVOKE_REPLY ||
+            type != (int)RpcMethod::invoke_reply ||
             !SUCCEEDED(pReplyData->ec)) {
         MARSHAL_DBGOUT(MSHDBG_WARNING,
                 printf("proxy RemoteProbe() ec = %x\n", pReplyData->ec));
         free(pReplyData);
-    RPC_LOG(" RemoteProbe receive return null");
         return NULL;
     }
     assert(pReplyData->notNull == MSH_NOT_NULL);
 
     ec = StdUnmarshalInterface(UnmarshalFlag_Noncoexisting,
-#ifdef P2P_RPC
-                               mSession,
-#endif
+                               m_pParcelSession,
                                &(pReplyData->interfacePack),
                                &pObj);
     free(pReplyData);
@@ -608,19 +524,10 @@ UInt32 CObjectProxy::Release(void)
             delete m_pICallbackConnector;
         }
 
-#ifdef SOCK_RPC
         ec = m_pParcelSession->SendMessage(RpcMethod::release, NULL, 0);
         if (FAILED(ec)) {
              goto Exit;
         }
-#endif
-#ifdef P2P_RPC
-        ec = mSession->SendMessage(METHOD_RELEASE, NULL, 0);
-        if (FAILED(ec)) {
-             goto Exit;
-        }
-#endif
-
 
 Exit:
         delete this;
@@ -667,7 +574,9 @@ ECode CObjectProxy::GetInterface(
 {
     assert(ppObj != NULL);
 
-    RPC_LOG(" CObjectProxy::GetInterface uIndex: %d, m_cInterfaces: %d", uIndex, m_cInterfaces);
+    MARSHAL_DBGOUT(MSHDBG_NORMAL, printf(
+            "CObjectProxy::GetInterface uIndex: %d, m_cInterfaces: %d",
+            uIndex, m_cInterfaces));
     if (uIndex < (UInt32)m_cInterfaces) {
         *ppObj = (IInterface *)&(m_pInterfaces[uIndex].m_pvVptr);
         this->AddRef();
@@ -742,18 +651,11 @@ ECode CObjectProxy::IsStubAlive(
 }
 
 ECode CObjectProxy::S_CreateObject(
-#ifdef P2P_RPC
-    /* [in] */ CSession* pSession,
-#endif
+    /* [in] */ CParcelSession* pParcelSession,
     /* [in] */ REMuid rclsid,
     /* [in] */ const char* stubConnName,
     /* [out] */ IProxy **ppIProxy)
 {
-#ifdef P2P_RPC
-    if (!pSession) {
-        return E_INVALID_ARGUMENT;
-    }
-#endif
     CObjectProxy *pProxy;
     CInterfaceProxy *pInterfaces;
     Int32 n;
@@ -761,11 +663,7 @@ ECode CObjectProxy::S_CreateObject(
 
     if (ppIProxy == NULL) return E_INVALID_ARGUMENT;
 
-    pProxy = new CObjectProxy(
-#ifdef P2P_RPC
-            pSession
-#endif
-        );
+    pProxy = new CObjectProxy();
     if (!pProxy) {
         MARSHAL_DBGOUT(MSHDBG_ERROR,
                 printf("Create proxy object: out of memory.\n"));
@@ -774,28 +672,19 @@ ECode CObjectProxy::S_CreateObject(
 
     pProxy->m_stubConnName = stubConnName;
 
-#ifdef SOCK_RPC
-    ec = CParcelSession::S_CreateObject(pProxy->m_stubConnName , &pProxy->m_pParcelSession);
-    if (FAILED(ec)) goto ErrorExit;
-#endif
-
-#ifdef P2P_RPC
-    pProxy->m_stubId = stubConnName;
-
-    if (!pSession->IsConnected()) {
-        ec = E_FAIL;
-        goto ErrorExit;
+    if (pParcelSession) {
+        pProxy->m_pParcelSession = pParcelSession;
     }
-#endif
+    else {
+        pProxy->m_pParcelSession = CParcelSession::S_CreateObject(NULL);
+    }
+    ec = pProxy->m_pParcelSession->StartService(stubConnName);
+    if (FAILED(ec)) goto ErrorExit;
+
     ec = LookupClassInfo(rclsid, &(pProxy->m_pInfo));
     if (FAILED(ec)) {
         ec = GetRemoteClassInfo(
-#ifdef SOCK_RPC
                                  pProxy->m_pParcelSession,
-#endif
-#ifdef P2P_RPC
-                                 pSession,
-#endif
                                  rclsid,
                                  &pProxy->m_pInfo);
         if (FAILED(ec)) goto ErrorExit;
@@ -837,128 +726,3 @@ ErrorExit:
     delete pProxy;
     return ec;
 }
-
-#ifdef P2P_RPC
-
-ECode CObjectProxy::ReceiveFromRemote(
-    /* [out] */ int* type,
-    /* [out] */ void** buf,
-    /* [out] */ int* len)
-{
-    pthread_mutex_lock(&mWorkLock);
-    if (mData) {
-        if (mData->data)
-            ArrayOf<Byte>::Free(mData->data);
-        delete mData;
-        mData = NULL;
-    }
-    while (mData == NULL) {
-        pthread_cond_wait(&mCv, &mWorkLock);
-    }
-
-    if (FAILED(mData->ec)) {
-        ECode ec = mData->ec;
-        if (mData->data)
-            ArrayOf<Byte>::Free(mData->data);
-        delete mData;
-        mData = NULL;
-        pthread_mutex_unlock(&mWorkLock);
-        return ec;
-    }
-
-    Byte* p = mData->data->GetPayload();
-    int _len = mData->data->GetLength();
-    int _type = *(size_t *)p;
-    p += sizeof(size_t);
-    _len -= sizeof(size_t);
-
-    RPC_LOG("CObjectProxy::ReceiveFromRemote type:%d", _type);
-    *type = _type;
-    if (buf != NULL) {
-        void* _base = malloc(_len);
-        if (_base == NULL) {
-            if (mData->data)
-                ArrayOf<Byte>::Free(mData->data);
-            delete mData;
-            mData = NULL;
-            pthread_mutex_unlock(&mWorkLock);
-            return E_FAIL;
-        }
-        memcpy(_base, p, _len);
-        *buf = _base;
-        *len = _len;
-    }
-
-    if (mData->data)
-        ArrayOf<Byte>::Free(mData->data);
-    delete mData;
-    mData = NULL;
-    pthread_mutex_unlock(&mWorkLock);
-
-    return NOERROR;
-}
-
-void CObjectProxy::CProxyListener::OnSessionConnected(
-    /* [in] */ CSession* pSession,
-    /* [in] */ Boolean succeeded,
-    /* [in] */ void* context)
-{
-    if (!succeeded) {
-        CObjectProxy* proxy = (CObjectProxy*)context;
-        if (!proxy) return;
-
-        pthread_mutex_lock(&proxy->mWorkLock);
-
-        if (proxy->mData) {
-            if (proxy->mData->data)
-                ArrayOf<Byte>::Free(proxy->mData->data);
-            delete proxy->mData;
-            proxy->mData = NULL;
-        }
-
-        proxy->mData = new DataPack();
-        if (!proxy->mData) {
-            pthread_mutex_unlock(&proxy->mWorkLock);
-            return;
-        }
-        proxy->mData->data = NULL;
-        proxy->mData->ec = E_SESSION_FAILED;
-        pthread_mutex_unlock(&proxy->mWorkLock);
-        pthread_cond_signal(&proxy->mCv);
-    }
-    return;
-}
-
-void CObjectProxy::CProxyListener::OnSessionReceived(
-    /* [in] */ CSession* pSession,
-    /* [in] */ ArrayOf<Byte>* data,
-    /* [in] */ void* context)
-{
-    RPC_LOG("CObjectProxy::CProxyListener::OnSessionReceived data: %p, context: %p", data, context);
-    CObjectProxy* proxy = (CObjectProxy*)context;
-    if (!proxy) return;
-
-    pthread_mutex_lock(&proxy->mWorkLock);
-
-    if (proxy->mData) {
-        if (proxy->mData->data)
-            ArrayOf<Byte>::Free(proxy->mData->data);
-        delete proxy->mData;
-        proxy->mData = NULL;
-    }
-
-    proxy->mData = new DataPack();
-    if (!proxy->mData) {
-        pthread_mutex_unlock(&proxy->mWorkLock);
-        return;
-    }
-    proxy->mData->data = data->Clone();
-    if (!proxy->mData->data) {
-        pthread_mutex_unlock(&proxy->mWorkLock);
-        return;
-    }
-    proxy->mData->ec = NOERROR;
-    pthread_mutex_unlock(&proxy->mWorkLock);
-    pthread_cond_signal(&proxy->mCv);
-}
-#endif

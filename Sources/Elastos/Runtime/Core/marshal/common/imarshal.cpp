@@ -87,9 +87,7 @@ static ECode StdUnmarshalCustomInterface(
 
 ECode StdUnmarshalInterface(
     /* [in] */ UnmarshalFlag flag,
-#ifdef P2P_RPC
-    /* [in] */ CSession* pSession,
-#endif
+    /* [in] */ CParcelSession* pParcelSession,
     /* [in] */ InterfacePack *pInterfacePack,
     /* [out] */ IInterface **ppObj)
 {
@@ -134,9 +132,7 @@ ECode StdUnmarshalInterface(
     }
     else {
         ec = CObjectProxy::S_CreateObject(
-#ifdef P2P_RPC
-            pSession,
-#endif
+            pParcelSession,
             pInterfacePack->m_clsid,
             pInterfacePack->m_stubConnName,
             &pIProxy);

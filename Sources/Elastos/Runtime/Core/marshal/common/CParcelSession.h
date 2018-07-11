@@ -4,9 +4,7 @@
 
 #include "elastos.h"
 
-class CObjectProxy;
-
-enum class RpcMethod {
+enum class RpcMethod : int {
     get_class_info,
     invoke,
     release,
@@ -22,9 +20,13 @@ public:
 
     virtual ~CParcelSession() {}
 
-    static Elastos::ECode S_CreateObject(
-                /* [in] */ const char *stubConnName,
-                /* [out] */ CParcelSession **ppParcelSession);
+    static CParcelSession* S_CreateObject(
+                /* [in] */ void* pNativeSession);
+
+    virtual Elastos::ECode StartService(
+                /* [in] */ const char *stubConnName) = 0;
+
+    virtual Elastos::ECode StopService() = 0;
 
     virtual Elastos::ECode SendMessage(
                 /* [in] */ RpcMethod type,
@@ -35,7 +37,11 @@ public:
                 /* [out] */ RpcMethod* pType,
                 /* [out] */ void** pBuf,
                 /* [out] */ int* pLen) = 0;
-};
 
+    virtual Elastos::ECode ReceiveFromRemote(
+                /* [out] */ RpcMethod* pType,
+                /* [out] */ void** pBuf,
+                /* [out] */ int* pLen) = 0;
+};
 
 #endif //__CPARCEL_SESSION_H__

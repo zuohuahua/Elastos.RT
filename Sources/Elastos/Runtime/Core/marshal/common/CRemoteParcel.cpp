@@ -1,27 +1,16 @@
-
-#ifdef SOCK_RPC
-#include "sock.h"
-#endif
 #include "prxstub.h"
-#ifdef P2P_RPC
-#include "elcarrierapi.h"
-#endif
 
 #include <new>
 #include <stdio.h>
 #include "CRemoteParcel.h"
+#include "CParcelCarrier.h"
 
 ECode LookupClassInfo(
     /* [in] */ REMuid rclsid,
     /* [out] */ CIClassInfo **ppClassInfo);
 
 ECode GetRemoteClassInfo(
-#ifdef SOCK_RPC
     /* [in] */ CParcelSession *pParcelSession,
-#endif
-#ifdef P2P_RPC
-    /* [in] */ CSession* pSession,
-#endif
     /* [in] */ REMuid clsId,
     /* [out] */ CIClassInfo ** ppClassInfo);
 
@@ -47,46 +36,29 @@ enum Type {
     Type_InterfacePtr       = 15,
 };
 
-#ifdef SOCK_RPC
-CRemoteParcel::CRemoteParcel() :
-    m_nRefs(1),
-	m_freeDataTag(FALSE)
-#endif
-#ifdef P2P_RPC
 CRemoteParcel::CRemoteParcel(
-    /* [in] */ CSession* pSession) :
+    /* [in] */ CParcelSession* pParcelSession) :
     m_nRefs(1),
 	m_freeDataTag(FALSE),
-    mSession(NULL)
-#endif
+    mParcelSession(NULL)
 {
-#ifdef P2P_RPC
-    assert(pSession != NULL);
-#endif
+    assert(pParcelSession != NULL);
     m_elemBufCapacity = 1024;
     m_elemBuf = (UInt32*)calloc(1, m_elemBufCapacity + sizeof(MarshalHeader));
     m_elemBuf = (UInt32*)((MarshalHeader*)m_elemBuf + 1);
     m_elemPtr = m_elemBuf;
-#ifdef P2P_RPC
-    mSession = pSession;
-    mSession->AddRef();
-#endif
+    mParcelSession = pParcelSession;
 }
 
 CRemoteParcel::CRemoteParcel(
-#ifdef P2P_RPC
-    /* [in] */ CSession* pSession,
-#endif
+    /* [in] */ CParcelSession* pParcelSession,
     /* [in] */ UInt32 *elemBuf) :
     m_nRefs(1),
 	m_freeDataTag(FALSE)
 {
     m_elemBuf = (UInt32*)((MarshalHeader*)elemBuf + 1);
     m_elemPtr = m_elemBuf;
-#ifdef P2P_RPC
-    mSession = pSession;
-    mSession->AddRef();
-#endif
+    mParcelSession = pParcelSession;
 }
 
 CRemoteParcel::~CRemoteParcel()
@@ -94,9 +66,6 @@ CRemoteParcel::~CRemoteParcel()
     if (m_freeDataTag) {
         free(m_elemBuf);
     }
-#ifdef P2P_RPC
-    mSession->Release();
-#endif
 }
 
 PInterface CRemoteParcel::Probe(
@@ -352,9 +321,7 @@ ECode CRemoteParcel::ReadValue(PVoid pValue, Int32 type)
                                     else {
                                         ec = StdUnmarshalInterface(
                                                 UnmarshalFlag_Noncoexisting,
-#ifdef P2P_RPC
-                                                mSession,
-#endif
+                                                mParcelSession,
                                                 &ipack,
                                                 (IInterface**)&pBuf[i]);
                                         if (FAILED(ec)) {
@@ -407,9 +374,7 @@ ECode CRemoteParcel::ReadValue(PVoid pValue, Int32 type)
                 else {
                     ec = StdUnmarshalInterface(
                             UnmarshalFlag_Noncoexisting,
-#ifdef P2P_RPC
-                            mSession,
-#endif
+                            mParcelSession,
                             pItfPack,
                             (IInterface **)pValue);
                     if (FAILED(ec)) {
@@ -899,38 +864,15 @@ Boolean CRemoteParcel::IsParcelable(
 
     ec = LookupClassInfo(pInterfacePack->m_clsid, ppClassInfo);
     if (FAILED(ec)) {
-#ifdef SOCK_RPC
-        CParcelSession *pParcelSession;
-        ec = CParcelSession::S_CreateObject(pInterfacePack->m_stubConnName , &pParcelSession);
-        if (FAILED(ec)) {
-            return FALSE;
-        }
-
-        ec = GetRemoteClassInfo(pParcelSession,
-                                pInterfacePack->m_clsid,
-                                ppClassInfo);
-        if (FAILED(ec)) {
-            return FALSE;
-        }
-        delete pParcelSession;
-#endif
-#ifdef P2P_RPC
-        ICarrier* pCarrier;
-        ec = CCarrier::GetInstance(&pCarrier);
-        if (FAILED(ec)) {
-            return FALSE;
-        }
         Boolean online;
-        pCarrier->IsOnline(&online);
-        pCarrier->Release();
-        if (!online) {
+        ec = CParcelCarrier::S_IsOnline(&online);
+        if (FAILED(ec) || !online) {
             return FALSE;
         }
 
-        ec = GetRemoteClassInfo(mSession,
+        ec = GetRemoteClassInfo(mParcelSession,
                                 pInterfacePack->m_clsid,
                                 ppClassInfo);
-#endif
         if (FAILED(ec)) return FALSE;
     }
 
@@ -953,7 +895,7 @@ ELAPI _CParcel_New(
     CRemoteParcel *pObj = NULL;
     void* pLocation = calloc(sizeof(CRemoteParcel), 1);
     if (!pLocation) return E_OUT_OF_MEMORY;
-    pObj = (CRemoteParcel *)new(pLocation) CRemoteParcel(NULL);
+    pObj = (CRemoteParcel *)new(pLocation) CRemoteParcel(NULL, NULL);
     pObj->AddRef();
 
     *ppObj = (IParcel*)pObj;

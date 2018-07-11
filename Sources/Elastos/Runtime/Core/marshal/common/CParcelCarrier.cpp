@@ -1,12 +1,7 @@
 #include <stdlib.h>
 #include "CParcelCarrier.h"
+#include "CParcelSession.h"
 #include "prxstub.h"
-
-#ifdef SOCK_RPC
-#include <uv.h>
-
-#include "sock.h"
-#endif
 
 ECode LookupModuleInfo(
     /* [in] */ REMuid rclsid,
@@ -20,12 +15,6 @@ ECode CParcelCarrier::HandleGetClassInfo(
                         CParcelSession* pParcelSession,
                         void const *base, int len)
 {
-#ifdef P2P_RPC
-    CSession* pSession = (CSession *)pParcelSession;
-#endif
-#ifdef SOCK_RPC
-    uv_tcp_t *tcp = (uv_tcp_t *)pParcelSession;
-#endif
     EMuid clsid;
     CIModuleInfo *pSrcModInfo;
     CIModuleInfo *pDestModInfo;
@@ -39,17 +28,10 @@ ECode CParcelCarrier::HandleGetClassInfo(
     pDestModInfo = (CIModuleInfo *)calloc(1, pSrcModInfo->mTotalSize);
     FlatModuleInfo(pSrcModInfo, pDestModInfo);
 
-#ifdef P2P_RPC
-    pSession->SendMessage(METHOD_GET_CLASS_INFO_REPLY, pDestModInfo,
-                    pDestModInfo->mTotalSize);
-#endif
-#ifdef SOCK_RPC
-    if (sock_send_msg(tcp,
-                METHOD_GET_CLASS_INFO_REPLY,
-                pDestModInfo,
-                pDestModInfo->mTotalSize))
+    if (FAILED(pParcelSession->SendMessage(RpcMethod::get_class_info_reply, pDestModInfo,
+                    pDestModInfo->mTotalSize))) {
         MARSHAL_DBGOUT(MSHDBG_ERROR, printf("Socket-sending failed.\n"));
-#endif
+    }
 
     free(pDestModInfo);
 
@@ -60,26 +42,17 @@ ECode CParcelCarrier::HandleInvoke(
                         CParcelSession* pParcelSession,
                         void const *base, int len)
 {
-#ifdef P2P_RPC
-    CSession* pSession = (CSession *)pParcelSession;
-#endif
-#ifdef SOCK_RPC
-    uv_tcp_t *tcp = (uv_tcp_t *)pParcelSession;
-#endif
     void *pOutBuffer;
     Int32 outSize;
     CRemoteParcel *pParcel = NULL;
     ECode ec;
 
-    RPC_LOG("Call Invoke.");
     MARSHAL_DBGOUT(MSHDBG_NORMAL, printf("Call Invoke.\n"));
 
     ec = mStub->Invoke(
-#ifdef P2P_RPC
-                           pSession,
-#endif
-                           (void *)base, len, &pParcel);
-    RPC_LOG("Call Invoke ec: %x", ec);
+                    pParcelSession,
+                    (void *)base, len, &pParcel);
+    MARSHAL_DBGOUT(MSHDBG_NORMAL, printf("Call Invoke ec: %x", ec));
 
     int32_t _ec = ec;
     if (pParcel != NULL) {
@@ -97,26 +70,17 @@ ECode CParcelCarrier::HandleInvoke(
             p += sizeof _ec;
             memcpy(p, pOutBuffer, outSize);
 
-
-#ifdef SOCK_RPC
-            if (sock_send_msg(tcp, METHOD_INVOKE_REPLY, out_buf, out_size))
+            if (FAILED(pParcelSession->SendMessage(RpcMethod::invoke_reply, out_buf, out_size))) {
                 MARSHAL_DBGOUT(MSHDBG_ERROR,
                         printf("Socket-sending failed.\n"));
-#endif
-#ifdef P2P_RPC
-            pSession->SendMessage(METHOD_INVOKE_REPLY, out_buf, out_size);
-#endif
+            }
 
         }
     } else {
-#ifdef SOCK_RPC
-	    if (sock_send_msg(tcp, METHOD_INVOKE_REPLY, &_ec, sizeof _ec))
-		    MARSHAL_DBGOUT(MSHDBG_ERROR,
-				    printf("Socket-sending failed.\n"));
-#endif
-#ifdef P2P_RPC
-        pSession->SendMessage(METHOD_INVOKE_REPLY, &_ec, sizeof _ec);
-#endif
+        if (FAILED(pParcelSession->SendMessage(RpcMethod::invoke_reply, &_ec, sizeof _ec))) {
+            MARSHAL_DBGOUT(MSHDBG_ERROR,
+                    printf("Socket-sending failed.\n"));
+        }
     }
 
     if (pParcel != NULL)
@@ -129,12 +93,6 @@ ECode CParcelCarrier::HandleRelease(
                         CParcelSession* pParcelSession,
                         void const *base, int len)
 {
-#ifdef P2P_RPC
-    CSession* pSession = (CSession *)pParcelSession;
-#endif
-#ifdef SOCK_RPC
-    uv_tcp_t *tcp = (uv_tcp_t *)pParcelSession;
-#endif
     MARSHAL_DBGOUT(MSHDBG_NORMAL, printf("Stub Release.\n"));
 
     //bugbug: if there are more than one processes invoke

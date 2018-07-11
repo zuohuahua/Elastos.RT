@@ -17,11 +17,6 @@
 # include <arpa/inet.h>
 #endif
 
-#ifdef SOCK_RPC
-#include <uv.h>
-
-#include "sock.h"
-#endif
 
 ECode LookupClassInfo(
     /* [in] */ REMuid rclsid,
@@ -153,9 +148,7 @@ ECode CObjectStub::GetInterfaceID(
 }
 
 ECode CObjectStub::Invoke(
-#ifdef P2P_RPC
-    /* [in] */ CSession* pSession,
-#endif
+    /* [in] */ CParcelSession* pParcelSession,
     /* [in] */ void *pInData,
     /* [in] */ UInt32 uInSize,
     /* [out] */ CRemoteParcel **ppParcel)
@@ -239,11 +232,7 @@ ECode CObjectStub::Invoke(
             goto ErrorExit;
         }
 
-        pParcel = new CRemoteParcel(
-#ifdef P2P_RPC
-                           pSession,
-#endif
-                           (UInt32*)pInHeader);
+        pParcel = new CRemoteParcel(pParcelSession, (UInt32*)pInHeader);
         ec = pCurInterface->UnmarshalIn(pMethodInfo,
                                         pParcel,
                                         pOutHeader,
@@ -322,11 +311,7 @@ ECode CObjectStub::Invoke(
             || GET_IN_INTERFACE_MARK(pMethodInfo->mReserved1)) {
 
             if (pOutHeader && SUCCEEDED(ec)) {
-                *ppParcel = new CRemoteParcel(
-#ifdef P2P_RPC
-                           pSession
-#endif
-                           );
+                *ppParcel = new CRemoteParcel(pParcelSession);
                 if (*ppParcel == NULL) {
                     ec = E_OUT_OF_MEMORY;
                     goto ErrorExit;
@@ -356,11 +341,7 @@ ECode CObjectStub::Invoke(
             goto ErrorExit;
         }
 
-        *ppParcel = new CRemoteParcel(
-#ifdef P2P_RPC
-                           pSession
-#endif
-                           );
+        *ppParcel = new CRemoteParcel(pParcelSession);
         if (*ppParcel == NULL) {
             ec = E_OUT_OF_MEMORY;
             goto ErrorExit;
@@ -539,20 +520,13 @@ ECode CObjectStub::S_CreateObject(
         pInterfaces[n].m_pInfo = pInterfaceInfo;
         pInterfaces[n].m_pObject = pObj;
     }
-    //Start stub ipc service
-    CParcelCarrier::S_StartService(pStub, &pStub->m_pParcelCarrier);
-
-#ifdef SOCK_RPC
-
-    /* Please be careful of the 'm_connName' in the two threads. */
-    usleep(300);
-
+    //Start stub rpc service
+    ec = CParcelCarrier::S_StartService(pStub, &pStub->m_pParcelCarrier);
     if (FAILED(ec)) {
         pObject->Release();
-        MARSHAL_DBGOUT(MSHDBG_ERROR, printf("Stub: start ipc server fail.\n"));
+        MARSHAL_DBGOUT(MSHDBG_ERROR, printf("Stub: start rpc server fail.\n"));
         goto ErrorExit;
     }
-#endif
 
     ec = RegisterExportObject(pStub->m_connName, pObject, pStub);
     if (FAILED(ec)) {

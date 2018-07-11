@@ -5,23 +5,17 @@
 #include <elastos.h>
 #include "marshal.h"
 
+class CParcelSession;
+
 class CRemoteParcel : public IParcel
 {
 public:
-#ifdef SOCK_RPC
-    CRemoteParcel();
+    CRemoteParcel(
+        /* [in] */ CParcelSession* pParcelSession);
 
     CRemoteParcel(
+        /* [in] */ CParcelSession* pParcelSession,
         /* [in] */ UInt32 *elemBuf);
-#endif
-#ifdef P2P_RPC
-    CRemoteParcel(
-        /* [in] */ CSession* pSession);
-
-    CRemoteParcel(
-        /* [in] */ CSession* pSession,
-        /* [in] */ UInt32 *elemBuf);
-#endif
 
     virtual ~CRemoteParcel();
 
@@ -210,11 +204,9 @@ private:
     UInt32* m_elemPtr;
     Int32 m_elemBufCapacity;
 
-	Boolean m_freeDataTag;
+    Boolean m_freeDataTag;
 
-#ifdef P2P_RPC
-    CSession* mSession;
-#endif
+    CParcelSession* mParcelSession;
 };
 
 #endif //__CREMOTEPARCEL_H__
