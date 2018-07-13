@@ -28,6 +28,7 @@ endif()
 if("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "ios")
     list(APPEND MY_LINK_LIBRARIES
         marshalcomm
+        elasession
     )
 elseif("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "android")
     list(APPEND MY_LINK_LIBRARIES
@@ -44,6 +45,13 @@ elseif(("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "linux" OR "$ENV{XDK_TARGET_PLATFOR
         uv
         pthread
         dl
+    )
+elseif("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "linux" AND "$ENV{XDK_TARGET_CPU_ARCH}" STREQUAL "64")
+    list(APPEND MY_LINK_LIBRARIES
+        marshalcomm
+        pthread
+        dl
+        elasession
     )
 else()
     list(APPEND MY_LINK_LIBRARIES

@@ -4,6 +4,11 @@
 CAR_OBJECT_IMPL(CCarrierListener)
 CAR_INTERFACE_IMPL(CCarrierListener, Object, ICarrierListener, IJavaInterface);
 
+ECode CCarrierListener::OnIdle()
+{
+    return NOERROR;
+}
+
 ECode CCarrierListener::OnConnectionChanged(
     /* [in] */ Boolean online)
 {
@@ -52,6 +57,23 @@ ECode CCarrierListener::OnFriendConnetionChanged(
     return NOERROR;
 }
 
+ECode CCarrierListener::OnPortForwardingRequest(
+    /* [in] */ const String& uid,
+    /* [in] */ const String& servicePort,
+    /* [out] */ Boolean* accept)
+{
+    return NOERROR;
+}
+
+ECode CCarrierListener::OnPortForwardingResult(
+    /* [in] */ const String &uid,
+    /* [in] */ const String &localPort,
+    /* [in] */ const String &remotePort,
+    /* [in] */ ECode code)
+{
+    return NOERROR;
+}
+
 ECode CCarrierListener::JavaInit(
     /* [in] */ Handle64 jvm,
     /* [in] */ Handle64 jobj)
@@ -67,6 +89,7 @@ ECode CCarrierListener::JavaInit(
 
     return NOERROR;
 }
+
 
 ECode CCarrierListener::GetJavaObject(
     /* [out] */ Handle64* jobj)
@@ -92,4 +115,3 @@ void CCarrierListener::Detach()
     assert(mJvm != NULL);
     mJvm->DetachCurrentThread();
 }
-

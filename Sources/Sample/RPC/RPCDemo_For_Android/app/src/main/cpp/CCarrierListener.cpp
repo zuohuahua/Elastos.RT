@@ -7,6 +7,11 @@
 
 CAR_INTERFACE_IMPL(CCarrierListener, Object, ICarrierListener)
 
+_ELASTOS ECode CCarrierListener::OnIdle()
+{
+    return NOERROR;
+}
+
 _ELASTOS ECode CCarrierListener::OnConnectionChanged(
     /* [in] */ _ELASTOS Boolean online)
 {
@@ -60,6 +65,23 @@ _ELASTOS ECode CCarrierListener::OnFriendConnetionChanged(
     return NOERROR;
 }
 
+_ELASTOS ECode CCarrierListener::OnPortForwardingRequest(
+    /* [in] */ const String& uid,
+    /* [in] */ const String& servicePort,
+    /* [out] */ Boolean* accept)
+{
+    return NOERROR;
+}
+
+_ELASTOS ECode CCarrierListener::OnPortForwardingResult(
+    /* [in] */ const String &uid,
+    /* [in] */ const String &localPort,
+    /* [in] */ const String &remotePort,
+    /* [in] */ ECode code)
+{
+    return NOERROR;
+}
+
 JNIEnv* CCarrierListener::GetEnv()
 {
     JNIEnv* env;
@@ -68,9 +90,9 @@ JNIEnv* CCarrierListener::GetEnv()
     return env;
 }
 
+
 void CCarrierListener::Detach()
 {
     assert(mVm != NULL);
     mVm->DetachCurrentThread();
 }
-

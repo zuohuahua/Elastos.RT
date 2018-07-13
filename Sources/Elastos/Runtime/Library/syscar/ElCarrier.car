@@ -29,6 +29,10 @@ library
      */
     const E_CARRIER_NOT_READY                         = 0x81010000;
     const E_CARRIER_ERROR                             = 0x81010001;
+    const E_INVITE                                    = 0x81010002;
+    const E_CLOSE_PORT_FORWARDING                     = 0x81010003;
+    const E_REMOVE_STREAM                             = 0x81010004;
+    const E_INCORRECT_STATE                           = 0x81010005;
 
     /**
      *
@@ -112,6 +116,15 @@ library
 
         /**
         *
+        * The carrier is idle, if the callback is invoked.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
+        OnIdle();
+
+        /**
+        *
         * the status of carrier.
         *
         * @param
@@ -165,6 +178,52 @@ library
         OnFriendConnetionChanged(
             [in] String uid,
             [in] Boolean online);
+
+        /**
+        *
+        * Used to show the user port forwarding request.
+        *
+        * @param
+        *      uid [in] the friend's uid.
+        *
+        * @param
+        *      servicePort [in] the port request to use by the active participant.
+        *
+        * @param
+        *      accept [out] The decision: TRUE if accepts, FALSE if refuses.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
+        OnPortForwardingRequest(
+            [in] String uid,
+            [in] String servicePort,
+            [out] Boolean* accept);
+
+        /**
+        *
+        * Used to show the user port fowarding result.
+        *
+        * @param
+        *      uid [in] the friend's uid.
+        *
+        * @param
+        *      localPort [in] one port used by the active participant.
+        *
+        * @param
+        *      remotePort [in] the other port used by the passive participant.
+        *
+        * @param
+        *      code [in] The result: zero, successful; non-zero, unsuccessful.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
+        OnPortForwardingResult(
+            [in] String uid,
+            [in] String localPort,
+            [in] String remotePort,
+            [in] ECode code);
     }
 
     interface ICarrier {
@@ -367,6 +426,48 @@ library
         */
         GetUerid(
             [out] String* myUid);
+
+        /**
+        *
+        * Open a port forwarding.
+        *
+        * @param
+        *      uid [in] the friend's uid.
+        *
+        * @param
+        *      localPort [in] one port used by the active participant.
+        *
+        * @param
+        *      remotePort [in] the other port used by the passive participant.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
+        OpenPortForwarding(
+            [in] String uid,
+            [in] String localPort,
+            [in] String remotePort);
+
+        /**
+        *
+        * Close a port forwarding.
+        *
+        * @param
+        *      uid [in] the friend's uid.
+        *
+        * @param
+        *      localPort [in] one port used by the active participant.
+        *
+        * @param
+        *      remotePort [in] the other port used by the passive participant.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
+        ClosePortForwarding(
+            [in] String uid,
+            [in] String localPort,
+            [in] String remotePort);
     }
 }
 

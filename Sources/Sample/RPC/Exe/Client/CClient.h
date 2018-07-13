@@ -32,6 +32,8 @@ public:
     virtual ~CCarrierListener()
     {}
 
+    CARAPI OnIdle();
+
     CARAPI OnConnectionChanged(
         /* [in] */ Boolean online);
 
@@ -44,6 +46,17 @@ public:
     CARAPI OnFriendConnetionChanged(
         /* [in] */ const String& uid,
         /* [in] */ Boolean online);
+
+    CARAPI OnPortForwardingRequest(
+        /* [in] */ const String &uid,
+        /* [in] */ const String &servicePort,
+        /* [out] */ Boolean *accept);
+
+    CARAPI OnPortForwardingResult(
+        /* [in] */ const String &uid,
+        /* [in] */ const String &localPort,
+        /* [in] */ const String &remotePort,
+        /* [in] */ ECode code);
 
 private:
     CClient* mClient;

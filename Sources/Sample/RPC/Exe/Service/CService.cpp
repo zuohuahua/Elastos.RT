@@ -3,6 +3,11 @@
 
 CAR_INTERFACE_IMPL(CCarrierListener, Object, ICarrierListener)
 
+ECode CCarrierListener::OnIdle()
+{
+    return NOERROR;
+}
+
 ECode CCarrierListener::OnConnectionChanged(
     /* [in] */ Boolean online)
 {
@@ -36,6 +41,23 @@ ECode CCarrierListener::OnFriendConnetionChanged(
         pthread_mutex_unlock(&mService->mLock);
         pthread_cond_signal(&mService->mCv);
     }
+    return NOERROR;
+}
+
+ECode CCarrierListener::OnPortForwardingRequest(
+    /* [in] */ const String& uid,
+    /* [in] */ const String& servicePort,
+    /* [out] */ Boolean* accept)
+{
+    return NOERROR;
+}
+
+ECode CCarrierListener::OnPortForwardingResult(
+    /* [in] */ const String &uid,
+    /* [in] */ const String &localPort,
+    /* [in] */ const String &remotePort,
+    /* [in] */ ECode code)
+{
     return NOERROR;
 }
 

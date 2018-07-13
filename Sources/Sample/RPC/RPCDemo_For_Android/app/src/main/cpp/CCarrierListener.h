@@ -32,6 +32,8 @@ public:
         GetEnv()->DeleteGlobalRef(mObj);
     }
 
+    CARAPI OnIdle();
+
     CARAPI OnConnectionChanged(
             /* [in] */ _ELASTOS Boolean online);
 
@@ -44,6 +46,17 @@ public:
     CARAPI OnFriendConnetionChanged(
             /* [in] */ const _ELASTOS String& uid,
             /* [in] */ _ELASTOS Boolean online);
+
+    CARAPI OnPortForwardingRequest(
+            /* [in] */ const String &uid,
+            /* [in] */ const String &servicePort,
+            /* [out] */ Boolean *accept);
+
+    CARAPI OnPortForwardingResult(
+            /* [in] */ const String &uid,
+            /* [in] */ const String &localPort,
+            /* [in] */ const String &remotePort,
+            /* [in] */ ECode code);
 
 private:
     JNIEnv* GetEnv();

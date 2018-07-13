@@ -21,9 +21,15 @@
 #include <elcontainer.h>
 #include <elrefbase.h>
 #include "ela_carrier.h"
+#include "ela_session.h"
 #include "hashtable.h"
 
 _ELASTOS_NAMESPACE_BEGIN
+
+typedef enum RUNNING_MODE {
+    ACTIVE_MODE,
+    PASSIVE_MODE
+} RUNNING_MODE;
 
 /** @} */
 /** @addtogroup CARRef
@@ -83,6 +89,16 @@ public:
     CARAPI GetUerid(
         /* [out] */ String* myUid);
 
+    CARAPI OpenPortForwarding(
+        /* [in] */ const String& uid,
+        /* [in] */ const String& localPort,
+        /* [in] */ const String& remotePort);
+
+    CARAPI ClosePortForwarding(
+        /* [in] */ const String& uid,
+        /* [in] */ const String& localPort,
+        /* [in] */ const String& remotePort);
+
     CARAPI_(UInt32) AddRef();
 
     CARAPI_(UInt32) Release();
@@ -97,6 +113,8 @@ public:
     ECode GetCarrierHandle(
         /* [out] */ ElaCarrier** carrier);
 
+    CARAPI DistributeOnIdle();
+
     //Local functions for distribute the callback.
     CARAPI DistributeOnConnectionChanged(
         /* [in] */ Boolean online);
@@ -110,6 +128,17 @@ public:
     CARAPI DistributeOnFriendConnetionChanged(
         /* [in] */ const String& uid,
         /* [in] */ Boolean online);
+
+    CARAPI DistributeOnPortForwardingRequest(
+        /* [in] */ String& uid,
+        /* [in] */ String& servicePort,
+        /* [out] */ Boolean* accept);
+
+    CARAPI DistributeOnPortForwardingResult(
+        /* [in] */ String& uid,
+        /* [in] */ String& localPort,
+        /* [in] */ String& remotePort,
+        /* [in] */ ECode code);
 
     static CARAPI_(CCarrier*) GetLocalInstance();
 
@@ -196,6 +225,42 @@ private:
     CARAPI_(void) Cleanup();
     CARAPI_(void) CleanFriendList();
 
+public:
+    void SetReadyToStartSession(Boolean is_ready);
+    Boolean GetReadyToStartSession();
+    ElaSession *GetSession();
+    void SetSession(ElaSession *session);
+    String GetRemoteSdp();
+    void SetRemoteSdp(String remote_sdp);
+    RUNNING_MODE GetRunningMode();
+    void SetRunningMode(RUNNING_MODE mode);
+    Boolean IsPortForwardingSuccessful();
+    void SetPortForwardingSuccessful(Boolean is_successful);
+    int GetPortForwardingId();
+    void SetPortForwardingId(int portForwarding_id);
+    int GetStreamId();
+    void SetStreamId(int stream_id);
+    String GetPeerId();
+    void SetPeerId(String peer_id);
+    String GetUsedService();
+    void SetUsedService(const char *service);
+    String GetLocalPort();
+    void SetLocalPort(const char *local_port);
+    String GetRemotePort();
+    void SetRemotePort(const char *remote_port);
+    int InitSession();
+    ElaSession *NewSession(const char *friend_id);
+    void CloseSession(Boolean cleanup, Boolean close = TRUE);
+    int RequestSession();
+    int ReplySessionRequest(int argc, char *argv[]);
+    int Invite(const char *friend_id, const char *hello);
+    int ReplyInvite(const char *friend_id, const char *msg, const char *reason);
+    int AddStream(ElaStreamType type, int options);
+    int AddService(const char *service, const char *host, const char *port);
+    void RemoveService();
+    int OpenPortForwarding(int stream, const char *service,
+                                 const char *host, const char *port, PortForwardingProtocol protocol);
+
 private:
     //This instance: distributing the callbacks.
     static CCarrier* sGlobalCarrier;
@@ -217,6 +282,18 @@ private:
 
     //Carrier is ready
     Boolean mIsReady;
+
+    Boolean mReadyToStartSession;
+    ElaSession *mSession;
+    String mRemoteSdp;
+    RUNNING_MODE mRunningMode;
+    Boolean mOpenPortForwardingSuccessfully;
+    int mStreamId;
+    int mPortForwardingId;
+    String mPeerId;
+    String mUsedService;
+    String mLocalPort;
+    String mRemotePort;
 };
 
 _ELASTOS_NAMESPACE_END
