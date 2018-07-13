@@ -6,6 +6,18 @@
 #include "elastos/core/Object.h"
 #include "MasterWalletManager.h"
 
+#include <android/log.h>
+#define TAG "Elastos_CAR_MasterWalletManager_Wallet"
+#define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG,TAG ,__VA_ARGS__)
+
+struct compare_string
+{
+    bool operator()(const char *a, const char *b) const
+    {
+        return std::strcmp(a, b) == 0;
+    }
+};
+
 CarClass(CMasterWalletManager)
     , public Object
     , public IMasterWalletManager
@@ -71,6 +83,7 @@ public:
 
 private:
     Elastos::ElaWallet::MasterWalletManager* mSpvMasterWalletMgr;
+    std::map<const char*, IMasterWallet*, compare_string> mMasterWalletsMap;
 };
 
 #endif // __ELASTOS_WALLET_MASTERWALLETMANAGER_H__

@@ -138,7 +138,7 @@ static void OnFriendMessage(
     /* [in] */ size_t len,
     /* [in] */ void *context)
 {
-    CARRIER_LOG("[OnFriendMessage] Message from friend[%s]: %.*s\n", from, (int)len, msg);
+    CARRIER_LOG("[OnFriendMessage] Message from friend[%s]: %.*s\n", from, (int)len, (const char*)msg);
 }
 
 static void OnReady(

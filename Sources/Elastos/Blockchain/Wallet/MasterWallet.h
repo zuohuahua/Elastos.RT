@@ -16,6 +16,8 @@ public:
     MasterWallet(
         /* [in] */ Elastos::ElaWallet::IMasterWallet* spvMasterWallet);
 
+    ~MasterWallet();
+
     CARAPI GetId(
         /* [out] */ String* id);
 
@@ -65,13 +67,18 @@ public:
         /* [in] */ const String& oldPassword,
         /* [in] */ const String& newPassword);
 
-    CARAPI ResetAddressCache(
-        /* [in] */ const String& payPassword);
-
     Elastos::ElaWallet::IMasterWallet* GetSpvMasterWallet();
 
 private:
+    ISubWallet* GetCreatedSubWallet(
+        /* [in] */ Elastos::ElaWallet::ISubWallet* subWallet);
+
+    ISubWallet* _CreateSubWallet(
+        /* [in] */ Elastos::ElaWallet::ISubWallet* subWallet);
+
+private:
     Elastos::ElaWallet::IMasterWallet* mSpvMasterWallet;
+    std::map<ISubWallet*, Elastos::ElaWallet::ISubWallet*> mSubWalletsMap;
 };
 
 #endif // __ELASTOS_WALLET_MASTERWALLET_H__

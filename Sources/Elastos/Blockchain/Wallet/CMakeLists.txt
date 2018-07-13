@@ -13,6 +13,9 @@ set(SOURCES
     CMasterWalletManager.cpp
     MasterWallet.cpp
     SubWallet.cpp
+    SidechainSubWallet.cpp
+    IdChainSubWallet.cpp
+    MainchainSubWallet.cpp
 )
 
 add_library( spvsdk SHARED IMPORTED GLOBAL )

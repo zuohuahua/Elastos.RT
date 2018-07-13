@@ -41,10 +41,21 @@ private:
     };
 
 public:
-    CAR_INTERFACE_DECL()
-
     SubWallet(
         /* [in] */ Elastos::ElaWallet::ISubWallet* spvSubWallet);
+
+    virtual ~SubWallet();
+
+    CARAPI_(UInt32) AddRef();
+
+    CARAPI_(UInt32) Release();
+
+    CARAPI_(PInterface) Probe(
+        /* [in] */ REIID riid);
+
+    CARAPI GetInterfaceID(
+        /* [in] */ IInterface* object,
+        /* [out] */ InterfaceID* iid);
 
     CARAPI GetChainId(
         /* [out] */ String* id);
@@ -124,16 +135,16 @@ public:
         /* [in] */ Int64 feePerKb,
         /* [out] */ Int64* fee);
 
-    Elastos::ElaWallet::ISubWallet* GetSpvSubWallet();
-
     ECode AddSubWalletCallbackNode(
         /* [in] */ SubWalletCallback* callback);
 
     void RemoveSubWalletCallbackNode(
         /* [in] */ SubWalletCallback* callback);
 
-private:
+protected:
     Elastos::ElaWallet::ISubWallet* mSpvSubWallet;
+
+private:
     SubWalletCallbackNode mCallbacks;
     pthread_mutex_t mCallbacksLock;
 };

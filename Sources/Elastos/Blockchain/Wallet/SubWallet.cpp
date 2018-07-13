@@ -1,15 +1,72 @@
 
 #include "SubWallet.h"
+#include "MainchainSubWallet.h"
+#include "IdChainSubWallet.h"
+#include "SidechainSubWallet.h"
 #include <sstream>
 
 const char* ToStringFromJson(nlohmann::json jsonValue);
 nlohmann::json ToJosnFromString(const char* str);
 
-CAR_INTERFACE_IMPL(SubWallet, Object, ISubWallet)
 SubWallet::SubWallet(
     /* [in] */ Elastos::ElaWallet::ISubWallet* spvSubWallet)
     : mSpvSubWallet(spvSubWallet)
 {}
+
+SubWallet::~SubWallet()
+{}
+
+PInterface SubWallet::Probe(
+    /* [in] */ REIID riid)
+{
+    if (riid == EIID_ISubWallet) {
+        return (ISubWallet*)this;
+    }
+    else if (riid == EIID_IMainchainSubWallet) {
+        return (IMainchainSubWallet*)(MainchainSubWallet*)this;
+    }
+    else if (riid == EIID_ISidechainSubWallet) {
+        return (ISidechainSubWallet*)(SidechainSubWallet*)this;
+    }
+    else if (riid == EIID_IIdChainSubWallet) {
+        return (IIdChainSubWallet*)(IdChainSubWallet*)this;
+    }
+
+    return NULL;
+}
+
+UInt32 SubWallet::AddRef()
+{
+    return ElRefBase::AddRef();
+}
+
+UInt32 SubWallet::Release()
+{
+    return ElRefBase::Release();
+}
+
+ECode SubWallet::GetInterfaceID(
+    /* [in] */ IInterface* object,
+    /* [out] */ InterfaceID* iid)
+{
+    VALIDATE_NOT_NULL(iid);
+    if (object == (IInterface *)(ISubWallet *)this) {
+        *iid = EIID_ISubWallet;
+    }
+    if (object == (IInterface *)(IMainchainSubWallet *)this) {
+        *iid = EIID_IMainchainSubWallet;
+    }
+    if (object == (IInterface *)(ISidechainSubWallet *)this) {
+        *iid = EIID_ISidechainSubWallet;
+    }
+    if (object == (IInterface *)(IIdChainSubWallet *)this) {
+        *iid = EIID_IIdChainSubWallet;
+    }
+    else {
+        return E_INVALID_ARGUMENT;
+    }
+    return NOERROR;
+}
 
 ECode SubWallet::GetChainId(
     /* [out] */ String* id)
@@ -194,16 +251,14 @@ ECode SubWallet::CalculateTransactionFee(
     return NOERROR;
 }
 
-Elastos::ElaWallet::ISubWallet* SubWallet::GetSpvSubWallet()
-{
-    return mSpvSubWallet;
-}
-
 const char* ToStringFromJson(nlohmann::json jsonValue)
 {
-    std::stringstream ss;
-    ss << jsonValue;
-    return ss.str().c_str();
+    const char* value = jsonValue.dump().c_str();
+    if (!strcmp(value, "null")) {
+        return NULL;
+    }
+
+    return value;
 }
 
 nlohmann::json ToJosnFromString(const char* str)
@@ -227,10 +282,7 @@ void SubWallet::SubWalletCallback::OnTransactionStatusChanged(
     /* [in] */ uint32_t confirms)
 {
     if (mCallback == NULL) return;
-    String _descVal = String(ToStringFromJson(desc));
-    std::stringstream ss;
-    ss << desc;
-    mCallback->OnTransactionStatusChanged(String(txid.c_str()), String(status.c_str()), String(ss.str().c_str()), confirms);
+    mCallback->OnTransactionStatusChanged(String(txid.c_str()), String(status.c_str()), String(ToStringFromJson(desc)), confirms);
 }
 
 ECode SubWallet::AddSubWalletCallbackNode(

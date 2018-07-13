@@ -139,6 +139,9 @@ module
             [in] String memo,
             [in] String remark,
             [out] String* txidJson);
+
+        GetGenesisAddress(
+            [out] String* address);
     }
 
     /**
@@ -206,9 +209,6 @@ module
         ChangePassword(
             [in] String oldPassword,
             [in] String newPassword);
-
-        ResetAddressCache(
-            [in] String payPassword);
     }
 
     interface IMasterWalletManager {

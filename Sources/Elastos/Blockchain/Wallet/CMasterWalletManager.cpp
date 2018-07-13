@@ -17,13 +17,19 @@ CMasterWalletManager::~CMasterWalletManager()
     if (mSpvMasterWalletMgr) {
         delete mSpvMasterWalletMgr;
     }
+
+    std::map<const char*, IMasterWallet*, compare_string>::iterator it = mMasterWalletsMap.begin();
+    for (; it != mMasterWalletsMap.end(); ++it) {
+        IMasterWallet* masterWallet = it->second;
+        if (masterWallet) masterWallet->Release();
+    }
 }
 
 ECode CMasterWalletManager::constructor(
     /* [in] */ const String& rootPath)
 {
     mSpvMasterWalletMgr = new Elastos::ElaWallet::MasterWalletManager(rootPath.string());
-    if (mSpvMasterWalletMgr == NULL) return E_ILLEGAL_ARGUMENT_EXCEPTION;
+    if (mSpvMasterWalletMgr == NULL) return E_OUT_OF_MEMORY;
 
     return NOERROR;
 }
@@ -39,6 +45,12 @@ ECode CMasterWalletManager::CreateMasterWallet(
     VALIDATE_NOT_NULL(masterWallet);
     VALIDATE_NOT_NULL(mSpvMasterWalletMgr);
     *masterWallet = NULL;
+    std::map<const char*, IMasterWallet*, compare_string>::iterator iter = mMasterWalletsMap.find(masterWalletId.string());
+    if (iter != mMasterWalletsMap.end()) {
+        *masterWallet = iter->second;
+        (*masterWallet)->AddRef();
+        return NOERROR;
+    }
 
     Elastos::ElaWallet::IMasterWallet* spvMasterWallet = mSpvMasterWalletMgr->CreateMasterWallet(masterWalletId.string()
         , mnemonic.string(), phrasePassword.string(), payPassword.string(), language.string());
@@ -46,6 +58,7 @@ ECode CMasterWalletManager::CreateMasterWallet(
     if (wallet == NULL) return E_OUT_OF_MEMORY;
 
     *masterWallet = wallet;
+    mMasterWalletsMap[masterWalletId.string()] = wallet.Get();
     (*masterWallet)->AddRef();
     return NOERROR;
 }
@@ -64,11 +77,35 @@ ECode CMasterWalletManager::GetAllMasterWallets(
     }
 
     AutoPtr<ArrayOf<IMasterWallet*> > _masterWallets = ArrayOf<IMasterWallet*>::Alloc(length);
-    for (Int32 i = 0; i < length; i++) {
-        AutoPtr<IMasterWallet> masterWallet = new MasterWallet(array[i]);
-        if (masterWallet == NULL) return E_OUT_OF_MEMORY;
+    if (_masterWallets == NULL) return E_OUT_OF_MEMORY;
 
+    //If mMasterWalletsMap has the wallet, use it.
+    for (Int32 i = 0; i < length; i++) {
+        AutoPtr<IMasterWallet> masterWallet;
+
+        std::string id = array[i]->GetId();
+        std::map<const char*, IMasterWallet*, compare_string>::iterator iter = mMasterWalletsMap.find(id.c_str());
+        if (iter == mMasterWalletsMap.end()) {
+            masterWallet = new MasterWallet(array[i]);
+            if (masterWallet == NULL) return E_OUT_OF_MEMORY;
+        }
+        else {
+            masterWallet = iter->second;
+        }
         _masterWallets->Set(i, masterWallet);
+    }
+
+    //Update the mMasterWalletsMap.
+    for (Int32 i = 0; i < length; i++) {
+        AutoPtr<IMasterWallet> masterWallet = (*_masterWallets)[i];
+        String id;
+        masterWallet->GetId(&id);
+
+        std::map<const char*, IMasterWallet*, compare_string>::iterator iter = mMasterWalletsMap.find(id.string());
+        if (iter == mMasterWalletsMap.end()) {
+            mMasterWalletsMap[id.string()] = masterWallet.Get();
+            masterWallet->AddRef();
+        }
     }
 
     *wallets = _masterWallets;
@@ -81,6 +118,13 @@ ECode CMasterWalletManager::DestroyWallet(
 {
     VALIDATE_NOT_NULL(mSpvMasterWalletMgr);
     mSpvMasterWalletMgr->DestroyWallet(masterWalletId.string());
+    std::map<const char*, IMasterWallet*, compare_string>::iterator iter = mMasterWalletsMap.find(masterWalletId.string());
+    if (iter != mMasterWalletsMap.end()) {
+        IMasterWallet* wallet = iter->second;
+        if (wallet) wallet->Release();
+        mMasterWalletsMap.erase(iter);
+    }
+
     return NOERROR;
 }
 
@@ -98,8 +142,13 @@ ECode CMasterWalletManager::ImportWalletWithKeystore(
 
     Elastos::ElaWallet::IMasterWallet* spvWallet = mSpvMasterWalletMgr->ImportWalletWithKeystore(masterWalletId.string()
             , ToJosnFromString(keystoreContent.string()) , backupPassword.string(), payPassword.string(), phrasePassword.string());
+    if (spvWallet == NULL) return E_INVALID_ARGUMENT;
+
     *masterWallet = new MasterWallet(spvWallet);
     if ((*masterWallet) == NULL) return E_OUT_OF_MEMORY;
+
+    std::string _id = spvWallet->GetId();
+    mMasterWalletsMap[_id.c_str()] = *masterWallet;
     (*masterWallet)->AddRef();
     return NOERROR;
 }
@@ -118,10 +167,13 @@ ECode CMasterWalletManager::ImportWalletWithMnemonic(
 
     Elastos::ElaWallet::IMasterWallet* spvWallet = mSpvMasterWalletMgr->ImportWalletWithMnemonic(masterWalletId.string(), mnemonic.string()
                 , phrasePassword.string(), payPassword.string(), language.string());
+    if (spvWallet == NULL) return E_INVALID_ARGUMENT;
 
     *masterWallet = new MasterWallet(spvWallet);
     if ((*masterWallet) == NULL) return E_OUT_OF_MEMORY;
 
+    std::string _id = spvWallet->GetId();
+    mMasterWalletsMap[_id.c_str()] = *masterWallet;
     (*masterWallet)->AddRef();
     return NOERROR;
 }
