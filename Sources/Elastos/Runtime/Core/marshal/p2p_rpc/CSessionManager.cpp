@@ -254,7 +254,7 @@ ECode CSessionManager::RemoveListener(
 ECode CSessionManager::GetUid(
     /* [out] */ String* pUid)
 {
-    return sCarrier->GetUerid(pUid);
+    return sCarrier->GetUserid(pUid);
 }
 
 CSessionManager::ListenerNode* CSessionManager::FindListener(

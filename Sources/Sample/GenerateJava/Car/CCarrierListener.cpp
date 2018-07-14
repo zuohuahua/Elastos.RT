@@ -6,6 +6,11 @@ CAR_INTERFACE_IMPL(CCarrierListener, Object, ICarrierListener, IJavaInterface);
 
 ECode CCarrierListener::OnIdle()
 {
+    JNIEnv* env = GetEnv();
+    jclass cls = env->GetObjectClass(mObj);
+    jmethodID method = env->GetMethodID(cls, "OnIdle", "()V");
+    env->CallVoidMethod(mObj, method);
+    Detach();
     return NOERROR;
 }
 
@@ -60,17 +65,57 @@ ECode CCarrierListener::OnFriendConnetionChanged(
 ECode CCarrierListener::OnPortForwardingRequest(
     /* [in] */ const String& uid,
     /* [in] */ const String& servicePort,
-    /* [out] */ Boolean* accept)
+    /* [out] */ Boolean * accept)
 {
+    JNIEnv* env = GetEnv();
+    jclass cls = env->GetObjectClass(mObj);
+    jmethodID method = env->GetMethodID(cls, "OnPortForwardingRequest", "(Ljava/lang/String;Ljava/lang/String;)Z");
+    jstring _jstr1 = env->NewStringUTF(uid.string());
+    jstring _jstr2 = env->NewStringUTF(servicePort.string());
+    *accept = (Boolean)env->CallBooleanMethod(mObj, method, _jstr1, _jstr2);
+    Detach();
     return NOERROR;
 }
 
 ECode CCarrierListener::OnPortForwardingResult(
-    /* [in] */ const String &uid,
-    /* [in] */ const String &localPort,
-    /* [in] */ const String &remotePort,
+    /* [in] */ const String& uid,
+    /* [in] */ const String& localPort,
+    /* [in] */ const String& remotePort,
     /* [in] */ ECode code)
 {
+    JNIEnv* env = GetEnv();
+    jclass cls = env->GetObjectClass(mObj);
+    jmethodID method = env->GetMethodID(cls, "OnPortForwardingResult", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V");
+    jstring _jstr1 = env->NewStringUTF(uid.string());
+    jstring _jstr2 = env->NewStringUTF(localPort.string());
+    jstring _jstr3 = env->NewStringUTF(remotePort.string());
+    env->CallVoidMethod(mObj, method, _jstr1, _jstr2, _jstr3, code);
+    Detach();
+    return NOERROR;
+}
+
+ECode CCarrierListener::OnMessageReceived(
+    /* [in] */ const String& uid,
+    /* [in] */ const ArrayOf<Byte> & message)
+{
+    JNIEnv* env = GetEnv();
+    jclass cls = env->GetObjectClass(mObj);
+    jmethodID method = env->GetMethodID(cls, "OnMessageReceived", "(Ljava/lang/String;[B)V");
+    jstring _jstr1 = env->NewStringUTF(uid.string());
+    jbyteArray _jarray2 = env->NewByteArray(message.GetLength());
+    if (_jarray2 == NULL) {
+        Detach();
+        return E_OUT_OF_MEMORY;
+    }
+
+    jbyte _fill2[message.GetLength()];
+    for (Int32 i = 0; i < message.GetLength(); i++) {
+        _fill2[i] = message[i];
+    }
+    env->SetByteArrayRegion(_jarray2, 0, message.GetLength(), _fill2);
+
+    env->CallVoidMethod(mObj, method, _jstr1, _jarray2);
+    Detach();
     return NOERROR;
 }
 
@@ -89,7 +134,6 @@ ECode CCarrierListener::JavaInit(
 
     return NOERROR;
 }
-
 
 ECode CCarrierListener::GetJavaObject(
     /* [out] */ Handle64* jobj)
@@ -115,3 +159,4 @@ void CCarrierListener::Detach()
     assert(mJvm != NULL);
     mJvm->DetachCurrentThread();
 }
+

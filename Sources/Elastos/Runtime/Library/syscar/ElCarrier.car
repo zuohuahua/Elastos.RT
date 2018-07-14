@@ -224,6 +224,23 @@ library
             [in] String localPort,
             [in] String remotePort,
             [in] ECode code);
+
+        /**
+        *
+        * If received message from friend, the carrier will be invoked this callback.
+        *
+        * @param
+        *      uid [in] the friend's uid.
+        *
+        * @param
+        *      message [in] the message from friend.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
+        OnMessageReceived(
+            [in] String uid,
+            [in] ArrayOf<Byte> message);
     }
 
     interface ICarrier {
@@ -424,7 +441,7 @@ library
         * @return
         *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
         */
-        GetUerid(
+        GetUserid(
             [out] String* myUid);
 
         /**
@@ -468,6 +485,23 @@ library
             [in] String uid,
             [in] String localPort,
             [in] String remotePort);
+
+        /**
+        *
+        * Send message to friend.
+        *
+        * @param
+        *      uid [in] the friend's userid.
+        *
+        * @param
+        *      message [in] message send to friend.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
+        SendMessage(
+            [in] String uid,
+            [in] ArrayOf<Byte> message);
     }
 }
 

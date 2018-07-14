@@ -86,7 +86,7 @@ public:
     CARAPI Export(
         /* [out] */ String* dataFile);
 
-    CARAPI GetUerid(
+    CARAPI GetUserid(
         /* [out] */ String* myUid);
 
     CARAPI OpenPortForwarding(
@@ -98,6 +98,10 @@ public:
         /* [in] */ const String& uid,
         /* [in] */ const String& localPort,
         /* [in] */ const String& remotePort);
+
+    CARAPI SendMessage(
+        /* [in] */ const String& uid,
+        /* [in] */ const ArrayOf<Byte>& message);
 
     CARAPI_(UInt32) AddRef();
 
@@ -139,6 +143,10 @@ public:
         /* [in] */ String& localPort,
         /* [in] */ String& remotePort,
         /* [in] */ ECode code);
+
+    CARAPI DistributeOnFriendMessage(
+        /* [in] */ const String& uid,
+        /* [in] */ const ArrayOf<Byte>& message);
 
     static CARAPI_(CCarrier*) GetLocalInstance();
 

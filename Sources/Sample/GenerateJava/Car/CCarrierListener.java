@@ -23,6 +23,10 @@ public class CCarrierListener implements ICarrierListener {
     }
 
 
+    public void OnIdle() {
+        //TODO: Add your code here
+    }
+
     public void OnConnectionChanged(
         /* [in] */ boolean online) {
         //TODO: Add your code here
@@ -41,6 +45,27 @@ public class CCarrierListener implements ICarrierListener {
     public void OnFriendConnetionChanged(
         /* [in] */ String uid,
         /* [in] */ boolean online) {
+        //TODO: Add your code here
+    }
+
+    public boolean OnPortForwardingRequest(
+        /* [in] */ String uid,
+        /* [in] */ String servicePort) {
+        //TODO: Add your code here
+        return 0;
+    }
+
+    public void OnPortForwardingResult(
+        /* [in] */ String uid,
+        /* [in] */ String localPort,
+        /* [in] */ String remotePort,
+        /* [in] */ int code) {
+        //TODO: Add your code here
+    }
+
+    public void OnMessageReceived(
+        /* [in] */ String uid,
+        /* [in] */ byte[] message) {
         //TODO: Add your code here
     }
 

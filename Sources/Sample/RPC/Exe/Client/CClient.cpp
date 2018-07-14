@@ -69,6 +69,13 @@ ECode CCarrierListener::OnPortForwardingResult(
     return NOERROR;
 }
 
+ECode CCarrierListener::OnMessageReceived(
+    /* [in] */ const String& uid,
+    /* [in] */ const ArrayOf<Byte>& message)
+{
+   return NOERROR;
+}
+
 CAR_OBJECT_IMPL(CClient)
 
 CAR_INTERFACE_IMPL(CClient, Object, IClient);

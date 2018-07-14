@@ -82,6 +82,13 @@ _ELASTOS ECode CCarrierListener::OnPortForwardingResult(
     return NOERROR;
 }
 
+_ELASTOS ECode CCarrierListener::OnMessageReceived(
+    /* [in] */ const String& uid,
+    /* [in] */ const ArrayOf<Byte>& message)
+{
+   return NOERROR;
+}
+
 JNIEnv* CCarrierListener::GetEnv()
 {
     JNIEnv* env;

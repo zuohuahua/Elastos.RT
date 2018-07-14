@@ -58,6 +58,9 @@ public:
             /* [in] */ const String &remotePort,
             /* [in] */ ECode code);
 
+    CARAPI OnMessageReceived(
+            /* [in] */ const String& uid,
+            /* [in] */ const ArrayOf<Byte>& message);
 private:
     JNIEnv* GetEnv();
 

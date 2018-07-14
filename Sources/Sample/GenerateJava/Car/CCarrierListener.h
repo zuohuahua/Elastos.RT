@@ -42,15 +42,19 @@ public:
         /* [in] */ Boolean online);
 
     CARAPI OnPortForwardingRequest(
-        /* [in] */ const String &uid,
-        /* [in] */ const String &servicePort,
-        /* [out] */ Boolean *accept);
+        /* [in] */ const String& uid,
+        /* [in] */ const String& servicePort,
+        /* [out] */ Boolean * pAccept);
 
     CARAPI OnPortForwardingResult(
-        /* [in] */ const String &uid,
-        /* [in] */ const String &localPort,
-        /* [in] */ const String &remotePort,
+        /* [in] */ const String& uid,
+        /* [in] */ const String& localPort,
+        /* [in] */ const String& remotePort,
         /* [in] */ ECode code);
+
+    CARAPI OnMessageReceived(
+        /* [in] */ const String& uid,
+        /* [in] */ const ArrayOf<Byte> & message);
 
     CARAPI JavaInit(
         /* [in] */ Handle64 jvm,
