@@ -32,6 +32,7 @@ const char* _JavaMethodSignature(const CLSModule *pModule, const TypeDescriptor*
             pszType = "C";
             break;
         }
+        case Type_ECode:
         case Type_Int32: {
             pszType = "I";
             break;
@@ -72,7 +73,7 @@ const char* _JavaMethodSignature(const CLSModule *pModule, const TypeDescriptor*
             if (type == Type_Char32) {
                 pszType = "[C";
             }
-            else if (type == Type_Int32) {
+            else if (type == Type_Int32 || type == Type_ECode) {
                 pszType = "[I";
             }
             else if (type == Type_Int64) {
@@ -121,6 +122,7 @@ const char* GenerateJavaTypeString(const CLSModule *pModule, const TypeDescripto
         case Type_Char32: {
             return "char";
         }
+        case Type_ECode:
         case Type_Int32: {
             return "int";
         }
@@ -150,7 +152,7 @@ const char* GenerateJavaTypeString(const CLSModule *pModule, const TypeDescripto
             if (type == Type_Char32) {
                 return "char[]";
             }
-            else if (type == Type_Int32) {
+            else if (type == Type_Int32 || type == Type_ECode) {
                 return "int[]";
             }
             else if (type == Type_Int64) {
@@ -190,6 +192,7 @@ const char* GenerateJavaJniTypeString(const TypeDescriptor *pType)
         case Type_Char32: {
             return "jchar";
         }
+        case Type_ECode:
         case Type_Int32: {
             return "jint";
         }
@@ -219,7 +222,7 @@ const char* GenerateJavaJniTypeString(const TypeDescriptor *pType)
             if (type == Type_Char32) {
                 return "jcharArray";
             }
-            else if (type == Type_Int32) {
+            else if (type == Type_Int32 || type == Type_ECode) {
                 return "jintArray";
             }
             else if (type == Type_Int64) {
@@ -258,6 +261,7 @@ const char* GetJniMethodInvokeType(const TypeDescriptor *pType)
         case Type_Char32: {
             return "Char";
         }
+        case Type_ECode:
         case Type_Int32: {
             return "Int";
         }
@@ -608,6 +612,9 @@ int _GenerateJavaClassImpl(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
                 case Type_interface:
                 case Type_ArrayOf:
                     pCtx->PutString("        return null;\n");
+                    break;
+                case Type_Boolean:
+                    pCtx->PutString("        return false;\n");
                     break;
                 default:
                     pCtx->PutString("        return 0;\n");
@@ -1789,8 +1796,8 @@ int _GenerateDefalutCarClassCpp(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
                 pCtx->PutString(szContent);
             }
             else {
-                sprintf(szContent, "    *%s = (%s)env->Call%sMethod(mObj, method%s);\n" ,
-                        outParaName, GenerateJavaTypeString(pCtx->m_pModule, pType), tmpType, paramsContent);
+                sprintf(szContent, "    *%s = (%s)env->Call%sMethod(mObj, method%s);\n",
+                        outParaName, GenerateSimpleTypeString(pType), tmpType, paramsContent);
                 pCtx->PutString(szContent);
             }
         }

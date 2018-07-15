@@ -32,6 +32,10 @@ public class CCarrierListener implements ICarrierListener {
     }
 
 
+    public void OnIdle() {
+        //TODO: Add your code here
+    }
+
     public void OnConnectionChanged(
         /* [in] */ boolean online) {
         Message msg = new Message();
@@ -71,5 +75,24 @@ public class CCarrierListener implements ICarrierListener {
         mActivity.mHandler.sendMessage(msg);
     }
 
+    public boolean OnPortForwardingRequest(
+            /* [in] */ String uid,
+            /* [in] */ String servicePort) {
+        return false;
+    }
+
+    public void OnPortForwardingResult(
+            /* [in] */ String uid,
+            /* [in] */ String localPort,
+            /* [in] */ String remotePort,
+            /* [in] */ int code) {
+        //TODO: Add your code here
+    }
+
+    public void OnMessageReceived(
+            /* [in] */ String uid,
+            /* [in] */ byte[] message) {
+        //TODO: Add your code here
+    }
 
 }

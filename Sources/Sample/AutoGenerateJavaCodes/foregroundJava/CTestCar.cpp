@@ -21,7 +21,7 @@ ECode CTestCar::GetInt(
     JNIEnv* env = GetEnv();
     jclass cls = env->GetObjectClass(mObj);
     jmethodID method = env->GetMethodID(cls, "GetInt", "()I");
-    *value = (int)env->CallIntMethod(mObj, method);
+    *value = (Int32)env->CallIntMethod(mObj, method);
     Detach();
     return NOERROR;
 }
@@ -100,7 +100,7 @@ ECode CTestCar::Test2(
     jstring _jstr8 = env->NewStringUTF(value8.string());
     jstring _jstr9 = env->NewStringUTF(value9.string());
     jstring _jstr10 = env->NewStringUTF(value10.string());
-    *result = (int)env->CallIntMethod(mObj, method, value1, value2, value3, value4, value5, value6, value7, _jstr8, _jstr9, _jstr10);
+    *result = (Int32)env->CallIntMethod(mObj, method, value1, value2, value3, value4, value5, value6, value7, _jstr8, _jstr9, _jstr10);
     Detach();
     return NOERROR;
 }

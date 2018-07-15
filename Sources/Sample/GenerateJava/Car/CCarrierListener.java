@@ -52,7 +52,7 @@ public class CCarrierListener implements ICarrierListener {
         /* [in] */ String uid,
         /* [in] */ String servicePort) {
         //TODO: Add your code here
-        return 0;
+        return false;
     }
 
     public void OnPortForwardingResult(
