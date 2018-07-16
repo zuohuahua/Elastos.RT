@@ -1,7 +1,7 @@
 
 #include "MainchainSubWallet.h"
 
-extern const char* ToStringFromJson(nlohmann::json jsonValue);
+extern String ToStringFromJson(nlohmann::json jsonValue);
 extern nlohmann::json ToJosnFromString(const char* str);
 
 CAR_INTERFACE_IMPL(MainchainSubWallet, SubWallet, IMainchainSubWallet)
@@ -29,6 +29,6 @@ ECode MainchainSubWallet::CreateDepositTransaction(
     nlohmann::json json = mainchainSubWallet->CreateDepositTransaction(fromAddress.string(), toAddress.string(), amount
             , ToJosnFromString(sidechainAccountsJson.string()), ToJosnFromString(sidechainAmountsJson.string()),
             ToJosnFromString(sidechainIndexsJson.string()), fee, memo.string(), remark.string());
-    *txidJson = String(ToStringFromJson(json));
+    *txidJson = ToStringFromJson(json);
     return NOERROR;
 }

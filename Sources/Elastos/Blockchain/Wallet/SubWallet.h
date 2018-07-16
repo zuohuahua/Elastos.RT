@@ -19,7 +19,7 @@ private:
     {
     public:
         SubWalletCallback(
-            /* [in] */ ISubWalletListener* callback);
+            /* [in] */ ISubWalletListener* listener);
 
         virtual void OnTransactionStatusChanged(
             /* [in] */ const std::string &txid,
@@ -27,8 +27,8 @@ private:
             /* [in] */ const nlohmann::json &desc,
             /* [in] */ uint32_t confirms);
 
-    private:
-        AutoPtr<ISubWalletListener> mCallback;
+    public:
+        AutoPtr<ISubWalletListener> mListener;
     };
 
     class SubWalletCallbackNode : public SLinkNode
@@ -37,7 +37,7 @@ private:
         SubWalletCallbackNode(){};
 
     public:
-        AutoPtr<SubWalletCallback> mListener;
+        AutoPtr<SubWalletCallback> mCallback;
     };
 
 public:

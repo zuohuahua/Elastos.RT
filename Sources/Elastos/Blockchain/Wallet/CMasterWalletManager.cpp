@@ -2,7 +2,7 @@
 #include "CMasterWalletManager.h"
 #include "MasterWallet.h"
 
-extern const char* ToStringFromJson(nlohmann::json jsonValue);
+extern String ToStringFromJson(nlohmann::json jsonValue);
 extern nlohmann::json ToJosnFromString(const char* str);
 
 CAR_OBJECT_IMPL(CMasterWalletManager)
@@ -190,7 +190,7 @@ ECode CMasterWalletManager::ExportWalletWithKeystore(
 
     nlohmann::json result = mSpvMasterWalletMgr->ExportWalletWithKeystore(((MasterWallet*)masterWallet)->GetSpvMasterWallet()
             , backupPassword.string(), payPassword.string());
-    *keystoreContent = String(ToStringFromJson(result));
+    *keystoreContent = ToStringFromJson(result);
     return NOERROR;
 }
 

@@ -5,7 +5,7 @@
 #include "SidechainSubWallet.h"
 #include <sstream>
 
-const char* ToStringFromJson(nlohmann::json jsonValue);
+String ToStringFromJson(nlohmann::json jsonValue);
 nlohmann::json ToJosnFromString(const char* str);
 
 SubWallet::SubWallet(
@@ -82,7 +82,7 @@ ECode SubWallet::GetBalanceInfo (
 {
     VALIDATE_NOT_NULL(balanceInfoJson);
     nlohmann::json result = mSpvSubWallet->GetBalanceInfo();
-    *balanceInfoJson = String(ToStringFromJson(result));
+    *balanceInfoJson = ToStringFromJson(result);
     return NOERROR;
 }
 
@@ -110,7 +110,7 @@ ECode SubWallet::GetAllAddress (
 {
     VALIDATE_NOT_NULL(addressesJson);
     nlohmann::json addresses = mSpvSubWallet->GetAllAddress(start, count);
-    *addressesJson = String(ToStringFromJson(addresses));
+    *addressesJson = ToStringFromJson(addresses);
     return NOERROR;
 }
 
@@ -130,10 +130,9 @@ ECode SubWallet::AddCallback (
     AutoPtr<SubWalletCallback> callback = new SubWalletCallback(listener);
     if (callback == NULL) return E_OUT_OF_MEMORY;
 
-    mSpvSubWallet->AddCallback(callback);
     ECode ec = AddSubWalletCallbackNode(callback);
-    if (FAILED(ec)) {
-        mSpvSubWallet->RemoveCallback(callback);
+    if (SUCCEEDED(ec)) {
+        mSpvSubWallet->AddCallback(callback);
     }
 
     return ec;
@@ -143,11 +142,24 @@ ECode SubWallet::RemoveCallback (
     /* [in] */ ISubWalletListener* listener)
 {
     VALIDATE_NOT_NULL(listener);
-    AutoPtr<SubWalletCallback> callback = new SubWalletCallback(listener);
-    if (callback == NULL) return E_OUT_OF_MEMORY;
 
-    mSpvSubWallet->RemoveCallback(callback);
-    RemoveSubWalletCallbackNode(callback);
+    SubWalletCallback* callback = NULL;
+    pthread_mutex_lock(&mCallbacksLock);
+    SubWalletCallbackNode* it = &mCallbacks;
+    it = (SubWalletCallbackNode*)(it->Next());
+    for (; NULL != it; it = (SubWalletCallbackNode*)(it->Next())) {
+        if (it->mCallback->mListener.Get() == listener) {
+            callback = it->mCallback;
+            break;
+        }
+    }
+    pthread_mutex_unlock(&mCallbacksLock);
+
+    if (callback != NULL) {
+        mSpvSubWallet->RemoveCallback(it->mCallback);
+        RemoveSubWalletCallbackNode(it->mCallback);
+    }
+
     return NOERROR;
 }
 
@@ -163,7 +175,7 @@ ECode SubWallet::CreateTransaction (
     VALIDATE_NOT_NULL(txidJson);
     nlohmann::json result = mSpvSubWallet->CreateTransaction(fromAddress.string(), toAddress.string(), amount
             , fee, memo.string(), remark.string());
-    *txidJson = String(ToStringFromJson(result));
+    *txidJson = ToStringFromJson(result);
     return NOERROR;
 }
 
@@ -190,7 +202,7 @@ ECode SubWallet::CreateMultiSignTransaction (
     VALIDATE_NOT_NULL(transactionJson);
     nlohmann::json result = mSpvSubWallet->CreateMultiSignTransaction(fromAddress.string(), toAddress.string()
                 , amount, fee, memo.string());
-    *transactionJson = String(ToStringFromJson(result));
+    *transactionJson = ToStringFromJson(result);
     return NOERROR;
 }
 
@@ -202,7 +214,7 @@ ECode SubWallet::SendRawTransaction (
 {
     VALIDATE_NOT_NULL(txidJson);
     nlohmann::json result = mSpvSubWallet->SendRawTransaction(ToJosnFromString(transactionJson.string()), fee, payPassword.string());
-    *txidJson = String(ToStringFromJson(result));
+    *txidJson = ToStringFromJson(result);
     return NOERROR;
 }
 
@@ -214,7 +226,7 @@ ECode SubWallet::GetAllTransaction (
 {
     VALIDATE_NOT_NULL(transactionListJson);
     nlohmann::json result = mSpvSubWallet->GetAllTransaction(start, count, addressOrTxid.string());
-    *transactionListJson = String(ToStringFromJson(result));
+    *transactionListJson = ToStringFromJson(result);
     return NOERROR;
 }
 
@@ -237,7 +249,7 @@ ECode SubWallet::CheckSign (
 {
     VALIDATE_NOT_NULL(resultJson);
     nlohmann::json result = mSpvSubWallet->CheckSign(address.string(), message.string(), signature.string());
-    *resultJson = String(ToStringFromJson(result));
+    *resultJson = ToStringFromJson(result);
     return NOERROR;
 }
 
@@ -251,14 +263,14 @@ ECode SubWallet::CalculateTransactionFee(
     return NOERROR;
 }
 
-const char* ToStringFromJson(nlohmann::json jsonValue)
+String ToStringFromJson(nlohmann::json jsonValue)
 {
     const char* value = jsonValue.dump().c_str();
     if (!strcmp(value, "null")) {
-        return NULL;
+        return String(NULL);
     }
 
-    return value;
+    return String(value);
 }
 
 nlohmann::json ToJosnFromString(const char* str)
@@ -271,8 +283,8 @@ nlohmann::json ToJosnFromString(const char* str)
 }
 
 SubWallet::SubWalletCallback::SubWalletCallback(
-    /* [in] */ ISubWalletListener* callback)
-    : mCallback(callback)
+    /* [in] */ ISubWalletListener* listener)
+    : mListener(listener)
 {}
 
 void SubWallet::SubWalletCallback::OnTransactionStatusChanged(
@@ -281,8 +293,8 @@ void SubWallet::SubWalletCallback::OnTransactionStatusChanged(
     /* [in] */ const nlohmann::json &desc,
     /* [in] */ uint32_t confirms)
 {
-    if (mCallback == NULL) return;
-    mCallback->OnTransactionStatusChanged(String(txid.c_str()), String(status.c_str()), String(ToStringFromJson(desc)), confirms);
+    if (mListener == NULL) return;
+    mListener->OnTransactionStatusChanged(String(txid.c_str()), String(status.c_str()), ToStringFromJson(desc), confirms);
 }
 
 ECode SubWallet::AddSubWalletCallbackNode(
@@ -292,7 +304,7 @@ ECode SubWallet::AddSubWalletCallbackNode(
     SubWalletCallbackNode* it = &mCallbacks;
     it = (SubWalletCallbackNode*)(it->Next());
     for (; NULL != it; it = (SubWalletCallbackNode*)(it->Next())) {
-        if (it->mListener.Get() == callback) {
+        if (it->mCallback.Get() == callback) {
             pthread_mutex_unlock(&mCallbacksLock);
             return NOERROR;
         }
@@ -300,7 +312,7 @@ ECode SubWallet::AddSubWalletCallbackNode(
 
     SubWalletCallbackNode* listenerNode = new SubWalletCallbackNode;
     if (listenerNode == NULL) return E_OUT_OF_MEMORY;
-    listenerNode->mListener = callback;
+    listenerNode->mCallback = callback;
     mCallbacks.InsertFirst(listenerNode);
     pthread_mutex_unlock(&mCallbacksLock);
     return NOERROR;
@@ -314,8 +326,9 @@ void SubWallet::RemoveSubWalletCallbackNode(
     SubWalletCallbackNode* head = &mCallbacks;
     SubWalletCallbackNode* it = (SubWalletCallbackNode*)(head->Next());
     for (; NULL != it; it = (SubWalletCallbackNode*)(it->Next())) {
-        if (it->mListener.Get() == callback) {
-            it->mListener = NULL;
+        if (it->mCallback.Get() == callback) {
+            delete it->mCallback;
+            it->mCallback = NULL;
 
             if (it != head) {
                 it->Detach(prev);

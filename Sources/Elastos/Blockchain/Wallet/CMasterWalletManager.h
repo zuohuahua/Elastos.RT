@@ -6,10 +6,6 @@
 #include "elastos/core/Object.h"
 #include "MasterWalletManager.h"
 
-#include <android/log.h>
-#define TAG "Elastos_CAR_MasterWalletManager_Wallet"
-#define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG,TAG ,__VA_ARGS__)
-
 struct compare_string
 {
     bool operator()(const char *a, const char *b) const

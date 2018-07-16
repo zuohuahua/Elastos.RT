@@ -3,7 +3,7 @@
 #include "MainchainSubWallet.h"
 #include "IdChainSubWallet.h"
 
-extern const char* ToStringFromJson(nlohmann::json jsonValue);
+extern String ToStringFromJson(nlohmann::json jsonValue);
 
 CAR_INTERFACE_IMPL(MasterWallet, Object, IMasterWallet)
 MasterWallet::MasterWallet(
@@ -161,7 +161,7 @@ ECode MasterWallet::CheckSign(
     VALIDATE_NOT_NULL(resultJson);
     nlohmann::json jsonVal = mSpvMasterWallet->CheckSign(publicKey.string(), message.string(), signature.string());
 
-    *resultJson = String(ToStringFromJson(jsonVal));
+    *resultJson = ToStringFromJson(jsonVal);
     return NOERROR;
 }
 

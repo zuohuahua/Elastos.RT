@@ -1,0 +1,141 @@
+//=========================================================================
+// Copyright (C) 2018 The Elastos Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//=========================================================================
+
+module
+{
+    importlib("Elastos.CoreLibrary");
+    importlib("Elastos.Wallet");
+
+
+    interface IDID {
+        GetDIDName (
+            [out] String* did);
+
+        SetValue (
+            [in] String keyPath,
+            [in] String valueJson);
+
+        GetValue (
+            [in] String keyPath,
+            [out] String* valueJson);
+
+        GetHistoryValue (
+            [in] String keyPath,
+            [out] String* valuesListJson);
+
+        GetAllKeys (
+            [in] Int32 start,
+            [in] Int32 count,
+            [out] String* keyListJson);
+
+        Sign (
+            [in] String message,
+            [in] String password,
+            [out] String* signature);
+
+        GenerateProgram(
+            [in] String message,
+            [in] String password,
+            [out] String* resultJson);
+
+        CheckSign (
+            [in] String message,
+            [in] String signature,
+            [out] String* resultJson);
+
+        GetPublicKey(
+            [out] String* publicKey);
+    }
+
+    interface IDIDManagerCallback {
+        OnIdStatusChanged(
+            [in] String id,
+            [in] String path,
+            [in] String valueJson);
+    }
+
+    interface IDIDManager {
+        CreateDID (
+            [in] String password,
+            [out] IDID** did);
+
+        GetDID (
+            [in] String didName,
+            [out] IDID** did);
+
+        GetDIDList (
+            [out] String* didListJson);
+
+        DestoryDID (
+            [in] String did);
+
+        RegisterCallback(
+            [in] String did,
+            [in] IDIDManagerCallback* didcallback);
+
+        UnregisterCallback(
+            [in] String did);
+    }
+
+    interface IDIDChecker {
+        GetValue (
+            [in] String did,
+            [in] String keyPath,
+            [out] String* valueJson);
+
+        GetHistoryValue (
+            [in] String did,
+            [in] String keyPath,
+            [out] String* valueListJson);
+
+        GetAllKeys (
+            [in] String did,
+            [in] Int32 start,
+            [in] Int32 count,
+            [out] String* keyListJson);
+
+        GetPublicKey(
+            [in] String did,
+            [out] String* publicKey);
+
+        CheckSign (
+            [in] String did,
+            [in] String publicKey,
+            [in] String message,
+            [in] String signature,
+            [out] String* resultJson);
+
+        CheckDID (
+            [in] String did,
+            [in] String nonce,
+            [in] String appid,
+            [in] String declaration,
+            [in] String password,
+            [out] String* resultJson);
+    }
+
+    class CDIDChecker {
+        interface IDIDChecker;
+    }
+
+    class CDIDManager {
+        constructor(
+            [in] IMasterWallet* masterWallet,
+            [in] String rootPath);
+
+        interface IDIDManager;
+    }
+}
