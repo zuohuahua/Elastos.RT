@@ -22,9 +22,9 @@ if("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "android" )
     set_target_properties( idchain PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/Elastos/Blockchain/Did/did/libs/libidchain.so )
 endif()
 
-add_library(Elastos.Did SHARED ${SOURCES})
+add_library(Elastos.DID SHARED ${SOURCES})
 
-target_link_libraries(Elastos.Did
+target_link_libraries(Elastos.DID
     Elastos.Runtime
     Elastos.Runtime_static
     Elastos.CoreLibrary

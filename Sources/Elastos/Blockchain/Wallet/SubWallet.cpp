@@ -226,7 +226,7 @@ ECode SubWallet::GetAllTransaction (
 {
     VALIDATE_NOT_NULL(transactionListJson);
     nlohmann::json result = mSpvSubWallet->GetAllTransaction(start, count, addressOrTxid.string());
-    *transactionListJson = ToStringFromJson(result);
+    *transactionListJson = String(result.dump().c_str());
     return NOERROR;
 }
 
