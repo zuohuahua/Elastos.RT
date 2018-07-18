@@ -20,10 +20,14 @@ public:
 
     CAR_INTERFACE_DECL()
 
+    CTestCar()
+    {
+        _CJavaCarManager_AcquireInstance(&mJavaCarManager);
+    }
+
     virtual ~CTestCar()
     {
-        GetEnv()->DeleteGlobalRef(mObj);
-        Detach();
+        mJavaCarManager->Release();
     }
 
     CARAPI SetInt(
@@ -76,11 +80,7 @@ public:
         /* [out, callee] */ ArrayOf<ICarrier *> ** ppCarriers);
 
     CARAPI JavaInit(
-        /* [in] */ Handle64 jvm,
-        /* [in] */ Handle64 jobj);
-
-    CARAPI GetJavaObject(
-        /* [out] */ Handle64 * pJobj);
+        /* [in] */ Handle64 jvm);
 
     CARAPI constructor(
         /* [in] */ const ArrayOf<Double> & dArray,
@@ -97,7 +97,7 @@ private:
 private:
     // TODO: Add your private member variables here.
     JavaVM* mJvm;
-    jobject mObj;
+    IJavaCarManager* mJavaCarManager;
 };
 
 

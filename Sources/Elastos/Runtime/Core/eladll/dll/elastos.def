@@ -72,6 +72,7 @@ EXPORTS
 
 #if defined(_android)
     _CServiceManager_AcquireInstance                @183    NONAME
+    _CJavaCarManager_AcquireInstance                @184    NONAME
 #endif
 
     ;;============================================================

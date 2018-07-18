@@ -4,33 +4,41 @@
 //For Elastos
 #include "Elastos.AutoGenerateJavaCodes.h"
 
-jlong JNICALL native_CSingletonTest0(
+void JNICALL native_CSingletonTest0(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj)
 {
+    AutoPtr<IJavaCarManager*> pJavaCarManager;
+    _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);
     ITestCar2* pElaClsObj;
     ECode ec = CSingletonTest::AcquireSingleton(&pElaClsObj);
-    if(FAILED(ec)) return 0;
+    if(FAILED(ec)) return;
 
     JavaVM* jvm;
     env->GetJavaVM(&jvm);
-    IJavaInterface::Probe(pElaClsObj)->JavaInit((Handle64)jvm, (Handle64)jobj);
-    return (jlong)pElaClsObj;
+    IJavaInterface::Probe(pElaClsObj)->JavaInit((Handle64)jvm);
+    pJavaCarManager->AddCarObject((Handle64)jobj, pElaClsObj);
 }
 
 void JNICALL native_CSingletonTest_Destroy(
     /* [in] */ JNIEnv* env,
-    /* [in] */ jobject jobj,
-    /* [in] */ jlong carobj)
+    /* [in] */ jobject jobj)
 {
-    IInterface* pElaClsObj = (IInterface*)carobj;
-    pElaClsObj->Release();
+    AutoPtr<IJavaCarManager*> pJavaCarManager;
+    _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);
+    IInterface* pElaClsObj = NULL;
+    pJavaCarManager->GetCarObject((Handle64)jobj, &pElaClsObj);
+    if (pElaClsObj) {
+        pJavaCarManager->RemoveCarObject((Handle64)jobj, pElaClsObj);
+        pElaClsObj->Release();
+    }
 }
 
 
+
 static const JNINativeMethod gMethods[] = {
-    {"native_CSingletonTest", "()J", (void*)native_CSingletonTest0},
-    {"native_CSingletonTest_Destroy", "(J)V", (void*)native_CSingletonTest_Destroy},
+    {"native_CSingletonTest", "()V", (void*)native_CSingletonTest0},
+    {"native_CSingletonTest_Destroy", "()V", (void*)native_CSingletonTest_Destroy},
 };
 
 int registerCSingletonTestMethod(JNIEnv * env) {

@@ -104,10 +104,6 @@ library
 
     interface IJavaInterface extends IInterface {
         JavaInit(
-            [in] Handle64 jvm,
-            [in] Handle64 jobj);
-
-        GetJavaObject(
-            [out] Handle64* jobj);
+            [in] Handle64 jvm);
     }
 }

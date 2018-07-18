@@ -33,6 +33,7 @@ if("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "ios")
 elseif("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "android")
     list(APPEND MY_LINK_LIBRARIES
         servicemanager
+        javacarmanager
         marshalcomm
         marshal_rpc
         elasession

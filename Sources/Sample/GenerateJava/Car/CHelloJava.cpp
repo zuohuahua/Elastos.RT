@@ -8,9 +8,12 @@ ECode CHelloJava::Hello(
     /* [out] */ String * hello)
 {
     JNIEnv* env = GetEnv();
-    jclass cls = env->GetObjectClass(mObj);
+    Handle64 javaObj;
+    mJavaCarManager->GetJavaObject(IHelloJava::Probe(this), &javaObj);
+    jobject jobj = (jobject)javaObj;
+    jclass cls = env->GetObjectClass(jobj);
     jmethodID method = env->GetMethodID(cls, "Hello", "()Ljava/lang/String;");
-    jstring _jstr = (jstring)env->CallObjectMethod(mObj, method);
+    jstring _jstr = (jstring)env->CallObjectMethod(jobj, method);
     const char* __str = env->GetStringUTFChars(_jstr, NULL);
     *hello = String(__str);
     env->ReleaseStringUTFChars(_jstr, __str);
@@ -19,29 +22,11 @@ ECode CHelloJava::Hello(
 }
 
 ECode CHelloJava::JavaInit(
-    /* [in] */ Handle64 jvm,
-    /* [in] */ Handle64 jobj)
+    /* [in] */ Handle64 jvm)
 {
     mJvm = (JavaVM*)jvm;
     assert(mJvm != NULL);
 
-    jobject jclsobj = (jobject)jobj;
-    mObj = GetEnv()->NewGlobalRef(jclsobj);
-    if (mObj == NULL) {
-        return E_INVALID_ARGUMENT;
-    }
-
-    return NOERROR;
-}
-
-ECode CHelloJava::GetJavaObject(
-    /* [out] */ Handle64* jobj)
-{
-    if (!jobj) {
-        return E_INVALID_ARGUMENT;
-    }
-
-    *jobj = (Handle64)mObj;
     return NOERROR;
 }
 

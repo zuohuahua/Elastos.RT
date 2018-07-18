@@ -4,48 +4,60 @@
 //For Elastos
 #include "Elastos.AutoGenerateJavaCodes.h"
 
-jlong JNICALL native_CSingletonTest0(
+void JNICALL native_CSingletonTest0(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj)
 {
+    AutoPtr<IJavaCarManager*> pJavaCarManager;
+    _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);
     ITestCar2* pElaClsObj;
     ECode ec = CSingletonTest::AcquireSingleton(&pElaClsObj);
-    if(FAILED(ec)) return 0;
+    if(FAILED(ec)) return;
 
     JavaVM* jvm;
     env->GetJavaVM(&jvm);
-    IJavaInterface::Probe(pElaClsObj)->JavaInit((Handle64)jvm, (Handle64)jobj);
-    return (jlong)pElaClsObj;
+    IJavaInterface::Probe(pElaClsObj)->JavaInit((Handle64)jvm);
+    pJavaCarManager->AddCarObject((Handle64)jobj, pElaClsObj);
 }
 
 void JNICALL native_CSingletonTest_Destroy(
     /* [in] */ JNIEnv* env,
-    /* [in] */ jobject jobj,
-    /* [in] */ jlong carobj)
+    /* [in] */ jobject jobj)
 {
-    IInterface* pElaClsObj = (IInterface*)carobj;
-    pElaClsObj->Release();
+    AutoPtr<IJavaCarManager*> pJavaCarManager;
+    _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);
+    IInterface* pElaClsObj = NULL;
+    pJavaCarManager->GetCarObject((Handle64)jobj, &pElaClsObj);
+    if (pElaClsObj) {
+        pJavaCarManager->RemoveCarObject((Handle64)jobj, pElaClsObj);
+        pElaClsObj->Release();
+    }
 }
+
 
 void JNICALL native_CSingletonTest_ITestCar2_SetInt2(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj,
-    /* [in] */ jlong carobj,
     /* [in] */ jint jvalue)
 {
-    IInterface* pElaClsObj = (IInterface*)carobj;
+    IInterface* pElaClsObj = NULL;
+    AutoPtr<IJavaCarManager*> pJavaCarManager;
+    _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);
+    pJavaCarManager->GetCarObject((Handle64)jobj, &pElaClsObj);
     ITestCar2::Probe(pElaClsObj)->SetInt2(jvalue);
 }
 
 jstring JNICALL native_CSingletonTest_ITestCar2_Update(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj,
-    /* [in] */ jlong carobj,
     /* [in] */ jstring jvalue1,
     /* [in] */ jstring jvalue2,
     /* [in] */ jstring jvalue3)
 {
-    IInterface* pElaClsObj = (IInterface*)carobj;
+    IInterface* pElaClsObj = NULL;
+    AutoPtr<IJavaCarManager*> pJavaCarManager;
+    _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);
+    pJavaCarManager->GetCarObject((Handle64)jobj, &pElaClsObj);
     const char* str1 = env->GetStringUTFChars(jvalue1, NULL);
     const char* str2 = env->GetStringUTFChars(jvalue2, NULL);
     const char* str3 = env->GetStringUTFChars(jvalue3, NULL);
@@ -60,11 +72,13 @@ jstring JNICALL native_CSingletonTest_ITestCar2_Update(
 void JNICALL native_CSingletonTest_ITestCar2_Test1(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj,
-    /* [in] */ jlong carobj,
     /* [in] */ jstring jname,
     /* [in] */ jintArray jarray)
 {
-    IInterface* pElaClsObj = (IInterface*)carobj;
+    IInterface* pElaClsObj = NULL;
+    AutoPtr<IJavaCarManager*> pJavaCarManager;
+    _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);
+    pJavaCarManager->GetCarObject((Handle64)jobj, &pElaClsObj);
     const char* str1 = env->GetStringUTFChars(jname, NULL);
     int _len2 = env->GetArrayLength(jarray);
     AutoPtr<ArrayOf<Int32> > _array2 = ArrayOf<Int32>::Alloc(_len2);
@@ -82,11 +96,13 @@ void JNICALL native_CSingletonTest_ITestCar2_Test1(
 void JNICALL native_CSingletonTest_ITestCar2_Test2(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj,
-    /* [in] */ jlong carobj,
     /* [in] */ jobjectArray jstrArray,
     /* [in] */ jintArray jintArray)
 {
-    IInterface* pElaClsObj = (IInterface*)carobj;
+    IInterface* pElaClsObj = NULL;
+    AutoPtr<IJavaCarManager*> pJavaCarManager;
+    _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);
+    pJavaCarManager->GetCarObject((Handle64)jobj, &pElaClsObj);
     int _len1 = env->GetArrayLength(jstrArray);
     AutoPtr<ArrayOf<String> > _array1 = ArrayOf<String>::Alloc(_len1);
     if(!_array1) return;
@@ -112,10 +128,12 @@ void JNICALL native_CSingletonTest_ITestCar2_Test2(
 jobjectArray JNICALL native_CSingletonTest_ITestCar2_Test3(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj,
-    /* [in] */ jlong carobj,
     /* [in] */ jint ji)
 {
-    IInterface* pElaClsObj = (IInterface*)carobj;
+    IInterface* pElaClsObj = NULL;
+    AutoPtr<IJavaCarManager*> pJavaCarManager;
+    _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);
+    pJavaCarManager->GetCarObject((Handle64)jobj, &pElaClsObj);
     AutoPtr<ArrayOf<String> > _retValue;
     ITestCar2::Probe(pElaClsObj)->Test3(ji, (ArrayOf<String>**)&_retValue);
     jclass _retClazz = env->FindClass("java/lang/String");
@@ -131,19 +149,23 @@ jobjectArray JNICALL native_CSingletonTest_ITestCar2_Test3(
 
 void JNICALL native_CSingletonTest_ITestCar2_Test4(
     /* [in] */ JNIEnv* env,
-    /* [in] */ jobject jobj,
-    /* [in] */ jlong carobj)
+    /* [in] */ jobject jobj)
 {
-    IInterface* pElaClsObj = (IInterface*)carobj;
+    IInterface* pElaClsObj = NULL;
+    AutoPtr<IJavaCarManager*> pJavaCarManager;
+    _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);
+    pJavaCarManager->GetCarObject((Handle64)jobj, &pElaClsObj);
     ITestCar2::Probe(pElaClsObj)->Test4();
 }
 
 jstring JNICALL native_CSingletonTest_ITestCar2_Test5(
     /* [in] */ JNIEnv* env,
-    /* [in] */ jobject jobj,
-    /* [in] */ jlong carobj)
+    /* [in] */ jobject jobj)
 {
-    IInterface* pElaClsObj = (IInterface*)carobj;
+    IInterface* pElaClsObj = NULL;
+    AutoPtr<IJavaCarManager*> pJavaCarManager;
+    _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);
+    pJavaCarManager->GetCarObject((Handle64)jobj, &pElaClsObj);
     String _retValue;
     ITestCar2::Probe(pElaClsObj)->Test5(&_retValue);
     return env->NewStringUTF(_retValue.string());
@@ -152,11 +174,13 @@ jstring JNICALL native_CSingletonTest_ITestCar2_Test5(
 jfloatArray JNICALL native_CSingletonTest_ITestCar2_Test6(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj,
-    /* [in] */ jlong carobj,
     /* [in] */ jint ji,
     /* [in] */ jstring jstr)
 {
-    IInterface* pElaClsObj = (IInterface*)carobj;
+    IInterface* pElaClsObj = NULL;
+    AutoPtr<IJavaCarManager*> pJavaCarManager;
+    _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);
+    pJavaCarManager->GetCarObject((Handle64)jobj, &pElaClsObj);
     const char* str2 = env->GetStringUTFChars(jstr, NULL);
     AutoPtr<ArrayOf<Float> > _retValue;
     ITestCar2::Probe(pElaClsObj)->Test6(ji, String(str2), (ArrayOf<Float>**)&_retValue);
@@ -173,16 +197,16 @@ jfloatArray JNICALL native_CSingletonTest_ITestCar2_Test6(
 
 
 static const JNINativeMethod gMethods[] = {
-    {"native_CSingletonTest", "()J", (void*)native_CSingletonTest0},
-    {"native_CSingletonTest_Destroy", "(J)V", (void*)native_CSingletonTest_Destroy},
-    {"native_CSingletonTest_ITestCar2_SetInt2", "(JI)V", (void*)native_CSingletonTest_ITestCar2_SetInt2},
-    {"native_CSingletonTest_ITestCar2_Update", "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)native_CSingletonTest_ITestCar2_Update},
-    {"native_CSingletonTest_ITestCar2_Test1", "(JLjava/lang/String;[I)V", (void*)native_CSingletonTest_ITestCar2_Test1},
-    {"native_CSingletonTest_ITestCar2_Test2", "(J[Ljava/lang/String;[I)V", (void*)native_CSingletonTest_ITestCar2_Test2},
-    {"native_CSingletonTest_ITestCar2_Test3", "(JI)[Ljava/lang/String;", (void*)native_CSingletonTest_ITestCar2_Test3},
-    {"native_CSingletonTest_ITestCar2_Test4", "(J)V", (void*)native_CSingletonTest_ITestCar2_Test4},
-    {"native_CSingletonTest_ITestCar2_Test5", "(J)Ljava/lang/String;", (void*)native_CSingletonTest_ITestCar2_Test5},
-    {"native_CSingletonTest_ITestCar2_Test6", "(JILjava/lang/String;)[F", (void*)native_CSingletonTest_ITestCar2_Test6},
+    {"native_CSingletonTest", "()V", (void*)native_CSingletonTest0},
+    {"native_CSingletonTest_Destroy", "()V", (void*)native_CSingletonTest_Destroy},
+    {"native_CSingletonTest_ITestCar2_SetInt2", "(I)V", (void*)native_CSingletonTest_ITestCar2_SetInt2},
+    {"native_CSingletonTest_ITestCar2_Update", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)native_CSingletonTest_ITestCar2_Update},
+    {"native_CSingletonTest_ITestCar2_Test1", "(Ljava/lang/String;[I)V", (void*)native_CSingletonTest_ITestCar2_Test1},
+    {"native_CSingletonTest_ITestCar2_Test2", "([Ljava/lang/String;[I)V", (void*)native_CSingletonTest_ITestCar2_Test2},
+    {"native_CSingletonTest_ITestCar2_Test3", "(I)[Ljava/lang/String;", (void*)native_CSingletonTest_ITestCar2_Test3},
+    {"native_CSingletonTest_ITestCar2_Test4", "()V", (void*)native_CSingletonTest_ITestCar2_Test4},
+    {"native_CSingletonTest_ITestCar2_Test5", "()Ljava/lang/String;", (void*)native_CSingletonTest_ITestCar2_Test5},
+    {"native_CSingletonTest_ITestCar2_Test6", "(ILjava/lang/String;)[F", (void*)native_CSingletonTest_ITestCar2_Test6},
 };
 
 int registerCSingletonTestMethod(JNIEnv * env) {

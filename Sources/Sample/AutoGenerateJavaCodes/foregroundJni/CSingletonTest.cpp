@@ -71,29 +71,11 @@ ECode CSingletonTest::Test6(
 }
 
 ECode CSingletonTest::JavaInit(
-    /* [in] */ Handle64 jvm,
-    /* [in] */ Handle64 jobj)
+    /* [in] */ Handle64 jvm)
 {
     mJvm = (JavaVM*)jvm;
     assert(mJvm != NULL);
 
-    jobject jclsobj = (jobject)jobj;
-    mObj = GetEnv()->NewGlobalRef(jclsobj);
-    if (mObj == NULL) {
-        return E_INVALID_ARGUMENT;
-    }
-
-    return NOERROR;
-}
-
-ECode CSingletonTest::GetJavaObject(
-    /* [out] */ Handle64* jobj)
-{
-    if (!jobj) {
-        return E_INVALID_ARGUMENT;
-    }
-
-    *jobj = (Handle64)mObj;
     return NOERROR;
 }
 

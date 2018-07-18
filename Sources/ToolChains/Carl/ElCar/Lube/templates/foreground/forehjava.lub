@@ -75,10 +75,14 @@ $   IF interface is first and name is not "IThread"
 $   END IF
 $END DO
 
+    ${class.name}()
+    {
+        _CJavaCarManager_AcquireInstance(&mJavaCarManager);
+    }
+
     virtual ~${class.name}()
     {
-        GetEnv()->DeleteGlobalRef(mObj);
-        Detach();
+        mJavaCarManager->Release();
     }
 
 $WITH all interfaces DO
@@ -184,7 +188,7 @@ private:
 private:
     // TODO: Add your private member variables here.
     JavaVM* mJvm;
-    jobject mObj;
+    IJavaCarManager* mJavaCarManager;
 };
 
 $END IF ;; end of generic IF

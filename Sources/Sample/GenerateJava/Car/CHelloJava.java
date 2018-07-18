@@ -11,23 +11,17 @@ public class CHelloJava implements IHelloJava {
         System.loadLibrary("Your_Jni");
     }
 
-    private long mCarObj = 0;
-
-    private native long native_CHelloJava();
-    private native void native_CHelloJava_Destroy(long carobj);
+    private native void native_CHelloJava();
+    private native void native_CHelloJava_Destroy();
 
     public CHelloJava() {
-        mCarObj = native_CHelloJava();
+        native_CHelloJava();
         //TODO: Add your code here
-    }
-
-    public long getCarObject() {
-        return mCarObj;
     }
 
     // invoke destroy to release car object
     public void destroy() {
-        native_CHelloJava_Destroy(mCarObj);
+        native_CHelloJava_Destroy();
     }
 
 

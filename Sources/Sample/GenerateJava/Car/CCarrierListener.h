@@ -20,10 +20,14 @@ public:
 
     CAR_INTERFACE_DECL()
 
+    CCarrierListener()
+    {
+        _CJavaCarManager_AcquireInstance(&mJavaCarManager);
+    }
+
     virtual ~CCarrierListener()
     {
-        GetEnv()->DeleteGlobalRef(mObj);
-        Detach();
+        mJavaCarManager->Release();
     }
 
     CARAPI OnIdle();
@@ -57,11 +61,7 @@ public:
         /* [in] */ const ArrayOf<Byte> & message);
 
     CARAPI JavaInit(
-        /* [in] */ Handle64 jvm,
-        /* [in] */ Handle64 jobj);
-
-    CARAPI GetJavaObject(
-        /* [out] */ Handle64 * pJobj);
+        /* [in] */ Handle64 jvm);
 
 private:
     JNIEnv* GetEnv();
@@ -70,7 +70,7 @@ private:
 private:
     // TODO: Add your private member variables here.
     JavaVM* mJvm;
-    jobject mObj;
+    IJavaCarManager* mJavaCarManager;
 };
 
 

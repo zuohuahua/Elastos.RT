@@ -9,6 +9,7 @@ if("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "android")
         elapi
         marshal
         servicemanager
+        javacarmanager
         libusr
         carapi
         eladll

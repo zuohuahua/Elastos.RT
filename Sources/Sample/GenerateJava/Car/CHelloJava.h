@@ -20,21 +20,21 @@ public:
 
     CAR_INTERFACE_DECL()
 
+    CHelloJava()
+    {
+        _CJavaCarManager_AcquireInstance(&mJavaCarManager);
+    }
+
     virtual ~CHelloJava()
     {
-        GetEnv()->DeleteGlobalRef(mObj);
-        Detach();
+        mJavaCarManager->Release();
     }
 
     CARAPI Hello(
         /* [out] */ String * pHello);
 
     CARAPI JavaInit(
-        /* [in] */ Handle64 jvm,
-        /* [in] */ Handle64 jobj);
-
-    CARAPI GetJavaObject(
-        /* [out] */ Handle64 * pJobj);
+        /* [in] */ Handle64 jvm);
 
 private:
     JNIEnv* GetEnv();
@@ -43,7 +43,7 @@ private:
 private:
     // TODO: Add your private member variables here.
     JavaVM* mJvm;
-    jobject mObj;
+    IJavaCarManager* mJavaCarManager;
 };
 
 

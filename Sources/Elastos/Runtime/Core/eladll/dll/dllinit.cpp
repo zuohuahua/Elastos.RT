@@ -51,6 +51,8 @@ extern ECode InitROT();
 extern void UninitROT();
 extern void InitProxyEntry();
 extern void UninitProxyEntry();
+extern void InitJavaCarManager();
+extern void UninitJavaCarManager();
 
 #elif _linux
 #ifndef _ELASTOS64
@@ -88,6 +90,7 @@ Boolean AttachElastosDll()
     // Elastos::RPC::InitProxyEntry();
     InitROT();
     InitProxyEntry();
+    InitJavaCarManager();
 #elif _linux
 #ifndef _ELASTOS64
     InitROT();
@@ -118,6 +121,7 @@ void DetachElastosDll()
 
     // Elastos::IPC::UninitProxyEntry();
     // Elastos::IPC::UninitROT();
+    UninitJavaCarManager();
     UninitProxyEntry();
     UninitROT();
 #elif _linux

@@ -3,23 +3,17 @@ package org.elastos.GenerateJava;
 
 //this java class will implement the elastos interface.
 public class CCarrierListener implements ICarrierListener {
-    private long mCarObj = 0;
-
-    private native long native_CCarrierListener();
-    private native void native_CCarrierListener_Destroy(long carobj);
+    private native void native_CCarrierListener();
+    private native void native_CCarrierListener_Destroy();
 
     public CCarrierListener() {
-        mCarObj = native_CCarrierListener();
+        native_CCarrierListener();
         //TODO: Add your code here
-    }
-
-    public long getCarObject() {
-        return mCarObj;
     }
 
     // invoke destroy to release car object
     public void destroy() {
-        native_CCarrierListener_Destroy(mCarObj);
+        native_CCarrierListener_Destroy();
     }
 
 

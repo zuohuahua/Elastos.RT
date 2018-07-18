@@ -397,14 +397,13 @@ int _GenerateJavaConstructor(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
     _GenerateJavaLoadLibarary(pCtx);
 
     char szContent[512];
-    pCtx->PutString("    private long mCarObj = 0;\n\n");
 
     // generate nativeInit
     for (int i = 0; i < pItfDir->mDesc->mMethodCount; i++) {
         MethodDescriptor* methodDesc = pItfDir->mDesc->mMethods[i];
         assert(methodDesc != NULL);
 
-        sprintf(szContent, "    private native long native_%s(", pClsDir->mName);
+        sprintf(szContent, "    private native void native_%s(", pClsDir->mName);
         pCtx->PutString(szContent);
 
         for (int j = 0; j < methodDesc->mParamCount - 1; j++) {
@@ -420,7 +419,7 @@ int _GenerateJavaConstructor(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
         }
         pCtx->PutString(");\n");
     }
-    sprintf(szContent, "    private native void native_%s_Destroy(long carobj);\n\n", pClsDir->mName);
+    sprintf(szContent, "    private native void native_%s_Destroy();\n\n", pClsDir->mName);
     pCtx->PutString(szContent);
 
     // generate constructors
@@ -463,7 +462,7 @@ int _GenerateJavaConstructor(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
 
             // Function body.
             pCtx->PutString(") {\n");
-            sprintf(szContent, "        mCarObj = native_%s(", pClsDir->mName);
+            sprintf(szContent, "        native_%s(", pClsDir->mName);
             pCtx->PutString(szContent);
             for (int j = 0; j < methodDesc->mParamCount - 1; j++) {
                 ParamDescriptor* paraDesc = methodDesc->mParams[j];
@@ -481,13 +480,9 @@ int _GenerateJavaConstructor(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
         }
     }
 
-    pCtx->PutString("    public long getCarObject() {\n");
-    pCtx->PutString("        return mCarObj;\n");
-    pCtx->PutString("    }\n\n");
-
     pCtx->PutString("    // invoke destroy to release car object\n");
     pCtx->PutString("    public void destroy() {\n");
-    sprintf(szContent, "        native_%s_Destroy(mCarObj);\n", pClsDir->mName);
+    sprintf(szContent, "        native_%s_Destroy();\n", pClsDir->mName);
     pCtx->PutString(szContent);
     pCtx->PutString("    }\n\n");
 
@@ -503,10 +498,9 @@ int _GenerateJavaDefaultConstructor(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg
     _GenerateJavaLoadLibarary(pCtx);
 
     char szContent[512];
-    pCtx->PutString("    private long mCarObj = 0;\n\n");
-    sprintf(szContent, "    private native long native_%s();\n", pClsDir->mName);
+    sprintf(szContent, "    private native void native_%s();\n", pClsDir->mName);
     pCtx->PutString(szContent);
-    sprintf(szContent, "    private native void native_%s_Destroy(long carobj);\n\n", pClsDir->mName);
+    sprintf(szContent, "    private native void native_%s_Destroy();\n\n", pClsDir->mName);
     pCtx->PutString(szContent);
 
     if (pClsDir->mDesc->mAttribs & ClassAttrib_singleton) {
@@ -528,19 +522,14 @@ int _GenerateJavaDefaultConstructor(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg
 
     sprintf(szContent, " %s() {\n", pClsDir->mName);
     pCtx->PutString(szContent);
-    sprintf(szContent, "        mCarObj = native_%s();\n", pClsDir->mName);
+    sprintf(szContent, "        native_%s();\n", pClsDir->mName);
     pCtx->PutString(szContent);
     pCtx->PutString("        //TODO: Add your code here\n");
     pCtx->PutString("    }\n\n");
 
-
-    pCtx->PutString("    public long getCarObject() {\n");
-    pCtx->PutString("        return mCarObj;\n");
-    pCtx->PutString("    }\n\n");
-
     pCtx->PutString("    // invoke destroy to release car object\n");
     pCtx->PutString("    public void destroy() {\n");
-    sprintf(szContent, "        native_%s_Destroy(mCarObj);\n", pClsDir->mName);
+    sprintf(szContent, "        native_%s_Destroy();\n", pClsDir->mName);
     pCtx->PutString(szContent);
     pCtx->PutString("    }\n\n");
 
@@ -687,7 +676,7 @@ int _GenerateJavaClassUser(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
         char szNativeDefineParameters[1024] = {0};
         pCtx->PutString("    {\n");
         if (methodDesc->mParamCount == 0) {
-            sprintf(szContent, "        native_%s_%s_%s(mCarObj);\n",
+            sprintf(szContent, "        native_%s_%s_%s();\n",
                     pClsDir->mName, pItfDir->mName, methodDesc->mName);
             pCtx->PutString(szContent);
         }
@@ -715,16 +704,16 @@ int _GenerateJavaClassUser(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
             //Call the method and process the return value.
             if (outParaPos >= 0) {
                 if (strlen(szParameters) > 0) {
-                    sprintf(szContent, "        return native_%s_%s_%s(mCarObj, %s);\n",
+                    sprintf(szContent, "        return native_%s_%s_%s(%s);\n",
                             pClsDir->mName, pItfDir->mName, methodDesc->mName, szParameters);
                 }
                 else {
-                    sprintf(szContent, "        return native_%s_%s_%s(mCarObj);\n",
+                    sprintf(szContent, "        return native_%s_%s_%s();\n",
                             pClsDir->mName, pItfDir->mName, methodDesc->mName);
                 }
             }
             else {
-                sprintf(szContent, "        native_%s_%s_%s(mCarObj, %s);\n",
+                sprintf(szContent, "        native_%s_%s_%s(%s);\n",
                         pClsDir->mName, pItfDir->mName, methodDesc->mName, szParameters);
             }
 
@@ -735,12 +724,12 @@ int _GenerateJavaClassUser(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
 
         //Record nativeXX function.
         if (strlen(szNativeDefineParameters) > 0) {
-            sprintf(szContent, "    private native %s native_%s_%s_%s(long carobj, %s);\n\n",
+            sprintf(szContent, "    private native %s native_%s_%s_%s(%s);\n\n",
                     retType, pClsDir->mName, pItfDir->mName, methodDesc->mName, szNativeDefineParameters);
             pCtx->PutString(szContent);
         }
         else {
-            sprintf(szContent, "    private native %s native_%s_%s_%s(long carobj);\n\n",
+            sprintf(szContent, "    private native %s native_%s_%s_%s();\n\n",
                     retType, pClsDir->mName, pItfDir->mName, methodDesc->mName);
             pCtx->PutString(szContent);
         }
@@ -787,7 +776,7 @@ int _GenerateJavaJniCppInit(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
         MethodDescriptor* methodDesc = pItfDir->mDesc->mMethods[i];
         assert(methodDesc != NULL);
 
-        sprintf(szContent, "jlong JNICALL native_%s%d(\n", pClass->mName, i);
+        sprintf(szContent, "void JNICALL native_%s%d(\n", pClass->mName, i);
         pCtx->PutString(szContent);
         pCtx->PutString("    /* [in] */ JNIEnv* env,\n    /* [in] */ jobject jobj");
         if (methodDesc->mParamCount > 1) {
@@ -808,6 +797,8 @@ int _GenerateJavaJniCppInit(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
         // Function body.
         pCtx->PutString("{\n");
 
+        pCtx->PutString("    AutoPtr<IJavaCarManager*> pJavaCarManager;\n");
+        pCtx->PutString("    _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);\n");
         sprintf(szContent, "    %s* pElaClsObj;\n", szInterfaceName);
         pCtx->PutString(szContent);
         if (methodDesc->mParamCount == 1) {
@@ -846,7 +837,7 @@ int _GenerateJavaJniCppInit(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
                     pCtx->PutString(szContent);
                     sprintf(szContent, "    AutoPtr<ArrayOf<%s> > _array%d = ArrayOf<%s>::Alloc(_len%d);\n", nestedType, j + 1, nestedType, j + 1);
                     pCtx->PutString(szContent);
-                    sprintf(szContent, "    if(!_array%d) return E_OUT_OF_MEMORY;\n", j + 1);
+                    sprintf(szContent, "    if(!_array%d) return;\n", j + 1);
                     pCtx->PutString(szContent);
 
                     if (paraDesc->mType.mNestedType->mType == Type_String) {
@@ -865,10 +856,10 @@ int _GenerateJavaJniCppInit(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
                         pCtx->PutString(szContent);
                         sprintf(szContent, "        jobject _item = env->GetObjectArrayElement(j%s, i);\n", paraDesc->mName);
                         pCtx->PutString(szContent);
-                        pCtx->PutString("        jclass _clazz = env->GetObjectClass(_item);\n");
-                        pCtx->PutString("        jmethodID _methodId = env->GetMethodID(_clazz, \"getCarObject\", \"()J\");\n");
-                        pCtx->PutString("        jlong _carobj = env->CallLongMethod(_item, _methodId);\n");
-                        sprintf(szContent, "        (*_array%d)[i] = %s::Probe((Interface*)_carobj);\n", j + 1, nestedType);
+                        pCtx->PutString("        IInterface* _carobj = NULL;\n");
+                        pCtx->PutString("        pJavaCarManager->GetCarObject((Handle64)_item, &_carobj);\n");
+                        pCtx->PutString("        if (!_carobj) break;\n");
+                        sprintf(szContent, "        (*_array%d)[i] = %s::Probe(_carobj);\n", j + 1, nestedType);
                         pCtx->PutString(szContent);
                         pCtx->PutString("    }\n");
                     }
@@ -893,15 +884,14 @@ int _GenerateJavaJniCppInit(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
                 }
                 else if (paraDesc->mType.mType == Type_interface) {
                     const char * typeStr = pCtx->m_pModule->mInterfaceDirs[paraDesc->mType.mIndex]->mName;
-                    sprintf(szContent, "    jclass _clazz%d = env->GetObjectClass(j%s);\n", j + 1, paraDesc->mName);
+                    sprintf(szContent, "    IInterface* _carobj%d = NULL;\n", j + 1);
                     pCtx->PutString(szContent);
-                    sprintf(szContent, "    jmethodID _methodId%d = env->GetMethodID(_clazz%d, \"getCarObject\", \"()J\");\n",
-                            j + 1, j + 1);
+                    sprintf(szContent, "    pJavaCarManager->GetCarObject((Handle64)j%s, &_carobj%d);\n",
+                            paraDesc->mName, j + 1);
                     pCtx->PutString(szContent);
-                    sprintf(szContent, "    jlong _carobj%d = env->CallLongMethod(j%s, _methodId%d);\n",
-                            j + 1, paraDesc->mName, j + 1);
+                    sprintf(szContent, "    if (!_carobj%d) return;\n", j + 1);
                     pCtx->PutString(szContent);
-                    sprintf(szContent, "    %s* _interface%d = %s::Probe((IInterface*)_carobj%d);\n\n",
+                    sprintf(szContent, "    %s* _interface%d = %s::Probe(_carobj%d);\n\n",
                             typeStr, j + 1, typeStr, j + 1);
                     pCtx->PutString(szContent);
 
@@ -926,22 +916,28 @@ int _GenerateJavaJniCppInit(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
             }
 
         }
-        pCtx->PutString("    if(FAILED(ec)) return 0;\n\n");
+        pCtx->PutString("    if(FAILED(ec)) return;\n\n");
 
         pCtx->PutString("    JavaVM* jvm;\n");
         pCtx->PutString("    env->GetJavaVM(&jvm);\n");
-        pCtx->PutString("    IJavaInterface::Probe(pElaClsObj)->JavaInit((Handle64)jvm, (Handle64)jobj);\n");
-        pCtx->PutString("    return (jlong)pElaClsObj;\n");
+        pCtx->PutString("    IJavaInterface::Probe(pElaClsObj)->JavaInit((Handle64)jvm);\n");
+        pCtx->PutString("    pJavaCarManager->AddCarObject((Handle64)jobj, pElaClsObj);\n");
 
         pCtx->PutString("}\n\n");
     }
 
     sprintf(szContent, "void JNICALL native_%s_Destroy(\n", pClass->mName);
     pCtx->PutString(szContent);
-    pCtx->PutString("    /* [in] */ JNIEnv* env,\n    /* [in] */ jobject jobj,\n");
-    pCtx->PutString("    /* [in] */ jlong carobj)\n{\n");
-    pCtx->PutString("    IInterface* pElaClsObj = (IInterface*)carobj;\n");
-    pCtx->PutString("    pElaClsObj->Release();\n}\n");
+    pCtx->PutString("    /* [in] */ JNIEnv* env,\n    /* [in] */ jobject jobj)\n{\n");
+    pCtx->PutString("    AutoPtr<IJavaCarManager*> pJavaCarManager;\n");
+    pCtx->PutString("    _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);\n");
+    pCtx->PutString("    IInterface* pElaClsObj = NULL;\n");
+    pCtx->PutString("    pJavaCarManager->GetCarObject((Handle64)jobj, &pElaClsObj);\n");
+    pCtx->PutString("    if (pElaClsObj) {\n");
+    pCtx->PutString("        pJavaCarManager->RemoveCarObject((Handle64)jobj, pElaClsObj);\n");
+    pCtx->PutString("        pElaClsObj->Release();\n");
+    pCtx->PutString("    }\n");
+    pCtx->PutString("}\n\n");
 
     return LUBE_OK;
 }
@@ -959,7 +955,7 @@ int _GenerateJavaDefaultJniCppInit(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
     sprintf(szContent, "#include \"%s.h\"\n\n", module->mName);
     pCtx->PutString(szContent);
 
-    sprintf(szContent, "jlong JNICALL native_%s(\n", pClass->mName);
+    sprintf(szContent, "void JNICALL native_%s(\n", pClass->mName);
     pCtx->PutString(szContent);
     pCtx->PutString("    /* [in] */ JNIEnv* env,\n    /* [in] */ jobject jobj)\n{\n");
 
@@ -978,21 +974,30 @@ int _GenerateJavaDefaultJniCppInit(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
         pCtx->PutString("New(&pElaClsObj);\n");
     }
 
-    pCtx->PutString("    if(FAILED(ec)) return 0;\n\n");
+    pCtx->PutString("    if(FAILED(ec)) return;\n\n");
 
     pCtx->PutString("    JavaVM* jvm;\n");
     pCtx->PutString("    env->GetJavaVM(&jvm);\n");
-    pCtx->PutString("    IJavaInterface::Probe(pElaClsObj)->JavaInit((Handle64)jvm, (Handle64)jobj);\n");
-    pCtx->PutString("    return (jlong)pElaClsObj;\n");
-
+    pCtx->PutString("    IJavaInterface::Probe(pElaClsObj)->JavaInit((Handle64)jvm);\n");
+    pCtx->PutString("    AutoPtr<IJavaCarManager*> pJavaCarManager;\n");
+    pCtx->PutString("    ec = _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);\n");
+    pCtx->PutString("    if (SUCCEEDED(ec)) {\n");
+    pCtx->PutString("        pJavaCarManager->AddCarObject((Handle64)jobj, pElaClsObj);\n");
+    pCtx->PutString("    }\n");
     pCtx->PutString("}\n\n");
 
     sprintf(szContent, "void JNICALL native_%s_Destroy(\n", pClass->mName);
     pCtx->PutString(szContent);
-    pCtx->PutString("    /* [in] */ JNIEnv* env,\n    /* [in] */ jobject jobj,\n");
-    pCtx->PutString("    /* [in] */ jlong carobj)\n{\n");
-    pCtx->PutString("    IInterface* pElaClsObj = (IInterface*)carobj;\n");
-    pCtx->PutString("    pElaClsObj->Release();\n}\n");
+    pCtx->PutString("    /* [in] */ JNIEnv* env,\n    /* [in] */ jobject jobj)\n{\n");
+    pCtx->PutString("    AutoPtr<IJavaCarManager*> pJavaCarManager;\n");
+    pCtx->PutString("    _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);\n");
+    pCtx->PutString("    IInterface* pElaClsObj = NULL;\n");
+    pCtx->PutString("    pJavaCarManager->GetCarObject((Handle64)jobj, &pElaClsObj);\n");
+    pCtx->PutString("    if (pElaClsObj) {\n");
+    pCtx->PutString("        pJavaCarManager->RemoveCarObject((Handle64)jobj, pElaClsObj);\n");
+    pCtx->PutString("        pElaClsObj->Release();\n");
+    pCtx->PutString("    }\n");
+    pCtx->PutString("}\n\n");
 
     return LUBE_OK;
 }
@@ -1049,10 +1054,10 @@ int _GenerateJavaJniCpp(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
         pCtx->PutString(szContent);
 
         if (methodDesc->mParamCount == 0) {
-            pCtx->PutString("    /* [in] */ JNIEnv* env,\n    /* [in] */ jobject jobj,\n    /* [in] */ jlong carobj)\n");
+            pCtx->PutString("    /* [in] */ JNIEnv* env,\n    /* [in] */ jobject jobj)\n");
         }
         else {
-            pCtx->PutString("    /* [in] */ JNIEnv* env,\n    /* [in] */ jobject jobj,\n    /* [in] */ jlong carobj");
+            pCtx->PutString("    /* [in] */ JNIEnv* env,\n    /* [in] */ jobject jobj");
             for (int j = 0; j < methodDesc->mParamCount; j++) {
                 ParamDescriptor* paraDesc = methodDesc->mParams[j];
                 assert(paraDesc != NULL);
@@ -1076,7 +1081,10 @@ int _GenerateJavaJniCpp(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
 
         // Function body.
         pCtx->PutString("{\n");
-        pCtx->PutString("    IInterface* pElaClsObj = (IInterface*)carobj;\n");
+        pCtx->PutString("    IInterface* pElaClsObj = NULL;\n");
+        pCtx->PutString("    AutoPtr<IJavaCarManager*> pJavaCarManager;\n");
+        pCtx->PutString("    _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);\n");
+        pCtx->PutString("    pJavaCarManager->GetCarObject((Handle64)jobj, &pElaClsObj);\n");
         if (methodDesc->mParamCount == 0) {
             sprintf(szContent, "    %s::Probe(pElaClsObj)->%s();\n", pItfDir->mName, methodDesc->mName);
             pCtx->PutString(szContent);
@@ -1127,9 +1135,9 @@ int _GenerateJavaJniCpp(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
                             pCtx->PutString(szContent);
                             sprintf(szContent, "        jobject _item = env->GetObjectArrayElement(j%s, i);\n", paraDesc->mName);
                             pCtx->PutString(szContent);
-                            pCtx->PutString("        jclass _clazz = env->GetObjectClass(_item);\n");
-                            pCtx->PutString("        jmethodID _methodId = env->GetMethodID(_clazz, \"getCarObject\", \"()J\");\n");
-                            pCtx->PutString("        jlong _carobj = env->CallLongMethod(_item, _methodId);\n");
+                            pCtx->PutString("        IInterface* _carobj = NULL;\n");
+                            pCtx->PutString("        pJavaCarManager->GetCarObject((Handle64)_item, &_carobj);\n");
+                            pCtx->PutString("        if (!_carobj) break;\n");
                             sprintf(szContent, "        (*_array%d)[i] = %s::Probe((IInterface*)_carobj);\n",
                                     j + 1, pCtx->m_pModule->mInterfaceDirs[paraDesc->mType.mNestedType->mIndex]->mName);
                             pCtx->PutString(szContent);
@@ -1156,17 +1164,16 @@ int _GenerateJavaJniCpp(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
                     }
                     else if (paraDesc->mType.mType == Type_interface) {
                         const char * typeStr = pCtx->m_pModule->mInterfaceDirs[paraDesc->mType.mIndex]->mName;
-                        sprintf(szContent, "\n    jclass _clazz%d = env->GetObjectClass(j%s);\n", j + 1, paraDesc->mName);
+                        sprintf(szContent, "    IInterface* _carobj%d = NULL;\n", j + 1);
                         pCtx->PutString(szContent);
-                        sprintf(szContent, "    jmethodID _methodId%d = env->GetMethodID(_clazz%d, \"getCarObject\", \"()J\");\n",
-                                j + 1, j + 1);
+                        sprintf(szContent, "    pJavaCarManager->GetCarObject((Handle64)j%s, &_carobj%d);\n", paraDesc->mName, j + 1);
                         pCtx->PutString(szContent);
-                        sprintf(szContent, "    jlong _carobj%d = env->CallLongMethod(j%s, _methodId%d);\n",
-                                j + 1, paraDesc->mName, j + 1);
+                        sprintf(szContent, "    if (_carobj%d) {\n", j + 1);
                         pCtx->PutString(szContent);
-                        sprintf(szContent, "    %s* _interface%d = %s::Probe((IInterface*)_carobj%d);\n\n",
+                        sprintf(szContent, "        %s* _interface%d = %s::Probe(_carobj%d);\n\n",
                                 typeStr, j + 1, typeStr, j + 1);
                         pCtx->PutString(szContent);
+                        pCtx->PutString("    }\n");
 
                         sprintf(szContent, "_interface%d", j + 1);
                         strcat(szParameters, szContent);
@@ -1234,7 +1241,7 @@ int _GenerateJavaJniCpp(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
 
                         pCtx->PutString("    for (Int32 i = 0; i < _retValue->GetLength(); i++) {\n");
                         pCtx->PutString("        Handle64 _jobj;\n");
-                        pCtx->PutString("        IJavaInterface::Probe((*_retValue)[i])->GetJavaObject(&_jobj);\n");
+                        pCtx->PutString("        pJavaCarManager->GetJavaObject((*_retValue)[i], &_jobj);\n");
                         pCtx->PutString("        env->SetObjectArrayElement(retArray, i, (jobject)_jobj);\n");
                         pCtx->PutString("    }\n\n");
                     }
@@ -1271,7 +1278,7 @@ int _GenerateJavaJniCpp(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
                     pCtx->PutString(szContent);
 
                     pCtx->PutString("    Handle64 _jobj;\n");
-                    pCtx->PutString("    IJavaInterface::Probe(_retValue)->GetJavaObject(&_jobj);\n");
+                    pCtx->PutString("    pJavaCarManager->GetJavaObject(_retValue, &_jobj);\n");
                     pCtx->PutString("    return (jobject)_jobj;\n");
                 }
                 else {
@@ -1331,17 +1338,17 @@ void GenerateJniOnloadInitDeclare(PLUBECTX pCtx, PSTATEDESC pDesc, InterfaceDirE
                 }
             }
 
-            sprintf(szContent, "\"(%s)J\", (void*)native_%s%d", signature, pClsDir->mName, mi);
+            sprintf(szContent, "\"(%s)V\", (void*)native_%s%d", signature, pClsDir->mName, mi);
             pCtx->PutString(szContent);
         }
         else {
-            sprintf(szContent, "\"()J\", (void*)native_%s%d", pClsDir->mName, mi);
+            sprintf(szContent, "\"()V\", (void*)native_%s%d", pClsDir->mName, mi);
             pCtx->PutString(szContent);
         }
         pCtx->PutString("},\n");
     }
 
-    sprintf(szContent, "    {\"native_%s_Destroy\", \"(J)V\", (void*)native_%s_Destroy},\n",
+    sprintf(szContent, "    {\"native_%s_Destroy\", \"()V\", (void*)native_%s_Destroy},\n",
             pClsDir->mName, pClsDir->mName);
     pCtx->PutString(szContent);
 }
@@ -1371,11 +1378,11 @@ static void GenerateDefaultInitMethodDeclare(PLUBECTX pCtx)
     char szContent[512];
     sprintf(szContent, "    {\"native_%s\", ", pClsDir->mName);
     pCtx->PutString(szContent);
-    sprintf(szContent, "\"()J\", (void*)native_%s", pClsDir->mName);
+    sprintf(szContent, "\"()V\", (void*)native_%s", pClsDir->mName);
     pCtx->PutString(szContent);
     pCtx->PutString("},\n");
 
-    sprintf(szContent, "    {\"native_%s_Destroy\", \"(J)V\", (void*)native_%s_Destroy},\n",
+    sprintf(szContent, "    {\"native_%s_Destroy\", \"()V\", (void*)native_%s_Destroy},\n",
             pClsDir->mName, pClsDir->mName);
     pCtx->PutString(szContent);
 }
@@ -1449,13 +1456,13 @@ int _GenerateJavaJniCppRegister(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
                 if (interfaceParam) {
                     pCtx->PutString("    //TODO: please fix the package name of the interface.\n");
                 }
-                sprintf(szContent, "    {\"native_%s_%s_%s\", \"(J%s)%s\", (void*)native_%s_%s_%s},\n",
+                sprintf(szContent, "    {\"native_%s_%s_%s\", \"(%s)%s\", (void*)native_%s_%s_%s},\n",
                         pClsDir->mName, pItfDir->mName, methodDesc->mName, signature,
                         retTypeSignature, pClsDir->mName, pItfDir->mName, methodDesc->mName);
                 pCtx->PutString(szContent);
             }
             else {
-                sprintf(szContent, "    {\"native_%s_%s_%s\", \"(J)V\", (void*)native_%s_%s_%s},\n",
+                sprintf(szContent, "    {\"native_%s_%s_%s\", \"()V\", (void*)native_%s_%s_%s},\n",
                         pClsDir->mName, pItfDir->mName, methodDesc->mName,
                         pClsDir->mName, pItfDir->mName, methodDesc->mName);
                 pCtx->PutString(szContent);
@@ -1614,7 +1621,11 @@ int _GenerateDefalutCarClassCpp(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
 
         // Function body.
         pCtx->PutString("{\n    JNIEnv* env = GetEnv();\n");
-        pCtx->PutString("    jclass cls = env->GetObjectClass(mObj);\n");
+        pCtx->PutString("    Handle64 javaObj;\n");
+        sprintf(szContent, "    mJavaCarManager->GetJavaObject(%s::Probe(this), &javaObj);\n", pItfDir->mName);
+        pCtx->PutString(szContent);
+        pCtx->PutString("    jobject jobj = (jobject)javaObj;\n");
+        pCtx->PutString("    jclass cls = env->GetObjectClass(jobj);\n");
         for (int j = 0; j < methodDesc->mParamCount; j++) {
             ParamDescriptor* paraDesc = methodDesc->mParams[j];
             if (paraDesc->mType.mType == Type_interface ||
@@ -1687,10 +1698,10 @@ int _GenerateDefalutCarClassCpp(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
                 else if (paraDesc->mType.mNestedType->mType == Type_interface) {
                     sprintf(szContent, "    for (Int32 i = 0; i < %s.GetLength(); i++) {\n", paraDesc->mName);
                     pCtx->PutString(szContent);
-                    pCtx->PutString("        Handle64 jobj;\n");
-                    sprintf(szContent, "        IJavaInterface::Probe(%s[i])->GetJavaObject(&jobj);\n", paraDesc->mName);
+                    pCtx->PutString("        Handle64 _jobj;\n");
+                    sprintf(szContent, "        mJavaCarManager->GetJavaObject(%s[i], &_jobj);\n", paraDesc->mName);
                     pCtx->PutString(szContent);
-                    sprintf(szContent, "        env->SetObjectArrayElement(_jarray%d, i, (jobject)jobj);\n", j + 1);
+                    sprintf(szContent, "        env->SetObjectArrayElement(_jarray%d, i, (jobject)_jobj);\n", j + 1);
                     pCtx->PutString(szContent);
                     pCtx->PutString("    }\n\n");
                 }
@@ -1713,7 +1724,7 @@ int _GenerateDefalutCarClassCpp(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
             else if (paraDesc->mType.mType == Type_interface) {
                 sprintf(szContent, "    Handle64 _jobj%d;\n", j + 1);
                 pCtx->PutString(szContent);
-                sprintf(szContent, "    IJavaInterface::Probe(%s)->GetJavaObject(&_jobj%d);\n", paraDesc->mName, j + 1);
+                sprintf(szContent, "    mJavaCarManager->GetJavaObject(%s, &_jobj%d);\n", paraDesc->mName, j + 1);
                 pCtx->PutString(szContent);
                 sprintf(szContent, "(jobject)_jobj%d", j + 1);
                 strcat(paramsContent, szContent);
@@ -1726,7 +1737,7 @@ int _GenerateDefalutCarClassCpp(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
         tmpType = GetJniMethodInvokeType(pType);
         if (outParaPos >= 0) {
             if (pType->mType == Type_String) {
-                sprintf(szContent, "    jstring _jstr = (jstring)env->Call%sMethod(mObj, method%s);\n" , tmpType, paramsContent);
+                sprintf(szContent, "    jstring _jstr = (jstring)env->Call%sMethod(jobj, method%s);\n" , tmpType, paramsContent);
                 pCtx->PutString(szContent);
 
                 pCtx->PutString("    const char* __str = env->GetStringUTFChars(_jstr, NULL);\n");
@@ -1738,7 +1749,7 @@ int _GenerateDefalutCarClassCpp(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
                 const char* arrayType = GenerateJavaJniTypeString(pType);
                 const char* carType = Type2CString(pCtx->m_pModule, pType->mNestedType);
                 const char* arrayItemType = GenerateJavaJniTypeString(pType->mNestedType);
-                sprintf(szContent, "    %s _jarray = (%s)env->Call%sMethod(mObj, method%s);\n", arrayType, arrayType, tmpType, paramsContent);
+                sprintf(szContent, "    %s _jarray = (%s)env->Call%sMethod(jobj, method%s);\n", arrayType, arrayType, tmpType, paramsContent);
                 pCtx->PutString(szContent);
                 pCtx->PutString("    int _len = env->GetArrayLength(_jarray);\n");
                 sprintf(szContent, "    AutoPtr<ArrayOf<%s> > _array = ArrayOf<%s>::Alloc(_len);\n", carType, carType);
@@ -1758,10 +1769,10 @@ int _GenerateDefalutCarClassCpp(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
                     pCtx->PutString("    \n");
                     pCtx->PutString("    for (Int32 i = 0; i < _len; i++) {\n");
                     pCtx->PutString("        jobject _item = env->GetObjectArrayElement(_jarray, i);\n");
-                    pCtx->PutString("        jclass _clazz = env->GetObjectClass(_item);\n");
-                    pCtx->PutString("        jmethodID _methodId = env->GetMethodID(_clazz, \"getCarObject\", \"()J\");\n");
-                    pCtx->PutString("        jlong _carobj = env->CallLongMethod(_item, _methodId);\n");
-                    sprintf(szContent, "        (*_array)[i] = %s::Probe((IInterface*)_carobj);\n",
+                    pCtx->PutString("        IInterface* _carobj = NULL;\n");
+                    pCtx->PutString("        mJavaCarManager->GetCarObject((Handle64)_item, &_carobj);\n");
+                    pCtx->PutString("        if (!_carobj) break;\n");
+                    sprintf(szContent, "        (*_array)[i] = %s::Probe(_carobj);\n",
                             pCtx->m_pModule->mInterfaceDirs[pType->mNestedType->mIndex]->mName);
                     pCtx->PutString(szContent);
                     pCtx->PutString("        (*_array)[i]->AddRef();\n");
@@ -1784,25 +1795,26 @@ int _GenerateDefalutCarClassCpp(PLUBECTX pCtx, PSTATEDESC pDesc, PVOID pvArg)
                 pCtx->PutString(szContent);
             }
             else if (pType->mType == Type_interface) {
-                sprintf(szContent, "    jobject _jobj = env->Call%sMethod(mObj, method%s);\n" , tmpType, paramsContent);
+                sprintf(szContent, "    jobject _jobj = env->Call%sMethod(jobj, method%s);\n" , tmpType, paramsContent);
                 pCtx->PutString(szContent);
 
-                pCtx->PutString("    jclass _clazz = env->GetObjectClass(_jobj);\n");
-                pCtx->PutString("    jmethodID _methodId = env->GetMethodID(_clazz, \"getCarObject\", \"()J\");\n");
-                pCtx->PutString("    jlong _carobj = env->CallLongMethod(_jobj, _methodId);\n");
-                sprintf(szContent, "    *%s = %s::Probe((IInterface*)_carobj);\n" , outParaName, pCtx->m_pModule->mInterfaceDirs[pType->mIndex]->mName);
+                pCtx->PutString("    IInterface* _carobj = NULL;\n");
+                pCtx->PutString("    mJavaCarManager->GetCarObject((Handle64)_jobj, &_carobj);\n");
+                pCtx->PutString("    if (_carobj) {\n");
+                sprintf(szContent, "        *%s = %s::Probe(_carobj);\n" , outParaName, pCtx->m_pModule->mInterfaceDirs[pType->mIndex]->mName);
                 pCtx->PutString(szContent);
-                sprintf(szContent, "    (*%s)->AddRef();\n" , outParaName);
+                sprintf(szContent, "        (*%s)->AddRef();\n" , outParaName);
                 pCtx->PutString(szContent);
+                pCtx->PutString("    }\n");
             }
             else {
-                sprintf(szContent, "    *%s = (%s)env->Call%sMethod(mObj, method%s);\n",
+                sprintf(szContent, "    *%s = (%s)env->Call%sMethod(jobj, method%s);\n",
                         outParaName, GenerateSimpleTypeString(pType), tmpType, paramsContent);
                 pCtx->PutString(szContent);
             }
         }
         else {
-            sprintf(szContent, "    env->Call%sMethod(mObj, method%s);\n" , tmpType, paramsContent);
+            sprintf(szContent, "    env->Call%sMethod(jobj, method%s);\n" , tmpType, paramsContent);
             pCtx->PutString(szContent);
         }
         pCtx->PutString("    Detach();\n");

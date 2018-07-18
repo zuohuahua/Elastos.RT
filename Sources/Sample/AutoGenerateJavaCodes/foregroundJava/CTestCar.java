@@ -11,29 +11,23 @@ public class CTestCar implements ITestCar {
         System.loadLibrary("Your_Jni");
     }
 
-    private long mCarObj = 0;
-
-    private native long native_CTestCar(double[] dArray, String[] sArray);
-    private native long native_CTestCar(IServiceManager sm, ICarrier carrier);
-    private native void native_CTestCar_Destroy(long carobj);
+    private native void native_CTestCar(double[] dArray, String[] sArray);
+    private native void native_CTestCar(IServiceManager sm, ICarrier carrier);
+    private native void native_CTestCar_Destroy();
 
     public CTestCar(double[] dArray, String[] sArray) {
-        mCarObj = native_CTestCar(dArray, sArray);
+        native_CTestCar(dArray, sArray);
         //TODO: Add your code here
     }
 
     public CTestCar(IServiceManager sm, ICarrier carrier) {
-        mCarObj = native_CTestCar(sm, carrier);
+        native_CTestCar(sm, carrier);
         //TODO: Add your code here
-    }
-
-    public long getCarObject() {
-        return mCarObj;
     }
 
     // invoke destroy to release car object
     public void destroy() {
-        native_CTestCar_Destroy(mCarObj);
+        native_CTestCar_Destroy();
     }
 
 

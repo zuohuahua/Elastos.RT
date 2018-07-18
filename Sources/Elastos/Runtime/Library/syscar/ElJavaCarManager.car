@@ -1,0 +1,97 @@
+//=========================================================================
+// Copyright (C) 2018 The Elastos Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//=========================================================================
+
+/** @addtogroup JavaCarManagerAPI
+  *   @{
+  */
+
+library
+{
+
+    interface IJavaCarManager {
+
+        /**
+        *
+        * Add car object.
+        *
+        * @param
+        *      javaObj [in] the java object handle.
+        *
+        * @param
+        *      carObj [in] the car object handle.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
+        AddCarObject(
+            [in] Handle64 javaObj,
+            [in] IInterface* carObj);
+
+        /**
+        *
+        * Remove car object.
+        *
+        * @param
+        *      javaObj [in] the java object handle.
+        *
+        * @param
+        *      carObj [in] the car object handle.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
+        RemoveCarObject(
+            [in] Handle64 javaObj,
+            [in] IInterface* carObj);
+
+        /**
+        *
+        * Get java object.
+        *
+        * @param
+        *      carObj [in] the car object handle.
+        *
+        * @param
+        *      javaObj [out] the java object handle.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
+        GetJavaObject(
+            [in] IInterface* carObj,
+            [out] Handle64* javaObj);
+
+        /**
+        *
+        * Get java object.
+        *
+        * @param
+        *      javaObj [in] the java object handle.
+        *
+        * @param
+        *      carObj [out] the car object handle.
+        *
+        * @return
+        *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
+        */
+        GetCarObject(
+            [in] Handle64 javaObj,
+            [out] IInterface** carObj);
+
+    }
+}
+
+/** @} */

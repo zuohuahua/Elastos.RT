@@ -37,6 +37,7 @@ library Elastos:System:elastos.eco
     merge("ElMarshal.car");
     merge("ElCarrier.car");
     merge("ElServiceManager.car");
+    merge("ElJavaCarManager.car");
 }
 
 /** @} */

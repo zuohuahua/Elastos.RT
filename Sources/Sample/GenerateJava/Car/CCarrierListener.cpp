@@ -7,9 +7,12 @@ CAR_INTERFACE_IMPL(CCarrierListener, Object, ICarrierListener, IJavaInterface);
 ECode CCarrierListener::OnIdle()
 {
     JNIEnv* env = GetEnv();
-    jclass cls = env->GetObjectClass(mObj);
+    Handle64 javaObj;
+    mJavaCarManager->GetJavaObject(ICarrierListener::Probe(this), &javaObj);
+    jobject jobj = (jobject)javaObj;
+    jclass cls = env->GetObjectClass(jobj);
     jmethodID method = env->GetMethodID(cls, "OnIdle", "()V");
-    env->CallVoidMethod(mObj, method);
+    env->CallVoidMethod(jobj, method);
     Detach();
     return NOERROR;
 }
@@ -18,9 +21,12 @@ ECode CCarrierListener::OnConnectionChanged(
     /* [in] */ Boolean online)
 {
     JNIEnv* env = GetEnv();
-    jclass cls = env->GetObjectClass(mObj);
+    Handle64 javaObj;
+    mJavaCarManager->GetJavaObject(ICarrierListener::Probe(this), &javaObj);
+    jobject jobj = (jobject)javaObj;
+    jclass cls = env->GetObjectClass(jobj);
     jmethodID method = env->GetMethodID(cls, "OnConnectionChanged", "(Z)V");
-    env->CallVoidMethod(mObj, method, online);
+    env->CallVoidMethod(jobj, method, online);
     Detach();
     return NOERROR;
 }
@@ -28,9 +34,12 @@ ECode CCarrierListener::OnConnectionChanged(
 ECode CCarrierListener::OnReady()
 {
     JNIEnv* env = GetEnv();
-    jclass cls = env->GetObjectClass(mObj);
+    Handle64 javaObj;
+    mJavaCarManager->GetJavaObject(ICarrierListener::Probe(this), &javaObj);
+    jobject jobj = (jobject)javaObj;
+    jclass cls = env->GetObjectClass(jobj);
     jmethodID method = env->GetMethodID(cls, "OnReady", "()V");
-    env->CallVoidMethod(mObj, method);
+    env->CallVoidMethod(jobj, method);
     Detach();
     return NOERROR;
 }
@@ -40,11 +49,14 @@ ECode CCarrierListener::OnFriendRequest(
     /* [in] */ const String& hello)
 {
     JNIEnv* env = GetEnv();
-    jclass cls = env->GetObjectClass(mObj);
+    Handle64 javaObj;
+    mJavaCarManager->GetJavaObject(ICarrierListener::Probe(this), &javaObj);
+    jobject jobj = (jobject)javaObj;
+    jclass cls = env->GetObjectClass(jobj);
     jmethodID method = env->GetMethodID(cls, "OnFriendRequest", "(Ljava/lang/String;Ljava/lang/String;)V");
     jstring _jstr1 = env->NewStringUTF(uid.string());
     jstring _jstr2 = env->NewStringUTF(hello.string());
-    env->CallVoidMethod(mObj, method, _jstr1, _jstr2);
+    env->CallVoidMethod(jobj, method, _jstr1, _jstr2);
     Detach();
     return NOERROR;
 }
@@ -54,10 +66,13 @@ ECode CCarrierListener::OnFriendConnetionChanged(
     /* [in] */ Boolean online)
 {
     JNIEnv* env = GetEnv();
-    jclass cls = env->GetObjectClass(mObj);
+    Handle64 javaObj;
+    mJavaCarManager->GetJavaObject(ICarrierListener::Probe(this), &javaObj);
+    jobject jobj = (jobject)javaObj;
+    jclass cls = env->GetObjectClass(jobj);
     jmethodID method = env->GetMethodID(cls, "OnFriendConnetionChanged", "(Ljava/lang/String;Z)V");
     jstring _jstr1 = env->NewStringUTF(uid.string());
-    env->CallVoidMethod(mObj, method, _jstr1, online);
+    env->CallVoidMethod(jobj, method, _jstr1, online);
     Detach();
     return NOERROR;
 }
@@ -68,11 +83,14 @@ ECode CCarrierListener::OnPortForwardingRequest(
     /* [out] */ Boolean * accept)
 {
     JNIEnv* env = GetEnv();
-    jclass cls = env->GetObjectClass(mObj);
+    Handle64 javaObj;
+    mJavaCarManager->GetJavaObject(ICarrierListener::Probe(this), &javaObj);
+    jobject jobj = (jobject)javaObj;
+    jclass cls = env->GetObjectClass(jobj);
     jmethodID method = env->GetMethodID(cls, "OnPortForwardingRequest", "(Ljava/lang/String;Ljava/lang/String;)Z");
     jstring _jstr1 = env->NewStringUTF(uid.string());
     jstring _jstr2 = env->NewStringUTF(servicePort.string());
-    *accept = (Boolean)env->CallBooleanMethod(mObj, method, _jstr1, _jstr2);
+    *accept = (Boolean)env->CallBooleanMethod(jobj, method, _jstr1, _jstr2);
     Detach();
     return NOERROR;
 }
@@ -84,12 +102,15 @@ ECode CCarrierListener::OnPortForwardingResult(
     /* [in] */ ECode code)
 {
     JNIEnv* env = GetEnv();
-    jclass cls = env->GetObjectClass(mObj);
+    Handle64 javaObj;
+    mJavaCarManager->GetJavaObject(ICarrierListener::Probe(this), &javaObj);
+    jobject jobj = (jobject)javaObj;
+    jclass cls = env->GetObjectClass(jobj);
     jmethodID method = env->GetMethodID(cls, "OnPortForwardingResult", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V");
     jstring _jstr1 = env->NewStringUTF(uid.string());
     jstring _jstr2 = env->NewStringUTF(localPort.string());
     jstring _jstr3 = env->NewStringUTF(remotePort.string());
-    env->CallVoidMethod(mObj, method, _jstr1, _jstr2, _jstr3, code);
+    env->CallVoidMethod(jobj, method, _jstr1, _jstr2, _jstr3, code);
     Detach();
     return NOERROR;
 }
@@ -99,7 +120,10 @@ ECode CCarrierListener::OnMessageReceived(
     /* [in] */ const ArrayOf<Byte> & message)
 {
     JNIEnv* env = GetEnv();
-    jclass cls = env->GetObjectClass(mObj);
+    Handle64 javaObj;
+    mJavaCarManager->GetJavaObject(ICarrierListener::Probe(this), &javaObj);
+    jobject jobj = (jobject)javaObj;
+    jclass cls = env->GetObjectClass(jobj);
     jmethodID method = env->GetMethodID(cls, "OnMessageReceived", "(Ljava/lang/String;[B)V");
     jstring _jstr1 = env->NewStringUTF(uid.string());
     jbyteArray _jarray2 = env->NewByteArray(message.GetLength());
@@ -114,35 +138,17 @@ ECode CCarrierListener::OnMessageReceived(
     }
     env->SetByteArrayRegion(_jarray2, 0, message.GetLength(), _fill2);
 
-    env->CallVoidMethod(mObj, method, _jstr1, _jarray2);
+    env->CallVoidMethod(jobj, method, _jstr1, _jarray2);
     Detach();
     return NOERROR;
 }
 
 ECode CCarrierListener::JavaInit(
-    /* [in] */ Handle64 jvm,
-    /* [in] */ Handle64 jobj)
+    /* [in] */ Handle64 jvm)
 {
     mJvm = (JavaVM*)jvm;
     assert(mJvm != NULL);
 
-    jobject jclsobj = (jobject)jobj;
-    mObj = GetEnv()->NewGlobalRef(jclsobj);
-    if (mObj == NULL) {
-        return E_INVALID_ARGUMENT;
-    }
-
-    return NOERROR;
-}
-
-ECode CCarrierListener::GetJavaObject(
-    /* [out] */ Handle64* jobj)
-{
-    if (!jobj) {
-        return E_INVALID_ARGUMENT;
-    }
-
-    *jobj = (Handle64)mObj;
     return NOERROR;
 }
 
