@@ -10,7 +10,7 @@ void JNICALL native_CTestCar0(
     /* [in] */ jdoubleArray jdArray,
     /* [in] */ jobjectArray jsArray)
 {
-    AutoPtr<IJavaCarManager*> pJavaCarManager;
+    AutoPtr<IJavaCarManager> pJavaCarManager;
     _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);
     ITestCar* pElaClsObj;
     int _len1 = env->GetArrayLength(jdArray);
@@ -38,7 +38,13 @@ void JNICALL native_CTestCar0(
     JavaVM* jvm;
     env->GetJavaVM(&jvm);
     IJavaInterface::Probe(pElaClsObj)->JavaInit((Handle64)jvm);
-    pJavaCarManager->AddCarObject((Handle64)jobj, pElaClsObj);
+
+    jclass jclazz = env->GetObjectClass(jobj);
+    jmethodID jmethodID = env->GetMethodID(jclazz, "getClassId", "()Ljava/lang/String;");
+    jstring jclassId = (jstring)env->CallObjectMethod(jobj, jmethodID);
+    const char* jclsIdStr = env->GetStringUTFChars(jclassId, nullptr);
+    pJavaCarManager->AddCarObject(String(jclsIdStr), (Handle64)env->NewGlobalRef(jobj), pElaClsObj);
+    env->ReleaseStringUTFChars(jclassId, jclsIdStr);
 }
 
 void JNICALL native_CTestCar1(
@@ -47,16 +53,28 @@ void JNICALL native_CTestCar1(
     /* [in] */ jobject jsm,
     /* [in] */ jobject jcarrier)
 {
-    AutoPtr<IJavaCarManager*> pJavaCarManager;
+    AutoPtr<IJavaCarManager> pJavaCarManager;
     _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);
     ITestCar* pElaClsObj;
     IInterface* _carobj1 = NULL;
-    pJavaCarManager->GetCarObject((Handle64)jsm, &_carobj1);
+    jclass _jclazz1 = env->GetObjectClass(jsm);
+    jmethodID _jmethodID1 = env->GetMethodID(_jclazz1, "getClassId", "()Ljava/lang/String;");
+    jstring _jclsId1 = (jstring)env->CallObjectMethod(jsm, _jmethodID1);
+    const char* _jclsIdStr1 = env->GetStringUTFChars(_jclsId1, nullptr);
+    pJavaCarManager->GetCarObject(String(_jclsIdStr1), &_carobj1);
+    env->ReleaseStringUTFChars(_jclsId1, _jclsIdStr1);
+
     if (!_carobj1) return;
     IServiceManager* _interface1 = IServiceManager::Probe(_carobj1);
 
     IInterface* _carobj2 = NULL;
-    pJavaCarManager->GetCarObject((Handle64)jcarrier, &_carobj2);
+    jclass _jclazz2 = env->GetObjectClass(jcarrier);
+    jmethodID _jmethodID2 = env->GetMethodID(_jclazz2, "getClassId", "()Ljava/lang/String;");
+    jstring _jclsId2 = (jstring)env->CallObjectMethod(jcarrier, _jmethodID2);
+    const char* _jclsIdStr2 = env->GetStringUTFChars(_jclsId2, nullptr);
+    pJavaCarManager->GetCarObject(String(_jclsIdStr2), &_carobj2);
+    env->ReleaseStringUTFChars(_jclsId2, _jclsIdStr2);
+
     if (!_carobj2) return;
     ICarrier* _interface2 = ICarrier::Probe(_carobj2);
 
@@ -66,21 +84,37 @@ void JNICALL native_CTestCar1(
     JavaVM* jvm;
     env->GetJavaVM(&jvm);
     IJavaInterface::Probe(pElaClsObj)->JavaInit((Handle64)jvm);
-    pJavaCarManager->AddCarObject((Handle64)jobj, pElaClsObj);
+
+    jclass jclazz = env->GetObjectClass(jobj);
+    jmethodID jmethodID = env->GetMethodID(jclazz, "getClassId", "()Ljava/lang/String;");
+    jstring jclassId = (jstring)env->CallObjectMethod(jobj, jmethodID);
+    const char* jclsIdStr = env->GetStringUTFChars(jclassId, nullptr);
+    pJavaCarManager->AddCarObject(String(jclsIdStr), (Handle64)env->NewGlobalRef(jobj), pElaClsObj);
+    env->ReleaseStringUTFChars(jclassId, jclsIdStr);
 }
 
 void JNICALL native_CTestCar_Destroy(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj)
 {
-    AutoPtr<IJavaCarManager*> pJavaCarManager;
+    AutoPtr<IJavaCarManager> pJavaCarManager;
     _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);
+
     IInterface* pElaClsObj = NULL;
-    pJavaCarManager->GetCarObject((Handle64)jobj, &pElaClsObj);
+    jclass jclazz = env->GetObjectClass(jobj);
+    jmethodID jmethodID = env->GetMethodID(jclazz, "getClassId", "()Ljava/lang/String;");
+    jstring jclassId = (jstring)env->CallObjectMethod(jobj, jmethodID);
+    const char* jclsIdStr = env->GetStringUTFChars(jclassId, nullptr);
+
+    pJavaCarManager->GetCarObject(String(jclsIdStr), &pElaClsObj);
     if (pElaClsObj) {
-        pJavaCarManager->RemoveCarObject((Handle64)jobj, pElaClsObj);
+        Handle64 javaObj;
+        pJavaCarManager->GetJavaObject(pElaClsObj, &javaObj);
+        env->DeleteGlobalRef((jobject)javaObj);
+        pJavaCarManager->RemoveCarObject(String(jclsIdStr), pElaClsObj);
         pElaClsObj->Release();
     }
+    env->ReleaseStringUTFChars(jclassId, jclsIdStr);
 }
 
 
@@ -89,10 +123,17 @@ void JNICALL native_CTestCar_ITestCar_SetInt(
     /* [in] */ jobject jobj,
     /* [in] */ jint jvalue)
 {
-    IInterface* pElaClsObj = NULL;
-    AutoPtr<IJavaCarManager*> pJavaCarManager;
+    AutoPtr<IJavaCarManager> pJavaCarManager;
     _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);
-    pJavaCarManager->GetCarObject((Handle64)jobj, &pElaClsObj);
+
+    IInterface* pElaClsObj = NULL;
+    jclass jclazz = env->GetObjectClass(jobj);
+    jmethodID jmethodID = env->GetMethodID(jclazz, "getClassId", "()Ljava/lang/String;");
+    jstring jclassId = (jstring)env->CallObjectMethod(jobj, jmethodID);
+    const char* jclsIdStr = env->GetStringUTFChars(jclassId, nullptr);
+    pJavaCarManager->GetCarObject(String(jclsIdStr), &pElaClsObj);
+    env->ReleaseStringUTFChars(jclassId, jclsIdStr);
+
     ITestCar::Probe(pElaClsObj)->SetInt(jvalue);
 }
 
@@ -100,10 +141,17 @@ jint JNICALL native_CTestCar_ITestCar_GetInt(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj)
 {
-    IInterface* pElaClsObj = NULL;
-    AutoPtr<IJavaCarManager*> pJavaCarManager;
+    AutoPtr<IJavaCarManager> pJavaCarManager;
     _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);
-    pJavaCarManager->GetCarObject((Handle64)jobj, &pElaClsObj);
+
+    IInterface* pElaClsObj = NULL;
+    jclass jclazz = env->GetObjectClass(jobj);
+    jmethodID jmethodID = env->GetMethodID(jclazz, "getClassId", "()Ljava/lang/String;");
+    jstring jclassId = (jstring)env->CallObjectMethod(jobj, jmethodID);
+    const char* jclsIdStr = env->GetStringUTFChars(jclassId, nullptr);
+    pJavaCarManager->GetCarObject(String(jclsIdStr), &pElaClsObj);
+    env->ReleaseStringUTFChars(jclassId, jclsIdStr);
+
     Int32 _retValue = 0;
     ITestCar::Probe(pElaClsObj)->GetInt(&_retValue);
     return _retValue;
@@ -114,10 +162,17 @@ void JNICALL native_CTestCar_ITestCar_SetString(
     /* [in] */ jobject jobj,
     /* [in] */ jstring jvalue)
 {
-    IInterface* pElaClsObj = NULL;
-    AutoPtr<IJavaCarManager*> pJavaCarManager;
+    AutoPtr<IJavaCarManager> pJavaCarManager;
     _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);
-    pJavaCarManager->GetCarObject((Handle64)jobj, &pElaClsObj);
+
+    IInterface* pElaClsObj = NULL;
+    jclass jclazz = env->GetObjectClass(jobj);
+    jmethodID jmethodID = env->GetMethodID(jclazz, "getClassId", "()Ljava/lang/String;");
+    jstring jclassId = (jstring)env->CallObjectMethod(jobj, jmethodID);
+    const char* jclsIdStr = env->GetStringUTFChars(jclassId, nullptr);
+    pJavaCarManager->GetCarObject(String(jclsIdStr), &pElaClsObj);
+    env->ReleaseStringUTFChars(jclassId, jclsIdStr);
+
     const char* str1 = env->GetStringUTFChars(jvalue, NULL);
     ITestCar::Probe(pElaClsObj)->SetString(String(str1));
     env->ReleaseStringUTFChars(jvalue, str1);
@@ -127,10 +182,17 @@ jstring JNICALL native_CTestCar_ITestCar_GetString(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj)
 {
-    IInterface* pElaClsObj = NULL;
-    AutoPtr<IJavaCarManager*> pJavaCarManager;
+    AutoPtr<IJavaCarManager> pJavaCarManager;
     _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);
-    pJavaCarManager->GetCarObject((Handle64)jobj, &pElaClsObj);
+
+    IInterface* pElaClsObj = NULL;
+    jclass jclazz = env->GetObjectClass(jobj);
+    jmethodID jmethodID = env->GetMethodID(jclazz, "getClassId", "()Ljava/lang/String;");
+    jstring jclassId = (jstring)env->CallObjectMethod(jobj, jmethodID);
+    const char* jclsIdStr = env->GetStringUTFChars(jclassId, nullptr);
+    pJavaCarManager->GetCarObject(String(jclsIdStr), &pElaClsObj);
+    env->ReleaseStringUTFChars(jclassId, jclsIdStr);
+
     String _retValue;
     ITestCar::Probe(pElaClsObj)->GetString(&_retValue);
     return env->NewStringUTF(_retValue.string());
@@ -140,10 +202,17 @@ void JNICALL native_CTestCar_ITestCar_Normal(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj)
 {
-    IInterface* pElaClsObj = NULL;
-    AutoPtr<IJavaCarManager*> pJavaCarManager;
+    AutoPtr<IJavaCarManager> pJavaCarManager;
     _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);
-    pJavaCarManager->GetCarObject((Handle64)jobj, &pElaClsObj);
+
+    IInterface* pElaClsObj = NULL;
+    jclass jclazz = env->GetObjectClass(jobj);
+    jmethodID jmethodID = env->GetMethodID(jclazz, "getClassId", "()Ljava/lang/String;");
+    jstring jclassId = (jstring)env->CallObjectMethod(jobj, jmethodID);
+    const char* jclsIdStr = env->GetStringUTFChars(jclassId, nullptr);
+    pJavaCarManager->GetCarObject(String(jclsIdStr), &pElaClsObj);
+    env->ReleaseStringUTFChars(jclassId, jclsIdStr);
+
     ITestCar::Probe(pElaClsObj)->Normal();
 }
 
@@ -159,10 +228,17 @@ void JNICALL native_CTestCar_ITestCar_Test1(
     /* [in] */ jchar jvalue7,
     /* [in] */ jstring jvalue8)
 {
-    IInterface* pElaClsObj = NULL;
-    AutoPtr<IJavaCarManager*> pJavaCarManager;
+    AutoPtr<IJavaCarManager> pJavaCarManager;
     _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);
-    pJavaCarManager->GetCarObject((Handle64)jobj, &pElaClsObj);
+
+    IInterface* pElaClsObj = NULL;
+    jclass jclazz = env->GetObjectClass(jobj);
+    jmethodID jmethodID = env->GetMethodID(jclazz, "getClassId", "()Ljava/lang/String;");
+    jstring jclassId = (jstring)env->CallObjectMethod(jobj, jmethodID);
+    const char* jclsIdStr = env->GetStringUTFChars(jclassId, nullptr);
+    pJavaCarManager->GetCarObject(String(jclsIdStr), &pElaClsObj);
+    env->ReleaseStringUTFChars(jclassId, jclsIdStr);
+
     const char* str8 = env->GetStringUTFChars(jvalue8, NULL);
     ITestCar::Probe(pElaClsObj)->Test1(jvalue1, jvalue2, jvalue3, jvalue4, jvalue5, jvalue6, jvalue7, String(str8));
     env->ReleaseStringUTFChars(jvalue8, str8);
@@ -182,10 +258,17 @@ jint JNICALL native_CTestCar_ITestCar_Test2(
     /* [in] */ jstring jvalue9,
     /* [in] */ jstring jvalue10)
 {
-    IInterface* pElaClsObj = NULL;
-    AutoPtr<IJavaCarManager*> pJavaCarManager;
+    AutoPtr<IJavaCarManager> pJavaCarManager;
     _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);
-    pJavaCarManager->GetCarObject((Handle64)jobj, &pElaClsObj);
+
+    IInterface* pElaClsObj = NULL;
+    jclass jclazz = env->GetObjectClass(jobj);
+    jmethodID jmethodID = env->GetMethodID(jclazz, "getClassId", "()Ljava/lang/String;");
+    jstring jclassId = (jstring)env->CallObjectMethod(jobj, jmethodID);
+    const char* jclsIdStr = env->GetStringUTFChars(jclassId, nullptr);
+    pJavaCarManager->GetCarObject(String(jclsIdStr), &pElaClsObj);
+    env->ReleaseStringUTFChars(jclassId, jclsIdStr);
+
     const char* str8 = env->GetStringUTFChars(jvalue8, NULL);
     const char* str9 = env->GetStringUTFChars(jvalue9, NULL);
     const char* str10 = env->GetStringUTFChars(jvalue10, NULL);
@@ -202,12 +285,25 @@ void JNICALL native_CTestCar_ITestCar_Test7(
     /* [in] */ jobject jobj,
     /* [in] */ jobject janimal)
 {
-    IInterface* pElaClsObj = NULL;
-    AutoPtr<IJavaCarManager*> pJavaCarManager;
+    AutoPtr<IJavaCarManager> pJavaCarManager;
     _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);
-    pJavaCarManager->GetCarObject((Handle64)jobj, &pElaClsObj);
+
+    IInterface* pElaClsObj = NULL;
+    jclass jclazz = env->GetObjectClass(jobj);
+    jmethodID jmethodID = env->GetMethodID(jclazz, "getClassId", "()Ljava/lang/String;");
+    jstring jclassId = (jstring)env->CallObjectMethod(jobj, jmethodID);
+    const char* jclsIdStr = env->GetStringUTFChars(jclassId, nullptr);
+    pJavaCarManager->GetCarObject(String(jclsIdStr), &pElaClsObj);
+    env->ReleaseStringUTFChars(jclassId, jclsIdStr);
+
     IInterface* _carobj1 = NULL;
-    pJavaCarManager->GetCarObject((Handle64)janimal, &_carobj1);
+    jclass _jclazz1 = env->GetObjectClass(janimal);
+    jmethodID _jmethodID1 = env->GetMethodID(_jclazz1, "getClassId", "()Ljava/lang/String;");
+    jstring _jclsId1 = (jstring)env->CallObjectMethod(janimal, _jmethodID1);
+    const char* _jclsIdStr1 = env->GetStringUTFChars(_jclsId1, nullptr);
+    pJavaCarManager->GetCarObject(String(_jclsIdStr1), &_carobj1);
+    env->ReleaseStringUTFChars(_jclsId1, _jclsIdStr1);
+
     if (_carobj1) {
         IHelloCar* _interface1 = IHelloCar::Probe(_carobj1);
 
@@ -219,10 +315,17 @@ jobject JNICALL native_CTestCar_ITestCar_Test8(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj)
 {
-    IInterface* pElaClsObj = NULL;
-    AutoPtr<IJavaCarManager*> pJavaCarManager;
+    AutoPtr<IJavaCarManager> pJavaCarManager;
     _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);
-    pJavaCarManager->GetCarObject((Handle64)jobj, &pElaClsObj);
+
+    IInterface* pElaClsObj = NULL;
+    jclass jclazz = env->GetObjectClass(jobj);
+    jmethodID jmethodID = env->GetMethodID(jclazz, "getClassId", "()Ljava/lang/String;");
+    jstring jclassId = (jstring)env->CallObjectMethod(jobj, jmethodID);
+    const char* jclsIdStr = env->GetStringUTFChars(jclassId, nullptr);
+    pJavaCarManager->GetCarObject(String(jclsIdStr), &pElaClsObj);
+    env->ReleaseStringUTFChars(jclassId, jclsIdStr);
+
     AutoPtr<IHelloCar*> _retValue;
     ITestCar::Probe(pElaClsObj)->Test8((IHelloCar**)&_retValue);
     Handle64 _jobj;
@@ -235,17 +338,30 @@ void JNICALL native_CTestCar_ITestCar_Test9(
     /* [in] */ jobject jobj,
     /* [in] */ jobjectArray jcarriers)
 {
-    IInterface* pElaClsObj = NULL;
-    AutoPtr<IJavaCarManager*> pJavaCarManager;
+    AutoPtr<IJavaCarManager> pJavaCarManager;
     _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);
-    pJavaCarManager->GetCarObject((Handle64)jobj, &pElaClsObj);
+
+    IInterface* pElaClsObj = NULL;
+    jclass jclazz = env->GetObjectClass(jobj);
+    jmethodID jmethodID = env->GetMethodID(jclazz, "getClassId", "()Ljava/lang/String;");
+    jstring jclassId = (jstring)env->CallObjectMethod(jobj, jmethodID);
+    const char* jclsIdStr = env->GetStringUTFChars(jclassId, nullptr);
+    pJavaCarManager->GetCarObject(String(jclsIdStr), &pElaClsObj);
+    env->ReleaseStringUTFChars(jclassId, jclsIdStr);
+
     int _len1 = env->GetArrayLength(jcarriers);
     AutoPtr<ArrayOf<ICarrier *> > _array1 = ArrayOf<ICarrier *>::Alloc(_len1);
     if(!_array1) return;
     for (Int32 i = 0; i < _len1; i++) {
         jobject _item = env->GetObjectArrayElement(jcarriers, i);
         IInterface* _carobj = NULL;
-        pJavaCarManager->GetCarObject((Handle64)_item, &_carobj);
+        jclass _jclazz = env->GetObjectClass(_item);
+        jmethodID _jmethodID = env->GetMethodID(_jclazz, "getClassId", "()Ljava/lang/String;");
+        jstring _jclsId = (jstring)env->CallObjectMethod(_item, _jmethodID);
+        const char* _jclsIdStr = env->GetStringUTFChars(_jclsId, nullptr);
+        pJavaCarManager->GetCarObject(String(_jclsIdStr), &_carobj);
+        env->ReleaseStringUTFChars(_jclsId, _jclsIdStr);
+
         if (!_carobj) break;
         (*_array1)[i] = ICarrier::Probe((IInterface*)_carobj);
     }
@@ -257,10 +373,17 @@ jobjectArray JNICALL native_CTestCar_ITestCar_Test10(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj)
 {
-    IInterface* pElaClsObj = NULL;
-    AutoPtr<IJavaCarManager*> pJavaCarManager;
+    AutoPtr<IJavaCarManager> pJavaCarManager;
     _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);
-    pJavaCarManager->GetCarObject((Handle64)jobj, &pElaClsObj);
+
+    IInterface* pElaClsObj = NULL;
+    jclass jclazz = env->GetObjectClass(jobj);
+    jmethodID jmethodID = env->GetMethodID(jclazz, "getClassId", "()Ljava/lang/String;");
+    jstring jclassId = (jstring)env->CallObjectMethod(jobj, jmethodID);
+    const char* jclsIdStr = env->GetStringUTFChars(jclassId, nullptr);
+    pJavaCarManager->GetCarObject(String(jclsIdStr), &pElaClsObj);
+    env->ReleaseStringUTFChars(jclassId, jclsIdStr);
+
     AutoPtr<ArrayOf<ICarrier *> > _retValue;
     ITestCar::Probe(pElaClsObj)->Test10((ArrayOf<ICarrier *>**)&_retValue);
 

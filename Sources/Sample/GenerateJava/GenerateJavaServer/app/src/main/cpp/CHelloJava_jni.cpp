@@ -4,33 +4,57 @@
 //For Elastos
 #include "GenerateJava.h"
 
-jlong JNICALL native_CHelloJava0(
+void JNICALL native_CHelloJava0(
         /* [in] */ JNIEnv* env,
         /* [in] */ jobject jobj)
 {
+    AutoPtr<IJavaCarManager> pJavaCarManager;
+    _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);
     IHelloJava* pElaClsObj;
     ECode ec = CHelloJava::New(&pElaClsObj);
-    if(FAILED(ec)) return 0;
+    if(FAILED(ec)) return;
 
     JavaVM* jvm;
     env->GetJavaVM(&jvm);
-    IJavaInterface::Probe(pElaClsObj)->JavaInit((Handle64)jvm, (Handle64)jobj);
-    return (jlong)pElaClsObj;
+    IJavaInterface::Probe(pElaClsObj)->JavaInit((Handle64)jvm);
+
+    jclass jclazz = env->GetObjectClass(jobj);
+    jmethodID jmethodID = env->GetMethodID(jclazz, "getClassId", "()Ljava/lang/String;");
+    jstring jclassId = (jstring)env->CallObjectMethod(jobj, jmethodID);
+    const char* jclsIdStr = env->GetStringUTFChars(jclassId, nullptr);
+    pJavaCarManager->AddCarObject(String(jclsIdStr), (Handle64)env->NewGlobalRef(jobj), pElaClsObj);
+    env->ReleaseStringUTFChars(jclassId, jclsIdStr);
 }
 
 void JNICALL native_CHelloJava_Destroy(
         /* [in] */ JNIEnv* env,
-        /* [in] */ jobject jobj,
-        /* [in] */ jlong carobj)
+        /* [in] */ jobject jobj)
 {
-    IInterface* pElaClsObj = (IInterface*)carobj;
-    pElaClsObj->Release();
+    AutoPtr<IJavaCarManager> pJavaCarManager;
+    _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);
+
+    IInterface* pElaClsObj = NULL;
+    jclass jclazz = env->GetObjectClass(jobj);
+    jmethodID jmethodID = env->GetMethodID(jclazz, "getClassId", "()Ljava/lang/String;");
+    jstring jclassId = (jstring)env->CallObjectMethod(jobj, jmethodID);
+    const char* jclsIdStr = env->GetStringUTFChars(jclassId, nullptr);
+
+    pJavaCarManager->GetCarObject(String(jclsIdStr), &pElaClsObj);
+    if (pElaClsObj) {
+        Handle64 javaObj;
+        pJavaCarManager->GetJavaObject(pElaClsObj, &javaObj);
+        env->DeleteGlobalRef((jobject)javaObj);
+        pJavaCarManager->RemoveCarObject(String(jclsIdStr), pElaClsObj);
+        pElaClsObj->Release();
+    }
+    env->ReleaseStringUTFChars(jclassId, jclsIdStr);
 }
 
 
+
 static const JNINativeMethod gMethods[] = {
-        {"native_CHelloJava", "()J", (void*)native_CHelloJava0},
-        {"native_CHelloJava_Destroy", "(J)V", (void*)native_CHelloJava_Destroy},
+        {"native_CHelloJava", "()V", (void*)native_CHelloJava0},
+        {"native_CHelloJava_Destroy", "()V", (void*)native_CHelloJava_Destroy},
 };
 
 int registerCHelloJavaMethod(JNIEnv * env) {

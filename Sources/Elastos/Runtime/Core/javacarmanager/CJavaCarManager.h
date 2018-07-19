@@ -32,11 +32,12 @@ public:
         /* [out] */ InterfaceID* iid);
 
     CARAPI AddCarObject(
+        /* [in] */ const String& javaClassId,
         /* [in] */ Handle64 javaObj,
         /* [in] */ IInterface* carObj);
 
     CARAPI RemoveCarObject(
-        /* [in] */ Handle64 javaObj,
+        /* [in] */ const String& javaClassId,
         /* [in] */ IInterface* carObj);
 
     CARAPI GetJavaObject(
@@ -44,14 +45,14 @@ public:
         /* [out] */ Handle64* javaObj);
 
     CARAPI GetCarObject(
-        /* [in] */ Handle64 javaObj,
+        /* [in] */ const String& javaClassId,
         /* [out] */ IInterface** carObj);
 
 private:
     static IJavaCarManager* sInstance;
     static SpinLock sInstanceLock;
 
-    static HashTable<IInterface*, Type_UInt64> sCarObjects;
+    static HashTable<IInterface*, Type_String> sCarObjects;
     static HashTable<Handle64, Type_UInt64> sJavaObjects;
     static pthread_mutex_t sObjectLock;
 

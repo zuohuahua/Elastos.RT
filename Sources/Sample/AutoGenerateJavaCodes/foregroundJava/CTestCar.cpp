@@ -159,7 +159,13 @@ ECode CTestCar::Test8(
     jmethodID method = env->GetMethodID(cls, "Test8", "()Lorg/elastos/xxx/IHelloCar;");
     jobject _jobj = env->CallObjectMethod(jobj, method);
     IInterface* _carobj = NULL;
-    mJavaCarManager->GetCarObject((Handle64)_jobj, &_carobj);
+    jclass _jclazz = env->GetObjectClass(_jobj);
+    jmethodID _jmethodID = env->GetMethodID(_jclazz, "getClassId", "()Ljava/lang/String;");
+    jstring _jclsId = (jstring)env->CallObjectMethod(_jobj, _jmethodID);
+    const char* _jclsIdStr = env->GetStringUTFChars(_jclsId, nullptr);
+    mJavaCarManager->GetCarObject(String(_jclsIdStr), &_carobj);
+    env->ReleaseStringUTFChars(_jclsId, _jclsIdStr);
+
     if (_carobj) {
         *animal = IHelloCar::Probe(_carobj);
         (*animal)->AddRef();
@@ -225,7 +231,13 @@ ECode CTestCar::Test10(
     for (Int32 i = 0; i < _len; i++) {
         jobject _item = env->GetObjectArrayElement(_jarray, i);
         IInterface* _carobj = NULL;
-        mJavaCarManager->GetCarObject((Handle64)_item, &_carobj);
+        jclass _jclazz = env->GetObjectClass(_item);
+        jmethodID _jmethodID = env->GetMethodID(_jclazz, "getClassId", "()Ljava/lang/String;");
+        jstring _jclsId = (jstring)env->CallObjectMethod(_item, _jmethodID);
+        const char* _jclsIdStr = env->GetStringUTFChars(_jclsId, nullptr);
+        mJavaCarManager->GetCarObject(String(_jclsIdStr), &_carobj);
+        env->ReleaseStringUTFChars(_jclsId, _jclsIdStr);
+
         if (!_carobj) break;
         (*_array)[i] = ICarrier::Probe(_carobj);
         (*_array)[i]->AddRef();

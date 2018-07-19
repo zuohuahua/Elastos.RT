@@ -4,7 +4,7 @@
 IJavaCarManager* CJavaCarManager::sInstance = NULL;
 SpinLock CJavaCarManager::sInstanceLock;
 
-HashTable<IInterface*, Type_UInt64> CJavaCarManager::sCarObjects;
+HashTable<IInterface*, Type_String> CJavaCarManager::sCarObjects;
 HashTable<Handle64, Type_UInt64> CJavaCarManager::sJavaObjects;
 pthread_mutex_t CJavaCarManager::sObjectLock;
 
@@ -111,30 +111,31 @@ ECode CJavaCarManager::GetInterfaceID(
 }
 
 ECode CJavaCarManager::AddCarObject(
+    /* [in] */ const String& javaClassId,
     /* [in] */ Handle64 javaObj,
     /* [in] */ IInterface* carObj)
 {
-    if (javaObj == 0 || !carObj) {
+    if (javaClassId.IsNullOrEmpty() || javaObj == 0 || !carObj) {
         return E_INVALID_ARGUMENT;
     }
 
     pthread_mutex_lock(&sObjectLock);
-    sCarObjects.Put((PVoid)javaObj, &carObj);
+    sCarObjects.Put((PVoid)(char*)javaClassId.string(), &carObj);
     sJavaObjects.Put((PVoid)carObj, &javaObj);
     pthread_mutex_unlock(&sObjectLock);
     return NOERROR;
 }
 
 ECode CJavaCarManager::RemoveCarObject(
-    /* [in] */ Handle64 javaObj,
+    /* [in] */ const String& javaClassId,
     /* [in] */ IInterface* carObj)
 {
-    if (javaObj == 0 || !carObj) {
+    if (javaClassId.IsNullOrEmpty() || !carObj) {
         return E_INVALID_ARGUMENT;
     }
 
     pthread_mutex_lock(&sObjectLock);
-    sCarObjects.Remove((PVoid)javaObj);
+    sCarObjects.Remove((PVoid)(char*)javaClassId.string());
     sJavaObjects.Remove((PVoid)carObj);
     pthread_mutex_unlock(&sObjectLock);
     return NOERROR;
@@ -149,21 +150,23 @@ ECode CJavaCarManager::GetJavaObject(
     }
 
     pthread_mutex_lock(&sObjectLock);
-    javaObj = sJavaObjects.Get((PVoid)carObj);
+    Handle64* temp = sJavaObjects.Get((PVoid)carObj);
+    *javaObj = *temp;
     pthread_mutex_unlock(&sObjectLock);
     return NOERROR;
 }
 
 ECode CJavaCarManager::GetCarObject(
-    /* [in] */ Handle64 javaObj,
+    /* [in] */ const String& javaClassId,
     /* [out] */ IInterface** carObj)
 {
-    if (javaObj == 0 || !carObj) {
+    if (javaClassId.IsNullOrEmpty() || !carObj) {
         return E_INVALID_ARGUMENT;
     }
 
     pthread_mutex_lock(&sObjectLock);
-    carObj = sCarObjects.Get((PVoid)javaObj);
+    IInterface** ppInterface = sCarObjects.Get((PVoid)(char*)javaClassId.string());
+    *carObj = *ppInterface;
     pthread_mutex_unlock(&sObjectLock);
     return NOERROR;
 }

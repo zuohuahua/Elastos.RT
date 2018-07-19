@@ -1,26 +1,32 @@
 
 package org.elastos.GenerateJava;
 
+import java.util.Calendar;
+import java.util.Random;
+
 //this java class will implement the elastos interface.
 public class CHelloJava implements IHelloJava {
 
-    private long mCarObj = 0;
+    private static final String CLASS_ID_PREFIX = "org.elastos.GenerateJava.CHelloJava.";
+    private String mClassId;
 
-    private native long native_CHelloJava();
-    private native void native_CHelloJava_Destroy(long carobj);
+    private native void native_CHelloJava();
+    private native void native_CHelloJava_Destroy();
 
     public CHelloJava() {
-        mCarObj = native_CHelloJava();
+        Random rand = new Random();
+        mClassId = CLASS_ID_PREFIX + rand.nextInt() + Calendar.getInstance().getTimeInMillis();
+        native_CHelloJava();
         //TODO: Add your code here
-    }
-
-    public long getCarObject() {
-        return mCarObj;
     }
 
     // invoke destroy to release car object
     public void destroy() {
-        native_CHelloJava_Destroy(mCarObj);
+        native_CHelloJava_Destroy();
+    }
+
+    public String getClassId() {
+        return mClassId;
     }
 
 

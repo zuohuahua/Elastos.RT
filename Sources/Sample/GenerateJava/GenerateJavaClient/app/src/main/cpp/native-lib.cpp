@@ -23,11 +23,17 @@ extern "C" JNIEXPORT void JNICALL Java_org_elastos_generatejavaclient_MainActivi
     ECode ec = (ECode) _CCarrier_GetInstance(&gCarrier);
     if (FAILED(ec)) return;
 
-    jclass _clazz = env->GetObjectClass(jlistener);
-    jmethodID _methodId = env->GetMethodID(_clazz, "getCarObject", "()J");
-    jlong _carobj = env->CallLongMethod(jlistener, _methodId);
+    AutoPtr<IJavaCarManager> pJavaCarManager;
+    _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);
+    IInterface* pElaClsObj = NULL;
+    jclass jclazz = env->GetObjectClass(jlistener);
+    jmethodID jmethodID = env->GetMethodID(jclazz, "getClassId", "()Ljava/lang/String;");
+    jstring jclassId = (jstring)env->CallObjectMethod(jlistener, jmethodID);
+    const char* jclsIdStr = env->GetStringUTFChars(jclassId, nullptr);
+    pJavaCarManager->GetCarObject(String(jclsIdStr), &pElaClsObj);
+    env->ReleaseStringUTFChars(jclassId, jclsIdStr);
 
-    gCarrier->AddCarrierNodeListener(ICarrierListener::Probe((IInterface*)_carobj));
+    gCarrier->AddCarrierNodeListener(ICarrierListener::Probe(pElaClsObj));
 
     const char* nativeString = env->GetStringUTFChars(path, nullptr);
     gCarrier->Start(String(nativeString));

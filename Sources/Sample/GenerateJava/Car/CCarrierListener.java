@@ -1,12 +1,20 @@
 
 package org.elastos.GenerateJava;
 
+import java.util.Calendar;
+import java.util.Random;
+
 //this java class will implement the elastos interface.
 public class CCarrierListener implements ICarrierListener {
+    private static final String CLASS_ID_PREFIX = "org.elastos.GenerateJava.CCarrierListener.";
+    private String mClassId;
+
     private native void native_CCarrierListener();
     private native void native_CCarrierListener_Destroy();
 
     public CCarrierListener() {
+        Random rand = new Random();
+        mClassId = CLASS_ID_PREFIX + rand.nextInt() + Calendar.getInstance().getTimeInMillis();
         native_CCarrierListener();
         //TODO: Add your code here
     }
@@ -14,6 +22,10 @@ public class CCarrierListener implements ICarrierListener {
     // invoke destroy to release car object
     public void destroy() {
         native_CCarrierListener_Destroy();
+    }
+
+    public String getClassId() {
+        return mClassId;
     }
 
 

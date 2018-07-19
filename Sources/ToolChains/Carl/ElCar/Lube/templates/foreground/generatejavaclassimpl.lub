@@ -18,6 +18,10 @@ $INPUT class
 $OUTPUT "${name}.java"
 
 $  {GeneratePackageNameByClass(class)}
+$
+import java.util.Calendar;
+import java.util.Random;
+
 //this java class will implement the elastos interface.
 public class ${name} implements$^
 $WITH all interfaces DO

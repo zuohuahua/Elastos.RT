@@ -22,11 +22,17 @@ extern "C" JNIEXPORT void JNICALL Java_org_elastos_generatejavaserver_MainActivi
     ECode ec = (ECode) _CCarrier_GetInstance(&gCarrier);
     if (FAILED(ec)) return;
 
-    jclass _clazz = env->GetObjectClass(jlistener);
-    jmethodID _methodId = env->GetMethodID(_clazz, "getCarObject", "()J");
-    jlong _carobj = env->CallLongMethod(jlistener, _methodId);
-
-    gCarrier->AddCarrierNodeListener(ICarrierListener::Probe((IInterface*)_carobj));
+    AutoPtr<IJavaCarManager> pJavaCarManager;
+    _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);
+    IInterface* pElaClsObj = NULL;
+    jclass jclazz = env->GetObjectClass(jlistener);
+    jmethodID jmethodID = env->GetMethodID(jclazz, "getClassId", "()Ljava/lang/String;");
+    jstring jclassId = (jstring)env->CallObjectMethod(jlistener, jmethodID);
+    const char* classIdStr = env->GetStringUTFChars(jclassId, nullptr);
+    pJavaCarManager->GetCarObject(String(classIdStr), &pElaClsObj);
+    __android_log_print(ANDROID_LOG_DEBUG, "GenrateJavaServer", "==== get listener car object java:%s, car: %p\n", classIdStr, pElaClsObj);
+    env->ReleaseStringUTFChars(jclassId, classIdStr);
+    gCarrier->AddCarrierNodeListener(ICarrierListener::Probe(pElaClsObj));
 
     const char* nativeString = env->GetStringUTFChars(path, nullptr);
     gCarrier->Start(String(nativeString));
@@ -165,10 +171,16 @@ extern "C" JNIEXPORT jint JNICALL Java_org_elastos_generatejavaserver_MainActivi
         return -1;
     }
 
-    jclass _clazz1 = env->GetObjectClass(jhellojava);
-    jmethodID _methodId1 = env->GetMethodID(_clazz1, "getCarObject", "()J");
-    jlong _carobj = env->CallLongMethod(jhellojava, _methodId1);
-    IHelloJava* pHelloJava = IHelloJava::Probe((IInterface*)_carobj);
+    AutoPtr<IJavaCarManager> pJavaCarManager;
+    _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);
+    IInterface* pElaClsObj = NULL;
+    jclass jclazz = env->GetObjectClass(jhellojava);
+    jmethodID jmethodID = env->GetMethodID(jclazz, "getClassId", "()Ljava/lang/String;");
+    jstring jclassId = (jstring)env->CallObjectMethod(jhellojava, jmethodID);
+    const char* classIdStr = env->GetStringUTFChars(jclassId, nullptr);
+    pJavaCarManager->GetCarObject(String(classIdStr), &pElaClsObj);
+    env->ReleaseStringUTFChars(jclassId, classIdStr);
+    IHelloJava* pHelloJava = IHelloJava::Probe(pElaClsObj);
 
     const char* nativeString = env->GetStringUTFChars(name, nullptr);
     __android_log_print(ANDROID_LOG_DEBUG, "JNI", "add service %s", nativeString);

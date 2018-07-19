@@ -8,7 +8,7 @@ void JNICALL native_CCarrierListener0(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj)
 {
-    AutoPtr<IJavaCarManager*> pJavaCarManager;
+    AutoPtr<IJavaCarManager> pJavaCarManager;
     _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);
     ICarrierListener* pElaClsObj;
     ECode ec = CCarrierListener::New(&pElaClsObj);
@@ -17,21 +17,37 @@ void JNICALL native_CCarrierListener0(
     JavaVM* jvm;
     env->GetJavaVM(&jvm);
     IJavaInterface::Probe(pElaClsObj)->JavaInit((Handle64)jvm);
-    pJavaCarManager->AddCarObject((Handle64)jobj, pElaClsObj);
+
+    jclass jclazz = env->GetObjectClass(jobj);
+    jmethodID jmethodID = env->GetMethodID(jclazz, "getClassId", "()Ljava/lang/String;");
+    jstring jclassId = (jstring)env->CallObjectMethod(jobj, jmethodID);
+    const char* jclsIdStr = env->GetStringUTFChars(jclassId, nullptr);
+    pJavaCarManager->AddCarObject(String(jclsIdStr), (Handle64)env->NewGlobalRef(jobj), pElaClsObj);
+    env->ReleaseStringUTFChars(jclassId, jclsIdStr);
 }
 
 void JNICALL native_CCarrierListener_Destroy(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj)
 {
-    AutoPtr<IJavaCarManager*> pJavaCarManager;
+    AutoPtr<IJavaCarManager> pJavaCarManager;
     _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);
+
     IInterface* pElaClsObj = NULL;
-    pJavaCarManager->GetCarObject((Handle64)jobj, &pElaClsObj);
+    jclass jclazz = env->GetObjectClass(jobj);
+    jmethodID jmethodID = env->GetMethodID(jclazz, "getClassId", "()Ljava/lang/String;");
+    jstring jclassId = (jstring)env->CallObjectMethod(jobj, jmethodID);
+    const char* jclsIdStr = env->GetStringUTFChars(jclassId, nullptr);
+
+    pJavaCarManager->GetCarObject(String(jclsIdStr), &pElaClsObj);
     if (pElaClsObj) {
-        pJavaCarManager->RemoveCarObject((Handle64)jobj, pElaClsObj);
+        Handle64 javaObj;
+        pJavaCarManager->GetJavaObject(pElaClsObj, &javaObj);
+        env->DeleteGlobalRef((jobject)javaObj);
+        pJavaCarManager->RemoveCarObject(String(jclsIdStr), pElaClsObj);
         pElaClsObj->Release();
     }
+    env->ReleaseStringUTFChars(jclassId, jclsIdStr);
 }
 
 

@@ -1,8 +1,14 @@
 
 package org.elastos.Elastos.AutoGenerateJavaCodes;
 
+import java.util.Calendar;
+import java.util.Random;
+
 //TODO : Modify the package and the final user will call this class' method.
 public class CSingletonTest {
+    private static final String CLASS_ID_PREFIX = "org.elastos.Elastos.AutoGenerateJavaCodes.CSingletonTest.";
+    private String mClassId;
+
     private native void native_CSingletonTest();
     private native void native_CSingletonTest_Destroy();
 
@@ -15,6 +21,8 @@ public class CSingletonTest {
     }
 
     private CSingletonTest() {
+        Random rand = new Random();
+        mClassId = CLASS_ID_PREFIX + rand.nextInt() + Calendar.getInstance().getTimeInMillis();
         native_CSingletonTest();
         //TODO: Add your code here
     }
@@ -22,6 +30,10 @@ public class CSingletonTest {
     // invoke destroy to release car object
     public void destroy() {
         native_CSingletonTest_Destroy();
+    }
+
+    public String getClassId() {
+        return mClassId;
     }
 
 

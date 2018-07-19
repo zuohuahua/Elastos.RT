@@ -1,8 +1,14 @@
 
 package org.elastos.Elastos.AutoGenerateJavaCodes;
 
+import java.util.Calendar;
+import java.util.Random;
+
 //this java class will implement the elastos interface.
 public class CSingletonTest implements ITestCar2 {
+    private static final String CLASS_ID_PREFIX = "org.elastos.Elastos.AutoGenerateJavaCodes.CSingletonTest.";
+    private String mClassId;
+
     private native void native_CSingletonTest();
     private native void native_CSingletonTest_Destroy();
 
@@ -15,6 +21,8 @@ public class CSingletonTest implements ITestCar2 {
     }
 
     private CSingletonTest() {
+        Random rand = new Random();
+        mClassId = CLASS_ID_PREFIX + rand.nextInt() + Calendar.getInstance().getTimeInMillis();
         native_CSingletonTest();
         //TODO: Add your code here
     }
@@ -22,6 +30,10 @@ public class CSingletonTest implements ITestCar2 {
     // invoke destroy to release car object
     public void destroy() {
         native_CSingletonTest_Destroy();
+    }
+
+    public String getClassId() {
+        return mClassId;
     }
 
 

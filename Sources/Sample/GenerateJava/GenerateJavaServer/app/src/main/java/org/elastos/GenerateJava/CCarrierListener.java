@@ -6,27 +6,35 @@ import android.os.Message;
 
 import org.elastos.generatejavaserver.MainActivity;
 
+import java.util.Calendar;
+import java.util.Random;
+
+
 //this java class will implement the elastos interface.
 public class CCarrierListener implements ICarrierListener {
-    private long mCarObj = 0;
+
     private MainActivity mActivity;
 
-    private native long native_CCarrierListener();
-    private native void native_CCarrierListener_Destroy(long carobj);
+    private static final String CLASS_ID_PREFIX = "org.elastos.GenerateJava.CCarrierListener.";
+    private String mClassId;
+
+    private native void native_CCarrierListener();
+    private native void native_CCarrierListener_Destroy();
 
     public CCarrierListener(MainActivity activity) {
-        mCarObj = native_CCarrierListener();
+        Random rand = new Random();
+        mClassId = CLASS_ID_PREFIX + rand.nextInt() + Calendar.getInstance().getTimeInMillis();
+        native_CCarrierListener();
         mActivity = activity;
-    }
-
-    public long getCarObject() {
-        return mCarObj;
     }
 
     // invoke destroy to release car object
     public void destroy() {
-        native_CCarrierListener_Destroy(mCarObj);
-        mActivity = null;
+        native_CCarrierListener_Destroy();
+    }
+
+    public String getClassId() {
+        return mClassId;
     }
 
 

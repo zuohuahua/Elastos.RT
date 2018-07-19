@@ -28,6 +28,9 @@ library
         * Add car object.
         *
         * @param
+        *      javaClassId [in] the java class unique id.
+        *
+        * @param
         *      javaObj [in] the java object handle.
         *
         * @param
@@ -37,6 +40,7 @@ library
         *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
         */
         AddCarObject(
+            [in] String javaClassId,
             [in] Handle64 javaObj,
             [in] IInterface* carObj);
 
@@ -45,7 +49,7 @@ library
         * Remove car object.
         *
         * @param
-        *      javaObj [in] the java object handle.
+        *      javaClassId [in] the java class unique id.
         *
         * @param
         *      carObj [in] the car object handle.
@@ -54,7 +58,7 @@ library
         *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
         */
         RemoveCarObject(
-            [in] Handle64 javaObj,
+            [in] String javaClassId,
             [in] IInterface* carObj);
 
         /**
@@ -76,10 +80,10 @@ library
 
         /**
         *
-        * Get java object.
+        * Get car object.
         *
         * @param
-        *      javaObj [in] the java object handle.
+        *      javaClassId [in] the java class unique id.
         *
         * @param
         *      carObj [out] the car object handle.
@@ -88,7 +92,7 @@ library
         *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
         */
         GetCarObject(
-            [in] Handle64 javaObj,
+            [in] String javaClassId,
             [out] IInterface** carObj);
 
     }

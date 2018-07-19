@@ -18,6 +18,10 @@ $INPUT class
 $OUTPUT "${name}.java"
 
 $  {GeneratePackageNameByClass(class)}
+$
+import java.util.Calendar;
+import java.util.Random;
+
 //TODO : Modify the package and the final user will call this class' method.
 public class ${class.name} {
 $
