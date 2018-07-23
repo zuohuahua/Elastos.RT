@@ -110,9 +110,6 @@ ELAPI _CObject_MarshalInterface(
 #ifdef _apple
         assert(0 && "RPC is not supported on ios.");
 #else
-#if defined(_ELASTOS64)
-        assert(0 && "64-bit cpu architecture does not support RPC.");
-#else
         InterfacePack* itfPack = (InterfacePack*)calloc(sizeof(InterfacePack), 1);
         if (itfPack == NULL) {
             return E_OUT_OF_MEMORY;
@@ -125,7 +122,6 @@ ELAPI _CObject_MarshalInterface(
         }
         *size = sizeof(InterfacePack);
         *package = itfPack;
-#endif
 #endif
         return NOERROR;
     }
@@ -173,17 +169,12 @@ ELAPI _CObject_UnmarshalInterface(
 #ifdef _apple
         assert(0 && "RPC is not supported on ios.");
 #else
-#if defined(_ELASTOS64)
-        assert(0 && "64-bit cpu architecture does not support RPC.");
-#else
-
         ECode ec = StdUnmarshalInterface(flag, NULL, (InterfacePack*)package, object);
         if (FAILED(ec)) {
             return ec;
         }
 
         *size = sizeof(InterfacePack);
-#endif
 #endif
         return NOERROR;
     }

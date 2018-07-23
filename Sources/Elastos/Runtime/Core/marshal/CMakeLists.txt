@@ -5,8 +5,7 @@ if("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "android")
     )
 endif()
 
-if(("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "linux" OR "$ENV{XDK_TARGET_PLATFORM}" STREQUAL "mac")
-        AND "$ENV{XDK_TARGET_CPU_ARCH}" STREQUAL "32")
+if("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "linux")
     xdk_add_subdirectories(
         sock_rpc
         MarshalRPCTest

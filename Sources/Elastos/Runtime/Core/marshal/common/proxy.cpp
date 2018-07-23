@@ -24,7 +24,7 @@ ECode GetRemoteClassInfo(
 void *GetUnalignedPtr(void *pPtr);
 
 
-UInt32 g_marshalVtbl[MSH_MAX_METHODS];
+PVoid g_marshalVtbl[MSH_MAX_METHODS];
 
 #define PROXY_ENTRY_FUNC(uMethodIndex)                                         \
             ECode ProxyEntryFunc##uMethodIndex(CInterfaceProxy *pThis, ...)    \
@@ -66,12 +66,12 @@ FUNCTION_TABLE( (0)   (1)   (2)   (3)   (4)   (5)   (6)   (7)
 
 void InitProxyEntry()
 {
-    g_marshalVtbl[0] = (UInt32)&CInterfaceProxy::S_Probe;
-    g_marshalVtbl[1] = (UInt32)&CInterfaceProxy::S_AddRef;
-    g_marshalVtbl[2] = (UInt32)&CInterfaceProxy::S_Release;
-    g_marshalVtbl[3] = (UInt32)&CInterfaceProxy::S_GetInterfaceID;
+    g_marshalVtbl[0] = (PVoid)&CInterfaceProxy::S_Probe;
+    g_marshalVtbl[1] = (PVoid)&CInterfaceProxy::S_AddRef;
+    g_marshalVtbl[2] = (PVoid)&CInterfaceProxy::S_Release;
+    g_marshalVtbl[3] = (PVoid)&CInterfaceProxy::S_GetInterfaceID;
 
-    #define FUNCTION(x) g_marshalVtbl[x + 4] = (UInt32)&ProxyEntryFunc##x;
+    #define FUNCTION(x) g_marshalVtbl[x + 4] = (PVoid)&ProxyEntryFunc##x;
     FUNCTION_TABLE( (0)   (1)   (2)   (3)   (4)   (5)   (6)   (7)
                     (8)   (9)   (10)  (11)  (12)  (13)  (14)  (15)
                     (16)  (17)  (18)  (19)  (20)  (21)  (22)  (23)
@@ -295,7 +295,7 @@ ECode CInterfaceProxy::ProxyEntry(
     va_end(vaArgsCopy);
     if (SUCCEEDED(ec)) {
         pInParcel->GetElementSize(&size);
-        pInParcel->GetElementPayload((Handle32*)&pInBuffer);
+        pInParcel->GetElementPayload(&pInBuffer);
         pInHeader = pInParcel->GetMarshalHeader();
         pInHeader->m_uInSize = size;
         pInHeader->m_uOutSize = uOutSize;

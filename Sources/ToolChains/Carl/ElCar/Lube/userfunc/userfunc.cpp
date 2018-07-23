@@ -2034,7 +2034,7 @@ Restart:
             break;
 
         case Type_struct:
-            pCtx->PutString("pParams->WriteStruct((Handle32)&");
+            pCtx->PutString("pParams->WriteStruct((PVoid)&");
             UserFunc_PrefixingName(pCtx, pDesc, pvArg);
             pCtx->PutString(", sizeof(");
             UserFunc_PrefixingName(pCtx, pDesc, pvArg);
@@ -2077,7 +2077,7 @@ Restart:
                 pCtx->PutString("pParams->WriteArrayOfString(const_cast<ArrayOf<String>*>(&");
             }
             else {
-                pCtx->PutString("pParams->WriteArrayOf((Handle32)&");
+                pCtx->PutString("pParams->WriteArrayOf((PVoid)&");
             }
             UserFunc_PrefixingName(pCtx, pDesc, pvArg);
             if (Type_String == pType->mNestedType->mType) {

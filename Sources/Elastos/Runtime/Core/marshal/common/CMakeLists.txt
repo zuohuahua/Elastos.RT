@@ -16,8 +16,7 @@ list(APPEND SOURCES
     CParcelCarrier.cpp
 )
 endif()
-if(("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "linux" OR "$ENV{XDK_TARGET_PLATFORM}" STREQUAL "mac")
-        AND "$ENV{XDK_TARGET_CPU_ARCH}" STREQUAL "32")
+if("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "linux")
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../sock_rpc)
 list(APPEND SOURCES
     mshproc.cpp

@@ -14,7 +14,7 @@
 // limitations under the License.
 //=========================================================================
 
-#include <elastos.h>
+#include "elastos.h"
 
 _ELASTOS_NAMESPACE_USING
 
@@ -28,39 +28,17 @@ extern ECode InitMIL();
 extern void UninitMIL();
 
 #ifdef _android
-namespace Elastos {
-namespace IPC {
-// extern ECode InitROT();
-// extern void UninitROT();
-
-// extern void InitProxyEntry();
-// extern void UninitProxyEntry();
-} // namespace IPC
-} // namespace Elastos
-
-namespace Elastos {
-namespace RPC {
-// extern ECode InitROT_RPC();
-// extern void UninitROT_RPC();
-
-// extern void InitProxyEntry();
-// extern void UninitProxyEntry();
-} // namespace RPC
-} // namespace Elastos
 extern ECode InitROT();
 extern void UninitROT();
 extern void InitProxyEntry();
 extern void UninitProxyEntry();
 extern void InitJavaCarManager();
 extern void UninitJavaCarManager();
-
 #elif _linux
-#ifndef _ELASTOS64
 extern ECode InitROT();
 extern void UninitROT();
 extern void InitProxyEntry();
 extern void UninitProxyEntry();
-#endif
 #endif
 
 extern pthread_mutex_t g_LocModListLock;
@@ -74,28 +52,18 @@ extern pthread_mutex_t g_LocModListLock;
 
 Boolean AttachElastosDll()
 {
-#ifdef _win32
-    ECode ec = NOERROR;
-#endif
     pthread_mutexattr_t recursiveAttr;
 
     InitTLS();
     InitMIL();
 
 #ifdef _android
-    // Elastos::IPC::InitROT();
-    // Elastos::IPC::InitProxyEntry();
-
-    // Elastos::RPC::InitROT_RPC();
-    // Elastos::RPC::InitProxyEntry();
     InitROT();
     InitProxyEntry();
     InitJavaCarManager();
 #elif _linux
-#ifndef _ELASTOS64
     InitROT();
     InitProxyEntry();
-#endif
 #endif
 
     pthread_mutexattr_init(&recursiveAttr);
@@ -116,19 +84,12 @@ void DetachElastosDll()
     pthread_mutex_destroy(&g_LocModListLock);
 
 #ifdef _android
-    // Elastos::RPC::UninitProxyEntry();
-    // Elastos::RPC::UninitROT_RPC();
-
-    // Elastos::IPC::UninitProxyEntry();
-    // Elastos::IPC::UninitROT();
     UninitJavaCarManager();
     UninitProxyEntry();
     UninitROT();
 #elif _linux
-#ifndef _ELASTOS64
     UninitProxyEntry();
     UninitROT();
-#endif
 #endif
 
     UninitMIL();

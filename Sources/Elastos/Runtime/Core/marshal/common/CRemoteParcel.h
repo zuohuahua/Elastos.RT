@@ -101,10 +101,10 @@ public:
         /* [in] */ const String& str);
 
     CARAPI ReadStruct(
-        /* [out] */ Handle32 *pAddress);
+        /* [out] */ PVoid *pAddress);
 
     CARAPI WriteStruct(
-        /* [in] */ Handle32 pValue,
+        /* [in] */ PVoid pValue,
         /* [in] */ Int32 size);
 
     CARAPI ReadEMuid(
@@ -120,10 +120,10 @@ public:
         /* [in] */ const EGuid & id);
 
     CARAPI ReadArrayOf(
-        /* [out] */ Handle32 *ppArray);
+        /* [out] */ PVoid *ppArray);
 
     CARAPI WriteArrayOf(
-        /* [in] */ Handle32 pArray);
+        /* [in] */ PVoid pArray);
 
     CARAPI ReadArrayOfString(
         /* [out, callee] */ ArrayOf<String>** ppArray);
@@ -132,7 +132,7 @@ public:
         /* [in] */ ArrayOf<String>* array);
 
     CARAPI ReadInterfacePtr(
-        /* [out] */ Handle32 *pItfPtr);
+        /* [out] */ IInterface **pItfPtr);
 
     CARAPI WriteInterfacePtr(
         /* [in] */ IInterface* pValue);
@@ -165,7 +165,7 @@ public:
         /* [out] */ Int32* pSize);
 
     CARAPI GetElementPayload(
-        /* [ouy] */ Handle32* pBuffer);
+        /* [ouy] */ PVoid* pBuffer);
 
     CARAPI GetDataSize(
         /* [out] */ Int32* size);

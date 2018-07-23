@@ -65,8 +65,7 @@ EXPORTS
     LookupInterfaceInfo                             @180    NONAME
     RegisterModuleInfo                              @181    NONAME
 
-#if defined(_linux) && defined(_ELASTOS32) && !defined(_android)
-#else
+#if !defined(_linux) || defined(_android)
     _CCarrier_GetInstance                           @182    NONAME
 #endif
 

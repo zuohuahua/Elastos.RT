@@ -146,7 +146,7 @@ private:
 
 typedef struct InterfaceStruct {
     struct {
-        UInt32 m_vTable[1];
+        PVoid m_vTable[1];
     } *m_vPtr;
 }   InterfaceStruct;
 
@@ -157,10 +157,10 @@ public:
             /* [in] */ const CIMethodInfo *pMethodInfo,
             /* [in] */ CRemoteParcel *pParcel,
             /* [in, out] */ MarshalHeader *pOutHeader,
-            /* [in, out] */ UInt32 *puArgs);
+            /* [in, out] */ PVoid *puArgs);
 
     CARAPI MarshalOut(
-            /* [in] */ UInt32 *puArgs,
+            /* [in] */ PVoid *puArgs,
             /* [in] */ MarshalHeader *pInHeader,
             /* [out] */ MarshalHeader *pOutHeader,
             /* [in] */ Boolean bOnlyReleaseIn,

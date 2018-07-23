@@ -1,5 +1,5 @@
 
-if(NOT ("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "linux" AND "$ENV{XDK_TARGET_CPU_ARCH}" STREQUAL "32"))
+if(NOT ("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "linux"))
     xdk_add_subdirectories(carrier)
 endif()
 

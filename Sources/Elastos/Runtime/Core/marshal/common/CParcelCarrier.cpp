@@ -52,12 +52,12 @@ ECode CParcelCarrier::HandleInvoke(
     ec = mStub->Invoke(
                     pParcelSession,
                     (void *)base, len, &pParcel);
-    MARSHAL_DBGOUT(MSHDBG_NORMAL, printf("Call Invoke ec: %x", ec));
+    MARSHAL_DBGOUT(MSHDBG_NORMAL, printf("Call Invoke ec: %x\n", ec));
 
     int32_t _ec = ec;
     if (pParcel != NULL) {
         pParcel->GetElementSize(&outSize);
-        pParcel->GetElementPayload((Handle32*)&pOutBuffer);
+        pParcel->GetElementPayload(&pOutBuffer);
 
         if (outSize > 0) {
             int out_size = sizeof _ec + outSize;

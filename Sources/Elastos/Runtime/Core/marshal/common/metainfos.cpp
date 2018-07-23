@@ -17,8 +17,9 @@
 #include <pthread.h>
 #include <dlfcn.h>
 #include <stdio.h>
-#include <elastos.h>
-#include <clsinfo.h>
+#include "elastos.h"
+#include "clsinfo.h"
+#include "marshal.h"
 //#include <cutils/log.h>
 
 #ifndef INTEGER_DST

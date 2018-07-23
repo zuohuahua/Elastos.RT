@@ -17,7 +17,6 @@
 library
 {
     typedef [dummytype] Byte UInt8;
-    typedef [dummytype] Int32 Address;
 
     typedef [dummytype] EGuid ClassID;
     typedef [dummytype] EMuid InterfaceID;

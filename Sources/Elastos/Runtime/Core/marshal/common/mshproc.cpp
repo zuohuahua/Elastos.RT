@@ -279,7 +279,7 @@ ECode Proxy_ProcessMsh_In(
 
                 case BT_TYPE_STRUCT:
                 case BT_TYPE_PSTRUCT:
-                    pParcel->WriteStruct(va_arg(vaArgs, Handle32), BT_TYPE_SIZE(pParams[n]) * 4);
+                    pParcel->WriteStruct(va_arg(vaArgs, PVoid), BT_TYPE_SIZE(pParams[n]) * 4);
                     break;
 
                 case BT_TYPE_EMUID:
@@ -291,7 +291,7 @@ ECode Proxy_ProcessMsh_In(
                     break;
 
                 case BT_TYPE_ARRAYOF:
-                    pParcel->WriteArrayOf(va_arg(vaArgs, Handle32));
+                    pParcel->WriteArrayOf(va_arg(vaArgs, PVoid));
                     break;
 
                 case BT_TYPE_STRING:
@@ -372,7 +372,7 @@ ECode Proxy_ProcessUnmsh_Out(
                         break;
 
                     case BT_TYPE_PSTRUCT:
-                        pParcel->ReadStruct((Handle32*)pArg);
+                        pParcel->ReadStruct((PVoid*)pArg);
                         break;
 
                     case BT_TYPE_PEMUID:
@@ -390,19 +390,19 @@ ECode Proxy_ProcessUnmsh_Out(
                     case BT_TYPE_ARRAYOF:
                         if (!BT_IS_CALLEE(pParams[n])) {
                             PCARQUINTET p;
-                            pParcel->ReadArrayOf((Handle32*)&p);
+                            pParcel->ReadArrayOf((PVoid*)&p);
                             PCARQUINTET qArg = (PCARQUINTET)pArg;
                             qArg->mUsed = p->mUsed;
                             memcpy(qArg->mBuf, p->mBuf, p->mSize);
                             _CarQuintet_Release(p);
                         }
                         else {
-                            pParcel->ReadArrayOf((Handle32*)pArg);
+                            pParcel->ReadArrayOf((PVoid*)pArg);
                         }
                         break;
 
                     case BT_TYPE_PINTERFACE:
-                        pParcel->ReadInterfacePtr((Handle32*)pArg);
+                        pParcel->ReadInterfacePtr((IInterface**)pArg);
                         break;
 
                     default:
@@ -449,7 +449,7 @@ ECode Stub_ProcessUnmsh_In(
     /* [in] */ const CIMethodInfo *pMethodInfo,
     /* [in] */ IParcel *pParcel,
     /* [in, out] */ UInt32 *puOutBuffer,
-    /* [in, out] */ UInt32 *puArgs)
+    /* [in, out] */ PVoid *puArgs)
 {
     int n, cParams;
     const CIBaseType *pParams;
@@ -475,35 +475,35 @@ ECode Stub_ProcessUnmsh_In(
                     case BT_TYPE_PUINT8:
                     case BT_TYPE_PUINT16:
                     case BT_TYPE_PUINT32:
-                        *puArgs = (UInt32)puOutBuffer;
+                        *puArgs = (PVoid)puOutBuffer;
                         puOutBuffer++;
                         break;
 
                     case BT_TYPE_PUINT64:
-                        *puArgs = (UInt32)puOutBuffer;
+                        *puArgs = (PVoid)puOutBuffer;
                         puOutBuffer += 2;
                         break;
 
                     case BT_TYPE_PEGUID:
-                        *puArgs = (UInt32)puOutBuffer;
+                        *puArgs = (PVoid)puOutBuffer;
                         puOutBuffer += sizeof(EMuid) / 4;
-                        *puOutBuffer = (UInt32)(puOutBuffer + 1);
+                        *(PVoid*)puOutBuffer = (PVoid*)puOutBuffer + 1;
                         puOutBuffer += sizeof(char*) / 4
                                     + 80 * sizeof(char) / 4;
                         break;
 
                     case BT_TYPE_PEMUID:
-                        *puArgs = (UInt32)puOutBuffer;
+                        *puArgs = (PVoid)puOutBuffer;
                         puOutBuffer += sizeof(EMuid) / 4;
                         break;
 
                     case BT_TYPE_PSTRUCT:
-                        *puArgs = (UInt32)puOutBuffer;
+                        *puArgs = (PVoid)puOutBuffer;
                         puOutBuffer += BT_TYPE_SIZE(pParams[n]);
                         break;
 
                     case BT_TYPE_PSTRING:
-                        *puArgs = (UInt32)puOutBuffer;
+                        *puArgs = (PVoid)puOutBuffer;
                         new((void*)puOutBuffer) String();
                         puOutBuffer++;
                         break;
@@ -512,14 +512,14 @@ ECode Stub_ProcessUnmsh_In(
                         if (!BT_IS_CALLEE(pParams[n])) {
                             Int32 size;
                             pParcel->ReadInt32(&size);
-                            *puOutBuffer = (UInt32)malloc(sizeof(CarQuintet));
-                            *(PCARQUINTET*)puArgs = (PCARQUINTET)*puOutBuffer;
+                            *(PVoid*)puOutBuffer = malloc(sizeof(CarQuintet));
+                            *(PCARQUINTET*)puArgs = *(PCARQUINTET*)puOutBuffer;
                             ((PCARQUINTET)*puArgs)->mSize = size;
                             ((PCARQUINTET)*puArgs)->mBuf = malloc(size);
                         }
                         else {
                             *puOutBuffer = 0;
-                            *puArgs = (UInt32)puOutBuffer;
+                            *puArgs = (PVoid)puOutBuffer;
                         }
                         puOutBuffer++;
 
@@ -527,7 +527,7 @@ ECode Stub_ProcessUnmsh_In(
 
                     case BT_TYPE_PINTERFACE:
                         *puOutBuffer = 0;
-                        *puArgs = (UInt32)puOutBuffer;
+                        *puArgs = (PVoid)puOutBuffer;
                         puOutBuffer += sizeof(InterfacePack) / 4;
                         break;
 
@@ -582,7 +582,7 @@ ECode Stub_ProcessUnmsh_In(
                     break;
 
                 case BT_TYPE_ARRAYOF:
-                    pParcel->ReadArrayOf((Handle32*)puArgs);
+                    pParcel->ReadArrayOf((PVoid*)puArgs);
                     puArgs++;
                     break;
 
@@ -593,7 +593,7 @@ ECode Stub_ProcessUnmsh_In(
                     break;
 
                 case BT_TYPE_INTERFACE:
-                    ec = pParcel->ReadInterfacePtr((Handle32*)puArgs);
+                    ec = pParcel->ReadInterfacePtr((IInterface**)puArgs);
                     if (FAILED(ec)) {
                         MARSHAL_DBGOUT(MSHDBG_ERROR, printf(
                                 "MshProc: unmsh interface, ec = %x\n", ec));
@@ -620,7 +620,7 @@ ECode Stub_ProcessUnmsh_In(
 
 ECode Stub_ProcessMsh_Out(
         /* [in] */ const CIMethodInfo *pMethodInfo,
-        /* [in] */ UInt32 *puArgs,
+        /* [in] */ PVoid *puArgs,
         /* [in] */ UInt32 *puOutBuffer,
         /* [in] */ Boolean bOnlyReleaseIn,
         /* [in, out] */ IParcel* pParcel)
@@ -667,15 +667,15 @@ ECode Stub_ProcessMsh_Out(
 
                     case BT_TYPE_ARRAYOF:
                         {
-                            pParcel->WriteArrayOf((Handle32)*puOutBuffer);
-                            PCARQUINTET p = (PCARQUINTET)*puOutBuffer;
+                            pParcel->WriteArrayOf(*(PVoid*)puOutBuffer);
+                            PCARQUINTET p = *(PCARQUINTET*)puOutBuffer;
                             if (p != NULL) {
                                 if (!BT_IS_CALLEE(pParams[n])) {
                                     if (CarQuintetFlag_Type_IObject == (p->mFlags
                                             & CarQuintetFlag_TypeMask)) {
                                         int used = ((PCARQUINTET)*puArgs)->mUsed
                                                     / sizeof(IInterface *);
-                                        int *buf = (int*)((PCARQUINTET)*puArgs)->mBuf;
+                                        PVoid *buf = (PVoid*)((PCARQUINTET)*puArgs)->mBuf;
                                         for (int i = 0; i < used; i++) {
                                             if (buf[i]) {
                                                 ((IInterface *)buf[i])->Release();
@@ -718,7 +718,7 @@ ECode Stub_ProcessMsh_Out(
                         break;
 
                     case BT_TYPE_PSTRUCT:
-                        pParcel->WriteStruct((Handle32)puOutBuffer, BT_TYPE_SIZE(pParams[n]) * 4);
+                        pParcel->WriteStruct((PVoid)puOutBuffer, BT_TYPE_SIZE(pParams[n]) * 4);
                         puOutBuffer += BT_TYPE_SIZE(pParams[n]);
                         break;
 
@@ -732,7 +732,7 @@ ECode Stub_ProcessMsh_Out(
                         if (!bOnlyReleaseIn) {
                             IInterface *pObj;
 
-                            pObj = (IInterface *)*puOutBuffer;
+                            pObj = *(IInterface**)puOutBuffer;
                             ec = pParcel->WriteInterfacePtr(pObj);
                             if (FAILED(ec)) {
                                 MARSHAL_DBGOUT(MSHDBG_ERROR, printf(
@@ -777,8 +777,8 @@ ECode Stub_ProcessMsh_Out(
                     break;
 
                 case BT_TYPE_PINTERFACE:
-                    if (*puArgs && *(UInt32 *)(*puArgs)) {
-                        ((IInterface *)*(UInt32 *)*puArgs)->Release();
+                    if (*puArgs && *(IInterface **)(*puArgs)) {
+                        (*(IInterface **)*puArgs)->Release();
                     }
                     puArgs++;
                     break;
@@ -799,7 +799,7 @@ ECode Stub_ProcessMsh_Out(
                                     & CarQuintetFlag_TypeMask)) {
                             int used = ((PCARQUINTET)*puArgs)->mUsed
                                         / sizeof(IInterface *);
-                            int *pBuf = (int*)((PCARQUINTET)*puArgs)->mBuf;
+                            PVoid *pBuf = (PVoid*)((PCARQUINTET)*puArgs)->mBuf;
                             for (int i = 0; i < used; i++) {
                                 if (pBuf[i]) {
                                     ((IInterface *)pBuf[i])->Release();

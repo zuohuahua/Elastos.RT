@@ -24,4 +24,10 @@ endif()
 
 list(APPEND XDK_DEFINITIONS -D_cmake)
 
+if("$ENV{XDK_VERSION}" STREQUAL "rls")
+    list(APPEND XDK_DEFINITIONS -D_RELEASE)
+else()
+    list(APPEND XDK_DEFINITIONS -D_DEBUG)
+endif()
+
 add_definitions(${XDK_DEFINITIONS})

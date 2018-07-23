@@ -30,7 +30,7 @@ library
         UnmarshalFlag_Coexisting        = 0x20,
     }
 
-    [deprecated]
+    [local, deprecated]
     interface IParcel {
         /**
          * Returns the raw bytes of the parcel.
@@ -117,10 +117,10 @@ library
             [in] String str);
 
         ReadStruct(
-            [out] Handle32 *address);
+            [out] PVoid *address);
 
         WriteStruct(
-            [in] Handle32 value,
+            [in] PVoid value,
             [in] Int32 size);
 
         ReadEMuid(
@@ -136,10 +136,10 @@ library
             [in] EGuid id);
 
         ReadArrayOf(
-            [out] Handle32 *array);
+            [out] PVoid *array);
 
         WriteArrayOf(
-            [in] Handle32 array);
+            [in] PVoid array);
 
         ReadArrayOfString(
             [out, callee] ArrayOf<String>* array);
@@ -148,7 +148,7 @@ library
             [in] ArrayOf<String>* array);
 
         ReadInterfacePtr(
-            [out] Handle32 *itfpp);
+            [out] IInterface **itfpp);
 
         WriteInterfacePtr(
             [in] IInterface* value);
@@ -193,6 +193,7 @@ library
             [in] Int32 size);
     }
 
+    [local]
     interface IParcelable {
         /**
          * Flag for use with {@link #writeToParcel}: the object being written

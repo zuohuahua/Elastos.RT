@@ -32,7 +32,7 @@ ECode CInterfaceStub::UnmarshalIn(
     /* [in] */ const CIMethodInfo *pMethodInfo,
     /* [in] */ CRemoteParcel *pParcel,
     /* [in, out] */ MarshalHeader *pOutHeader,
-    /* [in, out] */ UInt32 *puArgs)
+    /* [in, out] */ PVoid *puArgs)
 {
     return Stub_ProcessUnmsh_In(
             pMethodInfo,
@@ -42,7 +42,7 @@ ECode CInterfaceStub::UnmarshalIn(
 }
 
 ECode CInterfaceStub::MarshalOut(
-    /* [in] */ UInt32 *puArgs,
+    /* [in] */ PVoid *puArgs,
     /* [in] */ MarshalHeader *pInHeader,
     /* [out] */ MarshalHeader *pOutHeader,
     /* [in] */ Boolean bOnlyReleaseIn,
@@ -156,7 +156,8 @@ ECode CObjectStub::Invoke(
     assert(pInData != NULL);
 
     MarshalHeader *pInHeader = NULL, *pOutHeader = NULL;
-    UInt32 *puArgs, uMethodAddr, uMethodIndex;
+    PVoid *puArgs, uMethodAddr;
+    UInt32 uArgs, uMethodIndex;
     ECode ec, orgec = NOERROR;
     CInterfaceStub *pCurInterface;
     const CIMethodInfo *pMethodInfo;
@@ -181,7 +182,7 @@ ECode CObjectStub::Invoke(
     if (uInSize != pInHeader->m_uInSize) {
         MARSHAL_DBGOUT(MSHDBG_ERROR,
                 printf("Stub: in size error - %d:%d\n",
-                uInSize, pInHeader->m_uInSize + sizeof(MarshalHeader) - 1));
+                uInSize, pInHeader->m_uInSize + (UInt32)sizeof(MarshalHeader) - 1));
         goto ErrorExit;
     }
     if (pInHeader->m_hInterfaceIndex >= m_cInterfaces) {
@@ -221,10 +222,11 @@ ECode CObjectStub::Invoke(
         }
 
         pMethodInfo = &((pCurInterface->m_pInfo)->mMethods[uMethodIndex]);
-        uInSize = GET_LENGTH(pMethodInfo->mReserved1) * 4 + 4;
+        uInSize = GET_LENGTH(pMethodInfo->mReserved1) * sizeof(PVoid) + sizeof(PVoid);
+
         MARSHAL_DBGOUT(MSHDBG_NORMAL,
                 printf("Stub: method args stack size (%d)\n", uInSize));
-        puArgs = (UInt32 *)alloca(uInSize);
+        puArgs = (PVoid *)alloca(uInSize);
         if (!puArgs) {
             MARSHAL_DBGOUT(MSHDBG_ERROR,
                     printf("Stub error: alloca() failed.\n"));
@@ -243,33 +245,33 @@ ECode CObjectStub::Invoke(
             goto ErrorExit;
         }
 
-        *puArgs = (UInt32)pCurInterface->m_pObject; // fill this
+        *puArgs = (PVoid)pCurInterface->m_pObject; // fill this
 
         MARSHAL_DBGOUT(MSHDBG_NORMAL,
-                printf("Stub: invoke method - args(%x), addr(%x) \n",
+                printf("Stub: invoke method - args(%p), addr(%p) \n",
                 puArgs, uMethodAddr));
 
-        if (sizeof(UInt32) * 4 >= uInSize) {
+        if (sizeof(PVoid) * 4 >= uInSize) {
             ec = ((ECode (*)(
-                    UInt32, UInt32, UInt32, UInt32
+                    PVoid, PVoid, PVoid, PVoid
                 ))uMethodAddr)
                 (
                     *puArgs, *(puArgs + 1), *(puArgs + 2), *(puArgs + 3)
                 );
         }
-        else if (sizeof(UInt32) * 8 >= uInSize) {
+        else if (sizeof(PVoid) * 8 >= uInSize) {
             ec = ((ECode (*)(
-                    UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32
+                    PVoid, PVoid, PVoid, PVoid, PVoid, PVoid, PVoid, PVoid
                 ))uMethodAddr)
                 (
                     *puArgs, *(puArgs + 1), *(puArgs + 2), *(puArgs + 3),
                     *(puArgs + 4), *(puArgs + 5), *(puArgs + 6), *(puArgs + 7)
                 );
         }
-        else if (sizeof(UInt32) * 16 >= uInSize) {
+        else if (sizeof(PVoid) * 16 >= uInSize) {
             ec = ((ECode (*)(
-                    UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32,
-                    UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32
+                    PVoid, PVoid, PVoid, PVoid, PVoid, PVoid, PVoid, PVoid,
+                    PVoid, PVoid, PVoid, PVoid, PVoid, PVoid, PVoid, PVoid
                 ))uMethodAddr)
                 (
                     *puArgs, *(puArgs + 1), *(puArgs + 2), *(puArgs + 3),
@@ -278,12 +280,12 @@ ECode CObjectStub::Invoke(
                     *(puArgs + 12), *(puArgs + 13), *(puArgs + 14), *(puArgs + 15)
                 );
         }
-        else if (sizeof(UInt32) * 32 >= uInSize) {
+        else if (sizeof(PVoid) * 32 >= uInSize) {
             ec = ((ECode (*)(
-                    UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32,
-                    UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32,
-                    UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32,
-                    UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32
+                    PVoid, PVoid, PVoid, PVoid, PVoid, PVoid, PVoid, PVoid,
+                    PVoid, PVoid, PVoid, PVoid, PVoid, PVoid, PVoid, PVoid,
+                    PVoid, PVoid, PVoid, PVoid, PVoid, PVoid, PVoid, PVoid,
+                    PVoid, PVoid, PVoid, PVoid, PVoid, PVoid, PVoid, PVoid
                 ))uMethodAddr)
                 (
                     *puArgs, *(puArgs + 1), *(puArgs + 2), *(puArgs + 3),
@@ -418,7 +420,7 @@ ECode CObjectStub::GetInterfaceIndex(
         }
     }
     MARSHAL_DBGOUT(MSHDBG_WARNING, printf(
-        "Stub: InterfaceIndex failed - pObj(%x)\n", pObj));
+        "Stub: InterfaceIndex failed - pObj(%p)\n", pObj));
 
     return E_NO_INTERFACE;
 }

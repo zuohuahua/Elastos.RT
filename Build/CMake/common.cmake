@@ -115,6 +115,7 @@ function(xdk_compile_car CAR_GENERATED_SOURCES car_file)
         COMMAND perl $ENV{XDK_TOOLS}/cls_trans.pl __${car_filename}.rc 'NA'
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
         DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/${car_file}"
+                ${CAR_DEPEND_FILES}
     )
     add_custom_target(${car_file} ALL DEPENDS ${car_filename}.cls ${export_headers})
 endfunction()

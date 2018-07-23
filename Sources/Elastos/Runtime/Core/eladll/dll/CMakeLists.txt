@@ -18,7 +18,7 @@ list(APPEND MY_LINK_LIBRARIES
     elapi
 )
 
-if(NOT ("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "linux" AND "$ENV{XDK_TARGET_CPU_ARCH}" STREQUAL "32"))
+if(NOT ("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "linux"))
     list(APPEND MY_LINK_LIBRARIES
         elcarrierapi
         elacarrier
@@ -39,7 +39,7 @@ elseif("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "android")
         elasession
         log
     )
-elseif(("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "linux" OR "$ENV{XDK_TARGET_PLATFORM}" STREQUAL "mac") AND "$ENV{XDK_TARGET_CPU_ARCH}" STREQUAL "32")
+elseif("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "linux")
     list(APPEND MY_LINK_LIBRARIES
         marshalcomm
         marshal_rpc

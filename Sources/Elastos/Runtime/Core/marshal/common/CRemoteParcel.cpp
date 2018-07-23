@@ -531,7 +531,7 @@ ECode CRemoteParcel::WriteValue(PVoid pValue, Int32 type, Int32 size)
                 else {
                     Int32 used = ((PCARQUINTET)pValue)->mUsed
                                 / sizeof(IInterface *);
-                    Int32 *pBuf = (Int32*)((PCARQUINTET)pValue)->mBuf;
+                    PVoid *pBuf = (PVoid*)((PCARQUINTET)pValue)->mBuf;
                     PCARQUINTET carquient = (PCARQUINTET)m_elemPtr;
                     for (Int32 i = 0; i < used; i++) {
                         if (pBuf[i]) {
@@ -645,7 +645,7 @@ ECode CRemoteParcel::ReadString(
 }
 
 ECode CRemoteParcel::ReadStruct(
-    /* [out] */ Handle32 *paddr)
+    /* [out] */ PVoid *paddr)
 {
     return ReadValue((PVoid)paddr, Type_Struct);
 }
@@ -661,7 +661,7 @@ ECode CRemoteParcel::ReadEGuid(EGuid *pId)
 }
 
 ECode CRemoteParcel::ReadInterfacePtr(
-    /* [out] */ Handle32 *pItfPtr)
+    /* [out] */ IInterface **pItfPtr)
 {
     assert(pItfPtr != NULL);
 
@@ -669,7 +669,7 @@ ECode CRemoteParcel::ReadInterfacePtr(
 }
 
 ECode CRemoteParcel::ReadArrayOf(
-    /* [out] */ Handle32 *ppArray)
+    /* [out] */ PVoid *ppArray)
 {
     assert(ppArray != NULL);
 
@@ -749,7 +749,7 @@ ECode CRemoteParcel::WriteInterfacePtr(IInterface* pValue)
     return WriteValue((PVoid)pValue, Type_InterfacePtr, sizeof(UInt32) + sizeof(InterfacePack));
 }
 
-ECode CRemoteParcel::WriteStruct(Handle32 pValue, Int32 size)
+ECode CRemoteParcel::WriteStruct(PVoid pValue, Int32 size)
 {
     return WriteValue((PVoid)pValue, Type_Struct, size + sizeof(UInt32));
 }
@@ -766,7 +766,7 @@ ECode CRemoteParcel::WriteEGuid(const EGuid& id)
 }
 
 ECode CRemoteParcel::WriteArrayOf(
-    /* [in] */ Handle32 pArray)
+    /* [in] */ PVoid pArray)
 {
     Int32 size = sizeof(UInt32) + sizeof(CarQuintet) + ((CarQuintet*)pArray)->mSize;
     return WriteValue((PVoid)pArray, Type_ArrayOf, size);
@@ -810,9 +810,9 @@ ECode CRemoteParcel::SetDataPosition(
 }
 
 ECode CRemoteParcel::GetElementPayload(
-    /* [out] */ Handle32* pBuffer)
+    /* [out] */ PVoid* pBuffer)
 {
-    *pBuffer = (Handle32)((MarshalHeader*)m_elemBuf - 1);
+    *pBuffer = (MarshalHeader*)m_elemBuf - 1;
 
     return NOERROR;
 }

@@ -95,11 +95,11 @@ extern ECode Stub_ProcessUnmsh_In(
         /* [in] */ const CIMethodInfo *pMethodInfo,
         /* [in] */ IParcel *pParcel,
         /* [in, out] */ UInt32 *puOutBuffer,
-        /* [in, out] */ UInt32 *puArgs);
+        /* [in, out] */ PVoid *puArgs);
 
 extern ECode Stub_ProcessMsh_Out(
         /* [in] */ const CIMethodInfo *pMethodInfo,
-        /* [in] */ UInt32 *puArgs,
+        /* [in] */ PVoid *puArgs,
         /* [in] */ UInt32 *puOutBuffer,
         /* [in] */ Boolean bOnlyReleaseIn,
         /* [in, out] */ IParcel* pParcel);
