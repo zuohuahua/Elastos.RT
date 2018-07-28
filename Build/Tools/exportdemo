@@ -1,0 +1,179 @@
+#!/bin/bash
+
+# Exit immediately if a subsequent command exits with a non-zero status.
+set -e
+
+THIS_SCRIPT=$(basename $0)
+usage()
+{
+    cat << EOF
+
+Deploy Eco targets to a directory
+
+Usage: ${THIS_SCRIPT} [options]
+
+Options:
+  -h, --help
+      Print this message
+
+  -m, --module-name <MODULE_NAME>
+      Indicate module name
+
+  -i, --interface-name <INTERFACE_NAME>
+      Indicate interface name in car file
+
+  -c, --class-name <CLASS_NAME>
+      Indicate class name in car file
+EOF
+
+}
+
+# Deafult output directory
+SERVER_DIR=$XDK_ROOT/Sources/Sample/GenerateJava/GenerateJavaServer/app
+CLIENT_DIR=$XDK_ROOT/Sources/Sample/GenerateJava/GenerateJavaClient/app
+
+while [[ $# -gt 0 ]]
+do
+key="$1"
+
+case $key in
+    -h|--help)
+        usage
+        exit 0
+        ;;
+    -m|--module-name)
+        MODULE_NAME="$2"
+        shift # past argument
+        shift # past value
+        ;;
+    -i|--interface-name)
+        INTERFACE_NAME="$2"
+        shift # past argument
+        shift # past value
+        ;;
+    -c|--class-name)
+        CLASS_NAME="$2"
+        shift # past argument
+        shift # past value
+        ;;
+    *)    # unknown option
+        usage
+        exit 1
+        ;;
+esac
+done
+
+if [ "$XDK_ROOT" = "" ] || [ "$XDK_TARGETS" = "" ]; then
+    echo "ERROR: Please \"source Elastos.RT/Setup/SetEnv.sh\" to enter one of the building environment."
+    echo
+    exit 1
+fi
+
+if [ ! -d "$XDK_TARGETS" ]; then
+    echo "ERROR: Please build the Elastos Runtime project before calling \"exportdemo\"."
+    echo
+    exit 1
+fi
+
+if [ "$MODULE_NAME" = "" ]; then
+    echo "ERROR: Please input module name by -m MODULE_NAME."
+    echo
+    exit 1
+fi
+
+if [ "$INTERFACE_NAME" = "" ]; then
+    echo "ERROR: Please input interface name declared in car file by -m INTERFACE_NAME."
+    echo
+    exit 1
+fi
+
+if [ "$CLASS_NAME" = "" ]; then
+    echo "ERROR: Please input class name declared in car file by -m CLASS_NAME."
+    echo
+    exit 1
+fi
+
+SERVER_JAVA_PATH=$SERVER_DIR/src/main/java/org/elastos/$MODULE_NAME
+SERVER_CPP_PATH=$SERVER_DIR/src/main/cpp
+
+CLIENT_CPP_PATH=$CLIENT_DIR/src/main/cpp
+
+
+SDK_INCLUDE_PATH=$ELASTOS_SDK_PATH/include
+SDK_LIBS_PATH=$ELASTOS_SDK_PATH/libs
+
+mkdir -p "$SERVER_JAVA_PATH"
+
+echo "Exporting targets to android demo app ..."
+
+copy_library()
+{
+    name=$1
+    from_dir=$2
+    to_dir=$3
+
+    if [ -f $from_dir/lib$name.so ]; then
+        echo "Copying lib$name.so ..."
+        cp $from_dir/lib$name.so $to_dir
+    elif [ -f $from_dir/$name.eco ]; then
+        echo "Copying lib$name.eco ..."
+        cp $from_dir/$name.eco $to_dir
+    elif [ -f $from_dir/lib$name.dylib ]; then
+        echo "Copying lib$name.dylib ..."
+        cp $from_dir/lib$name.dylib $to_dir
+    elif [ -f $from_dir/lib$name.a ]; then
+        echo "Copying lib$name.a ..."
+        cp $from_dir/lib$name.a $to_dir
+    else
+        echo "WARNING: Library \"$name\" not found."
+    fi
+}
+
+copy_inc()
+{
+    local XDK_EMAKE_DIR=${PWD/$XDK_SOURCE_PATH/}
+    if [ "$XDK_EMAKE_DIR" == "$PWD" ]; then
+        echo "Error: Can't export eco here. Please go to the module source directory."
+        exit 1
+    fi
+    echo "Copying $MODULE_NAME.h ..."
+    cp $XDK_USER_OBJ/$XDK_BUILD_KIND/mirror$XDK_EMAKE_DIR/$MODULE_NAME.h $SERVER_CPP_PATH/elastos/include
+    cp $XDK_USER_OBJ/$XDK_BUILD_KIND/mirror$XDK_EMAKE_DIR/$MODULE_NAME.h $CLIENT_CPP_PATH/elastos/include
+}
+
+copy_java()
+{
+    echo "Copying $INTERFACE_NAME.java ..."
+    cp Java/$INTERFACE_NAME.java $SERVER_JAVA_PATH
+    echo "Copying $CLASS_NAME.java ..."
+    cp Java/$CLASS_NAME.java $SERVER_JAVA_PATH
+}
+
+copy_cpp()
+{
+    echo "Copying ${CLASS_NAME}_jni.cpp ..."
+    cp Java/${CLASS_NAME}_jni.cpp $SERVER_CPP_PATH
+    echo "Copying ${MODULE_NAME}_jnionload.cpp ..."
+    cp Java/${MODULE_NAME}_jnionload.cpp $SERVER_CPP_PATH
+}
+
+copy_cmake()
+{
+    echo "Copying $MODULE_NAME.cmake ..."
+    cp Java/$MODULE_NAME.cmake $SERVER_DIR
+}
+
+#cp include file to sdk path
+copy_inc
+
+copy_library $MODULE_NAME $XDK_TARGETS $SERVER_CPP_PATH/elastos/libs/armeabi-v7a
+
+copy_library $MODULE_NAME $XDK_TARGETS $CLIENT_CPP_PATH/elastos/libs/armeabi-v7a
+
+copy_java
+
+copy_cpp
+
+copy_cmake
+
+echo "Done"

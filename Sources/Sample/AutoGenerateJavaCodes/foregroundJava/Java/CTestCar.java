@@ -10,8 +10,6 @@ public class CTestCar implements ITestCar {
         System.loadLibrary("Elastos.Runtime");
         System.loadLibrary("Elastos.CoreLibrary");
         System.loadLibrary("Elastos.AutoGenerateJavaCodes");
-        //TODO : Your jni so, please fill it.
-        System.loadLibrary("Your_Jni");
     }
 
     private static final String CLASS_ID_PREFIX = "org.elastos.Elastos.AutoGenerateJavaCodes.CTestCar.";

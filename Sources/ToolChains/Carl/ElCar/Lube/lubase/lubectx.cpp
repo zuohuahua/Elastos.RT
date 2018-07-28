@@ -23,6 +23,8 @@
 #endif
 #include <unistd.h>
 #include <lube.h>
+#include <errno.h>
+#include <sys/stat.h>
 
 #ifndef _win32
 #define _access access
@@ -157,6 +159,54 @@ int LubeContext::ExecStatements(PSTATEDESC pDesc)
     return LUBE_OK;
 }
 
+static int mkdir_p(const char *path)
+{
+    const size_t len = strlen(path);
+    char _path[_MAX_PATH];
+    char *p;
+
+    errno = 0;
+
+    if (len > sizeof(_path) - 1) {
+        errno = ENAMETOOLONG;
+        return -1;
+    }
+    strcpy(_path, path);
+
+    for (p = _path + 1; *p; p++) {
+        if (*p != '/') continue;
+
+        *p = '\0';
+        if (mkdir(_path, S_IRWXU) != 0) {
+            if (errno != EEXIST)
+                return -1;
+        }
+
+        *p = '/';
+    }
+
+    if (mkdir(_path, S_IRWXU) != 0) {
+        if (errno != EEXIST)
+            return -1;
+    }
+
+    return 0;
+}
+
+static int getpath(const char* file, char* path)
+{
+    int len = strlen(file);
+    for (int i = len - 1; i >= 0; i--) {
+        if (file[i] == '/') {
+            strncpy(path, file, i);
+            path[i] = '\0';
+            return 0;
+        }
+    }
+
+    return -1;
+}
+
 int LubeContext::EnterFile(const char *pszName, FILE **ppOrigFile)
 {
     FILE *pFile;
@@ -182,8 +232,13 @@ int LubeContext::EnterFile(const char *pszName, FILE **ppOrigFile)
         this->WarnMsg("File %s has existed.", szNameBuf);
         return LUBE_FAIL;
     }
-    if (!strlen(g_pszOutputPath))
+    if (!strlen(g_pszOutputPath)){
+        char filePath[_MAX_PATH];
+        if (getpath(szNameBuf, filePath) != -1) {
+            mkdir_p(filePath);
+        }
         pFile = fopen(szNameBuf, "w+t");
+    }
     else {
         strcpy(szName, g_pszOutputPath);
 #ifdef _win32

@@ -1,5 +1,5 @@
 $;;=========================================================================
-$;; Copyright (C) 2018 The Elastos Open Source Project
+$;; Copyright (C) 2012 The Elastos Open Source Project
 $;;
 $;; Licensed under the Apache License, Version 2.0 (the "License");
 $;; you may not use this file except in compliance with the License.
@@ -15,8 +15,16 @@ $;; limitations under the License.
 $;;=========================================================================
 $
 $INPUT module
+$OUTPUT "Java/${name}.cmake"
 $
-$TEMPLATE "forecpphjava.lub"
-$TEMPLATE "cmakejava.lub"
-$TEMPLATE "../public/cmake.lub"
-$TEMPLATE "cmakelists.lub"
+
+set(SOURCES
+$   WITH all classes DO
+$      IF type is not "sink" and type is not "clsobj"
+    src/main/cpp/${fullname}_jni.cpp
+$      END IF
+$   END DO ;; all classes
+    src/main/cpp/${module.name}_jnionload.cpp
+)
+$
+$END OUTPUT

@@ -32,9 +32,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
   static {
-    System.loadLibrary("Elastos.Runtime");
-    System.loadLibrary("Elastos.CoreLibrary");
-    System.loadLibrary("GenerateJava");
     System.loadLibrary("native-lib");
   }
 

@@ -15,9 +15,10 @@ $;; limitations under the License.
 $;;=========================================================================
 $
 $INPUT module
-$OUTPUT "${name}_jnionload.cpp"
+$OUTPUT "Java/${name}_jnionload.cpp"
 
 #include <jni.h>
+#include <ela_session.h>
 
 $WITH all classes DO
 $   IF type is not "clsobj" and type is not "sink" and type is not "generic"
@@ -30,6 +31,8 @@ $   END IF ;; type is not "clsobj" and type is not "sink" and type is not "gener
 $END DO
 
 JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved) {
+    ela_session_jni_onload(vm, reserved);
+
     JNIEnv * env;
     if (vm->GetEnv((void **)&env, JNI_VERSION_1_6) != JNI_OK) {
         return JNI_ERR;

@@ -2,16 +2,16 @@
 #include <jni.h>
 
 //For Elastos
-#include "GenerateJava.h"
+#include "Elastos.AutoGenerateJavaCodes.h"
 
-void JNICALL native_CHelloJava0(
+void JNICALL native_CSingletonTest0(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj)
 {
     AutoPtr<IJavaCarManager> pJavaCarManager;
     _CJavaCarManager_AcquireInstance((IJavaCarManager**)&pJavaCarManager);
-    IHelloJava* pElaClsObj;
-    ECode ec = CHelloJava::New(&pElaClsObj);
+    ITestCar2* pElaClsObj;
+    ECode ec = CSingletonTest::AcquireSingleton(&pElaClsObj);
     if(FAILED(ec)) return;
 
     JavaVM* jvm;
@@ -26,7 +26,7 @@ void JNICALL native_CHelloJava0(
     env->ReleaseStringUTFChars(jclassId, jclsIdStr);
 }
 
-void JNICALL native_CHelloJava_Destroy(
+void JNICALL native_CSingletonTest_Destroy(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj)
 {
@@ -53,12 +53,12 @@ void JNICALL native_CHelloJava_Destroy(
 
 
 static const JNINativeMethod gMethods[] = {
-    {"native_CHelloJava", "()V", (void*)native_CHelloJava0},
-    {"native_CHelloJava_Destroy", "()V", (void*)native_CHelloJava_Destroy},
+    {"native_CSingletonTest", "()V", (void*)native_CSingletonTest0},
+    {"native_CSingletonTest_Destroy", "()V", (void*)native_CSingletonTest_Destroy},
 };
 
-int registerCHelloJavaMethod(JNIEnv * env) {
-    jclass clazz = env->FindClass("org/elastos/GenerateJava/CHelloJava");
+int registerCSingletonTestMethod(JNIEnv * env) {
+    jclass clazz = env->FindClass("org/elastos/Elastos.AutoGenerateJavaCodes/CSingletonTest");
     if (clazz == NULL) return JNI_FALSE;
 
     int ret = env->RegisterNatives(clazz, gMethods, sizeof(gMethods)/sizeof(JNINativeMethod));

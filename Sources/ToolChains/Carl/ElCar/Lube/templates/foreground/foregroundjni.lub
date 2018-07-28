@@ -16,6 +16,7 @@ $;;=========================================================================
 $
 $INPUT module
 $
-$TEMPLATE "forecpphjni.lub"
+$TEMPLATE "forecpphjava.lub"
+$TEMPLATE "cmakejava.lub"
 $TEMPLATE "../public/cmake.lub"
 $TEMPLATE "cmakelists.lub"

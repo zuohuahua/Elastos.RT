@@ -15,7 +15,7 @@ $;; limitations under the License.
 $;;=========================================================================
 $
 $INPUT class
-$OUTPUT "${name}_jni.cpp"
+$OUTPUT "Java/${name}_jni.cpp"
 
 #include <jni.h>
 

@@ -6,6 +6,11 @@ import java.util.Random;
 
 //this java class will implement the elastos interface.
 public class CHelloJava implements IHelloJava {
+    static {
+        System.loadLibrary("Elastos.Runtime");
+        System.loadLibrary("Elastos.CoreLibrary");
+        System.loadLibrary("GenerateJava");
+    }
 
     private static final String CLASS_ID_PREFIX = "org.elastos.GenerateJava.CHelloJava.";
     private String mClassId;
