@@ -252,27 +252,20 @@ ECode CObjectStub::Invoke(
                 puArgs, uMethodAddr));
 
         if (sizeof(PVoid) * 4 >= uInSize) {
-            ec = ((ECode (*)(
-                    PVoid, PVoid, PVoid, PVoid
-                ))uMethodAddr)
+            ec = ((ECode (*)(...))uMethodAddr)
                 (
                     *puArgs, *(puArgs + 1), *(puArgs + 2), *(puArgs + 3)
                 );
         }
         else if (sizeof(PVoid) * 8 >= uInSize) {
-            ec = ((ECode (*)(
-                    PVoid, PVoid, PVoid, PVoid, PVoid, PVoid, PVoid, PVoid
-                ))uMethodAddr)
+            ec = ((ECode (*)(...))uMethodAddr)
                 (
                     *puArgs, *(puArgs + 1), *(puArgs + 2), *(puArgs + 3),
                     *(puArgs + 4), *(puArgs + 5), *(puArgs + 6), *(puArgs + 7)
                 );
         }
         else if (sizeof(PVoid) * 16 >= uInSize) {
-            ec = ((ECode (*)(
-                    PVoid, PVoid, PVoid, PVoid, PVoid, PVoid, PVoid, PVoid,
-                    PVoid, PVoid, PVoid, PVoid, PVoid, PVoid, PVoid, PVoid
-                ))uMethodAddr)
+            ec = ((ECode (*)(...))uMethodAddr)
                 (
                     *puArgs, *(puArgs + 1), *(puArgs + 2), *(puArgs + 3),
                     *(puArgs + 4), *(puArgs + 5), *(puArgs + 6), *(puArgs + 7),
@@ -281,12 +274,7 @@ ECode CObjectStub::Invoke(
                 );
         }
         else if (sizeof(PVoid) * 32 >= uInSize) {
-            ec = ((ECode (*)(
-                    PVoid, PVoid, PVoid, PVoid, PVoid, PVoid, PVoid, PVoid,
-                    PVoid, PVoid, PVoid, PVoid, PVoid, PVoid, PVoid, PVoid,
-                    PVoid, PVoid, PVoid, PVoid, PVoid, PVoid, PVoid, PVoid,
-                    PVoid, PVoid, PVoid, PVoid, PVoid, PVoid, PVoid, PVoid
-                ))uMethodAddr)
+            ec = ((ECode (*)(...))uMethodAddr)
                 (
                     *puArgs, *(puArgs + 1), *(puArgs + 2), *(puArgs + 3),
                     *(puArgs + 4), *(puArgs + 5), *(puArgs + 6), *(puArgs + 7),

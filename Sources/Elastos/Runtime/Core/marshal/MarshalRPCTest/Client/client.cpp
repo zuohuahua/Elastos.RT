@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
 
     printf("GetBoolean %d\n", b);
 
-    ec = itc->SetInt64(87899090);
+    ec = itc->SetInt64(59823287899090ll);
     if (FAILED(ec))
         goto out2;
 

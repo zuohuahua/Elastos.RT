@@ -194,7 +194,7 @@ ECode CRemoteParcel::ReadValue(PVoid pValue, Int32 type)
         case Type_Int64:
         case Type_Double:
 #if defined(_arm) && defined(__GNUC__) && (__GNUC__ >= 4)
-            m_elemPtr = (UInt32*)ROUND8((Int32)m_elemPtr);
+            m_elemPtr = (size_t)m_elemPtr & 7 ? m_elemPtr + 1 : m_elemPtr;
 #endif
             *(Int64*)pValue = *(Int32*)m_elemPtr & 0xffffffff;
             m_elemPtr++;
@@ -429,7 +429,7 @@ ECode CRemoteParcel::WriteValue(PVoid pValue, Int32 type, Int32 size)
         case Type_Int64:
         case Type_Double:
 #if defined(_arm) && defined(__GNUC__) && (__GNUC__ >= 4)
-            m_elemPtr = (UInt32*)ROUND8((Int32)m_elemPtr);
+            m_elemPtr = (size_t)m_elemPtr & 7 ? m_elemPtr + 1 : m_elemPtr;
 #endif
             *m_elemPtr = (Int32)(*((Int64*)pValue) & 0xffffffff);
             m_elemPtr++;

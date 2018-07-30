@@ -312,7 +312,7 @@ ECode CInterfaceProxy::PackingArguments(
                     if (!(n % 2)) args += 1;
 #endif
 #if defined(_arm) && defined(__GNUC__) && (__GNUC__ >= 4)
-                    args = (UInt32*)ROUND8((Int32)args);
+                    args = (size_t)args & 7 ? args + 1 : args;
 #endif
                     ASSERT_SUCCEEDED(argList->SetInputArgumentOfInt64(n, (Int64)(*(UInt64*)args)))
                     args += 2;
@@ -331,7 +331,7 @@ ECode CInterfaceProxy::PackingArguments(
                     if (!(n % 2)) args += 1;
 #endif
 #if defined(_arm) && defined(__GNUC__) && (__GNUC__ >= 4)
-                    args = (UInt32*)ROUND8((Int32)args);
+                    args = (size_t)args & 7 ? args + 1 : args;
 #endif
                     ASSERT_SUCCEEDED(argList->SetInputArgumentOfDouble(n, *(Double*)args))
                     args += 2;

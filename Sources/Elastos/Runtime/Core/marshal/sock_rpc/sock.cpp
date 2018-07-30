@@ -5,14 +5,12 @@
 
 #include <uv.h>
 
-
-
 static int sock_make_pack(int type,
         void const *buf, int len,
-        void **rbuf, int *rlen)
+        char **rbuf, size_t *rlen)
 {
     int32_t _type = type;
-    void *_buf;
+    char *_buf;
     int32_t _len;
     char *pb;
 
@@ -21,11 +19,11 @@ static int sock_make_pack(int type,
 
     _len = sizeof _len + sizeof _type + len;
 
-    _buf = malloc(_len);
+    _buf = (char*)malloc(_len);
     if (_buf == NULL)
         return -1;
 
-    pb = (char *)_buf;
+    pb = _buf;
 
     memcpy(pb, &_len, sizeof _len);
     pb += sizeof _len;
@@ -62,12 +60,15 @@ int sock_send_msg(uv_tcp_t *tcp, int type, void const *base, int len)
     uv_write_t req;
     int err;
 
-    if (sock_make_pack(type, base, len, (void **)&buf.base, (int *)&buf.len))
+    if (sock_make_pack(type, base, len, &buf.base, &buf.len)) {
         return -1;
+    }
+
     ef.finished = false;
     req.data = &ef;
-    if ((err = uv_write(&req, (uv_stream_t *)tcp, &buf, 1, &write_cb)))
+    if ((err = uv_write(&req, (uv_stream_t *)tcp, &buf, 1, &write_cb))) {
         goto out;
+    }
     do
         uv_run(tcp->loop, UV_RUN_ONCE);
     while (!ef.finished);
