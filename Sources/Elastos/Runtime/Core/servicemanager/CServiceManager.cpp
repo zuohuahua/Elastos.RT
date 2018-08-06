@@ -334,9 +334,9 @@ void CServiceManager::CSessionManagerListener::OnSessionReceived(
     if (!manager) return;
 
     Byte* p = data->GetPayload();
-    int type = *(size_t *)p;
+    int type = *(int *)p;
     RPC_LOG("CServiceManager::CSessionManagerListener receive type: %d\n", type);
-    p += sizeof(size_t);
+    p += sizeof(int);
 
     if (type == GET_SERVICE) {
         String name((char*)p, data->GetLength() - 4);
@@ -366,18 +366,18 @@ void CServiceManager::CGetServiceListener::OnSessionReceived(
     /* [in] */ void* context)
 {
     Byte* p = data->GetPayload();
-    size_t type = *(size_t *)p;
-    RPC_LOG("CServiceManager::CGetServiceListener receive type:%d\n", type);
+    int type = *(int *)p;
+    RPC_LOG("CServiceManager::CGetServiceListener receive type:%zu\n", type);
     if (type != GET_SERVICE_REPLY) {
         return;
     }
 
     sNotifyType = SESSION_SERVICE_INFO;
 
-    p += sizeof(size_t);
+    p += sizeof(int);
 
     pthread_mutex_lock(&sGetServiceMutex);
-    int len = data->GetLength() - sizeof(size_t);
+    int len = data->GetLength() - sizeof(int);
     if (sData != NULL) {
         ArrayOf<Byte>::Free(sData);
         sData = NULL;

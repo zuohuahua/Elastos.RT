@@ -22,17 +22,7 @@
 #include "marshal.h"
 //#include <cutils/log.h>
 
-#ifndef INTEGER_DST
-#ifdef _ELASTOS64
-typedef Elastos::UInt64 INTEGER_DST;
-#else
-typedef Elastos::UInt32 INTEGER_DST;
-#endif
-#endif
-
 _ELASTOS_NAMESPACE_USING
-
-void RelocateUnalignedPtr(void* pPtr, size_t offset);
 
 void RelocateModuleInfo(
     /* [in] */ CIModuleInfo* pSrcModInfo,
@@ -93,8 +83,8 @@ ECode RegisterModuleInfo(
     //
     pthread_mutex_lock(&s_moduleInfoLock);
     if (pSrcModuleInfo->mClassNum != 0) {
-        pClassInfo = (CIClassInfo *)((INTEGER_DST)pSrcModuleInfo->mClasses \
-                + (INTEGER_DST)pSrcModuleInfo);
+        pClassInfo = (CIClassInfo *)((uintptr_t)pSrcModuleInfo->mClasses \
+                + (uintptr_t)pSrcModuleInfo);
         pCurNode = s_pModuleInfoList;
         while (pCurNode != NULL) {
             if (pCurNode->mModInfo->mClassNum != 0 \
@@ -106,8 +96,8 @@ ECode RegisterModuleInfo(
         }
     }
     else if (pSrcModuleInfo->mInterfaceNum != 0) {
-        pInterfaceInfo = (CIInterfaceInfo *)((INTEGER_DST)pSrcModuleInfo->mInterfaces \
-                + (INTEGER_DST)pSrcModuleInfo);
+        pInterfaceInfo = (CIInterfaceInfo *)((uintptr_t)pSrcModuleInfo->mInterfaces \
+                + (uintptr_t)pSrcModuleInfo);
         pCurNode = s_pModuleInfoList;
         while (pCurNode != NULL) {
             if (pCurNode->mModInfo->mInterfaceNum != 0 \
@@ -280,12 +270,22 @@ void *GetUnalignedPtr(void* pPtr)
     union
     {
         void    *p;
+#ifdef _ELASTOS64
+        byte_t  bytes[8];
+#else
         byte_t  bytes[4];
+#endif
     } u;
     u.bytes[0] = ((byte_t *)pPtr)[0];
     u.bytes[1] = ((byte_t *)pPtr)[1];
     u.bytes[2] = ((byte_t *)pPtr)[2];
     u.bytes[3] = ((byte_t *)pPtr)[3];
+#ifdef _ELASTOS64
+    u.bytes[4] = ((byte_t *)pPtr)[4];
+    u.bytes[5] = ((byte_t *)pPtr)[5];
+    u.bytes[6] = ((byte_t *)pPtr)[6];
+    u.bytes[7] = ((byte_t *)pPtr)[7];
+#endif
 
     return u.p;
 #endif

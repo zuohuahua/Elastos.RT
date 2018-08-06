@@ -60,6 +60,7 @@ ECode CP2PParcelSession::StopService()
         }
         m_serviceStarted = false;
     }
+    return NOERROR;
 }
 
 CP2PParcelSession::CP2PParcelSession(CSession* pSession) :
@@ -90,7 +91,7 @@ CP2PParcelSession::~CP2PParcelSession()
 ECode CP2PParcelSession::SendMessage(
                 /* [in] */ RpcMethod type,
                 /* [in] */ void* msg,
-                /* [in] */ size_t len)
+                /* [in] */ int len)
 {
     return mSession->SendMessage((int)type, msg, len);
 }
@@ -132,9 +133,9 @@ ECode CP2PParcelSession::ReceiveFromRemote(
 
     Byte* p = mData->data->GetPayload();
     int _len = mData->data->GetLength();
-    int _type = *(size_t *)p;
-    p += sizeof(size_t);
-    _len -= sizeof(size_t);
+    int _type = *(int *)p;
+    p += sizeof(int);
+    _len -= sizeof(int);
 
     RPC_LOG("CP2PParcelSession::ReceiveFromRemote type:%d", _type);
     *type = _type;

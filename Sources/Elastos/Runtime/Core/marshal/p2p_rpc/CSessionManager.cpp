@@ -142,7 +142,7 @@ ECode CSessionManager::CreateSession(
     /* [in] */ const String& uid,
     /* [in] */ Boolean initiator,
     /* [in] */ const char *sdp,
-    /* [in] */ size_t len,
+    /* [in] */ int len,
     /* [out] */ CSession** ppSession)
 {
     if (uid.IsNullOrEmpty() || !ppSession) {

@@ -80,7 +80,7 @@ CSession::CSession(
     /* [in] */ ICarrier* pCarrier,
     /* [in] */ const char* uid,
     /* [in] */ const char *sdp,
-    /* [in] */ size_t len)
+    /* [in] */ int len)
     : mCarrier(pCarrier)
     , mElaSession(NULL)
     , mStream(0)
@@ -257,7 +257,7 @@ void StreamReceiveData(
     size_t len,
     void *context)
 {
-    RPC_LOG("Stream %d received data len: %d\n", stream, len);
+    RPC_LOG("Stream %d received data len: %zu\n", stream, len);
 
     CSession* pThis = (CSession*)context;
     if (!pThis) return;
@@ -367,14 +367,14 @@ Boolean CSession::IsConnected()
 ECode CSession::SendMessage(
     int type,
     void* msg,
-    size_t len)
+    int len)
 {
     RPC_LOG("CSession::SendMessage type: %d", type);
     if (mElaCarrier == NULL) {
         return E_FAIL;
     }
 
-    size_t msgLen = len + sizeof(int);
+    int msgLen = len + sizeof(int);
     ArrayOf<Byte>* data = ArrayOf<Byte>::Alloc(msgLen);
     if (data == NULL) {
         return E_OUT_OF_MEMORY;
@@ -424,7 +424,7 @@ ECode CSession::ReceiveMessage(
     while(mData == NULL) {
         pthread_cond_wait(&mDataCv, &mDataLock);
     }
-    
+
     mWaitingForData = FALSE;
     if (mData == NULL) {
         pthread_mutex_unlock(&mDataLock);
@@ -443,9 +443,9 @@ ECode CSession::ReceiveMessage(
 
     Byte* p = mData->data->GetPayload();
     int _len = mData->data->GetLength();
-    int _type = *(size_t *)p;
-    p += sizeof(size_t);
-    _len -= sizeof(size_t);
+    int _type = *(int *)p;
+    p += sizeof(int);
+    _len -= sizeof(int);
 
     RPC_LOG("CSession::ReceiveMessage type: %d", _type);
     *pType = _type;
@@ -616,7 +616,7 @@ ECode CSession::SessionStart()
 ECode CSession::SessionComplete(
     const char *reason,
     const char *sdp,
-    size_t len)
+    int len)
 {
     strncpy(mRemoteSdp, sdp, len);
     mRemoteSdp[len] = 0;

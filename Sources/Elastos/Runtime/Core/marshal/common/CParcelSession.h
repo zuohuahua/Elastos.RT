@@ -31,7 +31,7 @@ public:
     virtual Elastos::ECode SendMessage(
                 /* [in] */ RpcMethod type,
                 /* [in] */ void* msg,
-                /* [in] */ size_t len) = 0;
+                /* [in] */ int len) = 0;
 
     virtual Elastos::ECode ReceiveMessage(
                 /* [out] */ RpcMethod* pType,

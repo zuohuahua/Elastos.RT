@@ -18,14 +18,6 @@
 #include "CEntryList.h"
 #include <dlfcn.h>
 
-#ifndef INTEGER_DST
-#ifdef _ELASTOS64
-typedef Elastos::UInt64 INTEGER_DST;
-#else
-typedef Elastos::UInt32 INTEGER_DST;
-#endif
-#endif
-
 CClsModule::CClsModule(
     /* [in] */ CLSModule* clsMod,
     /* [in] */ Boolean allocedClsMod,
@@ -45,7 +37,7 @@ CClsModule::CClsModule(
         mBase = 0;
     }
     else {
-        mBase = INTEGER_DST(clsMod);
+        mBase = uintptr_t(clsMod);
     }
 }
 

@@ -7,9 +7,7 @@ setupArg=$1
 # Fields: option_name config_file cpu_arch descriptions
 generic_env_options=(
     "arm_android_32"        "arm_android_clang.sh"  "32"    " (use clang)"
-    # TODO: Enable 64-bits Android build
-    #       Currently, the pre-built libraries (e.g. libicuuc.so) only have 32-bits version.
-    # "arm_android_64"        "arm_android_clang.sh"  "64"    " (use clang)"
+    "arm_android_64"        "arm_android_clang.sh"  "64"    " (use clang)"
 )
 mac_env_options=(
     "ios_simulator"         "ios_simulator.sh"      "64"    " (64-bits)"

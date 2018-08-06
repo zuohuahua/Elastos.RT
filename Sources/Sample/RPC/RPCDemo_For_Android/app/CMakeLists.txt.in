@@ -6,7 +6,7 @@
 cmake_minimum_required(VERSION 3.4.1)
 
 include_directories(elastos/include)
-link_directories(elastos/libs/armeabi-v7a)
+link_directories(elastos/libs/@ANDROID_ABI@)
 
 # Suppress warning: empty struct has size 0 in C, size 1 in C++ [-Wextern-c-compat]
 string(APPEND CMAKE_CXX_FLAGS " -Wno-extern-c-compat")

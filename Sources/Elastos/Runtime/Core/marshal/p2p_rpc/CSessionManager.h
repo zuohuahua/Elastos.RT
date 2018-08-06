@@ -51,7 +51,7 @@ public:
         /* [in] */ const String& uid,
         /* [in] */ Boolean initiator,
         /* [in] */ const char *sdp,
-        /* [in] */ size_t len,
+        /* [in] */ int len,
         /* [in] */ CSession** ppSession);
 
     ECode GetSession(

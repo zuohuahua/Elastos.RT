@@ -23,8 +23,13 @@ add_custom_command(
 set (OPENSSL_CONFIG_OPTIONS "")
 
 if("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "android")
+    if("$ENV{XDK_TARGET_CPU_ARCH}" STREQUAL "64")
+        set (NDK_TOOLCHAIN_BASENAME aarch64-linux-android)
+    else("$ENV{XDK_TARGET_CPU_ARCH}" STREQUAL "64")
+        set (NDK_TOOLCHAIN_BASENAME arm-linux-androideabi)
+    endif("$ENV{XDK_TARGET_CPU_ARCH}" STREQUAL "64")
     set (NDK_TOOLCHAIN ${CMAKE_CURRENT_BINARY_DIR}/ndk-toolchain)
-    set (OPENSSL_BUILD_COMMAND ${OPENSSL_SCRIPTS}/build_openssl.sh --target-platform android --ndk-toolchain ${NDK_TOOLCHAIN} --ndk-toolchain-basename arm-linux-androideabi --install-dir ${OPENSSL_PREFIX})
+    set (OPENSSL_BUILD_COMMAND ${OPENSSL_SCRIPTS}/build_openssl.sh --target-platform android --ndk-toolchain ${NDK_TOOLCHAIN} --ndk-toolchain-basename ${NDK_TOOLCHAIN_BASENAME} --install-dir ${OPENSSL_PREFIX})
 else()
     set (OPENSSL_CC "${CMAKE_XCODE_DEVELOPER_DIR}/usr/bin/gcc -arch ${IOS_ARCH}")
 

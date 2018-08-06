@@ -20,7 +20,7 @@ public:
     Elastos::ECode SendMessage(
                 /* [in] */ RpcMethod type,
                 /* [in] */ void* msg,
-                /* [in] */ size_t len);
+                /* [in] */ int len);
 
     Elastos::ECode ReceiveMessage(
                 /* [out] */ RpcMethod* pType,

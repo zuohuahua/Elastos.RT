@@ -27,10 +27,10 @@ add_custom_command(
 add_custom_command(
     COMMENT "Copy elastos headers and libraries..."
     OUTPUT ${PROJECT_BIN}/app/elastos/include/Chat.h
-           ${PROJECT_BIN}/app/elastos/libs/armeabi-v7a/libChat.so
-    COMMAND dropsdk --output-dir app --lib-subdir armeabi-v7a
+           ${PROJECT_BIN}/app/elastos/libs/${ANDROID_ABI}/libChat.so
+    COMMAND dropsdk --output-dir app --lib-subdir ${ANDROID_ABI}
     COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_BIN}/../Chat/Chat.h app/elastos/include
-    COMMAND ${CMAKE_COMMAND} -E copy $ENV{XDK_TARGETS}/libChat.so app/elastos/libs/armeabi-v7a
+    COMMAND ${CMAKE_COMMAND} -E copy $ENV{XDK_TARGETS}/libChat.so app/elastos/libs/${ANDROID_ABI}
     WORKING_DIRECTORY ${PROJECT_BIN}
     DEPENDS ${PROJECT_BIN}/gradlew
             ${PROJECT_BIN}/../Chat/Chat.h
@@ -52,7 +52,7 @@ add_custom_command(
     COMMAND ${CMAKE_COMMAND} -E touch_nocreate ${apk_filename}
     WORKING_DIRECTORY ${PROJECT_BIN}
     DEPENDS ${PROJECT_BIN}/app/elastos/include/Chat.h
-            ${PROJECT_BIN}/app/elastos/libs/armeabi-v7a/libChat.so
+            ${PROJECT_BIN}/app/elastos/libs/${ANDROID_ABI}/libChat.so
 )
 
 

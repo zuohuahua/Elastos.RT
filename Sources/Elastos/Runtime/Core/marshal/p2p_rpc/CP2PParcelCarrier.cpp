@@ -114,9 +114,9 @@ void CP2PParcelCarrier::CSessionManagerListener::OnSessionReceived(
 
     Byte* p = data->GetPayload();
     int _len = data->GetLength();
-    size_t _type = *(size_t *)p;
-    p += sizeof(size_t);
-    _len -= sizeof(size_t);
+    int _type = *(int *)p;
+    p += sizeof(int);
+    _len -= sizeof(int);
 
     RPC_LOG("CObjectStub receive type:%d, len: %d\n", _type, _len);
 

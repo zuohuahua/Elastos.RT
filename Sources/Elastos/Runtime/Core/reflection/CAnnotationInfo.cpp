@@ -21,8 +21,8 @@ inline KeyValuePair* getKeyValuePairAddr(
     /* [in] */ KeyValuePair** desc,
     /* [in] */ Int32 index)
 {
-    desc = (KeyValuePair**)((INTEGER_DST)desc + base);
-    return (KeyValuePair*)((INTEGER_DST)desc[index] + base);
+    desc = (KeyValuePair**)((uintptr_t)desc + base);
+    return (KeyValuePair*)((uintptr_t)desc[index] + base);
 }
 
 CAnnotationInfo::CAnnotationInfo(

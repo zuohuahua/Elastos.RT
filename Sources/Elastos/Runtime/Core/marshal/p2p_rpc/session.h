@@ -38,7 +38,7 @@ public:
         /* [in] */ ICarrier* pCarrier,
         /* [in] */ const char* uid,
         /* [in] */ const char *sdp,
-        /* [in] */ size_t len);
+        /* [in] */ int len);
 
     ~CSession();
 
@@ -54,7 +54,7 @@ public:
     ECode SendMessage(
         /* [in] */ int type,
         /* [in] */ void* msg,
-        /* [in] */ size_t len);
+        /* [in] */ int len);
 
     ECode ReceiveMessage(
         /* [out] */ Int32* pType,
@@ -142,7 +142,7 @@ private:
     ECode SessionComplete(
         const char *reason,
         const char *sdp,
-        size_t len);
+        int len);
 
     ECode SessionDestroy();
 
@@ -170,7 +170,7 @@ private:
     ElaSession* mElaSession;
     int mStream;
     char mRemoteSdp[2048];
-    size_t mSdpLen;
+    int mSdpLen;
 
     Boolean mInitiator;
 

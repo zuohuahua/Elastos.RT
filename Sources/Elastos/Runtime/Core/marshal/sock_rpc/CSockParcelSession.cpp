@@ -67,7 +67,7 @@ CSockParcelSession::~CSockParcelSession()
 ECode CSockParcelSession::SendMessage(
                 /* [in] */ RpcMethod type,
                 /* [in] */ void* msg,
-                /* [in] */ size_t len)
+                /* [in] */ int len)
 {
     ECode ec = NOERROR;
     if (sock_send_msg(m_tcp, (int)type, msg, len)) {

@@ -104,6 +104,7 @@ case $key in
         shift;shift;; # past argument and value
     *)    # unknown option
         echo "Unknown option: $key"
+        echo
         usage
         exit 1
         ;;
@@ -180,9 +181,14 @@ if [ "$TARGET_PLATFORM" = "ios" ]; then
         export LDFLAGS="-L$ISYSROOT_DIR/usr/lib/ -isysroot $ISYSROOT_DIR $LDFLAGS"
     fi
 elif [ "$TARGET_PLATFORM" = "android" ]; then
-    export CFLAGS='-Os -march=armv7-a -mfloat-abi=softfp -mfpu=neon'
-    export CXXFLAGS='--std=c++11 -march=armv7-a -mfloat-abi=softfp -mfpu=neon'
-    export LDFLAGS='-march=armv7-a -Wl,--fix-cortex-a8'
+    if [ "$TARGET_ARCH" = "arm" ]; then
+        export CFLAGS='-Os -march=armv7-a -mfloat-abi=softfp -mfpu=neon'
+        export CXXFLAGS='--std=c++11 -march=armv7-a -mfloat-abi=softfp -mfpu=neon'
+        export LDFLAGS='-march=armv7-a -Wl,--fix-cortex-a8'
+    else
+        export CFLAGS='-Os'
+        export CXXFLAGS='--std=c++11'
+    fi
 fi
 
 if [ "$TARGET_PLATFORM" = "ios" ]; then
@@ -194,7 +200,11 @@ if [ "$TARGET_PLATFORM" = "ios" ]; then
         ICU_HOST=arm-apple-darwin
     fi
 elif [ "$TARGET_PLATFORM" = "android" ]; then
-    ICU_HOST=arm-linux-androideabi
+    if [ "$TARGET_ARCH" = "arm" ]; then
+        ICU_HOST=arm-linux-androideabi
+    else
+        ICU_HOST=aarch64-linux-android
+    fi
 fi
 
 echo Building ICU for $TARGET_ARCH...

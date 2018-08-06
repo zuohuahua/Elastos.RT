@@ -18,10 +18,17 @@ if("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "ios")
     )
 elseif("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "android")
     set (NDK_TOOLCHAIN ${CMAKE_CURRENT_BINARY_DIR}/ndk-toolchain)
+    if("$ENV{XDK_TARGET_CPU_ARCH}" STREQUAL "64")
+        set (TARGET_ARCH aarch64)
+        set (NDK_TOOLCHAIN_BASENAME aarch64-linux-android)
+    else("$ENV{XDK_TARGET_CPU_ARCH}" STREQUAL "64")
+        set (TARGET_ARCH arm)
+        set (NDK_TOOLCHAIN_BASENAME arm-linux-androideabi)
+    endif("$ENV{XDK_TARGET_CPU_ARCH}" STREQUAL "64")
     add_custom_command(
         COMMENT "Building icu..."
         OUTPUT ${ICU_BINARY}/cross-build/lib/libicuuc.a
-        COMMAND ${ICU_SCRIPTS}/build_icu.sh --icu-path ${ICU_SOURCE} --output-dir ${ICU_BINARY} --install-dir ${ICU_PREFIX} --cross-build yes --cross-toolchain ${NDK_TOOLCHAIN}/bin/arm-linux-androideabi --target-platform android --target-arch arm
+        COMMAND ${ICU_SCRIPTS}/build_icu.sh --icu-path ${ICU_SOURCE} --output-dir ${ICU_BINARY} --install-dir ${ICU_PREFIX} --cross-build yes --cross-toolchain ${NDK_TOOLCHAIN}/bin/${NDK_TOOLCHAIN_BASENAME} --target-platform android --target-arch ${TARGET_ARCH}
         COMMAND ${CMAKE_COMMAND} -E copy_directory "${ICU_PREFIX}/include" "$ENV{XDK_USER_INC}"
         WORKING_DIRECTORY ${ICU_BINARY}
         DEPENDS ${ICU_SOURCE}/source/configure

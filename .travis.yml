@@ -44,3 +44,20 @@ matrix:
       - export ANDROID_NDK=/usr/local/android-sdk/ndk-bundle
       - export PATH=/usr/local/android-sdk/cmake/3.6.4111459/bin:$PATH
     script: source $TRAVIS_BUILD_DIR/Setup/SetEnv.sh $BUILD_ENV && emake
+
+  - language: android
+    sudo: true
+    android:
+      components:
+        - tools
+        - platform-tools
+        - build-tools-23.0.2
+        - android-23
+    env: BUILD_ENV=arm_android_64
+    install:
+      - echo y | sdkmanager 'ndk-bundle'
+      - echo y | sdkmanager 'cmake;3.6.4111459'
+      - echo y | sdkmanager 'lldb;3.0'
+      - export ANDROID_NDK=/usr/local/android-sdk/ndk-bundle
+      - export PATH=/usr/local/android-sdk/cmake/3.6.4111459/bin:$PATH
+    script: source $TRAVIS_BUILD_DIR/Setup/SetEnv.sh $BUILD_ENV && chv rls && emake

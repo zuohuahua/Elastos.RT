@@ -15,6 +15,7 @@ add_library(Elastos.Runtime SHARED ${DEF_GENERATED_SOURCES} ${SOURCES})
 set(MY_LINK_LIBRARIES)
 
 list(APPEND MY_LINK_LIBRARIES
+    marshalcomm
     elapi
 )
 
@@ -22,41 +23,27 @@ if(NOT ("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "linux"))
     list(APPEND MY_LINK_LIBRARIES
         elcarrierapi
         elacarrier
+        elacommon
+        elasession
     )
 endif()
 
-if("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "ios")
-    list(APPEND MY_LINK_LIBRARIES
-        marshalcomm
-        elasession
-    )
-elseif("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "android")
+if("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "android")
     list(APPEND MY_LINK_LIBRARIES
         servicemanager
         javacarmanager
-        marshalcomm
         marshal_rpc
-        elasession
         log
     )
 elseif("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "linux")
     list(APPEND MY_LINK_LIBRARIES
-        marshalcomm
         marshal_rpc
         uv
         pthread
         dl
     )
-elseif("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "linux" AND "$ENV{XDK_TARGET_CPU_ARCH}" STREQUAL "64")
+elseif(NOT "$ENV{XDK_TARGET_PLATFORM}" STREQUAL "ios")
     list(APPEND MY_LINK_LIBRARIES
-        marshalcomm
-        pthread
-        dl
-        elasession
-    )
-else()
-    list(APPEND MY_LINK_LIBRARIES
-        marshalcomm
         pthread
         dl
     )

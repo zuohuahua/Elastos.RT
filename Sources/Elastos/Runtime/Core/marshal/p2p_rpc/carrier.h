@@ -6,7 +6,7 @@
 
 #ifdef _android
 #include <android/log.h>
-#define RPC_LOG(...) __android_log_print(ANDROID_LOG_DEBUG, "P2P RPC", __VA_ARGS__)
+#define RPC_LOG(...) __android_log_print(ANDROID_LOG_DEBUG, "P2P_RPC", __VA_ARGS__)
 #else
 #define RPC_LOG printf
 #endif
