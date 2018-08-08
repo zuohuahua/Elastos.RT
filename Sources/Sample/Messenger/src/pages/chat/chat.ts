@@ -43,9 +43,16 @@ export class ChatPage {
     this.getMsg();
 
     // Subscribe to received  new message events
-    this.events.subscribe('chat:received', msg => {
-      this.pushNewMsg(msg);
-    })
+    this.events.subscribe('chat:received', this.receiveMsgHandle);
+  }
+
+  ionViewDidLeave() {
+    this.events.unsubscribe('chat:received', this.receiveMsgHandle);
+  }
+
+  receiveMsgHandle: any = (data) => {
+    console.log("=== chat page receive new message: " + data.message);
+    this.pushNewMsg(data);
   }
 
   getMsg() {
@@ -103,6 +110,12 @@ export class ChatPage {
         this.content.scrollToBottom();
       }
     }, 400)
+  }
+
+  getTime(time): string {
+    var date = new Date();
+    date.setTime(time);
+    return date.toLocaleTimeString();
   }
 
 }

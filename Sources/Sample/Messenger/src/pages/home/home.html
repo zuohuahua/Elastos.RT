@@ -23,11 +23,9 @@
           <img src="assets/imgs/avatar.png">
         </ion-avatar>
         <h2>{{ item.uid }}</h2>
-        <p>{{ item.online }}</p>
+        <p>{{item.online == 1 ? 'online' : 'offline'}}</p>
         <button ion-button clear item-end (click)="deleteFriend($event, item.uid)">Delete</button>
       </button>
     </ion-list>
-
-     <button ion-button (click)="stop()">Stop Carrier</button>
 
 </ion-content>

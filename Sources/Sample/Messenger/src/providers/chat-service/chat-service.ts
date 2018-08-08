@@ -117,7 +117,12 @@ export class ChatService {
       status: 'success'
     };
 
-    this.events.publish('chat:received', newMsg, Date.now())
+    console.log("=== service receive new message: " + msg);
+
+    setTimeout(() => {
+        this.events.publish('chat:received', newMsg, Date.now())
+    }, 200);
+
   }
 
   accpetFriendRequest(uid) {

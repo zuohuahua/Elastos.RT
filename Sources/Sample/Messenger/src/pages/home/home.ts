@@ -34,7 +34,6 @@ export class HomePage {
   }
 
   ionViewDidLoad() {
-    this.initializeBackButtonCustomHandler();
 
     this.events.subscribe('chat:ready', msg => {
       if (this.loading != null) {
@@ -67,10 +66,19 @@ export class HomePage {
     });
   }
 
+  ionViewWillEnter() {
+    console.log("=== home page ionViewWillEnter");
+    this.initializeBackButtonCustomHandler();
+  }
+
   ionViewWillLeave() {
+    console.log("=== home page ionViewWillLeave");
     // Unregister the custom back button action for this page
     this.unregisterBackButtonAction && this.unregisterBackButtonAction();
-    //this.chatService.stop();
+  }
+
+  ionViewWillUnload() {
+    console.log("=== home page ionViewWillUnload");
   }
 
   initializeBackButtonCustomHandler(): void {
