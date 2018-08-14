@@ -180,7 +180,8 @@ export class HomePage {
   insertFriend(uid) {
     let friend = {
       uid: uid,
-      online: 0
+      online: 0,
+      label: null
     }
 
     this.items.push(friend);
@@ -220,6 +221,36 @@ export class HomePage {
       }
     }
 
+  }
+
+  presentSetNickname(item) {
+    let alert = this.alertCtrl.create({
+      title: 'Set nickname',
+      inputs: [
+        {
+          name: 'nickname',
+          placeholder: 'nickname'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Ok',
+          handler: data => {
+            console.log('=== Ok clicked');
+            this.chatService.setLabel(item.uid, data.nickname);
+            item.label = data.nickname;
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
 }
