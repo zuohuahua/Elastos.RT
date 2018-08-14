@@ -399,7 +399,7 @@ static void OnStreamStateChanged(ElaSession *ws, int stream,
                 goto close_exit;
             }
         }
-        
+
         goto return_exit;
     }
 
@@ -1191,6 +1191,7 @@ ECode CCarrier::GetFriend(
             pthread_mutex_unlock(&mFriendListLock);
             return E_OUT_OF_MEMORY;
         }
+        ((CFriend*)(*_friend))->mLabel = fi.label;
 
         //The caller need to use AutoPtr<IFriend> xxx to get the interface.
         (*_friend)->AddRef();
@@ -1205,8 +1206,7 @@ ECode CCarrier::GetFriend(
 static bool get_friends_callback(const ElaFriendInfo *friend_info, void *context)
 {
     if (friend_info) {
-        CCarrier::GetLocalInstance()->AddFriend2List(String(friend_info->user_info.userid),
-                friend_info->status == ElaConnectionStatus_Connected);
+        CCarrier::GetLocalInstance()->AddFriend2List(friend_info);
     }
     return true;
 }
@@ -1580,19 +1580,21 @@ ECode CCarrier::GetInterfaceID(
 }
 
 void CCarrier::AddFriend2List(
-    /* [in] */ const String& uid,
-    /* [in] */ Boolean online)
+    /* [in] */ const ElaFriendInfo *friend_info)
 {
     pthread_mutex_lock(&mFriendListLock);
 
     //Add the new friend to the table.
     FriendNode* fn = new FriendNode();
     if (!fn) goto exit;
-    fn->mUid = uid;
+    fn->mUid = String(friend_info->user_info.userid);
 
     //Update the online by constructor.
-    fn->mFriend = new CFriend(uid, online);
+    fn->mFriend = new CFriend(String(friend_info->user_info.userid),
+                friend_info->status == ElaConnectionStatus_Connected);
     if (!fn->mFriend) goto exit;
+    ((CFriend*)fn->mFriend)->mLabel = friend_info->label;
+
     mTempFriendList.InsertFirst(fn);
 
 exit:
@@ -1627,6 +1629,8 @@ ECode CCarrier::CFriend::SetLabel(
     /* [in] */ const String& label)
 {
     mLabel = label;
+    CCarrier* pCarrier = CCarrier::GetLocalInstance();
+    ela_set_friend_label(pCarrier->mElaCarrier, mUid.string(), label.string());
     return NOERROR;
 }
 

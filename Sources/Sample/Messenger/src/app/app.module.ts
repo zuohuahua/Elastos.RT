@@ -4,6 +4,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { QRCodeModule } from 'angular2-qrcode';
+import { LongPressModule } from 'ionic-long-press';
 
 import { NgxQRCodeModule } from 'ngx-qrcode2';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
@@ -24,7 +25,8 @@ import { ChatService } from '../providers/chat-service/chat-service';
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    NgxQRCodeModule
+    NgxQRCodeModule,
+    LongPressModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

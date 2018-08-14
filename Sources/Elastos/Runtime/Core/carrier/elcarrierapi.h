@@ -153,8 +153,7 @@ public:
     ~CCarrier();
 
     CARAPI_(void) AddFriend2List(
-        /* [in] */ const String& uid,
-        /* [in] */ Boolean online);
+        /* [in] */ const ElaFriendInfo *friend_info);
 
 private:
     //CFriend: include the friend's information.
@@ -201,6 +200,8 @@ private:
         String mLabel;
         String mName;
         Boolean mIsOnline;
+
+        friend class CCarrier;
     };
 
     class ListenerNode : public SLinkNode

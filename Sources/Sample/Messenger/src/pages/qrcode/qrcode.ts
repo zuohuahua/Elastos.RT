@@ -9,7 +9,6 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-qrcode',
   templateUrl: 'qrcode.html',

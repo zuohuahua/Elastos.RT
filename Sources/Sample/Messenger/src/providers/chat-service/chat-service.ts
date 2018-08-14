@@ -2,7 +2,6 @@
 
 import { Injectable } from '@angular/core';
 import { Events } from 'ionic-angular';
-import { map } from 'rxjs/operators/map';
 import { AlertController } from 'ionic-angular';
 
 declare let Carrier: any;
@@ -184,6 +183,11 @@ export class ChatService {
     });
     //return new Promise(resolve => setTimeout(() => resolve(msg), Math.random() * 1000))
     //.then(() => this.mockNewMsg(msg));
+  }
+
+  setLabel(uid, label) {
+    console.log('=== set friend label uid: ' + uid + ' label: ' + label);
+    this.carrier.SetFriendLabel(uid, label);
   }
 
 }
