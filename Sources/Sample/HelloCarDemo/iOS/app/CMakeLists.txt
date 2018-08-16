@@ -4,10 +4,10 @@ include($ENV{XDK_DEFINITIONS_CMAKE})
 set(CMAKE_CXX_STANDARD 11)
 
 set(DEVELOPMENT_PROJECT_NAME "hellocarapp")                 # <== Set to your project name, e.g. project.xcodeproj
-set(DEVELOPMENT_TEAM_ID "AAAAA11111")                       # <== Set to your team ID from Apple
+set(DEVELOPMENT_TEAM_ID $ENV{XDK_IOS_DEVELOPMENT_TEAM_ID})  # <== Set to your team ID from Apple
 set(APP_NAME "HelloCarApp")                                 # <== Set To your app's name
 set(APP_BUNDLE_IDENTIFIER "org.elastos.hellocarapp")        # <== Set to your app's bundle identifier
-set(CODE_SIGN_IDENTITY "iPhone Developer")                  # <== Set to your preferred code sign identity, to see list:
+set(CODE_SIGN_IDENTITY $ENV{XDK_IOS_CODE_SIGN_IDENTITY})    # <== Set to your preferred code sign identity, to see list:
                                                             # /usr/bin/env xcrun security find-identity -v -p codesigning
 set(DEPLOYMENT_TARGET 8.0)                                  # <== Set your deployment target version of iOS
 set(DEVICE_FAMILY "1")                                      # <== Set to "1" to target iPhone, set to "2" to target iPad, set to "1,2" to target both
@@ -62,8 +62,7 @@ add_executable(
 set_target_properties(${APP_NAME} PROPERTIES XCODE_ATTRIBUTE_ENABLE_BITCODE "NO")
 
 target_include_directories(${APP_NAME} PUBLIC
-    "$ENV{XDK_USER_INC}"
-    "${CMAKE_CURRENT_BINARY_DIR}/../../../Car"
+    ${CMAKE_CURRENT_BINARY_DIR}/../elastos/include
 )
 
 # Locate system libraries on iOS
@@ -84,11 +83,11 @@ set(CMAKE_SHARED_LIBRARY_RUNTIME_C_FLAG "-Wl,-rpath,")
 set(CMAKE_SHARED_LIBRARY_RUNTIME_C_FLAG_SEP ":")
 
 add_library( Elastos.Runtime SHARED IMPORTED GLOBAL )
-set_target_properties( Elastos.Runtime PROPERTIES IMPORTED_LOCATION $ENV{XDK_TARGETS}/Elastos.Runtime.eco )
+set_target_properties( Elastos.Runtime PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_BINARY_DIR}/../elastos/libs/Elastos.Runtime.eco )
 target_link_libraries(${APP_NAME} Elastos.Runtime)
 
 target_link_libraries(${APP_NAME}
-    $ENV{XDK_USER_LIB}/libElastos.Runtime_static.a)
+    ${CMAKE_CURRENT_BINARY_DIR}/../elastos/libs/libElastos.Runtime_static.a)
 
 
 # Turn on ARC
@@ -138,6 +137,10 @@ add_custom_command(
         \&\>/dev/null \; then
         COMMAND_DONE=1 \;
     fi \;
+    if [ \\$$COMMAND_DONE -eq 0 ] \; then
+        echo Failed to create Frameworks directory in app bundle \;
+        exit 1 \;
+    fi \;
     if ${CMAKE_COMMAND} -E make_directory
         \${BUILT_PRODUCTS_DIR}/${APP_NAME}.app/Frameworks
         \&\>/dev/null \; then
@@ -156,9 +159,8 @@ add_custom_command(
     POST_BUILD COMMAND /bin/sh -c
     \"COMMAND_DONE=0 \;
     if ${CMAKE_COMMAND} -E copy
-        $ENV{XDK_TARGETS}/Elastos.Runtime.eco
-        $ENV{XDK_TARGETS}/Elastos.CoreLibrary.eco
-        $ENV{XDK_TARGETS}/Elastos.HelloCarDemo.eco
+        ${CMAKE_CURRENT_BINARY_DIR}/../elastos/libs/*.eco
+        ${CMAKE_CURRENT_BINARY_DIR}/../elastos/libs/*.dylib
         \${BUILT_PRODUCTS_DIR}/${APP_NAME}.app/Frameworks/
         \&\>/dev/null \; then
         COMMAND_DONE=1 \;
@@ -174,28 +176,17 @@ add_custom_command(
     TARGET
     ${APP_NAME}
     POST_BUILD COMMAND /bin/sh -c
-    \"COMMAND_DONE=0 \;
-    if codesign --force --verbose
-        \${BUILT_PRODUCTS_DIR}/${APP_NAME}.app/Frameworks/Elastos.Runtime.eco
-        --sign ${CODE_SIGN_IDENTITY}
-        \&\>/dev/null \; then
-        COMMAND_DONE=1 \;
-    fi \;
-    if codesign --force --verbose
-        \${BUILT_PRODUCTS_DIR}/${APP_NAME}.app/Frameworks/Elastos.CoreLibrary.eco
-        --sign ${CODE_SIGN_IDENTITY}
-        \&\>/dev/null \; then
-        COMMAND_DONE=1 \;
-    fi \;
-    if codesign --force --verbose
-        \${BUILT_PRODUCTS_DIR}/${APP_NAME}.app/Frameworks/Elastos.HelloCarDemo.eco
-        --sign ${CODE_SIGN_IDENTITY}
-        \&\>/dev/null \; then
-        COMMAND_DONE=1 \;
-    fi \;
-    if [ -n '$ENV{XDK_SKIP_CODE_SIGN}' ] \; then
+    \"if [ ! '$ENV{XDK_IOS_CODE_SIGNING}' = '1' ] \; then
         echo Framework codesign skiped \;
         exit 0 \;
+    fi \;
+    COMMAND_DONE=0 \;
+    if codesign --force --verbose
+        \${BUILT_PRODUCTS_DIR}/${APP_NAME}.app/Frameworks/*.eco
+        \${BUILT_PRODUCTS_DIR}/${APP_NAME}.app/Frameworks/*.dylib
+        --sign ${CODE_SIGN_IDENTITY}
+        \&\>/dev/null \; then
+        COMMAND_DONE=1 \;
     fi \;
     if [ \\$$COMMAND_DONE -eq 0 ] \; then
         echo Framework codesign failed \;

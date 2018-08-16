@@ -110,6 +110,7 @@ if [ "$TARGET_PLATFORM" = "android" ]; then
     export RANLIB=$NDK_TOOLCHAIN_BASENAME-ranlib
     export STRIP=$NDK_TOOLCHAIN_BASENAME-strip
     OPENSSL_PLATFORM=linux-generic32
+    SSL_CONFIG_OPTIONS="shared $SSL_CONFIG_OPTIONS"
 elif [ "$TARGET_PLATFORM" = "ios" ]; then
     export CC=$CROSS_CC
     export CROSS_TOP=$IOS_CROSS_TOP
@@ -118,7 +119,7 @@ elif [ "$TARGET_PLATFORM" = "ios" ]; then
 fi
 
 
-./Configure $OPENSSL_PLATFORM shared $SSL_CONFIG_OPTIONS --prefix=$INSTALL_DIR
+./Configure $OPENSSL_PLATFORM $SSL_CONFIG_OPTIONS --prefix=$INSTALL_DIR
 
 make CALC_VERSIONS="SHLIB_COMPAT=; SHLIB_SOVER=" all
 mkdir -p $INSTALL_DIR/lib

@@ -1,0 +1,21 @@
+export XDK_IOS_CODE_SIGNING="1"
+#      ^== Set to "1" for code sign iOS applications, others for skip code sign.
+
+export XDK_IOS_DEVELOPMENT_TEAM_ID="AAAAA11111"
+#      ^== Set to your team ID from Apple
+#          You can find your team id here:
+#               https://developer.apple.com/account/#/membership
+#               This will get you to your Membership Details, just scroll down to Team ID
+#          You can also find it here:
+#               Applications -> Utilities -> Keychain Access.
+#               Under the 'login' Keychain, go into the 'Certificates' category.
+#               Scroll to find your development or distribution certificate. They will read:
+#                   iPhone Distribution: Team Name (Certificate ID)
+#               or
+#                   iPhone Developer: Team Name (Certificate ID)
+#               To see the Team ID assigned to this certificate, you can
+#               "Right Click > Get Info" and see under "Organizational Unit".
+
+export XDK_IOS_CODE_SIGN_IDENTITY="iPhone Developer"
+#      ^== Set to your preferred code sign identity, to see list:
+#          /usr/bin/env xcrun security find-identity -v -p codesigning

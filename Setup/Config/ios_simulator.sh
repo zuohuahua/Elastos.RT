@@ -10,5 +10,3 @@ else
     export CMAKE_ARGS=-DIOS_PLATFORM=SIMULATOR
 fi
 
-export XDK_BUILD_TOOL=cmake
-

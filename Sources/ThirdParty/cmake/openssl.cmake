@@ -7,7 +7,7 @@ set (OPENSSL_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/openssl_install)
 file(MAKE_DIRECTORY ${OPENSSL_BINARY})
 
 if(APPLE)
-    set (OPENSSL_LIBRARY_SUFFIX dylib)
+    set (OPENSSL_LIBRARY_SUFFIX a)
 else()
     set (OPENSSL_LIBRARY_SUFFIX so)
 endif()

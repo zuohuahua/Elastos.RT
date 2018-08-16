@@ -168,17 +168,9 @@ source $XDK_SETUP_PATH/Config/$chose_config_file
 unset chose_config_file
 
 # Set command and build-tool lookup path
-if [ "$XDK_BUILD_TOOL" == "cmake" ]; then
-    export XDK_TOOLS=$XDK_BUILD_PATH/Tools
-    [[ $OSTYPE == *linux* ]] && export PATH=$XDK_TOOLS/$XDK_TARGET_CPU_ARCH/linux:$PATH
-    [[ $OSTYPE == *darwin* ]] && export PATH=$XDK_TOOLS/$XDK_TARGET_CPU_ARCH/mac:$PATH
-else
-    if [[ "$_ELASTOS64" == "YES" ]]; then
-        export XDK_TOOLS=$XDK_BUILD_PATH/Tools_64
-    else
-        export XDK_TOOLS=$XDK_BUILD_PATH/Tools_32
-    fi
-fi
+export XDK_TOOLS=$XDK_BUILD_PATH/Tools
+[[ $OSTYPE == *linux* ]] && export PATH=$XDK_TOOLS/$XDK_TARGET_CPU_ARCH/linux:$PATH
+[[ $OSTYPE == *darwin* ]] && export PATH=$XDK_TOOLS/$XDK_TARGET_CPU_ARCH/mac:$PATH
 
 
 #export XDK_COMMANDES=$XDK_ROOT/Commandes
@@ -239,9 +231,8 @@ else
         PS1_COLOR='\[\e[0;33m\]' # Yellow
     fi
 
-    TITLE='$XDK_TARGET_PLATFORM-${XDK_TARGET_CPU}_$XDK_TARGET_CPU_ARCH.$XDK_COMPILER-'
-    TITLE+='${XDK_TARGET_PRODUCT:+$XDK_TARGET_PRODUCT-}'
-    TITLE+='${XDK_BUILD_TOOL:+$XDK_BUILD_TOOL.}'
+    TITLE='$XDK_TARGET_PLATFORM-${XDK_TARGET_CPU}_$XDK_TARGET_CPU_ARCH.$XDK_COMPILER.'
+    TITLE+='${XDK_TARGET_PRODUCT:+$XDK_TARGET_PRODUCT.}'
     TITLE+='$XDK_VERSION'
 
     export PS1="\[\e]0;$TITLE \w\a\]\n\${debian_chroot:+(\$debian_chroot) }${PS1_COLOR}\${XDK_TARGET_CPU}_\$XDK_TARGET_CPU_ARCH.\$XDK_VERSION \w${PS1_RESET}\n$ "

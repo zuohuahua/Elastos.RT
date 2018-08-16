@@ -8,6 +8,5 @@ else
     export XDK_TARGET_CPU_ARCH=32
 fi
 
-export XDK_BUILD_TOOL=cmake
 export CMAKE_ARGS=-DIOS_PLATFORM=OS
 
