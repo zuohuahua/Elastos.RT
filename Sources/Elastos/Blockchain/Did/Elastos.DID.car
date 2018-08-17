@@ -14,6 +14,10 @@
 // limitations under the License.
 //=========================================================================
 
+/** @addtogroup DIDAPI
+  *   @{
+  */
+
 module
 {
     importlib("Elastos.CoreLibrary");
@@ -139,3 +143,5 @@ module
         interface IDIDManager;
     }
 }
+
+/** @} */

@@ -14,6 +14,11 @@
 // limitations under the License.
 //=========================================================================
 
+
+/** @addtogroup WalletAPI
+  *   @{
+  */
+
 module
 {
     importlib("Elastos.CoreLibrary");
@@ -532,3 +537,5 @@ module
         interface IMasterWalletManager;
     }
 }
+
+/** @} */

@@ -19,5 +19,5 @@ Take the example of exporting documents in Ubuntu environment.
 
     ``` shell
     cd /Elastos.RT/Docs/DocTools/doxyfile
-    doxygen elastos_sdk_runtime_car_pdf_doxy
+    doxygen elastos_SDK_doxy
     ```
