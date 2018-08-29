@@ -7,4 +7,8 @@ if("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "android")
         RPCServer
         RPCClient
     )
+elseif("$ENV{XDK_TARGET_PLATFORM}" STREQUAL "ios")
+    xdk_add_subdirectories(
+        iOS
+    )
 endif()

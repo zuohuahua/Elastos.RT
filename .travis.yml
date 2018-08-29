@@ -12,7 +12,7 @@ matrix:
 
   - os: osx
     env: BUILD_ENV=ios_simulator
-    script: source $TRAVIS_BUILD_DIR/Setup/SetEnv.sh $BUILD_ENV && export XDK_SKIP_CODE_SIGN=1 && emake
+    script: source $TRAVIS_BUILD_DIR/Setup/SetEnv.sh $BUILD_ENV && emake
 
   - sudo: required
     services: docker
