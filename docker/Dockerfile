@@ -66,6 +66,8 @@ RUN set -ex                                                                     
     cat /home/hostuser/.bashrc >> /home/hostuser/.bashrc_tmp                        && \
     mv /home/hostuser/.bashrc_tmp /home/hostuser/.bashrc
 
+ENV ANDROID_NDK /home/hostuser/android-ndk
+ENV PATH /opt/cmake/bin:$PATH
 
 USER hostuser
 
