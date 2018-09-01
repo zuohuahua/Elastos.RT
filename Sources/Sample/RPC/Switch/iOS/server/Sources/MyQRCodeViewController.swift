@@ -16,7 +16,7 @@ class MyQRCodeViewController : UIViewController {
         UIPasteboard.general.string = qrCodeString
     }
 
-    var qrCodeString: String!
+    var qrCodeString: String?
 
     func generateQRCode(from string: String, with size:CGSize) -> UIImage? {
 
@@ -40,8 +40,12 @@ class MyQRCodeViewController : UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let image = generateQRCode(from: qrCodeString, with: qrcodeImageView.frame.size)
-        qrcodeImageView.image = image
-        qrcodeLabel.text = qrCodeString
+        if qrCodeString != nil {
+            let image = generateQRCode(from: qrCodeString!, with: qrcodeImageView.frame.size)
+            qrcodeImageView.image = image
+            qrcodeLabel.text = qrCodeString
+        } else {
+            qrcodeLabel.text = "Carrier not ready!"
+        }
     }
 }

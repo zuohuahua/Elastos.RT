@@ -34,27 +34,27 @@ set(MACOSX_BUNDLE_COPYRIGHT "Copyright YOU")
 set(MACOSX_DEPLOYMENT_TARGET ${DEPLOYMENT_TARGET})
 
 set(SWIFT_OBJC_BRIDGING_HEADER
-  ./SwitchServer-Bridging-Header.h
+  ./Sources/SwitchServer-Bridging-Header.h
 )
 
 set(APP_HEADER_FILES
-  ./AppDelegate.h
-  ./ViewController.h
-  ./CppInterface.h
-  ./Prefix.pch
+  ./Sources/CarrierCAPI.h
+  ./Sources/CCarrierListener.h
+  ./Sources/CCarrierListenerCAPI.h
   ${SWIFT_OBJC_BRIDGING_HEADER}
 )
 
 set(APP_SOURCE_FILES
-  ./AppDelegate.m
-  ./ViewController.m
-  ./CppInterface.mm
-  ./main.m
-  ./MyQRCodeViewController.swift
+  ./Sources/AppDelegate.swift
+  ./Sources/CarrierCAPI.cpp
+  ./Sources/CCarrierListener.cpp
+  ./Sources/CCarrierListenerCAPI.cpp
+  ./Sources/Carrier.swift
+  ./Sources/MyQRCodeViewController.swift
+  ./Sources/MyRootViewController.swift
 )
 
-source_group("Header Files" FILES ${APP_HEADER_FILES})
-source_group(Sources FILES ${APP_SOURCE_FILES})
+source_group(Sources FILES ${APP_HEADER_FILES} ${APP_SOURCE_FILES})
 
 set(RESOURCES
   ./Main.storyboard
@@ -100,6 +100,10 @@ target_link_libraries(${APP_NAME} Elastos.Runtime)
 target_link_libraries(${APP_NAME}
     ${CMAKE_CURRENT_BINARY_DIR}/../../elastos/libs/libElastos.Runtime_static.a)
 
+add_library( Elastos.CoreLibrary SHARED IMPORTED GLOBAL )
+set_target_properties( Elastos.CoreLibrary PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_BINARY_DIR}/../../elastos/libs/Elastos.CoreLibrary.eco )
+target_link_libraries(${APP_NAME} Elastos.CoreLibrary)
+
 
 # Turn on ARC
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fobjc-arc")
@@ -107,7 +111,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fobjc-arc")
 # Create the app target
 set_target_properties(${APP_NAME} PROPERTIES
                       XCODE_ATTRIBUTE_DEBUG_INFORMATION_FORMAT "dwarf-with-dsym"
-                      XCODE_ATTRIBUTE_GCC_PREFIX_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/Prefix.pch"
                       RESOURCE "${RESOURCES}"
                       XCODE_ATTRIBUTE_GCC_PRECOMPILE_PREFIX_HEADER "YES"
                       XCODE_ATTRIBUTE_IPHONEOS_DEPLOYMENT_TARGET ${DEPLOYMENT_TARGET}

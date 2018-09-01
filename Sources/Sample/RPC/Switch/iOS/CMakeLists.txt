@@ -27,11 +27,10 @@ add_custom_command(
 )
 
 file(GLOB SOURCES_FILES
-    ${APP_SOURCE_DIR}/*.m
-    ${APP_SOURCE_DIR}/*.mm
-    ${APP_SOURCE_DIR}/*.h
-    ${APP_SOURCE_DIR}/*.pch
-    ${APP_SOURCE_DIR}/*.swift
+    ${APP_SOURCE_DIR}/Sources/*.h
+    ${APP_SOURCE_DIR}/Sources/*.hpp
+    ${APP_SOURCE_DIR}/Sources/*.cpp
+    ${APP_SOURCE_DIR}/Sources/*.swift
 )
 
 add_custom_command(
