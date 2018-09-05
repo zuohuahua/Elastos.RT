@@ -29,7 +29,7 @@ public:
           onConnectionChanged(nullptr),
           onReady(nullptr),
           onFriendRequest(nullptr),
-          onFriendConnetionChanged(nullptr),
+          onFriendConnectionChanged(nullptr),
           onPortForwardingRequest(nullptr),
           onPortForwardingResult(nullptr),
           onMessageReceived(nullptr)
@@ -51,7 +51,7 @@ public:
                 /* [in] */ const _ELASTOS String& uid,
                 /* [in] */ const _ELASTOS String& hello);
 
-    CARAPI OnFriendConnetionChanged(
+    CARAPI OnFriendConnectionChanged(
                 /* [in] */ const _ELASTOS String& uid,
                 /* [in] */ _ELASTOS Boolean online);
 
@@ -76,7 +76,7 @@ private:
     fnCarrierListenerOnConnectionChanged        onConnectionChanged;
     fnCarrierListenerOnReady                    onReady;
     fnCarrierListenerOnFriendRequest            onFriendRequest;
-    fnCarrierListenerOnFriendConnetionChanged   onFriendConnetionChanged;
+    fnCarrierListenerOnFriendConnectionChanged   onFriendConnectionChanged;
     fnCarrierListenerOnPortForwardingRequest    onPortForwardingRequest;
     fnCarrierListenerOnPortForwardingResult     onPortForwardingResult;
     fnCarrierListenerOnMessageReceived          onMessageReceived;
@@ -94,9 +94,9 @@ private:
     friend void registerCarrierListenerOnFriendRequest(
             CCarrierListener *pObj,
             fnCarrierListenerOnFriendRequest OnFriendRequest);
-    friend void registerCarrierListenerOnFriendConnetionChanged(
+    friend void registerCarrierListenerOnFriendConnectionChanged(
             CCarrierListener *pObj,
-            fnCarrierListenerOnFriendConnetionChanged OnFriendConnetionChanged);
+            fnCarrierListenerOnFriendConnectionChanged OnFriendConnectionChanged);
     friend void registerCarrierListenerOnPortForwardingRequest(
             CCarrierListener *pObj,
             fnCarrierListenerOnPortForwardingRequest OnPortForwardingRequest);

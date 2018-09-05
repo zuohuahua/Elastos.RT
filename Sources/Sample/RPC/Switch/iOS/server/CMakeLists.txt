@@ -41,6 +41,7 @@ set(APP_HEADER_FILES
   ./Sources/CarrierCAPI.h
   ./Sources/CCarrierListener.h
   ./Sources/CCarrierListenerCAPI.h
+  ./Sources/FriendCAPI.h
   ${SWIFT_OBJC_BRIDGING_HEADER}
 )
 
@@ -49,9 +50,13 @@ set(APP_SOURCE_FILES
   ./Sources/CarrierCAPI.cpp
   ./Sources/CCarrierListener.cpp
   ./Sources/CCarrierListenerCAPI.cpp
+  ./Sources/FriendCAPI.cpp
   ./Sources/Carrier.swift
+  ./Sources/Friend.swift
   ./Sources/MyQRCodeViewController.swift
   ./Sources/MyRootViewController.swift
+  ./Sources/MyTableViewController.swift
+  ./Sources/MyTableViewCell.swift
 )
 
 source_group(Sources FILES ${APP_HEADER_FILES} ${APP_SOURCE_FILES})

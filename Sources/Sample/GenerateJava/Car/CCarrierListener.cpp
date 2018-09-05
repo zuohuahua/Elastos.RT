@@ -61,7 +61,7 @@ ECode CCarrierListener::OnFriendRequest(
     return NOERROR;
 }
 
-ECode CCarrierListener::OnFriendConnetionChanged(
+ECode CCarrierListener::OnFriendConnectionChanged(
     /* [in] */ const String& uid,
     /* [in] */ Boolean online)
 {
@@ -70,7 +70,7 @@ ECode CCarrierListener::OnFriendConnetionChanged(
     mJavaCarManager->GetJavaObject(ICarrierListener::Probe(this), &javaObj);
     jobject jobj = (jobject)javaObj;
     jclass cls = env->GetObjectClass(jobj);
-    jmethodID method = env->GetMethodID(cls, "OnFriendConnetionChanged", "(Ljava/lang/String;Z)V");
+    jmethodID method = env->GetMethodID(cls, "OnFriendConnectionChanged", "(Ljava/lang/String;Z)V");
     jstring _jstr1 = env->NewStringUTF(uid.string());
     env->CallVoidMethod(jobj, method, _jstr1, online);
     Detach();

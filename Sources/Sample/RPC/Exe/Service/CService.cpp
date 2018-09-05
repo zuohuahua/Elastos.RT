@@ -30,7 +30,7 @@ ECode CCarrierListener::OnFriendRequest(
     return NOERROR;
 }
 
-ECode CCarrierListener::OnFriendConnetionChanged(
+ECode CCarrierListener::OnFriendConnectionChanged(
     /* [in] */ const String& uid,
     /* [in] */ Boolean online)
 {

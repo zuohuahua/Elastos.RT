@@ -175,7 +175,7 @@ library
         * @return
         *      Returns NOERROR if there is no exception, otherwise it returns the corresponding error code.
         */
-        OnFriendConnetionChanged(
+        OnFriendConnectionChanged(
             [in] String uid,
             [in] Boolean online);
 

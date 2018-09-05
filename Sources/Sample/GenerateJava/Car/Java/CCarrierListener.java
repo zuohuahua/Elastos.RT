@@ -48,7 +48,7 @@ public class CCarrierListener implements ICarrierListener {
         //TODO: Add your code here
     }
 
-    public void OnFriendConnetionChanged(
+    public void OnFriendConnectionChanged(
         /* [in] */ String uid,
         /* [in] */ boolean online) {
         //TODO: Add your code here

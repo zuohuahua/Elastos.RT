@@ -69,7 +69,7 @@ public class CCarrierListener implements ICarrierListener {
         mActivity.mHandler.sendMessage(msg);
     }
 
-    public void OnFriendConnetionChanged(
+    public void OnFriendConnectionChanged(
         /* [in] */ String uid,
         /* [in] */ boolean online) {
         Message msg = new Message();

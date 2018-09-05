@@ -63,7 +63,7 @@ static void OnConnectionChanged(
     CCarrier::GetLocalInstance()->DistributeOnConnectionChanged(status == 0);
 }
 
-static void OnFriendConnetionChanged(
+static void OnFriendConnectionChanged(
     /* [in] */ ElaCarrier *w,
     /* [in] */ const char *friendid,
     /* [in] */ ElaConnectionStatus status,
@@ -71,17 +71,17 @@ static void OnFriendConnetionChanged(
 {
     switch (status) {
     case ElaConnectionStatus_Connected:
-        CARRIER_LOG("[OnFriendConnetionChanged] Friend[%s] connection changed to be online\n", friendid);
+        CARRIER_LOG("[OnFriendConnectionChanged] Friend[%s] connection changed to be online\n", friendid);
         break;
 
     case ElaConnectionStatus_Disconnected:
-        CARRIER_LOG("[OnFriendConnetionChanged] Friend[%s] connection changed to be offline.\n", friendid);
+        CARRIER_LOG("[OnFriendConnectionChanged] Friend[%s] connection changed to be offline.\n", friendid);
         break;
 
     default:
-        CARRIER_LOG("[OnFriendConnetionChanged] Error!!! Got unknown connection status %d.\n", status);
+        CARRIER_LOG("[OnFriendConnectionChanged] Error!!! Got unknown connection status %d.\n", status);
     }
-    CCarrier::GetLocalInstance()->DistributeOnFriendConnetionChanged(String(friendid), status == 0);
+    CCarrier::GetLocalInstance()->DistributeOnFriendConnectionChanged(String(friendid), status == 0);
 }
 
 static void OnFriendRequest(
@@ -851,7 +851,7 @@ static void OnReady(
     CCarrier::GetLocalInstance()->DistributeOnReady();
 }
 
-static bool OnFriendsList(
+static bool OnFriendList(
     /* [in] */ ElaCarrier *w,
     /* [in] */ const ElaFriendInfo *friend_info,
     /* [in] */ void *context)
@@ -993,8 +993,8 @@ void *CCarrier::CarrierThread(void *arg)
     callbacks.connection_status = OnConnectionChanged;
     callbacks.ready = OnReady;
     callbacks.friend_request = OnFriendRequest;
-    callbacks.friend_connection = OnFriendConnetionChanged;
-    callbacks.friend_list = OnFriendsList;
+    callbacks.friend_connection = OnFriendConnectionChanged;
+    callbacks.friend_list = OnFriendList;
     callbacks.friend_message = OnFriendMessage;
     callbacks.friend_added = OnFriendAdded;
     callbacks.friend_invite = OnInviteRequest;
@@ -1468,16 +1468,16 @@ ECode CCarrier::DistributeOnFriendRequest(
     return NOERROR;
 }
 
-ECode CCarrier::DistributeOnFriendConnetionChanged(
+ECode CCarrier::DistributeOnFriendConnectionChanged(
     /* [in] */ const String& uid,
     /* [in] */ Boolean online)
 {
-    //Distribute the callback: OnFriendConnetionChanged
+    //Distribute the callback: OnFriendConnectionChanged
     pthread_mutex_lock(&mListenersLock);
     ListenerNode* it = &mListeners;
     it = (ListenerNode*)(it->Next());
     for (; NULL != it; it = (ListenerNode*)(it->Next())) {
-        it->mCarrierListener->OnFriendConnetionChanged(uid, online);
+        it->mCarrierListener->OnFriendConnectionChanged(uid, online);
     }
     pthread_mutex_unlock(&mListenersLock);
 

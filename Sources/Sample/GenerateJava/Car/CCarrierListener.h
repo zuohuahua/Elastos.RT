@@ -41,7 +41,7 @@ public:
         /* [in] */ const String& uid,
         /* [in] */ const String& hello);
 
-    CARAPI OnFriendConnetionChanged(
+    CARAPI OnFriendConnectionChanged(
         /* [in] */ const String& uid,
         /* [in] */ Boolean online);
 

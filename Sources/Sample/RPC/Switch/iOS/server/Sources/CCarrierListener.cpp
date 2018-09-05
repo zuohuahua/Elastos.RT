@@ -45,15 +45,15 @@ _ELASTOS ECode CCarrierListener::OnFriendRequest(
                 : NOERROR;
 }
 
-_ELASTOS ECode CCarrierListener::OnFriendConnetionChanged(
+_ELASTOS ECode CCarrierListener::OnFriendConnectionChanged(
                     /* [in] */ const _ELASTOS String& uid,
                     /* [in] */ _ELASTOS Boolean online)
 {
     printf("Func: %s\n", __FUNCTION__);
     printf("uid: %s\n", uid.string());
     printf("online: %d\n", online);
-    return onFriendConnetionChanged
-                ? onFriendConnetionChanged(mSwiftObj, uid.string(), online)
+    return onFriendConnectionChanged
+                ? onFriendConnectionChanged(mSwiftObj, uid.string(), online)
                 : NOERROR;
 }
 

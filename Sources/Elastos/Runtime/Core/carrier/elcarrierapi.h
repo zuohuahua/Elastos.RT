@@ -129,7 +129,7 @@ public:
         /* [in] */ const String& uid,
         /* [in] */ const String& hello);
 
-    CARAPI DistributeOnFriendConnetionChanged(
+    CARAPI DistributeOnFriendConnectionChanged(
         /* [in] */ const String& uid,
         /* [in] */ Boolean online);
 

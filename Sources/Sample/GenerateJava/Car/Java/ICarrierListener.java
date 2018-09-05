@@ -15,7 +15,7 @@ public interface ICarrierListener {
         /* [in] */ String uid,
         /* [in] */ String hello);
 
-    public void OnFriendConnetionChanged(
+    public void OnFriendConnectionChanged(
         /* [in] */ String uid,
         /* [in] */ boolean online);
 

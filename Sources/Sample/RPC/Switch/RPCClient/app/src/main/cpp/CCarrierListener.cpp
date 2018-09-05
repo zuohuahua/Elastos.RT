@@ -51,17 +51,17 @@ _ELASTOS ECode CCarrierListener::OnFriendRequest(
     return NOERROR;
 }
 
-_ELASTOS ECode CCarrierListener::OnFriendConnetionChanged(
+_ELASTOS ECode CCarrierListener::OnFriendConnectionChanged(
     /* [in] */ const _ELASTOS String& uid,
     /* [in] */ _ELASTOS Boolean online)
 {
-    __android_log_print(ANDROID_LOG_DEBUG, "CCarrierListener", "==== OnFriendConnetionChanged: %s", uid.string());
+    __android_log_print(ANDROID_LOG_DEBUG, "CCarrierListener", "==== OnFriendConnectionChanged: %s", uid.string());
     JNIEnv* env = GetEnv();
     jclass clazz = env->GetObjectClass(mObj);
     jmethodID method = env->GetMethodID(clazz, "OnFriendConnectionChanged", "(Ljava/lang/String;Z)V");
     env->CallVoidMethod(mObj, method, env->NewStringUTF(uid.string()), online);
     Detach();
-    __android_log_print(ANDROID_LOG_DEBUG, "CCarrierListener", "==== OnFriendConnetionChanged end");
+    __android_log_print(ANDROID_LOG_DEBUG, "CCarrierListener", "==== OnFriendConnectionChanged end");
     return NOERROR;
 }
 

@@ -13,15 +13,15 @@
     #include "elatypes.h"
 extern "C" {
 #else
-    #define _ELASTOS
-    typedef int ECode;
-    typedef unsigned char Boolean;
+    typedef struct IFriend IFriend;
     typedef struct ICarrier ICarrier;
     typedef struct CCarrierListener CCarrierListener;
 #endif
     ICarrier *startCarrier(const char*path, CCarrierListener* listener);
     _ELASTOS ECode carrierIsOnline(ICarrier *carrier, _ELASTOS Boolean* online);
     _ELASTOS ECode carrierGetAddress(ICarrier *carrier, const char** myAddress);
+    _ELASTOS ECode carrierAccpetFriendRequest(ICarrier *carrier, const char* uid);
+    _ELASTOS ECode carrierGetFriends(ICarrier *carrier, IFriend ***friends, int *length);
 
 #ifdef __cplusplus
 } /* extern "C" */

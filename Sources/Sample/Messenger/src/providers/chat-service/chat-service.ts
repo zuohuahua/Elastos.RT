@@ -42,8 +42,8 @@ export class ChatService {
         this.OnReady();
       } else if (msg.callback == 'OnConnectionChanged') {
         this.OnConnectionChanged(msg.para1);
-      } else if (msg.callback == 'OnFriendConnetionChanged') {
-        this.OnFriendConnetionChanged(msg.para1, msg.para2);
+      } else if (msg.callback == 'OnFriendConnectionChanged') {
+        this.OnFriendConnectionChanged(msg.para1, msg.para2);
       } else if (msg.callback == 'OnFriendRequest') {
         this.OnFriendRequest(msg.para1, msg.para2);
       } else if (msg.callback == 'OnMessageReceived') {
@@ -68,8 +68,8 @@ export class ChatService {
     console.log("=== js OnConnectionChanged end");
   }
 
-  OnFriendConnetionChanged(uid, online) {
-    console.log("=== js OnFriendConnetionChanged " + uid);
+  OnFriendConnectionChanged(uid, online) {
+    console.log("=== js OnFriendConnectionChanged " + uid);
     let msg = {
       uid: uid,
       online: online

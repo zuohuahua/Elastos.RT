@@ -43,7 +43,7 @@ public:
             /* [in] */ const _ELASTOS String& uid,
             /* [in] */ const _ELASTOS String& hello);
 
-    CARAPI OnFriendConnetionChanged(
+    CARAPI OnFriendConnectionChanged(
             /* [in] */ const _ELASTOS String& uid,
             /* [in] */ _ELASTOS Boolean online);
 

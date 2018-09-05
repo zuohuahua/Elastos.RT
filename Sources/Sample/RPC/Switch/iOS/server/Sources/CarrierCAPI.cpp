@@ -41,3 +41,23 @@ ECode carrierGetAddress(ICarrier *carrier, const char** myAddress)
     }
     return ec;
 }
+
+ECode carrierGetFriends(ICarrier *carrier, IFriend ***friends, int *length)
+{
+    ArrayOf<IFriend*>* friendsArray = NULL;
+    ECode ec = carrier->GetFriends(&friendsArray);
+    if (SUCCEEDED(ec) && friendsArray) {
+        *friends = friendsArray->GetPayload();
+        *length = friendsArray->GetLength();
+    } else {
+        *friends = NULL;
+        *length = 0;
+    }
+    return ec;
+}
+
+
+ECode carrierAccpetFriendRequest(ICarrier *carrier, const char* uid)
+{
+    return carrier->AccpetFriendRequest(String(uid));
+}

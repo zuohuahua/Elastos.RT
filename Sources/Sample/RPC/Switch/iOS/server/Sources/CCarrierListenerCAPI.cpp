@@ -43,11 +43,11 @@ void registerCarrierListenerOnFriendRequest(
     pObj->onFriendRequest = onFriendRequest;
 }
 
-void registerCarrierListenerOnFriendConnetionChanged(
+void registerCarrierListenerOnFriendConnectionChanged(
         CCarrierListener *pObj,
-        fnCarrierListenerOnFriendConnetionChanged onFriendConnetionChanged)
+        fnCarrierListenerOnFriendConnectionChanged onFriendConnectionChanged)
 {
-    pObj->onFriendConnetionChanged = onFriendConnetionChanged;
+    pObj->onFriendConnectionChanged = onFriendConnectionChanged;
 }
 
 void registerCarrierListenerOnPortForwardingRequest(

@@ -13,9 +13,6 @@
 class CCarrierListener;
 extern "C" {
 #else
-    #define _ELASTOS
-    typedef int ECode;
-    typedef unsigned char Boolean;
     typedef struct CCarrierListener CCarrierListener;
 #endif
     typedef _ELASTOS ECode (*fnCarrierListenerOnIdle)(
@@ -33,7 +30,7 @@ extern "C" {
                                 /* [in] */ const char* uid,
                                 /* [in] */ const char* hello);
 
-    typedef _ELASTOS ECode (*fnCarrierListenerOnFriendConnetionChanged)(
+    typedef _ELASTOS ECode (*fnCarrierListenerOnFriendConnectionChanged)(
                                 /* [in] */ const void *pSwiftObj,
                                 /* [in] */ const char* uid,
                                 /* [in] */ _ELASTOS Boolean online);
@@ -71,9 +68,9 @@ extern "C" {
     void registerCarrierListenerOnFriendRequest(
             CCarrierListener *pObj,
             fnCarrierListenerOnFriendRequest OnFriendRequest);
-    void registerCarrierListenerOnFriendConnetionChanged(
+    void registerCarrierListenerOnFriendConnectionChanged(
             CCarrierListener *pObj,
-            fnCarrierListenerOnFriendConnetionChanged OnFriendConnetionChanged);
+            fnCarrierListenerOnFriendConnectionChanged OnFriendConnectionChanged);
     void registerCarrierListenerOnPortForwardingRequest(
             CCarrierListener *pObj,
             fnCarrierListenerOnPortForwardingRequest OnPortForwardingRequest);
